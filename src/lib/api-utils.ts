@@ -38,6 +38,7 @@ export class ApiUtils {
         } : null
       });
     } catch (err) {
+      console.log(err);
       const [message, statusCode] = (err instanceof Error ? (err?.message || "") : "Something went wrong").split("::");
       return new Response(JSON.stringify({
         success: false,

@@ -2,7 +2,8 @@ import { ApiUtils } from "@/lib/api-utils";
 import { APIResponse, SignInDto, UserDto } from "@/lib/types";
 import { signInFormSchema, signUpFormSchema } from "@/lib/validations";
 import { Hono } from "hono";
-import { authService, userService } from "../bootstrap";
+import { authService } from "../bootstrap";
+import { getUserById } from "../helpers";
 
 const authApi = new Hono()
   .post(
@@ -42,17 +43,7 @@ const authApi = new Hono()
     async (ctx) => {
       const apiUtils = new ApiUtils(ctx.req, {
         auth: true,
-        db: {
-          async getUserById(id) {
-            const data = await userService.findById(id, ["credential"]);
-            if (!data || !data?.credential) return null;
-            return {
-              id: data.id,
-              email: data.credential.email,
-              password: data.credential.password,
-            }
-          },
-        }
+        db: { getUserById }
       });
       return apiUtils
         .execute(async ({ user }) => {

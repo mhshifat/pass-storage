@@ -35,6 +35,28 @@ model User {
   updated_at          DateTime @updatedAt
 
   credential          Credential?
+  tokens              Token[]
 
   @@map("users")
+}
+
+model Token {
+  id                  String @id @default(cuid())
+  name                String
+  issuer              String
+  secret              String
+  algorithm           String
+  digits              Int
+  period              Int
+  service_url         String
+  username            String
+  password            String
+
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+
+  user_id             String
+  user                User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("tokens")
 }

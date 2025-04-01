@@ -13,7 +13,7 @@ export default function Header({ children }: PropsWithChildren) {
 
 function HeaderDashboard({ children }: PropsWithChildren) {
   return (
-    <header className="flex items-center justify-between py-2 pl-2 pr-4 shadow-xs">
+    <header className="flex items-center justify-between py-2 px-4 shadow-xs">
       <div>
         <Logo size="md" />
 

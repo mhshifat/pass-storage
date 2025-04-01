@@ -33,11 +33,13 @@ class Http implements IHttp {
   }
 
   async post<T>(url: string, body: unknown) {
+    const token = await storage.getAuthToken();
     const { data } = await this._request({
       url,
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       data: body
     });
@@ -45,11 +47,13 @@ class Http implements IHttp {
   }
 
   async put<T>(url: string, body: unknown) {
+    const token = await storage.getAuthToken();
     const { data } = await this._request({
       url,
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       data: body
     });
@@ -57,11 +61,13 @@ class Http implements IHttp {
   }
 
   async patch<T>(url: string, body: unknown) {
+    const token = await storage.getAuthToken();
     const { data } = await this._request({
       url,
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       data: body
     });
@@ -69,11 +75,15 @@ class Http implements IHttp {
   }
 
   async delete<T>(url: string, options: { params?: Record<string, unknown>, headers?: Record<string, unknown> }) {
+    const token = await storage.getAuthToken();
     const { data } = await this._request({
       url,
       method: "DELETE",
       params: options.params,
-      headers: options.headers as AxiosHeaders
+      headers: {
+        ...options.headers as AxiosHeaders,
+        "Authorization": `Bearer ${token}`
+      }
     });
     return data as Promise<SuccessAPIResponse<T>>;
   }
