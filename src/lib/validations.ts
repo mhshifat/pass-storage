@@ -40,3 +40,27 @@ export const tokenDeleteRequestSchema = z.object({
     id: z.string().min(1),
   }),
 })
+
+export const organizationsApiRequestSchema = z.object({
+  query: z.object({
+    page: z.number().positive().min(1)
+  })
+})
+
+export const organizationCreateFormSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().optional(),
+})
+
+export const organizationUpdateRequestSchema = z.object({
+  params: z.object({
+    id: z.string().min(1),
+  }),
+  body: organizationCreateFormSchema.partial()
+})
+
+export const organizationDeleteRequestSchema = z.object({
+  params: z.object({
+    id: z.string().min(1),
+  }),
+})

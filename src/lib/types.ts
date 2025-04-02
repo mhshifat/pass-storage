@@ -1,10 +1,12 @@
 import { z } from "zod";
-import { signInFormSchema, signUpFormSchema, tokenCreateFormSchema, tokensApiRequestSchema } from "./validations";
+import { organizationCreateFormSchema, organizationsApiRequestSchema, signInFormSchema, signUpFormSchema, tokenCreateFormSchema, tokensApiRequestSchema } from "./validations";
 
 export type SignUpFormPayload = z.infer<typeof signUpFormSchema>;
 export type SignInFormPayload = z.infer<typeof signInFormSchema>;
 export type AddTokenFormPayload = z.infer<typeof tokenCreateFormSchema>;
 export type TokensApiRequestData = z.infer<typeof tokensApiRequestSchema>;
+export type AddOrganizationFormPayload = z.infer<typeof organizationCreateFormSchema>;
+export type OrganizationsApiRequestData = z.infer<typeof organizationsApiRequestSchema>;
 
 export type UserDto = {
   id: string;
@@ -14,6 +16,21 @@ export type UserDto = {
 export type IUser = {
   id: string;
   email: string
+}
+
+export type OrganizationDto = {
+  id: string;
+  name: string;
+  description?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export type IOrganization = {
+  id: string;
+  name: string;
+  description?: string;
+  createdAt: string;
 }
 
 export type IToken = {

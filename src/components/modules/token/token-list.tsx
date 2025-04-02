@@ -60,6 +60,7 @@ export default function TokenList() {
 								<TableCell className="font-medium">
 									<div className="flex items-center">
                     <Button
+                      className="p-0"
                       variant="ghost"
                       onClick={() => copyToClipboard(token.username)}
                       title="Copy"
@@ -71,6 +72,7 @@ export default function TokenList() {
 								<TableCell className="font-medium">
                   <div className="flex items-center">
                     <Button
+                      className="p-0"
                       variant="ghost"
                       onClick={() => copyToClipboard(token.password)}
                       title="Copy"
@@ -82,6 +84,7 @@ export default function TokenList() {
 								<TableCell className="font-medium">
                   <div className="flex items-center">
                     <Button
+                      className="p-0"
                       variant="ghost"
                       onClick={() => copyToClipboard(token.serviceUrl)}
                       title="Copy"

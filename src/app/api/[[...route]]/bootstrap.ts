@@ -4,6 +4,13 @@ import { UserRepo } from "./user/repo";
 import { UserService } from "./user/service";
 import { TokenRepo } from "./token/repo";
 import { TokenService } from "./token/service";
+import { OrganizationRepo } from "./organization/repo";
+import { OrganizationService } from "./organization/service";
+
+const organizationRepo = new OrganizationRepo(prisma);
+export const organizationService = new OrganizationService(
+  organizationRepo
+);
 
 const tokenRepo = new TokenRepo(prisma);
 export const tokenService = new TokenService(
