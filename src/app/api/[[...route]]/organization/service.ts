@@ -35,4 +35,8 @@ export class OrganizationService {
   async findById(id: string) {
     return this._repo.findById(id);
   }
+
+  async findByQuery(query: { id: string, userId: string }) {
+    return this._repo.findOne(query);
+  }
 }

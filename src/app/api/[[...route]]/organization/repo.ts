@@ -85,4 +85,14 @@ export class OrganizationRepo {
       select: selectable
     })
   }
+
+  async findOne(query: { id?: string, userId?: string }) {
+    return this._prisma.organization.findUnique({
+      where: {
+        id: query.id,
+        user_id: query.userId,
+      },
+      select: selectable
+    })
+  }
 }

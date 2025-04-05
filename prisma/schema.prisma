@@ -73,5 +73,20 @@ model Organization {
   user_id             String
   user                User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
+  teams               Team[]
   @@map("organizations")
+}
+
+model Team {
+  id                  String @id @default(cuid())
+  name                String
+  description         String?
+
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+
+  org_id             String
+  org                Organization @relation(fields: [org_id], references: [id], onDelete: Cascade)
+
+  @@map("teams")
 }

@@ -3,21 +3,28 @@
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { AddOrganizationFormPayload, IOrganization } from "@/lib/types";
-import { organizationCreateFormSchema } from "@/lib/validations";
+import { AddTeamFormPayload, ITeam } from "@/lib/types";
+import { teamCreateFormSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useParams } from "next/navigation";
 import { ForwardedRef, forwardRef, useEffect, useImperativeHandle } from "react";
 import { useForm } from "react-hook-form";
 
-interface OrganizationFormProps {
-  organization?: IOrganization;
-  onCreate: (values: AddOrganizationFormPayload) => void;
-  onUpdate: (values: Partial<AddOrganizationFormPayload> & { id: string }) => void;
+interface TeamFormProps {
+  team?: ITeam;
+  onCreate: (values: AddTeamFormPayload) => void;
+  onUpdate: (values: Partial<AddTeamFormPayload> & { id: string }) => void;
 }
 
-function OrganizationForm({ organization, onCreate, onUpdate }: OrganizationFormProps, ref: ForwardedRef<{ onSubmit: () => Promise<void> }>) {
+function TeamForm({ team, onCreate, onUpdate }: TeamFormProps, ref: ForwardedRef<{ onSubmit: () => Promise<void> }>) {
+  const { orgId } = useParams<{ orgId: string }>();
+
 	const form = useForm({
-    resolver: zodResolver(organization?.id ? organizationCreateFormSchema.partial() : organizationCreateFormSchema)
+    resolver: zodResolver(team?.id ? teamCreateFormSchema.partial() : teamCreateFormSchema),
+    defaultValues: {
+      orgId,
+      description: ""
+    }
   });
 
   useImperativeHandle(ref, () => ({
@@ -25,23 +32,24 @@ function OrganizationForm({ organization, onCreate, onUpdate }: OrganizationForm
       const isValid = await form.trigger();
       if (!isValid) return;
       const values = form.getValues();
-      if (organization?.id) onUpdate({...values, id: organization.id});
-      else onCreate(values as AddOrganizationFormPayload);
+      if (team?.id) onUpdate({...values, id: team.id});
+      else onCreate(values as AddTeamFormPayload);
     },
-  }), [form, onCreate, onUpdate, organization?.id])
+  }), [form, onCreate, onUpdate, team?.id])
 
   useEffect(() => {
-    if (organization?.id) {
+    if (team?.id) {
       form.reset({
-        name: organization.name,
-        description: organization.description || "",
+        name: team.name,
+        description: team.description || "",
+        orgId
       });
     }
-  }, [form, organization])
+  }, [form, team, orgId])
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit((values) => organization?.id ? onUpdate({...values, id: organization.id}) : onCreate(values as AddOrganizationFormPayload))}>
+      <form onSubmit={form.handleSubmit((values) => team?.id ? onUpdate({...values, id: team.id}) : onCreate(values as AddTeamFormPayload))}>
         <div className="mt-5 flex flex-col gap-5">
           <FormField
             control={form.control}
@@ -78,4 +86,4 @@ function OrganizationForm({ organization, onCreate, onUpdate }: OrganizationForm
   )
 }
 
-export default forwardRef(OrganizationForm);
+export default forwardRef(TeamForm);

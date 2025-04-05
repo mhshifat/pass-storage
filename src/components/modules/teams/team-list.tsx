@@ -14,19 +14,21 @@ import {
 } from "@/components/ui/table";
 import { NotebookTextIcon, Trash2Icon } from "lucide-react";
 import { useState } from "react";
-import useDeleteOrganizationMutation from "@/components/hooks/use-delete-organization-mutation";
-import useGetOrganizationsQuery from "@/components/hooks/use-get-organizations-query";
-import AddEditOrganizationDialog from "./add-edit-organization-dialog";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { ROUTE_PATHS } from "@/lib/constants";
+import useDeleteTeamMutation from "@/components/hooks/use-delete-team-mutation";
+import useGetTeamsQuery from "@/components/hooks/use-get-teams-query";
+import AddEditTeamDialog from "./add-edit-team-dialog";
 
-export default function OrganizationList() {
+export default function TeamList() {
   const router = useRouter();
-	const deleteOrganization = useDeleteOrganizationMutation();
+	const deleteTeam = useDeleteTeamMutation();
+  const { orgId } = useParams<{ orgId: string }>();
 	const [page, setPage] = useState(1);
-	const { data: organizations, isLoading } = useGetOrganizationsQuery({
+	const { data: teams, isLoading } = useGetTeamsQuery({
 		params: {
 			page: String(page),
+      orgId
 		},
 	});
 
@@ -49,13 +51,13 @@ export default function OrganizationList() {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{organizations?.data?.map((organization) => (
-							<TableRow key={organization.id} className="group">
+						{teams?.data?.map((team) => (
+							<TableRow key={team.id} className="group">
 								<TableCell className="font-medium">
-									{organization.name}
+									{team.name}
 								</TableCell>
 								<TableCell className="font-medium">
-									{organization?.description || "N/A"}
+									{team?.description || "N/A"}
 								</TableCell>
 								<TableCell className="text-right">
 									<div className="flex justify-end space-x-2">
@@ -64,18 +66,18 @@ export default function OrganizationList() {
                       size="icon"
                       className="h-8 w-8"
                       title="Manage collection"
-                      onClick={() => router.push(ROUTE_PATHS.ORGANIZATION_TEAMS(organization.id))}
+                      onClick={() => router.push(ROUTE_PATHS.TEAM_DETAILS(orgId, team.id))}
                     >
                       <NotebookTextIcon size={16} />
                     </Button>
-										<AddEditOrganizationDialog organization={organization} />
+										<AddEditTeamDialog team={team} />
 										<ConfirmationDialog
-											onConfirm={() => deleteOrganization.mutateAsync({ id: organization.id })}
+											onConfirm={() => deleteTeam.mutateAsync({ id: team.id, orgId })}
 										>
 											<Button
 												variant="ghost"
 												size="icon"
-												disabled={deleteOrganization.isPending}
+												disabled={deleteTeam.isPending}
 												className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
 												title="Delete collection"
 											>
@@ -91,8 +93,8 @@ export default function OrganizationList() {
 			</div>
 			<PaginationView
 				page={page}
-				total={organizations?.total || 0}
-				perPage={organizations?.perPage || 10}
+				total={teams?.total || 0}
+				perPage={teams?.perPage || 10}
 				onPagination={(page) => setPage(page)}
 			/>
 		</RenderView>

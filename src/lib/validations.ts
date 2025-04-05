@@ -64,3 +64,32 @@ export const organizationDeleteRequestSchema = z.object({
     id: z.string().min(1),
   }),
 })
+
+export const teamsApiRequestSchema = z.object({
+  query: z.object({
+    page: z.number().positive().min(1),
+    orgId: z.string().min(1),
+  })
+})
+
+export const teamCreateFormSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().optional(),
+  orgId: z.string().min(1),
+})
+
+export const teamUpdateRequestSchema = z.object({
+  params: z.object({
+    id: z.string().min(1),
+  }),
+  body: teamCreateFormSchema.partial()
+})
+
+export const teamDeleteRequestSchema = z.object({
+  query: z.object({
+    orgId: z.string().min(1),
+  }),
+  params: z.object({
+    id: z.string().min(1),
+  }),
+})
