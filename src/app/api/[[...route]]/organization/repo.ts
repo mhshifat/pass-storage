@@ -1,12 +1,13 @@
 import { AddOrganizationFormPayload } from "@/lib/types";
 import { Prisma, PrismaClient } from "@prisma/client";
-import { DefaultArgs } from "@prisma/client/runtime/library";
+import { DefaultArgs, Sql } from "@prisma/client/runtime/library";
 
 const selectable = {
   name: true,
   description: true,
   created_at: true,
   updated_at: true,
+  user_id: true,
   id: true,
 }
 
@@ -20,7 +21,16 @@ export class OrganizationRepo {
   async count({ userId }: { userId: string }) {
     const total = await this._prisma.organization.count({
       where: {
-        user_id: userId,
+        OR: [
+          { user_id: userId },
+          {
+            members: {
+              some: {
+                user_id: userId,
+              },
+            },
+          },
+        ],
       },
     });
     return total;
@@ -29,7 +39,16 @@ export class OrganizationRepo {
   async find({ userId, perPage, page }: { userId: string, perPage: number, page: number }) {
     const items = await this._prisma.organization.findMany({
       where: {
-        user_id: userId,
+        OR: [
+          { user_id: userId },
+          {
+            members: {
+              some: {
+                user_id: userId,
+              },
+            },
+          },
+        ],
       },
       select: selectable,
       skip: (perPage * page) - perPage,
@@ -87,12 +106,28 @@ export class OrganizationRepo {
   }
 
   async findOne(query: { id?: string, userId?: string }) {
-    return this._prisma.organization.findUnique({
+    return this._prisma.organization.findFirst({
       where: {
-        id: query.id,
-        user_id: query.userId,
+        OR: [
+          {
+            id: query.id,
+            user_id: query.userId,
+          },
+          {
+            id: query.id,
+            members: {
+              some: {
+                user_id: query.userId,
+              }
+            }
+          }
+        ]
       },
       select: selectable
     })
+  }
+
+  async rawQuery(query: Sql) {
+    return this._prisma.$queryRaw(query)
   }
 }

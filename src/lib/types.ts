@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { organizationCreateFormSchema, organizationsApiRequestSchema, signInFormSchema, signUpFormSchema, teamCreateFormSchema, teamsApiRequestSchema, tokenCreateFormSchema, tokensApiRequestSchema } from "./validations";
+import { acceptInviteFormSchema, addMemberFormSchema, invitationsApiRequestSchema, inviteMemberFormSchema, membersApiRequestSchema, organizationCreateFormSchema, organizationsApiRequestSchema, signInFormSchema, signUpFormSchema, teamCreateFormSchema, teamsApiRequestSchema, tokenCreateFormSchema, tokensApiRequestSchema } from "./validations";
 
 export type SignUpFormPayload = z.infer<typeof signUpFormSchema>;
 export type SignInFormPayload = z.infer<typeof signInFormSchema>;
@@ -9,6 +9,11 @@ export type AddOrganizationFormPayload = z.infer<typeof organizationCreateFormSc
 export type OrganizationsApiRequestData = z.infer<typeof organizationsApiRequestSchema>;
 export type AddTeamFormPayload = z.infer<typeof teamCreateFormSchema>;
 export type TeamsApiRequestData = z.infer<typeof teamsApiRequestSchema>;
+export type InviteMemberFormPayload = z.infer<typeof inviteMemberFormSchema>;
+export type AcceptInviteFormPayload = z.infer<typeof acceptInviteFormSchema>;
+export type InvitationsApiRequestData = z.infer<typeof invitationsApiRequestSchema>;
+export type AddMemberFormPayload = z.infer<typeof addMemberFormSchema>;
+export type MembersApiRequestData = z.infer<typeof membersApiRequestSchema>;
 
 export type UserDto = {
   id: string;
@@ -36,9 +41,22 @@ export type TeamDto = {
   updated_at: string;
 }
 
+export type MemberDto = {
+  id: string;
+  email: string
+}
+
+export type InvitationDto = {
+  id: string;
+  email: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export type IOrganization = {
   id: string;
   name: string;
+  user_id: string;
   description?: string;
   createdAt: string;
 }
@@ -47,6 +65,17 @@ export type ITeam = {
   id: string;
   name: string;
   description?: string;
+  createdAt: string;
+}
+
+export type IMember = {
+  id: string;
+  email: string
+}
+
+export type IInvitation = {
+  id: string;
+  email: string;
   createdAt: string;
 }
 

@@ -1,6 +1,6 @@
 import { SignUpFormPayload } from "@/lib/types";
 import { Prisma, PrismaClient } from "@prisma/client";
-import { DefaultArgs } from "@prisma/client/runtime/library";
+import { DefaultArgs, Sql } from "@prisma/client/runtime/library";
 
 export class UserRepo {
   constructor(
@@ -51,5 +51,27 @@ export class UserRepo {
         } : {}
       }
     })
+  }
+
+  async find(query: { ids?: string[] }, includes?: string[]) {
+    return this._prisma.user.findMany({
+      where: {
+        id: {
+          ...query.ids?.length ? {
+            in: query.ids
+          } : {}
+        },
+      },
+      select: {
+        id: true,
+        ...includes?.includes("credential") ? {
+          credential: true
+        } : {}
+      }
+    })
+  }
+
+  async rawQuery(query: Sql) {
+    return this._prisma.$queryRaw(query)
   }
 }

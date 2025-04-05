@@ -11,9 +11,6 @@ export const ROUTE_PATHS = {
   ORGANIZATION_MEMBERS(id: string) {
     return `/organizations/${id}/members`
   },
-  ORGANIZATION_INVITATIONS(id: string) {
-    return `/organizations/${id}/invitations`
-  },
   SIGN_UP: "/sign-up",
   SIGN_IN: "/sign-in",
 }

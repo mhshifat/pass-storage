@@ -74,6 +74,8 @@ model Organization {
   user                User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   teams               Team[]
+  invitations         Invitation[]
+  members             Member[]
   @@map("organizations")
 }
 
@@ -89,4 +91,30 @@ model Team {
   org                Organization @relation(fields: [org_id], references: [id], onDelete: Cascade)
 
   @@map("teams")
+}
+
+model Invitation {
+  id                  String @id @default(cuid())
+  email               String  @unique
+
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+
+  org_id              String
+  org                 Organization @relation(fields: [org_id], references: [id], onDelete: Cascade)
+
+  @@map("invitations")
+}
+
+model Member {
+  id                  String @id @default(cuid())
+  user_id             String
+
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+
+  org_id              String
+  org                 Organization @relation(fields: [org_id], references: [id], onDelete: Cascade)
+
+  @@map("members")
 }

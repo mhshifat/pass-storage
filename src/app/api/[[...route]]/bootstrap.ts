@@ -8,6 +8,20 @@ import { OrganizationRepo } from "./organization/repo";
 import { OrganizationService } from "./organization/service";
 import { TeamRepo } from "./team/repo";
 import { TeamService } from "./team/service";
+import { InvitationRepo } from "./invitation/repo";
+import { InvitationService } from "./invitation/service";
+import { MemberRepo } from "./member/repo";
+import { MemberService } from "./member/service";
+
+const memberRepo = new MemberRepo(prisma);
+export const memberService = new MemberService(
+  memberRepo
+);
+
+const invitationRepo = new InvitationRepo(prisma);
+export const invitationService = new InvitationService(
+  invitationRepo
+);
 
 const teamRepo = new TeamRepo(prisma);
 export const teamService = new TeamService(

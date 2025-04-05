@@ -19,4 +19,8 @@ export class UserService {
   async findById(id: string, includes?: string[]) {
     return this._repo.findById(id, includes);
   }
+
+  async findByIds(ids: string[], includes?: string[]) {
+    return this._repo.find({ ids }, includes);
+  }
 }

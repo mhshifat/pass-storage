@@ -93,3 +93,56 @@ export const teamDeleteRequestSchema = z.object({
     id: z.string().min(1),
   }),
 })
+
+export const inviteMemberFormSchema = z.object({
+  email: z.string().min(1),
+  orgId: z.string().min(1),
+})
+
+export const acceptInviteFormSchema = z.object({
+  code: z.string().min(1),
+})
+
+export const invitationsApiRequestSchema = z.object({
+  query: z.object({
+    page: z.number().positive().min(1),
+    orgId: z.string().min(1),
+  })
+})
+
+export const inviteDeleteRequestSchema = z.object({
+  query: z.object({
+    orgId: z.string().min(1),
+  }),
+  params: z.object({
+    id: z.string().min(1),
+  }),
+})
+
+export const addMemberFormSchema = z.object({
+  userId: z.string().min(1),
+  orgId: z.string().min(1),
+})
+
+export const membersApiRequestSchema = z.object({
+  query: z.object({
+    page: z.number().positive().min(1),
+    orgId: z.string().min(1),
+  })
+})
+
+export const memberDeleteRequestSchema = z.object({
+  query: z.object({
+    orgId: z.string().min(1),
+  }),
+  params: z.object({
+    id: z.string().min(1),
+  }),
+})
+
+export const memberUpdateRequestSchema = z.object({
+  params: z.object({
+    id: z.string().min(1),
+  }),
+  body: addMemberFormSchema.partial()
+})

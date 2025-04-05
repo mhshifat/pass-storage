@@ -1,5 +1,6 @@
 import { AddOrganizationFormPayload, OrganizationsApiRequestData } from "@/lib/types";
 import { OrganizationRepo } from "./repo";
+import { Prisma } from "@prisma/client";
 
 export class OrganizationService {
   constructor(
@@ -38,5 +39,17 @@ export class OrganizationService {
 
   async findByQuery(query: { id: string, userId: string }) {
     return this._repo.findOne(query);
+  }
+
+  async findMemberByQuery({ email, orgId }: { email: string, orgId: string }) {
+    const members = await this._repo.rawQuery(Prisma.sql`
+      SELECT m.*
+      FROM credentials c
+      JOIN users u ON u.id = c.user_id
+      JOIN members m ON m.user_id = u.id
+      WHERE c.email = ${email} AND m.org_id = ${orgId}
+    `) as unknown[];
+
+    return members?.[0];
   }
 }

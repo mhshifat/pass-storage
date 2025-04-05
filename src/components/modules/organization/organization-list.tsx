@@ -19,9 +19,11 @@ import useGetOrganizationsQuery from "@/components/hooks/use-get-organizations-q
 import AddEditOrganizationDialog from "./add-edit-organization-dialog";
 import { useRouter } from "next/navigation";
 import { ROUTE_PATHS } from "@/lib/constants";
+import { useAuth } from "@/components/providers/auth";
 
 export default function OrganizationList() {
   const router = useRouter();
+  const { user } = useAuth();
 	const deleteOrganization = useDeleteOrganizationMutation();
 	const [page, setPage] = useState(1);
 	const { data: organizations, isLoading } = useGetOrganizationsQuery({
@@ -68,20 +70,24 @@ export default function OrganizationList() {
                     >
                       <NotebookTextIcon size={16} />
                     </Button>
-										<AddEditOrganizationDialog organization={organization} />
-										<ConfirmationDialog
-											onConfirm={() => deleteOrganization.mutateAsync({ id: organization.id })}
-										>
-											<Button
-												variant="ghost"
-												size="icon"
-												disabled={deleteOrganization.isPending}
-												className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
-												title="Delete collection"
-											>
-												<Trash2Icon size={16} />
-											</Button>
-										</ConfirmationDialog>
+                    <AddEditOrganizationDialog organization={organization} />
+                    {organization.user_id === user?.id && (
+                      <>
+                        <ConfirmationDialog
+                          onConfirm={() => deleteOrganization.mutateAsync({ id: organization.id })}
+                        >
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            disabled={deleteOrganization.isPending}
+                            className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                            title="Delete collection"
+                          >
+                            <Trash2Icon size={16} />
+                          </Button>
+                        </ConfirmationDialog>
+                      </>
+                    )}
 									</div>
 								</TableCell>
 							</TableRow>
