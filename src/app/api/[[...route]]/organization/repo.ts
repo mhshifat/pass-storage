@@ -74,7 +74,7 @@ export class OrganizationRepo {
     const record = await this._prisma.organization.findUnique({
       where: { id, user_id: userId },
     });
-    if (!record) throw new Error("Organization not found::404");
+    if (!record) throw new Error("Organization not found::404::404");
     return this._prisma.organization.update({
       where: { id },
       data: {
@@ -89,7 +89,7 @@ export class OrganizationRepo {
     const record = await this._prisma.organization.findUnique({
       where: { id: query.id, user_id: query.userId },
     });
-    if (!record) throw new Error("Organization not found::404");
+    if (!record) throw new Error("Organization not found::404::404");
     return this._prisma.organization.delete({
       where: { id: query.id, user_id: query.userId },
       select: selectable

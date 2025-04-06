@@ -19,10 +19,13 @@ import { ROUTE_PATHS } from "@/lib/constants";
 import useDeleteTeamMutation from "@/components/hooks/use-delete-team-mutation";
 import useGetTeamsQuery from "@/components/hooks/use-get-teams-query";
 import AddEditTeamDialog from "./add-edit-team-dialog";
+import { Badge } from "@/components/ui/badge";
+import useDeleteTeamMemberMutation from "@/components/hooks/use-delete-team-member-mutation";
 
 export default function TeamList() {
   const router = useRouter();
 	const deleteTeam = useDeleteTeamMutation();
+	const deleteTeamMember = useDeleteTeamMemberMutation();
   const { orgId } = useParams<{ orgId: string }>();
 	const [page, setPage] = useState(1);
 	const { data: teams, isLoading } = useGetTeamsQuery({
@@ -47,6 +50,7 @@ export default function TeamList() {
 						<TableRow>
 							<TableHead className="w-[200px]">Name</TableHead>
 							<TableHead className="w-[120px]">Description</TableHead>
+							<TableHead className="w-[120px]">Members</TableHead>
 							<TableHead className="w-[100px] text-right">Actions</TableHead>
 						</TableRow>
 					</TableHeader>
@@ -58,6 +62,16 @@ export default function TeamList() {
 								</TableCell>
 								<TableCell className="font-medium">
 									{team?.description || "N/A"}
+								</TableCell>
+								<TableCell className="font-medium">
+									{team?.members?.map(m => <Badge variant="secondary" className="flex items-center gap-2" key={m.id}>
+                    {m.email}
+                    <Button disabled={deleteTeamMember.isPending} loading={deleteTeamMember.isPending} onClick={() => deleteTeamMember.mutateAsync({ id: m.id, teamId: team.id, orgId })} variant="ghost" size="none">
+                      <Trash2Icon className="size-4" />
+                    </Button>
+                  </Badge>)}
+
+                  {!team?.members?.length && "None"}
 								</TableCell>
 								<TableCell className="text-right">
 									<div className="flex justify-end space-x-2">

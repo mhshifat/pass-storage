@@ -26,7 +26,7 @@ const memberApi = new Hono()
             id: query.orgId,
             userId: user!.id,
           });
-          if (!org) throw new Error("Organization not found");
+          if (!org) throw new Error("Organization not found::404");
           const result = await memberService.findWithPaginate({
             orgId: org!.id,
             page: +(query?.page || 1)
@@ -60,7 +60,7 @@ const memberApi = new Hono()
             id: body.orgId,
             userId: user!.id,
           });
-          if (!org) throw new Error("Organization not found");
+          if (!org) throw new Error("Organization not found::404");
           const team = await memberService.create({
             ...body,
             orgId: body!.orgId
@@ -93,7 +93,7 @@ const memberApi = new Hono()
             id: body.orgId,
             userId: user!.id,
           });
-          if (!org) throw new Error("Organization not found");
+          if (!org) throw new Error("Organization not found::404");
           const team = await memberService.update(id, {
             ...body,
             orgId: body!.orgId
@@ -128,7 +128,7 @@ const memberApi = new Hono()
             id: query.orgId,
             userId: user!.id,
           });
-          if (!org) throw new Error("Organization not found");
+          if (!org) throw new Error("Organization not found::404");
 
           const team = await memberService.delete({
             id,

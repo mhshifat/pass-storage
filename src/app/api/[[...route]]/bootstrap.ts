@@ -12,6 +12,13 @@ import { InvitationRepo } from "./invitation/repo";
 import { InvitationService } from "./invitation/service";
 import { MemberRepo } from "./member/repo";
 import { MemberService } from "./member/service";
+import { TeamMemberService } from "./team-member/service";
+import { TeamMemberRepo } from "./team-member/repo";
+
+const teamMemberRepo = new TeamMemberRepo(prisma);
+export const teamMemberService = new TeamMemberService(
+  teamMemberRepo
+);
 
 const memberRepo = new MemberRepo(prisma);
 export const memberService = new MemberService(

@@ -1,4 +1,5 @@
 import AddEditTeamDialog from "@/components/modules/teams/add-edit-team-dialog";
+import AddMemberToTeamDialog from "@/components/modules/teams/add-member-to-team-dialog";
 import TeamList from "@/components/modules/teams/team-list";
 import TeamMenus from "@/components/modules/teams/team-menus";
 import Container from "@/components/shared/container";
@@ -28,7 +29,11 @@ export default function TeamsPage() {
           <h3 className="text-2xl font-semibold">Teams</h3>
           <p className="text-sm font-normal">Manager your teams</p>
         </div>
-        <AddEditTeamDialog />
+
+        <div className="flex items-center gap-2">
+          <AddMemberToTeamDialog />
+          <AddEditTeamDialog />
+        </div>
       </div>
 
       <div className="mt-6">

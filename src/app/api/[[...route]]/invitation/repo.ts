@@ -54,7 +54,7 @@ export class InvitationRepo {
     const record = await this._prisma.invitation.findUnique({
       where: { id, org_id: orgId },
     });
-    if (!record) throw new Error("Organization not found::404");
+    if (!record) throw new Error("Organization not found::404::404");
     return this._prisma.invitation.update({
       where: { id },
       data: {
@@ -69,7 +69,7 @@ export class InvitationRepo {
     const record = await this._prisma.invitation.findUnique({
       where: { id: query.id, org_id: query.orgId },
     });
-    if (!record) throw new Error("Organization not found::404");
+    if (!record) throw new Error("Organization not found::404::404");
     return this._prisma.invitation.delete({
       where: { id: query.id, org_id: query.orgId },
       select: selectable

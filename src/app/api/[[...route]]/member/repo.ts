@@ -55,7 +55,7 @@ export class MemberRepo {
     const record = await this._prisma.member.findUnique({
       where: { id, org_id: orgId },
     });
-    if (!record) throw new Error("Organization not found::404");
+    if (!record) throw new Error("Organization not found::404::404");
     return this._prisma.member.update({
       where: { id },
       data: {
@@ -70,7 +70,7 @@ export class MemberRepo {
     const record = await this._prisma.member.findUnique({
       where: { id: query.id, org_id: query.orgId },
     });
-    if (!record) throw new Error("Organization not found::404");
+    if (!record) throw new Error("Organization not found::404::404");
     return this._prisma.member.delete({
       where: { id: query.id, org_id: query.orgId },
       select: selectable

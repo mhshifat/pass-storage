@@ -146,3 +146,32 @@ export const memberUpdateRequestSchema = z.object({
   }),
   body: addMemberFormSchema.partial()
 })
+
+export const teamMembersApiRequestSchema = z.object({
+  query: z.object({
+    page: z.number().positive().min(1),
+    orgId: z.string().min(1),
+  })
+})
+
+export const teamMemberCreateFormSchema = z.object({
+  teamId: z.string().min(1),
+  memberId: z.string().min(1),
+  orgId: z.string().min(1),
+})
+
+export const teamMemberUpdateRequestSchema = z.object({
+  params: z.object({
+    id: z.string().min(1),
+  }),
+  body: teamMemberCreateFormSchema.partial()
+})
+
+export const teamMemberDeleteRequestSchema = z.object({
+  query: z.object({
+    orgId: z.string().min(1),
+  }),
+  params: z.object({
+    id: z.string().min(1),
+  }),
+})

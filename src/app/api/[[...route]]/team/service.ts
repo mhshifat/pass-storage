@@ -11,12 +11,18 @@ export class TeamService {
   async findWithPaginate({ orgId, page }: TeamsApiRequestData["query"] & { orgId: string }) {
     const perPage = 10;
     const total = await this._repo.count({ orgId });
-    const result = await this._repo.find({ orgId, perPage, page });
+    const result = await this._repo.find({ orgId, perPage, page }, ["members"]);
     return {
       page,
       total,
       perPage,
-      data: result
+      data: result.map(r => ({
+        ...r,
+        members: r.members.map((item) => ({
+          id: item.id,
+          email: (item as unknown as { member: { user: { credential: { email: string } } } }).member.user.credential.email
+        }))
+      }))
     };
   }
 

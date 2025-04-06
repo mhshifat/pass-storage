@@ -26,7 +26,7 @@ const invitationApi = new Hono()
             id: query.orgId,
             userId: user!.id,
           });
-          if (!org) throw new Error("Organization not found");
+          if (!org) throw new Error("Organization not found::404");
           const result = await invitationService.findWithPaginate({
             orgId: org!.id,
             page: +(query?.page || 1)
@@ -53,7 +53,7 @@ const invitationApi = new Hono()
             id: body.orgId,
             userId: user!.id,
           });
-          if (!org) throw new Error("Organization not found::404");
+          if (!org) throw new Error("Organization not found::404::404");
           if (user?.email === body.email) throw new Error("Can't send invitation the existing members::403");
           const member = await organizationService.findMemberByQuery({
             orgId: body.orgId,
@@ -96,7 +96,7 @@ const invitationApi = new Hono()
             id: query.orgId,
             userId: user!.id,
           });
-          if (!org) throw new Error("Organization not found");
+          if (!org) throw new Error("Organization not found::404");
 
           const team = await invitationService.delete({
             id,

@@ -37,6 +37,7 @@ model User {
   credential          Credential?
   tokens              Token[]
   organizations       Organization[]
+  members             Member[]
 
   @@map("users")
 }
@@ -90,6 +91,8 @@ model Team {
   org_id             String
   org                Organization @relation(fields: [org_id], references: [id], onDelete: Cascade)
 
+  members            TeamMember[]
+
   @@map("teams")
 }
 
@@ -108,13 +111,30 @@ model Invitation {
 
 model Member {
   id                  String @id @default(cuid())
-  user_id             String
 
   created_at          DateTime @default(now())
   updated_at          DateTime @updatedAt
 
   org_id              String
   org                 Organization @relation(fields: [org_id], references: [id], onDelete: Cascade)
+  user_id             String
+  user                User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  teams               TeamMember[]
 
   @@map("members")
+}
+
+model TeamMember {
+  id                  String @id @default(cuid())
+
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+
+  team_id             String
+  team                Team @relation(fields: [team_id], references: [id], onDelete: Cascade)
+  member_id           String
+  member              Member @relation(fields: [member_id], references: [id], onDelete: Cascade)
+
+  @@map("team_members")
 }

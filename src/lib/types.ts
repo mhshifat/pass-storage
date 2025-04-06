@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { acceptInviteFormSchema, addMemberFormSchema, invitationsApiRequestSchema, inviteMemberFormSchema, membersApiRequestSchema, organizationCreateFormSchema, organizationsApiRequestSchema, signInFormSchema, signUpFormSchema, teamCreateFormSchema, teamsApiRequestSchema, tokenCreateFormSchema, tokensApiRequestSchema } from "./validations";
+import { acceptInviteFormSchema, addMemberFormSchema, invitationsApiRequestSchema, inviteMemberFormSchema, membersApiRequestSchema, organizationCreateFormSchema, organizationsApiRequestSchema, signInFormSchema, signUpFormSchema, teamCreateFormSchema, teamMemberCreateFormSchema, teamMembersApiRequestSchema, teamsApiRequestSchema, tokenCreateFormSchema, tokensApiRequestSchema } from "./validations";
 
 export type SignUpFormPayload = z.infer<typeof signUpFormSchema>;
 export type SignInFormPayload = z.infer<typeof signInFormSchema>;
@@ -14,6 +14,8 @@ export type AcceptInviteFormPayload = z.infer<typeof acceptInviteFormSchema>;
 export type InvitationsApiRequestData = z.infer<typeof invitationsApiRequestSchema>;
 export type AddMemberFormPayload = z.infer<typeof addMemberFormSchema>;
 export type MembersApiRequestData = z.infer<typeof membersApiRequestSchema>;
+export type TeamMembersApiRequestData = z.infer<typeof teamMembersApiRequestSchema>;
+export type AddTeamMemberFormPayload = z.infer<typeof teamMemberCreateFormSchema>;
 
 export type UserDto = {
   id: string;
@@ -28,6 +30,7 @@ export type IUser = {
 export type OrganizationDto = {
   id: string;
   name: string;
+  user_id: string;
   description?: string;
   created_at: string;
   updated_at: string;
@@ -37,6 +40,7 @@ export type TeamDto = {
   id: string;
   name: string;
   description?: string;
+  members?: { id: string; email: string }[];
   created_at: string;
   updated_at: string;
 }
@@ -53,10 +57,18 @@ export type InvitationDto = {
   updated_at: string;
 }
 
+export type TeamMemberDto = {
+  id: string;
+  team_id: string;
+  member_id: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export type IOrganization = {
   id: string;
   name: string;
-  user_id: string;
+  userId: string;
   description?: string;
   createdAt: string;
 }
@@ -66,11 +78,18 @@ export type ITeam = {
   name: string;
   description?: string;
   createdAt: string;
+  members?: { id: string; email: string }[];
 }
 
 export type IMember = {
   id: string;
   email: string
+}
+
+export type ITeamMember = {
+  id: string;
+  teamId: string
+  memberId: string
 }
 
 export type IInvitation = {

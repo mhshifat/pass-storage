@@ -6,6 +6,7 @@ import organizationApi from './organization';
 import teamApi from './team';
 import invitationApi from './invitation';
 import memberApi from './member';
+import teamMemberApi from './team-member';
 
 const app = new Hono().basePath('/api');
 
@@ -17,6 +18,7 @@ const routes = app
   .route("/teams", teamApi)
   .route("/invitations", invitationApi)
   .route("/members", memberApi)
+  .route("/team-members", teamMemberApi)
 
 export const GET = handle(app)
 export const POST = handle(app)

@@ -41,6 +41,7 @@ class TeamApiService {
 
   private transformDtoTo(data: TeamDto): ITeam {
     return {
+      members: data.members,
       createdAt: data.created_at,
       description: data.description,
       name: data.name,

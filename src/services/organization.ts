@@ -41,6 +41,7 @@ class OrganizationApiService {
 
   private transformDtoTo(data: OrganizationDto): IOrganization {
     return {
+      userId: data.user_id,
       createdAt: data.created_at,
       description: data.description,
       name: data.name,

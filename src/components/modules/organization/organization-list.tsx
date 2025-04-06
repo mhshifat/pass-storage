@@ -71,7 +71,7 @@ export default function OrganizationList() {
                       <NotebookTextIcon size={16} />
                     </Button>
                     <AddEditOrganizationDialog organization={organization} />
-                    {organization.user_id === user?.id && (
+                    {organization.userId === user?.id && (
                       <>
                         <ConfirmationDialog
                           onConfirm={() => deleteOrganization.mutateAsync({ id: organization.id })}
