@@ -81,7 +81,7 @@ export default function TokenList() {
                       onClick={() => copyToClipboard(token.password)}
                       title="Copy"
                     >
-                      {token.password}
+                      {token.password?.split("").map(() => "*").join("")}
                     </Button>
                   </div>
 								</TableCell>
