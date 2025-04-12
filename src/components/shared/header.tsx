@@ -5,7 +5,7 @@ import ProfileMenu from "./profile-menu";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { ROUTE_PATHS } from "@/lib/constants";
-import { BuildingIcon } from "lucide-react";
+import { BuildingIcon, HomeIcon } from "lucide-react";
 
 export default function Header({ children }: PropsWithChildren) {
   return (
@@ -25,6 +25,12 @@ function HeaderDashboard({ children }: PropsWithChildren) {
       </div>
 
       <div className="flex items-center justify-between gap-3">
+        <Button variant="outline" size="sm">
+          <Link href={ROUTE_PATHS.HOME} className="flex items-center gap-2">
+            <HomeIcon className="h-4 w-4" />
+            Home
+          </Link>
+        </Button>
         <Button variant="outline" size="sm">
           <Link href={ROUTE_PATHS.ORGANIZATIONS} className="flex items-center gap-2">
             <BuildingIcon className="h-4 w-4" />
