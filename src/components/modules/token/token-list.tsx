@@ -19,8 +19,12 @@ import { useState } from "react";
 import TOTPView from "./totp-view";
 import { EditTokenDialog } from "./edit-token-dialog";
 import useDeleteTokenMutation from "@/components/hooks/use-delete-token-mutation";
+import { ShareTokenDialog } from "./share-token-dialog";
+import { useAuth } from "@/components/providers/auth";
+import { Badge } from "@/components/ui/badge";
 
 export default function TokenList() {
+  const { user } = useAuth();
 	const copyToClipboard = useCopyToClipboard();
 	const deleteToken = useDeleteTokenMutation();
 	const [page, setPage] = useState(1);
@@ -98,20 +102,25 @@ export default function TokenList() {
                 </TableCell>
 								<TableCell className="text-right">
 									<div className="flex justify-end space-x-2">
-										<EditTokenDialog token={token} />
-										<ConfirmationDialog
-											onConfirm={() => deleteToken.mutateAsync({ id: token.id })}
-										>
-											<Button
-												variant="ghost"
-												size="icon"
-												disabled={deleteToken.isPending}
-												className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
-												title="Delete collection"
-											>
-												<Trash2Icon size={16} />
-											</Button>
-										</ConfirmationDialog>
+										{user?.id === token.userId ? (
+                      <>
+                        <ShareTokenDialog token={token} />
+                        <EditTokenDialog token={token} />
+                        <ConfirmationDialog
+                          onConfirm={() => deleteToken.mutateAsync({ id: token.id })}
+                        >
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            disabled={deleteToken.isPending}
+                            className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                            title="Delete collection"
+                          >
+                            <Trash2Icon size={16} />
+                          </Button>
+                        </ConfirmationDialog>
+                      </>
+                    ) : <Badge variant="outline">Shared</Badge>}
 									</div>
 								</TableCell>
 							</TableRow>

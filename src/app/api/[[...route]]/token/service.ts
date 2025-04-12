@@ -8,10 +8,10 @@ export class TokenService {
     this._repo = _repo;
   }
 
-  async findWithPaginate({ userId, page }: TokensApiRequestData["query"] & { userId: string }) {
+  async findWithPaginate({ userId, page, teamIds }: TokensApiRequestData["query"] & { teamIds: string[], userId: string }) {
     const perPage = 10;
-    const total = await this._repo.count({ userId });
-    const result = await this._repo.find({ userId, perPage, page });
+    const total = await this._repo.count({ userId, teamIds });
+    const result = await this._repo.find({ userId, perPage, page, teamIds });
     return {
       page,
       total,
@@ -30,6 +30,13 @@ export class TokenService {
 
   async delete(query: { userId: string, id: string }) {
     return this._repo.delete(query);
+  }
+
+  async share(query: { userId: string, id: string, teamId: string }) {
+    return this._repo.update(query.id, {
+      teamId: query.teamId,
+      userId: query.userId
+    });
   }
 
   async findById(id: string) {

@@ -9,10 +9,10 @@ export class OrganizationService {
     this._repo = _repo;
   }
 
-  async findWithPaginate({ userId, page }: OrganizationsApiRequestData["query"] & { userId: string }) {
+  async findWithPaginate({ userId, page }: OrganizationsApiRequestData["query"] & { userId: string }, includes?: string[]) {
     const perPage = 10;
     const total = await this._repo.count({ userId });
-    const result = await this._repo.find({ userId, perPage, page });
+    const result = await this._repo.find({ userId, perPage, page }, includes);
     return {
       page,
       total,

@@ -46,6 +46,12 @@ class OrganizationApiService {
       description: data.description,
       name: data.name,
       id: data.id,
+      teams: data.teams?.map(t => ({
+        id: t.id,
+        name: t.name,
+        description: t.description,
+        createdAt: t.created_at
+      })) || []
     }
   }
 }

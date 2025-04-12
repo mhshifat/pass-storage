@@ -1,4 +1,4 @@
-import { tokenCreateFormSchema, tokenDeleteRequestSchema, tokenUpdateRequestSchema, tokensApiRequestSchema } from "@/lib/validations";
+import { tokenCreateFormSchema, tokenDeleteRequestSchema, tokenShareFormSchema, tokenUpdateRequestSchema, tokensApiRequestSchema } from "@/lib/validations";
 import { Hono } from "hono";
 import { tokenService } from "../bootstrap";
 import { ApiUtils } from "@/lib/api-utils";
@@ -23,7 +23,8 @@ const tokenApi = new Hono()
         .execute(async ({ user }) => {
           const result = await tokenService.findWithPaginate({
             userId: user!.id,
-            page: +(query?.page || 1)
+            page: +(query?.page || 1),
+            teamIds: user?.teams.map(t => t.id) || []
           });
           return ctx.json<APIResponse<object>>({
             success: true,
@@ -100,6 +101,33 @@ const tokenApi = new Hono()
           const token = await tokenService.delete({
             id,
             userId: user!.id
+          });
+          return ctx.json<APIResponse<object>>({
+            success: true,
+            data: token
+          })
+        })
+    }
+  )
+  .post(
+    "/:id/share",
+    async (ctx) => {
+      const apiUtils = new ApiUtils(ctx.req, {
+        auth: true,
+        db: { getUserById }
+      });
+      const id = ctx.req.param('id')
+      const body = await ctx.req.json();
+      return apiUtils
+        .validate(tokenShareFormSchema, {
+          id,
+          teamId: body.teamId
+        })
+        .execute(async ({ user }) => {
+          const token = await tokenService.share({
+            id,
+            userId: user!.id,
+            teamId: body.teamId!,
           });
           return ctx.json<APIResponse<object>>({
             success: true,

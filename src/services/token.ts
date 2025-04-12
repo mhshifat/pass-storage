@@ -1,5 +1,5 @@
 import { IHttp, http } from "@/lib/http";
-import { AddTokenFormPayload, IPagination, IToken, TokenDto } from "@/lib/types";
+import { AddTokenFormPayload, IPagination, IToken, ShareTokenFormPayload, TokenDto } from "@/lib/types";
 
 class TokenApiService {
   private _http: IHttp;
@@ -33,6 +33,11 @@ class TokenApiService {
     return this.transformTokenDtoToToken(res.data);
   }
 
+  async share({id, ...values}: Partial<ShareTokenFormPayload>) {
+    const res = await this._http.post<void>(`/tokens/${id}/share`, values);
+    if (!res.success) throw new Error(res.message);
+  }
+
   async delete(id: string) {
     const res = await this._http.delete<TokenDto>(`/tokens/${id}`, {});
     if (!res.success) throw new Error(res.message);
@@ -51,6 +56,7 @@ class TokenApiService {
       serviceUrl: data.service_url,
       username: data.username,
       id: data.id,
+      userId: data.user_id,
     }
   }
 }

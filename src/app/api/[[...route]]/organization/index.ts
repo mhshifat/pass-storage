@@ -24,7 +24,7 @@ const organizationApi = new Hono()
           const result = await organizationService.findWithPaginate({
             userId: user!.id,
             page: +(query?.page || 1)
-          });
+          }, [query?.teams === "true" ? "teams" : ""].filter(Boolean));
           return ctx.json<APIResponse<object>>({
             success: true,
             data: result

@@ -7,7 +7,7 @@ type ValidatorRequestData = {
   query?: Record<string, unknown>;
   params?: Record<string, unknown>;
   body?: Record<string, unknown>;
-};
+} | Record<string, unknown>;
 
 const requests = new Map();
 
@@ -17,13 +17,13 @@ export class ApiUtils {
 
   constructor(
     private _req: HonoRequest,
-    private _config?: { auth?: boolean; db: { getUserById(id: string): Promise<(UserDto & { password?: string }) | null> } }
+    private _config?: { auth?: boolean; db: { getUserById(id: string): Promise<(UserDto & { password?: string, teams: { id: string }[] }) | null> } }
   ) {
     this._req = _req;
     this._config = _config;
   }
 
-  execute = async (fn: (args: { user: UserDto | null }) => Promise<Response>) => {
+  execute = async (fn: (args: { user: UserDto & { teams: { id: string }[] } | null }) => Promise<Response>) => {
     try {
       await this.handleRateLimiting();
       const initRes = await this.init();
@@ -35,6 +35,7 @@ export class ApiUtils {
         user: initRes?.user ? {
           id: initRes.user.id,
           email: initRes.user.email,
+          teams: initRes.user.teams || []
         } : null
       });
     } catch (err) {

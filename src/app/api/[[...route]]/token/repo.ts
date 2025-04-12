@@ -14,6 +14,7 @@ const selectable = {
   service_url: true,
   updated_at: true,
   username: true,
+  user_id: true,
   id: true,
 }
 
@@ -24,19 +25,33 @@ export class TokenRepo {
     this._prisma = _prisma;
   }
 
-  async count({ userId }: { userId: string }) {
+  async count({ userId, teamIds }: { userId: string, teamIds: string[] }) {
     const total = await this._prisma.token.count({
       where: {
-        user_id: userId,
+        OR: [
+          {
+            user_id: userId,
+          },
+          {
+            team_id: { in: teamIds }
+          }
+        ]
       },
     });
     return total;
   }
 
-  async find({ userId, perPage, page }: { userId: string, perPage: number, page: number }) {
+  async find({ userId, perPage, page, teamIds }: { userId: string, perPage: number, page: number, teamIds: string[] }) {
     const items = await this._prisma.token.findMany({
       where: {
-        user_id: userId,
+        OR: [
+          {
+            user_id: userId,
+          },
+          {
+            team_id: { in: teamIds }
+          }
+        ]
       },
       select: selectable,
       skip: (perPage * page) - perPage,
@@ -59,7 +74,7 @@ export class TokenRepo {
     })
   }
 
-  async update(id: string, { serviceUrl, userId, ...body }: AddTokenFormPayload & { userId: string }) {
+  async update(id: string, { serviceUrl, userId, teamId, ...body }: Partial<AddTokenFormPayload> & { userId: string }) {
     const record = await this._prisma.token.findUnique({
       where: { id, user_id: userId },
     });
@@ -69,6 +84,7 @@ export class TokenRepo {
       data: {
         ...body,
         user_id: userId,
+        team_id: teamId,
         service_url: serviceUrl
       },
       select: selectable

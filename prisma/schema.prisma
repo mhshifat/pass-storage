@@ -59,6 +59,8 @@ model Token {
 
   user_id             String
   user                User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  team_id             String?
+  Team                Team? @relation(fields: [team_id], references: [id], onDelete: Restrict)
 
   @@map("tokens")
 }
@@ -92,6 +94,7 @@ model Team {
   org                Organization @relation(fields: [org_id], references: [id], onDelete: Cascade)
 
   members            TeamMember[]
+  tokens             Token[]
 
   @@map("teams")
 }

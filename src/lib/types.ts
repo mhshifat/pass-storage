@@ -1,9 +1,10 @@
 import { z } from "zod";
-import { acceptInviteFormSchema, addMemberFormSchema, invitationsApiRequestSchema, inviteMemberFormSchema, membersApiRequestSchema, organizationCreateFormSchema, organizationsApiRequestSchema, signInFormSchema, signUpFormSchema, teamCreateFormSchema, teamMemberCreateFormSchema, teamMembersApiRequestSchema, teamsApiRequestSchema, tokenCreateFormSchema, tokensApiRequestSchema } from "./validations";
+import { acceptInviteFormSchema, addMemberFormSchema, invitationsApiRequestSchema, inviteMemberFormSchema, membersApiRequestSchema, organizationCreateFormSchema, organizationsApiRequestSchema, signInFormSchema, signUpFormSchema, teamCreateFormSchema, teamMemberCreateFormSchema, teamMembersApiRequestSchema, teamsApiRequestSchema, tokenCreateFormSchema, tokenShareFormSchema, tokensApiRequestSchema } from "./validations";
 
 export type SignUpFormPayload = z.infer<typeof signUpFormSchema>;
 export type SignInFormPayload = z.infer<typeof signInFormSchema>;
 export type AddTokenFormPayload = z.infer<typeof tokenCreateFormSchema>;
+export type ShareTokenFormPayload = z.infer<typeof tokenShareFormSchema>;
 export type TokensApiRequestData = z.infer<typeof tokensApiRequestSchema>;
 export type AddOrganizationFormPayload = z.infer<typeof organizationCreateFormSchema>;
 export type OrganizationsApiRequestData = z.infer<typeof organizationsApiRequestSchema>;
@@ -34,6 +35,7 @@ export type OrganizationDto = {
   description?: string;
   created_at: string;
   updated_at: string;
+  teams: TeamDto[];
 }
 
 export type TeamDto = {
@@ -71,6 +73,7 @@ export type IOrganization = {
   userId: string;
   description?: string;
   createdAt: string;
+  teams: ITeam[]
 }
 
 export type ITeam = {
@@ -107,6 +110,7 @@ export type IToken = {
   digits: number;
   period: number;
   serviceUrl: string;
+  userId: string;
   username: string;
   password: string;
 }
@@ -119,6 +123,7 @@ export type TokenDto = {
   algorithm: string;
   digits: number;
   period: number;
+  user_id: string;
   service_url: string;
   username: string;
   password: string;

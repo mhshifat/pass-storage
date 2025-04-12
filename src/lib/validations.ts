@@ -25,7 +25,13 @@ export const tokenCreateFormSchema = z.object({
   period: z.number().min(1),
   serviceUrl: z.string().min(1),
   username: z.string().min(1),
+  teamId: z.string().optional(),
   password: z.string().min(1),
+})
+
+export const tokenShareFormSchema = z.object({
+  id: z.string().min(1),
+  teamId: z.string().min(1),
 })
 
 export const tokenUpdateRequestSchema = z.object({

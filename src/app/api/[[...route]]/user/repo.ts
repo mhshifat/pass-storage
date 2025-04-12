@@ -48,6 +48,13 @@ export class UserRepo {
         id: true,
         ...includes?.includes("credential") ? {
           credential: true
+        } : {},
+        ...includes?.includes("teams") ? {
+          members: {
+            select: {
+              teams: true
+            }
+          }
         } : {}
       }
     })

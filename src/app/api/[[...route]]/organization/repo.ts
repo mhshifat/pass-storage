@@ -36,7 +36,7 @@ export class OrganizationRepo {
     return total;
   }
 
-  async find({ userId, perPage, page }: { userId: string, perPage: number, page: number }) {
+  async find({ userId, perPage, page }: { userId: string, perPage: number, page: number }, includes?: string[]) {
     const items = await this._prisma.organization.findMany({
       where: {
         OR: [
@@ -50,7 +50,12 @@ export class OrganizationRepo {
           },
         ],
       },
-      select: selectable,
+      select: {
+        ...selectable,
+        ...includes?.includes("teams")?{
+          teams: true
+        }:{}
+      },
       skip: (perPage * page) - perPage,
       take: perPage,
       orderBy: {
