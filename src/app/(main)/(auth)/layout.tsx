@@ -15,7 +15,7 @@ export default function AuthLayout({ children }: PropsWithChildren) {
           </div>
         </div>
 
-        <div></div>
+        <div className="bg-gradient-to-r from-[var(--muted)] to-[var(--primary-foreground)]"></div>
       </main>
     </Public>
 	);

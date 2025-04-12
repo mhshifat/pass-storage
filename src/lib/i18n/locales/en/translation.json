@@ -1,0 +1,95 @@
+{
+  "app": {
+    "name": "PassStorage",
+    "tagline": "Secure Authentication Token Management"
+  },
+  "header": {
+    "signin": "Sign In",
+    "signup": "Get Started",
+    "dashboard": "Go to Dashboard"
+  },
+  "hero": {
+    "title": "Secure Authentication Token Management",
+    "description": "Store and manage your TOTP authentication tokens securely with PassStorage. The modern solution for all your 2FA needs.",
+    "cta": {
+      "start": "Start Free",
+      "signin": "Sign In"
+    }
+  },
+  "features": {
+    "title": "Key Features",
+    "description": "PassStorage provides everything you need to manage your authentication tokens securely and efficiently.",
+    "encryption": {
+      "title": "End-to-End Encryption",
+      "description": "All your authentication tokens are encrypted and stored locally for maximum security."
+    },
+    "crossPlatform": {
+      "title": "Cross-Platform Access",
+      "description": "Access your tokens from any device with our responsive web application."
+    },
+    "sharing": {
+      "title": "Organization Sharing",
+      "description": "Share tokens with your team securely through our organization features."
+    }
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "description": "Getting started with PassStorage is simple and straightforward.",
+    "step1": {
+      "title": "Create Account",
+      "description": "Sign up for a free account to get started with basic features."
+    },
+    "step2": {
+      "title": "Add Your Tokens",
+      "description": "Import your authentication tokens or create new ones directly."
+    },
+    "step3": {
+      "title": "Secure Access",
+      "description": "Easily access your tokens whenever you need them, on any device."
+    }
+  },
+  "pricing": {
+    "title": "Simple Pricing",
+    "description": "Choose the plan that fits your needs. Start for free and upgrade as you grow.",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "perMonth": "/month",
+    "free": {
+      "name": "Free",
+      "features": [
+        "Up to 10 tokens",
+        "Basic security features",
+        "Single device sync"
+      ],
+      "cta": "Get Started"
+    },
+    "pro": {
+      "name": "Pro",
+      "label": "Popular",
+      "features": [
+        "Unlimited tokens",
+        "Advanced security features",
+        "Multi-device sync",
+        "Organization sharing"
+      ],
+      "cta": "Subscribe"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "features": [
+        "Everything in Pro",
+        "Dedicated support",
+        "Admin controls",
+        "Custom integrations"
+      ],
+      "cta": "Contact Sales"
+    }
+  },
+  "cta": {
+    "title": "Ready to secure your authentication?",
+    "description": "Join thousands of users who trust PassStorage with their authentication tokens. Start for free, no credit card required."
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}
