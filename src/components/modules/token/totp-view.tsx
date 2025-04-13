@@ -3,12 +3,14 @@ import { Button } from "@/components/ui/button";
 import { generateTOTP } from "@/lib/totp";
 import { IToken } from "@/lib/types";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface TOTPViewProps {
 	token: IToken;
 }
 
 export default function TOTPView({ token }: TOTPViewProps) {
+  const { t } = useTranslation();
   const copyToClipboard = useCopyToClipboard();
 	const [code, setCode] = useState("");
 	const [progress, setProgress] = useState(100);
@@ -47,7 +49,10 @@ export default function TOTPView({ token }: TOTPViewProps) {
 
 	return (
 		<div className="flex items-center gap-2">
-			<Button title={`Refreshing in ${secondsRemaining}s (${Math.round(progress)})%`} variant="ghost" onClick={() => copyToClipboard(code)} className="p-0 justify-start">{formattedCode?.split("").map(() => "*").join("")}</Button>
+			<Button title={t("translations.refreshing_in", {
+        seconds: secondsRemaining,
+        progress: Math.round(progress),
+      })} variant="ghost" onClick={() => copyToClipboard(code)} className="p-0 justify-start">{formattedCode?.split("").map(() => "*").join("")}</Button>
 		</div>
 	);
 }

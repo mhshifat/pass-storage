@@ -7,12 +7,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { IToken } from "@/lib/types";
 import { Eye, EyeOff, Globe, User, Lock, EditIcon } from "lucide-react";
 import useUpdateTokenMutation from "@/components/hooks/use-update-token-mutation";
+import { useTranslation } from "react-i18next";
+import Translate from "@/components/shared/translate";
 
 interface EditTokenDialogProps {
   token: IToken;
 }
 
 export function EditTokenDialog({ token }: EditTokenDialogProps) {
+  const { t } = useTranslation();
   const updateToken = useUpdateTokenMutation();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState(token.name);
@@ -60,7 +63,7 @@ export function EditTokenDialog({ token }: EditTokenDialogProps) {
         size="icon"
         onClick={() => setOpen(true)}
         className="h-8 w-8"
-        title="Edit collection"
+        title={t("Edit collection")}
         disabled={updateToken.isPending}
       >
         <EditIcon size={16} />
@@ -68,15 +71,15 @@ export function EditTokenDialog({ token }: EditTokenDialogProps) {
       <Dialog open={open} onOpenChange={() => setOpen(false)}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Edit Account</DialogTitle>
+            <DialogTitle><Translate>Edit Account</Translate></DialogTitle>
             <DialogDescription>
-              Update the details for this account.
+              <Translate>Update the details for this account.</Translate>
             </DialogDescription>
           </DialogHeader>
           <form id="edit-form" onSubmit={handleSubmit}>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="edit-name">Account Name</Label>
+                <Label htmlFor="edit-name"><Translate>Account Name</Translate></Label>
                 <Input 
                   id="edit-name" 
                   value={name}
@@ -85,7 +88,7 @@ export function EditTokenDialog({ token }: EditTokenDialogProps) {
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="edit-issuer">Service/Issuer</Label>
+                <Label htmlFor="edit-issuer"><Translate>Service/Issuer</Translate></Label>
                 <Input 
                   id="edit-issuer" 
                   value={issuer}
@@ -94,51 +97,51 @@ export function EditTokenDialog({ token }: EditTokenDialogProps) {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="edit-period">Period (seconds)</Label>
+                  <Label htmlFor="edit-period"><Translate>Period (seconds)</Translate></Label>
                   <Select value={period} onValueChange={setPeriod}>
                     <SelectTrigger id="edit-period">
-                      <SelectValue placeholder="Period" />
+                      <SelectValue placeholder={t("Period")} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="30">30</SelectItem>
-                      <SelectItem value="60">60</SelectItem>
+                      <SelectItem value="30"><Translate>30</Translate></SelectItem>
+                      <SelectItem value="60"><Translate>60</Translate></SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="edit-digits">Digits</Label>
+                  <Label htmlFor="edit-digits"><Translate>Digits</Translate></Label>
                   <Select value={digits} onValueChange={setDigits}>
                     <SelectTrigger id="edit-digits">
-                      <SelectValue placeholder="Digits" />
+                      <SelectValue placeholder={t("Digits")} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="6">6</SelectItem>
-                      <SelectItem value="8">8</SelectItem>
+                      <SelectItem value="6"><Translate>6</Translate></SelectItem>
+                      <SelectItem value="8"><Translate>8</Translate></SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="edit-algorithm">Algorithm</Label>
+                <Label htmlFor="edit-algorithm"><Translate>Algorithm</Translate></Label>
                 <Select value={algorithm} onValueChange={setAlgorithm as (value: string) => void}>
                   <SelectTrigger id="edit-algorithm">
-                    <SelectValue placeholder="Algorithm" />
+                    <SelectValue placeholder={t("Algorithm")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="SHA1">SHA1</SelectItem>
-                    <SelectItem value="SHA256">SHA256</SelectItem>
-                    <SelectItem value="SHA512">SHA512</SelectItem>
+                    <SelectItem value="SHA1"><Translate>SHA1</Translate></SelectItem>
+                    <SelectItem value="SHA256"><Translate>SHA256</Translate></SelectItem>
+                    <SelectItem value="SHA512"><Translate>SHA512</Translate></SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="border-t pt-4 mt-2">
-                <h3 className="text-sm font-medium mb-3">Account Credentials</h3>
+                <h3 className="text-sm font-medium mb-3"><Translate>Account Credentials</Translate></h3>
                 <div className="grid gap-3">
                   <div className="grid gap-2">
                     <Label htmlFor="edit-service-url" className="flex items-center gap-1">
                       <Globe className="h-3.5 w-3.5" />
-                      Service URL
+                      <Translate>Service URL</Translate>
                     </Label>
                     <Input 
                       id="edit-service-url" 
@@ -151,20 +154,20 @@ export function EditTokenDialog({ token }: EditTokenDialogProps) {
                   <div className="grid gap-2">
                     <Label htmlFor="edit-username" className="flex items-center gap-1">
                       <User className="h-3.5 w-3.5" />
-                      Username
+                      <Translate>Username</Translate>
                     </Label>
                     <Input 
                       id="edit-username" 
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      placeholder="your_username" 
+                      placeholder={t("Your username")} 
                     />
                   </div>
                   
                   <div className="grid gap-2">
                     <Label htmlFor="edit-password" className="flex items-center gap-1">
                       <Lock className="h-3.5 w-3.5" />
-                      Password
+                      <Translate>Password</Translate>
                     </Label>
                     <div className="flex gap-2">
                       <Input 
@@ -191,10 +194,10 @@ export function EditTokenDialog({ token }: EditTokenDialogProps) {
           </form>
           <DialogFooter>
             <Button disabled={updateToken.isPending} variant="outline" onClick={() => setOpen(false)}>
-              Cancel
+              <Translate>Cancel</Translate>
             </Button>
             <Button disabled={updateToken.isPending} loading={updateToken.isPending} type="submit" form="edit-form">
-              Save Changes
+              <Translate>Save Changes</Translate>
             </Button>
           </DialogFooter>
         </DialogContent>

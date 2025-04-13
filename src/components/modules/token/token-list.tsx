@@ -22,10 +22,13 @@ import useDeleteTokenMutation from "@/components/hooks/use-delete-token-mutation
 import { ShareTokenDialog } from "./share-token-dialog";
 import { useAuth } from "@/components/providers/auth";
 import { Badge } from "@/components/ui/badge";
+import Translate from "@/components/shared/translate";
+import { useTranslation } from "react-i18next";
 
 export default function TokenList() {
   const { user } = useAuth();
 	const copyToClipboard = useCopyToClipboard();
+	const { t } = useTranslation();
 	const deleteToken = useDeleteTokenMutation();
 	const [page, setPage] = useState(1);
 	const { data: tokens, isLoading } = useGetTokensQuery({
@@ -47,12 +50,12 @@ export default function TokenList() {
 				<Table>
 					<TableHeader>
 						<TableRow>
-							<TableHead className="w-[200px]">Name</TableHead>
-							<TableHead className="w-[120px]">Username</TableHead>
-							<TableHead className="w-[100px]">Password</TableHead>
-							<TableHead className="w-[100px]">URL</TableHead>
-							<TableHead className="w-[100px]">TOTP</TableHead>
-							<TableHead className="w-[100px] text-right">Actions</TableHead>
+							<TableHead className="w-[200px]"><Translate>Name</Translate></TableHead>
+							<TableHead className="w-[120px]"><Translate>Username</Translate></TableHead>
+							<TableHead className="w-[100px]"><Translate>Password</Translate></TableHead>
+							<TableHead className="w-[100px]"><Translate>URL</Translate></TableHead>
+							<TableHead className="w-[100px]"><Translate>TOTP</Translate></TableHead>
+							<TableHead className="w-[100px] text-right"><Translate>Actions</Translate></TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -67,7 +70,7 @@ export default function TokenList() {
                       className="p-0"
                       variant="ghost"
                       onClick={() => copyToClipboard(token.username)}
-                      title="Copy"
+                      title={t("Copy")}
                     >
                       {token.username}
                     </Button>
@@ -79,7 +82,7 @@ export default function TokenList() {
                       className="p-0"
                       variant="ghost"
                       onClick={() => copyToClipboard(token.password)}
-                      title="Copy"
+                      title={t("Copy")}
                     >
                       {token.password?.split("").map(() => "*").join("")}
                     </Button>
@@ -91,7 +94,7 @@ export default function TokenList() {
                       className="p-0"
                       variant="ghost"
                       onClick={() => copyToClipboard(token.serviceUrl)}
-                      title="Copy"
+                      title={t("Copy")}
                     >
                       {token.serviceUrl}
                     </Button>
@@ -114,13 +117,13 @@ export default function TokenList() {
                             size="icon"
                             disabled={deleteToken.isPending}
                             className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
-                            title="Delete collection"
+                            title={t("Delete collection")}
                           >
                             <Trash2Icon size={16} />
                           </Button>
                         </ConfirmationDialog>
                       </>
-                    ) : <Badge variant="outline">Shared</Badge>}
+                    ) : <Badge variant="outline"><Translate>Shared</Translate></Badge>}
 									</div>
 								</TableCell>
 							</TableRow>

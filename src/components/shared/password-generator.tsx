@@ -6,6 +6,8 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Copy, RefreshCw } from "lucide-react";
 import { toast } from "@/lib/toast";
+import { useTranslation } from "react-i18next";
+import Translate from "./translate";
 
 interface PasswordGeneratorProps {
 	onPasswordGenerated: (password: string) => void;
@@ -14,6 +16,7 @@ interface PasswordGeneratorProps {
 export function PasswordGenerator({
 	onPasswordGenerated,
 }: PasswordGeneratorProps) {
+  const { t } = useTranslation();
 	const [password, setPassword] = useState("");
 	const [length, setLength] = useState(16);
 	const [includeUppercase, setIncludeUppercase] = useState(true);
@@ -29,7 +32,7 @@ export function PasswordGenerator({
 		if (includeSymbols) charset += "!@#$%^&*()_-+=[]{}|;:,.<>?";
 
 		if (charset === "") {
-			toast.error("Please select at least one character type");
+			toast.error(t("Please select at least one character type"));
 			return;
 		}
 
@@ -47,7 +50,7 @@ export function PasswordGenerator({
 		if (!password) return;
 
 		navigator.clipboard.writeText(password);
-		toast.success("Password copied to clipboard");
+		toast.success(t("Password copied to clipboard"));
 	};
 
 	return (
@@ -56,14 +59,14 @@ export function PasswordGenerator({
 				<Input
 					value={password}
 					readOnly
-					placeholder="Generated password"
+					placeholder={t("Generated password")}
 					className="font-mono"
 				/>
 				<Button
 					variant="outline"
 					size="icon"
 					onClick={copyPassword}
-					title="Copy password"
+					title={t("Copy password")}
 				>
 					<Copy className="h-4 w-4" />
 				</Button>
@@ -71,7 +74,7 @@ export function PasswordGenerator({
 					variant="outline"
 					size="icon"
 					onClick={generatePassword}
-					title="Generate new password"
+					title={t("Generate new password")}
 				>
 					<RefreshCw className="h-4 w-4" />
 				</Button>
@@ -79,7 +82,7 @@ export function PasswordGenerator({
 
 			<div className="space-y-2">
 				<div className="flex justify-between items-center">
-					<Label>Password length: {length}</Label>
+					<Label><Translate>Password length</Translate>: {t(length + "")}</Label>
 				</div>
 				<Slider
 					value={[length]}
@@ -97,7 +100,7 @@ export function PasswordGenerator({
 						checked={includeLowercase}
 						onCheckedChange={setIncludeLowercase}
 					/>
-					<Label htmlFor="lowercase">Lowercase (a-z)</Label>
+					<Label htmlFor="lowercase"><Translate>Lowercase (a-z)</Translate></Label>
 				</div>
 				<div className="flex items-center space-x-2">
 					<Switch
@@ -105,7 +108,7 @@ export function PasswordGenerator({
 						checked={includeUppercase}
 						onCheckedChange={setIncludeUppercase}
 					/>
-					<Label htmlFor="uppercase">Uppercase (A-Z)</Label>
+					<Label htmlFor="uppercase"><Translate>Uppercase (A-Z)</Translate></Label>
 				</div>
 				<div className="flex items-center space-x-2">
 					<Switch
@@ -113,7 +116,7 @@ export function PasswordGenerator({
 						checked={includeNumbers}
 						onCheckedChange={setIncludeNumbers}
 					/>
-					<Label htmlFor="numbers">Numbers (0-9)</Label>
+					<Label htmlFor="numbers"><Translate>Numbers (0-9)</Translate></Label>
 				</div>
 				<div className="flex items-center space-x-2">
 					<Switch
@@ -121,12 +124,12 @@ export function PasswordGenerator({
 						checked={includeSymbols}
 						onCheckedChange={setIncludeSymbols}
 					/>
-					<Label htmlFor="symbols">Symbols (!@#$...)</Label>
+					<Label htmlFor="symbols"><Translate>Symbols</Translate> (!@#$...)</Label>
 				</div>
 			</div>
 
 			<Button onClick={generatePassword} className="w-full">
-				Generate Password
+				<Translate>Generate Password</Translate>
 			</Button>
 		</div>
 	);

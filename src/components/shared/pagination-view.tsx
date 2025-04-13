@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "../ui/pagination";
 import RenderView from "./render-view";
 
@@ -9,6 +10,7 @@ interface PaginationViewProps {
 }
 
 export default function PaginationView({ page, perPage, total, onPagination }: PaginationViewProps) {
+  const { t } = useTranslation();
   const lastPage = Math.ceil((total|| 0) / perPage);
 
   return (
@@ -21,7 +23,7 @@ export default function PaginationView({ page, perPage, total, onPagination }: P
             <PaginationPrevious
               onClick={() => onPagination(Math.max(page - 1, 1))}
               className={page === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-              title="Previous page"
+              title={t("Previous page")}
             />
           </PaginationItem>
 
@@ -39,10 +41,10 @@ export default function PaginationView({ page, perPage, total, onPagination }: P
                 <PaginationLink
                   onClick={() => onPagination(pageNum)}
                   isActive={pageNum === page}
-                  title={`Page ${pageNum}`}
+                  title={`${t("Page")} ${t(pageNum + "")}`}
                   className='cursor-pointer'
                 >
-                  {pageNum}
+                  {t(pageNum + "")}
                 </PaginationLink>
               </PaginationItem>
             );
@@ -56,10 +58,10 @@ export default function PaginationView({ page, perPage, total, onPagination }: P
               <PaginationItem>
                 <PaginationLink
                   onClick={() => onPagination(lastPage)}
-                  title={`Last page (${lastPage})`}
+                  title={`${t("Last page")} (${t(lastPage + "")})`}
                   className='cursor-pointer'
                 >
-                  {lastPage}
+                  {t(lastPage + "")}
                 </PaginationLink>
               </PaginationItem>
             </>
@@ -69,7 +71,7 @@ export default function PaginationView({ page, perPage, total, onPagination }: P
             <PaginationNext
               onClick={() => onPagination(Math.min(page + 1, lastPage))}
               className={page === lastPage ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-              title="Next page"
+              title={t("Next page")}
             />
           </PaginationItem>
         </PaginationContent>

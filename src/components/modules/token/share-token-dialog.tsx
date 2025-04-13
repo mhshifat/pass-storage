@@ -8,12 +8,15 @@ import useShareTokenMutation from "@/components/hooks/use-share-token-mutation";
 import useGetOrganizationsWithTeamsQuery from "@/components/hooks/use-get-organizations-with-teams-query";
 import { Share2Icon } from "lucide-react";
 import { toast } from "@/lib/toast";
+import { useTranslation } from "react-i18next";
+import Translate from "@/components/shared/translate";
 
 interface ShareTokenDialogProps {
   token: IToken;
 }
 
 export function ShareTokenDialog({ token }: ShareTokenDialogProps) {
+  const { t } = useTranslation();
   const shareToken = useShareTokenMutation();
   const { data: organizationsWithTeams } = useGetOrganizationsWithTeamsQuery({
     params: {
@@ -42,7 +45,7 @@ export function ShareTokenDialog({ token }: ShareTokenDialogProps) {
         size="icon"
         onClick={() => setOpen(true)}
         className="h-8 w-8"
-        title="Edit collection"
+        title={t("Share collection")}
         disabled={shareToken.isPending}
       >
         <Share2Icon size={16} />
@@ -50,19 +53,19 @@ export function ShareTokenDialog({ token }: ShareTokenDialogProps) {
       <Dialog open={open} onOpenChange={() => setOpen(false)}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Share Token</DialogTitle>
+            <DialogTitle><Translate>Share Token</Translate></DialogTitle>
             <DialogDescription>
-              Share this token to a team.
+              <Translate>Share this token to a team.</Translate>
             </DialogDescription>
           </DialogHeader>
           <form id="edit-form" onSubmit={handleSubmit}>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-1 gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="edit-period">Team</Label>
+                  <Label htmlFor="edit-period"><Translate>Team</Translate></Label>
                   <Select value={teamId || ""} onValueChange={setTeamId}>
                     <SelectTrigger id="edit-period" className="w-full">
-                      <SelectValue placeholder="Select Team" />
+                      <SelectValue placeholder={t("Select Team")} />
                     </SelectTrigger>
                     <SelectContent>
                       {organizationsWithTeams?.data?.map(item => item.teams).flat().map(team => (
@@ -76,10 +79,10 @@ export function ShareTokenDialog({ token }: ShareTokenDialogProps) {
           </form>
           <DialogFooter>
             <Button disabled={shareToken.isPending} variant="outline" onClick={() => setOpen(false)}>
-              Cancel
+              <Translate>Cancel</Translate>
             </Button>
             <Button disabled={shareToken.isPending} loading={shareToken.isPending} type="submit" form="edit-form">
-              Share
+              <Translate>Share</Translate>
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -41,8 +41,11 @@ import { toast } from "@/lib/toast";
 import { PasswordGenerator } from "@/components/shared/password-generator";
 import useAddTokenMutation from "@/components/hooks/use-add-token-mutation";
 import { PasswordInput } from "@/components/ui/password-input";
+import { useTranslation } from "react-i18next";
+import Translate from "@/components/shared/translate";
 
 export function AddTokenDialog() {
+  const { t } = useTranslation();
   const addToken = useAddTokenMutation();
 
 	const [open, setOpen] = useState(false);
@@ -80,27 +83,27 @@ export function AddTokenDialog() {
 
 	const validateManualForm = () => {
 		if (!name) {
-			toast.error("Please provide a token name");
+			toast.error(t("Please provide a token name"));
 			return false;
 		}
 
 		if (!secret) {
-			toast.error("Please provide a secret key");
+			toast.error(t("Please provide a secret key"));
 			return false;
 		}
 
 		if (!serviceUrl) {
-			toast.error("Please provide a service url");
+			toast.error(t("Please provide a service url"));
 			return false;
 		}
 
 		if (!username) {
-			toast.error("Please provide a username");
+			toast.error(t("Please provide a username"));
 			return false;
 		}
 
 		if (!password) {
-			toast.error("Please provide a password");
+			toast.error(t("Please provide a password"));
 			return false;
 		}
 
@@ -126,31 +129,31 @@ export function AddTokenDialog() {
 			};
 
 			await addToken.mutateAsync(newToken);
-			toast.success(`${name} has been added successfully`);
+			toast.success(`${name} ${t("has been added successfully")}`);
 		} else if (tab === "uri") {
 			if (!qrCode) {
-				setQrCodeError("Please enter a URI");
+				setQrCodeError(t("Please enter a URI"));
 				return;
 			}
 
 			const parsedToken = parseOTPAuthURI(qrCode);
 			if (!parsedToken || !parsedToken.secret) {
 				setQrCodeError(
-					"Invalid OTP Auth URI format. It should start with 'otpauth://'"
+					t("Invalid OTP Auth URI format. It should start with 'otpauth://'")
 				);
 				return;
 			}
 
       if (!serviceUrl) {
-        toast.error("Please provide a service url");
+        toast.error(t("Please provide a service url"));
         return;
       }
       if (!username) {
-        toast.error("Please provide a username");
+        toast.error(t("Please provide a username"));
         return;
       }
       if (!password) {
-        toast.error("Please provide a password");
+        toast.error(t("Please provide a password"));
         return;
       }
 
@@ -167,7 +170,7 @@ export function AddTokenDialog() {
 			};
 			await addToken.mutateAsync(newToken);
 
-			toast.success(`${newToken.name} has been added successfully`);
+			toast.success(`${newToken.name} ${t("has been added successfully")}`);
 		}
 
 		handleClose();
@@ -199,7 +202,7 @@ export function AddTokenDialog() {
 				<div className="grid gap-2">
 					<Label htmlFor="service-url" className="flex items-center gap-1">
 						<Globe className="h-3.5 w-3.5" />
-						Service URL*
+						<Translate>Service URL</Translate>*
 					</Label>
 					<Input
 						id="service-url"
@@ -212,20 +215,20 @@ export function AddTokenDialog() {
 				<div className="grid gap-2">
 					<Label htmlFor="username" className="flex items-center gap-1">
 						<User className="h-3.5 w-3.5" />
-						Username*
+						<Translate>Username</Translate>*
 					</Label>
 					<Input
 						id="username"
 						value={username}
 						onChange={(e) => setUsername(e.target.value)}
-						placeholder="your_username"
+						placeholder={t("Your username")}
 					/>
 				</div>
 
 				<div className="grid gap-2">
 					<Label htmlFor="password" className="flex items-center gap-1">
 						<Lock className="h-3.5 w-3.5" />
-						Password*
+						<Translate>Password</Translate>*
 					</Label>
 					<div className="flex gap-2">
 						<PasswordInput
@@ -242,7 +245,7 @@ export function AddTokenDialog() {
 							className="whitespace-nowrap"
 						>
 							<KeyRound className="h-4 w-4 mr-2" />
-							{showPasswordGenerator ? "Hide Generator" : "Generate"}
+							{showPasswordGenerator ? t("Hide Generator") : t("Generate")}
 						</Button>
 					</div>
 					{showPasswordGenerator && (
@@ -262,48 +265,48 @@ export function AddTokenDialog() {
 			<DialogTriggerComponent disabled={addToken.isPending} asChild>
 				<Button variant="outline">
 					<Plus className="h-4 w-4 mr-2" />
-					Add Token
+					<Translate>Add Token</Translate>
 				</Button>
 			</DialogTriggerComponent>
 			<DialogContentComponent className={isMobile ? "" : "sm:max-w-[425px]"}>
 				<DialogHeaderComponent>
-					<DialogTitleComponent>Add New Token</DialogTitleComponent>
+					<DialogTitleComponent><Translate>Add New Token</Translate></DialogTitleComponent>
 					<DialogDescriptionComponent>
-						Add a new token for generating TOTP codes.
+						<Translate>Add a new token for generating TOTP codes.</Translate>
 					</DialogDescriptionComponent>
 
 					<DialogCloseComponent disabled={addToken.isPending} />
 				</DialogHeaderComponent>
 				<Tabs value={tab} onValueChange={setTab} className="w-full">
 					<TabsList className="grid w-full grid-cols-2">
-						<TabsTrigger disabled={addToken.isPending} value="manual">Manual Entry</TabsTrigger>
-						<TabsTrigger disabled={addToken.isPending} value="uri">QR Code URI</TabsTrigger>
+						<TabsTrigger disabled={addToken.isPending} value="manual"><Translate>Manual Entry</Translate></TabsTrigger>
+						<TabsTrigger disabled={addToken.isPending} value="uri"><Translate>QR Code URI</Translate></TabsTrigger>
 					</TabsList>
 
 					<TabsContent value="manual" className="space-y-4 mt-4">
 						<form id="manual-form" onSubmit={handleSubmit}>
 							<div className="grid gap-4">
 								<div className="grid gap-2">
-									<Label htmlFor="name">Token Name*</Label>
+									<Label htmlFor="name"><Translate>Token Name</Translate>*</Label>
 									<Input
 										id="name"
 										value={name}
 										onChange={(e) => setName(e.target.value)}
-										placeholder="e.g. Work Email"
+										placeholder={t("e.g. Work Email")}
 										required
 									/>
 								</div>
 								<div className="grid gap-2">
-									<Label htmlFor="issuer">Service/Issuer</Label>
+									<Label htmlFor="issuer"><Translate>Service/Issuer</Translate></Label>
 									<Input
 										id="issuer"
 										value={issuer}
 										onChange={(e) => setIssuer(e.target.value)}
-										placeholder="e.g. Google, GitHub, etc."
+										placeholder={t("e.g. Google, GitHub, etc.")}
 									/>
 								</div>
 								<div className="grid gap-2">
-									<Label htmlFor="secret">Secret Key*</Label>
+									<Label htmlFor="secret"><Translate>Secret Key</Translate>*</Label>
 									<Input
 										id="secret"
 										value={secret}
@@ -311,10 +314,10 @@ export function AddTokenDialog() {
 										placeholder="e.g. JBSWY3DPEHPK3PXP"
 										required
 									/>
-									<p className="text-xs text-muted-foreground">
+									<Translate as="p" className="text-xs text-muted-foreground">
 										This is the secret key provided by the service, usually
 										shown during 2FA setup.
-									</p>
+									</Translate>
 								</div>
 
 								<div className="bg-muted p-3 rounded-md">
@@ -322,24 +325,24 @@ export function AddTokenDialog() {
 										<Info className="h-4 w-4 mt-0.5 text-muted-foreground" />
 										<div>
 											<h4 className="text-sm font-medium mb-1">
-												Where to find the Secret Key:
+												<Translate>Where to find the Secret Key</Translate>:
 											</h4>
 											<ol className="text-xs text-muted-foreground list-decimal pl-5 space-y-1">
 												<li>
-													During 2FA setup, look for{" "}
-													{`"manual setup" or "can't scan QR code"`} option
+													<Translate>During 2FA setup, look for</Translate>{" "}
+													{`"${t("manual setup")}" ${t("or")} "${t("can't scan QR code")}" ${t("option")}`}
 												</li>
 												<li>
-													The service will show a text code (
-													{`often called "secret key"`})
+													<Translate>The service will show a text code</Translate> (
+													{`${t("often called")} "${t("secret key")}"`})
 												</li>
 												<li>
-													The key usually looks like a string of letters and
-													numbers (e.g., JBSWY3DPEHPK3PXP)
+													<Translate>The key usually looks like a string of letters and
+													numbers</Translate> (e.g., JBSWY3DPEHPK3PXP)
 												</li>
 												<li>
-													Enter that key here exactly as shown (spaces are
-													automatically removed)
+													<Translate>Enter that key here exactly as shown</Translate> (<Translate>spaces are
+													automatically removed</Translate>)
 												</li>
 											</ol>
 										</div>
@@ -355,7 +358,7 @@ export function AddTokenDialog() {
 						<form id="uri-form" onSubmit={handleSubmit}>
 							<div className="grid gap-4">
 								<div className="grid gap-2">
-									<Label htmlFor="uri">OTPAuth URI</Label>
+									<Label htmlFor="uri"><Translate>OTPAuth URI</Translate></Label>
 									<Input
 										id="uri"
 										value={qrCode}
@@ -364,7 +367,7 @@ export function AddTokenDialog() {
 										required
 									/>
 									<p className="text-xs text-muted-foreground">
-										Paste the URI from the QR code, starting with{" "}
+										<Translate>Paste the URI from the QR code, starting with</Translate>{" "}
 										{`"otpauth://".`}
 									</p>
 								</div>
@@ -378,13 +381,13 @@ export function AddTokenDialog() {
 
 								<div className="bg-muted p-3 rounded-md">
 									<h4 className="text-sm font-medium mb-2">
-										How to find the URI:
+										<Translate>How to find the URI</Translate>:
 									</h4>
 									<ol className="text-xs text-muted-foreground list-decimal pl-5 space-y-1">
-										<li>Scan the QR code with your {"phone's"} camera</li>
-										<li>View the URL that appears</li>
-										<li>Copy the entire URL starting with {`"otpauth://"`}</li>
-										<li>Paste it here</li>
+										<li><Translate>Scan the QR code with your</Translate> {t("phone's")} <Translate>camera</Translate></li>
+										<li><Translate>View the URL that appears</Translate></li>
+										<li><Translate>Copy the entire URL starting with</Translate> {`"otpauth://"`}</li>
+										<li><Translate>Paste it here</Translate></li>
 									</ol>
 								</div>
 
@@ -397,12 +400,12 @@ export function AddTokenDialog() {
 					{isMobile ? (
 						<DrawerClose asChild>
 							<Button disabled={addToken.isPending} variant="outline" className="w-full">
-								Cancel
+								<Translate>Cancel</Translate>
 							</Button>
 						</DrawerClose>
 					) : (
 						<Button disabled={addToken.isPending} variant="outline" onClick={handleClose}>
-							Cancel
+							<Translate>Cancel</Translate>
 						</Button>
 					)}
 					<Button
@@ -411,7 +414,7 @@ export function AddTokenDialog() {
             disabled={addToken.isPending}
             loading={addToken.isPending}
 					>
-						Add Token
+						<Translate>Add Token</Translate>
 					</Button>
 				</DialogFooterComponent>
 			</DialogContentComponent>

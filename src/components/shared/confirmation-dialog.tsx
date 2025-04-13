@@ -1,5 +1,6 @@
 import { ReactNode, useState } from "react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
+import { useTranslation } from "react-i18next";
 
 interface ConfirmationDialogProps {
   title?: string;
@@ -18,6 +19,7 @@ export default function ConfirmationDialog({
   cancelText = "Cancel",
   children
 }: ConfirmationDialogProps) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   const handleConfirm = () => {
@@ -32,12 +34,12 @@ export default function ConfirmationDialog({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
+          <AlertDialogTitle>{t(title)}</AlertDialogTitle>
+          <AlertDialogDescription>{t(description)}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => setOpen(false)}>{cancelText}</AlertDialogCancel>
-          <AlertDialogAction onClick={handleConfirm}>{confirmText}</AlertDialogAction>
+          <AlertDialogCancel onClick={() => setOpen(false)}>{t(cancelText)}</AlertDialogCancel>
+          <AlertDialogAction onClick={handleConfirm}>{t(confirmText)}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

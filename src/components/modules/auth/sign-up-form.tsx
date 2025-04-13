@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/components/providers/auth";
+import Translate from "@/components/shared/translate";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -27,7 +28,7 @@ export default function SignUpForm() {
               <FormItem>
                 <FormLabel />
                 <FormControl>
-                  <Input placeholder="example@ecample.com" {...field} />
+                  <Input placeholder="example@example.com" {...field} />
                 </FormControl>
                 <FormDescription />
                 <FormMessage />
@@ -50,7 +51,9 @@ export default function SignUpForm() {
             )}
           />
 
-          <Button disabled={loading} loading={loading} type="submit" variant="default">Sign Up</Button>
+          <Button disabled={loading} loading={loading} type="submit" variant="default">
+            <Translate>Sign Up</Translate>
+          </Button>
         </div>
       </form>
     </Form>

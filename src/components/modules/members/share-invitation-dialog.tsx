@@ -21,7 +21,7 @@ export default function ShareInvitationDialog({ invitation }: ShareInvitationDia
   const copyToClipboard = useCopyToClipboard();
   const [open, setOpen] = useState(false);
 
-  const inviteLink = `${process.env.NEXT_PUBLIC_CLIENT_URL}/share/${invitation.id}`;
+  const inviteLink = `${process.env.NEXT_PUBLIC_CLIENT_URL}/invitation/${invitation.id}`;
 
   const DialogComponent = isMobile ? Drawer : Dialog;
 	const DialogTriggerComponent = isMobile ? DrawerTrigger : DialogTrigger;

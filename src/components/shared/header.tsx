@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { ROUTE_PATHS } from "@/lib/constants";
 import { BuildingIcon, HomeIcon } from "lucide-react";
+import { LanguageSwitcher } from "./language-switcher";
 
 export default function Header({ children }: PropsWithChildren) {
   return (
@@ -37,6 +38,7 @@ function HeaderDashboard({ children }: PropsWithChildren) {
             Organizations
           </Link>
         </Button>
+        <LanguageSwitcher size="sm" />
         <ProfileMenu />
       </div>
     </header>
