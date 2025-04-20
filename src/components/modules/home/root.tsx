@@ -213,7 +213,7 @@ export default function Home() {
       </section>
 
       {/* Pricing Section */}
-      <section className="bg-card py-20">
+      {/* <section className="bg-card py-20">
         <div className="container max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">{t('pricing.title')}</h2>
@@ -283,7 +283,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA Section */}
       <section className="py-20 container max-w-7xl mx-auto px-4">
