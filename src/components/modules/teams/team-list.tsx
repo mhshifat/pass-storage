@@ -12,18 +12,19 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { NotebookTextIcon, Trash2Icon } from "lucide-react";
+import { Trash2Icon } from "lucide-react";
 import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { ROUTE_PATHS } from "@/lib/constants";
+import { useParams } from "next/navigation";
 import useDeleteTeamMutation from "@/components/hooks/use-delete-team-mutation";
 import useGetTeamsQuery from "@/components/hooks/use-get-teams-query";
 import AddEditTeamDialog from "./add-edit-team-dialog";
 import { Badge } from "@/components/ui/badge";
 import useDeleteTeamMemberMutation from "@/components/hooks/use-delete-team-member-mutation";
+import { useTranslation } from "react-i18next";
+import Translate from "@/components/shared/translate";
 
 export default function TeamList() {
-  const router = useRouter();
+	const { t } = useTranslation();
 	const deleteTeam = useDeleteTeamMutation();
 	const deleteTeamMember = useDeleteTeamMemberMutation();
   const { orgId } = useParams<{ orgId: string }>();
@@ -40,7 +41,7 @@ export default function TeamList() {
 			fallback={[
 				isLoading,
 				<>
-					<p>Loading...</p>
+					<Translate as="p">Loading...</Translate>
 				</>,
 			]}
 		>
@@ -48,10 +49,10 @@ export default function TeamList() {
 				<Table>
 					<TableHeader>
 						<TableRow>
-							<TableHead className="w-[200px]">Name</TableHead>
-							<TableHead className="w-[120px]">Description</TableHead>
-							<TableHead className="w-[120px]">Members</TableHead>
-							<TableHead className="w-[100px] text-right">Actions</TableHead>
+							<TableHead className="w-[200px]"><Translate>Name</Translate></TableHead>
+							<TableHead className="w-[120px]"><Translate>Description</Translate></TableHead>
+							<TableHead className="w-[120px]"><Translate>Members</Translate></TableHead>
+							<TableHead className="w-[100px] text-right"><Translate>Actions</Translate></TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -66,7 +67,7 @@ export default function TeamList() {
 								<TableCell className="font-medium">
 									{team?.members?.map(m => <Badge variant="secondary" className="flex items-center gap-2" key={m.id}>
                     {m.email}
-                    <Button disabled={deleteTeamMember.isPending} loading={deleteTeamMember.isPending} onClick={() => deleteTeamMember.mutateAsync({ id: m.id, teamId: team.id, orgId })} variant="ghost" size="none">
+                    <Button title={t("Remove member")} disabled={deleteTeamMember.isPending} loading={deleteTeamMember.isPending} onClick={() => deleteTeamMember.mutateAsync({ id: m.id, teamId: team.id, orgId })} variant="ghost" size="none">
                       <Trash2Icon className="size-4" />
                     </Button>
                   </Badge>)}
@@ -75,15 +76,6 @@ export default function TeamList() {
 								</TableCell>
 								<TableCell className="text-right">
 									<div className="flex justify-end space-x-2">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8"
-                      title="Manage collection"
-                      onClick={() => router.push(ROUTE_PATHS.TEAM_DETAILS(orgId, team.id))}
-                    >
-                      <NotebookTextIcon size={16} />
-                    </Button>
 										<AddEditTeamDialog team={team} />
 										<ConfirmationDialog
 											onConfirm={() => deleteTeam.mutateAsync({ id: team.id, orgId })}
@@ -93,7 +85,7 @@ export default function TeamList() {
 												size="icon"
 												disabled={deleteTeam.isPending}
 												className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
-												title="Delete collection"
+												title={t("Delete team")}
 											>
 												<Trash2Icon size={16} />
 											</Button>

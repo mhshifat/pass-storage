@@ -2,6 +2,7 @@
 
 import useGetMembersQuery from "@/components/hooks/use-get-members-query";
 import useGetTeamsQuery from "@/components/hooks/use-get-teams-query";
+import Translate from "@/components/shared/translate";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AddTeamMemberFormPayload } from "@/lib/types";
@@ -10,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import { ForwardedRef, forwardRef, useImperativeHandle } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 interface AddMemberToTeamFormProps {
   onSubmit: (values: AddTeamMemberFormPayload) => void;
@@ -17,6 +19,7 @@ interface AddMemberToTeamFormProps {
 
 function AddMemberToTeamForm({ onSubmit }: AddMemberToTeamFormProps, ref: ForwardedRef<{ onSubmit: () => Promise<void> }>) {
   const { orgId } = useParams<{ orgId: string }>();
+  const { t } = useTranslation();
   const { data: members, isLoading: isMembersLoading } = useGetMembersQuery({
 		params: {
 			page: String(1),
@@ -57,11 +60,11 @@ function AddMemberToTeamForm({ onSubmit }: AddMemberToTeamFormProps, ref: Forwar
             name="memberId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Member*</FormLabel>
+                <FormLabel><Translate>Member</Translate>*</FormLabel>
                 <FormControl>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger disabled={isMembersLoading} id="edit-algorithm" className="w-full">
-                      <SelectValue placeholder={isMembersLoading ? "Loading..." : "Select Member"} />
+                      <SelectValue placeholder={isMembersLoading ? t("Loading...") : t("Select Member")} />
                     </SelectTrigger>
                     <SelectContent>
                       {members?.data.map(member => (
@@ -81,11 +84,11 @@ function AddMemberToTeamForm({ onSubmit }: AddMemberToTeamFormProps, ref: Forwar
             name="teamId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Team*</FormLabel>
+                <FormLabel><Translate>Team</Translate>*</FormLabel>
                 <FormControl>
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger disabled={isTeamsLoading} id="edit-algorithm" className="w-full">
-                      <SelectValue placeholder={isTeamsLoading ? "Loading..." : "Select Team"} />
+                      <SelectValue placeholder={isTeamsLoading ? t("Loading...") : t("Select Team")} />
                     </SelectTrigger>
                     <SelectContent>
                       {teams?.data.map(team => (

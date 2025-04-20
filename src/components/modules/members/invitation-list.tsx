@@ -18,6 +18,7 @@ import { useParams } from "next/navigation";
 import useGetInvitationsQuery from "@/components/hooks/use-get-invitations-query";
 import useDeleteInvitationMutation from "@/components/hooks/use-delete-invitation-mutation";
 import ShareInvitationDialog from "./share-invitation-dialog";
+import Translate from "@/components/shared/translate";
 
 export default function InvitationList() {
 	const cancelInvitation = useDeleteInvitationMutation();
@@ -35,7 +36,7 @@ export default function InvitationList() {
 			fallback={[
 				isLoading,
 				<>
-					<p>Loading...</p>
+					<Translate as="p">Loading...</Translate>
 				</>,
 			]}
 		>
@@ -43,8 +44,8 @@ export default function InvitationList() {
 				<Table>
 					<TableHeader>
 						<TableRow>
-							<TableHead className="w-[200px]">Email</TableHead>
-							<TableHead className="w-[100px] text-right">Actions</TableHead>
+							<TableHead className="w-[200px]"><Translate>Email</Translate></TableHead>
+							<TableHead className="w-[100px] text-right"><Translate>Actions</Translate></TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>

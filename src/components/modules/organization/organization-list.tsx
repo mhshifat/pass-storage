@@ -20,9 +20,12 @@ import AddEditOrganizationDialog from "./add-edit-organization-dialog";
 import { useRouter } from "next/navigation";
 import { ROUTE_PATHS } from "@/lib/constants";
 import { useAuth } from "@/components/providers/auth";
+import Translate from "@/components/shared/translate";
+import { useTranslation } from "react-i18next";
 
 export default function OrganizationList() {
   const router = useRouter();
+  const { t } = useTranslation();
   const { user } = useAuth();
 	const deleteOrganization = useDeleteOrganizationMutation();
 	const [page, setPage] = useState(1);
@@ -37,7 +40,7 @@ export default function OrganizationList() {
 			fallback={[
 				isLoading,
 				<>
-					<p>Loading...</p>
+					<Translate as="p">Loading...</Translate>
 				</>,
 			]}
 		>
@@ -45,9 +48,9 @@ export default function OrganizationList() {
 				<Table>
 					<TableHeader>
 						<TableRow>
-							<TableHead className="w-[200px]">Name</TableHead>
-							<TableHead className="w-[120px]">Description</TableHead>
-							<TableHead className="w-[100px] text-right">Actions</TableHead>
+							<TableHead className="w-[200px]"><Translate>Name</Translate></TableHead>
+							<TableHead className="w-[120px]"><Translate>Description</Translate></TableHead>
+							<TableHead className="w-[100px] text-right"><Translate>Actions</Translate></TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -65,7 +68,7 @@ export default function OrganizationList() {
                       variant="ghost"
                       size="icon"
                       className="h-8 w-8"
-                      title="Manage collection"
+                      title={t("Manage collection")}
                       onClick={() => router.push(ROUTE_PATHS.ORGANIZATION_TEAMS(organization.id))}
                     >
                       <NotebookTextIcon size={16} />
@@ -81,7 +84,7 @@ export default function OrganizationList() {
                             size="icon"
                             disabled={deleteOrganization.isPending}
                             className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
-                            title="Delete collection"
+                            title={t("Delete organization")}
                           >
                             <Trash2Icon size={16} />
                           </Button>

@@ -1,5 +1,6 @@
 "use client";
 
+import Translate from "@/components/shared/translate";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,6 +9,7 @@ import { organizationCreateFormSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ForwardedRef, forwardRef, useEffect, useImperativeHandle } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 interface OrganizationFormProps {
   organization?: IOrganization;
@@ -16,6 +18,7 @@ interface OrganizationFormProps {
 }
 
 function OrganizationForm({ organization, onCreate, onUpdate }: OrganizationFormProps, ref: ForwardedRef<{ onSubmit: () => Promise<void> }>) {
+  const { t } = useTranslation();
 	const form = useForm({
     resolver: zodResolver(organization?.id ? organizationCreateFormSchema.partial() : organizationCreateFormSchema)
   });
@@ -48,7 +51,7 @@ function OrganizationForm({ organization, onCreate, onUpdate }: OrganizationForm
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name*</FormLabel>
+                <FormLabel><Translate>Name</Translate>*</FormLabel>
                 <FormControl>
                   <Input placeholder="xyz" {...field} />
                 </FormControl>
@@ -63,9 +66,9 @@ function OrganizationForm({ organization, onCreate, onUpdate }: OrganizationForm
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Description</FormLabel>
+                <FormLabel><Translate>Description</Translate></FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Short description" {...field} />
+                  <Textarea placeholder={t("Short description")} {...field} />
                 </FormControl>
                 <FormDescription />
                 <FormMessage />

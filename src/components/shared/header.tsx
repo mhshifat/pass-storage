@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ROUTE_PATHS } from "@/lib/constants";
 import { BuildingIcon, HomeIcon } from "lucide-react";
 import { LanguageSwitcher } from "./language-switcher";
+import Translate from "./translate";
 
 export default function Header({ children }: PropsWithChildren) {
   return (
@@ -29,13 +30,13 @@ function HeaderDashboard({ children }: PropsWithChildren) {
         <Button variant="outline" size="sm">
           <Link href={ROUTE_PATHS.HOME} className="flex items-center gap-2">
             <HomeIcon className="h-4 w-4" />
-            Home
+            <Translate>Home</Translate>
           </Link>
         </Button>
         <Button variant="outline" size="sm">
           <Link href={ROUTE_PATHS.ORGANIZATIONS} className="flex items-center gap-2">
             <BuildingIcon className="h-4 w-4" />
-            Organizations
+            <Translate>Organizations</Translate>
           </Link>
         </Button>
         <LanguageSwitcher size="sm" />

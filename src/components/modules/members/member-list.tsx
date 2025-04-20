@@ -17,8 +17,11 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import useDeleteMemberMutation from "@/components/hooks/use-delete-member-mutation";
 import useGetMembersQuery from "@/components/hooks/use-get-members-query";
+import Translate from "@/components/shared/translate";
+import { useTranslation } from "react-i18next";
 
 export default function MemberList() {
+	const { t } = useTranslation();
 	const deleteMember = useDeleteMemberMutation();
   const { orgId } = useParams<{ orgId: string }>();
 	const [page, setPage] = useState(1);
@@ -34,7 +37,7 @@ export default function MemberList() {
 			fallback={[
 				isLoading,
 				<>
-					<p>Loading...</p>
+					<Translate as="p">Loading...</Translate>
 				</>,
 			]}
 		>
@@ -42,8 +45,8 @@ export default function MemberList() {
 				<Table>
 					<TableHeader>
 						<TableRow>
-							<TableHead className="w-[200px]">Email</TableHead>
-							<TableHead className="w-[100px] text-right">Actions</TableHead>
+							<TableHead className="w-[200px]"><Translate>Email</Translate></TableHead>
+							<TableHead className="w-[100px] text-right"><Translate>Actions</Translate></TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
@@ -62,7 +65,7 @@ export default function MemberList() {
 												size="icon"
 												disabled={deleteMember.isPending}
 												className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
-												title="Delete collection"
+												title={t("Delete member")}
 											>
 												<Trash2Icon size={16} />
 											</Button>

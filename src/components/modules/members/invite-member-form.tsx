@@ -1,5 +1,6 @@
 "use client";
 
+import Translate from "@/components/shared/translate";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { InviteMemberFormPayload } from "@/lib/types";
@@ -41,7 +42,7 @@ function InviteMemberForm({ onSubmit }: InviteMemberFormProps, ref: ForwardedRef
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email*</FormLabel>
+                <FormLabel><Translate>Email</Translate>*</FormLabel>
                 <FormControl>
                   <Input type="email" placeholder="example@example.com" {...field} />
                 </FormControl>

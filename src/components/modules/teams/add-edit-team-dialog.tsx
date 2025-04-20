@@ -10,6 +10,7 @@ import { useRef, useState } from "react";
 import TeamForm from "./team-form";
 import useAddTeamMutation from "@/components/hooks/use-add-team-mutation";
 import useUpdateTeamMutation from "@/components/hooks/use-update-team-mutation";
+import Translate from "@/components/shared/translate";
 
 interface AddEditTeamDialogProps {
   team?: ITeam;
@@ -52,15 +53,15 @@ export default function AddEditTeamDialog({ team }: AddEditTeamDialogProps) {
         ) : (
           <Button variant="outline">
             <PlusIcon className="h-4 w-4 mr-2" />
-            Add Team
+            <Translate>Add Team</Translate>
           </Button>
         ) }
 			</DialogTriggerComponent>
 			<DialogContentComponent className={isMobile ? "" : "sm:max-w-[425px]"}>
 				<DialogHeaderComponent>
-					<DialogTitleComponent>{team?.id ? "Edit" : "Add New"} Team</DialogTitleComponent>
+					<DialogTitleComponent>{team?.id ? <Translate>Edit</Translate> : <Translate>Add New</Translate>} <Translate>Team</Translate></DialogTitleComponent>
 					<DialogDescriptionComponent>
-						{team?.id ? "Edit" : "Add a new"} team.
+						{team?.id ? <Translate>Edit</Translate> : <Translate>Add a new</Translate>} <Translate>team</Translate>.
 					</DialogDescriptionComponent>
 
 					<DialogCloseComponent disabled={addTeam.isPending || updateTeam.isPending} />
@@ -77,12 +78,12 @@ export default function AddEditTeamDialog({ team }: AddEditTeamDialogProps) {
 					{isMobile ? (
 						<DrawerClose asChild>
 							<Button disabled={addTeam.isPending || updateTeam.isPending} variant="outline" className="w-full">
-								Cancel
+								<Translate>Cancel</Translate>
 							</Button>
 						</DrawerClose>
 					) : (
 						<Button disabled={addTeam.isPending || updateTeam.isPending} variant="outline" onClick={() => setOpen(false)}>
-							Cancel
+							<Translate>Cancel</Translate>
 						</Button>
 					)}
 					<Button
@@ -91,7 +92,7 @@ export default function AddEditTeamDialog({ team }: AddEditTeamDialogProps) {
             disabled={addTeam.isPending || updateTeam.isPending}
             loading={addTeam.isPending || updateTeam.isPending}
 					>
-						{team?.id ? "Save Changes" : "Add Team"}
+						{team?.id ? <Translate>Save Changes</Translate> : <Translate>Add Team</Translate>}
 					</Button>
 				</DialogFooterComponent>
 			</DialogContentComponent>

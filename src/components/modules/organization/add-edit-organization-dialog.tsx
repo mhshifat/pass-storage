@@ -10,6 +10,8 @@ import { IOrganization } from "@/lib/types";
 import { EditIcon, PlusIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import OrganizationForm from "./organization-form";
+import { useTranslation } from "react-i18next";
+import Translate from "@/components/shared/translate";
 
 interface AddEditOrganizationDialogProps {
   organization?: IOrganization;
@@ -19,6 +21,7 @@ export default function AddEditOrganizationDialog({ organization }: AddEditOrgan
   const isMobile = useIsMobile();
   const addOrganization = useAddOrganizationMutation();
   const updateOrganization = useUpdateOrganizationMutation();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   const formRef = useRef<{ onSubmit: () => Promise<void> }>({
@@ -44,7 +47,7 @@ export default function AddEditOrganizationDialog({ organization }: AddEditOrgan
             variant="ghost"
             size="icon"
             className="h-8 w-8"
-            title="Edit collection"
+            title={t("Edit organization")}
             disabled={updateOrganization.isPending}
           >
             <EditIcon size={16} />
@@ -52,15 +55,15 @@ export default function AddEditOrganizationDialog({ organization }: AddEditOrgan
         ) : (
           <Button variant="outline">
             <PlusIcon className="h-4 w-4 mr-2" />
-            Add Organization
+            <Translate>Add Organization</Translate>
           </Button>
         ) }
 			</DialogTriggerComponent>
 			<DialogContentComponent className={isMobile ? "" : "sm:max-w-[425px]"}>
 				<DialogHeaderComponent>
-					<DialogTitleComponent>{organization?.id ? "Edit" : "Add New"} Organization</DialogTitleComponent>
+					<DialogTitleComponent>{organization?.id ? <Translate>Edit</Translate> : <Translate>Add New</Translate>} <Translate>Organization</Translate></DialogTitleComponent>
 					<DialogDescriptionComponent>
-						{organization?.id ? "Edit" : "Add a new"} organization.
+						{organization?.id ? <Translate>Edit</Translate> : <Translate>Add a new</Translate>} <Translate>organization</Translate>.
 					</DialogDescriptionComponent>
 
 					<DialogCloseComponent disabled={addOrganization.isPending || updateOrganization.isPending} />
@@ -77,12 +80,12 @@ export default function AddEditOrganizationDialog({ organization }: AddEditOrgan
 					{isMobile ? (
 						<DrawerClose asChild>
 							<Button disabled={addOrganization.isPending || updateOrganization.isPending} variant="outline" className="w-full">
-								Cancel
+								<Translate>Cancel</Translate>
 							</Button>
 						</DrawerClose>
 					) : (
 						<Button disabled={addOrganization.isPending || updateOrganization.isPending} variant="outline" onClick={() => setOpen(false)}>
-							Cancel
+							<Translate>Cancel</Translate>
 						</Button>
 					)}
 					<Button
@@ -91,7 +94,7 @@ export default function AddEditOrganizationDialog({ organization }: AddEditOrgan
             disabled={addOrganization.isPending || updateOrganization.isPending}
             loading={addOrganization.isPending || updateOrganization.isPending}
 					>
-						{organization?.id ? "Save Changes" : "Add Organization"}
+						{organization?.id ? <Translate>Save Changes</Translate> : <Translate>Add Organization</Translate>}
 					</Button>
 				</DialogFooterComponent>
 			</DialogContentComponent>

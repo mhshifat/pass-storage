@@ -10,6 +10,7 @@ import useAddInvitationMutation from "@/components/hooks/use-add-invitation-muta
 import { Input } from "@/components/ui/input";
 import { IInvitation } from "@/lib/types";
 import useCopyToClipboard from "@/components/hooks/use-copy-to-clipboard";
+import Translate from "@/components/shared/translate";
 
 interface ShareInvitationDialogProps {
   invitation: IInvitation;
@@ -48,9 +49,9 @@ export default function ShareInvitationDialog({ invitation }: ShareInvitationDia
 			</DialogTriggerComponent>
 			<DialogContentComponent className={isMobile ? "" : "sm:max-w-[425px]"}>
 				<DialogHeaderComponent>
-					<DialogTitleComponent>Share Invitation</DialogTitleComponent>
+					<DialogTitleComponent><Translate>Share Invitation</Translate></DialogTitleComponent>
 					<DialogDescriptionComponent>
-						Share link to someone.
+						<Translate>Share link to someone</Translate>.
 					</DialogDescriptionComponent>
 
 					<DialogCloseComponent disabled={inviteMember.isPending} />
@@ -62,12 +63,12 @@ export default function ShareInvitationDialog({ invitation }: ShareInvitationDia
 					{isMobile ? (
 						<DrawerClose asChild>
 							<Button disabled={inviteMember.isPending} variant="outline" className="w-full">
-								Cancel
+								<Translate>Cancel</Translate>
 							</Button>
 						</DrawerClose>
 					) : (
 						<Button disabled={inviteMember.isPending} variant="outline" onClick={() => setOpen(false)}>
-							Cancel
+							<Translate>Cancel</Translate>
 						</Button>
 					)}
 					<Button
@@ -76,7 +77,7 @@ export default function ShareInvitationDialog({ invitation }: ShareInvitationDia
             disabled={inviteMember.isPending}
             loading={inviteMember.isPending}
 					>
-						Copy
+						<Translate>Copy</Translate>
 					</Button>
 				</DialogFooterComponent>
 			</DialogContentComponent>

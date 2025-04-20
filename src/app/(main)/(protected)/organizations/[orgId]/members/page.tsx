@@ -3,6 +3,7 @@ import InviteMemberDialog from "@/components/modules/members/invite-member-dialo
 import MemberList from "@/components/modules/members/member-list";
 import MemberMenus from "@/components/modules/members/member-menus";
 import Container from "@/components/shared/container";
+import Translate from "@/components/shared/translate";
 import { Button } from "@/components/ui/button";
 import { ROUTE_PATHS } from "@/lib/constants";
 import { HomeIcon } from "lucide-react";
@@ -15,7 +16,7 @@ export default function MembersPage() {
         <Button variant="outline" size="sm">
           <Link href={ROUTE_PATHS.ORGANIZATIONS} className="flex items-center gap-2">
             <HomeIcon className="h-4 w-4" />
-            Back to Organizations
+            <Translate>Back to Organizations</Translate>
           </Link>
         </Button>
       </div>
@@ -26,8 +27,8 @@ export default function MembersPage() {
 
       <div className="flex items-center justify-between mt-6">
         <div>
-          <h3 className="text-2xl font-semibold">Members</h3>
-          <p className="text-sm font-normal">Manager your members</p>
+          <Translate as="h3" className="text-2xl font-semibold">Members</Translate>
+          <Translate as="p" className="text-sm font-normal">Manager your members</Translate>
         </div>
         <InviteMemberDialog />
       </div>
@@ -38,8 +39,8 @@ export default function MembersPage() {
 
       <div className="flex items-center justify-between mt-6">
         <div>
-          <h3 className="text-2xl font-semibold">Active Invitations</h3>
-          <p className="text-sm font-normal">Manager your invitations</p>
+          <Translate as="h3" className="text-2xl font-semibold">Active Invitations</Translate>
+          <Translate as="p" className="text-sm font-normal">Manager your invitations</Translate>
         </div>
       </div>
 

@@ -8,6 +8,7 @@ import { MailIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import InviteMemberForm from "./invite-member-form";
 import useAddInvitationMutation from "@/components/hooks/use-add-invitation-mutation";
+import Translate from "@/components/shared/translate";
 
 export default function InviteMemberDialog() {
   const isMobile = useIsMobile();
@@ -34,14 +35,14 @@ export default function InviteMemberDialog() {
 			<DialogTriggerComponent disabled={inviteMember.isPending} asChild>
       <Button variant="outline">
         <MailIcon className="h-4 w-4 mr-2" />
-        Invite Member
+        <Translate>Invite Member</Translate>
       </Button>
 			</DialogTriggerComponent>
 			<DialogContentComponent className={isMobile ? "" : "sm:max-w-[425px]"}>
 				<DialogHeaderComponent>
-					<DialogTitleComponent>Invite Member</DialogTitleComponent>
+					<DialogTitleComponent><Translate>Invite Member</Translate></DialogTitleComponent>
 					<DialogDescriptionComponent>
-						Add a new member.
+						<Translate>Add a new member</Translate>.
 					</DialogDescriptionComponent>
 
 					<DialogCloseComponent disabled={inviteMember.isPending} />
@@ -56,12 +57,12 @@ export default function InviteMemberDialog() {
 					{isMobile ? (
 						<DrawerClose asChild>
 							<Button disabled={inviteMember.isPending} variant="outline" className="w-full">
-								Cancel
+								<Translate>Cancel</Translate>
 							</Button>
 						</DrawerClose>
 					) : (
 						<Button disabled={inviteMember.isPending} variant="outline" onClick={() => setOpen(false)}>
-							Cancel
+							<Translate>Cancel</Translate>
 						</Button>
 					)}
 					<Button
@@ -70,7 +71,7 @@ export default function InviteMemberDialog() {
             disabled={inviteMember.isPending}
             loading={inviteMember.isPending}
 					>
-						Add Member
+						<Translate>Add Member</Translate>
 					</Button>
 				</DialogFooterComponent>
 			</DialogContentComponent>

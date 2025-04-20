@@ -6,6 +6,7 @@ import { useAuth } from "../providers/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import RenderView from "./render-view";
+import Translate from "./translate";
 
 export default function ProfileMenu() {
   const { loading, onLogout } = useAuth();
@@ -30,10 +31,10 @@ export default function ProfileMenu() {
         align="end"
         className="min-w-2xs"
       >
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel><Translate>My Account</Translate></DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={onLogout} role="button" className="cursor-pointer">
-          Logout
+          <Translate>Logout</Translate>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

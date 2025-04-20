@@ -8,6 +8,7 @@ import { PlusIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import AddMemberToTeamForm from "./add-member-to-team-form";
 import useAddTeamMemberMutation from "@/components/hooks/use-add-team-member-mutation";
+import Translate from "@/components/shared/translate";
 
 export default function AddMemberToTeamDialog() {
   const isMobile = useIsMobile();
@@ -34,14 +35,14 @@ export default function AddMemberToTeamDialog() {
 			<DialogTriggerComponent disabled={addTeamMember.isPending} asChild>
       <Button variant="outline">
         <PlusIcon className="h-4 w-4 mr-2" />
-        Add Member to Team
+        <Translate>Add Member to Team</Translate>
       </Button>
 			</DialogTriggerComponent>
 			<DialogContentComponent className={isMobile ? "" : "sm:max-w-[425px]"}>
 				<DialogHeaderComponent>
-					<DialogTitleComponent>Add Member to Team</DialogTitleComponent>
+					<DialogTitleComponent><Translate>Add Member to Team</Translate></DialogTitleComponent>
 					<DialogDescriptionComponent>
-						Assign an existing member to a team.
+						<Translate>Assign an existing member to a team</Translate>.
 					</DialogDescriptionComponent>
 
 					<DialogCloseComponent disabled={addTeamMember.isPending} />
@@ -56,12 +57,12 @@ export default function AddMemberToTeamDialog() {
 					{isMobile ? (
 						<DrawerClose asChild>
 							<Button disabled={addTeamMember.isPending} variant="outline" className="w-full">
-								Cancel
+								<Translate>Cancel</Translate>
 							</Button>
 						</DrawerClose>
 					) : (
 						<Button disabled={addTeamMember.isPending} variant="outline" onClick={() => setOpen(false)}>
-							Cancel
+							<Translate>Cancel</Translate>
 						</Button>
 					)}
 					<Button
@@ -70,7 +71,7 @@ export default function AddMemberToTeamDialog() {
             disabled={addTeamMember.isPending}
             loading={addTeamMember.isPending}
 					>
-						Add Team Member
+						<Translate>Add Team Member</Translate>
 					</Button>
 				</DialogFooterComponent>
 			</DialogContentComponent>

@@ -1,6 +1,7 @@
 import AddEditOrganizationDialog from "@/components/modules/organization/add-edit-organization-dialog";
 import OrganizationList from "@/components/modules/organization/organization-list";
 import Container from "@/components/shared/container";
+import Translate from "@/components/shared/translate";
 import { Button } from "@/components/ui/button";
 import { ROUTE_PATHS } from "@/lib/constants";
 import { HomeIcon } from "lucide-react";
@@ -13,15 +14,15 @@ export default function OrganizationsPage() {
         <Button variant="outline" size="sm">
           <Link href={ROUTE_PATHS.DASHBOARD} className="flex items-center gap-2">
             <HomeIcon className="h-4 w-4" />
-            Back to Dashboard
+            <Translate>Back to Dashboard</Translate>
           </Link>
         </Button>
       </div>
 
       <div className="flex items-center justify-between mt-6">
         <div>
-          <h3 className="text-2xl font-semibold">Organizations</h3>
-          <p className="text-sm font-normal">Manager your organizations</p>
+          <Translate as="h3" className="text-2xl font-semibold">Organizations</Translate>
+          <Translate as="p" className="text-sm font-normal">Manager your organizations</Translate>
         </div>
         <AddEditOrganizationDialog />
       </div>

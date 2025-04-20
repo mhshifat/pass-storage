@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "../ui/pagination";
 import RenderView from "./render-view";
+import Translate from "./translate";
 
 interface PaginationViewProps {
   page: number;
@@ -44,7 +45,7 @@ export default function PaginationView({ page, perPage, total, onPagination }: P
                   title={`${t("Page")} ${t(pageNum + "")}`}
                   className='cursor-pointer'
                 >
-                  {t(pageNum + "")}
+                  <Translate>{pageNum}</Translate>
                 </PaginationLink>
               </PaginationItem>
             );

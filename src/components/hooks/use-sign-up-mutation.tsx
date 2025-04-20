@@ -3,11 +3,13 @@ import { SignUpDto, SignUpFormPayload } from "@/lib/types";
 import { authApiService } from "@/services/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { useTranslation } from "react-i18next";
 
 type ResponseType = SignUpDto;
 type RequestType = SignUpFormPayload;
 
 export default function useSignUpMutation() {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   return useMutation<ResponseType, Error, RequestType>({
@@ -16,7 +18,7 @@ export default function useSignUpMutation() {
       return data || {};
     },
     onSuccess: () => {
-      toast.success("Successfully created an account!");
+      toast.success(t("Successfully created an account!"));
       queryClient.invalidateQueries({
         predicate: (query) => {
           return (query.queryKey?.[0] as string)?.startsWith("get-me");
@@ -25,9 +27,9 @@ export default function useSignUpMutation() {
     },
     onError: (err) => {
       if (err instanceof AxiosError) {
-        toast.error(err?.response?.data?.message || "Something went wrong!");
+        toast.error(t(err?.response?.data?.message || "Something went wrong!"));
       } else {
-        toast.error(err?.message || "Something went wrong!");
+        toast.error(t(err?.message || "Something went wrong!"));
       }
     },
   })

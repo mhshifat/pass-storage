@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
-import { useTranslation } from "react-i18next";
+import Translate from "./translate";
 
 interface ConfirmationDialogProps {
   title?: string;
@@ -19,7 +19,6 @@ export default function ConfirmationDialog({
   cancelText = "Cancel",
   children
 }: ConfirmationDialogProps) {
-  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   const handleConfirm = () => {
@@ -34,12 +33,12 @@ export default function ConfirmationDialog({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{t(title)}</AlertDialogTitle>
-          <AlertDialogDescription>{t(description)}</AlertDialogDescription>
+          <AlertDialogTitle><Translate>{title}</Translate></AlertDialogTitle>
+          <AlertDialogDescription><Translate>{description}</Translate></AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => setOpen(false)}>{t(cancelText)}</AlertDialogCancel>
-          <AlertDialogAction onClick={handleConfirm}>{t(confirmText)}</AlertDialogAction>
+          <AlertDialogCancel onClick={() => setOpen(false)}><Translate>{cancelText}</Translate></AlertDialogCancel>
+          <AlertDialogAction onClick={handleConfirm}><Translate>{confirmText}</Translate></AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
