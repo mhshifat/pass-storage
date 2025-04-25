@@ -1,7 +1,8 @@
 import { z } from "zod";
-import { acceptInviteFormSchema, addMemberFormSchema, invitationsApiRequestSchema, inviteMemberFormSchema, membersApiRequestSchema, organizationCreateFormSchema, organizationsApiRequestSchema, signInFormSchema, signUpFormSchema, teamCreateFormSchema, teamMemberCreateFormSchema, teamMembersApiRequestSchema, teamsApiRequestSchema, tokenCreateFormSchema, tokenShareFormSchema, tokensApiRequestSchema } from "./validations";
+import { acceptInviteFormSchema, addMemberFormSchema, invitationsApiRequestSchema, inviteMemberFormSchema, membersApiRequestSchema, organizationCreateFormSchema, organizationsApiRequestSchema, signInFormSchema, signUpFormSchema, signUpFormSchemaWithEncryptedData, teamCreateFormSchema, teamMemberCreateFormSchema, teamMembersApiRequestSchema, teamsApiRequestSchema, tokenCreateFormSchema, tokenShareFormSchema, tokensApiRequestSchema } from "./validations";
 
 export type SignUpFormPayload = z.infer<typeof signUpFormSchema>;
+export type SignUpFormPayloadWithEncryptedData = z.infer<typeof signUpFormSchemaWithEncryptedData>;
 export type SignInFormPayload = z.infer<typeof signInFormSchema>;
 export type AddTokenFormPayload = z.infer<typeof tokenCreateFormSchema>;
 export type ShareTokenFormPayload = z.infer<typeof tokenShareFormSchema>;
@@ -20,12 +21,18 @@ export type AddTeamMemberFormPayload = z.infer<typeof teamMemberCreateFormSchema
 
 export type UserDto = {
   id: string;
-  email: string
+  email: string;
+  salt: string;
+  vault_key_iv: string;
+  encrypted_vault_key: string;
 }
 
 export type IUser = {
   id: string;
   email: string
+  salt: string;
+  vaultKeyIv: string;
+  encryptedVaultKey: string;
 }
 
 export type OrganizationDto = {

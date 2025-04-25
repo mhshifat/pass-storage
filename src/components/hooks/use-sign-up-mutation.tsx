@@ -1,12 +1,12 @@
 import { toast } from "@/lib/toast";
-import { SignUpDto, SignUpFormPayload } from "@/lib/types";
+import { SignUpDto, SignUpFormPayloadWithEncryptedData } from "@/lib/types";
 import { authApiService } from "@/services/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useTranslation } from "react-i18next";
 
 type ResponseType = SignUpDto;
-type RequestType = SignUpFormPayload;
+type RequestType = SignUpFormPayloadWithEncryptedData;
 
 export default function useSignUpMutation() {
   const { t } = useTranslation();

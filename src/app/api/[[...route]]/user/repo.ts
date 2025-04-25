@@ -1,4 +1,4 @@
-import { SignUpFormPayload } from "@/lib/types";
+import { SignUpFormPayloadWithEncryptedData } from "@/lib/types";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { DefaultArgs, Sql } from "@prisma/client/runtime/library";
 
@@ -9,14 +9,17 @@ export class UserRepo {
     this._prisma = _prisma;
   }
 
-  async create(body: SignUpFormPayload) {
+  async create(body: SignUpFormPayloadWithEncryptedData) {
     return this._prisma.user.create({
       data: {
+        email: body.email,
         credential: {
           create: {
-            email: body.email,
             password: body.password,
-            provider: "email"
+            provider: "email",
+            salt: body.salt,
+            vault_key_iv: body.vaultKeyIv,
+            encrypted_vault_key: body.encryptedVaultKey,
           }
         }
       }
@@ -26,12 +29,11 @@ export class UserRepo {
   async findByEmail(email: string, includes?: string[]) {
     return this._prisma.user.findFirst({
       where: {
-        credential: {
-          email
-        }
+        email
       },
       select: {
         id: true,
+        email: true,
         ...includes?.includes("credential") ? {
           credential: true
         } : {}
@@ -46,6 +48,7 @@ export class UserRepo {
       },
       select: {
         id: true,
+        email: true,
         ...includes?.includes("credential") ? {
           credential: true
         } : {},

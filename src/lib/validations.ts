@@ -5,6 +5,14 @@ export const signUpFormSchema = z.object({
   password: z.string().trim().min(8),
 })
 
+export const signUpFormSchemaWithEncryptedData = z.object({
+  email: z.string().trim().email(),
+  password: z.string().trim().min(8),
+  salt: z.string(),
+  vaultKeyIv: z.string(),
+  encryptedVaultKey: z.string(),
+})
+
 export const signInFormSchema = z.object({
   email: z.string().trim().email(),
   password: z.string().trim().min(8),

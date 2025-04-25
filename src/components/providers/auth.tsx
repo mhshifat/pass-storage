@@ -1,15 +1,18 @@
 import { IUser, SignInFormPayload, SignUpFormPayload } from "@/lib/types";
 import { PropsWithChildren, createContext, useCallback, useContext, useEffect, useState } from "react";
 import useSignUpMutation from "../hooks/use-sign-up-mutation";
+import CryptoJS from 'crypto-js';
 import { useRouter } from "next/navigation";
 import { ROUTE_PATHS } from "@/lib/constants";
 import useSignInMutation from "../hooks/use-sign-in-mutation";
 import { storage } from "@/lib/storage";
 import useMeQuery from "../hooks/use-me-query";
+import { decryptVaultKey, encryptVaultKey, generateVaultKey, getDecryptedPassword, getOrCreateDeviceKey } from "@/lib/encryption";
 
 interface AuthContextState {
   loading: boolean;
   user: IUser | null;
+  vaultKey: string | null;
   onRegister: (payload: SignUpFormPayload) => Promise<void>;
   onLogin: (payload: SignInFormPayload) => Promise<void>;
   onLogout: () => Promise<void>;
@@ -21,13 +24,24 @@ export default function AuthProvider({ children }: PropsWithChildren) {
   const { data: session, isLoading } = useMeQuery();
   const [user, setUser] = useState<IUser | null>(null);
   const [initializing, setInitializing] = useState(true);
+  const [vaultKey, setVaultKey] = useState<string | null>(null);
 
   const signUp = useSignUpMutation();
   const signIn = useSignInMutation();
   const router = useRouter();
 
   const onRegister = useCallback(async (payload: SignUpFormPayload) => {
-    await signUp.mutateAsync(payload);
+    const vaultKey = generateVaultKey();
+    const { encryptedVaultKey, salt, iv } = encryptVaultKey(vaultKey, payload.password);
+    const encryptedData = {
+      salt: salt,
+      vaultKeyIv: iv,
+      encryptedVaultKey: encryptedVaultKey,
+    }
+    await signUp.mutateAsync({
+      ...payload,
+      ...encryptedData
+    });
     setInitializing(false);
     router.push(ROUTE_PATHS.SIGN_IN);
   }, [signUp, router]);
@@ -35,6 +49,11 @@ export default function AuthProvider({ children }: PropsWithChildren) {
   const onLogin = useCallback(async (payload: SignInFormPayload) => {
     const data = await signIn.mutateAsync(payload);
     await storage.setAuthToken(data.accessToken);
+    const deviceKey = getOrCreateDeviceKey();
+    const encrypted = CryptoJS.AES.encrypt(payload.password, deviceKey).toString();
+    await storage.setVaultIdentifier(encrypted);
+    const vaultKey = await decryptVaultKey(data.user.encryptedVaultKey, payload.password, data.user.salt, data.user.vaultKeyIv);
+    setVaultKey(vaultKey);
     setUser(data.user);
     setInitializing(false);
     router.push(ROUTE_PATHS.DASHBOARD);
@@ -51,10 +70,23 @@ export default function AuthProvider({ children }: PropsWithChildren) {
   const loading = initializing || isLoading || signUp.isPending || signIn.isPending || false;
 
   useEffect(() => {
-    if (isLoading && !session) return;
-    setUser(session || null);
-    setInitializing(false);
-  }, [session, isLoading])
+    (async () => {
+      if (isLoading && !session) return;
+      const encrypted = await storage.getVaultIdentifier();
+      const savedPassword = getDecryptedPassword(encrypted as string);
+      if (savedPassword && user) {
+        const decryptedVaultKey = decryptVaultKey(
+          user.encryptedVaultKey,
+          savedPassword,
+          user.salt,
+          user.vaultKeyIv
+        );
+        setVaultKey(decryptedVaultKey);
+      }
+      setUser(session || null);
+      setInitializing(false);
+    })()
+  }, [session, isLoading, user])
 
   return (
     <AuthContext.Provider value={{
@@ -63,6 +95,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
       onLogin,
       onLogout,
       user,
+      vaultKey
     }}>
       {children}
     </AuthContext.Provider>

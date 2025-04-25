@@ -1,6 +1,6 @@
 import { ApiUtils } from "@/lib/api-utils";
 import { APIResponse, SignInDto, UserDto } from "@/lib/types";
-import { signInFormSchema, signUpFormSchema } from "@/lib/validations";
+import { signInFormSchema, signUpFormSchemaWithEncryptedData } from "@/lib/validations";
 import { Hono } from "hono";
 import { authService } from "../bootstrap";
 import { getUserById } from "../helpers";
@@ -10,9 +10,9 @@ const authApi = new Hono()
     "",
     async (ctx) => {
       const apiUtils = new ApiUtils(ctx.req);
-      const body = await ctx.req.json()
+      const body = await ctx.req.json();
       return apiUtils
-        .validate(signUpFormSchema, body)
+        .validate(signUpFormSchemaWithEncryptedData, body)
         .execute(async () => {
           await authService.register(body);
           return ctx.json<APIResponse<object>>({

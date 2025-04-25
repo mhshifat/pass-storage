@@ -1,5 +1,5 @@
 import { generateToken, hashString, verifyHash } from "@/lib/server-only";
-import { SignInDto, SignInFormPayload, SignUpFormPayload } from "@/lib/types";
+import { SignInDto, SignInFormPayload, SignUpFormPayloadWithEncryptedData } from "@/lib/types";
 import { UserService } from "../user/service";
 
 export class AuthService {
@@ -9,7 +9,7 @@ export class AuthService {
     this._userSrv = _userSrv;
   }
 
-  async register(body: SignUpFormPayload) {
+  async register(body: SignUpFormPayloadWithEncryptedData) {
     const user = await this._userSrv.findByEmail(body.email);
     if (user) throw new Error("User already exists::409");
     const hashPass = await hashString(body.password);
@@ -29,7 +29,10 @@ export class AuthService {
       access_token: accessToken,
       user: {
         id: user.id,
-        email: user.credential.email
+        email: user.email,
+        salt: user.credential.salt,
+        vault_key_iv: user.credential.vault_key_iv,
+        encrypted_vault_key: user.credential.encrypted_vault_key,
       }
     }
   }

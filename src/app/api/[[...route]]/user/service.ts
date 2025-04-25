@@ -1,4 +1,4 @@
-import { SignUpFormPayload } from "@/lib/types";
+import { SignUpFormPayloadWithEncryptedData } from "@/lib/types";
 import { UserRepo } from "./repo";
 
 export class UserService {
@@ -8,7 +8,7 @@ export class UserService {
     this._repo = _repo;
   }
 
-  async create(body: SignUpFormPayload) {
+  async create(body: SignUpFormPayloadWithEncryptedData) {
     return this._repo.create(body);
   }
 

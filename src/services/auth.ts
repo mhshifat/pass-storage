@@ -1,5 +1,5 @@
 import { IHttp, http } from "@/lib/http";
-import { ISession, IUser, SignInDto, SignInFormPayload, SignUpDto, SignUpFormPayload, UserDto } from "@/lib/types";
+import { ISession, IUser, SignInDto, SignInFormPayload, SignUpDto, SignUpFormPayloadWithEncryptedData, UserDto } from "@/lib/types";
 
 class AuthApiService {
   private _http: IHttp;
@@ -18,10 +18,13 @@ class AuthApiService {
     return {
       id: data.id,
       email: data.email,
+      salt: data.salt,
+      vaultKeyIv: data.vault_key_iv,
+      encryptedVaultKey: data.encrypted_vault_key,
     }
   }
 
-  async signUp(values: SignUpFormPayload) {
+  async signUp(values: SignUpFormPayloadWithEncryptedData) {
     const res = await this._http.post<SignUpDto>("/auth", values);
     if (!res.success) throw new Error(res.message);
     return null;
@@ -39,6 +42,9 @@ class AuthApiService {
       user: {
         id: data.user.id,
         email: data.user.email,
+        salt: data.user.salt,
+        vaultKeyIv: data.user.vault_key_iv,
+        encryptedVaultKey: data.user.encrypted_vault_key,
       }
     }
   }

@@ -35,6 +35,9 @@ export class ApiUtils {
         user: initRes?.user ? {
           id: initRes.user.id,
           email: initRes.user.email,
+          encrypted_vault_key: initRes.user.encrypted_vault_key,
+          vault_key_iv: initRes.user.vault_key_iv,
+          salt: initRes.user.salt,
           teams: initRes.user.teams || []
         } : null
       });

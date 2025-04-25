@@ -5,7 +5,6 @@ import { LanguageSwitcher } from "@/components/shared/language-switcher";
 import { Button } from "@/components/ui/button";
 import { ROUTE_PATHS } from "@/lib/constants";
 import {
-  CheckCircle,
   ArrowRight,
   ShieldCheck,
   Lock,
@@ -24,18 +23,18 @@ export default function Home() {
   const isSignedIn = !!user?.id;
 
   // Helper function to safely map features
-  const renderFeatures = (featureKey: string) => {
-    const features = t(featureKey, { returnObjects: true });
-    if (Array.isArray(features)) {
-      return (features as unknown as string[]).map((feature: string, index: number) => (
-        <li key={index} className="flex items-center gap-2">
-          <CheckCircle className="h-5 w-5 text-primary" />
-          <span>{feature}</span>
-        </li>
-      ));
-    }
-    return null;
-  };
+  // const renderFeatures = (featureKey: string) => {
+  //   const features = t(featureKey, { returnObjects: true });
+  //   if (Array.isArray(features)) {
+  //     return (features as unknown as string[]).map((feature: string, index: number) => (
+  //       <li key={index} className="flex items-center gap-2">
+  //         <CheckCircle className="h-5 w-5 text-primary" />
+  //         <span>{feature}</span>
+  //       </li>
+  //     ));
+  //   }
+  //   return null;
+  // };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -213,77 +212,6 @@ export default function Home() {
       </section>
 
       {/* Pricing Section */}
-      {/* <section className="bg-card py-20">
-        <div className="container max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">{t('pricing.title')}</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              {t('pricing.description')}
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* Free Plan */}
-            <div className="bg-background p-6 rounded-lg border border-border flex flex-col">
-              <h3 className="text-xl font-bold mb-2">{t('pricing.free.name')}</h3>
-              <div className="flex items-end gap-1 mb-4">
-                <span className="text-4xl font-bold">$0</span>
-                <span className="text-muted-foreground">{t('pricing.perMonth')}</span>
-              </div>
-              <ul className="space-y-3 mb-6">
-                {renderFeatures('pricing.free.features')}
-              </ul>
-              <Button 
-                variant="outline" 
-                className="w-full mt-auto"
-                onClick={() => router.push(ROUTE_PATHS.SIGN_UP)}
-              >
-                {t('pricing.free.cta')}
-              </Button>
-            </div>
-            
-            {/* Pro Plan */}
-            <div className="bg-accent p-6 rounded-lg border-2 border-primary shadow-lg relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-primary px-3 py-1 rounded-full text-sm font-medium text-primary-foreground">
-                {t('pricing.pro.label')}
-              </div>
-              <h3 className="text-xl font-bold mb-2">{t('pricing.pro.name')}</h3>
-              <div className="flex items-end gap-1 mb-4">
-                <span className="text-4xl font-bold">$9</span>
-                <span className="text-muted-foreground">{t('pricing.perMonth')}</span>
-              </div>
-              <ul className="space-y-3 mb-6">
-                {renderFeatures('pricing.pro.features')}
-              </ul>
-              <Button 
-                className="w-full"
-                // onClick={() => router.push('/subscription')}
-              >
-                {t('pricing.pro.cta')}
-              </Button>
-            </div>
-            
-            {/* Enterprise Plan */}
-            <div className="bg-background p-6 rounded-lg border border-border">
-              <h3 className="text-xl font-bold mb-2">{t('pricing.enterprise.name')}</h3>
-              <div className="flex items-end gap-1 mb-4">
-                <span className="text-4xl font-bold">$29</span>
-                <span className="text-muted-foreground">{t('pricing.perMonth')}</span>
-              </div>
-              <ul className="space-y-3 mb-6">
-                {renderFeatures('pricing.enterprise.features')}
-              </ul>
-              <Button 
-                variant="outline" 
-                className="w-full"
-                // onClick={() => navigate('/subscription')}
-              >
-                {t('pricing.enterprise.cta')}
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section> */}
 
       {/* CTA Section */}
       <section className="py-20 container max-w-7xl mx-auto px-4">
@@ -328,3 +256,75 @@ export default function Home() {
     </div>
   );
 }
+
+// `<section className="bg-card py-20">
+// <div className="container max-w-7xl mx-auto px-4">
+//   <div className="text-center mb-16">
+//     <h2 className="text-3xl font-bold mb-4">{t('pricing.title')}</h2>
+//     <p className="text-muted-foreground max-w-2xl mx-auto">
+//       {t('pricing.description')}
+//     </p>
+//   </div>
+  
+//   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+//     {/* Free Plan */}
+//     <div className="bg-background p-6 rounded-lg border border-border flex flex-col">
+//       <h3 className="text-xl font-bold mb-2">{t('pricing.free.name')}</h3>
+//       <div className="flex items-end gap-1 mb-4">
+//         <span className="text-4xl font-bold">$0</span>
+//         <span className="text-muted-foreground">{t('pricing.perMonth')}</span>
+//       </div>
+//       <ul className="space-y-3 mb-6">
+//         {renderFeatures('pricing.free.features')}
+//       </ul>
+//       <Button 
+//         variant="outline" 
+//         className="w-full mt-auto"
+//         onClick={() => router.push(ROUTE_PATHS.SIGN_UP)}
+//       >
+//         {t('pricing.free.cta')}
+//       </Button>
+//     </div>
+    
+//     {/* Pro Plan */}
+//     <div className="bg-accent p-6 rounded-lg border-2 border-primary shadow-lg relative">
+//       <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-primary px-3 py-1 rounded-full text-sm font-medium text-primary-foreground">
+//         {t('pricing.pro.label')}
+//       </div>
+//       <h3 className="text-xl font-bold mb-2">{t('pricing.pro.name')}</h3>
+//       <div className="flex items-end gap-1 mb-4">
+//         <span className="text-4xl font-bold">$9</span>
+//         <span className="text-muted-foreground">{t('pricing.perMonth')}</span>
+//       </div>
+//       <ul className="space-y-3 mb-6">
+//         {renderFeatures('pricing.pro.features')}
+//       </ul>
+//       <Button 
+//         className="w-full"
+//         // onClick={() => router.push('/subscription')}
+//       >
+//         {t('pricing.pro.cta')}
+//       </Button>
+//     </div>
+    
+//     {/* Enterprise Plan */}
+//     <div className="bg-background p-6 rounded-lg border border-border">
+//       <h3 className="text-xl font-bold mb-2">{t('pricing.enterprise.name')}</h3>
+//       <div className="flex items-end gap-1 mb-4">
+//         <span className="text-4xl font-bold">$29</span>
+//         <span className="text-muted-foreground">{t('pricing.perMonth')}</span>
+//       </div>
+//       <ul className="space-y-3 mb-6">
+//         {renderFeatures('pricing.enterprise.features')}
+//       </ul>
+//       <Button 
+//         variant="outline" 
+//         className="w-full"
+//         // onClick={() => navigate('/subscription')}
+//       >
+//         {t('pricing.enterprise.cta')}
+//       </Button>
+//     </div>
+//   </div>
+// </div>
+// </section>`

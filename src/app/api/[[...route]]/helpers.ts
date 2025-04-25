@@ -5,8 +5,11 @@ export async function getUserById(id: string) {
   if (!data || !data?.credential) return null;
   return {
     id: data.id,
-    email: data.credential.email,
+    email: data.email,
     password: data.credential.password,
+    salt: data.credential.salt,
+    vault_key_iv: data.credential.vault_key_iv,
+    encrypted_vault_key: data.credential.encrypted_vault_key,
     teams: data.members.map((m) => (m as unknown as { teams: { team_id: string }[] }).teams?.map(t => ({ id: t.team_id }))).flat()
   }
 }
