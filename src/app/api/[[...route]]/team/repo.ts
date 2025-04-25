@@ -45,11 +45,7 @@ export class TeamRepo {
                 select: {
                   user: {
                     select: {
-                      credential: {
-                        select: {
-                          email: true
-                        }
-                      }
+                      email: true
                     }
                   }
                 }

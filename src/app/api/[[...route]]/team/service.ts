@@ -20,7 +20,7 @@ export class TeamService {
         ...r,
         members: r.members.map((item) => ({
           id: item.id,
-          email: (item as unknown as { member: { user: { credential: { email: string } } } }).member.user.credential.email
+          email: (item as unknown as { member: { user: { email: string } } }).member.user.email
         }))
       }))
     };
