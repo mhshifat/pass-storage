@@ -46,15 +46,8 @@ class TokenApiService {
 
   private transformTokenDtoToToken(data: TokenDto): IToken {
     return {
-      algorithm: data.algorithm,
-      digits: data.digits,
-      issuer: data.issuer,
-      name: data.name,
-      password: data.password,
-      period: data.period,
-      secret: data.secret,
-      serviceUrl: data.service_url,
-      username: data.username,
+      entry: data.entry,
+      iv: data.iv,
       id: data.id,
       userId: data.user_id,
     }

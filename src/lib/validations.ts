@@ -25,16 +25,9 @@ export const tokensApiRequestSchema = z.object({
 })
 
 export const tokenCreateFormSchema = z.object({
-  name: z.string().min(1),
-  issuer: z.string().min(1),
-  secret: z.string().min(1),
-  algorithm: z.string().min(1),
-  digits: z.number().min(6),
-  period: z.number().min(1),
-  serviceUrl: z.string().min(1),
-  username: z.string().min(1),
+  entry: z.string().min(1),
+  iv: z.string().min(1),
   teamId: z.string().optional(),
-  password: z.string().min(1),
 })
 
 export const tokenShareFormSchema = z.object({

@@ -110,6 +110,13 @@ export type IInvitation = {
 
 export type IToken = {
   id: string;
+  entry: string;
+  iv: string;
+  userId: string;
+}
+
+export type ITokenFormPayload = {
+  id: string;
   name: string;
   issuer: string;
   secret: string;
@@ -124,16 +131,9 @@ export type IToken = {
 
 export type TokenDto = {
   id: string;
-  name: string;
-  issuer: string;
-  secret: string;
-  algorithm: string;
-  digits: number;
-  period: number;
+  entry: string;
+  iv: string;
   user_id: string;
-  service_url: string;
-  username: string;
-  password: string;
   created_at: string;
   updated_at: string;
 }

@@ -1,12 +1,12 @@
 import { toast } from "@/lib/toast";
-import { AddTokenFormPayload, IToken } from "@/lib/types";
+import { IToken } from "@/lib/types";
 import { tokenApiService } from "@/services/token";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useTranslation } from "react-i18next";
 
 type ResponseType = IToken;
-type RequestType = Partial<AddTokenFormPayload> & { id: string };
+type RequestType = Partial<IToken> & { id: string };
 
 export default function useUpdateTokenMutation() {
   const { t } = useTranslation();

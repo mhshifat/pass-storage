@@ -3,17 +3,10 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
 
 const selectable = {
-  algorithm: true,
   created_at: true,
-  digits: true,
-  issuer: true,
-  name: true,
-  password: true,
-  period: true,
-  secret: true,
-  service_url: true,
+  entry: true,
+  iv: true,
   updated_at: true,
-  username: true,
   user_id: true,
   id: true,
 }
@@ -63,18 +56,17 @@ export class TokenRepo {
     return items;
   }
 
-  async create({ serviceUrl, userId, ...body }: AddTokenFormPayload & { userId: string }) {
+  async create({ userId, ...body }: AddTokenFormPayload & { userId: string }) {
     return this._prisma.token.create({
       data: {
         ...body,
         user_id: userId,
-        service_url: serviceUrl
       },
       select: selectable
     })
   }
 
-  async update(id: string, { serviceUrl, userId, teamId, ...body }: Partial<AddTokenFormPayload> & { userId: string }) {
+  async update(id: string, { userId, teamId, ...body }: Partial<AddTokenFormPayload> & { userId: string }) {
     const record = await this._prisma.token.findUnique({
       where: { id, user_id: userId },
     });
@@ -85,7 +77,6 @@ export class TokenRepo {
         ...body,
         user_id: userId,
         team_id: teamId,
-        service_url: serviceUrl
       },
       select: selectable
     })

@@ -81,3 +81,34 @@ export function getDecryptedPassword(encrypted: string): string | null {
     return null;
   }
 }
+
+export function encryptEntry(entry: string, vaultKey: string) {
+  const iv = CryptoJS.lib.WordArray.random(16);
+
+  const encrypted = CryptoJS.AES.encrypt(entry, vaultKey, {
+    iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7,
+  });
+
+  return {
+    encryptedEntry: encrypted.toString(),
+    iv: iv.toString(CryptoJS.enc.Hex),
+  };
+}
+
+export function decryptEntry(
+  encryptedEntry: string,
+  vaultKey: string,
+  ivHex: string
+) {
+  const iv = CryptoJS.enc.Hex.parse(ivHex);
+
+  const decrypted = CryptoJS.AES.decrypt(encryptedEntry, vaultKey, {
+    iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7,
+  });
+
+  return decrypted.toString(CryptoJS.enc.Utf8);
+}

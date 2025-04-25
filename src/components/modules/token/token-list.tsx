@@ -15,7 +15,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { Trash2Icon } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import TOTPView from "./totp-view";
 import { EditTokenDialog } from "./edit-token-dialog";
 import useDeleteTokenMutation from "@/components/hooks/use-delete-token-mutation";
@@ -24,9 +24,11 @@ import { useAuth } from "@/components/providers/auth";
 import { Badge } from "@/components/ui/badge";
 import Translate from "@/components/shared/translate";
 import { useTranslation } from "react-i18next";
+import { decryptEntry } from "@/lib/encryption";
+import { IToken, ITokenFormPayload } from "@/lib/types";
 
 export default function TokenList() {
-  const { user } = useAuth();
+  const { user, vaultKey } = useAuth();
 	const copyToClipboard = useCopyToClipboard();
 	const { t } = useTranslation();
 	const deleteToken = useDeleteTokenMutation();
@@ -36,6 +38,20 @@ export default function TokenList() {
 			page: String(page),
 		},
 	});
+  const decryptTokenEntry = useCallback((token: IToken) => {
+    const payloadToken = token;
+    const tokenData = decryptEntry(payloadToken.entry, vaultKey!, payloadToken.iv);
+    try {
+      const data = JSON.parse(tokenData);
+      return { ...token, ...data } as ITokenFormPayload;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  }, [vaultKey])
+  const parsedTokens = useMemo(() => {
+    return tokens?.data?.map(token => decryptTokenEntry(token))?.filter(Boolean) as ITokenFormPayload[]
+  }, [decryptTokenEntry, tokens?.data])
 
 	return (
 		<RenderView
@@ -59,7 +75,7 @@ export default function TokenList() {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{tokens?.data?.map((token) => (
+						{parsedTokens?.map((token) => (
 							<TableRow key={token.id} className="group">
 								<TableCell className="font-medium">
 									{token.name}

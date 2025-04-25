@@ -1,12 +1,12 @@
 import useCopyToClipboard from "@/components/hooks/use-copy-to-clipboard";
 import { Button } from "@/components/ui/button";
 import { generateTOTP } from "@/lib/totp";
-import { IToken } from "@/lib/types";
+import { ITokenFormPayload } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 interface TOTPViewProps {
-	token: IToken;
+	token: ITokenFormPayload;
 }
 
 export default function TOTPView({ token }: TOTPViewProps) {

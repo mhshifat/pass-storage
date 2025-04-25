@@ -43,9 +43,12 @@ import useAddTokenMutation from "@/components/hooks/use-add-token-mutation";
 import { PasswordInput } from "@/components/ui/password-input";
 import { useTranslation } from "react-i18next";
 import Translate from "@/components/shared/translate";
+import { encryptEntry } from "@/lib/encryption";
+import { useAuth } from "@/components/providers/auth";
 
 export function AddTokenDialog() {
   const { t } = useTranslation();
+  const { vaultKey } = useAuth();
   const addToken = useAddTokenMutation();
 
 	const [open, setOpen] = useState(false);
@@ -128,7 +131,11 @@ export function AddTokenDialog() {
 				password,
 			};
 
-			await addToken.mutateAsync(newToken);
+      const encryptedToken = encryptEntry(JSON.stringify(newToken), vaultKey!);
+			await addToken.mutateAsync({
+        entry: encryptedToken.encryptedEntry,
+        iv: encryptedToken.iv,
+      });
 			toast.success(`${name} ${t("has been added successfully")}`);
 		} else if (tab === "uri") {
 			if (!qrCode) {
@@ -168,7 +175,12 @@ export function AddTokenDialog() {
 				username,
 				password,
 			};
-			await addToken.mutateAsync(newToken);
+      const encryptedToken = encryptEntry(JSON.stringify(newToken), vaultKey!);
+
+			await addToken.mutateAsync({
+        entry: encryptedToken.encryptedEntry,
+        iv: encryptedToken.iv,
+      });
 
 			toast.success(`${newToken.name} ${t("has been added successfully")}`);
 		}

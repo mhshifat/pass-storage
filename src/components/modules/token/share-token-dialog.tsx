@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { IToken } from "@/lib/types";
+import { ITokenFormPayload } from "@/lib/types";
 import useShareTokenMutation from "@/components/hooks/use-share-token-mutation";
 import useGetOrganizationsWithTeamsQuery from "@/components/hooks/use-get-organizations-with-teams-query";
 import { Share2Icon } from "lucide-react";
@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import Translate from "@/components/shared/translate";
 
 interface ShareTokenDialogProps {
-  token: IToken;
+  token: ITokenFormPayload;
 }
 
 export function ShareTokenDialog({ token }: ShareTokenDialogProps) {

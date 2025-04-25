@@ -4,18 +4,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { IToken } from "@/lib/types";
+import { ITokenFormPayload } from "@/lib/types";
 import { Eye, EyeOff, Globe, User, Lock, EditIcon } from "lucide-react";
 import useUpdateTokenMutation from "@/components/hooks/use-update-token-mutation";
 import { useTranslation } from "react-i18next";
 import Translate from "@/components/shared/translate";
+import { useAuth } from "@/components/providers/auth";
+import { encryptEntry } from "@/lib/encryption";
 
 interface EditTokenDialogProps {
-  token: IToken;
+  token: ITokenFormPayload;
 }
 
 export function EditTokenDialog({ token }: EditTokenDialogProps) {
   const { t } = useTranslation();
+  const { vaultKey } = useAuth();
   const updateToken = useUpdateTokenMutation();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState(token.name);
@@ -42,8 +45,8 @@ export function EditTokenDialog({ token }: EditTokenDialogProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await updateToken.mutateAsync({
-      id: token.id,
+    const newToken = {
+      ...token,
       name,
       issuer,
       period: parseInt(period, 10),
@@ -52,6 +55,14 @@ export function EditTokenDialog({ token }: EditTokenDialogProps) {
       serviceUrl: serviceUrl || undefined,
       username: username || undefined,
       password: password || undefined,
+    }
+
+    const encryptedToken = encryptEntry(JSON.stringify(newToken), vaultKey!);
+
+    await updateToken.mutateAsync({
+      id: token.id,
+      entry: encryptedToken.encryptedEntry,
+      iv: encryptedToken.iv,
     });
     setOpen(false);
   };

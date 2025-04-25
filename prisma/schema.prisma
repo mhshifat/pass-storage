@@ -47,15 +47,8 @@ model User {
 
 model Token {
   id                  String @id @default(cuid())
-  name                String
-  issuer              String
-  secret              String
-  algorithm           String
-  digits              Int
-  period              Int
-  service_url         String
-  username            String
-  password            String
+  entry               String
+  iv                  String
 
   created_at          DateTime @default(now())
   updated_at          DateTime @updatedAt
