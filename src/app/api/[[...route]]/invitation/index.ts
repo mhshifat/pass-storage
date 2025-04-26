@@ -123,7 +123,10 @@ const invitationApi = new Hono()
         .execute(async ({ user }) => {
           await invitationService.accept({
             userId: user!.id,
-            invitationId: body.code
+            invitationId: body.code,
+            salt: body.salt,
+            vaultKeyIv: body.vaultKeyIv,
+            encryptedVaultKey: body.encryptedVaultKey,
           });
           return ctx.json<APIResponse<object>>({
             success: true,

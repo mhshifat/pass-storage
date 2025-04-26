@@ -32,10 +32,12 @@ export class TokenService {
     return this._repo.delete(query);
   }
 
-  async share(query: { userId: string, id: string, teamId: string }) {
+  async share(query: { userId: string, id: string, teamId: string, entry: string, iv: string }) {
     return this._repo.update(query.id, {
       teamId: query.teamId,
-      userId: query.userId
+      userId: query.userId,
+      entry: query.entry,
+      iv: query.iv,
     });
   }
 

@@ -10,12 +10,15 @@ import { Share2Icon } from "lucide-react";
 import { toast } from "@/lib/toast";
 import { useTranslation } from "react-i18next";
 import Translate from "@/components/shared/translate";
+import { useAuth } from "@/components/providers/auth";
+import { decryptVaultKey, encryptEntry } from "@/lib/encryption";
 
 interface ShareTokenDialogProps {
   token: ITokenFormPayload;
 }
 
 export function ShareTokenDialog({ token }: ShareTokenDialogProps) {
+  const { user } = useAuth();
   const { t } = useTranslation();
   const shareToken = useShareTokenMutation();
   const { data: organizationsWithTeams } = useGetOrganizationsWithTeamsQuery({
@@ -30,9 +33,28 @@ export function ShareTokenDialog({ token }: ShareTokenDialogProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!teamId) return toast.error("Please select a team");
+    const teamVault = user?.vaultKeys.find(key => key.teamId === teamId);
+    if (!teamVault) return toast.error("Something went wrong, please try again later");
+    const shareableTokenEntryData = {
+      ...token,
+      id: undefined,
+      entry: undefined,
+      iv: undefined,
+      userId: undefined,
+    }
+    const teamVaultKey = decryptVaultKey(
+      teamVault.encryptedVaultKey,
+      teamVault.teamId,
+      teamVault.salt,
+      teamVault.vaultKeyIv
+    )
+    const encryptedToken = encryptEntry(JSON.stringify(shareableTokenEntryData), teamVaultKey!);
+
     await shareToken.mutateAsync({
       id: token.id,
-      teamId
+      teamId,
+      entry: encryptedToken.encryptedEntry,
+      iv: encryptedToken.iv,
     });
     setTeamId(null);
     setOpen(false);

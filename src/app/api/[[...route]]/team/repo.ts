@@ -63,8 +63,8 @@ export class TeamRepo {
     return items;
   }
 
-  async create({ orgId, ...body }: AddTeamFormPayload & { orgId: string }) {
-    return this._prisma.team.create({
+  async create({ orgId, ...body }: Omit<AddTeamFormPayload, "encryptedVaultKey" | "vaultKeyIv" | "salt"> & { orgId: string }, db: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) {
+    return (db || this._prisma).team.create({
       data: {
         ...body,
         org_id: orgId,
@@ -73,11 +73,26 @@ export class TeamRepo {
     })
   }
 
+  async createVaultKey(body: Pick<AddTeamFormPayload, "encryptedVaultKey" | "vaultKeyIv" | "salt"> & { teamId: string; userId: string }, db: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) {
+    return (db || this._prisma).teamVaultKey.create({
+      data: {
+        encrypted_vault_key: body.encryptedVaultKey!,
+        vault_key_iv: body.vaultKeyIv!,
+        salt: body.salt!,
+        team_id: body.teamId,
+        user_id: body.userId,
+      },
+      select: {
+        id: true
+      }
+    })
+  }
+
   async update(id: string, { orgId, ...body }: AddTeamFormPayload & { orgId: string }) {
     const record = await this._prisma.team.findUnique({
       where: { id, org_id: orgId },
     });
-    if (!record) throw new Error("Organization not found::404::404");
+    if (!record) throw new Error("Organization not found::404");
     return this._prisma.team.update({
       where: { id },
       data: {
@@ -92,7 +107,7 @@ export class TeamRepo {
     const record = await this._prisma.team.findUnique({
       where: { id: query.id, org_id: query.orgId },
     });
-    if (!record) throw new Error("Organization not found::404::404");
+    if (!record) throw new Error("Organization not found::404");
     return this._prisma.team.delete({
       where: { id: query.id, org_id: query.orgId },
       select: selectable
@@ -116,5 +131,9 @@ export class TeamRepo {
       },
       select: selectable
     })
+  }
+
+  async transaction(callback: (arg0: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) => Promise<unknown>) {
+    return this._prisma.$transaction((tx) => callback(tx))
   }
 }

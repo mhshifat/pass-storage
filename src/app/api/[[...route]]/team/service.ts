@@ -1,5 +1,7 @@
-import { AddTeamFormPayload, TeamsApiRequestData } from "@/lib/types";
+import { AddTeamFormPayload, TeamDto, TeamsApiRequestData } from "@/lib/types";
 import { TeamRepo } from "./repo";
+import { Prisma, PrismaClient } from "@prisma/client";
+import { DefaultArgs } from "@prisma/client/runtime/library";
 
 export class TeamService {
   constructor(
@@ -26,8 +28,29 @@ export class TeamService {
     };
   }
 
-  async create(body: AddTeamFormPayload & { orgId: string }) {
-    return this._repo.create(body);
+  async create({encryptedVaultKey, vaultKeyIv, salt, userId, ...body}: AddTeamFormPayload & { orgId: string, userId: string }) {
+    const data = await this._repo.transaction(async (tx) => {
+      const team = await this._repo.create(body, tx);
+      await this._repo.createVaultKey({
+        teamId: team.id,
+        userId: userId,
+        encryptedVaultKey,
+        salt,
+        vaultKeyIv
+      }, tx);
+      return team;
+    })
+    return data as TeamDto;
+  }
+
+  async createVaultKey({encryptedVaultKey, vaultKeyIv, salt, userId, teamId}: Required<Pick<AddTeamFormPayload, "encryptedVaultKey" | "vaultKeyIv" | "salt">> & { userId: string, teamId: string }, db: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) {
+    return this._repo.createVaultKey({
+      teamId: teamId,
+      userId: userId,
+      encryptedVaultKey,
+      salt,
+      vaultKeyIv
+    }, db);
   }
 
   async update(id: string, body: AddTeamFormPayload & { orgId: string }) {

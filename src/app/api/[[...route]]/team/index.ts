@@ -56,7 +56,8 @@ const teamApi = new Hono()
           if (!org) throw new Error("Organization not found::404");
           const team = await teamService.create({
             ...body,
-            orgId: body!.orgId
+            orgId: body!.orgId,
+            userId: user!.id,
           });
           return ctx.json<APIResponse<object>>({
             success: true,

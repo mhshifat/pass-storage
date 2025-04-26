@@ -21,6 +21,13 @@ class AuthApiService {
       salt: data.salt,
       vaultKeyIv: data.vault_key_iv,
       encryptedVaultKey: data.encrypted_vault_key,
+      vaultKeys: data.vault_keys.map(key => ({
+        encryptedVaultKey: key.encrypted_vault_key,
+        id: key.id,
+        salt: key.salt,
+        teamId: key.team_id,
+        vaultKeyIv: key.vault_key_iv
+      }))
     }
   }
 
@@ -45,6 +52,7 @@ class AuthApiService {
         salt: data.user.salt,
         vaultKeyIv: data.user.vault_key_iv,
         encryptedVaultKey: data.user.encrypted_vault_key,
+        vaultKeys: []
       }
     }
   }

@@ -40,6 +40,7 @@ model User {
   credential          Credential?
   tokens              Token[]
   organizations       Organization[]
+  vault_keys         TeamVaultKey[]
   members             Member[]
 
   @@map("users")
@@ -90,9 +91,29 @@ model Team {
   org                Organization @relation(fields: [org_id], references: [id], onDelete: Cascade)
 
   members            TeamMember[]
+  vault_keys         TeamVaultKey[]
+  invitations        Invitation[]
   tokens             Token[]
 
   @@map("teams")
+}
+
+model TeamVaultKey {
+  id                  String @id @default(cuid())
+  salt                String
+  vault_key_iv        String
+  encrypted_vault_key String
+
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+
+  team_id             String
+  team                Team @relation(fields: [team_id], references: [id], onDelete: Cascade)
+
+  user_id             String
+  user                User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("team_vault_keys")
 }
 
 model Invitation {
@@ -104,6 +125,8 @@ model Invitation {
 
   org_id              String
   org                 Organization @relation(fields: [org_id], references: [id], onDelete: Cascade)
+  team_id             String
+  team                Team @relation(fields: [team_id], references: [id], onDelete: Cascade)
 
   @@map("invitations")
 }

@@ -1,7 +1,7 @@
 import { HonoRequest } from "hono";
 import { ZodSchema } from "zod";
 import { decodeToken, verifyToken } from "./server-only";
-import { IAuthJwt, UserDto } from "./types";
+import { IAuthJwt, UserDto, VaultKeyDto } from "./types";
 
 type ValidatorRequestData = {
   query?: Record<string, unknown>;
@@ -17,13 +17,13 @@ export class ApiUtils {
 
   constructor(
     private _req: HonoRequest,
-    private _config?: { auth?: boolean; db: { getUserById(id: string): Promise<(UserDto & { password?: string, teams: { id: string }[] }) | null> } }
+    private _config?: { auth?: boolean; db: { getUserById(id: string): Promise<(UserDto & { vault_keys: VaultKeyDto[], password?: string, teams: { id: string }[] }) | null> } }
   ) {
     this._req = _req;
     this._config = _config;
   }
 
-  execute = async (fn: (args: { user: UserDto & { teams: { id: string }[] } | null }) => Promise<Response>) => {
+  execute = async (fn: (args: { user: UserDto & { vault_keys: VaultKeyDto[], teams: { id: string }[] } | null }) => Promise<Response>) => {
     try {
       await this.handleRateLimiting();
       const initRes = await this.init();
@@ -38,7 +38,8 @@ export class ApiUtils {
           encrypted_vault_key: initRes.user.encrypted_vault_key,
           vault_key_iv: initRes.user.vault_key_iv,
           salt: initRes.user.salt,
-          teams: initRes.user.teams || []
+          teams: initRes.user.teams || [],
+          vault_keys: initRes.user.vault_keys || [],
         } : null
       });
     } catch (err) {

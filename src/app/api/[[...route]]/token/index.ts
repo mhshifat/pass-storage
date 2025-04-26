@@ -121,13 +121,17 @@ const tokenApi = new Hono()
       return apiUtils
         .validate(tokenShareFormSchema, {
           id,
-          teamId: body.teamId
+          teamId: body.teamId,
+          entry: body.entry!,
+          iv: body.iv!,
         })
         .execute(async ({ user }) => {
           const token = await tokenService.share({
             id,
             userId: user!.id,
             teamId: body.teamId!,
+            entry: body.entry!,
+            iv: body.iv!,
           });
           return ctx.json<APIResponse<object>>({
             success: true,

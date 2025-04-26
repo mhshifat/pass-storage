@@ -25,6 +25,15 @@ export type UserDto = {
   salt: string;
   vault_key_iv: string;
   encrypted_vault_key: string;
+  vault_keys: VaultKeyDto[];
+}
+
+export type VaultKeyDto = {
+  id: string;
+  salt: string;
+  encrypted_vault_key: string;
+  vault_key_iv: string;
+  team_id: string;
 }
 
 export type IUser = {
@@ -33,6 +42,15 @@ export type IUser = {
   salt: string;
   vaultKeyIv: string;
   encryptedVaultKey: string;
+  vaultKeys: IVaultKey[];
+}
+
+export type IVaultKey = {
+  id: string;
+  salt: string;
+  encryptedVaultKey: string;
+  vaultKeyIv: string;
+  teamId: string;
 }
 
 export type OrganizationDto = {
@@ -113,6 +131,10 @@ export type IToken = {
   entry: string;
   iv: string;
   userId: string;
+  teamId: string;
+  team: {
+    name: string;
+  }
 }
 
 export type ITokenFormPayload = {
@@ -125,8 +147,12 @@ export type ITokenFormPayload = {
   period: number;
   serviceUrl: string;
   userId: string;
+  teamId: string;
   username: string;
   password: string;
+  team: {
+    name: string;
+  }
 }
 
 export type TokenDto = {
@@ -134,8 +160,12 @@ export type TokenDto = {
   entry: string;
   iv: string;
   user_id: string;
+  team_id: string;
   created_at: string;
   updated_at: string;
+  Team: {
+    name: string;
+  }
 }
 
 export interface IPagination<T> {

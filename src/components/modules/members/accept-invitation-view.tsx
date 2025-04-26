@@ -1,11 +1,15 @@
 "use client";
 
+import CryptoJS from 'crypto-js';
 import useAcceptInvitationMutation from "@/components/hooks/use-accept-invitation-mutation";
 import { useAuth } from "@/components/providers/auth";
 import Translate from "@/components/shared/translate";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ROUTE_PATHS } from "@/lib/constants";
+import { encryptVaultKey, generateVaultKey, getOrCreateDeviceKey } from "@/lib/encryption";
+import { storage } from "@/lib/storage";
+import { toast } from "@/lib/toast";
 import { ShieldCheckIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -21,6 +25,22 @@ export default function AcceptInvitationView({ code }: AcceptInvitationViewProps
   const { user } = useAuth();
   const acceptInvite = useAcceptInvitationMutation();
 
+  async function handleAcceptInvitation() {
+    const encryptedPassword = await storage.getVaultIdentifier();
+    if (!encryptedPassword) return toast.error("Something went wrong, please re-login again");
+    const deviceKey = getOrCreateDeviceKey();
+    const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword as string, deviceKey).toString(CryptoJS.enc.Utf8);
+    const teamVaultKey = generateVaultKey();
+    const { encryptedVaultKey, salt, iv } = encryptVaultKey(teamVaultKey, decryptedPassword);
+    const newPayload = {
+      code,
+      salt,
+      vaultKeyIv: iv,
+      encryptedVaultKey,
+    }
+    await acceptInvite.mutateAsync(newPayload);
+    router.push(ROUTE_PATHS.DASHBOARD);
+  }
   return (
     <div className="container max-w-md mx-auto px-4 py-16">
       <Card className="min-w-[300px]">
@@ -37,7 +57,7 @@ export default function AcceptInvitationView({ code }: AcceptInvitationViewProps
           {user?.id ? (
             <Button
               className="w-full"
-              onClick={() => acceptInvite.mutateAsync({ code }).then(() => router.push(ROUTE_PATHS.DASHBOARD))}
+              onClick={handleAcceptInvitation}
               disabled={acceptInvite.isPending}
               loading={acceptInvite.isPending}
             >

@@ -1,14 +1,17 @@
 "use client";
 
+import useGetTeamsQuery from "@/components/hooks/use-get-teams-query";
 import Translate from "@/components/shared/translate";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { InviteMemberFormPayload } from "@/lib/types";
 import { inviteMemberFormSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import { ForwardedRef, forwardRef, useImperativeHandle } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 interface InviteMemberFormProps {
   onSubmit: (values: InviteMemberFormPayload) => void;
@@ -16,6 +19,13 @@ interface InviteMemberFormProps {
 
 function InviteMemberForm({ onSubmit }: InviteMemberFormProps, ref: ForwardedRef<{ onSubmit: () => Promise<void> }>) {
   const { orgId } = useParams<{ orgId: string }>();
+  const { t } = useTranslation();
+  const { data: teams, isLoading: isTeamsLoading } = useGetTeamsQuery({
+		params: {
+			page: String(1),
+      orgId
+		},
+	});
 
 	const form = useForm({
     resolver: zodResolver(inviteMemberFormSchema),
@@ -45,6 +55,30 @@ function InviteMemberForm({ onSubmit }: InviteMemberFormProps, ref: ForwardedRef
                 <FormLabel><Translate>Email</Translate>*</FormLabel>
                 <FormControl>
                   <Input type="email" placeholder="example@example.com" {...field} />
+                </FormControl>
+                <FormDescription />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="teamId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel><Translate>Team</Translate>*</FormLabel>
+                <FormControl>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger disabled={isTeamsLoading} id="edit-algorithm" className="w-full">
+                      <SelectValue placeholder={isTeamsLoading ? t("Loading...") : t("Select Team")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {teams?.data.map(team => (
+                        <SelectItem key={team.id} value={team.id}>{team.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormDescription />
                 <FormMessage />

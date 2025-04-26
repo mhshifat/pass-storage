@@ -50,6 +50,10 @@ class TokenApiService {
       iv: data.iv,
       id: data.id,
       userId: data.user_id,
+      teamId: data.team_id,
+      team: {
+        name: data?.Team?.name
+      }
     }
   }
 }

@@ -49,6 +49,15 @@ export class UserRepo {
       select: {
         id: true,
         email: true,
+        vault_keys: {
+          select: {
+            id: true,
+            salt: true,
+            encrypted_vault_key: true,
+            vault_key_iv: true,
+            team_id: true,
+          }
+        },
         ...includes?.includes("credential") ? {
           credential: true
         } : {},

@@ -40,11 +40,12 @@ export class InvitationRepo {
     return items;
   }
 
-  async create({ orgId, ...body }: InviteMemberFormPayload & { orgId: string }) {
+  async create({ orgId, teamId, ...body }: InviteMemberFormPayload & { orgId: string; teamId: string }) {
     return this._prisma.invitation.create({
       data: {
         ...body,
         org_id: orgId,
+        team_id: teamId,
       },
       select: selectable
     })
@@ -65,12 +66,12 @@ export class InvitationRepo {
     })
   }
 
-  async delete(query: { orgId: string, id: string }) {
-    const record = await this._prisma.invitation.findUnique({
+  async delete(query: { orgId: string, id: string }, db?: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) {
+    const record = await (db || this._prisma).invitation.findUnique({
       where: { id: query.id, org_id: query.orgId },
     });
     if (!record) throw new Error("Organization not found::404::404");
-    return this._prisma.invitation.delete({
+    return (db || this._prisma).invitation.delete({
       where: { id: query.id, org_id: query.orgId },
       select: selectable
     })
@@ -104,5 +105,9 @@ export class InvitationRepo {
 
   async rawQuery(query: Sql) {
     return this._prisma.$queryRaw(query)
+  }
+
+  async transaction(callback: (arg0: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) => Promise<unknown>) {
+    return this._prisma.$transaction((tx) => callback(tx))
   }
 }

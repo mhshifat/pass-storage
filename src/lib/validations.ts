@@ -32,7 +32,9 @@ export const tokenCreateFormSchema = z.object({
 
 export const tokenShareFormSchema = z.object({
   id: z.string().min(1),
-  teamId: z.string().min(1),
+  teamId: z.string().optional(),
+  entry: z.string().min(1),
+  iv: z.string().min(1),
 })
 
 export const tokenUpdateRequestSchema = z.object({
@@ -83,6 +85,9 @@ export const teamCreateFormSchema = z.object({
   name: z.string().min(1),
   description: z.string().optional(),
   orgId: z.string().min(1),
+  salt: z.string().optional(),
+  vaultKeyIv: z.string().optional(),
+  encryptedVaultKey: z.string().optional(),
 })
 
 export const teamUpdateRequestSchema = z.object({
@@ -104,10 +109,14 @@ export const teamDeleteRequestSchema = z.object({
 export const inviteMemberFormSchema = z.object({
   email: z.string().min(1),
   orgId: z.string().min(1),
+  teamId: z.string().min(1),
 })
 
 export const acceptInviteFormSchema = z.object({
   code: z.string().min(1),
+  salt: z.string().min(1),
+  vaultKeyIv: z.string().min(1),
+  encryptedVaultKey: z.string().min(1),
 })
 
 export const invitationsApiRequestSchema = z.object({

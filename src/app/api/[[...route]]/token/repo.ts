@@ -8,7 +8,13 @@ const selectable = {
   iv: true,
   updated_at: true,
   user_id: true,
+  team_id: true,
   id: true,
+  Team: {
+    select: {
+      name: true
+    }
+  }
 }
 
 export class TokenRepo {
@@ -76,7 +82,13 @@ export class TokenRepo {
       data: {
         ...body,
         user_id: userId,
-        team_id: teamId,
+        ...teamId? {
+          team_id: teamId,
+        }: {
+          team_id: {
+            set: null
+          }
+        },
       },
       select: selectable
     })
