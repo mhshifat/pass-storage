@@ -74,6 +74,7 @@ export class UserRepo {
       },
       select: {
         id: true,
+        email: true,
         ...includes?.includes("credential") ? {
           credential: true
         } : {}

@@ -38,7 +38,7 @@ const memberApi = new Hono()
             data: {
               data: result.data.map(item => ({
                 ...item,
-                email: users.find(u => u.id === item.user_id)?.credential?.email
+                email: users.find(u => u.id === item.user_id)?.email
               }))
             }
           })

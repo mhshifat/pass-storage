@@ -47,7 +47,7 @@ export class OrganizationService {
       FROM credentials c
       JOIN users u ON u.id = c.user_id
       JOIN members m ON m.user_id = u.id
-      WHERE c.email = ${email} AND m.org_id = ${orgId}
+      WHERE u.email = ${email} AND m.org_id = ${orgId}
     `) as unknown[];
 
     return members?.[0];

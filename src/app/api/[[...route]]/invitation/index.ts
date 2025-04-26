@@ -59,6 +59,7 @@ const invitationApi = new Hono()
             orgId: body.orgId,
             email: body.email
           });
+          console.log(member);
           if (member) throw new Error("Can't send invitation the existing members::403");
           const existingInvitation = await invitationService.findByEmail(body.email);
           if (existingInvitation) throw new Error("Already sent an invitation::409");
