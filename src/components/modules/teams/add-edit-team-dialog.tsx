@@ -14,9 +14,10 @@ import Translate from "@/components/shared/translate";
 
 interface AddEditTeamDialogProps {
   team?: ITeam;
+  variant?: "link" | "primary" | "default" | "secondary" | "destructive" | "outline" | "ghost" | null | undefined;
 }
 
-export default function AddEditTeamDialog({ team }: AddEditTeamDialogProps) {
+export default function AddEditTeamDialog({ team, variant }: AddEditTeamDialogProps) {
   const isMobile = useIsMobile();
   const addTeam = useAddTeamMutation();
   const updateTeam = useUpdateTeamMutation();
@@ -51,7 +52,7 @@ export default function AddEditTeamDialog({ team }: AddEditTeamDialogProps) {
             <EditIcon size={16} />
           </Button>
         ) : (
-          <Button variant="outline">
+          <Button variant={variant || "outline"}>
             <PlusIcon className="h-4 w-4 mr-2" />
             <Translate>Add Team</Translate>
           </Button>

@@ -19,6 +19,8 @@ import useDeleteMemberMutation from "@/components/hooks/use-delete-member-mutati
 import useGetMembersQuery from "@/components/hooks/use-get-members-query";
 import Translate from "@/components/shared/translate";
 import { useTranslation } from "react-i18next";
+import EmptyList from "@/components/shared/empty-list";
+import InviteMemberDialog from "./invite-member-dialog";
 
 export default function MemberList() {
 	const { t } = useTranslation();
@@ -41,48 +43,63 @@ export default function MemberList() {
 				</>,
 			]}
 		>
-			<div className="w-full border border-foreground rounded-md">
-				<Table>
-					<TableHeader>
-						<TableRow>
-							<TableHead className="w-[200px]"><Translate>Email</Translate></TableHead>
-							<TableHead className="w-[100px] text-right"><Translate>Actions</Translate></TableHead>
-						</TableRow>
-					</TableHeader>
-					<TableBody>
-						{members?.data?.map((member) => (
-							<TableRow key={member.id} className="group">
-								<TableCell className="font-medium">
-									{member.email}
-								</TableCell>
-								<TableCell className="text-right">
-									<div className="flex justify-end space-x-2">
-										<ConfirmationDialog
-											onConfirm={() => deleteMember.mutateAsync({ id: member.id, orgId })}
-										>
-											<Button
-												variant="ghost"
-												size="icon"
-												disabled={deleteMember.isPending}
-												className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
-												title={t("Delete member")}
-											>
-												<Trash2Icon size={16} />
-											</Button>
-										</ConfirmationDialog>
-									</div>
-								</TableCell>
-							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-			</div>
-			<PaginationView
-				page={page}
-				total={members?.total || 0}
-				perPage={members?.perPage || 10}
-				onPagination={(page) => setPage(page)}
-			/>
+      {((members?.total || 0) > 0) && (
+        <>
+          <div className="w-full border border-foreground rounded-md">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[200px]"><Translate>Email</Translate></TableHead>
+                  <TableHead className="w-[100px] text-right"><Translate>Actions</Translate></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {members?.data?.map((member) => (
+                  <TableRow key={member.id} className="group">
+                    <TableCell className="font-medium">
+                      {member.email}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end space-x-2">
+                        <ConfirmationDialog
+                          onConfirm={() => deleteMember.mutateAsync({ id: member.id, orgId })}
+                        >
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            disabled={deleteMember.isPending}
+                            className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                            title={t("Delete member")}
+                          >
+                            <Trash2Icon size={16} />
+                          </Button>
+                        </ConfirmationDialog>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          <PaginationView
+            page={page}
+            total={members?.total || 0}
+            perPage={members?.perPage || 10}
+            onPagination={(page) => setPage(page)}
+          />
+        </>
+      )}
+      {((members?.total || 0) === 0) && (
+        <EmptyList
+          title={t("translations.No members yet")}
+          description={t("translations.Get started by creating your first member")}
+          createBtn={(
+            <div className="mt-6">
+              <InviteMemberDialog variant="primary" />
+            </div>
+          )}
+        />
+      )}
 		</RenderView>
 	);
 }

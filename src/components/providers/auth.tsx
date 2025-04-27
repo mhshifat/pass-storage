@@ -2,7 +2,7 @@ import { IUser, SignInFormPayload, SignUpFormPayload } from "@/lib/types";
 import { PropsWithChildren, createContext, useCallback, useContext, useEffect, useState } from "react";
 import useSignUpMutation from "../hooks/use-sign-up-mutation";
 import CryptoJS from 'crypto-js';
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ROUTE_PATHS } from "@/lib/constants";
 import useSignInMutation from "../hooks/use-sign-in-mutation";
 import { storage } from "@/lib/storage";
@@ -29,6 +29,9 @@ export default function AuthProvider({ children }: PropsWithChildren) {
   const signUp = useSignUpMutation();
   const signIn = useSignInMutation();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const from = searchParams.get("from");
 
   const onRegister = useCallback(async (payload: SignUpFormPayload) => {
     const vaultKey = generateVaultKey();
@@ -43,8 +46,8 @@ export default function AuthProvider({ children }: PropsWithChildren) {
       ...encryptedData
     });
     setInitializing(false);
-    router.push(ROUTE_PATHS.SIGN_IN);
-  }, [signUp, router]);
+    router.push(`${ROUTE_PATHS.SIGN_IN}?from=${from}`);
+  }, [signUp, router, from]);
 
   const onLogin = useCallback(async (payload: SignInFormPayload) => {
     const data = await signIn.mutateAsync(payload);
@@ -54,10 +57,9 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     await storage.setVaultIdentifier(encrypted);
     const vaultKey = await decryptVaultKey(data.user.encryptedVaultKey, payload.password, data.user.salt, data.user.vaultKeyIv);
     setVaultKey(vaultKey);
-    setUser(data.user);
-    setInitializing(false);
-    router.push(ROUTE_PATHS.DASHBOARD);
-  }, [signIn, router]);
+    if (from) router.replace(decodeURIComponent(from));
+    else router.push(ROUTE_PATHS.DASHBOARD);
+  }, [signIn, router, from]);
 
   const onLogout = useCallback(async () => {
     setInitializing(true);

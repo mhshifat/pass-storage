@@ -10,7 +10,11 @@ import InviteMemberForm from "./invite-member-form";
 import useAddInvitationMutation from "@/components/hooks/use-add-invitation-mutation";
 import Translate from "@/components/shared/translate";
 
-export default function InviteMemberDialog() {
+interface InviteMemberDialogProps {
+  variant?: "link" | "outline" | "default" | "primary" | "destructive" | "secondary" | "ghost" | null | undefined
+}
+
+export default function InviteMemberDialog({ variant }: InviteMemberDialogProps) {
   const isMobile = useIsMobile();
   const inviteMember = useAddInvitationMutation();
   const [open, setOpen] = useState(false);
@@ -33,7 +37,7 @@ export default function InviteMemberDialog() {
   return (
     <DialogComponent open={open} onOpenChange={setOpen}>
 			<DialogTriggerComponent disabled={inviteMember.isPending} asChild>
-      <Button variant="outline">
+      <Button variant={variant || "outline"}>
         <MailIcon className="h-4 w-4 mr-2" />
         <Translate>Invite Member</Translate>
       </Button>

@@ -15,9 +15,10 @@ import Translate from "@/components/shared/translate";
 
 interface AddEditOrganizationDialogProps {
   organization?: IOrganization;
+  variant?: "link" | "primary" | "default" | "destructive" | "outline" | "secondary" | "ghost" | null | undefined;
 }
 
-export default function AddEditOrganizationDialog({ organization }: AddEditOrganizationDialogProps) {
+export default function AddEditOrganizationDialog({ organization, variant }: AddEditOrganizationDialogProps) {
   const isMobile = useIsMobile();
   const addOrganization = useAddOrganizationMutation();
   const updateOrganization = useUpdateOrganizationMutation();
@@ -53,7 +54,7 @@ export default function AddEditOrganizationDialog({ organization }: AddEditOrgan
             <EditIcon size={16} />
           </Button>
         ) : (
-          <Button variant="outline">
+          <Button variant={variant || "outline"}>
             <PlusIcon className="h-4 w-4 mr-2" />
             <Translate>Add Organization</Translate>
           </Button>

@@ -14,7 +14,7 @@ export function verifyHash(hash: string, originalData: string) {
 }
 
 export function generateToken(payload: IAuthJwt, secret: string) {
-  return jwt.sign(payload, process.env.JWT_SECRET_KEY + secret, { expiresIn: "1h" });
+  return jwt.sign(payload, process.env.JWT_SECRET_KEY + secret, { expiresIn: "1d" });
 }
 
 export function decodeToken<T>(token: string) {

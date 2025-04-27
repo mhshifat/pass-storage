@@ -41,7 +41,7 @@ export class MemberRepo {
     return items;
   }
 
-  async create({ orgId, ...body }: AddMemberFormPayload & { orgId: string }, db: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) {
+  async create({ orgId, ...body }: AddMemberFormPayload & { orgId: string }, db?: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) {
     return (db || this._prisma).member.create({
       data: {
         user_id: body.userId,

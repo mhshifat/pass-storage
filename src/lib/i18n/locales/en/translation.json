@@ -274,6 +274,16 @@
     "Successfully updated the token!": "Successfully updated the token!",
     "More pages": "More pages",
     "Edit organization": "Edit organization",
-    "Manager your teams": "Manager your teams"
+    "Manager your teams": "Manager your teams",
+    "No tokens yet": "No tokens yet",
+    "Get started by creating your first token": "Get started by creating your first token",
+    "No organizations yet": "No organizations yet",
+    "Get started by creating your first organization": "Get started by creating your first organization",
+    "No teams yet": "No teams yet",
+    "Get started by creating your first team": "Get started by creating your first team",
+    "No invitation yet": "No invitation yet",
+    "Get started by inviting your first member": "Get started by inviting your first member",
+    "No members yet": "No members yet",
+    "Get started by creating your first member": "Get started by creating your first member"
   }
 }

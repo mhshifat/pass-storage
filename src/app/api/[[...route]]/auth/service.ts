@@ -33,6 +33,7 @@ export class AuthService {
         salt: user.credential.salt,
         vault_key_iv: user.credential.vault_key_iv,
         encrypted_vault_key: user.credential.encrypted_vault_key,
+        vault_keys: []
       }
     }
   }

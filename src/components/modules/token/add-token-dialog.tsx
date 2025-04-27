@@ -46,7 +46,11 @@ import Translate from "@/components/shared/translate";
 import { encryptEntry } from "@/lib/encryption";
 import { useAuth } from "@/components/providers/auth";
 
-export function AddTokenDialog() {
+interface AddTokenDialogProps {
+  variant?: "link" | "default" | "secondary" | "destructive" | "outline" | "primary" | "ghost" | null | undefined;
+}
+
+export function AddTokenDialog({ variant }: AddTokenDialogProps) {
   const { t } = useTranslation();
   const { vaultKey } = useAuth();
   const addToken = useAddTokenMutation();
@@ -275,7 +279,7 @@ export function AddTokenDialog() {
 	return (
 		<DialogComponent open={open} onOpenChange={setOpen}>
 			<DialogTriggerComponent disabled={addToken.isPending} asChild>
-				<Button variant="outline">
+				<Button variant={variant || "outline"}>
 					<Plus className="h-4 w-4 mr-2" />
 					<Translate>Add Token</Translate>
 				</Button>

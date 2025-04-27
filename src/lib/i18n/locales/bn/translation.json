@@ -274,6 +274,16 @@
     "Successfully updated the token!": "সফলভাবে টোকেন আপডেট করা হয়েছে!",
     "More pages": "আরও পৃষ্ঠা",
     "Edit organization": "প্রতিষ্ঠান সম্পাদনা করুন",
-    "Manager your teams": "আপনার দল পরিচালনা করুন"
+    "Manager your teams": "আপনার দল পরিচালনা করুন",
+    "No tokens yet": "এখনও কোনো টোকেন নেই",
+    "Get started by creating your first token": "আপনার প্রথম টোকেন তৈরি করে শুরু করুন",
+    "No organizations yet": "এখনও কোনো প্রতিষ্ঠান নেই",
+    "Get started by creating your first organization": "আপনার প্রথম প্রতিষ্ঠান তৈরি করে শুরু করুন",
+    "No teams yet": "এখনও কোনো টিম নেই",
+    "Get started by creating your first team": "আপনার প্রথম টিম তৈরি করে শুরু করুন",
+    "No invitation yet": "এখনও কোনো আমন্ত্রণ নেই",
+    "Get started by inviting your first member": "আপনার প্রথম সদস্যকে আমন্ত্রণ করে শুরু করুন",
+    "No members yet": "এখনও কোনো সদস্য নেই",
+    "Get started by creating your first member": "আপনার প্রথম সদস্য তৈরি করে শুরু করুন"
   }
 }

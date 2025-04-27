@@ -36,6 +36,7 @@ const memberApi = new Hono()
           return ctx.json<APIResponse<object>>({
             success: true,
             data: {
+              ...result,
               data: result.data.map(item => ({
                 ...item,
                 email: users.find(u => u.id === item.user_id)?.email

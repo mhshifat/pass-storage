@@ -22,7 +22,7 @@ export class MemberService {
     };
   }
 
-  async create(body: AddMemberFormPayload & { orgId: string }, db: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) {
+  async create(body: AddMemberFormPayload & { orgId: string }, db?: Omit<PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) {
     return this._repo.create(body, db);
   }
 

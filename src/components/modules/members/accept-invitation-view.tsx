@@ -72,14 +72,14 @@ export default function AcceptInvitationView({ code }: AcceptInvitationViewProps
                 className="w-full"
                 disabled={acceptInvite.isPending}
               >
-                <Link href={ROUTE_PATHS.SIGN_IN}><Translate>Sign In</Translate></Link>
+                <Link href={`${ROUTE_PATHS.SIGN_IN}?from=${encodeURIComponent(window.location.href)}`}><Translate>Sign In</Translate></Link>
               </Button>
               <Button
                 variant="outline"
                 className="w-full"
                 disabled={acceptInvite.isPending}
               >
-                <Link href={ROUTE_PATHS.SIGN_UP}><Translate>Create Account</Translate></Link>
+                <Link href={`${ROUTE_PATHS.SIGN_UP}?from=${encodeURIComponent(window.location.href)}`}><Translate>Create Account</Translate></Link>
               </Button>
             </div>
           )}

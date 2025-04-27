@@ -28,6 +28,8 @@ import { decryptEntry, decryptVaultKey, encryptEntry } from "@/lib/encryption";
 import { IToken, ITokenFormPayload } from "@/lib/types";
 import { toast } from "@/lib/toast";
 import useShareTokenMutation from "@/components/hooks/use-share-token-mutation";
+import EmptyList from "@/components/shared/empty-list";
+import { AddTokenDialog } from "./add-token-dialog";
 
 export default function TokenList() {
 	const { user, vaultKey } = useAuth();
@@ -103,147 +105,162 @@ export default function TokenList() {
 				</>,
 			]}
 		>
-			<div className="w-full border border-foreground rounded-md">
-				<Table>
-					<TableHeader>
-						<TableRow>
-							<TableHead className="w-[200px]">
-								<Translate>Name</Translate>
-							</TableHead>
-							<TableHead className="w-[120px]">
-								<Translate>Username</Translate>
-							</TableHead>
-							<TableHead className="w-[100px]">
-								<Translate>Password</Translate>
-							</TableHead>
-							<TableHead className="w-[100px]">
-								<Translate>URL</Translate>
-							</TableHead>
-							<TableHead className="w-[100px]">
-								<Translate>TOTP</Translate>
-							</TableHead>
-							<TableHead className="w-[100px]">
-								<Translate>Team</Translate>
-							</TableHead>
-							<TableHead className="w-[100px] text-right">
-								<Translate>Actions</Translate>
-							</TableHead>
-						</TableRow>
-					</TableHeader>
-					<TableBody>
-						{parsedTokens?.map((token) => (
-							<TableRow key={token.id} className="group">
-								<TableCell className="font-medium">{token.name}</TableCell>
-								<TableCell className="font-medium">
-									<div className="flex items-center">
-										<Button
-											className="p-0"
-											variant="ghost"
-											onClick={() => copyToClipboard(token.username)}
-											title={t("Copy")}
-										>
-											{token.username}
-										</Button>
-									</div>
-								</TableCell>
-								<TableCell className="font-medium">
-									<div className="flex items-center">
-										<Button
-											className="p-0"
-											variant="ghost"
-											onClick={() => copyToClipboard(token.password)}
-											title={t("Copy")}
-										>
-											{token.password
-												?.split("")
-												.map(() => "*")
-												.join("")}
-										</Button>
-									</div>
-								</TableCell>
-								<TableCell className="font-medium">
-									<div className="flex items-center">
-										<Button
-											className="p-0"
-											variant="ghost"
-											onClick={() => copyToClipboard(token.serviceUrl)}
-											title={t("Copy")}
-										>
-											{token.serviceUrl}
-										</Button>
-									</div>
-								</TableCell>
-								<TableCell className="font-medium">
-									<TOTPView token={token} />
-								</TableCell>
-								<TableCell className="font-medium">
-									{token?.teamId ? (
-										<Badge
-											variant="secondary"
-											className="flex items-center gap-2"
-										>
-											{token?.team?.name}
-											{user?.id === token.userId && <Button
-												title={t("Remove team")}
-												disabled={shareToken.isPending}
-												loading={shareToken.isPending}
-												onClick={() => handleRemoveTeam(token.id, JSON.stringify({
-                          ...token,
-                          id: undefined,
-                          entry: undefined,
-                          iv: undefined,
-                          userId: undefined,
-                        }))}
-												variant="ghost"
-												size="none"
-											>
-												<Trash2Icon className="size-4" />
-											</Button>}
-										</Badge>
-									) : (
-										"N/A"
-									)}
-								</TableCell>
-								<TableCell className="text-right">
-									<div className="flex justify-end space-x-2">
-										{user?.id === token.userId ? (
-											<>
-												{!token.teamId && <ShareTokenDialog token={token} />}
-												<EditTokenDialog token={token} />
-												<ConfirmationDialog
-													onConfirm={() =>
-														deleteToken.mutateAsync({ id: token.id })
-													}
-												>
-													<Button
-														variant="ghost"
-														size="icon"
-														disabled={deleteToken.isPending}
-														className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
-														title={t("Delete collection")}
-													>
-														<Trash2Icon size={16} />
-													</Button>
-												</ConfirmationDialog>
-											</>
-										) : (
-											<Badge variant="outline">
-												<Translate>Shared</Translate>
-											</Badge>
-										)}
-									</div>
-								</TableCell>
-							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-			</div>
-			<PaginationView
-				page={page}
-				total={tokens?.total || 0}
-				perPage={tokens?.perPage || 10}
-				onPagination={(page) => setPage(page)}
-			/>
+			{(tokens?.total || 0) > 0 && (
+        <>
+          <div className="w-full border border-foreground rounded-md">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[200px]">
+                    <Translate>Name</Translate>
+                  </TableHead>
+                  <TableHead className="w-[120px]">
+                    <Translate>Username</Translate>
+                  </TableHead>
+                  <TableHead className="w-[100px]">
+                    <Translate>Password</Translate>
+                  </TableHead>
+                  <TableHead className="w-[100px]">
+                    <Translate>URL</Translate>
+                  </TableHead>
+                  <TableHead className="w-[100px]">
+                    <Translate>TOTP</Translate>
+                  </TableHead>
+                  <TableHead className="w-[100px]">
+                    <Translate>Team</Translate>
+                  </TableHead>
+                  <TableHead className="w-[100px] text-right">
+                    <Translate>Actions</Translate>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {parsedTokens?.map((token) => (
+                  <TableRow key={token.id} className="group">
+                    <TableCell className="font-medium">{token.name}</TableCell>
+                    <TableCell className="font-medium">
+                      <div className="flex items-center">
+                        <Button
+                          className="p-0"
+                          variant="ghost"
+                          onClick={() => copyToClipboard(token.username)}
+                          title={t("Copy")}
+                        >
+                          {token.username}
+                        </Button>
+                      </div>
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      <div className="flex items-center">
+                        <Button
+                          className="p-0"
+                          variant="ghost"
+                          onClick={() => copyToClipboard(token.password)}
+                          title={t("Copy")}
+                        >
+                          {token.password
+                            ?.split("")
+                            .map(() => "*")
+                            .join("")}
+                        </Button>
+                      </div>
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      <div className="flex items-center">
+                        <Button
+                          className="p-0"
+                          variant="ghost"
+                          onClick={() => copyToClipboard(token.serviceUrl)}
+                          title={t("Copy")}
+                        >
+                          {token.serviceUrl}
+                        </Button>
+                      </div>
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      <TOTPView token={token} />
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      {token?.teamId ? (
+                        <Badge
+                          variant="secondary"
+                          className="flex items-center gap-2"
+                        >
+                          {token?.team?.name}
+                          {user?.id === token.userId && <Button
+                            title={t("Remove team")}
+                            disabled={shareToken.isPending}
+                            loading={shareToken.isPending}
+                            onClick={() => handleRemoveTeam(token.id, JSON.stringify({
+                              ...token,
+                              id: undefined,
+                              entry: undefined,
+                              iv: undefined,
+                              userId: undefined,
+                            }))}
+                            variant="ghost"
+                            size="none"
+                          >
+                            <Trash2Icon className="size-4" />
+                          </Button>}
+                        </Badge>
+                      ) : (
+                        "N/A"
+                      )}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end space-x-2">
+                        {user?.id === token.userId ? (
+                          <>
+                            {!token.teamId && <ShareTokenDialog token={token} />}
+                            <EditTokenDialog token={token} />
+                            <ConfirmationDialog
+                              onConfirm={() =>
+                                deleteToken.mutateAsync({ id: token.id })
+                              }
+                            >
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                disabled={deleteToken.isPending}
+                                className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                                title={t("Delete collection")}
+                              >
+                                <Trash2Icon size={16} />
+                              </Button>
+                            </ConfirmationDialog>
+                          </>
+                        ) : (
+                          <Badge variant="outline">
+                            <Translate>Shared</Translate>
+                          </Badge>
+                        )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          <PaginationView
+            page={page}
+            total={tokens?.total || 0}
+            perPage={tokens?.perPage || 10}
+            onPagination={(page) => setPage(page)}
+          />
+        </>
+      )}
+      {((tokens?.total || 0) === 0) && (
+        <EmptyList
+          title={t("translations.No tokens yet")}
+          description={t("translations.Get started by creating your first token")}
+          createBtn={(
+            <div className="mt-6">
+              <AddTokenDialog variant="primary" />
+            </div>
+          )}
+        />
+      )}
 		</RenderView>
 	);
 }
