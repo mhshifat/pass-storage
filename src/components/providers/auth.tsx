@@ -46,7 +46,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
       ...encryptedData
     });
     setInitializing(false);
-    router.push(`${ROUTE_PATHS.SIGN_IN}?from=${from}`);
+    router.push(`${ROUTE_PATHS.SIGN_IN}${from?`?from=${from}`:""}`);
   }, [signUp, router, from]);
 
   const onLogin = useCallback(async (payload: SignInFormPayload) => {
