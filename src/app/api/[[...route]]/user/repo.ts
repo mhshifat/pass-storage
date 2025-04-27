@@ -64,7 +64,16 @@ export class UserRepo {
         ...includes?.includes("teams") ? {
           members: {
             select: {
-              teams: true
+              teams: {
+                select: {
+                  team: {
+                    select: {
+                      id: true,
+                      vault_keys: true
+                    }
+                  }
+                }
+              }
             }
           }
         } : {}

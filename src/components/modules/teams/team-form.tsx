@@ -1,13 +1,10 @@
 "use client";
 
-import CryptoJS from 'crypto-js';
 import Translate from "@/components/shared/translate";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { encryptVaultKey, generateVaultKey, getOrCreateDeviceKey } from "@/lib/encryption";
-import { storage } from "@/lib/storage";
-import { toast } from "@/lib/toast";
+import { encryptVaultKey, generateVaultKey } from "@/lib/encryption";
 import { AddTeamFormPayload, ITeam } from "@/lib/types";
 import { teamCreateFormSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,12 +36,8 @@ function TeamForm({ team, onCreate, onUpdate }: TeamFormProps, ref: ForwardedRef
       const isValid = await form.trigger();
       if (!isValid) return;
       const values = form.getValues();
-      const encryptedPassword = await storage.getVaultIdentifier();
-      if (!encryptedPassword) return toast.error("Something went wrong, please re-login again");
-      const deviceKey = getOrCreateDeviceKey();
-      const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword as string, deviceKey).toString(CryptoJS.enc.Utf8);
       const teamVaultKey = generateVaultKey();
-      const { encryptedVaultKey, salt, iv } = encryptVaultKey(teamVaultKey, decryptedPassword);
+      const { encryptedVaultKey, salt, iv } = encryptVaultKey(teamVaultKey, values.name!);
 
       const newPayload = {
         ...values,

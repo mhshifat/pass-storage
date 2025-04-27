@@ -1,6 +1,6 @@
 import { InviteMemberFormPayload, InvitationsApiRequestData, IInvitation } from "@/lib/types";
 import { InvitationRepo } from "./repo";
-import { memberService, teamService } from "../bootstrap";
+import { memberService } from "../bootstrap";
 
 export class InvitationService {
   constructor(
@@ -46,17 +46,10 @@ export class InvitationService {
   }
 
   async accept(args: { userId: string, invitationId: string, salt: string, vaultKeyIv: string, encryptedVaultKey: string }) {
-    const invitation = await this._repo.findById(args.invitationId, ["org_id", "team_id"]) as unknown as IInvitation & { org_id: string, team_id: string };
+    const invitation = await this._repo.findById(args.invitationId, ["org_id"]) as unknown as IInvitation & { org_id: string };
     if (!invitation) throw new Error("Invitation not found::404");
 
     await this._repo.transaction(async (tx) => {
-      await teamService.createVaultKey({
-        salt: args.salt,
-        vaultKeyIv: args.vaultKeyIv,
-        encryptedVaultKey: args.encryptedVaultKey,
-        userId: args.userId,
-        teamId: invitation.team_id
-      }, tx)
       await memberService.create({
         orgId: invitation.org_id,
         userId: args.userId

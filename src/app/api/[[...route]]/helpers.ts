@@ -10,7 +10,7 @@ export async function getUserById(id: string) {
     salt: data.credential.salt,
     vault_key_iv: data.credential.vault_key_iv,
     encrypted_vault_key: data.credential.encrypted_vault_key,
-    vault_keys: data.vault_keys,
-    teams: data.members.map((m) => (m as unknown as { teams: { team_id: string }[] }).teams?.map(t => ({ id: t.team_id }))).flat()
+    vault_keys: data.members.map(m => (m as unknown as { teams: { team: { vault_keys: [] } }[] }).teams?.map(t => t.team?.vault_keys).flat()).flat(),
+    teams: data.members.map(m => (m as unknown as { teams: { team: { id: string } }[] }).teams?.map(t => ({ id: t.team.id })).flat()).flat()
   }
 }

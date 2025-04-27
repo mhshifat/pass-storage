@@ -52,6 +52,7 @@ export default function TokenList() {
 					(key) => key.teamId === token.teamId
 				);
 				if (!teamVault) throw new Error("Invalid team vault");
+        console.log({ teamVault });
 				const teamVaultKey = decryptVaultKey(
 					teamVault.encryptedVaultKey,
 					teamVault.teamId,

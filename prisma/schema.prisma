@@ -92,7 +92,6 @@ model Team {
 
   members            TeamMember[]
   vault_keys         TeamVaultKey[]
-  invitations        Invitation[]
   tokens             Token[]
 
   @@map("teams")
@@ -125,8 +124,6 @@ model Invitation {
 
   org_id              String
   org                 Organization @relation(fields: [org_id], references: [id], onDelete: Cascade)
-  team_id             String
-  team                Team @relation(fields: [team_id], references: [id], onDelete: Cascade)
 
   @@map("invitations")
 }

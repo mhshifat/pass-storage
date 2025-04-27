@@ -40,12 +40,11 @@ export class InvitationRepo {
     return items;
   }
 
-  async create({ orgId, teamId, ...body }: InviteMemberFormPayload & { orgId: string; teamId: string }) {
+  async create({ orgId, ...body }: InviteMemberFormPayload & { orgId: string; }) {
     return this._prisma.invitation.create({
       data: {
         ...body,
         org_id: orgId,
-        team_id: teamId,
       },
       select: selectable
     })

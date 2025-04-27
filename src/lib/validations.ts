@@ -109,7 +109,6 @@ export const teamDeleteRequestSchema = z.object({
 export const inviteMemberFormSchema = z.object({
   email: z.string().min(1),
   orgId: z.string().min(1),
-  teamId: z.string().min(1),
 })
 
 export const acceptInviteFormSchema = z.object({
