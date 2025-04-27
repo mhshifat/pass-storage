@@ -2,6 +2,7 @@ import { HonoRequest } from "hono";
 import { ZodSchema } from "zod";
 import { decodeToken, verifyToken } from "./server-only";
 import { IAuthJwt, UserDto, VaultKeyDto } from "./types";
+import { getUserById } from "@/app/api/[[...route]]/helpers";
 
 type ValidatorRequestData = {
   query?: Record<string, unknown>;
@@ -17,7 +18,7 @@ export class ApiUtils {
 
   constructor(
     private _req: HonoRequest,
-    private _config?: { auth?: boolean; db: { getUserById(id: string): Promise<(UserDto & { vault_keys: VaultKeyDto[], password?: string, teams: { id: string }[] }) | null> } }
+    private _config?: { auth?: boolean; db: { getUserById(id: string): ReturnType<typeof getUserById> } }
   ) {
     this._req = _req;
     this._config = _config;
@@ -71,7 +72,7 @@ export class ApiUtils {
     if (!user || !user?.password) throw new Error("Invalid token::401");
     const tokenVerifiedRes = verifyToken<IAuthJwt>(token, user.password);
     if (!tokenVerifiedRes) throw new Error("Invalid token::401");
-    delete user.password;
+    delete (user as unknown as { password?: string }).password;
     return { user };
   }
 
