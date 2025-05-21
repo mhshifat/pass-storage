@@ -58,7 +58,7 @@ export default function OrganizationList() {
               </TableHeader>
               <TableBody>
                 {organizations?.data?.map((organization) => (
-                  <TableRow key={organization.id} className="group">
+                  <TableRow key={organization.id} className="group cursor-pointer" onClick={() => router.push(ROUTE_PATHS.ORGANIZATION_TEAMS(organization.id))}>
                     <TableCell className="font-medium">
                       {organization.name}
                     </TableCell>
