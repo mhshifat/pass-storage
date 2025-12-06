@@ -24,7 +24,7 @@ export default function Step({ children, steps }: PropsWithChildren<StepProps>) 
     const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
     const currentStep = useMemo(() => {
-        return steps[currentStepIndex]?.step || null;
+        return steps[currentStepIndex]?.step ?? null;
     }, [steps, currentStepIndex]);
 
     return (

@@ -6,7 +6,7 @@ export function transformProjectDtoToProject(dto: IProjectDto): IProject {
         id: dto.id,
         name: dto.name,
         description: dto.description,
-        createdAt: dto.createdAt,
+        createdAt: dto.created_at,
     }
 }
 

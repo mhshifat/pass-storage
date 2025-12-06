@@ -12,3 +12,22 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum ConnectionType {
+  EXCEL
+}
+
+model Connection {
+  id              Int             @unique  @default(autoincrement())
+  created_at      DateTime        @default(now())
+  updated_at      DateTime        @updatedAt
+
+  name            String
+  description     String
+  type            ConnectionType
+  metadata        Json?
+
+  @@map("connections")
+  @@index([name])
+  @@index([type])
+}

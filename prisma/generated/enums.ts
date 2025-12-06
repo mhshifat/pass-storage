@@ -9,7 +9,8 @@
 * 🟢 You can import this file directly.
 */
 
+export const ConnectionType = {
+  EXCEL: 'EXCEL'
+} as const
 
-
-// This file is empty because there are no enums in the schema.
-export {}
+export type ConnectionType = (typeof ConnectionType)[keyof typeof ConnectionType]
