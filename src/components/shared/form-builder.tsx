@@ -59,6 +59,7 @@ interface SharedFormBuilderProps<T> {
     schema: ZodObject;
     defaultValues?: DefaultValues<T & { id?: string }>;
     onSubmit: (data: T) => void;
+    loading?: boolean;
     footer?: {
         submitLabel?: string;
         className?: string;
@@ -72,7 +73,7 @@ interface FormField<FormProperties, FormValues> {
     node: FieldType;
     shouldShowOn?: (formValues: FormValues) => boolean;
     hook?: {
-        afterChange?: () => void;
+        afterChange?: (formValues: FormValues) => void;
     }
 }
 
@@ -99,7 +100,7 @@ interface FormBuilderPropsWithMultiStep<T> extends SharedFormBuilderProps<T> {
 
 type RootFormBuilderProps<T> = FormBuilderProps<T> | FormBuilderPropsWithMultiStep<T>;
 
-export default function FormBuilder<T>({ name, schema, defaultValues, onSubmit, fields, footer, multiStep }: RootFormBuilderProps<T>) {
+export default function FormBuilder<T>({ name, schema, defaultValues, onSubmit, fields, footer, multiStep, loading }: RootFormBuilderProps<T>) {
     const router = useRouter();
     const formRef = useRef<HTMLFormElement>(null);
     const form = useForm({
@@ -154,6 +155,12 @@ export default function FormBuilder<T>({ name, schema, defaultValues, onSubmit, 
                                                                     {getField(rowField, field, {
                                                                         onNavigate: (link: string) => {
                                                                             router.push(link);
+                                                                        },
+                                                                        onAfterChange: (value: unknown) => {
+                                                                            rowField?.hook?.afterChange?.({
+                                                                                ...(watchedValues as T),
+                                                                                [rowField.name]: value
+                                                                            });
                                                                         }
                                                                     })}
                                                                 </FormControl>
@@ -171,8 +178,8 @@ export default function FormBuilder<T>({ name, schema, defaultValues, onSubmit, 
                     })}
 
                     <div className={cn("flex items-center gap-2 justify-end", footer?.className)}>
-                        {footer?.onCancel && <Button variant="outline" onClick={footer.onCancel}>Cancel</Button>}
-                        <Step.Prev />
+                        {footer?.onCancel && <Button variant="outline" disabled={loading} onClick={footer.onCancel}>Cancel</Button>}
+                        <Step.Prev disabled={loading} />
                         <Step.Next
                             goNext={async ({ currentStepIndex, steps }) => {
                                 const currentStep = currentStepIndex !== undefined ? steps?.[currentStepIndex] : null;
@@ -185,7 +192,7 @@ export default function FormBuilder<T>({ name, schema, defaultValues, onSubmit, 
                                 return isValid;
                             }}
                         >
-                            <Button type="button" onClick={() => formRef.current?.requestSubmit()}>{footer?.submitLabel ?? (defaultValues?.id ? "Update" : "Save")}</Button>
+                            <Button disabled={loading} loading={loading} type="button" onClick={() => formRef.current?.requestSubmit()}>{footer?.submitLabel ?? (defaultValues?.id ? "Update" : "Save")}</Button>
                         </Step.Next>
                     </div>
 
@@ -213,6 +220,7 @@ export default function FormBuilder<T>({ name, schema, defaultValues, onSubmit, 
 
 function getField<T>(rowField: FormField<keyof T, T>, field: ControllerRenderProps<FieldValues, string>, options?: {
     onNavigate?: (link: string) => void;
+    onAfterChange: (value: unknown) => void;
 }) {
     const node = rowField.node;
     switch (rowField.node.type) {
@@ -221,7 +229,7 @@ function getField<T>(rowField: FormField<keyof T, T>, field: ControllerRenderPro
                 <Input placeholder={node.placeholder} value={field.value} onChange={(e) => {
                     const value = e.target.value;
                     field.onChange(value);
-                    if (rowField?.hook?.afterChange) rowField.hook.afterChange();
+                    options?.onAfterChange?.(value);
                 }} />
             );
         case "NUMBER":
@@ -229,7 +237,7 @@ function getField<T>(rowField: FormField<keyof T, T>, field: ControllerRenderPro
                 <Input placeholder={node.placeholder} type="number" value={field.value} onChange={(e) => {
                     const value = e.target.value;
                     field.onChange(value);
-                    if (rowField?.hook?.afterChange) rowField.hook.afterChange();
+                    options?.onAfterChange?.(value);
                 }} />
             );
         case "EMAIL":
@@ -237,7 +245,7 @@ function getField<T>(rowField: FormField<keyof T, T>, field: ControllerRenderPro
                 <Input placeholder={node.placeholder} type="email" value={field.value} onChange={(e) => {
                     const value = e.target.value;
                     field.onChange(value);
-                    if (rowField?.hook?.afterChange) rowField.hook.afterChange();
+                    options?.onAfterChange?.(value);
                 }} />
             );
         case "PASSWORD":
@@ -245,7 +253,7 @@ function getField<T>(rowField: FormField<keyof T, T>, field: ControllerRenderPro
                 <Input placeholder={node.placeholder} type="password" value={field.value} onChange={(e) => {
                     const value = e.target.value;
                     field.onChange(value);
-                    if (rowField?.hook?.afterChange) rowField.hook.afterChange();
+                    options?.onAfterChange?.(value);
                 }} />
             );
         case "TEXTAREA":
@@ -253,7 +261,7 @@ function getField<T>(rowField: FormField<keyof T, T>, field: ControllerRenderPro
                 <Textarea placeholder={node.placeholder} value={field.value} onChange={(e) => {
                     const value = e.target.value;
                     field.onChange(value);
-                    if (rowField?.hook?.afterChange) rowField.hook.afterChange();
+                    options?.onAfterChange?.(value);
                 }} />
             );
         case "SELECT":
@@ -265,7 +273,7 @@ function getField<T>(rowField: FormField<keyof T, T>, field: ControllerRenderPro
                         return;
                     }
                     field.onChange(value);
-                    if (rowField?.hook?.afterChange) rowField.hook.afterChange();
+                    options?.onAfterChange?.(value);
                 }}>
                     <SelectTrigger className="w-full">
                         <SelectValue placeholder={node.placeholder} />    

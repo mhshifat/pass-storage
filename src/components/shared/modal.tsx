@@ -16,11 +16,13 @@ interface ModalProps {
     description: ReactNode;
     trigger: ReactNode;
     showFooter?: boolean;
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
 }
 
-export function Modal({ children, title, description, trigger, showFooter = false }: PropsWithChildren<ModalProps>) {
+export function Modal({ children, title, description, trigger, showFooter = false, open, onOpenChange }: PropsWithChildren<ModalProps>) {
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <form>
                 <DialogTrigger asChild>
                     {trigger}

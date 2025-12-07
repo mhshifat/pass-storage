@@ -22,3 +22,8 @@ export * from './enums';
  * 
  */
 export type Connection = Prisma.ConnectionModel
+/**
+ * Model Project
+ * 
+ */
+export type Project = Prisma.ProjectModel

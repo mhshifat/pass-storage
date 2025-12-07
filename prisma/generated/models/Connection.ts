@@ -192,7 +192,7 @@ export type ConnectionGroupByOutputType = {
   created_at: Date
   updated_at: Date
   name: string
-  description: string
+  description: string | null
   type: $Enums.ConnectionType
   metadata: runtime.JsonValue | null
   _count: ConnectionCountAggregateOutputType | null
@@ -225,9 +225,10 @@ export type ConnectionWhereInput = {
   created_at?: Prisma.DateTimeFilter<"Connection"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Connection"> | Date | string
   name?: Prisma.StringFilter<"Connection"> | string
-  description?: Prisma.StringFilter<"Connection"> | string
+  description?: Prisma.StringNullableFilter<"Connection"> | string | null
   type?: Prisma.EnumConnectionTypeFilter<"Connection"> | $Enums.ConnectionType
   metadata?: Prisma.JsonNullableFilter<"Connection">
+  projects?: Prisma.ProjectListRelationFilter
 }
 
 export type ConnectionOrderByWithRelationInput = {
@@ -235,9 +236,10 @@ export type ConnectionOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
+  projects?: Prisma.ProjectOrderByRelationAggregateInput
 }
 
 export type ConnectionWhereUniqueInput = Prisma.AtLeast<{
@@ -248,9 +250,10 @@ export type ConnectionWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"Connection"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Connection"> | Date | string
   name?: Prisma.StringFilter<"Connection"> | string
-  description?: Prisma.StringFilter<"Connection"> | string
+  description?: Prisma.StringNullableFilter<"Connection"> | string | null
   type?: Prisma.EnumConnectionTypeFilter<"Connection"> | $Enums.ConnectionType
   metadata?: Prisma.JsonNullableFilter<"Connection">
+  projects?: Prisma.ProjectListRelationFilter
 }, "id">
 
 export type ConnectionOrderByWithAggregationInput = {
@@ -258,7 +261,7 @@ export type ConnectionOrderByWithAggregationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   type?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ConnectionCountOrderByAggregateInput
@@ -276,7 +279,7 @@ export type ConnectionScalarWhereWithAggregatesInput = {
   created_at?: Prisma.DateTimeWithAggregatesFilter<"Connection"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"Connection"> | Date | string
   name?: Prisma.StringWithAggregatesFilter<"Connection"> | string
-  description?: Prisma.StringWithAggregatesFilter<"Connection"> | string
+  description?: Prisma.StringNullableWithAggregatesFilter<"Connection"> | string | null
   type?: Prisma.EnumConnectionTypeWithAggregatesFilter<"Connection"> | $Enums.ConnectionType
   metadata?: Prisma.JsonNullableWithAggregatesFilter<"Connection">
 }
@@ -286,9 +289,10 @@ export type ConnectionCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   name: string
-  description: string
+  description?: string | null
   type: $Enums.ConnectionType
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  projects?: Prisma.ProjectCreateNestedManyWithoutConnectionInput
 }
 
 export type ConnectionUncheckedCreateInput = {
@@ -296,18 +300,20 @@ export type ConnectionUncheckedCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   name: string
-  description: string
+  description?: string | null
   type: $Enums.ConnectionType
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutConnectionInput
 }
 
 export type ConnectionUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  projects?: Prisma.ProjectUpdateManyWithoutConnectionNestedInput
 }
 
 export type ConnectionUncheckedUpdateInput = {
@@ -315,9 +321,10 @@ export type ConnectionUncheckedUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutConnectionNestedInput
 }
 
 export type ConnectionCreateManyInput = {
@@ -325,7 +332,7 @@ export type ConnectionCreateManyInput = {
   created_at?: Date | string
   updated_at?: Date | string
   name: string
-  description: string
+  description?: string | null
   type: $Enums.ConnectionType
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
@@ -334,7 +341,7 @@ export type ConnectionUpdateManyMutationInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
@@ -344,7 +351,7 @@ export type ConnectionUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
@@ -385,12 +392,21 @@ export type ConnectionSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
 }
 
+export type ConnectionNullableScalarRelationFilter = {
+  is?: Prisma.ConnectionWhereInput | null
+  isNot?: Prisma.ConnectionWhereInput | null
+}
+
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
 }
 
 export type EnumConnectionTypeFieldUpdateOperationsInput = {
@@ -405,6 +421,106 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type ConnectionCreateNestedOneWithoutProjectsInput = {
+  create?: Prisma.XOR<Prisma.ConnectionCreateWithoutProjectsInput, Prisma.ConnectionUncheckedCreateWithoutProjectsInput>
+  connectOrCreate?: Prisma.ConnectionCreateOrConnectWithoutProjectsInput
+  connect?: Prisma.ConnectionWhereUniqueInput
+}
+
+export type ConnectionUpdateOneWithoutProjectsNestedInput = {
+  create?: Prisma.XOR<Prisma.ConnectionCreateWithoutProjectsInput, Prisma.ConnectionUncheckedCreateWithoutProjectsInput>
+  connectOrCreate?: Prisma.ConnectionCreateOrConnectWithoutProjectsInput
+  upsert?: Prisma.ConnectionUpsertWithoutProjectsInput
+  disconnect?: Prisma.ConnectionWhereInput | boolean
+  delete?: Prisma.ConnectionWhereInput | boolean
+  connect?: Prisma.ConnectionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ConnectionUpdateToOneWithWhereWithoutProjectsInput, Prisma.ConnectionUpdateWithoutProjectsInput>, Prisma.ConnectionUncheckedUpdateWithoutProjectsInput>
+}
+
+export type ConnectionCreateWithoutProjectsInput = {
+  id?: number
+  created_at?: Date | string
+  updated_at?: Date | string
+  name: string
+  description?: string | null
+  type: $Enums.ConnectionType
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ConnectionUncheckedCreateWithoutProjectsInput = {
+  id?: number
+  created_at?: Date | string
+  updated_at?: Date | string
+  name: string
+  description?: string | null
+  type: $Enums.ConnectionType
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ConnectionCreateOrConnectWithoutProjectsInput = {
+  where: Prisma.ConnectionWhereUniqueInput
+  create: Prisma.XOR<Prisma.ConnectionCreateWithoutProjectsInput, Prisma.ConnectionUncheckedCreateWithoutProjectsInput>
+}
+
+export type ConnectionUpsertWithoutProjectsInput = {
+  update: Prisma.XOR<Prisma.ConnectionUpdateWithoutProjectsInput, Prisma.ConnectionUncheckedUpdateWithoutProjectsInput>
+  create: Prisma.XOR<Prisma.ConnectionCreateWithoutProjectsInput, Prisma.ConnectionUncheckedCreateWithoutProjectsInput>
+  where?: Prisma.ConnectionWhereInput
+}
+
+export type ConnectionUpdateToOneWithWhereWithoutProjectsInput = {
+  where?: Prisma.ConnectionWhereInput
+  data: Prisma.XOR<Prisma.ConnectionUpdateWithoutProjectsInput, Prisma.ConnectionUncheckedUpdateWithoutProjectsInput>
+}
+
+export type ConnectionUpdateWithoutProjectsInput = {
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+export type ConnectionUncheckedUpdateWithoutProjectsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+}
+
+
+/**
+ * Count Type ConnectionCountOutputType
+ */
+
+export type ConnectionCountOutputType = {
+  projects: number
+}
+
+export type ConnectionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  projects?: boolean | ConnectionCountOutputTypeCountProjectsArgs
+}
+
+/**
+ * ConnectionCountOutputType without action
+ */
+export type ConnectionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ConnectionCountOutputType
+   */
+  select?: Prisma.ConnectionCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ConnectionCountOutputType without action
+ */
+export type ConnectionCountOutputTypeCountProjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProjectWhereInput
+}
 
 
 export type ConnectionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -415,6 +531,8 @@ export type ConnectionSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   description?: boolean
   type?: boolean
   metadata?: boolean
+  projects?: boolean | Prisma.Connection$projectsArgs<ExtArgs>
+  _count?: boolean | Prisma.ConnectionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["connection"]>
 
 export type ConnectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -448,16 +566,24 @@ export type ConnectionSelectScalar = {
 }
 
 export type ConnectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "updated_at" | "name" | "description" | "type" | "metadata", ExtArgs["result"]["connection"]>
+export type ConnectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  projects?: boolean | Prisma.Connection$projectsArgs<ExtArgs>
+  _count?: boolean | Prisma.ConnectionCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type ConnectionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type ConnectionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $ConnectionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Connection"
-  objects: {}
+  objects: {
+    projects: Prisma.$ProjectPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     created_at: Date
     updated_at: Date
     name: string
-    description: string
+    description: string | null
     type: $Enums.ConnectionType
     metadata: runtime.JsonValue | null
   }, ExtArgs["result"]["connection"]>
@@ -854,6 +980,7 @@ readonly fields: ConnectionFieldRefs;
  */
 export interface Prisma__ConnectionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  projects<T extends Prisma.Connection$projectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Connection$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -907,6 +1034,10 @@ export type ConnectionFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.ConnectionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConnectionInclude<ExtArgs> | null
+  /**
    * Filter, which Connection to fetch.
    */
   where: Prisma.ConnectionWhereUniqueInput
@@ -925,6 +1056,10 @@ export type ConnectionFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.ConnectionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConnectionInclude<ExtArgs> | null
+  /**
    * Filter, which Connection to fetch.
    */
   where: Prisma.ConnectionWhereUniqueInput
@@ -942,6 +1077,10 @@ export type ConnectionFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the Connection
    */
   omit?: Prisma.ConnectionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConnectionInclude<ExtArgs> | null
   /**
    * Filter, which Connection to fetch.
    */
@@ -991,6 +1130,10 @@ export type ConnectionFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.ConnectionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConnectionInclude<ExtArgs> | null
+  /**
    * Filter, which Connection to fetch.
    */
   where?: Prisma.ConnectionWhereInput
@@ -1039,6 +1182,10 @@ export type ConnectionFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.ConnectionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConnectionInclude<ExtArgs> | null
+  /**
    * Filter, which Connections to fetch.
    */
   where?: Prisma.ConnectionWhereInput
@@ -1081,6 +1228,10 @@ export type ConnectionCreateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the Connection
    */
   omit?: Prisma.ConnectionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConnectionInclude<ExtArgs> | null
   /**
    * The data needed to create a Connection.
    */
@@ -1129,6 +1280,10 @@ export type ConnectionUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the Connection
    */
   omit?: Prisma.ConnectionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConnectionInclude<ExtArgs> | null
   /**
    * The data needed to update a Connection.
    */
@@ -1196,6 +1351,10 @@ export type ConnectionUpsertArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.ConnectionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConnectionInclude<ExtArgs> | null
+  /**
    * The filter to search for the Connection to update in case it exists.
    */
   where: Prisma.ConnectionWhereUniqueInput
@@ -1222,6 +1381,10 @@ export type ConnectionDeleteArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.ConnectionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConnectionInclude<ExtArgs> | null
+  /**
    * Filter which Connection to delete.
    */
   where: Prisma.ConnectionWhereUniqueInput
@@ -1242,6 +1405,30 @@ export type ConnectionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * Connection.projects
+ */
+export type Connection$projectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Project
+   */
+  select?: Prisma.ProjectSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Project
+   */
+  omit?: Prisma.ProjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectInclude<ExtArgs> | null
+  where?: Prisma.ProjectWhereInput
+  orderBy?: Prisma.ProjectOrderByWithRelationInput | Prisma.ProjectOrderByWithRelationInput[]
+  cursor?: Prisma.ProjectWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProjectScalarFieldEnum | Prisma.ProjectScalarFieldEnum[]
+}
+
+/**
  * Connection without action
  */
 export type ConnectionDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1253,4 +1440,8 @@ export type ConnectionDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the Connection
    */
   omit?: Prisma.ConnectionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConnectionInclude<ExtArgs> | null
 }

@@ -14,3 +14,10 @@ export const ConnectionType = {
 } as const
 
 export type ConnectionType = (typeof ConnectionType)[keyof typeof ConnectionType]
+
+
+export const ProjectDatasource = {
+  EXCEL: 'EXCEL'
+} as const
+
+export type ProjectDatasource = (typeof ProjectDatasource)[keyof typeof ProjectDatasource]

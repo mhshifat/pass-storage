@@ -61,7 +61,7 @@ function StepPanel({ children, step }: PropsWithChildren<StepPanelProps>) {
 Step.Panel = StepPanel;
 StepPanel.displayName = "StepPanel";
 
-function PrevStep({ children }: PropsWithChildren) {
+function PrevStep({ children, disabled }: PropsWithChildren<{ disabled?: boolean }>) {
     const ctx = useContext(StepCtx);
     
     if (!ctx) return;
@@ -69,7 +69,7 @@ function PrevStep({ children }: PropsWithChildren) {
     return (
         <Button type="button" onClick={() => {
             ctx.setCurrentStepIndex(ctx.currentStepIndex - 1);
-        }} className="flex items-center gap-2">
+        }} disabled={disabled} className="flex items-center gap-2">
             <ArrowLeftIcon className="h-4 w-4" />
             <span>{children || "Previous"}</span>
         </Button>

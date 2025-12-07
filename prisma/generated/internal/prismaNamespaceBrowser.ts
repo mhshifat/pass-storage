@@ -51,7 +51,8 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Connection: 'Connection'
+  Connection: 'Connection',
+  Project: 'Project'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -81,6 +82,20 @@ export const ConnectionScalarFieldEnum = {
 } as const
 
 export type ConnectionScalarFieldEnum = (typeof ConnectionScalarFieldEnum)[keyof typeof ConnectionScalarFieldEnum]
+
+
+export const ProjectScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  name: 'name',
+  description: 'description',
+  datasource: 'datasource',
+  metadata: 'metadata',
+  connectionId: 'connectionId'
+} as const
+
+export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
 
 
 export const SortOrder = {

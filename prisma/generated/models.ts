@@ -9,4 +9,5 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Connection'
+export type * from './models/Project'
 export type * from './commonInputTypes'

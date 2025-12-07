@@ -1,11 +1,11 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-interface ConnectionCardProps {
+interface ProjectCardProps {
     title: string;
     description: string | null;
 }
 
-export default function ConnectionCard({ title, description }: ConnectionCardProps) {
+export default function ProjectCard({ title, description }: ProjectCardProps) {
     return (
         <Card>
             <CardHeader>

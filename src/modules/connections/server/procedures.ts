@@ -72,6 +72,12 @@ export const connectionsRouter = createTRPCRouter({
                     orderBy: {
                         created_at: "desc"
                     },
+                    select: {
+                        id: true,
+                        name: true,
+                        description: true,
+                        type: true,
+                    },
                     take: perPage,
                     skip
                 })

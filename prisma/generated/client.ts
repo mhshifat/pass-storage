@@ -44,3 +44,8 @@ export { Prisma }
  * 
  */
 export type Connection = Prisma.ConnectionModel
+/**
+ * Model Project
+ * 
+ */
+export type Project = Prisma.ProjectModel
