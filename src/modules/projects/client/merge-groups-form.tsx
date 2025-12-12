@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useTRPC } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -11,6 +12,7 @@ import z from "zod";
 const mergeGroupsFormSchema = z.object({
     mergedGroupName: z.string().min(2, "Merged group name must be at least 2 characters").max(50, "Merged group name must be at most 50 characters"),
     selectedGroupIds: z.array(z.number().positive()).min(2, "At least two groups must be selected for merging"),
+    groupByColumn: z.string().min(1, "Please select a group by column"),
 });
 
 type MergeGroupsFormData = z.infer<typeof mergeGroupsFormSchema>;
@@ -41,6 +43,7 @@ export default function MergeGroupsForm({ projectId, selectedGroups, uniqueMerge
         defaultValues: {
             mergedGroupName: "",
             selectedGroupIds: selectedGroups.map(group => group.id),
+            groupByColumn: "",
         },
         resolver: zodResolver(mergeGroupsFormSchema),
     });
@@ -54,6 +57,7 @@ export default function MergeGroupsForm({ projectId, selectedGroups, uniqueMerge
                 mergeTableGroupsMutation.mutateAsync({
                     mergedGroupName: values.mergedGroupName,
                     selectedGroupIds: values.selectedGroupIds,
+                    groupByColumn: values.groupByColumn,
                     projectId
                 });
             })}>
@@ -73,6 +77,31 @@ export default function MergeGroupsForm({ projectId, selectedGroups, uniqueMerge
                                             className="mt-2"
                                         />
                                     </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="groupByColumn"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Group By Column</FormLabel>
+                                    <Select onValueChange={field.onChange} value={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger className="mt-2">
+                                                <SelectValue placeholder="Select a column to group by" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {uniqueMergedColumns.map((colIdx, idx) => (
+                                                <SelectItem key={idx} value={columns[+colIdx]}>
+                                                    {columns[+colIdx]}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -132,7 +161,7 @@ export default function MergeGroupsForm({ projectId, selectedGroups, uniqueMerge
                             variant="default"
                             type="submit"
                             loading={mergeTableGroupsMutation.isPending}
-                            disabled={!watchValues.mergedGroupName?.trim() || mergeTableGroupsMutation.isPending}
+                            disabled={!watchValues.mergedGroupName?.trim() || !watchValues.groupByColumn || mergeTableGroupsMutation.isPending}
                         >
                             <MergeIcon className="h-4 w-4 mr-2" />
                             Merge {selectedGroups?.length} Groups

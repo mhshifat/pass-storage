@@ -83,6 +83,7 @@ model ProjectTableMergeGroup {
   updated_at      DateTime        @updatedAt
 
   name            String
+  groupByColumn   String?
 
   projectId       Int
   project         Project @relation(fields: [projectId], references: [id], onDelete: Cascade)

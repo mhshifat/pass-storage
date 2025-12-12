@@ -61,6 +61,12 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
     const selectedGroups = groupsData?.items?.filter(item => selectedGroupIds.includes(item.id)) || [];
     const mergedColumnIndices = selectedGroups.flatMap(group => group.columnIndices);
     const uniqueMergedColumns = Array.from(new Set(mergedColumnIndices));
+    
+    // Get unique column names for display (to avoid showing duplicate column names)
+    const uniqueColumnNames = Array.from(new Set(uniqueMergedColumns.map(idx => columns[+idx])));
+    const uniqueColumnIndicesForDisplay = uniqueColumnNames.map(name => {
+        return uniqueMergedColumns.find(idx => columns[+idx] === name)!;
+    });
 
     // Get IDs of groups that are already merged
     const mergedGroupIds = new Set(
@@ -486,7 +492,7 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                                             {selectedGroupIds.length} groups selected
                                         </p>
                                         <p className="text-xs text-muted-foreground">
-                                            {uniqueMergedColumns.length} unique columns will be merged
+                                            {uniqueColumnNames.length} unique columns will be merged
                                         </p>
                                     </div>
                                 </div>
@@ -526,7 +532,7 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                 <MergeGroupsForm
                     projectId={projectId}
                     selectedGroups={selectedGroups}
-                    uniqueMergedColumns={uniqueMergedColumns}
+                    uniqueMergedColumns={uniqueColumnIndicesForDisplay}
                     columns={columns}
                     onCancel={() => {
                         setMergeModalOpen(false);

@@ -861,6 +861,7 @@ export const ProjectTableMergeGroupScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   name: 'name',
+  groupByColumn: 'groupByColumn',
   projectId: 'projectId'
 } as const
 

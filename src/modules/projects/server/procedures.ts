@@ -77,6 +77,7 @@ export const projectsRouter = createTRPCRouter({
                 projectId: z.number().positive(),
                 mergedGroupName: z.string().min(2, "Merged group name must be at least 2 characters").max(50, "Merged group name must be at most 50 characters"),
                 selectedGroupIds: z.array(z.number().positive()).min(2, "At least two groups must be selected for merging"),
+                groupByColumn: z.string().min(1, "Please select a group by column"),
             })
         )
         .mutation(async ({ input }) => {
@@ -84,6 +85,7 @@ export const projectsRouter = createTRPCRouter({
                 data: {
                     name: input.mergedGroupName,
                     projectId: input.projectId,
+                    groupByColumn: input.groupByColumn,
                     tableGroups: {
                         createMany: {
                             data: input.selectedGroupIds.map(groupId => ({
