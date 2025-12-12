@@ -176,14 +176,29 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                     <div className="h-px flex-1 bg-linear-to-r from-border via-transparent to-transparent" />
                 </div>
                 {mergeGroupsData?.items?.map((mergedItem) => {
-                    // Get column indices from all table groups that are part of this merge
-                    const mergedGroupColumnIndices = mergedItem.tableGroups
-                        .map(tg => groupsData?.items?.find(g => g.id === tg.tableGroupId))
-                        .filter(Boolean)
-                        .flatMap(g => g!.columnIndices);
+                    // Get source groups info with their columns
+                    const sourceGroupsWithColumns = mergedItem.tableGroups
+                        .map(tg => {
+                            const group = groupsData?.items?.find(g => g.id === tg.tableGroupId);
+                            return group ? {
+                                id: group.id,
+                                name: group.name,
+                                columnIndices: group.columnIndices
+                            } : null;
+                        })
+                        .filter(Boolean);
                     
-                    // Get unique column indices
-                    const uniqueColumnIndices = Array.from(new Set(mergedGroupColumnIndices));
+                    // Create array of column info preserving group association
+                    const columnsWithGroups: Array<{ colIdx: number; groupName: string }> = [];
+                    
+                    sourceGroupsWithColumns.forEach((group) => {
+                        group!.columnIndices.forEach(colIdx => {
+                            columnsWithGroups.push({
+                                colIdx: +colIdx,
+                                groupName: group!.name
+                            });
+                        });
+                    });
 
                     return (
                         <div 
@@ -204,7 +219,7 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                                                 </span>
                                             </div>
                                             <p className="text-xs text-muted-foreground mt-0.5">
-                                                {uniqueColumnIndices.length} columns · {rows.length} rows · {mergedItem.tableGroups.length} groups merged
+                                                {columnsWithGroups.length} columns · {rows.length} rows · {mergedItem.tableGroups.length} groups merged
                                             </p>
                                         </div>
                                     </div>
@@ -249,13 +264,29 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                             <div className="overflow-x-auto">
                                 <Table>
                                     <TableHeader>
+                                        {/* Group name header row */}
+                                        <TableRow className="bg-muted/50">
+                                            {columnsWithGroups.map((col, idx) => (
+                                                <TableHead 
+                                                    key={`group-${idx}`} 
+                                                    className="text-xs font-medium text-center border-r border-border/50 last:border-r-0"
+                                                >
+                                                    <div className="flex items-center justify-center gap-1 py-1">
+                                                        <span className="text-muted-foreground">
+                                                            {col.groupName}
+                                                        </span>
+                                                    </div>
+                                                </TableHead>
+                                            ))}
+                                        </TableRow>
+                                        {/* Column name header row */}
                                         <TableRow className="bg-primary/5 hover:bg-primary/10">
-                                            {uniqueColumnIndices.map((colIdx, idx) => (
+                                            {columnsWithGroups.map((col, idx) => (
                                                 <TableHead 
                                                     key={"MergedTableGroupTableHeader" + mergedItem.id + idx}
-                                                    className="font-semibold text-foreground/90 whitespace-nowrap"
+                                                    className="font-semibold text-foreground/90 whitespace-nowrap border-r border-border/30 last:border-r-0"
                                                 >
-                                                    {columns[+colIdx]}
+                                                    {columns[+col.colIdx]}
                                                 </TableHead>
                                             ))}
                                         </TableRow>
@@ -266,12 +297,12 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                                                 key={rowIndex}
                                                 className="hover:bg-primary/5 transition-colors"
                                             >
-                                                {uniqueColumnIndices.map((colIdx, cellIndex) => (
+                                                {columnsWithGroups.map((col, cellIndex) => (
                                                     <TableCell 
                                                         key={cellIndex}
-                                                        className="whitespace-nowrap"
+                                                        className="whitespace-nowrap border-r border-border/20 last:border-r-0"
                                                     >
-                                                        {row[+colIdx] || <span className="text-muted-foreground/50">—</span>}
+                                                        {row[+col.colIdx] || <span className="text-muted-foreground/50">—</span>}
                                                     </TableCell>
                                                 ))}
                                             </TableRow>
@@ -532,7 +563,7 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                                 </Button>
                             }
                             as="div"
-                        >
+                        >   
                             <CreateTableGroupForm
                                 projectId={projectId}
                                 defaultValues={{
