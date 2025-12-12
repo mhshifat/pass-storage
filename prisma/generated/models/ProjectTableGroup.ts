@@ -57,7 +57,7 @@ export type ProjectTableGroupCountAggregateOutputType = {
   created_at: number
   updated_at: number
   name: number
-  columns: number
+  columnIndices: number
   projectId: number
   _all: number
 }
@@ -94,7 +94,7 @@ export type ProjectTableGroupCountAggregateInputType = {
   created_at?: true
   updated_at?: true
   name?: true
-  columns?: true
+  columnIndices?: true
   projectId?: true
   _all?: true
 }
@@ -190,7 +190,7 @@ export type ProjectTableGroupGroupByOutputType = {
   created_at: Date
   updated_at: Date
   name: string
-  columns: string[]
+  columnIndices: string[]
   projectId: number
   _count: ProjectTableGroupCountAggregateOutputType | null
   _avg: ProjectTableGroupAvgAggregateOutputType | null
@@ -222,7 +222,7 @@ export type ProjectTableGroupWhereInput = {
   created_at?: Prisma.DateTimeFilter<"ProjectTableGroup"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"ProjectTableGroup"> | Date | string
   name?: Prisma.StringFilter<"ProjectTableGroup"> | string
-  columns?: Prisma.StringNullableListFilter<"ProjectTableGroup">
+  columnIndices?: Prisma.StringNullableListFilter<"ProjectTableGroup">
   projectId?: Prisma.IntFilter<"ProjectTableGroup"> | number
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   mergeGroups?: Prisma.TableGroupMergeListRelationFilter
@@ -233,7 +233,7 @@ export type ProjectTableGroupOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  columns?: Prisma.SortOrder
+  columnIndices?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
   project?: Prisma.ProjectOrderByWithRelationInput
   mergeGroups?: Prisma.TableGroupMergeOrderByRelationAggregateInput
@@ -248,7 +248,7 @@ export type ProjectTableGroupWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"ProjectTableGroup"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"ProjectTableGroup"> | Date | string
   name?: Prisma.StringFilter<"ProjectTableGroup"> | string
-  columns?: Prisma.StringNullableListFilter<"ProjectTableGroup">
+  columnIndices?: Prisma.StringNullableListFilter<"ProjectTableGroup">
   projectId?: Prisma.IntFilter<"ProjectTableGroup"> | number
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   mergeGroups?: Prisma.TableGroupMergeListRelationFilter
@@ -259,7 +259,7 @@ export type ProjectTableGroupOrderByWithAggregationInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  columns?: Prisma.SortOrder
+  columnIndices?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
   _count?: Prisma.ProjectTableGroupCountOrderByAggregateInput
   _avg?: Prisma.ProjectTableGroupAvgOrderByAggregateInput
@@ -276,7 +276,7 @@ export type ProjectTableGroupScalarWhereWithAggregatesInput = {
   created_at?: Prisma.DateTimeWithAggregatesFilter<"ProjectTableGroup"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"ProjectTableGroup"> | Date | string
   name?: Prisma.StringWithAggregatesFilter<"ProjectTableGroup"> | string
-  columns?: Prisma.StringNullableListFilter<"ProjectTableGroup">
+  columnIndices?: Prisma.StringNullableListFilter<"ProjectTableGroup">
   projectId?: Prisma.IntWithAggregatesFilter<"ProjectTableGroup"> | number
 }
 
@@ -285,7 +285,7 @@ export type ProjectTableGroupCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   name: string
-  columns?: Prisma.ProjectTableGroupCreatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupCreatecolumnIndicesInput | string[]
   project: Prisma.ProjectCreateNestedOneWithoutTableGroupsInput
   mergeGroups?: Prisma.TableGroupMergeCreateNestedManyWithoutProjectTableGroupInput
 }
@@ -295,7 +295,7 @@ export type ProjectTableGroupUncheckedCreateInput = {
   created_at?: Date | string
   updated_at?: Date | string
   name: string
-  columns?: Prisma.ProjectTableGroupCreatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupCreatecolumnIndicesInput | string[]
   projectId: number
   mergeGroups?: Prisma.TableGroupMergeUncheckedCreateNestedManyWithoutProjectTableGroupInput
 }
@@ -304,7 +304,7 @@ export type ProjectTableGroupUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  columns?: Prisma.ProjectTableGroupUpdatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupUpdatecolumnIndicesInput | string[]
   project?: Prisma.ProjectUpdateOneRequiredWithoutTableGroupsNestedInput
   mergeGroups?: Prisma.TableGroupMergeUpdateManyWithoutProjectTableGroupNestedInput
 }
@@ -314,7 +314,7 @@ export type ProjectTableGroupUncheckedUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  columns?: Prisma.ProjectTableGroupUpdatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupUpdatecolumnIndicesInput | string[]
   projectId?: Prisma.IntFieldUpdateOperationsInput | number
   mergeGroups?: Prisma.TableGroupMergeUncheckedUpdateManyWithoutProjectTableGroupNestedInput
 }
@@ -324,7 +324,7 @@ export type ProjectTableGroupCreateManyInput = {
   created_at?: Date | string
   updated_at?: Date | string
   name: string
-  columns?: Prisma.ProjectTableGroupCreatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupCreatecolumnIndicesInput | string[]
   projectId: number
 }
 
@@ -332,7 +332,7 @@ export type ProjectTableGroupUpdateManyMutationInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  columns?: Prisma.ProjectTableGroupUpdatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupUpdatecolumnIndicesInput | string[]
 }
 
 export type ProjectTableGroupUncheckedUpdateManyInput = {
@@ -340,7 +340,7 @@ export type ProjectTableGroupUncheckedUpdateManyInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  columns?: Prisma.ProjectTableGroupUpdatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupUpdatecolumnIndicesInput | string[]
   projectId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -372,7 +372,7 @@ export type ProjectTableGroupCountOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  columns?: Prisma.SortOrder
+  columnIndices?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
 }
 
@@ -449,11 +449,11 @@ export type ProjectTableGroupUncheckedUpdateManyWithoutProjectNestedInput = {
   deleteMany?: Prisma.ProjectTableGroupScalarWhereInput | Prisma.ProjectTableGroupScalarWhereInput[]
 }
 
-export type ProjectTableGroupCreatecolumnsInput = {
+export type ProjectTableGroupCreatecolumnIndicesInput = {
   set: string[]
 }
 
-export type ProjectTableGroupUpdatecolumnsInput = {
+export type ProjectTableGroupUpdatecolumnIndicesInput = {
   set?: string[]
   push?: string | string[]
 }
@@ -477,7 +477,7 @@ export type ProjectTableGroupCreateWithoutProjectInput = {
   created_at?: Date | string
   updated_at?: Date | string
   name: string
-  columns?: Prisma.ProjectTableGroupCreatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupCreatecolumnIndicesInput | string[]
   mergeGroups?: Prisma.TableGroupMergeCreateNestedManyWithoutProjectTableGroupInput
 }
 
@@ -486,7 +486,7 @@ export type ProjectTableGroupUncheckedCreateWithoutProjectInput = {
   created_at?: Date | string
   updated_at?: Date | string
   name: string
-  columns?: Prisma.ProjectTableGroupCreatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupCreatecolumnIndicesInput | string[]
   mergeGroups?: Prisma.TableGroupMergeUncheckedCreateNestedManyWithoutProjectTableGroupInput
 }
 
@@ -524,7 +524,7 @@ export type ProjectTableGroupScalarWhereInput = {
   created_at?: Prisma.DateTimeFilter<"ProjectTableGroup"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"ProjectTableGroup"> | Date | string
   name?: Prisma.StringFilter<"ProjectTableGroup"> | string
-  columns?: Prisma.StringNullableListFilter<"ProjectTableGroup">
+  columnIndices?: Prisma.StringNullableListFilter<"ProjectTableGroup">
   projectId?: Prisma.IntFilter<"ProjectTableGroup"> | number
 }
 
@@ -533,7 +533,7 @@ export type ProjectTableGroupCreateWithoutMergeGroupsInput = {
   created_at?: Date | string
   updated_at?: Date | string
   name: string
-  columns?: Prisma.ProjectTableGroupCreatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupCreatecolumnIndicesInput | string[]
   project: Prisma.ProjectCreateNestedOneWithoutTableGroupsInput
 }
 
@@ -542,7 +542,7 @@ export type ProjectTableGroupUncheckedCreateWithoutMergeGroupsInput = {
   created_at?: Date | string
   updated_at?: Date | string
   name: string
-  columns?: Prisma.ProjectTableGroupCreatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupCreatecolumnIndicesInput | string[]
   projectId: number
 }
 
@@ -566,7 +566,7 @@ export type ProjectTableGroupUpdateWithoutMergeGroupsInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  columns?: Prisma.ProjectTableGroupUpdatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupUpdatecolumnIndicesInput | string[]
   project?: Prisma.ProjectUpdateOneRequiredWithoutTableGroupsNestedInput
 }
 
@@ -575,7 +575,7 @@ export type ProjectTableGroupUncheckedUpdateWithoutMergeGroupsInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  columns?: Prisma.ProjectTableGroupUpdatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupUpdatecolumnIndicesInput | string[]
   projectId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -584,14 +584,14 @@ export type ProjectTableGroupCreateManyProjectInput = {
   created_at?: Date | string
   updated_at?: Date | string
   name: string
-  columns?: Prisma.ProjectTableGroupCreatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupCreatecolumnIndicesInput | string[]
 }
 
 export type ProjectTableGroupUpdateWithoutProjectInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  columns?: Prisma.ProjectTableGroupUpdatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupUpdatecolumnIndicesInput | string[]
   mergeGroups?: Prisma.TableGroupMergeUpdateManyWithoutProjectTableGroupNestedInput
 }
 
@@ -600,7 +600,7 @@ export type ProjectTableGroupUncheckedUpdateWithoutProjectInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  columns?: Prisma.ProjectTableGroupUpdatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupUpdatecolumnIndicesInput | string[]
   mergeGroups?: Prisma.TableGroupMergeUncheckedUpdateManyWithoutProjectTableGroupNestedInput
 }
 
@@ -609,7 +609,7 @@ export type ProjectTableGroupUncheckedUpdateManyWithoutProjectInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  columns?: Prisma.ProjectTableGroupUpdatecolumnsInput | string[]
+  columnIndices?: Prisma.ProjectTableGroupUpdatecolumnIndicesInput | string[]
 }
 
 
@@ -648,7 +648,7 @@ export type ProjectTableGroupSelect<ExtArgs extends runtime.Types.Extensions.Int
   created_at?: boolean
   updated_at?: boolean
   name?: boolean
-  columns?: boolean
+  columnIndices?: boolean
   projectId?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   mergeGroups?: boolean | Prisma.ProjectTableGroup$mergeGroupsArgs<ExtArgs>
@@ -660,7 +660,7 @@ export type ProjectTableGroupSelectCreateManyAndReturn<ExtArgs extends runtime.T
   created_at?: boolean
   updated_at?: boolean
   name?: boolean
-  columns?: boolean
+  columnIndices?: boolean
   projectId?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["projectTableGroup"]>
@@ -670,7 +670,7 @@ export type ProjectTableGroupSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   created_at?: boolean
   updated_at?: boolean
   name?: boolean
-  columns?: boolean
+  columnIndices?: boolean
   projectId?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["projectTableGroup"]>
@@ -680,11 +680,11 @@ export type ProjectTableGroupSelectScalar = {
   created_at?: boolean
   updated_at?: boolean
   name?: boolean
-  columns?: boolean
+  columnIndices?: boolean
   projectId?: boolean
 }
 
-export type ProjectTableGroupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "updated_at" | "name" | "columns" | "projectId", ExtArgs["result"]["projectTableGroup"]>
+export type ProjectTableGroupOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "updated_at" | "name" | "columnIndices" | "projectId", ExtArgs["result"]["projectTableGroup"]>
 export type ProjectTableGroupInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   mergeGroups?: boolean | Prisma.ProjectTableGroup$mergeGroupsArgs<ExtArgs>
@@ -708,7 +708,7 @@ export type $ProjectTableGroupPayload<ExtArgs extends runtime.Types.Extensions.I
     created_at: Date
     updated_at: Date
     name: string
-    columns: string[]
+    columnIndices: string[]
     projectId: number
   }, ExtArgs["result"]["projectTableGroup"]>
   composites: {}
@@ -1139,7 +1139,7 @@ export interface ProjectTableGroupFieldRefs {
   readonly created_at: Prisma.FieldRef<"ProjectTableGroup", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"ProjectTableGroup", 'DateTime'>
   readonly name: Prisma.FieldRef<"ProjectTableGroup", 'String'>
-  readonly columns: Prisma.FieldRef<"ProjectTableGroup", 'String[]'>
+  readonly columnIndices: Prisma.FieldRef<"ProjectTableGroup", 'String[]'>
   readonly projectId: Prisma.FieldRef<"ProjectTableGroup", 'Int'>
 }
     

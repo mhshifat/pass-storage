@@ -15,7 +15,7 @@ const createTableGroupFormSchema = z.object({
     groups: z.array(
         z.object({
             name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be at most 50 characters"),
-            columns: z.array(z.string()).min(1, "At least one column must be selected"),
+            columnIndices: z.array(z.string()).min(1, "At least one column must be selected"),
         })
     )
 });
@@ -43,7 +43,7 @@ export default function CreateTableGroupForm({ projectId, columns, afterSubmit, 
             groups: [
                 {
                     name: "",
-                    columns: [],
+                    columnIndices: [],
                 }
             ]
         },
@@ -96,7 +96,7 @@ export default function CreateTableGroupForm({ projectId, columns, afterSubmit, 
                         variant="outline" 
                         onClick={() => append({
                             name: "",
-                            columns: [],
+                            columnIndices: [],
                         })}
                         className="w-full border-dashed border-2 hover:border-primary/60 hover:bg-primary/5"
                     >
@@ -128,6 +128,17 @@ interface GroupColumnsProps {
 
 function GroupColumns({ groupIndex, onRemove, columns, totalGroups }: GroupColumnsProps) {
     const { control } = useFormContext();
+
+    // Create options with column index and name (showing duplicates with index)
+    const columnOptions = columns.map((col, index) => {
+        // Count occurrences of this column name
+        const occurrences = columns.filter(c => c === col);
+        
+        return {
+            label: occurrences.length > 1 ? `${col} (Column ${index + 1})` : col,
+            value: index + "",
+        };
+    });
 
     return (
         <Card className="border-border/40 shadow-sm hover:shadow-md transition-all">
@@ -180,7 +191,7 @@ function GroupColumns({ groupIndex, onRemove, columns, totalGroups }: GroupColum
                     {/* Columns Selection Field */}
                     <FormField
                         control={control}
-                        name={`groups.${groupIndex}.columns`}
+                        name={`groups.${groupIndex}.columnIndices`}
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel className="text-sm font-medium">
@@ -198,12 +209,13 @@ function GroupColumns({ groupIndex, onRemove, columns, totalGroups }: GroupColum
                                         placeholder="Select columns to include in this group..."
                                         onSearch={() => {}}
                                         disabled={false}
-                                        options={[...new Set(columns)].map(col => ({
-                                            label: col,
-                                            value: col
-                                        }))}
+                                        options={columnOptions}
+                                        onDisplayItemRender={(item) => columnOptions.find(opt => opt.value === item)?.label || item}
                                     />
                                 </FormControl>
+                                <p className="text-xs text-muted-foreground mt-1.5">
+                                    Columns with the same name show their position number for clarity
+                                </p>
                                 <FormMessage />
                             </FormItem>
                         )}

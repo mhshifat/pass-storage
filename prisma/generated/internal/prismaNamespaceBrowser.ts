@@ -106,7 +106,7 @@ export const ProjectTableGroupScalarFieldEnum = {
   created_at: 'created_at',
   updated_at: 'updated_at',
   name: 'name',
-  columns: 'columns',
+  columnIndices: 'columnIndices',
   projectId: 'projectId'
 } as const
 

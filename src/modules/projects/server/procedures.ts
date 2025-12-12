@@ -37,7 +37,7 @@ export const projectsRouter = createTRPCRouter({
                 groups: z.array(
                     z.object({
                         name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be at most 50 characters"),
-                        columns: z.array(z.string()).min(1, "At least one column must be selected"),
+                        columnIndices: z.array(z.string()).min(1, "At least one column must be selected"),
                     })
                 )
             })
@@ -59,12 +59,12 @@ export const projectsRouter = createTRPCRouter({
                                 },
                             },
                             update: {
-                                columns: group.columns,
+                                columnIndices: group.columnIndices,
                             },
                             create: {
                                 projectId: input.projectId,
                                 name: group.name,
-                                columns: group.columns,
+                                columnIndices: group.columnIndices,
                             },
                         })
                     )
@@ -187,7 +187,7 @@ export const projectsRouter = createTRPCRouter({
                     select: {
                         id: true,
                         name: true,
-                        columns: true,
+                        columnIndices: true,
                     },
                     take: perPage,
                     skip

@@ -59,8 +59,8 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
     };
 
     const selectedGroups = groupsData?.items?.filter(item => selectedGroupIds.includes(item.id)) || [];
-    const mergedColumns = selectedGroups.flatMap(group => group.columns);
-    const uniqueMergedColumns = Array.from(new Set(mergedColumns));
+    const mergedColumnIndices = selectedGroups.flatMap(group => group.columnIndices);
+    const uniqueMergedColumns = Array.from(new Set(mergedColumnIndices));
 
     // Get IDs of groups that are already merged
     const mergedGroupIds = new Set(
@@ -176,14 +176,14 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                     <div className="h-px flex-1 bg-linear-to-r from-border via-transparent to-transparent" />
                 </div>
                 {mergeGroupsData?.items?.map((mergedItem) => {
-                    // Get columns from all table groups that are part of this merge
-                    const mergedGroupColumns = mergedItem.tableGroups
+                    // Get column indices from all table groups that are part of this merge
+                    const mergedGroupColumnIndices = mergedItem.tableGroups
                         .map(tg => groupsData?.items?.find(g => g.id === tg.tableGroupId))
                         .filter(Boolean)
-                        .flatMap(g => g!.columns);
+                        .flatMap(g => g!.columnIndices);
                     
-                    // Get unique columns
-                    const uniqueColumns = Array.from(new Set(mergedGroupColumns));
+                    // Get unique column indices
+                    const uniqueColumnIndices = Array.from(new Set(mergedGroupColumnIndices));
 
                     return (
                         <div 
@@ -204,7 +204,7 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                                                 </span>
                                             </div>
                                             <p className="text-xs text-muted-foreground mt-0.5">
-                                                {uniqueColumns.length} columns · {rows.length} rows · {mergedItem.tableGroups.length} groups merged
+                                                {uniqueColumnIndices.length} columns · {rows.length} rows · {mergedItem.tableGroups.length} groups merged
                                             </p>
                                         </div>
                                     </div>
@@ -250,12 +250,12 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-primary/5 hover:bg-primary/10">
-                                            {uniqueColumns.map((column, columnIdx) => (
+                                            {uniqueColumnIndices.map((colIdx, idx) => (
                                                 <TableHead 
-                                                    key={"MergedTableGroupTableHeader" + mergedItem.id + columnIdx}
+                                                    key={"MergedTableGroupTableHeader" + mergedItem.id + idx}
                                                     className="font-semibold text-foreground/90 whitespace-nowrap"
                                                 >
-                                                    {column}
+                                                    {columns[+colIdx]}
                                                 </TableHead>
                                             ))}
                                         </TableRow>
@@ -266,17 +266,14 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                                                 key={rowIndex}
                                                 className="hover:bg-primary/5 transition-colors"
                                             >
-                                                {uniqueColumns.map((columnName, cellIndex) => {
-                                                    const columnIdx = columns.indexOf(columnName);
-                                                    return (
-                                                        <TableCell 
-                                                            key={cellIndex}
-                                                            className="whitespace-nowrap"
-                                                        >
-                                                            {row[columnIdx] || <span className="text-muted-foreground/50">—</span>}
-                                                        </TableCell>
-                                                    )
-                                                })}
+                                                {uniqueColumnIndices.map((colIdx, cellIndex) => (
+                                                    <TableCell 
+                                                        key={cellIndex}
+                                                        className="whitespace-nowrap"
+                                                    >
+                                                        {row[+colIdx] || <span className="text-muted-foreground/50">—</span>}
+                                                    </TableCell>
+                                                ))}
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -336,7 +333,7 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                                         <div>
                                             <h3 className="text-lg font-semibold text-foreground">{item.name}</h3>
                                             <p className="text-xs text-muted-foreground mt-0.5">
-                                                {item.columns.length} columns · {rows.length} rows
+                                                {item.columnIndices.length} columns · {rows.length} rows
                                             </p>
                                         </div>
                                     </div>
@@ -351,12 +348,12 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="bg-muted/30 hover:bg-muted/40">
-                                            {item.columns.map((column, columnIdx) => (
+                                            {item.columnIndices.map((colIdx, idx) => (
                                                 <TableHead 
-                                                    key={"ProjectTableGroupTableHeader" + item.id + columnIdx}
+                                                    key={"ProjectTableGroupTableHeader" + item.id + idx}
                                                     className="font-semibold text-foreground/90 whitespace-nowrap"
                                                 >
-                                                    {column}
+                                                    {columns[+colIdx]}
                                                 </TableHead>
                                             ))}
                                         </TableRow>
@@ -367,17 +364,14 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                                                 key={rowIndex}
                                                 className="hover:bg-muted/20 transition-colors"
                                             >
-                                                {item.columns.map((columnName, cellIndex) => {
-                                                    const columnIdx = columns.indexOf(columnName);
-                                                    return (
-                                                        <TableCell 
-                                                            key={cellIndex}
-                                                            className="whitespace-nowrap"
-                                                        >
-                                                            {row[columnIdx] || <span className="text-muted-foreground/50">—</span>}
-                                                        </TableCell>
-                                                    )
-                                                })}
+                                                {item.columnIndices.map((colIdx, cellIndex) => (
+                                                    <TableCell 
+                                                        key={cellIndex}
+                                                        className="whitespace-nowrap"
+                                                    >
+                                                        {row[+colIdx] || <span className="text-muted-foreground/50">—</span>}
+                                                    </TableCell>
+                                                ))}
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -545,7 +539,10 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                                     groups: groupsData?.items || []
                                 }}
                                 columns={columns}
-                                afterSubmit={() => setCreateGroupModalOpen(false)}
+                                afterSubmit={() => {
+                                    setCreateGroupModalOpen(false);
+                                    refetchGroups();
+                                }}
                             />
                         </Modal>
                     </div>

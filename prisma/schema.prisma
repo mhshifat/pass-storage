@@ -65,7 +65,7 @@ model ProjectTableGroup {
   updated_at      DateTime        @updatedAt
 
   name            String
-  columns         String[]
+  columnIndices   String[]
 
   projectId       Int
   project         Project @relation(fields: [projectId], references: [id], onDelete: Cascade)

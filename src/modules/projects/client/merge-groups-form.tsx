@@ -20,7 +20,7 @@ interface MergeGroupsFormProps {
     selectedGroups: {
         id: number;
         name: string;
-        columns: string[];
+        columnIndices: string[];
     }[];
     uniqueMergedColumns: string[];
     onCancel: () => void;
@@ -85,7 +85,7 @@ export default function MergeGroupsForm({ projectId, selectedGroups, uniqueMerge
                                         <div className="h-2 w-2 rounded-full bg-primary" />
                                         <span className="font-medium">{group.name}</span>
                                         <span className="text-muted-foreground">
-                                            ({group.columns.length} columns)
+                                            ({group.columnIndices.length} columns)
                                         </span>
                                     </li>
                                 ))}
@@ -97,12 +97,12 @@ export default function MergeGroupsForm({ projectId, selectedGroups, uniqueMerge
                                 Resulting columns ({uniqueMergedColumns.length}):
                             </h4>
                             <div className="flex flex-wrap gap-2">
-                                {uniqueMergedColumns.map((col, idx) => (
+                                {uniqueMergedColumns.map((colIdx, idx) => (
                                     <span
                                         key={idx}
                                         className="inline-flex items-center px-2.5 py-1 rounded-md bg-primary/10 text-primary text-xs font-medium"
                                     >
-                                        {col}
+                                        Column {colIdx + 1}
                                     </span>
                                 ))}
                             </div>
