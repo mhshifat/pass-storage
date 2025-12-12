@@ -385,7 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Connection: 'Connection',
-  Project: 'Project'
+  Project: 'Project',
+  ProjectTableGroup: 'ProjectTableGroup'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -401,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "connection" | "project"
+    modelProps: "connection" | "project" | "projectTableGroup"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -553,6 +554,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ProjectTableGroup: {
+      payload: Prisma.$ProjectTableGroupPayload<ExtArgs>
+      fields: Prisma.ProjectTableGroupFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProjectTableGroupFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableGroupPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProjectTableGroupFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableGroupPayload>
+        }
+        findFirst: {
+          args: Prisma.ProjectTableGroupFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableGroupPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProjectTableGroupFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableGroupPayload>
+        }
+        findMany: {
+          args: Prisma.ProjectTableGroupFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableGroupPayload>[]
+        }
+        create: {
+          args: Prisma.ProjectTableGroupCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableGroupPayload>
+        }
+        createMany: {
+          args: Prisma.ProjectTableGroupCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProjectTableGroupCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableGroupPayload>[]
+        }
+        delete: {
+          args: Prisma.ProjectTableGroupDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableGroupPayload>
+        }
+        update: {
+          args: Prisma.ProjectTableGroupUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableGroupPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProjectTableGroupDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProjectTableGroupUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProjectTableGroupUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableGroupPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProjectTableGroupUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableGroupPayload>
+        }
+        aggregate: {
+          args: Prisma.ProjectTableGroupAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProjectTableGroup>
+        }
+        groupBy: {
+          args: Prisma.ProjectTableGroupGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectTableGroupGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProjectTableGroupCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectTableGroupCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -617,6 +692,18 @@ export const ProjectScalarFieldEnum = {
 } as const
 
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+export const ProjectTableGroupScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  name: 'name',
+  columns: 'columns',
+  projectId: 'projectId'
+} as const
+
+export type ProjectTableGroupScalarFieldEnum = (typeof ProjectTableGroupScalarFieldEnum)[keyof typeof ProjectTableGroupScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -844,6 +931,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   connection?: Prisma.ConnectionOmit
   project?: Prisma.ProjectOmit
+  projectTableGroup?: Prisma.ProjectTableGroupOmit
 }
 
 /* Types for Logging */

@@ -51,8 +51,26 @@ model Project {
   connectionId    Int?
   connection      Connection? @relation(fields: [connectionId], references: [id], onDelete: SetNull)
 
+  tableGroups     ProjectTableGroup[]
 
   @@map("projects")
   @@index([name])
   @@index([datasource])
+}
+
+model ProjectTableGroup {
+  id              Int             @unique  @default(autoincrement())
+  created_at      DateTime        @default(now())
+  updated_at      DateTime        @updatedAt
+
+  name            String
+  columns         String[]
+
+  projectId    Int?
+  project      Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+
+  @@map("project_table_groups")
+  @@index([name])
+  @@unique([projectId, name])
 }

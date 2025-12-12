@@ -241,6 +241,7 @@ export type ProjectWhereInput = {
   metadata?: Prisma.JsonNullableFilter<"Project">
   connectionId?: Prisma.IntNullableFilter<"Project"> | number | null
   connection?: Prisma.XOR<Prisma.ConnectionNullableScalarRelationFilter, Prisma.ConnectionWhereInput> | null
+  tableGroups?: Prisma.ProjectTableGroupListRelationFilter
 }
 
 export type ProjectOrderByWithRelationInput = {
@@ -253,6 +254,7 @@ export type ProjectOrderByWithRelationInput = {
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   connectionId?: Prisma.SortOrderInput | Prisma.SortOrder
   connection?: Prisma.ConnectionOrderByWithRelationInput
+  tableGroups?: Prisma.ProjectTableGroupOrderByRelationAggregateInput
 }
 
 export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -268,6 +270,7 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   metadata?: Prisma.JsonNullableFilter<"Project">
   connectionId?: Prisma.IntNullableFilter<"Project"> | number | null
   connection?: Prisma.XOR<Prisma.ConnectionNullableScalarRelationFilter, Prisma.ConnectionWhereInput> | null
+  tableGroups?: Prisma.ProjectTableGroupListRelationFilter
 }, "id">
 
 export type ProjectOrderByWithAggregationInput = {
@@ -309,6 +312,7 @@ export type ProjectCreateInput = {
   datasource: $Enums.ProjectDatasource
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   connection?: Prisma.ConnectionCreateNestedOneWithoutProjectsInput
+  tableGroups?: Prisma.ProjectTableGroupCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateInput = {
@@ -320,6 +324,7 @@ export type ProjectUncheckedCreateInput = {
   datasource: $Enums.ProjectDatasource
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   connectionId?: number | null
+  tableGroups?: Prisma.ProjectTableGroupUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUpdateInput = {
@@ -330,6 +335,7 @@ export type ProjectUpdateInput = {
   datasource?: Prisma.EnumProjectDatasourceFieldUpdateOperationsInput | $Enums.ProjectDatasource
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   connection?: Prisma.ConnectionUpdateOneWithoutProjectsNestedInput
+  tableGroups?: Prisma.ProjectTableGroupUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateInput = {
@@ -341,6 +347,7 @@ export type ProjectUncheckedUpdateInput = {
   datasource?: Prisma.EnumProjectDatasourceFieldUpdateOperationsInput | $Enums.ProjectDatasource
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   connectionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tableGroups?: Prisma.ProjectTableGroupUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyInput = {
@@ -425,6 +432,11 @@ export type ProjectSumOrderByAggregateInput = {
   connectionId?: Prisma.SortOrder
 }
 
+export type ProjectNullableScalarRelationFilter = {
+  is?: Prisma.ProjectWhereInput | null
+  isNot?: Prisma.ProjectWhereInput | null
+}
+
 export type ProjectCreateNestedManyWithoutConnectionInput = {
   create?: Prisma.XOR<Prisma.ProjectCreateWithoutConnectionInput, Prisma.ProjectUncheckedCreateWithoutConnectionInput> | Prisma.ProjectCreateWithoutConnectionInput[] | Prisma.ProjectUncheckedCreateWithoutConnectionInput[]
   connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutConnectionInput | Prisma.ProjectCreateOrConnectWithoutConnectionInput[]
@@ -479,6 +491,22 @@ export type NullableIntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type ProjectCreateNestedOneWithoutTableGroupsInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutTableGroupsInput, Prisma.ProjectUncheckedCreateWithoutTableGroupsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutTableGroupsInput
+  connect?: Prisma.ProjectWhereUniqueInput
+}
+
+export type ProjectUpdateOneWithoutTableGroupsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutTableGroupsInput, Prisma.ProjectUncheckedCreateWithoutTableGroupsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutTableGroupsInput
+  upsert?: Prisma.ProjectUpsertWithoutTableGroupsInput
+  disconnect?: Prisma.ProjectWhereInput | boolean
+  delete?: Prisma.ProjectWhereInput | boolean
+  connect?: Prisma.ProjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutTableGroupsInput, Prisma.ProjectUpdateWithoutTableGroupsInput>, Prisma.ProjectUncheckedUpdateWithoutTableGroupsInput>
+}
+
 export type ProjectCreateWithoutConnectionInput = {
   id?: number
   created_at?: Date | string
@@ -487,6 +515,7 @@ export type ProjectCreateWithoutConnectionInput = {
   description?: string | null
   datasource: $Enums.ProjectDatasource
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tableGroups?: Prisma.ProjectTableGroupCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutConnectionInput = {
@@ -497,6 +526,7 @@ export type ProjectUncheckedCreateWithoutConnectionInput = {
   description?: string | null
   datasource: $Enums.ProjectDatasource
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tableGroups?: Prisma.ProjectTableGroupUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutConnectionInput = {
@@ -539,6 +569,65 @@ export type ProjectScalarWhereInput = {
   connectionId?: Prisma.IntNullableFilter<"Project"> | number | null
 }
 
+export type ProjectCreateWithoutTableGroupsInput = {
+  id?: number
+  created_at?: Date | string
+  updated_at?: Date | string
+  name: string
+  description?: string | null
+  datasource: $Enums.ProjectDatasource
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  connection?: Prisma.ConnectionCreateNestedOneWithoutProjectsInput
+}
+
+export type ProjectUncheckedCreateWithoutTableGroupsInput = {
+  id?: number
+  created_at?: Date | string
+  updated_at?: Date | string
+  name: string
+  description?: string | null
+  datasource: $Enums.ProjectDatasource
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  connectionId?: number | null
+}
+
+export type ProjectCreateOrConnectWithoutTableGroupsInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutTableGroupsInput, Prisma.ProjectUncheckedCreateWithoutTableGroupsInput>
+}
+
+export type ProjectUpsertWithoutTableGroupsInput = {
+  update: Prisma.XOR<Prisma.ProjectUpdateWithoutTableGroupsInput, Prisma.ProjectUncheckedUpdateWithoutTableGroupsInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutTableGroupsInput, Prisma.ProjectUncheckedCreateWithoutTableGroupsInput>
+  where?: Prisma.ProjectWhereInput
+}
+
+export type ProjectUpdateToOneWithWhereWithoutTableGroupsInput = {
+  where?: Prisma.ProjectWhereInput
+  data: Prisma.XOR<Prisma.ProjectUpdateWithoutTableGroupsInput, Prisma.ProjectUncheckedUpdateWithoutTableGroupsInput>
+}
+
+export type ProjectUpdateWithoutTableGroupsInput = {
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  datasource?: Prisma.EnumProjectDatasourceFieldUpdateOperationsInput | $Enums.ProjectDatasource
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  connection?: Prisma.ConnectionUpdateOneWithoutProjectsNestedInput
+}
+
+export type ProjectUncheckedUpdateWithoutTableGroupsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  datasource?: Prisma.EnumProjectDatasourceFieldUpdateOperationsInput | $Enums.ProjectDatasource
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  connectionId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+}
+
 export type ProjectCreateManyConnectionInput = {
   id?: number
   created_at?: Date | string
@@ -556,6 +645,7 @@ export type ProjectUpdateWithoutConnectionInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   datasource?: Prisma.EnumProjectDatasourceFieldUpdateOperationsInput | $Enums.ProjectDatasource
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tableGroups?: Prisma.ProjectTableGroupUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutConnectionInput = {
@@ -566,6 +656,7 @@ export type ProjectUncheckedUpdateWithoutConnectionInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   datasource?: Prisma.EnumProjectDatasourceFieldUpdateOperationsInput | $Enums.ProjectDatasource
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tableGroups?: Prisma.ProjectTableGroupUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateManyWithoutConnectionInput = {
@@ -579,6 +670,35 @@ export type ProjectUncheckedUpdateManyWithoutConnectionInput = {
 }
 
 
+/**
+ * Count Type ProjectCountOutputType
+ */
+
+export type ProjectCountOutputType = {
+  tableGroups: number
+}
+
+export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tableGroups?: boolean | ProjectCountOutputTypeCountTableGroupsArgs
+}
+
+/**
+ * ProjectCountOutputType without action
+ */
+export type ProjectCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProjectCountOutputType
+   */
+  select?: Prisma.ProjectCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ProjectCountOutputType without action
+ */
+export type ProjectCountOutputTypeCountTableGroupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProjectTableGroupWhereInput
+}
+
 
 export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -590,6 +710,8 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   metadata?: boolean
   connectionId?: boolean
   connection?: boolean | Prisma.Project$connectionArgs<ExtArgs>
+  tableGroups?: boolean | Prisma.Project$tableGroupsArgs<ExtArgs>
+  _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
 export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -630,6 +752,8 @@ export type ProjectSelectScalar = {
 export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "created_at" | "updated_at" | "name" | "description" | "datasource" | "metadata" | "connectionId", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   connection?: boolean | Prisma.Project$connectionArgs<ExtArgs>
+  tableGroups?: boolean | Prisma.Project$tableGroupsArgs<ExtArgs>
+  _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   connection?: boolean | Prisma.Project$connectionArgs<ExtArgs>
@@ -642,6 +766,7 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Project"
   objects: {
     connection: Prisma.$ConnectionPayload<ExtArgs> | null
+    tableGroups: Prisma.$ProjectTableGroupPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1047,6 +1172,7 @@ readonly fields: ProjectFieldRefs;
 export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   connection<T extends Prisma.Project$connectionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$connectionArgs<ExtArgs>>): Prisma.Prisma__ConnectionClient<runtime.Types.Result.GetResult<Prisma.$ConnectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tableGroups<T extends Prisma.Project$tableGroupsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$tableGroupsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectTableGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1496,6 +1622,30 @@ export type Project$connectionArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   include?: Prisma.ConnectionInclude<ExtArgs> | null
   where?: Prisma.ConnectionWhereInput
+}
+
+/**
+ * Project.tableGroups
+ */
+export type Project$tableGroupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProjectTableGroup
+   */
+  select?: Prisma.ProjectTableGroupSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProjectTableGroup
+   */
+  omit?: Prisma.ProjectTableGroupOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectTableGroupInclude<ExtArgs> | null
+  where?: Prisma.ProjectTableGroupWhereInput
+  orderBy?: Prisma.ProjectTableGroupOrderByWithRelationInput | Prisma.ProjectTableGroupOrderByWithRelationInput[]
+  cursor?: Prisma.ProjectTableGroupWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProjectTableGroupScalarFieldEnum | Prisma.ProjectTableGroupScalarFieldEnum[]
 }
 
 /**

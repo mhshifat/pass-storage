@@ -52,3 +52,25 @@ export async function getSheetTabs(refreshToken: string, spreadsheetId: string):
 
   return data.sheets;
 }
+
+export async function getSheetData(
+  refreshToken: string,
+  spreadsheetId: string,
+  sheetName: string
+): Promise<string[][]> {
+  const accessToken = await getAccessToken(refreshToken);
+
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(
+      sheetName
+    )}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  const data = await res.json();
+  return data.values || [];
+}

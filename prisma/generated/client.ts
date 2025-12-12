@@ -49,3 +49,8 @@ export type Connection = Prisma.ConnectionModel
  * 
  */
 export type Project = Prisma.ProjectModel
+/**
+ * Model ProjectTableGroup
+ * 
+ */
+export type ProjectTableGroup = Prisma.ProjectTableGroupModel
