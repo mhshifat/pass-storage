@@ -71,6 +71,31 @@ export const projectsRouter = createTRPCRouter({
                 );
             }
         }),
+    mergeTableGroups: baseProcedure
+        .input(
+            z.object({
+                projectId: z.number().positive(),
+                mergedGroupName: z.string().min(2, "Merged group name must be at least 2 characters").max(50, "Merged group name must be at most 50 characters"),
+                selectedGroupIds: z.array(z.number().positive()).min(2, "At least two groups must be selected for merging"),
+            })
+        )
+        .mutation(async ({ input }) => {
+            const mergedGroup = await prisma.projectTableMergeGroup.create({
+                data: {
+                    name: input.mergedGroupName,
+                    projectId: input.projectId,
+                    tableGroups: {
+                        createMany: {
+                            data: input.selectedGroupIds.map(groupId => ({
+                                tableGroupId: groupId,
+                            })),
+                        }
+                    }
+                }
+            });
+
+            return mergedGroup;
+        }),
     findMany: baseProcedure
         .input(
             z.object({
@@ -146,6 +171,56 @@ export const projectsRouter = createTRPCRouter({
                         id: true,
                         name: true,
                         columns: true,
+                    },
+                    take: perPage,
+                    skip
+                })
+            ])
+
+            const totalPages = Math.ceil(totalItemsCount / perPage);
+
+            return {
+                items,
+                pageInfo: {
+                    page,
+                    perPage,
+                    total: totalItemsCount,
+                    totalPages,
+                    hasNextPage: page < totalPages,
+                    hasPrevPage: page > 1,
+                }
+            }
+        }),
+    findManyMergeGroupsByProjectId: baseProcedure
+        .input(
+            z.object({
+                page: z.number().positive(),
+                perPage: z.number().positive(),
+                projectId: z.number().positive(),
+            })
+        )
+        .query(async ({ input }) => {
+            const page = input.page;
+            const perPage = input.perPage;
+            const skip = (page - 1) * perPage;
+
+            const [totalItemsCount, items] = await Promise.all([
+                prisma.projectTableMergeGroup.count({
+                    where: {
+                        projectId: input.projectId,
+                    }
+                }),
+                prisma.projectTableMergeGroup.findMany({
+                    where: {
+                        projectId: input.projectId,
+                    },
+                    orderBy: {
+                        created_at: "desc"
+                    },
+                    select: {
+                        id: true,
+                        name: true,
+                        tableGroups: true,
                     },
                     take: perPage,
                     skip

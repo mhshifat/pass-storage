@@ -54,3 +54,13 @@ export type Project = Prisma.ProjectModel
  * 
  */
 export type ProjectTableGroup = Prisma.ProjectTableGroupModel
+/**
+ * Model ProjectTableMergeGroup
+ * 
+ */
+export type ProjectTableMergeGroup = Prisma.ProjectTableMergeGroupModel
+/**
+ * Model TableGroupMerge
+ * 
+ */
+export type TableGroupMerge = Prisma.TableGroupMergeModel

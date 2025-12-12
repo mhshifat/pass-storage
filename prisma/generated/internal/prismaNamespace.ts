@@ -386,7 +386,9 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Connection: 'Connection',
   Project: 'Project',
-  ProjectTableGroup: 'ProjectTableGroup'
+  ProjectTableGroup: 'ProjectTableGroup',
+  ProjectTableMergeGroup: 'ProjectTableMergeGroup',
+  TableGroupMerge: 'TableGroupMerge'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -402,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "connection" | "project" | "projectTableGroup"
+    modelProps: "connection" | "project" | "projectTableGroup" | "projectTableMergeGroup" | "tableGroupMerge"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -628,6 +630,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ProjectTableMergeGroup: {
+      payload: Prisma.$ProjectTableMergeGroupPayload<ExtArgs>
+      fields: Prisma.ProjectTableMergeGroupFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProjectTableMergeGroupFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableMergeGroupPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProjectTableMergeGroupFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableMergeGroupPayload>
+        }
+        findFirst: {
+          args: Prisma.ProjectTableMergeGroupFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableMergeGroupPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProjectTableMergeGroupFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableMergeGroupPayload>
+        }
+        findMany: {
+          args: Prisma.ProjectTableMergeGroupFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableMergeGroupPayload>[]
+        }
+        create: {
+          args: Prisma.ProjectTableMergeGroupCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableMergeGroupPayload>
+        }
+        createMany: {
+          args: Prisma.ProjectTableMergeGroupCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProjectTableMergeGroupCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableMergeGroupPayload>[]
+        }
+        delete: {
+          args: Prisma.ProjectTableMergeGroupDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableMergeGroupPayload>
+        }
+        update: {
+          args: Prisma.ProjectTableMergeGroupUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableMergeGroupPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProjectTableMergeGroupDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProjectTableMergeGroupUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProjectTableMergeGroupUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableMergeGroupPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProjectTableMergeGroupUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTableMergeGroupPayload>
+        }
+        aggregate: {
+          args: Prisma.ProjectTableMergeGroupAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProjectTableMergeGroup>
+        }
+        groupBy: {
+          args: Prisma.ProjectTableMergeGroupGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectTableMergeGroupGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProjectTableMergeGroupCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectTableMergeGroupCountAggregateOutputType> | number
+        }
+      }
+    }
+    TableGroupMerge: {
+      payload: Prisma.$TableGroupMergePayload<ExtArgs>
+      fields: Prisma.TableGroupMergeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TableGroupMergeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TableGroupMergePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TableGroupMergeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TableGroupMergePayload>
+        }
+        findFirst: {
+          args: Prisma.TableGroupMergeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TableGroupMergePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TableGroupMergeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TableGroupMergePayload>
+        }
+        findMany: {
+          args: Prisma.TableGroupMergeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TableGroupMergePayload>[]
+        }
+        create: {
+          args: Prisma.TableGroupMergeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TableGroupMergePayload>
+        }
+        createMany: {
+          args: Prisma.TableGroupMergeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TableGroupMergeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TableGroupMergePayload>[]
+        }
+        delete: {
+          args: Prisma.TableGroupMergeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TableGroupMergePayload>
+        }
+        update: {
+          args: Prisma.TableGroupMergeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TableGroupMergePayload>
+        }
+        deleteMany: {
+          args: Prisma.TableGroupMergeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TableGroupMergeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TableGroupMergeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TableGroupMergePayload>[]
+        }
+        upsert: {
+          args: Prisma.TableGroupMergeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TableGroupMergePayload>
+        }
+        aggregate: {
+          args: Prisma.TableGroupMergeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTableGroupMerge>
+        }
+        groupBy: {
+          args: Prisma.TableGroupMergeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TableGroupMergeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TableGroupMergeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TableGroupMergeCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -704,6 +854,25 @@ export const ProjectTableGroupScalarFieldEnum = {
 } as const
 
 export type ProjectTableGroupScalarFieldEnum = (typeof ProjectTableGroupScalarFieldEnum)[keyof typeof ProjectTableGroupScalarFieldEnum]
+
+
+export const ProjectTableMergeGroupScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  name: 'name',
+  projectId: 'projectId'
+} as const
+
+export type ProjectTableMergeGroupScalarFieldEnum = (typeof ProjectTableMergeGroupScalarFieldEnum)[keyof typeof ProjectTableMergeGroupScalarFieldEnum]
+
+
+export const TableGroupMergeScalarFieldEnum = {
+  tableGroupId: 'tableGroupId',
+  tableMergeGroupId: 'tableMergeGroupId'
+} as const
+
+export type TableGroupMergeScalarFieldEnum = (typeof TableGroupMergeScalarFieldEnum)[keyof typeof TableGroupMergeScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -932,6 +1101,8 @@ export type GlobalOmitConfig = {
   connection?: Prisma.ConnectionOmit
   project?: Prisma.ProjectOmit
   projectTableGroup?: Prisma.ProjectTableGroupOmit
+  projectTableMergeGroup?: Prisma.ProjectTableMergeGroupOmit
+  tableGroupMerge?: Prisma.TableGroupMergeOmit
 }
 
 /* Types for Logging */

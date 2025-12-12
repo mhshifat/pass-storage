@@ -53,7 +53,9 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Connection: 'Connection',
   Project: 'Project',
-  ProjectTableGroup: 'ProjectTableGroup'
+  ProjectTableGroup: 'ProjectTableGroup',
+  ProjectTableMergeGroup: 'ProjectTableMergeGroup',
+  TableGroupMerge: 'TableGroupMerge'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -109,6 +111,25 @@ export const ProjectTableGroupScalarFieldEnum = {
 } as const
 
 export type ProjectTableGroupScalarFieldEnum = (typeof ProjectTableGroupScalarFieldEnum)[keyof typeof ProjectTableGroupScalarFieldEnum]
+
+
+export const ProjectTableMergeGroupScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  name: 'name',
+  projectId: 'projectId'
+} as const
+
+export type ProjectTableMergeGroupScalarFieldEnum = (typeof ProjectTableMergeGroupScalarFieldEnum)[keyof typeof ProjectTableMergeGroupScalarFieldEnum]
+
+
+export const TableGroupMergeScalarFieldEnum = {
+  tableGroupId: 'tableGroupId',
+  tableMergeGroupId: 'tableMergeGroupId'
+} as const
+
+export type TableGroupMergeScalarFieldEnum = (typeof TableGroupMergeScalarFieldEnum)[keyof typeof TableGroupMergeScalarFieldEnum]
 
 
 export const SortOrder = {

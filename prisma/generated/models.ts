@@ -11,4 +11,6 @@
 export type * from './models/Connection'
 export type * from './models/Project'
 export type * from './models/ProjectTableGroup'
+export type * from './models/ProjectTableMergeGroup'
+export type * from './models/TableGroupMerge'
 export type * from './commonInputTypes'

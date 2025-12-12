@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useTRPC } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { AlertCircleIcon, MergeIcon } from "lucide-react";
 import { useForm, useWatch } from "react-hook-form";
 import z from "zod";
@@ -14,6 +16,7 @@ const mergeGroupsFormSchema = z.object({
 type MergeGroupsFormData = z.infer<typeof mergeGroupsFormSchema>;
 
 interface MergeGroupsFormProps {
+    projectId: number;
     selectedGroups: {
         id: number;
         name: string;
@@ -21,9 +24,18 @@ interface MergeGroupsFormProps {
     }[];
     uniqueMergedColumns: string[];
     onCancel: () => void;
+    afterSubmit?: () => void;
 }
 
-export default function MergeGroupsForm({ selectedGroups, uniqueMergedColumns, onCancel }: MergeGroupsFormProps) {
+export default function MergeGroupsForm({ projectId, selectedGroups, uniqueMergedColumns, onCancel, afterSubmit }: MergeGroupsFormProps) {
+    const trpc = useTRPC();
+    const mergeTableGroupsMutation = useMutation(trpc.projects.mergeTableGroups.mutationOptions({
+        onSuccess: () => {
+            if (afterSubmit) {
+                afterSubmit();
+            }
+        }
+    }));
     const form = useForm<MergeGroupsFormData>({
         defaultValues: {
             mergedGroupName: "",
@@ -38,7 +50,11 @@ export default function MergeGroupsForm({ selectedGroups, uniqueMergedColumns, o
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit((values) => {
-                console.log("Merging groups...", values);
+                mergeTableGroupsMutation.mutateAsync({
+                    mergedGroupName: values.mergedGroupName,
+                    selectedGroupIds: values.selectedGroupIds,
+                    projectId
+                });
             })}>
                 <div className="space-y-6">
                     <div className="space-y-4">
@@ -107,14 +123,15 @@ export default function MergeGroupsForm({ selectedGroups, uniqueMergedColumns, o
                         <Button
                             variant="outline"
                             onClick={onCancel}
+                            disabled={mergeTableGroupsMutation.isPending}
                         >
                             Cancel
                         </Button>
                         <Button
                             variant="default"
                             type="submit"
-                            onClick={() => {}}
-                            disabled={!watchValues.mergedGroupName?.trim()}
+                            loading={mergeTableGroupsMutation.isPending}
+                            disabled={!watchValues.mergedGroupName?.trim() || mergeTableGroupsMutation.isPending}
                         >
                             <MergeIcon className="h-4 w-4 mr-2" />
                             Merge {selectedGroups?.length} Groups

@@ -6,9 +6,7 @@ import { useTRPC } from "@/trpc/client";
 import { useQuery } from "@tanstack/react-query";
 import CreateTableGroupForm from "./create-table-group-form";
 import { useState } from "react";
-import { FileSpreadsheet, Loader2, TableIcon, AlertCircle, Merge, X, Check } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { FileSpreadsheet, TableIcon, AlertCircle, Merge, X, Check } from "lucide-react";
 import MergeGroupsForm from "./merge-groups-form";
 
 interface ExcelDataTableProps {
@@ -30,14 +28,18 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
         page: 1,
         perPage: 100,
     }));
+    const { data: mergeGroupsData, isLoading: isLoadingMergeGroups } = useQuery(trpc.projects.findManyMergeGroupsByProjectId.queryOptions({
+        projectId,
+        page: 1,
+        perPage: 100,
+    }));
     const [createGroupModalOpen, setCreateGroupModalOpen] = useState(false);
     const [mergeModalOpen, setMergeModalOpen] = useState(false);
     const [selectedGroupIds, setSelectedGroupIds] = useState<number[]>([]);
-    const [mergedGroupName, setMergedGroupName] = useState("");
 
     const columns = data?.[0] || [];
     const rows = data?.slice(1) || [];
-    const isLoading = isLoadingSheet || isLoadingGroups;
+    const isLoading = isLoadingSheet || isLoadingGroups || isLoadingMergeGroups;
 
     // Handle group selection
     const toggleGroupSelection = (groupId: number) => {
@@ -46,15 +48,6 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                 ? prev.filter(id => id !== groupId)
                 : [...prev, groupId]
         );
-    };
-
-    const handleMergeGroups = () => {
-        // TODO: Call backend API to merge groups
-        console.log("Merging groups:", selectedGroupIds, "with name:", mergedGroupName);
-        // After successful merge, reset state
-        setSelectedGroupIds([]);
-        setMergedGroupName("");
-        setMergeModalOpen(false);
     };
 
     const selectedGroups = groupsData?.items?.filter(item => selectedGroupIds.includes(item.id)) || [];
@@ -346,9 +339,13 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                 trigger={null}
             >
                 <MergeGroupsForm
+                    projectId={projectId}
                     selectedGroups={selectedGroups}
                     uniqueMergedColumns={uniqueMergedColumns}
                     onCancel={() => {
+                        setMergeModalOpen(false);
+                    }}
+                    afterSubmit={() => {
                         setMergeModalOpen(false);
                     }}
                 />
