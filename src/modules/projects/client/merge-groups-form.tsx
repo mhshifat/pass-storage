@@ -12,7 +12,7 @@ import z from "zod";
 const mergeGroupsFormSchema = z.object({
     mergedGroupName: z.string().min(2, "Merged group name must be at least 2 characters").max(50, "Merged group name must be at most 50 characters"),
     selectedGroupIds: z.array(z.number().positive()).min(2, "At least two groups must be selected for merging"),
-    groupByColumn: z.string().min(1, "Please select a group by column"),
+    groupByColumn: z.string().optional(),
 });
 
 type MergeGroupsFormData = z.infer<typeof mergeGroupsFormSchema>;
@@ -161,7 +161,7 @@ export default function MergeGroupsForm({ projectId, selectedGroups, uniqueMerge
                             variant="default"
                             type="submit"
                             loading={mergeTableGroupsMutation.isPending}
-                            disabled={!watchValues.mergedGroupName?.trim() || !watchValues.groupByColumn || mergeTableGroupsMutation.isPending}
+                            disabled={!watchValues.mergedGroupName?.trim() || mergeTableGroupsMutation.isPending}
                         >
                             <MergeIcon className="h-4 w-4 mr-2" />
                             Merge {selectedGroups?.length} Groups
