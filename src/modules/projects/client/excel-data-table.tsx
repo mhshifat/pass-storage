@@ -1,11 +1,12 @@
 import { Modal } from "@/components/shared/modal";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useTRPC } from "@/trpc/client";
 import { useQuery } from "@tanstack/react-query";
 import CreateTableGroupForm from "./create-table-group-form";
 import { useState } from "react";
+import { FileSpreadsheet, Loader2, TableIcon, AlertCircle } from "lucide-react";
 
 interface ExcelDataTableProps {
     projectId: number,
@@ -16,12 +17,12 @@ interface ExcelDataTableProps {
 
 export default function ExcelDataTable({ projectId, connectionId, sheetId, sheetName }: ExcelDataTableProps) {
     const trpc = useTRPC();
-    const { data } = useQuery(trpc.google.getSheetData.queryOptions({
+    const { data, isLoading: isLoadingSheet } = useQuery(trpc.google.getSheetData.queryOptions({
         connectionId,
         sheetId,
         sheetName
     }));
-    const { data: groupsData } = useQuery(trpc.projects.findManyGroupsByProjectId.queryOptions({
+    const { data: groupsData, isLoading: isLoadingGroups } = useQuery(trpc.projects.findManyGroupsByProjectId.queryOptions({
         projectId,
         page: 1,
         perPage: 100,
@@ -30,92 +31,253 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
 
     const columns = data?.[0] || [];
     const rows = data?.slice(1) || [];
+    const isLoading = isLoadingSheet || isLoadingGroups;
 
-    const renderContent = () => {
-        if (columns.length === 0) {
-            return <p>No data available in this sheet.</p>;
-        }
-        if ((groupsData?.items?.length || 0) > 0) {
-            return (
-                <Card>
-                    <CardContent>
-                        {groupsData?.items?.map(item => (
-                            <div key={"ProjectTableGroupCard" + item.id} className="mb-6">
-                                <h3 className="mb-2 text-lg font-medium">{item.name}</h3>
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            {item.columns.map((column, columnIdx) => (
-                                                <TableHead key={"ProjectTableGroupTableHeader" + item.id + columnIdx}>{column}</TableHead>
-                                            ))}
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {rows.map((row, rowIndex) => (
-                                            <TableRow key={rowIndex}>
-                                                {item.columns.map((columnName, cellIndex) => {
-                                                    const columnIdx = columns.indexOf(columnName);
-                                                    return (
-                                                        <TableCell key={cellIndex}>{row[columnIdx]}</TableCell>
-                                                    )
-                                                })}
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+    // Loading State
+    if (isLoading) {
+        return (
+            <div className="space-y-6">
+                <Card className="border-border/40 shadow-sm">
+                    <CardHeader className="border-b bg-muted/30">
+                        <div className="flex items-center justify-between">
+                            <div className="space-y-2 flex-1">
+                                <div className="h-6 w-48 bg-muted animate-pulse rounded" />
+                                <div className="h-4 w-72 bg-muted animate-pulse rounded" />
                             </div>
-                        ))}
+                            <div className="h-9 w-40 bg-muted animate-pulse rounded" />
+                        </div>
+                    </CardHeader>
+                    <CardContent className="p-0">
+                        <div className="overflow-x-auto">
+                            <div className="min-w-full">
+                                {/* Skeleton Table Header */}
+                                <div className="border-b bg-muted/20">
+                                    <div className="flex">
+                                        {[1, 2, 3, 4, 5, 6].map((col) => (
+                                            <div key={col} className="flex-1 p-4 min-w-[150px]">
+                                                <div className="h-4 bg-muted animate-pulse rounded w-3/4" />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                {/* Skeleton Table Rows */}
+                                {[1, 2, 3, 4, 5, 6, 7, 8].map((row) => (
+                                    <div key={row} className="border-b">
+                                        <div className="flex">
+                                            {[1, 2, 3, 4, 5, 6].map((col) => (
+                                                <div key={col} className="flex-1 p-4 min-w-[150px]">
+                                                    <div className="h-4 bg-muted/60 animate-pulse rounded" style={{ animationDelay: `${row * 50 + col * 20}ms` }} />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </CardContent>
                 </Card>
-            )
-        }
-        return (
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        {columns.map((column, columnIdx) => (
-                            <TableHead key={"ExcelDataTableTableHeader" + columnIdx}>{column}</TableHead>
-                        ))}
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {rows.map((row, rowIndex) => (
-                        <TableRow key={rowIndex}>
-                            {row.map((cell, cellIndex) => (
-                                <TableCell key={cellIndex}>{cell}</TableCell>
-                            ))}
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        )
+            </div>
+        );
     }
-    return (
-        <Card>
-            <CardHeader>
-                <div className="flex items-center justify-end gap-4">
-                    <Modal
-                        open={createGroupModalOpen}
-                        onOpenChange={setCreateGroupModalOpen}
-                        title="Create/Update Project Table Groups"
-                        description="Create or update project table groups from this Excel sheet."
-                        trigger={<Button variant="outline" size="sm">Create/Update Groups</Button>}
-                        as="div"
-                    >
-                        <CreateTableGroupForm
-                            projectId={projectId}
-                            defaultValues={{
-                                groups: groupsData?.items || []
-                            }}
-                            columns={columns}
-                            afterSubmit={() => setCreateGroupModalOpen(false)}
-                        />
-                    </Modal>
+
+    // Empty State
+    if (!data || columns.length === 0) {
+        return (
+            <Card className="border-border/40 shadow-sm">
+                <CardHeader className="border-b bg-muted/30">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <CardTitle className="flex items-center gap-2 text-xl">
+                                <FileSpreadsheet className="h-5 w-5 text-primary" />
+                                {sheetName}
+                            </CardTitle>
+                            <CardDescription className="mt-1.5">
+                                Excel data from your connected spreadsheet
+                            </CardDescription>
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent className="py-24">
+                    <div className="flex flex-col items-center justify-center text-center max-w-md mx-auto">
+                        <div className="rounded-full bg-muted p-6 mb-6">
+                            <AlertCircle className="h-12 w-12 text-muted-foreground" />
+                        </div>
+                        <h3 className="text-xl font-semibold mb-2">No Data Available</h3>
+                        <p className="text-muted-foreground text-sm mb-6">
+                            This sheet appears to be empty or doesn&apos;t contain any data. Please check your Excel file and ensure it has data in the selected sheet.
+                        </p>
+                        <div className="flex gap-3">
+                            <Button variant="outline" size="sm">
+                                Refresh Data
+                            </Button>
+                            <Button variant="default" size="sm">
+                                Select Different Sheet
+                            </Button>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+        );
+    }
+
+    const renderTableGroups = () => {
+        if ((groupsData?.items?.length || 0) === 0) return null;
+
+        return (
+            <div className="space-y-8">
+                {groupsData?.items?.map((item, groupIndex) => (
+                    <div key={"ProjectTableGroupCard" + item.id} className="rounded-lg border border-border/40 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                        <div className="bg-gradient-to-r from-primary/5 to-primary/10 px-6 py-4 border-b">
+                            <div className="flex items-center gap-3">
+                                <div className="rounded-md bg-primary/10 p-2">
+                                    <TableIcon className="h-4 w-4 text-primary" />
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-semibold text-foreground">{item.name}</h3>
+                                    <p className="text-xs text-muted-foreground mt-0.5">
+                                        {item.columns.length} columns · {rows.length} rows
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="overflow-x-auto">
+                            <Table>
+                                <TableHeader>
+                                    <TableRow className="bg-muted/30 hover:bg-muted/40">
+                                        {item.columns.map((column, columnIdx) => (
+                                            <TableHead 
+                                                key={"ProjectTableGroupTableHeader" + item.id + columnIdx}
+                                                className="font-semibold text-foreground/90 whitespace-nowrap"
+                                            >
+                                                {column}
+                                            </TableHead>
+                                        ))}
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {rows.slice(0, 100).map((row, rowIndex) => (
+                                        <TableRow 
+                                            key={rowIndex}
+                                            className="hover:bg-muted/20 transition-colors"
+                                        >
+                                            {item.columns.map((columnName, cellIndex) => {
+                                                const columnIdx = columns.indexOf(columnName);
+                                                return (
+                                                    <TableCell 
+                                                        key={cellIndex}
+                                                        className="whitespace-nowrap"
+                                                    >
+                                                        {row[columnIdx] || <span className="text-muted-foreground/50">—</span>}
+                                                    </TableCell>
+                                                )
+                                            })}
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </div>
+                        {rows.length > 100 && (
+                            <div className="bg-muted/20 px-6 py-3 border-t text-center">
+                                <p className="text-sm text-muted-foreground">
+                                    Showing first 100 rows of {rows.length} total rows
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
+        );
+    };
+
+    const renderAllData = () => {
+        return (
+            <div className="rounded-lg border border-border/40 overflow-hidden shadow-sm">
+                <div className="overflow-x-auto">
+                    <Table>
+                        <TableHeader>
+                            <TableRow className="bg-muted/30 hover:bg-muted/40">
+                                {columns.map((column, columnIdx) => (
+                                    <TableHead 
+                                        key={"ExcelDataTableTableHeader" + columnIdx}
+                                        className="font-semibold text-foreground/90 whitespace-nowrap"
+                                    >
+                                        {column}
+                                    </TableHead>
+                                ))}
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {rows.slice(0, 100).map((row, rowIndex) => (
+                                <TableRow 
+                                    key={rowIndex}
+                                    className="hover:bg-muted/20 transition-colors"
+                                >
+                                    {row.map((cell, cellIndex) => (
+                                        <TableCell 
+                                            key={cellIndex}
+                                            className="whitespace-nowrap"
+                                        >
+                                            {cell || <span className="text-muted-foreground/50">—</span>}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
                 </div>
-            </CardHeader>
-            <CardContent>
-                {renderContent()}
-            </CardContent>
-        </Card>
+                {rows.length > 100 && (
+                    <div className="bg-muted/20 px-6 py-3 border-t text-center">
+                        <p className="text-sm text-muted-foreground">
+                            Showing first 100 rows of {rows.length} total rows
+                        </p>
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    return (
+        <div className="space-y-6">
+            <Card className="border-border/40 shadow-sm">
+                <CardHeader className="border-b bg-gradient-to-r from-muted/30 to-muted/50">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <CardTitle className="flex items-center gap-2 text-xl">
+                                <FileSpreadsheet className="h-5 w-5 text-primary" />
+                                {sheetName}
+                            </CardTitle>
+                            <CardDescription className="mt-1.5">
+                                {columns.length} columns · {rows.length} rows of data
+                            </CardDescription>
+                        </div>
+                        <Modal
+                            open={createGroupModalOpen}
+                            onOpenChange={setCreateGroupModalOpen}
+                            title="Create/Update Table Groups"
+                            description="Organize your data by creating custom table groups with selected columns."
+                            trigger={
+                                <Button variant="default" size="sm" className="shadow-sm">
+                                    <TableIcon className="h-4 w-4 mr-2" />
+                                    Manage Groups
+                                </Button>
+                            }
+                            as="div"
+                        >
+                            <CreateTableGroupForm
+                                projectId={projectId}
+                                defaultValues={{
+                                    groups: groupsData?.items || []
+                                }}
+                                columns={columns}
+                                afterSubmit={() => setCreateGroupModalOpen(false)}
+                            />
+                        </Modal>
+                    </div>
+                </CardHeader>
+                <CardContent className="p-6">
+                    {(groupsData?.items?.length || 0) > 0 ? renderTableGroups() : renderAllData()}
+                </CardContent>
+            </Card>
+        </div>
     )
 }
