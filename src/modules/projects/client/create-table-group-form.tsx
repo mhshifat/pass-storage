@@ -6,9 +6,10 @@ import { Separator } from "@/components/ui/separator";
 import { useTRPC } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { PlusCircleIcon, XIcon } from "lucide-react";
+import { PlusCircleIcon, XIcon, TableIcon, Layers } from "lucide-react";
 import { useFieldArray, useForm, useFormContext } from "react-hook-form";
 import z from "zod";
+import { Card, CardContent } from "@/components/ui/card";
 
 const createTableGroupFormSchema = z.object({
     groups: z.array(
@@ -60,26 +61,59 @@ export default function CreateTableGroupForm({ projectId, columns, afterSubmit, 
                     projectId,
                     groups: data.groups,
                 });
-            })} className="space-y-4">
+            })} className="space-y-6">
+                
+                {/* Header Section */}
+                <div className="space-y-3">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Layers className="h-4 w-4" />
+                        <span>Create and manage table groups by selecting columns to organize your data</span>
+                    </div>
+                </div>
+
                 <Separator />
                 
-                {fields.map((field, index) => {
-                    return <GroupColumns key={field.id} groupIndex={index} onRemove={() => remove(index)} columns={columns} />;
-                })}
+                {/* Groups List */}
+                <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+                    {fields.length === 0 && (
+                        <div className="text-center py-12 text-muted-foreground">
+                            <TableIcon className="h-12 w-12 mx-auto mb-3 opacity-50" />
+                            <p className="text-sm">No groups created yet</p>
+                            <p className="text-xs mt-1">Click the button below to create your first group</p>
+                        </div>
+                    )}
+                    {fields.map((field, index) => {
+                        return <GroupColumns key={field.id} groupIndex={index} onRemove={() => remove(index)} columns={columns} totalGroups={fields.length} />;
+                    })}
+                </div>
 
-                <Separator className="mt-5" />
+                <Separator />
 
-                <Button type="button" variant={"outline"} onClick={() => append({
-                    name: "",
-                    columns: [],
-                })}>
-                    <PlusCircleIcon className="mr-2 h-4 w-4" />
-                    <span>Create Table Group</span>
-                </Button>
+                {/* Action Buttons */}
+                <div className="flex flex-col gap-3">
+                    <Button 
+                        type="button" 
+                        variant="outline" 
+                        onClick={() => append({
+                            name: "",
+                            columns: [],
+                        })}
+                        className="w-full border-dashed border-2 hover:border-primary/60 hover:bg-primary/5"
+                    >
+                        <PlusCircleIcon className="mr-2 h-4 w-4" />
+                        <span>Add New Table Group</span>
+                    </Button>
 
-                <Button disabled={upsertTableGroupsMutation.isPending} loading={upsertTableGroupsMutation.isPending} type="submit" className="mt-4 w-full">
-                    Submit
-                </Button>
+                    <Button 
+                        disabled={upsertTableGroupsMutation.isPending || fields.length === 0} 
+                        loading={upsertTableGroupsMutation.isPending} 
+                        type="submit" 
+                        className="w-full shadow-sm"
+                        size="lg"
+                    >
+                        {upsertTableGroupsMutation.isPending ? "Saving..." : `Save ${fields.length} Group${fields.length !== 1 ? 's' : ''}`}
+                    </Button>
+                </div>
             </form>
         </Form>
     )
@@ -89,60 +123,93 @@ interface GroupColumnsProps {
     groupIndex: number;
     onRemove: () => void;
     columns: string[];
+    totalGroups: number;
 }
 
-function GroupColumns({ groupIndex, onRemove, columns }: GroupColumnsProps) {
+function GroupColumns({ groupIndex, onRemove, columns, totalGroups }: GroupColumnsProps) {
     const { control } = useFormContext();
 
     return (
-        <div className="flex flex-col gap-2">
-            <FormField
-                control={control}
-                name={`groups.${groupIndex}.name`}
-                render={({ field }) => (
-                    <FormItem className="flex-1">
-                        <FormLabel>Group ({groupIndex + 1})</FormLabel>
-                        <FormControl className="flex flex-col gap-2">
-                            <div className="flex flex-col">
-                                <div className="flex items-center gap-2">
-                                    <Input
-                                        placeholder="Group Name"
-                                        {...field}
-                                        className="flex-1"
-                                    />
-                                    <Button type="button" size={"icon"} variant="destructive" onClick={onRemove}>
-                                        <XIcon className="h-4 w-4" />
-                                    </Button>
-                                </div>
+        <Card className="border-border/40 shadow-sm hover:shadow-md transition-all">
+            <CardContent className="p-5">
+                <div className="flex flex-col gap-4">
+                    {/* Header with Group Number and Delete */}
+                    <div className="flex items-center justify-between pb-3 border-b">
+                        <div className="flex items-center gap-3">
+                            <div className="rounded-md bg-primary/10 p-2">
+                                <TableIcon className="h-4 w-4 text-primary" />
                             </div>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                )}
-            />
+                            <div>
+                                <h4 className="text-sm font-semibold">Group {groupIndex + 1}</h4>
+                                <p className="text-xs text-muted-foreground">Configure table group settings</p>
+                            </div>
+                        </div>
+                        {totalGroups > 1 && (
+                            <Button 
+                                type="button" 
+                                size="sm" 
+                                variant="ghost" 
+                                onClick={onRemove}
+                                className="hover:bg-destructive/10 hover:text-destructive"
+                            >
+                                <XIcon className="h-4 w-4 mr-1" />
+                                Remove
+                            </Button>
+                        )}
+                    </div>
 
-            <FormField
-                control={control}
-                name={`groups.${groupIndex}.columns`}
-                render={({ field }) => (
-                    <FormItem className="flex-1">
-                        <FormControl className="flex flex-col gap-2">
-                            <InputTags
-                                value={field.value}
-                                onChange={field.onChange}
-                                placeholder="Select columns to group..."
-                                onSearch={() => {}}
-                                disabled={false}
-                                options={[...new Set(columns)].map(col => ({
-                                    label: col,
-                                    value: col
-                                }))}
-                            />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                )}
-            />
-        </div>
+                    {/* Group Name Field */}
+                    <FormField
+                        control={control}
+                        name={`groups.${groupIndex}.name`}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-sm font-medium">Group Name</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        placeholder="Enter a descriptive name for this group..."
+                                        {...field}
+                                        className="h-10"
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    {/* Columns Selection Field */}
+                    <FormField
+                        control={control}
+                        name={`groups.${groupIndex}.columns`}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-sm font-medium">
+                                    Columns 
+                                    {field.value?.length > 0 && (
+                                        <span className="ml-2 text-xs font-normal text-muted-foreground">
+                                            ({field.value.length} selected)
+                                        </span>
+                                    )}
+                                </FormLabel>
+                                <FormControl>
+                                    <InputTags
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        placeholder="Select columns to include in this group..."
+                                        onSearch={() => {}}
+                                        disabled={false}
+                                        options={[...new Set(columns)].map(col => ({
+                                            label: col,
+                                            value: col
+                                        }))}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+            </CardContent>
+        </Card>
     )
 }
