@@ -141,6 +141,104 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
         );
     }
 
+    const renderMergedGroups = () => {
+        if ((mergeGroupsData?.items?.length || 0) === 0) return null;
+
+        return (
+            <div className="space-y-8">
+                <div className="flex items-center gap-2 mb-4">
+                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
+                    <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                        <Merge className="h-4 w-4" />
+                        Merged Groups
+                    </div>
+                    <div className="h-px flex-1 bg-gradient-to-r from-border via-transparent to-transparent" />
+                </div>
+                {mergeGroupsData?.items?.map((mergedItem) => {
+                    // Get columns from all table groups that are part of this merge
+                    const mergedGroupColumns = mergedItem.tableGroups
+                        .map(tg => groupsData?.items?.find(g => g.id === tg.tableGroupId))
+                        .filter(Boolean)
+                        .flatMap(g => g!.columns);
+                    
+                    // Get unique columns
+                    const uniqueColumns = Array.from(new Set(mergedGroupColumns));
+
+                    return (
+                        <div 
+                            key={"MergedTableGroupCard" + mergedItem.id} 
+                            className="rounded-lg border-2 border-dashed border-primary/40 overflow-hidden shadow-sm hover:shadow-md transition-all bg-primary/5"
+                        >
+                            <div className="bg-gradient-to-r from-primary/10 to-primary/20 px-6 py-4 border-b border-primary/30">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <div className="rounded-md bg-primary/20 p-2 ring-2 ring-primary/30">
+                                            <Merge className="h-4 w-4 text-primary" />
+                                        </div>
+                                        <div>
+                                            <div className="flex items-center gap-2">
+                                                <h3 className="text-lg font-semibold text-foreground">{mergedItem.name}</h3>
+                                                <span className="text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full font-medium">
+                                                    Merged
+                                                </span>
+                                            </div>
+                                            <p className="text-xs text-muted-foreground mt-0.5">
+                                                {uniqueColumns.length} columns · {rows.length} rows · {mergedItem.tableGroups.length} groups merged
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="overflow-x-auto">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow className="bg-primary/5 hover:bg-primary/10">
+                                            {uniqueColumns.map((column, columnIdx) => (
+                                                <TableHead 
+                                                    key={"MergedTableGroupTableHeader" + mergedItem.id + columnIdx}
+                                                    className="font-semibold text-foreground/90 whitespace-nowrap"
+                                                >
+                                                    {column}
+                                                </TableHead>
+                                            ))}
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {rows.slice(0, 100).map((row, rowIndex) => (
+                                            <TableRow 
+                                                key={rowIndex}
+                                                className="hover:bg-primary/5 transition-colors"
+                                            >
+                                                {uniqueColumns.map((columnName, cellIndex) => {
+                                                    const columnIdx = columns.indexOf(columnName);
+                                                    return (
+                                                        <TableCell 
+                                                            key={cellIndex}
+                                                            className="whitespace-nowrap"
+                                                        >
+                                                            {row[columnIdx] || <span className="text-muted-foreground/50">—</span>}
+                                                        </TableCell>
+                                                    )
+                                                })}
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                            {rows.length > 100 && (
+                                <div className="bg-primary/10 px-6 py-3 border-t border-primary/30 text-center">
+                                    <p className="text-sm text-muted-foreground">
+                                        Showing first 100 rows of {rows.length} total rows
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    };
+
     const renderTableGroups = () => {
         if ((groupsData?.items?.length || 0) === 0) return null;
 
@@ -388,7 +486,13 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                     </div>
                 </CardHeader>
                 <CardContent className="p-6">
-                    {(groupsData?.items?.length || 0) > 0 ? renderTableGroups() : renderAllData()}
+                    <div className="space-y-8">
+                        {/* Render Merged Groups First */}
+                        {renderMergedGroups()}
+                        
+                        {/* Render Regular Groups or All Data */}
+                        {(groupsData?.items?.length || 0) > 0 ? renderTableGroups() : renderAllData()}
+                    </div>
                 </CardContent>
             </Card>
         </div>
