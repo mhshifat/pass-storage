@@ -6,7 +6,10 @@ import { useTRPC } from "@/trpc/client";
 import { useQuery } from "@tanstack/react-query";
 import CreateTableGroupForm from "./create-table-group-form";
 import { useState } from "react";
-import { FileSpreadsheet, Loader2, TableIcon, AlertCircle } from "lucide-react";
+import { FileSpreadsheet, Loader2, TableIcon, AlertCircle, Merge, X, Check } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import MergeGroupsForm from "./merge-groups-form";
 
 interface ExcelDataTableProps {
     projectId: number,
@@ -28,10 +31,35 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
         perPage: 100,
     }));
     const [createGroupModalOpen, setCreateGroupModalOpen] = useState(false);
+    const [mergeModalOpen, setMergeModalOpen] = useState(false);
+    const [selectedGroupIds, setSelectedGroupIds] = useState<number[]>([]);
+    const [mergedGroupName, setMergedGroupName] = useState("");
 
     const columns = data?.[0] || [];
     const rows = data?.slice(1) || [];
     const isLoading = isLoadingSheet || isLoadingGroups;
+
+    // Handle group selection
+    const toggleGroupSelection = (groupId: number) => {
+        setSelectedGroupIds(prev => 
+            prev.includes(groupId) 
+                ? prev.filter(id => id !== groupId)
+                : [...prev, groupId]
+        );
+    };
+
+    const handleMergeGroups = () => {
+        // TODO: Call backend API to merge groups
+        console.log("Merging groups:", selectedGroupIds, "with name:", mergedGroupName);
+        // After successful merge, reset state
+        setSelectedGroupIds([]);
+        setMergedGroupName("");
+        setMergeModalOpen(false);
+    };
+
+    const selectedGroups = groupsData?.items?.filter(item => selectedGroupIds.includes(item.id)) || [];
+    const mergedColumns = selectedGroups.flatMap(group => group.columns);
+    const uniqueMergedColumns = Array.from(new Set(mergedColumns));
 
     // Loading State
     if (isLoading) {
@@ -125,66 +153,93 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
 
         return (
             <div className="space-y-8">
-                {groupsData?.items?.map((item, groupIndex) => (
-                    <div key={"ProjectTableGroupCard" + item.id} className="rounded-lg border border-border/40 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                        <div className="bg-gradient-to-r from-primary/5 to-primary/10 px-6 py-4 border-b">
-                            <div className="flex items-center gap-3">
-                                <div className="rounded-md bg-primary/10 p-2">
-                                    <TableIcon className="h-4 w-4 text-primary" />
+                {groupsData?.items?.map((item) => {
+                    const isSelected = selectedGroupIds.includes(item.id);
+                    return (
+                        <div 
+                            key={"ProjectTableGroupCard" + item.id} 
+                            className={`rounded-lg border overflow-hidden shadow-sm transition-all ${
+                                isSelected 
+                                    ? 'border-primary/60 ring-2 ring-primary/20 shadow-md' 
+                                    : 'border-border/40 hover:shadow-md'
+                            }`}
+                        >
+                            <div className="bg-linear-to-r from-primary/5 to-primary/10 px-6 py-4 border-b">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <button
+                                            onClick={() => toggleGroupSelection(item.id)}
+                                            className={`flex items-center justify-center w-5 h-5 rounded border-2 transition-all ${
+                                                isSelected
+                                                    ? 'bg-primary border-primary'
+                                                    : 'border-muted-foreground/40 hover:border-primary/60'
+                                            }`}
+                                        >
+                                            {isSelected && <Check className="h-3 w-3 text-primary-foreground" />}
+                                        </button>
+                                        <div className="rounded-md bg-primary/10 p-2">
+                                            <TableIcon className="h-4 w-4 text-primary" />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-lg font-semibold text-foreground">{item.name}</h3>
+                                            <p className="text-xs text-muted-foreground mt-0.5">
+                                                {item.columns.length} columns · {rows.length} rows
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {isSelected && (
+                                        <div className="bg-primary/20 text-primary text-xs font-medium px-3 py-1 rounded-full">
+                                            Selected
+                                        </div>
+                                    )}
                                 </div>
-                                <div>
-                                    <h3 className="text-lg font-semibold text-foreground">{item.name}</h3>
-                                    <p className="text-xs text-muted-foreground mt-0.5">
-                                        {item.columns.length} columns · {rows.length} rows
+                            </div>
+                            <div className="overflow-x-auto">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow className="bg-muted/30 hover:bg-muted/40">
+                                            {item.columns.map((column, columnIdx) => (
+                                                <TableHead 
+                                                    key={"ProjectTableGroupTableHeader" + item.id + columnIdx}
+                                                    className="font-semibold text-foreground/90 whitespace-nowrap"
+                                                >
+                                                    {column}
+                                                </TableHead>
+                                            ))}
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {rows.slice(0, 100).map((row, rowIndex) => (
+                                            <TableRow 
+                                                key={rowIndex}
+                                                className="hover:bg-muted/20 transition-colors"
+                                            >
+                                                {item.columns.map((columnName, cellIndex) => {
+                                                    const columnIdx = columns.indexOf(columnName);
+                                                    return (
+                                                        <TableCell 
+                                                            key={cellIndex}
+                                                            className="whitespace-nowrap"
+                                                        >
+                                                            {row[columnIdx] || <span className="text-muted-foreground/50">—</span>}
+                                                        </TableCell>
+                                                    )
+                                                })}
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                            {rows.length > 100 && (
+                                <div className="bg-muted/20 px-6 py-3 border-t text-center">
+                                    <p className="text-sm text-muted-foreground">
+                                        Showing first 100 rows of {rows.length} total rows
                                     </p>
                                 </div>
-                            </div>
+                            )}
                         </div>
-                        <div className="overflow-x-auto">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow className="bg-muted/30 hover:bg-muted/40">
-                                        {item.columns.map((column, columnIdx) => (
-                                            <TableHead 
-                                                key={"ProjectTableGroupTableHeader" + item.id + columnIdx}
-                                                className="font-semibold text-foreground/90 whitespace-nowrap"
-                                            >
-                                                {column}
-                                            </TableHead>
-                                        ))}
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {rows.slice(0, 100).map((row, rowIndex) => (
-                                        <TableRow 
-                                            key={rowIndex}
-                                            className="hover:bg-muted/20 transition-colors"
-                                        >
-                                            {item.columns.map((columnName, cellIndex) => {
-                                                const columnIdx = columns.indexOf(columnName);
-                                                return (
-                                                    <TableCell 
-                                                        key={cellIndex}
-                                                        className="whitespace-nowrap"
-                                                    >
-                                                        {row[columnIdx] || <span className="text-muted-foreground/50">—</span>}
-                                                    </TableCell>
-                                                )
-                                            })}
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </div>
-                        {rows.length > 100 && (
-                            <div className="bg-muted/20 px-6 py-3 border-t text-center">
-                                <p className="text-sm text-muted-foreground">
-                                    Showing first 100 rows of {rows.length} total rows
-                                </p>
-                            </div>
-                        )}
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         );
     };
@@ -238,6 +293,67 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
 
     return (
         <div className="space-y-6">
+            {/* Floating Merge Action Bar */}
+            {selectedGroupIds.length >= 2 && (
+                <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-5">
+                    <Card className="shadow-lg border-primary/20 bg-card">
+                        <CardContent className="p-4">
+                            <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-primary/10 rounded-full p-2">
+                                        <Merge className="h-5 w-5 text-primary" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-semibold">
+                                            {selectedGroupIds.length} groups selected
+                                        </p>
+                                        <p className="text-xs text-muted-foreground">
+                                            {uniqueMergedColumns.length} unique columns will be merged
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2 ml-4">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => setSelectedGroupIds([])}
+                                    >
+                                        <X className="h-4 w-4 mr-1" />
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        variant="default"
+                                        size="sm"
+                                        onClick={() => setMergeModalOpen(true)}
+                                    >
+                                        <Merge className="h-4 w-4 mr-1" />
+                                        Merge Groups
+                                    </Button>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+            )}
+
+            {/* Merge Confirmation Modal */}
+            <Modal
+                open={mergeModalOpen}
+                onOpenChange={setMergeModalOpen}
+                title="Merge Table Groups"
+                description="Combine selected groups into a single table group with all columns."
+                as="div"
+                trigger={null}
+            >
+                <MergeGroupsForm
+                    selectedGroups={selectedGroups}
+                    uniqueMergedColumns={uniqueMergedColumns}
+                    onCancel={() => {
+                        setMergeModalOpen(false);
+                    }}
+                />
+            </Modal>
+
             <Card className="border-border/40 shadow-sm">
                 <CardHeader className="border-b bg-gradient-to-r from-muted/30 to-muted/50">
                     <div className="flex items-center justify-between">
@@ -253,7 +369,7 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                         <Modal
                             open={createGroupModalOpen}
                             onOpenChange={setCreateGroupModalOpen}
-                            title="Create/Update Table Groups"
+                            title="Table Groups"
                             description="Organize your data by creating custom table groups with selected columns."
                             trigger={
                                 <Button variant="default" size="sm" className="shadow-sm">
