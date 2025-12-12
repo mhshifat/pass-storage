@@ -527,6 +527,7 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                     projectId={projectId}
                     selectedGroups={selectedGroups}
                     uniqueMergedColumns={uniqueMergedColumns}
+                    columns={columns}
                     onCancel={() => {
                         setMergeModalOpen(false);
                     }}

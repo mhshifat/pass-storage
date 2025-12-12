@@ -23,11 +23,12 @@ interface MergeGroupsFormProps {
         columnIndices: string[];
     }[];
     uniqueMergedColumns: string[];
+    columns: string[];
     onCancel: () => void;
     afterSubmit?: () => void;
 }
 
-export default function MergeGroupsForm({ projectId, selectedGroups, uniqueMergedColumns, onCancel, afterSubmit }: MergeGroupsFormProps) {
+export default function MergeGroupsForm({ projectId, selectedGroups, uniqueMergedColumns, columns, onCancel, afterSubmit }: MergeGroupsFormProps) {
     const trpc = useTRPC();
     const mergeTableGroupsMutation = useMutation(trpc.projects.mergeTableGroups.mutationOptions({
         onSuccess: () => {
@@ -102,7 +103,7 @@ export default function MergeGroupsForm({ projectId, selectedGroups, uniqueMerge
                                         key={idx}
                                         className="inline-flex items-center px-2.5 py-1 rounded-md bg-primary/10 text-primary text-xs font-medium"
                                     >
-                                        Column {colIdx + 1}
+                                        {columns[+colIdx]}
                                     </span>
                                 ))}
                             </div>
