@@ -54,6 +54,11 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
     const mergedColumns = selectedGroups.flatMap(group => group.columns);
     const uniqueMergedColumns = Array.from(new Set(mergedColumns));
 
+    // Get IDs of groups that are already merged
+    const mergedGroupIds = new Set(
+        mergeGroupsData?.items?.flatMap(mg => mg.tableGroups.map(tg => tg.tableGroupId)) || []
+    );
+
     // Loading State
     if (isLoading) {
         return (
@@ -147,12 +152,12 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
         return (
             <div className="space-y-8">
                 <div className="flex items-center gap-2 mb-4">
-                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent" />
+                    <div className="h-px flex-1 bg-linear-to-r from-transparent via-border to-transparent" />
                     <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                         <Merge className="h-4 w-4" />
                         Merged Groups
                     </div>
-                    <div className="h-px flex-1 bg-gradient-to-r from-border via-transparent to-transparent" />
+                    <div className="h-px flex-1 bg-linear-to-r from-border via-transparent to-transparent" />
                 </div>
                 {mergeGroupsData?.items?.map((mergedItem) => {
                     // Get columns from all table groups that are part of this merge
@@ -169,7 +174,7 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                             key={"MergedTableGroupCard" + mergedItem.id} 
                             className="rounded-lg border-2 border-dashed border-primary/40 overflow-hidden shadow-sm hover:shadow-md transition-all bg-primary/5"
                         >
-                            <div className="bg-gradient-to-r from-primary/10 to-primary/20 px-6 py-4 border-b border-primary/30">
+                            <div className="bg-linear-to-r from-primary/10 to-primary/20 px-6 py-4 border-b border-primary/30">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-3">
                                         <div className="rounded-md bg-primary/20 p-2 ring-2 ring-primary/30">
@@ -242,9 +247,14 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
     const renderTableGroups = () => {
         if ((groupsData?.items?.length || 0) === 0) return null;
 
+        // Filter out groups that are already merged
+        const availableGroups = groupsData?.items.filter(item => !mergedGroupIds.has(item.id));
+
+        if (availableGroups?.length === 0) return null;
+
         return (
             <div className="space-y-8">
-                {groupsData?.items?.map((item) => {
+                {availableGroups?.map((item) => {
                     const isSelected = selectedGroupIds.includes(item.id);
                     return (
                         <div 
@@ -450,7 +460,7 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
             </Modal>
 
             <Card className="border-border/40 shadow-sm">
-                <CardHeader className="border-b bg-gradient-to-r from-muted/30 to-muted/50">
+                <CardHeader className="border-b bg-linear-to-r from-muted/30 to-muted/50">
                     <div className="flex items-center justify-between">
                         <div>
                             <CardTitle className="flex items-center gap-2 text-xl">
