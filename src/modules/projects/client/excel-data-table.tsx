@@ -3,10 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useTRPC } from "@/trpc/client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import CreateTableGroupForm from "./create-table-group-form";
 import { useState } from "react";
-import { FileSpreadsheet, TableIcon, AlertCircle, Merge, X, Check } from "lucide-react";
+import { FileSpreadsheet, TableIcon, AlertCircle, Merge, X, Check, Unplug } from "lucide-react";
 import MergeGroupsForm from "./merge-groups-form";
 
 interface ExcelDataTableProps {
@@ -23,19 +23,27 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
         sheetId,
         sheetName
     }));
-    const { data: groupsData, isLoading: isLoadingGroups } = useQuery(trpc.projects.findManyGroupsByProjectId.queryOptions({
+    const { data: groupsData, isLoading: isLoadingGroups, refetch: refetchGroups } = useQuery(trpc.projects.findManyGroupsByProjectId.queryOptions({
         projectId,
         page: 1,
         perPage: 100,
     }));
-    const { data: mergeGroupsData, isLoading: isLoadingMergeGroups } = useQuery(trpc.projects.findManyMergeGroupsByProjectId.queryOptions({
+    const { data: mergeGroupsData, isLoading: isLoadingMergeGroups, refetch: refetchMergeGroups } = useQuery(trpc.projects.findManyMergeGroupsByProjectId.queryOptions({
         projectId,
         page: 1,
         perPage: 100,
+    }));
+    const deleteMergeGroupMutation = useMutation(trpc.projects.deleteMergeTableGroup.mutationOptions({
+        onSuccess: () => {
+            setUnmergeConfirmId(null);
+            refetchGroups();
+            refetchMergeGroups();
+        }
     }));
     const [createGroupModalOpen, setCreateGroupModalOpen] = useState(false);
     const [mergeModalOpen, setMergeModalOpen] = useState(false);
     const [selectedGroupIds, setSelectedGroupIds] = useState<number[]>([]);
+    const [unmergeConfirmId, setUnmergeConfirmId] = useState<number | null>(null);
 
     const columns = data?.[0] || [];
     const rows = data?.slice(1) || [];
@@ -58,6 +66,14 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
     const mergedGroupIds = new Set(
         mergeGroupsData?.items?.flatMap(mg => mg.tableGroups.map(tg => tg.tableGroupId)) || []
     );
+
+    // Handle unmerge
+    const handleUnmerge = (mergeGroupId: number) => {
+        deleteMergeGroupMutation.mutateAsync({
+            projectId,
+            mergedGroupId: mergeGroupId,
+        })
+    };
 
     // Loading State
     if (isLoading) {
@@ -191,6 +207,42 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                                                 {uniqueColumns.length} columns · {rows.length} rows · {mergedItem.tableGroups.length} groups merged
                                             </p>
                                         </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        {unmergeConfirmId === mergedItem.id ? (
+                                            <div className="flex items-center gap-2 animate-in fade-in-0">
+                                                <span className="text-xs text-muted-foreground">Confirm unmerge?</span>
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    disabled={deleteMergeGroupMutation.isPending}
+                                                    onClick={() => setUnmergeConfirmId(null)}
+                                                >
+                                                    <X className="h-3 w-3 mr-1" />
+                                                    Cancel
+                                                </Button>
+                                                <Button
+                                                    variant="destructive"
+                                                    size="sm"
+                                                    disabled={deleteMergeGroupMutation.isPending}
+                                                    loading={deleteMergeGroupMutation.isPending}
+                                                    onClick={() => handleUnmerge(mergedItem.id)}
+                                                >
+                                                    <Unplug className="h-3 w-3 mr-1" />
+                                                    Confirm
+                                                </Button>
+                                            </div>
+                                        ) : (
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => setUnmergeConfirmId(mergedItem.id)}
+                                                className="border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
+                                            >
+                                                <Unplug className="h-4 w-4 mr-1" />
+                                                Unmerge
+                                            </Button>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -455,6 +507,9 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                     }}
                     afterSubmit={() => {
                         setMergeModalOpen(false);
+                        refetchGroups();
+                        refetchMergeGroups();
+                        setSelectedGroupIds([]);
                     }}
                 />
             </Modal>

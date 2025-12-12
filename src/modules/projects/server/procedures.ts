@@ -96,6 +96,23 @@ export const projectsRouter = createTRPCRouter({
 
             return mergedGroup;
         }),
+    deleteMergeTableGroup: baseProcedure
+        .input(
+            z.object({
+                projectId: z.number().positive(),
+                mergedGroupId: z.number().positive(),
+            })
+        )
+        .mutation(async ({ input }) => {
+            const mergedGroup = await prisma.projectTableMergeGroup.delete({
+                where: {
+                    id: input.mergedGroupId,
+                    projectId: input.projectId,
+                }
+            });
+
+            return mergedGroup;
+        }),
     findMany: baseProcedure
         .input(
             z.object({
