@@ -13,11 +13,12 @@ export default function ProjectsList() {
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-            {projectsData.items.map(connection => (
+            {projectsData.items.map(project => (
                 <ProjectCard
-                    key={"ProjectCard" + connection.id}
-                    title={connection.name}
-                    description={connection.description}
+                    key={"ProjectCard" + project.id}
+                    id={project.id}
+                    title={project.name}
+                    description={project.description}
                 />
             ))}
         </div>
