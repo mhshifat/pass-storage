@@ -578,7 +578,6 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                 onOpenChange={setMergeModalOpen}
                 title="Merge Table Groups"
                 description="Combine selected groups into a single table group with all columns."
-                as="div"
                 trigger={null}
             >
                 <MergeGroupsForm
@@ -598,17 +597,25 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                 />
             </Modal>
 
-            <Card className="border-border/40 shadow-sm">
-                <CardHeader className="border-b bg-linear-to-r from-muted/30 to-muted/50">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <CardTitle className="flex items-center gap-2 text-xl">
-                                <FileSpreadsheet className="h-5 w-5 text-primary" />
-                                {sheetName}
-                            </CardTitle>
-                            <CardDescription className="mt-1.5">
-                                {columns.length} columns · {rows.length} rows of data
-                            </CardDescription>
+            <Card className="border-border/40 shadow-sm overflow-hidden">
+                <CardHeader className="border-b bg-linear-to-r from-primary/5 to-primary/10 p-6">
+                    <div className="flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-4 flex-1 min-w-0">
+                            <div className="rounded-lg bg-primary/10 p-3 shrink-0">
+                                <FileSpreadsheet className="h-6 w-6 text-primary" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <CardTitle className="text-2xl font-bold tracking-tight truncate">
+                                    {sheetName}
+                                </CardTitle>
+                                <CardDescription className="mt-1 flex items-center gap-2 text-sm">
+                                    <span className="font-medium">{columns.length}</span> columns
+                                    <span className="text-muted-foreground/50">·</span>
+                                    <span className="font-medium">{rows.length}</span> rows
+                                    <span className="text-muted-foreground/50">·</span>
+                                    <span className="text-muted-foreground">Excel data from your connected spreadsheet</span>
+                                </CardDescription>
+                            </div>
                         </div>
                         <Modal
                             open={createGroupModalOpen}
@@ -616,12 +623,11 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                             title="Table Groups"
                             description="Organize your data by creating custom table groups with selected columns."
                             trigger={
-                                <Button variant="default" size="sm" className="shadow-sm">
+                                <Button variant="default" className="shrink-0">
                                     <TableIcon className="h-4 w-4 mr-2" />
                                     Manage Groups
                                 </Button>
                             }
-                            as="div"
                         >   
                             <CreateTableGroupForm
                                 projectId={projectId}

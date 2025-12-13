@@ -18,19 +18,17 @@ interface ModalProps {
     showFooter?: boolean;
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
-    as?: "div" | "form";
 }
 
-export function Modal({ children, title, description, trigger, showFooter = false, open, onOpenChange, as = "form" }: PropsWithChildren<ModalProps>) {
-    const Wrapper = as;
-
+export function Modal({ children, title, description, trigger, showFooter = false, open, onOpenChange }: PropsWithChildren<ModalProps>) {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <Wrapper>
+            {trigger && (
                 <DialogTrigger asChild>
                     {trigger}
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
+            )}
+            <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
                         <DialogTitle>{title}</DialogTitle>
                         <DialogDescription>
@@ -47,7 +45,6 @@ export function Modal({ children, title, description, trigger, showFooter = fals
                         </DialogFooter>
                     )}
                 </DialogContent>
-            </Wrapper>
         </Dialog>
     )
 }
