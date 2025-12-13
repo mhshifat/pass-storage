@@ -8,6 +8,7 @@ import CreateTableGroupForm from "./create-table-group-form";
 import { useState } from "react";
 import { FileSpreadsheet, TableIcon, AlertCircle, Merge, X, Check, Unplug } from "lucide-react";
 import MergeGroupsForm from "./merge-groups-form";
+import { Badge } from "@/components/ui/badge";
 
 interface ExcelDataTableProps {
     projectId: number,
@@ -322,11 +323,6 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                                                             {!isGroupByColumn && <span className="text-muted-foreground">
                                                                 {col.groupName}
                                                             </span>}
-                                                            {isGroupByColumn && (
-                                                                <span className="text-xs bg-primary/20 text-primary px-2.5 py-1 rounded-md font-semibold border border-primary/30">
-                                                                    Group By
-                                                                </span>
-                                                            )}
                                                         </div>
                                                     </TableHead>
                                                 );
@@ -342,6 +338,9 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                                                         className={`font-semibold text-foreground/90 whitespace-nowrap border-r border-border/30 last:border-r-0 ${isGroupByColumn ? 'w-56' : ''}`}
                                                     >
                                                     {columns[+col.colIdx]}
+                                                    {isGroupByColumn && (
+                                                        <Badge variant={"default"} className="ml-2 text-xs">Group By</Badge>
+                                                    )}
                                                 </TableHead>
                                                 );
                                             })}
