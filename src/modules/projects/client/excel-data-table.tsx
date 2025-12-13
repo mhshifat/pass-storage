@@ -197,14 +197,53 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                     // Create array of column info preserving group association
                     const columnsWithGroups: Array<{ colIdx: number; groupName: string }> = [];
                     
-                    sourceGroupsWithColumns.forEach((group) => {
-                        group!.columnIndices.forEach(colIdx => {
+                    // Check if there's a groupByColumn
+                    if (mergedItem.groupByColumn) {
+                        // Find the column index for the groupByColumn
+                        const groupByColIdx = columns.findIndex(col => col === mergedItem.groupByColumn);
+                        
+                        if (groupByColIdx !== -1 && sourceGroupsWithColumns.length > 0) {
+                            // Add groupByColumn from the first group
                             columnsWithGroups.push({
-                                colIdx: +colIdx,
-                                groupName: group!.name
+                                colIdx: groupByColIdx,
+                                groupName: sourceGroupsWithColumns[0]!.name
+                            });
+                            
+                            // Add all other columns from all groups, skipping the groupByColumn
+                            sourceGroupsWithColumns.forEach((group) => {
+                                group!.columnIndices.forEach(colIdx => {
+                                    const colIndex = +colIdx;
+                                    // Skip the groupByColumn
+                                    if (columns[colIndex] !== mergedItem.groupByColumn) {
+                                        columnsWithGroups.push({
+                                            colIdx: colIndex,
+                                            groupName: group!.name
+                                        });
+                                    }
+                                });
+                            });
+                        } else {
+                            // Fallback: if groupByColumn not found, show all columns as usual
+                            sourceGroupsWithColumns.forEach((group) => {
+                                group!.columnIndices.forEach(colIdx => {
+                                    columnsWithGroups.push({
+                                        colIdx: +colIdx,
+                                        groupName: group!.name
+                                    });
+                                });
+                            });
+                        }
+                    } else {
+                        // No groupByColumn, show all columns as before
+                        sourceGroupsWithColumns.forEach((group) => {
+                            group!.columnIndices.forEach(colIdx => {
+                                columnsWithGroups.push({
+                                    colIdx: +colIdx,
+                                    groupName: group!.name
+                                });
                             });
                         });
-                    });
+                    }
 
                     return (
                         <div 
@@ -272,45 +311,59 @@ export default function ExcelDataTable({ projectId, connectionId, sheetId, sheet
                                     <TableHeader>
                                         {/* Group name header row */}
                                         <TableRow className="bg-muted/50">
-                                            {columnsWithGroups.map((col, idx) => (
-                                                <TableHead 
-                                                    key={`group-${idx}`} 
-                                                    className="text-xs font-medium text-center border-r border-border/50 last:border-r-0"
-                                                >
-                                                    <div className="flex items-center justify-center gap-1 py-1">
-                                                        <span className="text-muted-foreground">
-                                                            {col.groupName}
-                                                        </span>
-                                                    </div>
-                                                </TableHead>
-                                            ))}
+                                            {columnsWithGroups.map((col, idx) => {
+                                                const isGroupByColumn = mergedItem.groupByColumn && columns[+col.colIdx] === mergedItem.groupByColumn;
+                                                return (
+                                                    <TableHead 
+                                                        key={`group-${idx}`} 
+                                                        className={`text-xs font-medium text-center border-r border-border/50 last:border-r-0 ${isGroupByColumn ? 'w-48' : ''}`}
+                                                    >
+                                                        <div className="flex items-center justify-center gap-1 py-1">
+                                                            {!isGroupByColumn && <span className="text-muted-foreground">
+                                                                {col.groupName}
+                                                            </span>}
+                                                            {isGroupByColumn && (
+                                                                <span className="text-xs bg-primary/20 text-primary px-2.5 py-1 rounded-md font-semibold border border-primary/30">
+                                                                    Group By
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </TableHead>
+                                                );
+                                            })}
                                         </TableRow>
                                         {/* Column name header row */}
                                         <TableRow className="bg-primary/5 hover:bg-primary/10">
-                                            {columnsWithGroups.map((col, idx) => (
-                                                <TableHead 
-                                                    key={"MergedTableGroupTableHeader" + mergedItem.id + idx}
-                                                    className="font-semibold text-foreground/90 whitespace-nowrap border-r border-border/30 last:border-r-0"
-                                                >
+                                            {columnsWithGroups.map((col, idx) => {
+                                                const isGroupByColumn = mergedItem.groupByColumn && columns[+col.colIdx] === mergedItem.groupByColumn;
+                                                return (
+                                                    <TableHead 
+                                                        key={"MergedTableGroupTableHeader" + mergedItem.id + idx}
+                                                        className={`font-semibold text-foreground/90 whitespace-nowrap border-r border-border/30 last:border-r-0 ${isGroupByColumn ? 'w-56' : ''}`}
+                                                    >
                                                     {columns[+col.colIdx]}
                                                 </TableHead>
-                                            ))}
+                                                );
+                                            })}
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {rows.slice(0, 100).map((row, rowIndex) => (
                                             <TableRow 
                                                 key={rowIndex}
-                                                className="hover:bg-primary/5 transition-colors"
+                                                className={`hover:bg-primary/5 transition-colors ${rowIndex % 2 === 0 ? 'bg-background' : 'bg-muted/30'}`}
                                             >
-                                                {columnsWithGroups.map((col, cellIndex) => (
-                                                    <TableCell 
-                                                        key={cellIndex}
-                                                        className="whitespace-nowrap border-r border-border/20 last:border-r-0"
-                                                    >
-                                                        {row[+col.colIdx] || <span className="text-muted-foreground/50">—</span>}
-                                                    </TableCell>
-                                                ))}
+                                                {columnsWithGroups.map((col, cellIndex) => {
+                                                    const isGroupByColumn = mergedItem.groupByColumn && columns[+col.colIdx] === mergedItem.groupByColumn;
+                                                    return (
+                                                        <TableCell 
+                                                            key={cellIndex}
+                                                            className={`whitespace-nowrap border-r border-border/20 last:border-r-0 ${isGroupByColumn ? 'w-48 font-medium' : ''}`}
+                                                        >
+                                                            {row[+col.colIdx] || <span className="text-muted-foreground/50">—</span>}
+                                                        </TableCell>
+                                                    );
+                                                })}
                                             </TableRow>
                                         ))}
                                     </TableBody>
