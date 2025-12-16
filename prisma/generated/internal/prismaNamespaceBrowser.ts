@@ -51,11 +51,18 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Connection: 'Connection',
-  Project: 'Project',
-  ProjectTableGroup: 'ProjectTableGroup',
-  ProjectTableMergeGroup: 'ProjectTableMergeGroup',
-  TableGroupMerge: 'TableGroupMerge'
+  User: 'User',
+  Account: 'Account',
+  Session: 'Session',
+  Password: 'Password',
+  Folder: 'Folder',
+  PasswordShare: 'PasswordShare',
+  Group: 'Group',
+  GroupMember: 'GroupMember',
+  Tag: 'Tag',
+  PasswordTag: 'PasswordTag',
+  AuditLog: 'AuditLog',
+  Settings: 'Settings'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -74,63 +81,169 @@ export const TransactionIsolationLevel = {
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const ConnectionScalarFieldEnum = {
+export const UserScalarFieldEnum = {
   id: 'id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
   name: 'name',
-  description: 'description',
+  email: 'email',
+  emailVerified: 'emailVerified',
+  image: 'image',
+  password: 'password',
+  role: 'role',
+  isActive: 'isActive',
+  mfaEnabled: 'mfaEnabled',
+  mfaSecret: 'mfaSecret',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  lastLoginAt: 'lastLoginAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const AccountScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
   type: 'type',
-  metadata: 'metadata'
+  provider: 'provider',
+  providerAccountId: 'providerAccountId',
+  refresh_token: 'refresh_token',
+  access_token: 'access_token',
+  expires_at: 'expires_at',
+  token_type: 'token_type',
+  scope: 'scope',
+  id_token: 'id_token',
+  session_state: 'session_state'
 } as const
 
-export type ConnectionScalarFieldEnum = (typeof ConnectionScalarFieldEnum)[keyof typeof ConnectionScalarFieldEnum]
+export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
 
 
-export const ProjectScalarFieldEnum = {
+export const SessionScalarFieldEnum = {
   id: 'id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
+  sessionToken: 'sessionToken',
+  userId: 'userId',
+  expires: 'expires',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt'
+} as const
+
+export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+export const PasswordScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  username: 'username',
+  password: 'password',
+  url: 'url',
+  notes: 'notes',
+  folderId: 'folderId',
+  strength: 'strength',
+  hasTotp: 'hasTotp',
+  totpSecret: 'totpSecret',
+  expiresAt: 'expiresAt',
+  ownerId: 'ownerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PasswordScalarFieldEnum = (typeof PasswordScalarFieldEnum)[keyof typeof PasswordScalarFieldEnum]
+
+
+export const FolderScalarFieldEnum = {
+  id: 'id',
   name: 'name',
   description: 'description',
-  datasource: 'datasource',
-  metadata: 'metadata',
-  connectionId: 'connectionId'
+  icon: 'icon',
+  color: 'color',
+  parentId: 'parentId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
-export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+export type FolderScalarFieldEnum = (typeof FolderScalarFieldEnum)[keyof typeof FolderScalarFieldEnum]
 
 
-export const ProjectTableGroupScalarFieldEnum = {
+export const PasswordShareScalarFieldEnum = {
   id: 'id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  name: 'name',
-  columnIndices: 'columnIndices',
-  projectId: 'projectId'
+  passwordId: 'passwordId',
+  userId: 'userId',
+  groupId: 'groupId',
+  permission: 'permission',
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt'
 } as const
 
-export type ProjectTableGroupScalarFieldEnum = (typeof ProjectTableGroupScalarFieldEnum)[keyof typeof ProjectTableGroupScalarFieldEnum]
+export type PasswordShareScalarFieldEnum = (typeof PasswordShareScalarFieldEnum)[keyof typeof PasswordShareScalarFieldEnum]
 
 
-export const ProjectTableMergeGroupScalarFieldEnum = {
+export const GroupScalarFieldEnum = {
   id: 'id',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
   name: 'name',
-  groupByColumn: 'groupByColumn',
-  projectId: 'projectId'
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
-export type ProjectTableMergeGroupScalarFieldEnum = (typeof ProjectTableMergeGroupScalarFieldEnum)[keyof typeof ProjectTableMergeGroupScalarFieldEnum]
+export type GroupScalarFieldEnum = (typeof GroupScalarFieldEnum)[keyof typeof GroupScalarFieldEnum]
 
 
-export const TableGroupMergeScalarFieldEnum = {
-  tableGroupId: 'tableGroupId',
-  tableMergeGroupId: 'tableMergeGroupId'
+export const GroupMemberScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  userId: 'userId',
+  role: 'role',
+  createdAt: 'createdAt'
 } as const
 
-export type TableGroupMergeScalarFieldEnum = (typeof TableGroupMergeScalarFieldEnum)[keyof typeof TableGroupMergeScalarFieldEnum]
+export type GroupMemberScalarFieldEnum = (typeof GroupMemberScalarFieldEnum)[keyof typeof GroupMemberScalarFieldEnum]
+
+
+export const TagScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  color: 'color',
+  createdAt: 'createdAt'
+} as const
+
+export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
+
+
+export const PasswordTagScalarFieldEnum = {
+  id: 'id',
+  passwordId: 'passwordId',
+  tagId: 'tagId',
+  createdAt: 'createdAt'
+} as const
+
+export type PasswordTagScalarFieldEnum = (typeof PasswordTagScalarFieldEnum)[keyof typeof PasswordTagScalarFieldEnum]
+
+
+export const AuditLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  action: 'action',
+  resource: 'resource',
+  resourceId: 'resourceId',
+  details: 'details',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
+
+
+export const SettingsScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  value: 'value',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SettingsScalarFieldEnum = (typeof SettingsScalarFieldEnum)[keyof typeof SettingsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -149,12 +262,27 @@ export const NullableJsonNullValueInput = {
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
+export const JsonNullValueInput = {
+  JsonNull: 'JsonNull'
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 export const JsonNullValueFilter = {
@@ -164,12 +292,4 @@ export const JsonNullValueFilter = {
 } as const
 
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

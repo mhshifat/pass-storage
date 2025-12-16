@@ -1,11 +1,16 @@
-import { createTRPCContext } from '@/trpc/init';
-import { appRouter } from '@/trpc/routers/_app';
-import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
+import { fetchRequestHandler } from "@trpc/server/adapters/fetch"
+import { appRouter } from "@/trpc/routers/_app"
+import { createTRPCContext } from "@/trpc/init"
+
+// Force Node.js runtime for Prisma binary engine compatibility
+export const runtime = 'nodejs'
+
 const handler = (req: Request) =>
   fetchRequestHandler({
-    endpoint: '/api/trpc',
+    endpoint: "/api/trpc",
     req,
     router: appRouter,
     createContext: createTRPCContext,
-  });
-export { handler as GET, handler as POST };
+  })
+
+export { handler as GET, handler as POST }

@@ -1,0 +1,253 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider   = "prisma-client-js"
+  output     = "./generated"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String? // Optional for OAuth users
+  role          UserRole  @default(USER)
+  isActive      Boolean   @default(true)
+  mfaEnabled    Boolean   @default(false)
+  mfaSecret     String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLoginAt   DateTime?
+
+  // Relations
+  ownedPasswords   Password[]      @relation("PasswordOwner")
+  sharedPasswords  PasswordShare[]
+  groupMemberships GroupMember[]
+  auditLogs        AuditLog[]
+  sessions         Session[]
+  accounts         Account[]
+
+  @@index([email])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Password {
+  id         String           @id @default(cuid())
+  name       String
+  username   String
+  password   String // Encrypted
+  url        String?
+  notes      String?
+  folderId   String?
+  strength   PasswordStrength @default(MEDIUM)
+  hasTotp    Boolean          @default(false)
+  totpSecret String? // Encrypted
+  expiresAt  DateTime?
+  ownerId    String
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  // Relations
+  owner      User            @relation("PasswordOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  folder     Folder?         @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  sharedWith PasswordShare[]
+  tags       PasswordTag[]
+  auditLogs  AuditLog[]
+
+  @@index([ownerId])
+  @@index([folderId])
+}
+
+model Folder {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  icon        String?
+  color       String?
+  parentId    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  parent    Folder?    @relation("FolderHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children  Folder[]   @relation("FolderHierarchy")
+  passwords Password[]
+
+  @@index([parentId])
+}
+
+model PasswordShare {
+  id         String          @id @default(cuid())
+  passwordId String
+  userId     String?
+  groupId    String?
+  permission SharePermission @default(READ)
+  createdAt  DateTime        @default(now())
+  expiresAt  DateTime?
+
+  // Relations
+  password Password @relation(fields: [passwordId], references: [id], onDelete: Cascade)
+  user     User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group    Group?   @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@index([passwordId])
+  @@index([userId])
+  @@index([groupId])
+}
+
+model Group {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  members         GroupMember[]
+  sharedPasswords PasswordShare[]
+
+  @@index([name])
+}
+
+model GroupMember {
+  id        String    @id @default(cuid())
+  groupId   String
+  userId    String
+  role      GroupRole @default(MEMBER)
+  createdAt DateTime  @default(now())
+
+  // Relations
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, userId])
+  @@index([groupId])
+  @@index([userId])
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  color     String?
+  createdAt DateTime @default(now())
+
+  // Relations
+  passwords PasswordTag[]
+}
+
+model PasswordTag {
+  id         String   @id @default(cuid())
+  passwordId String
+  tagId      String
+  createdAt  DateTime @default(now())
+
+  // Relations
+  password Password @relation(fields: [passwordId], references: [id], onDelete: Cascade)
+  tag      Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([passwordId, tagId])
+  @@index([passwordId])
+  @@index([tagId])
+}
+
+model AuditLog {
+  id         String      @id @default(cuid())
+  userId     String?
+  action     String
+  resource   String
+  resourceId String?
+  details    Json?
+  ipAddress  String?
+  userAgent  String?
+  status     AuditStatus @default(SUCCESS)
+  createdAt  DateTime    @default(now())
+
+  // Relations
+  user     User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  password Password? @relation(fields: [resourceId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([resourceId])
+  @@index([createdAt])
+}
+
+model Settings {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+
+  @@index([key])
+}
+
+// Enums
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  MANAGER
+  USER
+  AUDITOR
+}
+
+enum GroupRole {
+  MANAGER
+  MEMBER
+}
+
+enum SharePermission {
+  READ
+  WRITE
+  ADMIN
+}
+
+enum PasswordStrength {
+  WEAK
+  MEDIUM
+  STRONG
+}
+
+enum AuditStatus {
+  SUCCESS
+  FAILED
+  WARNING
+  BLOCKED
+}

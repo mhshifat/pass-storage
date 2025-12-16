@@ -1,5 +1,7 @@
-export default function HomePage() {
-  return (
-    <h1>Hello, Welcome to the Profit Insights</h1>
-  )
+import { redirect } from "next/navigation"
+
+export default async function Home() {
+  redirect("/login")
 }
+
+

@@ -17,10 +17,10 @@ import type * as Prisma from "./prismaNamespace"
 
 const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
-  "clientVersion": "7.0.1",
-  "engineVersion": "f09f2815f091dbba658cdcd2264306d88bb5bda6",
+  "clientVersion": "7.1.0",
+  "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"./generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum ConnectionType {\n  EXCEL\n}\n\nmodel Connection {\n  id         Int      @unique @default(autoincrement())\n  created_at DateTime @default(now())\n  updated_at DateTime @updatedAt\n\n  name        String\n  description String?\n  type        ConnectionType\n  metadata    Json?\n\n  projects Project[]\n\n  @@index([name])\n  @@index([type])\n  @@map(\"connections\")\n}\n\nenum ProjectDatasource {\n  EXCEL\n}\n\nmodel Project {\n  id         Int      @unique @default(autoincrement())\n  created_at DateTime @default(now())\n  updated_at DateTime @updatedAt\n\n  name        String\n  description String?\n  datasource  ProjectDatasource\n  metadata    Json?\n\n  connectionId Int?\n  connection   Connection? @relation(fields: [connectionId], references: [id], onDelete: SetNull)\n\n  mergeGroups ProjectTableMergeGroup[]\n  tableGroups ProjectTableGroup[]\n\n  @@index([name])\n  @@index([datasource])\n  @@map(\"projects\")\n}\n\nmodel ProjectTableGroup {\n  id         Int      @unique @default(autoincrement())\n  created_at DateTime @default(now())\n  updated_at DateTime @updatedAt\n\n  name          String\n  columnIndices String[]\n\n  projectId Int\n  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)\n\n  mergeGroups TableGroupMerge[]\n\n  @@unique([projectId, name])\n  @@index([name])\n  @@map(\"project_table_groups\")\n}\n\nmodel ProjectTableMergeGroup {\n  id         Int      @unique @default(autoincrement())\n  created_at DateTime @default(now())\n  updated_at DateTime @updatedAt\n\n  name          String\n  groupByColumn String?\n\n  projectId Int\n  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)\n\n  tableGroups TableGroupMerge[]\n\n  @@unique([projectId, name])\n  @@index([name])\n  @@map(\"project_table_merge_groups\")\n}\n\nmodel TableGroupMerge {\n  tableGroupId      Int\n  tableMergeGroupId Int\n\n  projectTableGroup      ProjectTableGroup      @relation(fields: [tableGroupId], references: [id], onDelete: Cascade)\n  projectTableMergeGroup ProjectTableMergeGroup @relation(fields: [tableMergeGroupId], references: [id], onDelete: Cascade)\n\n  @@unique([tableGroupId, tableMergeGroupId])\n  @@map(\"table_group_merge_relations\")\n}\n",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"./generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id            String    @id @default(cuid())\n  name          String\n  email         String    @unique\n  emailVerified DateTime?\n  image         String?\n  password      String? // Optional for OAuth users\n  role          UserRole  @default(USER)\n  isActive      Boolean   @default(true)\n  mfaEnabled    Boolean   @default(false)\n  mfaSecret     String?\n  createdAt     DateTime  @default(now())\n  updatedAt     DateTime  @updatedAt\n  lastLoginAt   DateTime?\n\n  // Relations\n  ownedPasswords   Password[]      @relation(\"PasswordOwner\")\n  sharedPasswords  PasswordShare[]\n  groupMemberships GroupMember[]\n  auditLogs        AuditLog[]\n  sessions         Session[]\n  accounts         Account[]\n\n  @@index([email])\n}\n\nmodel Account {\n  id                String  @id @default(cuid())\n  userId            String\n  type              String\n  provider          String\n  providerAccountId String\n  refresh_token     String?\n  access_token      String?\n  expires_at        Int?\n  token_type        String?\n  scope             String?\n  id_token          String?\n  session_state     String?\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([provider, providerAccountId])\n}\n\nmodel Session {\n  id           String   @id @default(cuid())\n  sessionToken String   @unique\n  userId       String\n  expires      DateTime\n  ipAddress    String?\n  userAgent    String?\n  createdAt    DateTime @default(now())\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@index([userId])\n}\n\nmodel Password {\n  id         String           @id @default(cuid())\n  name       String\n  username   String\n  password   String // Encrypted\n  url        String?\n  notes      String?\n  folderId   String?\n  strength   PasswordStrength @default(MEDIUM)\n  hasTotp    Boolean          @default(false)\n  totpSecret String? // Encrypted\n  expiresAt  DateTime?\n  ownerId    String\n  createdAt  DateTime         @default(now())\n  updatedAt  DateTime         @updatedAt\n\n  // Relations\n  owner      User            @relation(\"PasswordOwner\", fields: [ownerId], references: [id], onDelete: Cascade)\n  folder     Folder?         @relation(fields: [folderId], references: [id], onDelete: SetNull)\n  sharedWith PasswordShare[]\n  tags       PasswordTag[]\n  auditLogs  AuditLog[]\n\n  @@index([ownerId])\n  @@index([folderId])\n}\n\nmodel Folder {\n  id          String   @id @default(cuid())\n  name        String\n  description String?\n  icon        String?\n  color       String?\n  parentId    String?\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  // Relations\n  parent    Folder?    @relation(\"FolderHierarchy\", fields: [parentId], references: [id], onDelete: Cascade)\n  children  Folder[]   @relation(\"FolderHierarchy\")\n  passwords Password[]\n\n  @@index([parentId])\n}\n\nmodel PasswordShare {\n  id         String          @id @default(cuid())\n  passwordId String\n  userId     String?\n  groupId    String?\n  permission SharePermission @default(READ)\n  createdAt  DateTime        @default(now())\n  expiresAt  DateTime?\n\n  // Relations\n  password Password @relation(fields: [passwordId], references: [id], onDelete: Cascade)\n  user     User?    @relation(fields: [userId], references: [id], onDelete: Cascade)\n  group    Group?   @relation(fields: [groupId], references: [id], onDelete: Cascade)\n\n  @@index([passwordId])\n  @@index([userId])\n  @@index([groupId])\n}\n\nmodel Group {\n  id          String   @id @default(cuid())\n  name        String\n  description String?\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  // Relations\n  members         GroupMember[]\n  sharedPasswords PasswordShare[]\n\n  @@index([name])\n}\n\nmodel GroupMember {\n  id        String    @id @default(cuid())\n  groupId   String\n  userId    String\n  role      GroupRole @default(MEMBER)\n  createdAt DateTime  @default(now())\n\n  // Relations\n  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)\n  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([groupId, userId])\n  @@index([groupId])\n  @@index([userId])\n}\n\nmodel Tag {\n  id        String   @id @default(cuid())\n  name      String   @unique\n  color     String?\n  createdAt DateTime @default(now())\n\n  // Relations\n  passwords PasswordTag[]\n}\n\nmodel PasswordTag {\n  id         String   @id @default(cuid())\n  passwordId String\n  tagId      String\n  createdAt  DateTime @default(now())\n\n  // Relations\n  password Password @relation(fields: [passwordId], references: [id], onDelete: Cascade)\n  tag      Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)\n\n  @@unique([passwordId, tagId])\n  @@index([passwordId])\n  @@index([tagId])\n}\n\nmodel AuditLog {\n  id         String      @id @default(cuid())\n  userId     String?\n  action     String\n  resource   String\n  resourceId String?\n  details    Json?\n  ipAddress  String?\n  userAgent  String?\n  status     AuditStatus @default(SUCCESS)\n  createdAt  DateTime    @default(now())\n\n  // Relations\n  user     User?     @relation(fields: [userId], references: [id], onDelete: SetNull)\n  password Password? @relation(fields: [resourceId], references: [id], onDelete: SetNull)\n\n  @@index([userId])\n  @@index([resourceId])\n  @@index([createdAt])\n}\n\nmodel Settings {\n  id        String   @id @default(cuid())\n  key       String   @unique\n  value     Json\n  updatedAt DateTime @updatedAt\n\n  @@index([key])\n}\n\n// Enums\nenum UserRole {\n  SUPER_ADMIN\n  ADMIN\n  MANAGER\n  USER\n  AUDITOR\n}\n\nenum GroupRole {\n  MANAGER\n  MEMBER\n}\n\nenum SharePermission {\n  READ\n  WRITE\n  ADMIN\n}\n\nenum PasswordStrength {\n  WEAK\n  MEDIUM\n  STRONG\n}\n\nenum AuditStatus {\n  SUCCESS\n  FAILED\n  WARNING\n  BLOCKED\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Connection\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"created_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updated_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"ConnectionType\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"projects\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"ConnectionToProject\"}],\"dbName\":\"connections\"},\"Project\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"created_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updated_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"datasource\",\"kind\":\"enum\",\"type\":\"ProjectDatasource\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"connectionId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"connection\",\"kind\":\"object\",\"type\":\"Connection\",\"relationName\":\"ConnectionToProject\"},{\"name\":\"mergeGroups\",\"kind\":\"object\",\"type\":\"ProjectTableMergeGroup\",\"relationName\":\"ProjectToProjectTableMergeGroup\"},{\"name\":\"tableGroups\",\"kind\":\"object\",\"type\":\"ProjectTableGroup\",\"relationName\":\"ProjectToProjectTableGroup\"}],\"dbName\":\"projects\"},\"ProjectTableGroup\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"created_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updated_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"columnIndices\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"projectId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"project\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"ProjectToProjectTableGroup\"},{\"name\":\"mergeGroups\",\"kind\":\"object\",\"type\":\"TableGroupMerge\",\"relationName\":\"ProjectTableGroupToTableGroupMerge\"}],\"dbName\":\"project_table_groups\"},\"ProjectTableMergeGroup\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"created_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updated_at\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"groupByColumn\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"projectId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"project\",\"kind\":\"object\",\"type\":\"Project\",\"relationName\":\"ProjectToProjectTableMergeGroup\"},{\"name\":\"tableGroups\",\"kind\":\"object\",\"type\":\"TableGroupMerge\",\"relationName\":\"ProjectTableMergeGroupToTableGroupMerge\"}],\"dbName\":\"project_table_merge_groups\"},\"TableGroupMerge\":{\"fields\":[{\"name\":\"tableGroupId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"tableMergeGroupId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"projectTableGroup\",\"kind\":\"object\",\"type\":\"ProjectTableGroup\",\"relationName\":\"ProjectTableGroupToTableGroupMerge\"},{\"name\":\"projectTableMergeGroup\",\"kind\":\"object\",\"type\":\"ProjectTableMergeGroup\",\"relationName\":\"ProjectTableMergeGroupToTableGroupMerge\"}],\"dbName\":\"table_group_merge_relations\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"mfaEnabled\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"mfaSecret\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"lastLoginAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"ownedPasswords\",\"kind\":\"object\",\"type\":\"Password\",\"relationName\":\"PasswordOwner\"},{\"name\":\"sharedPasswords\",\"kind\":\"object\",\"type\":\"PasswordShare\",\"relationName\":\"PasswordShareToUser\"},{\"name\":\"groupMemberships\",\"kind\":\"object\",\"type\":\"GroupMember\",\"relationName\":\"GroupMemberToUser\"},{\"name\":\"auditLogs\",\"kind\":\"object\",\"type\":\"AuditLog\",\"relationName\":\"AuditLogToUser\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"},{\"name\":\"accounts\",\"kind\":\"object\",\"type\":\"Account\",\"relationName\":\"AccountToUser\"}],\"dbName\":null},\"Account\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"provider\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"providerAccountId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"refresh_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"access_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires_at\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"token_type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"scope\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"id_token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"session_state\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AccountToUser\"}],\"dbName\":null},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sessionToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expires\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userAgent\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"}],\"dbName\":null},\"Password\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"folderId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"strength\",\"kind\":\"enum\",\"type\":\"PasswordStrength\"},{\"name\":\"hasTotp\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"totpSecret\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PasswordOwner\"},{\"name\":\"folder\",\"kind\":\"object\",\"type\":\"Folder\",\"relationName\":\"FolderToPassword\"},{\"name\":\"sharedWith\",\"kind\":\"object\",\"type\":\"PasswordShare\",\"relationName\":\"PasswordToPasswordShare\"},{\"name\":\"tags\",\"kind\":\"object\",\"type\":\"PasswordTag\",\"relationName\":\"PasswordToPasswordTag\"},{\"name\":\"auditLogs\",\"kind\":\"object\",\"type\":\"AuditLog\",\"relationName\":\"AuditLogToPassword\"}],\"dbName\":null},\"Folder\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"icon\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"color\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"Folder\",\"relationName\":\"FolderHierarchy\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"Folder\",\"relationName\":\"FolderHierarchy\"},{\"name\":\"passwords\",\"kind\":\"object\",\"type\":\"Password\",\"relationName\":\"FolderToPassword\"}],\"dbName\":null},\"PasswordShare\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"groupId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"permission\",\"kind\":\"enum\",\"type\":\"SharePermission\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"password\",\"kind\":\"object\",\"type\":\"Password\",\"relationName\":\"PasswordToPasswordShare\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PasswordShareToUser\"},{\"name\":\"group\",\"kind\":\"object\",\"type\":\"Group\",\"relationName\":\"GroupToPasswordShare\"}],\"dbName\":null},\"Group\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"members\",\"kind\":\"object\",\"type\":\"GroupMember\",\"relationName\":\"GroupToGroupMember\"},{\"name\":\"sharedPasswords\",\"kind\":\"object\",\"type\":\"PasswordShare\",\"relationName\":\"GroupToPasswordShare\"}],\"dbName\":null},\"GroupMember\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"groupId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"GroupRole\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"group\",\"kind\":\"object\",\"type\":\"Group\",\"relationName\":\"GroupToGroupMember\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"GroupMemberToUser\"}],\"dbName\":null},\"Tag\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"color\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"passwords\",\"kind\":\"object\",\"type\":\"PasswordTag\",\"relationName\":\"PasswordTagToTag\"}],\"dbName\":null},\"PasswordTag\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tagId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"password\",\"kind\":\"object\",\"type\":\"Password\",\"relationName\":\"PasswordToPasswordTag\"},{\"name\":\"tag\",\"kind\":\"object\",\"type\":\"Tag\",\"relationName\":\"PasswordTagToTag\"}],\"dbName\":null},\"AuditLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"resource\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"resourceId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"details\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userAgent\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"AuditStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AuditLogToUser\"},{\"name\":\"password\",\"kind\":\"object\",\"type\":\"Password\",\"relationName\":\"AuditLogToPassword\"}],\"dbName\":null},\"Settings\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"key\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -58,11 +58,11 @@ export interface PrismaClientConstructor {
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Connections
-   * const connections = await prisma.connection.findMany()
+   * // Fetch zero or more Users
+   * const users = await prisma.user.findMany()
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+   * Read more in our [docs](https://pris.ly/d/client).
    */
 
   new <
@@ -80,11 +80,11 @@ export interface PrismaClientConstructor {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Connections
- * const connections = await prisma.connection.findMany()
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
  * ```
  * 
- * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+ * Read more in our [docs](https://pris.ly/d/client).
  */
 
 export interface PrismaClient<
@@ -113,7 +113,7 @@ export interface PrismaClient<
    * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -125,7 +125,7 @@ export interface PrismaClient<
    * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -136,7 +136,7 @@ export interface PrismaClient<
    * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
 
@@ -148,7 +148,7 @@ export interface PrismaClient<
    * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
 
@@ -175,54 +175,124 @@ export interface PrismaClient<
   }>>
 
       /**
-   * `prisma.connection`: Exposes CRUD operations for the **Connection** model.
+   * `prisma.user`: Exposes CRUD operations for the **User** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Connections
-    * const connections = await prisma.connection.findMany()
+    * // Fetch zero or more Users
+    * const users = await prisma.user.findMany()
     * ```
     */
-  get connection(): Prisma.ConnectionDelegate<ExtArgs, { omit: OmitOpts }>;
+  get user(): Prisma.UserDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
-   * `prisma.project`: Exposes CRUD operations for the **Project** model.
+   * `prisma.account`: Exposes CRUD operations for the **Account** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Projects
-    * const projects = await prisma.project.findMany()
+    * // Fetch zero or more Accounts
+    * const accounts = await prisma.account.findMany()
     * ```
     */
-  get project(): Prisma.ProjectDelegate<ExtArgs, { omit: OmitOpts }>;
+  get account(): Prisma.AccountDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
-   * `prisma.projectTableGroup`: Exposes CRUD operations for the **ProjectTableGroup** model.
+   * `prisma.session`: Exposes CRUD operations for the **Session** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more ProjectTableGroups
-    * const projectTableGroups = await prisma.projectTableGroup.findMany()
+    * // Fetch zero or more Sessions
+    * const sessions = await prisma.session.findMany()
     * ```
     */
-  get projectTableGroup(): Prisma.ProjectTableGroupDelegate<ExtArgs, { omit: OmitOpts }>;
+  get session(): Prisma.SessionDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
-   * `prisma.projectTableMergeGroup`: Exposes CRUD operations for the **ProjectTableMergeGroup** model.
+   * `prisma.password`: Exposes CRUD operations for the **Password** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more ProjectTableMergeGroups
-    * const projectTableMergeGroups = await prisma.projectTableMergeGroup.findMany()
+    * // Fetch zero or more Passwords
+    * const passwords = await prisma.password.findMany()
     * ```
     */
-  get projectTableMergeGroup(): Prisma.ProjectTableMergeGroupDelegate<ExtArgs, { omit: OmitOpts }>;
+  get password(): Prisma.PasswordDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
-   * `prisma.tableGroupMerge`: Exposes CRUD operations for the **TableGroupMerge** model.
+   * `prisma.folder`: Exposes CRUD operations for the **Folder** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more TableGroupMerges
-    * const tableGroupMerges = await prisma.tableGroupMerge.findMany()
+    * // Fetch zero or more Folders
+    * const folders = await prisma.folder.findMany()
     * ```
     */
-  get tableGroupMerge(): Prisma.TableGroupMergeDelegate<ExtArgs, { omit: OmitOpts }>;
+  get folder(): Prisma.FolderDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.passwordShare`: Exposes CRUD operations for the **PasswordShare** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PasswordShares
+    * const passwordShares = await prisma.passwordShare.findMany()
+    * ```
+    */
+  get passwordShare(): Prisma.PasswordShareDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.group`: Exposes CRUD operations for the **Group** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Groups
+    * const groups = await prisma.group.findMany()
+    * ```
+    */
+  get group(): Prisma.GroupDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.groupMember`: Exposes CRUD operations for the **GroupMember** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GroupMembers
+    * const groupMembers = await prisma.groupMember.findMany()
+    * ```
+    */
+  get groupMember(): Prisma.GroupMemberDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.tag`: Exposes CRUD operations for the **Tag** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tags
+    * const tags = await prisma.tag.findMany()
+    * ```
+    */
+  get tag(): Prisma.TagDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.passwordTag`: Exposes CRUD operations for the **PasswordTag** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PasswordTags
+    * const passwordTags = await prisma.passwordTag.findMany()
+    * ```
+    */
+  get passwordTag(): Prisma.PasswordTagDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.auditLog`: Exposes CRUD operations for the **AuditLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AuditLogs
+    * const auditLogs = await prisma.auditLog.findMany()
+    * ```
+    */
+  get auditLog(): Prisma.AuditLogDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.settings`: Exposes CRUD operations for the **Settings** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Settings
+    * const settings = await prisma.settings.findMany()
+    * ```
+    */
+  get settings(): Prisma.SettingsDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

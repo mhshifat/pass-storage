@@ -8,9 +8,16 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/Connection'
-export type * from './models/Project'
-export type * from './models/ProjectTableGroup'
-export type * from './models/ProjectTableMergeGroup'
-export type * from './models/TableGroupMerge'
+export type * from './models/User'
+export type * from './models/Account'
+export type * from './models/Session'
+export type * from './models/Password'
+export type * from './models/Folder'
+export type * from './models/PasswordShare'
+export type * from './models/Group'
+export type * from './models/GroupMember'
+export type * from './models/Tag'
+export type * from './models/PasswordTag'
+export type * from './models/AuditLog'
+export type * from './models/Settings'
 export type * from './commonInputTypes'

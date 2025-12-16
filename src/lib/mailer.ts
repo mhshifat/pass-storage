@@ -1,0 +1,156 @@
+import nodemailer from "nodemailer"
+import type { Transporter } from "nodemailer"
+import prisma from "@/lib/prisma"
+
+interface EmailConfig {
+  host: string
+  port: number
+  secure: boolean
+  auth?: {
+    user: string
+    pass: string
+  }
+  from: string
+}
+
+let cachedTransporter: Transporter | null = null
+
+async function getEmailConfig(): Promise<EmailConfig | null> {
+  try {
+    const settings = await prisma.settings.findMany({
+      where: {
+        key: {
+          in: [
+            "smtp_host",
+            "smtp_port",
+            "smtp_secure",
+            "smtp_user",
+            "smtp_password",
+            "smtp_from_email",
+          ],
+        },
+      },
+    })
+
+    const settingsMap = settings.reduce((acc, setting) => {
+      acc[setting.key] = setting.value
+      return acc
+    }, {} as Record<string, unknown>)
+
+    // Check if required settings exist
+    if (
+      !settingsMap.smtp_host ||
+      !settingsMap.smtp_port ||
+      !settingsMap.smtp_from_email
+    ) {
+      return null
+    }
+
+    const hasAuth = settingsMap.smtp_user && settingsMap.smtp_password
+
+    return {
+      host: settingsMap.smtp_host as string,
+      port: parseInt(settingsMap.smtp_port as string),
+      secure: settingsMap.smtp_secure === true || settingsMap.smtp_secure === "true",
+      auth: hasAuth ? {
+        user: settingsMap.smtp_user as string,
+        pass: settingsMap.smtp_password as string,
+      } : undefined,
+      from: settingsMap.smtp_from_email as string,
+    }
+  } catch (error) {
+    console.error("Failed to get email config:", error)
+    return null
+  }
+}
+
+async function getTransporter(): Promise<Transporter | null> {
+  const config = await getEmailConfig()
+  
+  if (!config) {
+    return null
+  }
+
+  // Create new transporter if config changed or doesn't exist
+  if (!cachedTransporter) {
+    cachedTransporter = nodemailer.createTransport({
+      host: config.host,
+      port: config.port,
+      secure: config.secure,
+      ...(config.auth && { auth: config.auth }),
+    })
+  }
+
+  return cachedTransporter
+}
+
+export async function sendEmail(options: {
+  to: string
+  subject: string
+  html?: string
+  text?: string
+}): Promise<{ success: boolean; error?: string }> {
+  try {
+    const transporter = await getTransporter()
+    
+    if (!transporter) {
+      return {
+        success: false,
+        error: "Email is not configured. Please configure SMTP settings.",
+      }
+    }
+
+    const config = await getEmailConfig()
+    if (!config) {
+      return {
+        success: false,
+        error: "Email configuration is incomplete.",
+      }
+    }
+
+    const info = await transporter.sendMail({
+      from: config.from,
+      to: options.to,
+      subject: options.subject,
+      html: options.html,
+      text: options.text,
+    })
+
+    console.log("Email sent successfully:", info.messageId)
+    return { success: true }
+  } catch (error) {
+    console.error("Failed to send email:", error)
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to send email",
+    }
+  }
+}
+
+// Helper to test email configuration
+export async function testEmailConfig(): Promise<{ success: boolean; error?: string }> {
+  try {
+    const transporter = await getTransporter()
+    
+    if (!transporter) {
+      return {
+        success: false,
+        error: "Email is not configured. Please configure SMTP settings.",
+      }
+    }
+
+    await transporter.verify()
+    return { success: true }
+  } catch (error) {
+    console.error("Email config test failed:", error)
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Email configuration test failed",
+    }
+  }
+}
+
+// Reset cached transporter (useful when settings are updated)
+export function resetEmailTransporter(): void {
+  cachedTransporter = null
+}

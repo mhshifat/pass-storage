@@ -1,107 +1,253 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "./generated"
+  provider   = "prisma-client-js"
+  output     = "./generated"
+  engineType = "binary"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-enum ConnectionType {
-  EXCEL
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?   // Optional for OAuth users
+  role          UserRole  @default(USER)
+  isActive      Boolean   @default(true)
+  mfaEnabled    Boolean   @default(false)
+  mfaSecret     String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLoginAt   DateTime?
+
+  // Relations
+  ownedPasswords     Password[]      @relation("PasswordOwner")
+  sharedPasswords    PasswordShare[]
+  groupMemberships   GroupMember[]
+  auditLogs          AuditLog[]
+  sessions           Session[]
+  accounts           Account[]
+
+  @@index([email])
 }
 
-model Connection {
-  id              Int             @unique  @default(autoincrement())
-  created_at      DateTime        @default(now())
-  updated_at      DateTime        @updatedAt
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
 
-  name            String
-  description     String?
-  type            ConnectionType
-  metadata        Json?
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  projects        Project[]
+  @@unique([provider, providerAccountId])
+}
 
-  @@map("connections")
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Password {
+  id            String    @id @default(cuid())
+  name          String
+  username      String
+  password      String // Encrypted
+  url           String?
+  notes         String?
+  folderId      String?
+  strength      PasswordStrength @default(MEDIUM)
+  hasTotp       Boolean   @default(false)
+  totpSecret    String?   // Encrypted
+  expiresAt     DateTime?
+  ownerId       String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  owner         User            @relation("PasswordOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  folder        Folder?         @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  sharedWith    PasswordShare[]
+  tags          PasswordTag[]
+  auditLogs     AuditLog[]
+
+  @@index([ownerId])
+  @@index([folderId])
+}
+
+model Folder {
+  id          String     @id @default(cuid())
+  name        String
+  description String?
+  icon        String?
+  color       String?
+  parentId    String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  // Relations
+  parent      Folder?    @relation("FolderHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children    Folder[]   @relation("FolderHierarchy")
+  passwords   Password[]
+
+  @@index([parentId])
+}
+
+model PasswordShare {
+  id         String   @id @default(cuid())
+  passwordId String
+  userId     String?
+  groupId    String?
+  permission SharePermission @default(READ)
+  createdAt  DateTime @default(now())
+  expiresAt  DateTime?
+
+  // Relations
+  password   Password @relation(fields: [passwordId], references: [id], onDelete: Cascade)
+  user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group      Group?   @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@index([passwordId])
+  @@index([userId])
+  @@index([groupId])
+}
+
+model Group {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  members         GroupMember[]
+  sharedPasswords PasswordShare[]
+
   @@index([name])
-  @@index([type])
 }
 
-enum ProjectDatasource {
-  EXCEL
+model GroupMember {
+  id        String      @id @default(cuid())
+  groupId   String
+  userId    String
+  role      GroupRole   @default(MEMBER)
+  createdAt DateTime    @default(now())
+
+  // Relations
+  group     Group       @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, userId])
+  @@index([groupId])
+  @@index([userId])
 }
 
-model Project {
-  id              Int             @unique  @default(autoincrement())
-  created_at      DateTime        @default(now())
-  updated_at      DateTime        @updatedAt
+model Tag {
+  id        String        @id @default(cuid())
+  name      String        @unique
+  color     String?
+  createdAt DateTime      @default(now())
 
-  name            String
-  description     String?
-  datasource      ProjectDatasource
-  metadata        Json?
-
-  connectionId    Int?
-  connection      Connection? @relation(fields: [connectionId], references: [id], onDelete: SetNull)
-
-  mergeGroups     ProjectTableMergeGroup[]
-  tableGroups     ProjectTableGroup[]
-
-  @@map("projects")
-  @@index([name])
-  @@index([datasource])
+  // Relations
+  passwords PasswordTag[]
 }
 
-model ProjectTableGroup {
-  id              Int             @unique  @default(autoincrement())
-  created_at      DateTime        @default(now())
-  updated_at      DateTime        @updatedAt
+model PasswordTag {
+  id         String   @id @default(cuid())
+  passwordId String
+  tagId      String
+  createdAt  DateTime @default(now())
 
-  name            String
-  columnIndices   String[]
+  // Relations
+  password   Password @relation(fields: [passwordId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
-  projectId       Int
-  project         Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
-  mergeGroups     TableGroupMerge[]
-
-  @@map("project_table_groups")
-  @@index([name])
-  @@unique([projectId, name])
+  @@unique([passwordId, tagId])
+  @@index([passwordId])
+  @@index([tagId])
 }
 
-model ProjectTableMergeGroup {
-  id              Int             @unique  @default(autoincrement())
-  created_at      DateTime        @default(now())
-  updated_at      DateTime        @updatedAt
+model AuditLog {
+  id         String      @id @default(cuid())
+  userId     String?
+  action     String
+  resource   String
+  resourceId String?
+  details    Json?
+  ipAddress  String?
+  userAgent  String?
+  status     AuditStatus @default(SUCCESS)
+  createdAt  DateTime    @default(now())
 
-  name            String
-  groupByColumn   String?
+  // Relations
+  user       User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  password   Password?   @relation(fields: [resourceId], references: [id], onDelete: SetNull)
 
-  projectId       Int
-  project         Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
-  tableGroups     TableGroupMerge[]
-
-  @@map("project_table_merge_groups")
-  @@index([name])
-  @@unique([projectId, name])
+  @@index([userId])
+  @@index([resourceId])
+  @@index([createdAt])
 }
 
-model TableGroupMerge {
-  tableGroupId             Int
-  tableMergeGroupId        Int
+model Settings {
+  id                     String   @id @default(cuid())
+  key                    String   @unique
+  value                  Json
+  updatedAt              DateTime @updatedAt
 
-  projectTableGroup        ProjectTableGroup      @relation(fields: [tableGroupId], references: [id], onDelete: Cascade)
-  projectTableMergeGroup   ProjectTableMergeGroup @relation(fields: [tableMergeGroupId], references: [id], onDelete: Cascade)
-  
-  @@map("table_group_merge_relations")
-  @@unique([tableGroupId, tableMergeGroupId])
+  @@index([key])
+}
+
+// Enums
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  MANAGER
+  USER
+  AUDITOR
+}
+
+enum GroupRole {
+  MANAGER
+  MEMBER
+}
+
+enum SharePermission {
+  READ
+  WRITE
+  ADMIN
+}
+
+enum PasswordStrength {
+  WEAK
+  MEDIUM
+  STRONG
+}
+
+enum AuditStatus {
+  SUCCESS
+  FAILED
+  WARNING
+  BLOCKED
 }

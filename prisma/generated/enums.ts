@@ -9,15 +9,48 @@
 * 🟢 You can import this file directly.
 */
 
-export const ConnectionType = {
-  EXCEL: 'EXCEL'
+export const UserRole = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  ADMIN: 'ADMIN',
+  MANAGER: 'MANAGER',
+  USER: 'USER',
+  AUDITOR: 'AUDITOR'
 } as const
 
-export type ConnectionType = (typeof ConnectionType)[keyof typeof ConnectionType]
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
-export const ProjectDatasource = {
-  EXCEL: 'EXCEL'
+export const GroupRole = {
+  MANAGER: 'MANAGER',
+  MEMBER: 'MEMBER'
 } as const
 
-export type ProjectDatasource = (typeof ProjectDatasource)[keyof typeof ProjectDatasource]
+export type GroupRole = (typeof GroupRole)[keyof typeof GroupRole]
+
+
+export const SharePermission = {
+  READ: 'READ',
+  WRITE: 'WRITE',
+  ADMIN: 'ADMIN'
+} as const
+
+export type SharePermission = (typeof SharePermission)[keyof typeof SharePermission]
+
+
+export const PasswordStrength = {
+  WEAK: 'WEAK',
+  MEDIUM: 'MEDIUM',
+  STRONG: 'STRONG'
+} as const
+
+export type PasswordStrength = (typeof PasswordStrength)[keyof typeof PasswordStrength]
+
+
+export const AuditStatus = {
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  WARNING: 'WARNING',
+  BLOCKED: 'BLOCKED'
+} as const
+
+export type AuditStatus = (typeof AuditStatus)[keyof typeof AuditStatus]
