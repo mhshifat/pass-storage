@@ -46,7 +46,7 @@ export async function loginAction(
           }
         } catch (e) {
           // If parsing fails, return the message as a root error
-          return { error: error.message }
+          return { error: error.message || e?.toString() }
         }
       }
       
