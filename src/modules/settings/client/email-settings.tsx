@@ -1,35 +1,68 @@
+
 "use client"
 
 import { useState, useEffect, useActionState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Separator } from "@/components/ui/separator"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { toast } from "sonner"
-import { trpc } from "@/trpc/client"
 import { updateEmailConfigAction, testEmailConfigAction } from "@/app/admin/settings/email-actions"
 import { useRouter } from "next/navigation"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, Loader2 } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
+import { useForm } from "react-hook-form"
+import z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
 
-export function EmailSettings() {
+export interface EmailConfig {
+  smtp_host: string
+  smtp_port: string
+  smtp_secure: boolean
+  smtp_user: string
+  smtp_password: string
+  smtp_from_email: string
+  smtp_from_name: string
+}
+
+interface EmailSettingsProps {
+  config: EmailConfig
+}
+
+const emailSettingsSchema = z.object({
+  smtp_host: z.string().min(1, "SMTP Host is required"),
+  smtp_port: z.string().min(1, "SMTP Port is required"),
+  smtp_secure: z.enum(["none", "tls", "ssl"]),
+  smtp_user: z.string().optional(),
+  smtp_password: z.string().optional(),
+  smtp_from_email: z.string().email("Invalid email address"),
+  smtp_from_name: z.string().optional(),
+})
+
+type EmailSettingsFormValues = z.infer<typeof emailSettingsSchema>
+
+export function EmailSettings({ config }: EmailSettingsProps) {
   const router = useRouter()
   const [testEmail, setTestEmail] = useState("")
   const [isTesting, setIsTesting] = useState(false)
-  const [encryption, setEncryption] = useState("tls")
-  
-  const { data: config, isLoading } = trpc.settings.getEmailConfig.useQuery()
-  
   const [state, formAction, isPending] = useActionState(updateEmailConfigAction, null)
+
+  const form = useForm<EmailSettingsFormValues>({
+    defaultValues: {
+      smtp_host: config.smtp_host,
+      smtp_port: config.smtp_port,
+      smtp_secure: config.smtp_secure ? "ssl" : "tls",
+      smtp_user: config.smtp_user,
+      smtp_password: config.smtp_password,
+      smtp_from_email: config.smtp_from_email,
+      smtp_from_name: config.smtp_from_name,
+    },
+    resolver: zodResolver(emailSettingsSchema)
+  })
 
   useEffect(() => {
     if (state?.success) {
@@ -40,18 +73,11 @@ export function EmailSettings() {
     }
   }, [state, router])
 
-  useEffect(() => {
-    if (config) {
-      setEncryption(config.smtp_secure ? "ssl" : "tls")
-    }
-  }, [config])
-
   const handleTestEmail = async () => {
     if (!testEmail) {
       toast.error("Please enter an email address")
       return
     }
-
     setIsTesting(true)
     try {
       const result = await testEmailConfigAction(testEmail)
@@ -67,14 +93,6 @@ export function EmailSettings() {
     }
   }
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-      </div>
-    )
-  }
-
   return (
     <>
       <Card>
@@ -83,130 +101,169 @@ export function EmailSettings() {
           <CardDescription>Configure email server settings for notifications</CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={formAction} className="space-y-6">
-            {state?.error && (
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
-                <AlertDescription>{state.error}</AlertDescription>
-              </Alert>
-            )}
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit((data) => {
+                // Convert smtp_secure to boolean and build FormData
+                const submitData = {
+                  ...data,
+                  smtp_secure: data.smtp_secure === "ssl",
+                }
+                const formData = new FormData()
+                Object.entries(submitData).forEach(([key, value]) => {
+                  formData.append(key, String(value))
+                })
+                formAction(formData)
+              })}
+              className="space-y-6"
+            >
+              {state?.error && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>{state.error}</AlertDescription>
+                </Alert>
+              )}
 
-            <div className="space-y-2">
-              <Label htmlFor="smtp_host">SMTP Host</Label>
-              <Input
-                id="smtp_host"
+              <FormField
+                control={form.control}
                 name="smtp_host"
-                placeholder="smtp.example.com"
-                defaultValue={config?.smtp_host}
-                required
-              />
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="smtp_port">SMTP Port</Label>
-                <Input
-                  id="smtp_port"
-                  name="smtp_port"
-                  placeholder="587"
-                  defaultValue={config?.smtp_port}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="encryption">Encryption</Label>
-                <Select
-                  value={encryption}
-                  onValueChange={(value) => setEncryption(value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="none">None</SelectItem>
-                    <SelectItem value="tls">TLS (Port 587)</SelectItem>
-                    <SelectItem value="ssl">SSL (Port 465)</SelectItem>
-                  </SelectContent>
-                </Select>
-                <input
-                  type="hidden"
-                  name="smtp_secure"
-                  value={encryption === "ssl" ? "true" : "false"}
-                />
-              </div>
-            </div>
-
-            <Separator />
-
-            <div className="space-y-2">
-              <Label htmlFor="smtp_user">SMTP Username (Optional)</Label>
-              <Input
-                id="smtp_user"
-                name="smtp_user"
-                placeholder="notifications@example.com"
-                defaultValue={config?.smtp_user}
-              />
-              <p className="text-xs text-muted-foreground">
-                Leave blank if your SMTP server doesn&#39;t require authentication
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="smtp_password">SMTP Password (Optional)</Label>
-              <Input
-                id="smtp_password"
-                name="smtp_password"
-                type="password"
-                placeholder="••••••••"
-                defaultValue={config?.smtp_password}
-              />
-              <p className="text-xs text-muted-foreground">
-                Leave blank if your SMTP server doesn&apos;t require authentication
-              </p>
-            </div>
-
-            <Separator />
-
-            <div className="space-y-2">
-              <Label htmlFor="smtp_from_email">From Email Address</Label>
-              <Input
-                id="smtp_from_email"
-                name="smtp_from_email"
-                type="email"
-                placeholder="noreply@passstorage.com"
-                defaultValue={config?.smtp_from_email}
-                required
-              />
-              <p className="text-xs text-muted-foreground">
-                Email address used as sender for notifications
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="smtp_from_name">From Name</Label>
-              <Input
-                id="smtp_from_name"
-                name="smtp_from_name"
-                placeholder="PassStorage"
-                defaultValue={config?.smtp_from_name}
-              />
-            </div>
-
-            <Separator />
-
-            <div className="flex gap-2">
-              <Button type="submit" disabled={isPending}>
-                {isPending ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Saving...
-                  </>
-                ) : (
-                  "Save Email Settings"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>SMTP Host</FormLabel>
+                    <FormControl>
+                      <Input placeholder="smtp.example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
-              </Button>
-            </div>
-          </form>
+              />
+
+              <div className="grid gap-4 md:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="smtp_port"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>SMTP Port</FormLabel>
+                      <FormControl>
+                        <Input placeholder="587" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="smtp_secure"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Encryption</FormLabel>
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="none">None</SelectItem>
+                          <SelectItem value="tls">TLS (Port 587)</SelectItem>
+                          <SelectItem value="ssl">SSL (Port 465)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <Separator />
+
+              <FormField
+                control={form.control}
+                name="smtp_user"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>SMTP Username (Optional)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="notifications@example.com" {...field} />
+                    </FormControl>
+                    <p className="text-xs text-muted-foreground">
+                      Leave blank if your SMTP server doesn&#39;t require authentication
+                    </p>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="smtp_password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>SMTP Password (Optional)</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="••••••••" {...field} />
+                    </FormControl>
+                    <p className="text-xs text-muted-foreground">
+                      Leave blank if your SMTP server doesn&apos;t require authentication
+                    </p>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Separator />
+
+              <FormField
+                control={form.control}
+                name="smtp_from_email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>From Email Address</FormLabel>
+                    <FormControl>
+                      <Input type="email" placeholder="noreply@passstorage.com" {...field} />
+                    </FormControl>
+                    <p className="text-xs text-muted-foreground">
+                      Email address used as sender for notifications
+                    </p>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="smtp_from_name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>From Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="PassStorage" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Separator />
+
+              <div className="flex gap-2">
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    "Save Email Settings"
+                  )}
+                </Button>
+              </div>
+            </form>
+          </Form>
         </CardContent>
       </Card>
 

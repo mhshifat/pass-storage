@@ -1,7 +1,9 @@
+
 import prisma from "@/lib/prisma"
 import { baseProcedure, createTRPCRouter } from "@/trpc/init"
 import z from "zod"
 import { TRPCError } from "@trpc/server"
+import { encrypt, decrypt } from "@/lib/crypto"
 
 export const settingsRouter = createTRPCRouter({
   getEmailConfig: baseProcedure.query(async () => {
@@ -22,8 +24,22 @@ export const settingsRouter = createTRPCRouter({
     })
 
     const config: Record<string, unknown> = {}
+
+    const decryptKeys = [
+      "smtp_host",
+      "smtp_port",
+      "smtp_secure",
+      "smtp_user",
+      "smtp_password",
+      "smtp_from_email",
+      "smtp_from_name",
+    ]
     settings.forEach((setting) => {
-      config[setting.key] = setting.value
+      if (decryptKeys.includes(setting.key)) {
+        config[setting.key] = setting.value ? decrypt(setting.value as string) : ""
+      } else {
+        config[setting.key] = setting.value
+      }
     })
 
     return {
@@ -51,16 +67,30 @@ export const settingsRouter = createTRPCRouter({
     )
     .mutation(async ({ input }) => {
       // Update or create each setting
+
+      const encryptKeys = [
+        "smtp_host",
+        "smtp_port",
+        "smtp_secure",
+        "smtp_user",
+        "smtp_password",
+        "smtp_from_email",
+        "smtp_from_name",
+      ]
       await Promise.all(
         Object.entries(input).map(async ([key, value]) => {
-            if (typeof value === "undefined") return // skip undefined values
-            await prisma.settings.upsert({
+          if (typeof value === "undefined") return // skip undefined values
+          let toSave = value
+          if (encryptKeys.includes(key) && value) {
+            toSave = encrypt(value as string)
+          }
+          await prisma.settings.upsert({
             where: { key },
-            update: { value },
-            create: { key, value },
-            })
+            update: { value: toSave },
+            create: { key, value: toSave },
+          })
         })
-    )
+      )
 
       // Reset email transporter cache
       const { resetEmailTransporter } = await import("@/lib/mailer")
