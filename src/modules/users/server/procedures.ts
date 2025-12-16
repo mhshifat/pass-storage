@@ -330,4 +330,23 @@ export const usersRouter = createTRPCRouter({
 
       return { success: true }
     }),
+
+  stats: baseProcedure
+    .input(z.object({ excludeUserId: z.string().optional() }).optional())
+    .query(async ({ input }) => {
+      const excludeUserId = input?.excludeUserId;
+      const where = excludeUserId ? { id: { not: excludeUserId } } : {};
+      const [total, active, mfa, admins] = await Promise.all([
+        prisma.user.count({ where }),
+        prisma.user.count({ where: { ...where, isActive: true } }),
+        prisma.user.count({ where: { ...where, mfaEnabled: true } }),
+        prisma.user.count({ where: { ...where, role: "ADMIN" } }),
+      ])
+      return {
+        total,
+        active,
+        mfa,
+        admins,
+      }
+    }),
 })
