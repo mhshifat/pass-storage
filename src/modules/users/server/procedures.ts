@@ -3,6 +3,7 @@ import { baseProcedure, createTRPCRouter } from "@/trpc/init"
 import z from "zod"
 import { hashPassword } from "@/lib/auth"
 import { TRPCError } from "@trpc/server"
+import { Prisma } from '@/app/generated';
 
 export const usersRouter = createTRPCRouter({
   create: baseProcedure
@@ -16,7 +17,7 @@ export const usersRouter = createTRPCRouter({
         isActive: z.boolean().default(true),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       // Check if user already exists
       const existingUser = await prisma.user.findUnique({
         where: { email: input.email },
@@ -32,6 +33,9 @@ export const usersRouter = createTRPCRouter({
       // Hash password
       const hashedPassword = await hashPassword(input.password)
 
+      // Get current userId from context
+      const createdById = ctx.userId;
+
       // Create user
       const user = await prisma.user.create({
         data: {
@@ -41,6 +45,7 @@ export const usersRouter = createTRPCRouter({
           role: input.role,
           mfaEnabled: input.mfaEnabled,
           isActive: input.isActive,
+          createdById,
         },
         select: {
           id: true,
@@ -225,14 +230,20 @@ export const usersRouter = createTRPCRouter({
         })
         .optional()
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const page = input?.page ?? 1
       const pageSize = input?.pageSize ?? 10
       const skip = (page - 1) * pageSize
 
-      const whereClause = input?.excludeUserId
-        ? { id: { not: input.excludeUserId } }
-        : {}
+
+      // Get current userId from context
+      const createdById = ctx.userId;
+      const whereClause: Prisma.UserWhereInput = {
+        createdById
+      };
+      if (input?.excludeUserId) {
+        whereClause.id = { not: input.excludeUserId };
+      }
 
       const [users, total] = await Promise.all([
         prisma.user.findMany({

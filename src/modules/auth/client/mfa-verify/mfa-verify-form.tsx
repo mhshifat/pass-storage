@@ -61,7 +61,7 @@ export function MfaVerifyForm() {
                               {...field}
                             >
                               <InputOTPGroup
-                                className="[&>div]:flex-1"
+                                className="[&>div]:flex-1 w-full"
                               >
                                 <InputOTPSlot index={0} />
                                 <InputOTPSlot index={1} />

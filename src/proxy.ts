@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "./lib/session";
+import { destroySession, getSession } from "./lib/session";
 import prisma from "./lib/prisma";
 
 // Define route groups
@@ -10,6 +10,16 @@ const ADMIN_ROUTE = "/admin";
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const session = await getSession();
+  
+  const user = await prisma.user.findUnique({
+    where: { id: session.userId },
+    select: { mfaEnabled: true, mfaSecret: true },
+  });
+
+  if (!user && pathname !== "/login") {
+    await destroySession();
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
 
   // Not logged in: block all except auth routes
   if (!session?.isLoggedIn) {
@@ -19,21 +29,12 @@ export async function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.userId },
-    select: { mfaEnabled: true, mfaSecret: true },
-  });
-
-  if (!user) {
-    return NextResponse.redirect(new URL("/login", req.url));
-  }
-
   // Logged in: block auth routes, redirect to admin
   if (AUTH_ROUTES.some(route => pathname.startsWith(route))) {
     return NextResponse.redirect(new URL(ADMIN_ROUTE, req.url));
   }
 
-  if (!user.mfaEnabled) {
+  if (!user?.mfaEnabled) {
     return NextResponse.next();
   }
 

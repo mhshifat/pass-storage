@@ -133,7 +133,8 @@ exports.Prisma.UserScalarFieldEnum = {
   mfaSecret: 'mfaSecret',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  lastLoginAt: 'lastLoginAt'
+  lastLoginAt: 'lastLoginAt',
+  createdById: 'createdById'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
