@@ -4,7 +4,7 @@ import { useActionState } from "react"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { RegisterFormFields } from "./register-form-fields"
-import { registerAction } from "@/app/register/actions"
+import { registerAction } from "@/app/(auth)/register/actions"
 import Link from "next/link"
 
 export function RegisterForm() {

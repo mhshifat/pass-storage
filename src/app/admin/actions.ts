@@ -22,9 +22,24 @@ export async function logoutAction() {
 
 export async function getUserData() {
   try {
-    const trpc = await serverTrpc()
-    return await trpc.auth.getCurrentUser()
+    const trpc = await serverTrpc();
+    const { user, session, shouldVerifyMfa } = await trpc.auth.getCurrentUser();
+    
+    if (shouldVerifyMfa === true) {
+      redirect("/mfa-verify");
+    }
+
+    return {
+      ...user,
+      ...session,
+      mfaSecret: undefined, // Hide MFA secret
+    }
   } catch (error: unknown) {
+    // Re-throw redirect errors
+    if (isRedirectError(error)) {
+      throw error
+    }
+
     // If not authenticated or user not found, redirect to login
     redirect("/login")
   }

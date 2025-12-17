@@ -4,7 +4,7 @@ import { useActionState } from "react"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { LoginFormFields } from "./login-form-fields"
-import { loginAction } from "@/app/login/actions"
+import { loginAction } from "@/app/(auth)/login/actions"
 import Link from "next/link"
 
 export function LoginForm() {

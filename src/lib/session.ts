@@ -8,11 +8,13 @@ const secret = new TextEncoder().encode(
 export interface SessionData {
   userId: string
   email: string
-  isLoggedIn: boolean
+  isLoggedIn: boolean,
+  mfaVerified?: boolean
 }
 
-export async function createSession(userId: string, email: string) {
-  const token = await new SignJWT({ userId, email, isLoggedIn: true })
+export async function createSession(userId: string, email: string, { mfaVerified = true } = {}) {
+  const payload = { userId, email, isLoggedIn: true, mfaVerified };
+  const token = await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime("7d")
     .sign(secret)
@@ -38,9 +40,7 @@ export async function getSession(): Promise<SessionData> {
   try {
     const { payload } = await jwtVerify(token, secret)
     return {
-      userId: payload.userId as string,
-      email: payload.email as string,
-      isLoggedIn: payload.isLoggedIn as boolean,
+      ...payload as unknown as SessionData
     }
   } catch {
     return { userId: "", email: "", isLoggedIn: false }

@@ -18,8 +18,14 @@ export async function loginAction(
 
   try {
     const trpc = await serverTrpc()
-    await trpc.auth.login({ email, password })
-    redirect("/admin")
+    const { mfaRequired, mfaSetupRequired } = await trpc.auth.login({ email, password })
+    if (mfaSetupRequired) {
+      redirect("/mfa-setup")
+    } else if (mfaRequired) {
+      redirect("/mfa-verify")
+    } else {
+      redirect("/admin")
+    }
   } catch (error: unknown) {
     // Re-throw redirect errors
     if (isRedirectError(error)) {
