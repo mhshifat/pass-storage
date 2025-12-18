@@ -379,8 +379,11 @@ export const usersRouter = createTRPCRouter({
         
         // If this user is the creator of the current user, remove sensitive fields
         if (user.createdById === ctx.userId && hasEditPermission) {
-          const { mfaEnabled, lastLoginAt, ...rest } = user;
-          return rest;
+          return {
+            ...user,
+            mfaEnabled: undefined,
+            lastLoginAt: undefined,
+          };
         }
         
         return user;
