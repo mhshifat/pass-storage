@@ -27,46 +27,54 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { usePermissions } from "@/hooks/use-permissions"
 
 const navigation = [
   {
     name: "Dashboard",
     href: "/admin",
     icon: LayoutDashboard,
+    permission: null, // Always visible
   },
   {
     name: "Users",
     href: "/admin/users",
     icon: Users,
+    permission: "user.view",
   },
   {
     name: "Groups",
     href: "/admin/groups",
     icon: BoxesIcon,
+    permission: "group.view",
   },
   {
     name: "Roles & Permissions",
     href: "/admin/roles",
     icon: Shield,
+    permission: "role.manage",
   },
   {
     name: "Passwords",
     href: "/admin/passwords",
     icon: Lock,
+    permission: "password.view",
   },
   {
     name: "Audit Logs",
     href: "/admin/audit-logs",
     icon: Activity,
+    permission: "audit.view",
   },
   {
     name: "Settings",
     icon: Settings,
+    permission: "settings.view",
     children: [
-      { name: "General", href: "/admin/settings/general" },
-      { name: "Email", href: "/admin/settings/email" },
-      { name: "Security", href: "/admin/settings/security" },
-      { name: "MFA", href: "/admin/settings/mfa" },
+      { name: "General", href: "/admin/settings/general", permission: "settings.view" },
+      { name: "Email", href: "/admin/settings/email", permission: "settings.view" },
+      { name: "Security", href: "/admin/settings/security", permission: "settings.view" },
+      { name: "MFA", href: "/admin/settings/mfa", permission: "settings.view" },
     ],
   },
 ]
@@ -78,6 +86,7 @@ interface SidebarNavigationProps {
 export function SidebarNavigation({ isCollapsed }: SidebarNavigationProps) {
   const pathname = usePathname()
   const [expandedItems, setExpandedItems] = React.useState<string[]>(["Settings"])
+  const { hasPermission } = usePermissions()
 
   const toggleExpand = (name: string) => {
     setExpandedItems((prev) =>
@@ -85,12 +94,33 @@ export function SidebarNavigation({ isCollapsed }: SidebarNavigationProps) {
     )
   }
 
+  // Filter navigation items based on permissions
+  const filteredNavigation = navigation.filter((item) => {
+    if (!item.permission) return true // Always show items without permission requirement
+    return hasPermission(item.permission)
+  }).map((item) => {
+    if (item.children) {
+      return {
+        ...item,
+        children: item.children.filter((child) => {
+          if (!child.permission) return true
+          return hasPermission(child.permission)
+        }),
+      }
+    }
+    return item
+  }).filter((item) => {
+    // Hide parent items if all children are filtered out
+    if (item.children && item.children.length === 0) return false
+    return true
+  })
+
   if (isCollapsed) {
     return (
       <ScrollArea className="flex-1 px-2 py-4">
         <TooltipProvider delayDuration={0}>
           <nav className="space-y-2">
-            {navigation.map((item) => {
+            {filteredNavigation.map((item) => {
               const isActive = item.href === pathname
 
               if (item.children) {
@@ -157,7 +187,7 @@ export function SidebarNavigation({ isCollapsed }: SidebarNavigationProps) {
   return (
     <ScrollArea className="flex-1 px-3 py-4">
       <nav className="space-y-1">
-        {navigation.map((item) => {
+        {filteredNavigation.map((item) => {
           const isActive = item.href === pathname
           const isExpanded = expandedItems.includes(item.name)
 

@@ -1,18 +1,18 @@
 import prisma from "@/lib/prisma"
-import { baseProcedure, createTRPCRouter } from "@/trpc/init"
+import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init"
 import z from "zod"
 import { hashPassword } from "@/lib/auth"
 import { TRPCError } from "@trpc/server"
 import { Prisma } from '@/app/generated';
 
 export const usersRouter = createTRPCRouter({
-  create: baseProcedure
+  create: protectedProcedure("user.create")
     .input(
       z.object({
         name: z.string().min(2, "Name must be at least 2 characters"),
         email: z.string().email("Invalid email address"),
         password: z.string().min(8, "Password must be at least 8 characters"),
-        role: z.enum(["USER", "ADMIN", "MANAGER"]).default("USER"),
+        role: z.string().min(1, "Role is required").default("USER"),
         mfaEnabled: z.boolean().default(false),
         isActive: z.boolean().default(true),
       })
@@ -36,13 +36,32 @@ export const usersRouter = createTRPCRouter({
       // Get current userId from context
       const createdById = ctx.userId;
 
+      // Validate role - check if it's a valid system role or a custom role
+      const validSystemRoles = ["SUPER_ADMIN", "ADMIN", "MANAGER", "USER", "AUDITOR"]
+      let roleValue = input.role.toUpperCase()
+      
+      if (!validSystemRoles.includes(roleValue)) {
+        // Check if it's a custom role
+        const customRole = await prisma.role.findFirst({
+          where: { name: input.role },
+        })
+        if (!customRole) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: `Invalid role: ${input.role}. Role must be a system role or a custom role you created.`,
+          })
+        }
+        // Use the custom role name as-is
+        roleValue = input.role
+      }
+
       // Create user
       const user = await prisma.user.create({
         data: {
           name: input.name,
           email: input.email,
           password: hashedPassword,
-          role: input.role,
+          role: roleValue,
           mfaEnabled: input.mfaEnabled,
           isActive: input.isActive,
           createdById,
@@ -65,30 +84,42 @@ export const usersRouter = createTRPCRouter({
       }
     }),
 
-  update: baseProcedure
+  update: protectedProcedure("user.edit")
     .input(
       z.object({
         id: z.string(),
         name: z.string().min(2).optional(),
         email: z.string().email().optional(),
         password: z.string().min(8).optional(),
-        role: z.enum(["USER", "ADMIN", "MANAGER"]).optional(),
+        role: z.string().min(1).optional(),
         mfaEnabled: z.boolean().optional(),
         isActive: z.boolean().optional(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       const { id, password, ...data } = input
 
       // Check if user exists
       const existingUser = await prisma.user.findUnique({
         where: { id },
+        select: {
+          id: true,
+          createdById: true,
+        },
       })
 
       if (!existingUser) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "User not found",
+        })
+      }
+
+      // Prevent users from modifying their creator (SUPER_ADMIN can modify anyone)
+      if (ctx.userRole !== "SUPER_ADMIN" && existingUser.createdById === ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You cannot modify the user who created your account",
         })
       }
 
@@ -110,6 +141,28 @@ export const usersRouter = createTRPCRouter({
       const updateData: Record<string, unknown> = { ...data }
       if (password) {
         updateData.password = await hashPassword(password)
+      }
+
+      // Handle role update if provided
+      if (data.role) {
+        const validSystemRoles = ["SUPER_ADMIN", "ADMIN", "MANAGER", "USER", "AUDITOR"]
+        let roleValue = data.role.toUpperCase()
+        
+        if (!validSystemRoles.includes(roleValue)) {
+          // Check if it's a custom role
+          const customRole = await prisma.role.findFirst({
+            where: { name: data.role },
+          })
+          if (!customRole) {
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message: `Invalid role: ${data.role}. Role must be a system role or a custom role you created.`,
+            })
+          }
+          // Use the custom role name as-is
+          roleValue = data.role
+        }
+        updateData.role = roleValue
       }
 
       // Update user
@@ -134,18 +187,30 @@ export const usersRouter = createTRPCRouter({
       }
     }),
 
-  delete: baseProcedure
+  delete: protectedProcedure("user.delete")
     .input(z.object({ id: z.string() }))
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       // Check if user exists
       const existingUser = await prisma.user.findUnique({
         where: { id: input.id },
+        select: {
+          id: true,
+          createdById: true,
+        },
       })
 
       if (!existingUser) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "User not found",
+        })
+      }
+
+      // Prevent users from deleting their creator (SUPER_ADMIN can delete anyone)
+      if (ctx.userRole !== "SUPER_ADMIN" && existingUser.createdById === ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You cannot delete the user who created your account",
         })
       }
 
@@ -159,22 +224,35 @@ export const usersRouter = createTRPCRouter({
       }
     }),
 
-  resetPassword: baseProcedure
+  resetPassword: protectedProcedure("user.edit")
     .input(z.object({ 
       id: z.string(),
       currentPassword: z.string().min(1, "Current password is required"),
       newPassword: z.string().min(8, "Password must be at least 8 characters")
     }))
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       // Check if user exists
       const existingUser = await prisma.user.findUnique({
         where: { id: input.id },
+        select: {
+          id: true,
+          password: true,
+          createdById: true,
+        },
       })
 
       if (!existingUser) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "User not found",
+        })
+      }
+
+      // Prevent users from resetting their creator's password (SUPER_ADMIN can reset anyone's password)
+      if (ctx.userRole !== "SUPER_ADMIN" && existingUser.createdById === ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You cannot reset the password of the user who created your account",
         })
       }
 
@@ -220,7 +298,7 @@ export const usersRouter = createTRPCRouter({
       }
     }),
 
-  list: baseProcedure
+  list: protectedProcedure("user.view")
     .input(
       z
         .object({
@@ -235,15 +313,17 @@ export const usersRouter = createTRPCRouter({
       const pageSize = input?.pageSize ?? 10
       const skip = (page - 1) * pageSize
 
-
-      // Get current userId from context
-      const createdById = ctx.userId;
-      const whereClause: Prisma.UserWhereInput = {
-        createdById
-      };
+      // Build where clause - show all users (not just created by current user)
+      // Users with user.view permission should see all users
+      const whereClause: Prisma.UserWhereInput = {};
       if (input?.excludeUserId) {
         whereClause.id = { not: input.excludeUserId };
       }
+
+      // Check if user has edit permission to see sensitive information
+      const hasEditPermission = ctx.permissions.includes("user.edit");
+      // Check if current user is SUPER_ADMIN (can see everything and perform all actions)
+      const isSuperAdmin = ctx.userRole === "SUPER_ADMIN";
 
       const [users, total] = await Promise.all([
         prisma.user.findMany({
@@ -253,9 +333,13 @@ export const usersRouter = createTRPCRouter({
             name: true,
             email: true,
             role: true,
-            mfaEnabled: true,
+            createdById: true, // Include to check if user can modify this user
+            // Only include sensitive fields if user has edit permission
+            ...(hasEditPermission ? {
+              mfaEnabled: true,
+              lastLoginAt: true,
+            } : {}),
             isActive: true,
-            lastLoginAt: true,
             createdAt: true,
             updatedAt: true,
           },
@@ -268,8 +352,29 @@ export const usersRouter = createTRPCRouter({
         prisma.user.count({ where: whereClause }),
       ])
 
+      // Filter out sensitive fields for creator users if not SUPER_ADMIN
+      // SUPER_ADMIN can see everything, but other roles cannot see sensitive info about their creator
+      const filteredUsers = users.map((user) => {
+        // If current user is SUPER_ADMIN, return all fields as-is
+        if (isSuperAdmin) {
+          return user;
+        }
+        
+        // If this user is the creator of the current user, remove sensitive fields
+        if (user.createdById === ctx.userId && hasEditPermission) {
+          const { mfaEnabled, lastLoginAt, ...rest } = user;
+          return rest;
+        }
+        
+        return user;
+      });
+
       return {
-        users,
+        users: filteredUsers,
+        // Include flag to indicate if sensitive fields are included
+        includeSensitiveFields: hasEditPermission,
+        // Include flag to indicate if current user is SUPER_ADMIN
+        isSuperAdmin,
         pagination: {
           page,
           pageSize,
@@ -279,7 +384,7 @@ export const usersRouter = createTRPCRouter({
       }
     }),
 
-  sendEmail: baseProcedure
+  sendEmail: protectedProcedure("user.edit")
     .input(
       z.object({
         userId: z.string(),
@@ -287,17 +392,30 @@ export const usersRouter = createTRPCRouter({
         message: z.string().min(1, "Message is required"),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       // Get user email
       const user = await prisma.user.findUnique({
         where: { id: input.userId },
-        select: { email: true, name: true },
+        select: { 
+          id: true,
+          email: true, 
+          name: true,
+          createdById: true,
+        },
       })
 
       if (!user) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "User not found",
+        })
+      }
+
+      // Prevent users from sending emails to their creator (SUPER_ADMIN can send emails to anyone)
+      if (ctx.userRole !== "SUPER_ADMIN" && user.createdById === ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You cannot send emails to the user who created your account",
         })
       }
 
@@ -342,7 +460,7 @@ export const usersRouter = createTRPCRouter({
       return { success: true }
     }),
 
-  stats: baseProcedure
+  stats: protectedProcedure("user.view")
     .input(z.object({ excludeUserId: z.string().optional() }).optional())
     .query(async ({ input }) => {
       const excludeUserId = input?.excludeUserId;
@@ -351,7 +469,7 @@ export const usersRouter = createTRPCRouter({
         prisma.user.count({ where }),
         prisma.user.count({ where: { ...where, isActive: true } }),
         prisma.user.count({ where: { ...where, mfaEnabled: true } }),
-        prisma.user.count({ where: { ...where, role: "ADMIN" } }),
+        prisma.user.count({ where: { ...where, role: { in: ["ADMIN", "admin"] } } }),
       ])
       return {
         total,

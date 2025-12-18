@@ -1,12 +1,12 @@
 
 import prisma from "@/lib/prisma"
-import { baseProcedure, createTRPCRouter } from "@/trpc/init"
+import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init"
 import z from "zod"
 import { TRPCError } from "@trpc/server"
 import { encrypt, decrypt } from "@/lib/crypto"
 
 export const settingsRouter = createTRPCRouter({
-  getEmailConfig: baseProcedure.query(async () => {
+  getEmailConfig: protectedProcedure("settings.view").query(async () => {
     const settings = await prisma.settings.findMany({
       where: {
         key: {
@@ -53,7 +53,7 @@ export const settingsRouter = createTRPCRouter({
     }
   }),
 
-  updateEmailConfig: baseProcedure
+  updateEmailConfig: protectedProcedure("settings.edit")
     .input(
       z.object({
         smtp_host: z.string(),
@@ -99,7 +99,7 @@ export const settingsRouter = createTRPCRouter({
       return { success: true }
     }),
 
-  testEmailConfig: baseProcedure
+  testEmailConfig: protectedProcedure("settings.edit")
     .input(
       z.object({
         testEmail: z.string().email(),

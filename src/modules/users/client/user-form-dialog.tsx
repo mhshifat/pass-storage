@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { AlertCircle } from "lucide-react"
+import { trpc } from "@/trpc/client"
 
 interface User {
   id: string
@@ -47,7 +48,7 @@ type UserFormValues = {
   name: string
   email: string
   password?: string
-  role: "ADMIN" | "MANAGER" | "USER"
+  role: string
   mfaEnabled: boolean
   isActive: boolean
 }
@@ -66,7 +67,7 @@ const userSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters").optional(),
-  role: z.enum(["ADMIN", "MANAGER", "USER"]),
+  role: z.string().min(1, "Role is required"),
   mfaEnabled: z.boolean(),
   isActive: z.boolean(),
 })
@@ -80,6 +81,10 @@ export function UserFormDialog({
   isPending,
   state,
 }: UserFormDialogProps) {
+  // Fetch assignable roles
+  const { data: rolesData } = trpc.roles.getAssignableRoles.useQuery(undefined, {
+    enabled: open,
+  })
 
   const form = useForm<UserFormValues>({
     resolver: zodResolver(userSchema),
@@ -100,7 +105,7 @@ export function UserFormDialog({
         form.reset({
           name: user.name,
           email: user.email,
-          role: user.role.toUpperCase() as "ADMIN" | "MANAGER" | "USER",
+          role: user.role,
           mfaEnabled: user.mfa,
           isActive: user.status === "active",
         })
@@ -228,9 +233,11 @@ export function UserFormDialog({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="ADMIN">Admin</SelectItem>
-                      <SelectItem value="MANAGER">Manager</SelectItem>
-                      <SelectItem value="USER">User</SelectItem>
+                      {rolesData?.roles.map((role) => (
+                        <SelectItem key={role.name} value={role.name}>
+                          {role.displayName}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   <input type="hidden" name="role" value={field.value} />

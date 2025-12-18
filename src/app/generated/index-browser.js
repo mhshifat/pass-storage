@@ -250,6 +250,33 @@ exports.Prisma.SettingsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.RoleScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  isSystem: 'isSystem',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdById: 'createdById'
+};
+
+exports.Prisma.PermissionScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  name: 'name',
+  description: 'description',
+  category: 'category',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RolePermissionScalarFieldEnum = {
+  id: 'id',
+  roleId: 'roleId',
+  permissionId: 'permissionId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -279,14 +306,6 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
-exports.UserRole = exports.$Enums.UserRole = {
-  SUPER_ADMIN: 'SUPER_ADMIN',
-  ADMIN: 'ADMIN',
-  MANAGER: 'MANAGER',
-  USER: 'USER',
-  AUDITOR: 'AUDITOR'
-};
-
 exports.PasswordStrength = exports.$Enums.PasswordStrength = {
   WEAK: 'WEAK',
   MEDIUM: 'MEDIUM',
@@ -323,7 +342,10 @@ exports.Prisma.ModelName = {
   Tag: 'Tag',
   PasswordTag: 'PasswordTag',
   AuditLog: 'AuditLog',
-  Settings: 'Settings'
+  Settings: 'Settings',
+  Role: 'Role',
+  Permission: 'Permission',
+  RolePermission: 'RolePermission'
 };
 
 /**

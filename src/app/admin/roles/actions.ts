@@ -8,29 +8,21 @@ type FieldErrors = {
   [key: string]: string
 }
 
-export async function createUserAction(
+export async function createRoleAction(
   prevState: { error?: string; fieldErrors?: FieldErrors; success?: boolean } | null,
   formData: FormData
 ) {
-  const name = formData.get("name") as string
-  const email = formData.get("email") as string
-  const password = formData.get("password") as string
-  const role = (formData.get("role") as string) || "USER"
-  const mfaEnabled = formData.get("mfaEnabled") === "true"
-  const isActive = formData.get("isActive") === "true"
+  const name = formData.get("role-name") as string
+  const description = formData.get("role-description") as string
 
   try {
     const trpc = await serverTrpc()
-    await trpc.users.create({
+    await trpc.roles.create({
       name,
-      email,
-      password,
-      role,
-      mfaEnabled,
-      isActive,
+      description: description || undefined,
     })
 
-    revalidatePath("/admin/users")
+    revalidatePath("/admin/roles")
     return { success: true }
   } catch (error: unknown) {
     // Handle tRPC errors
@@ -61,36 +53,29 @@ export async function createUserAction(
       return { error: error.message }
     }
 
-    const message = error instanceof Error ? error.message : "Failed to create user"
+    const message = error instanceof Error ? error.message : "Failed to create role"
     return { error: message }
   }
 }
 
-export async function updateUserAction(
-  userId: string,
+export async function updateRoleAction(
+  roleId: string,
   prevState: { error?: string; fieldErrors?: FieldErrors; success?: boolean } | null,
   formData: FormData
 ) {
-  const name = formData.get("name") as string
-  const email = formData.get("email") as string
-  const password = formData.get("password") as string
-  const role = formData.get("role") as string
-  const mfaEnabled = formData.get("mfaEnabled") === "true"
-  const isActive = formData.get("isActive") === "true"
+  const name = formData.get("role-name") as string
+  const description = formData.get("role-description") as string
 
   try {
     const trpc = await serverTrpc()
-    await trpc.users.update({
-      id: userId,
+    await trpc.roles.update({
+      id: roleId,
       name,
-      email,
-      password: password || undefined,
-      role,
-      mfaEnabled,
-      isActive,
+      // Always pass description (even if empty string) so we can clear it
+      description: description,
     })
 
-    revalidatePath("/admin/users")
+    revalidatePath("/admin/roles")
     return { success: true }
   } catch (error: unknown) {
     // Handle tRPC errors
@@ -121,41 +106,25 @@ export async function updateUserAction(
       return { error: error.message }
     }
 
-    const message = error instanceof Error ? error.message : "Failed to update user"
+    const message = error instanceof Error ? error.message : "Failed to update role"
     return { error: message }
   }
 }
 
-export async function deleteUserAction(userId: string) {
+export async function deleteRoleAction(roleId: string) {
   try {
     const trpc = await serverTrpc()
-    await trpc.users.delete({ id: userId })
+    await trpc.roles.delete({ id: roleId })
 
-    revalidatePath("/admin/users")
+    revalidatePath("/admin/roles")
     return { success: true }
   } catch (error: unknown) {
     if (error instanceof TRPCError) {
       return { error: error.message }
     }
 
-    const message = error instanceof Error ? error.message : "Failed to delete user"
+    const message = error instanceof Error ? error.message : "Failed to delete role"
     return { error: message }
   }
 }
 
-export async function resetPasswordAction(userId: string, currentPassword: string, newPassword: string) {
-  try {
-    const trpc = await serverTrpc()
-    await trpc.users.resetPassword({ id: userId, currentPassword, newPassword })
-
-    revalidatePath("/admin/users")
-    return { success: true }
-  } catch (error: unknown) {
-    if (error instanceof TRPCError) {
-      return { error: error.message }
-    }
-
-    const message = error instanceof Error ? error.message : "Failed to reset password"
-    return { error: message }
-  }
-}

@@ -22,25 +22,31 @@ import { SendEmailDialog } from "./send-email-dialog"
 import { createUserAction, updateUserAction, deleteUserAction, resetPasswordAction } from "@/app/admin/users/actions"
 import { sendEmailAction } from "@/app/admin/users/email-actions"
 import { useRouter } from "next/navigation"
+import { usePermissions } from "@/hooks/use-permissions"
 
 interface User {
   id: string
   name: string
   email: string
   role: string
-  mfaEnabled: boolean
+  createdById?: string | null
+  mfaEnabled?: boolean
   isActive: boolean
-  lastLoginAt: Date | null
+  lastLoginAt?: Date | null
   createdAt: Date
   updatedAt: Date
 }
 
 interface UserActionsClientProps {
   users: User[]
+  currentUserId?: string
+  isSuperAdmin?: boolean
+  currentUser: User
 }
 
-export function UserActionsClient({ users }: UserActionsClientProps) {
+export function UserActionsClient({ users, currentUserId, isSuperAdmin = false, currentUser }: UserActionsClientProps) {
   const router = useRouter()
+  const { hasPermission } = usePermissions()
   const [isCreateDialogOpen, setIsCreateDialogOpen] = React.useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false)
@@ -146,18 +152,25 @@ export function UserActionsClient({ users }: UserActionsClientProps) {
   }, [updateState, router])
 
   // Map users to the format expected by UsersTable
-  const mappedUsers = users.map((user) => ({
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    status: user.isActive ? "active" : "inactive",
-    mfa: user.mfaEnabled,
-    lastLogin: user.lastLoginAt 
-      ? new Date(user.lastLoginAt).toLocaleString() 
-      : "Never",
-    avatar: `/avatars/0${(users.indexOf(user) % 5) + 1}.png`,
-  }))
+  // Handle cases where sensitive fields might not be included
+  const mappedUsers = users.map((user) => {
+    const isCreator = user.id === currentUser.createdById;
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      status: user.isActive ? "active" : "inactive",
+      // Only include sensitive fields if they exist AND (user is SUPER_ADMIN OR user is not the creator)
+      // SUPER_ADMIN can see everything, other roles cannot see sensitive info about their creator
+      mfa: (!isCreator || isSuperAdmin) && "mfaEnabled" in user ? user.mfaEnabled : undefined,
+      lastLogin: (!isCreator || isSuperAdmin) && "lastLoginAt" in user && user.lastLoginAt
+        ? new Date(user.lastLoginAt).toLocaleString() 
+        : undefined,
+      avatar: `/avatars/0${(users.indexOf(user) % 5) + 1}.png`,
+      isCreator: isCreator && !isSuperAdmin, // Only mark as creator if not SUPER_ADMIN
+    };
+  })
 
   return (
     <>
@@ -168,19 +181,43 @@ export function UserActionsClient({ users }: UserActionsClientProps) {
             Manage user accounts and permissions
           </p>
         </div>
-        <Button onClick={() => setIsCreateDialogOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Add User
-        </Button>
+        {hasPermission("user.create") && (
+          <Button onClick={() => setIsCreateDialogOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Add User
+          </Button>
+        )}
       </div>
 
       <UsersTable 
         users={mappedUsers} 
-        onEdit={handleEdit} 
-        onDelete={handleDelete} 
-        onResetPassword={handleResetPassword}
-        onEmail={handleEmail}
-        onAddUser={() => setIsCreateDialogOpen(true)}
+        onEdit={(user) => {
+          // SUPER_ADMIN can edit anyone, others cannot edit their creator
+          if (user.isCreator) return;
+          if (hasPermission("user.edit")) handleEdit({
+            ...user,
+            mfa: user.mfa || false,
+          });
+        }}
+        onDelete={(userId) => {
+          // SUPER_ADMIN can delete anyone, others cannot delete their creator
+          const user = users.find(u => u.id === userId);
+          if (!isSuperAdmin && user?.createdById === currentUserId) return;
+          if (hasPermission("user.delete")) handleDelete(userId);
+        }}
+        onResetPassword={(userId) => {
+          // SUPER_ADMIN can reset anyone's password, others cannot reset their creator's password
+          const user = users.find(u => u.id === userId);
+          if (!isSuperAdmin && user?.createdById === currentUserId) return;
+          if (hasPermission("user.edit")) handleResetPassword(userId);
+        }}
+        onEmail={(userId) => {
+          // SUPER_ADMIN can email anyone, others cannot email their creator
+          const user = users.find(u => u.id === userId);
+          if (!isSuperAdmin && user?.createdById === currentUserId) return;
+          if (hasPermission("user.edit")) handleEmail(userId);
+        }}
+        onAddUser={hasPermission("user.create") ? () => setIsCreateDialogOpen(true) : undefined}
       />
 
       <UserFormDialog
@@ -203,7 +240,7 @@ export function UserActionsClient({ users }: UserActionsClientProps) {
                 email: selectedUser.email,
                 role: selectedUser.role,
                 status: selectedUser.isActive ? "active" : "inactive",
-                mfa: selectedUser.mfaEnabled,
+                mfa: selectedUser.mfaEnabled || false,
               }
             : null
         }

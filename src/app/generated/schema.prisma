@@ -18,7 +18,7 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String? // Optional for OAuth users
-  role          UserRole  @default(USER)
+  role          String    @default("USER")
   isActive      Boolean   @default(true)
   mfaEnabled    Boolean   @default(false)
   mfaSecret     String?
@@ -37,6 +37,7 @@ model User {
   createdById  String?
   createdBy    User?   @relation("UserCreatedBy", fields: [createdById], references: [id])
   createdUsers User[]  @relation("UserCreatedBy")
+  createdRoles Role[]  @relation("RoleCreatedBy")
 
   @@index([email])
 }
@@ -221,6 +222,54 @@ model Settings {
   updatedAt DateTime @updatedAt
 
   @@index([key])
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  isSystem    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  createdById String?
+  createdBy   User?            @relation("RoleCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  permissions RolePermission[]
+
+  @@index([name])
+  @@index([createdById])
+}
+
+model Permission {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  name        String
+  description String?
+  category    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  rolePermissions RolePermission[]
+
+  @@index([key])
+  @@index([category])
+}
+
+model RolePermission {
+  id           String   @id @default(cuid())
+  roleId       String
+  permissionId String
+  createdAt    DateTime @default(now())
+
+  // Relations
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, permissionId])
+  @@index([roleId])
+  @@index([permissionId])
 }
 
 // Enums

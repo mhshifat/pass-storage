@@ -1,3 +1,6 @@
 export { RolesTable } from "./roles-table"
 export { RoleFormDialog } from "./role-form-dialog"
 export { PermissionsDialog } from "./permissions-dialog"
+export { RolesActionsClient } from "./roles-actions-client"
+export { RolesTableSkeleton } from "./roles-table-skeleton"
+export { RoleStats } from "./role-stats"

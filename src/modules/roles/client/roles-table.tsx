@@ -21,12 +21,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { Search, MoreHorizontal, Pencil, Trash2, Shield } from "lucide-react"
+import { RolesEmptyState } from "./roles-empty-state"
 
 interface Role {
   id: string
   name: string
-  description: string
+  description: string | null
   users: number
   isSystem: boolean
   createdAt: string
@@ -35,15 +41,18 @@ interface Role {
 interface RolesTableProps {
   roles: Role[]
   onViewPermissions: (role: Role) => void
+  onEdit?: (role: Role) => void
+  onDelete?: (role: Role) => void
+  onCreateRole?: () => void
 }
 
-export function RolesTable({ roles, onViewPermissions }: RolesTableProps) {
+export function RolesTable({ roles, onViewPermissions, onEdit, onDelete, onCreateRole }: RolesTableProps) {
   const [searchQuery, setSearchQuery] = React.useState("")
 
   const filteredRoles = roles.filter(
     (role) =>
       role.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      role.description.toLowerCase().includes(searchQuery.toLowerCase())
+      role.description?.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
   return (
@@ -62,72 +71,103 @@ export function RolesTable({ roles, onViewPermissions }: RolesTableProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Role Name</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Users</TableHead>
-              <TableHead>Created</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredRoles.map((role) => (
-              <TableRow key={role.id}>
-                <TableCell>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <Shield className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">{role.name}</span>
-                    </div>
-                    <div className="text-sm text-muted-foreground mt-1">
-                      {role.description}
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <Badge variant={role.isSystem ? "secondary" : "default"}>
-                    {role.isSystem ? "System" : "Custom"}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm font-medium">{role.users}</span>
-                  <span className="text-sm text-muted-foreground"> users</span>
-                </TableCell>
-                <TableCell className="text-sm text-muted-foreground">
-                  {new Date(role.createdAt).toLocaleDateString()}
-                </TableCell>
-                <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => onViewPermissions(role)}>
-                        <Shield className="mr-2 h-4 w-4" />
-                        View Permissions
-                      </DropdownMenuItem>
-                      <DropdownMenuItem disabled={role.isSystem}>
-                        <Pencil className="mr-2 h-4 w-4" />
-                        Edit Role
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem disabled={role.isSystem} className="text-red-600">
-                        <Trash2 className="mr-2 h-4 w-4" />
-                        Delete Role
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
+        {filteredRoles.length === 0 ? (
+          <RolesEmptyState 
+            onCreateRole={onCreateRole}
+            isSearching={searchQuery.length > 0}
+          />
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Role Name</TableHead>
+                <TableHead>Type</TableHead>
+                <TableHead>Users</TableHead>
+                <TableHead>Created</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {filteredRoles.map((role) => (
+                <TableRow key={role.id}>
+                  <TableCell>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <Shield className="h-4 w-4 text-muted-foreground" />
+                        <span className="font-medium">{role.name}</span>
+                      </div>
+                      {role.description ? (
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="text-sm text-muted-foreground mt-1 truncate max-w-md cursor-help">
+                              {role.description}
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent
+                            className="max-w-md whitespace-normal"
+                            side="bottom"
+                            align="start"
+                          >
+                            {role.description}
+                          </TooltipContent>
+                        </Tooltip>
+                      ) : (
+                        <div className="text-sm text-muted-foreground mt-1 italic">
+                          No description
+                        </div>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={role.isSystem ? "secondary" : "default"}>
+                      {role.isSystem ? "System" : "Custom"}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-sm font-medium">{role.users}</span>
+                    <span className="text-sm text-muted-foreground"> users</span>
+                  </TableCell>
+                  <TableCell className="text-sm text-muted-foreground">
+                    {new Date(role.createdAt).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={() => onViewPermissions(role)}>
+                          <Shield className="mr-2 h-4 w-4" />
+                          View Permissions
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          disabled={role.isSystem}
+                          onClick={() => onEdit && onEdit(role)}
+                        >
+                          <Pencil className="mr-2 h-4 w-4" />
+                          Edit Role
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          disabled={role.isSystem}
+                          className="text-red-600"
+                          onClick={() => onDelete && onDelete(role)}
+                        >
+                          <Trash2 className="mr-2 h-4 w-4" />
+                          Delete Role
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </CardContent>
     </Card>
   )

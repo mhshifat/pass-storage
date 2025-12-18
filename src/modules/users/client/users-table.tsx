@@ -31,14 +31,15 @@ interface User {
   email: string
   role: string
   status: string
-  mfa: boolean
-  lastLogin: string
+  mfa?: boolean
+  lastLogin?: string
   avatar: string
+  isCreator?: boolean
 }
 
 interface UsersTableProps {
   users: User[]
-  onEdit: (user: User) => void
+  onEdit?: (user: User) => void
   onDelete?: (userId: string) => void
   onResetPassword?: (userId: string) => void
   onEmail?: (userId: string) => void
@@ -52,7 +53,15 @@ export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, 
     (user) =>
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  );
+
+  const shouldShowSensitiveInfo = React.useCallback((user: User) => {
+    if (user.isCreator) {
+      return false;
+    }
+
+    return true;
+  }, [])
 
   return (
     <Card>
@@ -123,51 +132,77 @@ export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, 
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  {user.mfa ? (
-                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                      Enabled
-                    </Badge>
-                  ) : (
-                    <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
-                      Disabled
-                    </Badge>
-                  )}
-                </TableCell>
-                <TableCell className="text-sm text-muted-foreground">
-                  {user.lastLogin}
-                </TableCell>
+                    {shouldShowSensitiveInfo(user) ? (
+                      <>
+                        {user.mfa ? (
+                          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                            Enabled
+                          </Badge>
+                        ) : (
+                          <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
+                            Disabled
+                          </Badge>
+                        )}
+                      </>
+                    ) : "-"}
+                  </TableCell>
+                  <TableCell className="text-sm text-muted-foreground">
+                    {user.lastLogin || '-'}
+                  </TableCell>
                 <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => onEdit(user)}>
-                        <Pencil className="mr-2 h-4 w-4" />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onEmail?.(user.id)}>
-                        <Mail className="mr-2 h-4 w-4" />
-                        Send Email
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onResetPassword?.(user.id)}>
-                        <Shield className="mr-2 h-4 w-4" />
-                        Reset Password
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem 
-                        className="text-red-600"
-                        onClick={() => onDelete?.(user.id)}
-                      >
-                        <Trash2 className="mr-2 h-4 w-4" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  {(onEdit || onEmail || onResetPassword || onDelete) ? (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        {user.isCreator ? (
+                          <DropdownMenuItem disabled className="text-muted-foreground">
+                            Cannot modify creator account
+                          </DropdownMenuItem>
+                        ) : (
+                          <>
+                            <DropdownMenuSeparator />
+                            {onEdit && (
+                              <DropdownMenuItem onClick={() => onEdit(user)}>
+                                <Pencil className="mr-2 h-4 w-4" />
+                                Edit
+                              </DropdownMenuItem>
+                            )}
+                            {onEmail && (
+                              <DropdownMenuItem onClick={() => onEmail(user.id)}>
+                                <Mail className="mr-2 h-4 w-4" />
+                                Send Email
+                              </DropdownMenuItem>
+                            )}
+                            {onResetPassword && (
+                              <DropdownMenuItem onClick={() => onResetPassword(user.id)}>
+                                <Shield className="mr-2 h-4 w-4" />
+                                Reset Password
+                              </DropdownMenuItem>
+                            )}
+                            {onDelete && (
+                              <>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem 
+                                  className="text-red-600"
+                                  onClick={() => onDelete(user.id)}
+                                >
+                                  <Trash2 className="mr-2 h-4 w-4" />
+                                  Delete
+                                </DropdownMenuItem>
+                              </>
+                            )}
+                          </>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  ) : (
+                    <span className="text-muted-foreground text-sm">—</span>
+                  )}
                 </TableCell>
               </TableRow>
             ))}

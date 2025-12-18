@@ -6,6 +6,227 @@ import { createSession, destroySession, getSession } from "@/lib/session";
 import { TRPCError } from "@trpc/server";
 import { decrypt, encrypt } from "@/lib/crypto";
 
+/**
+ * Ensure system roles and permissions exist in the database
+ */
+async function ensureSystemRolesExist() {
+  // Check if permissions exist, if not create them
+  const permissionCount = await prisma.permission.count();
+  
+  if (permissionCount === 0) {
+    const defaultPermissions = [
+      { key: "user.create", name: "Create Users", description: "Create new user accounts", category: "User Management" },
+      { key: "user.edit", name: "Edit Users", description: "Modify user information", category: "User Management" },
+      { key: "user.delete", name: "Delete Users", description: "Remove user accounts", category: "User Management" },
+      { key: "user.view", name: "View Users", description: "View user information", category: "User Management" },
+      { key: "password.create", name: "Create Passwords", description: "Create new password entries", category: "Password Management" },
+      { key: "password.edit", name: "Edit Passwords", description: "Modify password entries", category: "Password Management" },
+      { key: "password.delete", name: "Delete Passwords", description: "Remove password entries", category: "Password Management" },
+      { key: "password.view", name: "View Passwords", description: "View password entries", category: "Password Management" },
+      { key: "password.share", name: "Share Passwords", description: "Share passwords with others", category: "Password Management" },
+      { key: "group.create", name: "Create Groups", description: "Create new groups", category: "Group Management" },
+      { key: "group.edit", name: "Edit Groups", description: "Modify group settings", category: "Group Management" },
+      { key: "group.delete", name: "Delete Groups", description: "Remove groups", category: "Group Management" },
+      { key: "group.view", name: "View Groups", description: "View group information", category: "Group Management" },
+      { key: "settings.view", name: "View Settings", description: "View system settings", category: "System Settings" },
+      { key: "settings.edit", name: "Edit Settings", description: "Modify system settings", category: "System Settings" },
+      { key: "audit.view", name: "View Audit Logs", description: "Access audit logs", category: "System Settings" },
+      { key: "role.manage", name: "Manage Roles", description: "Create and edit roles", category: "System Settings" },
+    ];
+
+    await prisma.permission.createMany({
+      data: defaultPermissions,
+      skipDuplicates: true,
+    });
+  }
+
+  // Always ensure all system roles exist with their permissions
+  // This ensures all 5 system roles are created, not just the one being assigned
+  await ensureAllSystemRoles();
+}
+
+/**
+ * Ensure all system roles exist with their permissions
+ */
+async function ensureAllSystemRoles() {
+  // Get all permissions
+  const allPermissions = await prisma.permission.findMany();
+  const permissionMap = new Map(allPermissions.map((p) => [p.key, p.id]));
+
+  // Define all system roles with their permissions
+  const systemRoles = [
+    {
+      name: "SUPER_ADMIN",
+      description: "Super Administrator with ultimate system control - can manage roles and system settings",
+      permissions: [
+        "user.create", "user.edit", "user.delete", "user.view",
+        "password.create", "password.edit", "password.delete", "password.view", "password.share",
+        "group.create", "group.edit", "group.delete", "group.view",
+        "settings.view", "settings.edit", "audit.view", "role.manage",
+      ],
+    },
+    {
+      name: "ADMIN",
+      description: "Administrator with elevated permissions - can manage users and content, but cannot manage roles or edit system settings",
+      permissions: [
+        "user.create", "user.edit", "user.delete", "user.view",
+        "password.create", "password.edit", "password.delete", "password.view", "password.share",
+        "group.create", "group.edit", "group.delete", "group.view",
+        "settings.view", "audit.view",
+      ],
+    },
+    {
+      name: "MANAGER",
+      description: "Manager with management permissions",
+      permissions: [
+        "user.view", "user.edit",
+        "password.create", "password.edit", "password.delete", "password.view", "password.share",
+        "group.create", "group.edit", "group.delete", "group.view",
+        "settings.view", "audit.view",
+      ],
+    },
+    {
+      name: "USER",
+      description: "Standard user with basic permissions",
+      permissions: [
+        "user.view",
+        "password.create", "password.edit", "password.delete", "password.view", "password.share",
+        "group.view",
+      ],
+    },
+    {
+      name: "AUDITOR",
+      description: "Auditor with read-only access to audit logs",
+      permissions: [
+        "user.view",
+        "password.view",
+        "group.view",
+        "settings.view",
+        "audit.view",
+      ],
+    },
+  ];
+
+  // Create or update each system role
+  for (const roleData of systemRoles) {
+    const { permissions, ...roleInfo } = roleData;
+
+    // Create or update the role
+    const role = await prisma.role.upsert({
+      where: { name: roleInfo.name },
+      update: {
+        description: roleInfo.description,
+        isSystem: true,
+      },
+      create: {
+        name: roleInfo.name,
+        description: roleInfo.description,
+        isSystem: true,
+        createdById: null,
+      },
+    });
+
+    // Get permission IDs for this role
+    const permissionIds = permissions
+      .map((key) => permissionMap.get(key))
+      .filter((id): id is string => id !== undefined);
+
+    // Delete existing permissions for this role (to ensure correct permissions)
+    await prisma.rolePermission.deleteMany({
+      where: { roleId: role.id },
+    });
+
+    // Assign permissions
+    if (permissionIds.length > 0) {
+      await prisma.rolePermission.createMany({
+        data: permissionIds.map((permissionId) => ({
+          roleId: role.id,
+          permissionId,
+        })),
+        skipDuplicates: true,
+      });
+    }
+  }
+}
+
+/**
+ * Create a system role with appropriate permissions
+ */
+async function createSystemRoleWithPermissions(roleName: string, isFirstUser: boolean) {
+  // Get all permissions
+  const allPermissions = await prisma.permission.findMany();
+  const permissionMap = new Map(allPermissions.map((p) => [p.key, p.id]));
+
+  // Define role permissions based on role name
+  let rolePermissions: string[] = [];
+  
+  if (roleName === "SUPER_ADMIN" || (roleName === "ADMIN" && isFirstUser)) {
+    // First user gets all permissions (SUPER_ADMIN level)
+    rolePermissions = [
+      "user.create", "user.edit", "user.delete", "user.view",
+      "password.create", "password.edit", "password.delete", "password.view", "password.share",
+      "group.create", "group.edit", "group.delete", "group.view",
+      "settings.view", "settings.edit", "audit.view", "role.manage",
+    ];
+  } else if (roleName === "ADMIN") {
+    rolePermissions = [
+      "user.create", "user.edit", "user.delete", "user.view",
+      "password.create", "password.edit", "password.delete", "password.view", "password.share",
+      "group.create", "group.edit", "group.delete", "group.view",
+      "settings.view", "audit.view",
+    ];
+  } else if (roleName === "USER") {
+    rolePermissions = [
+      "user.view",
+      "password.create", "password.edit", "password.delete", "password.view", "password.share",
+      "group.view",
+    ];
+  }
+
+  // Create or update the role
+  const role = await prisma.role.upsert({
+    where: { name: roleName },
+    update: {
+      description: isFirstUser 
+        ? "Super Administrator with ultimate system control - can manage roles and system settings"
+        : roleName === "ADMIN"
+        ? "Administrator with elevated permissions"
+        : "Standard user with basic permissions",
+      isSystem: true, // Ensure it stays as system role
+    },
+    create: {
+      name: roleName,
+      description: isFirstUser 
+        ? "Super Administrator with ultimate system control - can manage roles and system settings"
+        : roleName === "ADMIN"
+        ? "Administrator with elevated permissions"
+        : "Standard user with basic permissions",
+      isSystem: true,
+      createdById: null,
+    },
+  });
+
+  // Delete existing permissions for this role (to ensure correct permissions are set)
+  await prisma.rolePermission.deleteMany({
+    where: { roleId: role.id },
+  });
+
+  // Assign permissions
+  const permissionIds = rolePermissions
+    .map((key) => permissionMap.get(key))
+    .filter((id): id is string => id !== undefined);
+
+  if (permissionIds.length > 0) {
+    await prisma.rolePermission.createMany({
+      data: permissionIds.map((permissionId) => ({
+        roleId: role.id,
+        permissionId,
+      })),
+      skipDuplicates: true,
+    });
+  }
+}
+
 export const authRouter = createTRPCRouter({
     register: baseProcedure
         .input(
@@ -31,9 +252,30 @@ export const authRouter = createTRPCRouter({
             // Hash password
             const hashedPassword = await hashPassword(input.password);
 
-            // Create user (first user is admin)
+            // Check if this is the first user
             const userCount = await prisma.user.count();
-            const role = userCount === 0 ? "ADMIN" : "USER";
+            const isFirstUser = userCount === 0;
+            
+            // Determine role: first user gets SUPER_ADMIN, others get USER
+            const role = isFirstUser ? "SUPER_ADMIN" : "USER";
+
+            // Ensure ALL system roles and permissions exist (auto-seed if needed)
+            // This creates all 5 system roles (SUPER_ADMIN, ADMIN, MANAGER, USER, AUDITOR)
+            await ensureSystemRolesExist();
+
+            // Verify the assigned role exists and has permissions (should exist after ensureSystemRolesExist)
+            const roleExists = await prisma.role.findUnique({
+                where: { name: role },
+                include: {
+                    permissions: true,
+                },
+            });
+
+            // If the role still doesn't exist or has no permissions, create it
+            // This is a fallback in case ensureSystemRolesExist didn't create it
+            if (!roleExists || roleExists.permissions.length === 0) {
+                await createSystemRoleWithPermissions(role, isFirstUser);
+            }
 
             const user = await prisma.user.create({
                 data: {
@@ -149,6 +391,7 @@ export const authRouter = createTRPCRouter({
                     role: true,
                     mfaEnabled: true,
                     mfaSecret: true,
+                    createdById: true,
                 },
             });
 
@@ -166,6 +409,11 @@ export const authRouter = createTRPCRouter({
                 session,
                 shouldVerifyMfa: rest.mfaEnabled && !session.mfaVerified && mfaSecret !== null,
             };
+        }),
+    getCurrentUserPermissions: baseProcedure
+        .query(async ({ ctx }) => {
+            const { permissions } = ctx;
+            return { permissions };
         }),
     generateMfaQr: baseProcedure
         .query(async () => {
