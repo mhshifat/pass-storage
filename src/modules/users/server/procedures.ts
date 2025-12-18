@@ -40,6 +40,14 @@ export const usersRouter = createTRPCRouter({
       const validSystemRoles = ["SUPER_ADMIN", "ADMIN", "MANAGER", "USER", "AUDITOR"]
       let roleValue = input.role.toUpperCase()
       
+      // Prevent assigning SUPER_ADMIN - it can only be assigned during sign up
+      if (roleValue === "SUPER_ADMIN") {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "SUPER_ADMIN role cannot be assigned. It can only be assigned during sign up.",
+        })
+      }
+      
       if (!validSystemRoles.includes(roleValue)) {
         // Check if it's a custom role
         const customRole = await prisma.role.findFirst({
@@ -104,6 +112,7 @@ export const usersRouter = createTRPCRouter({
         where: { id },
         select: {
           id: true,
+          email: true, // Include email to check if it's being changed
           createdById: true,
         },
       })
@@ -123,7 +132,7 @@ export const usersRouter = createTRPCRouter({
         })
       }
 
-      // If email is being updated, check for conflicts
+      // If email is being updated, check for conflicts (only if email actually changed)
       if (data.email && data.email !== existingUser.email) {
         const emailTaken = await prisma.user.findUnique({
           where: { email: data.email },
@@ -147,6 +156,14 @@ export const usersRouter = createTRPCRouter({
       if (data.role) {
         const validSystemRoles = ["SUPER_ADMIN", "ADMIN", "MANAGER", "USER", "AUDITOR"]
         let roleValue = data.role.toUpperCase()
+        
+        // Prevent assigning SUPER_ADMIN - it can only be assigned during sign up
+        if (roleValue === "SUPER_ADMIN") {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "SUPER_ADMIN role cannot be assigned. It can only be assigned during sign up.",
+          })
+        }
         
         if (!validSystemRoles.includes(roleValue)) {
           // Check if it's a custom role

@@ -218,12 +218,15 @@ export const rolesRouter = createTRPCRouter({
 
       return {
         roles: [
-          ...systemRoles.map((role) => ({
-            name: role.name,
-            displayName: formatDisplayName(role.name),
-            isSystem: true,
-            description: role.description,
-          })),
+          // Filter out SUPER_ADMIN - it can only be assigned during sign up
+          ...systemRoles
+            .filter((role) => role.name !== "SUPER_ADMIN")
+            .map((role) => ({
+              name: role.name,
+              displayName: formatDisplayName(role.name),
+              isSystem: true,
+              description: role.description,
+            })),
           ...customRoles.map((role) => ({
             name: role.name,
             displayName: role.name,
