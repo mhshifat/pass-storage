@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma"
-import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init"
+import { createTRPCRouter, protectedProcedure } from "@/trpc/init"
 import z from "zod"
 import { hashPassword } from "@/lib/auth"
 import { TRPCError } from "@trpc/server"
@@ -353,7 +353,7 @@ export const usersRouter = createTRPCRouter({
             createdById: true, // Include to check if user can modify this user
             // Only include sensitive fields if user has edit permission
             ...(hasEditPermission ? {
-              mfaEnabled: true,
+            mfaEnabled: true,
               lastLoginAt: true,
             } : {}),
             isActive: true,
