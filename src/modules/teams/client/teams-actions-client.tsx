@@ -19,6 +19,7 @@ import {
 import { TeamFormDialog } from "./team-form-dialog"
 import { TeamsTable } from "./teams-table"
 import { TeamMembersDialog } from "./team-members-dialog"
+import { TeamPasswordsDialog } from "./team-passwords-dialog"
 import { TeamsPagination } from "./teams-pagination"
 import { createTeamAction, updateTeamAction, deleteTeamAction } from "@/app/admin/teams/actions"
 
@@ -47,6 +48,7 @@ export function TeamsActionsClient({ teams, pagination }: TeamsActionsClientProp
   const [isCreateDialogOpen, setIsCreateDialogOpen] = React.useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false)
   const [isViewDialogOpen, setIsViewDialogOpen] = React.useState(false)
+  const [isPasswordsDialogOpen, setIsPasswordsDialogOpen] = React.useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false)
   const [selectedTeam, setSelectedTeam] = React.useState<Team | null>(null)
   const [teamToEdit, setTeamToEdit] = React.useState<Team | null>(null)
@@ -82,6 +84,11 @@ export function TeamsActionsClient({ teams, pagination }: TeamsActionsClientProp
   const handleViewMembers = (team: Team) => {
     setSelectedTeam(team)
     setIsViewDialogOpen(true)
+  }
+
+  const handleManagePasswords = (team: Team) => {
+    setSelectedTeam(team)
+    setIsPasswordsDialogOpen(true)
   }
 
   const handleEdit = (team: Team) => {
@@ -133,6 +140,7 @@ export function TeamsActionsClient({ teams, pagination }: TeamsActionsClientProp
         onEdit={handleEdit}
         onDelete={handleDelete}
         onCreateTeam={() => setIsCreateDialogOpen(true)}
+        onManagePasswords={handleManagePasswords}
       />
 
       {teams.length > 0 && (
@@ -166,6 +174,12 @@ export function TeamsActionsClient({ teams, pagination }: TeamsActionsClientProp
       <TeamMembersDialog
         open={isViewDialogOpen}
         onOpenChange={setIsViewDialogOpen}
+        team={selectedTeam ? { id: selectedTeam.id, name: selectedTeam.name } : null}
+      />
+
+      <TeamPasswordsDialog
+        open={isPasswordsDialogOpen}
+        onOpenChange={setIsPasswordsDialogOpen}
         team={selectedTeam ? { id: selectedTeam.id, name: selectedTeam.name } : null}
       />
 

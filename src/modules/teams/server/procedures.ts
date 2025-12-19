@@ -552,5 +552,307 @@ export const teamsRouter = createTRPCRouter({
 
       return { users }
     }),
+
+  getTeamPasswords: protectedProcedure("team.view")
+    .input(
+      z.object({
+        teamId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      // Check if team exists
+      const team = await prisma.team.findUnique({
+        where: { id: input.teamId },
+      })
+
+      if (!team) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Team not found",
+        })
+      }
+
+      // Get passwords shared with this team
+      const passwordShares = await prisma.passwordShare.findMany({
+        where: {
+          teamId: input.teamId,
+        },
+        select: {
+          id: true,
+          createdAt: true,
+          expiresAt: true,
+          password: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+              url: true,
+              strength: true,
+              owner: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      })
+
+      return {
+        passwords: passwordShares.map((share) => ({
+          id: share.id,
+          passwordId: share.password.id,
+          name: share.password.name,
+          username: share.password.username,
+          url: share.password.url,
+          strength: share.password.strength,
+          owner: share.password.owner,
+          createdAt: share.createdAt.toISOString(),
+          expiresAt: share.expiresAt?.toISOString() || null,
+        })),
+      }
+    }),
+
+  getAvailablePasswordsToShare: protectedProcedure("password.share")
+    .input(
+      z.object({
+        teamId: z.string(),
+        search: z.string().optional(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      // Get passwords already shared with this team
+      const existingShares = await prisma.passwordShare.findMany({
+        where: {
+          teamId: input.teamId,
+        },
+        select: {
+          passwordId: true,
+        },
+      })
+
+      const sharedPasswordIds = existingShares.map((s) => s.passwordId)
+
+      // Get passwords owned by current user that aren't already shared with this team
+      const where = {
+        ownerId: ctx.userId,
+        id: { notIn: sharedPasswordIds },
+        ...(input.search
+          ? {
+              OR: [
+                { name: { contains: input.search, mode: "insensitive" as const } },
+                { username: { contains: input.search, mode: "insensitive" as const } },
+                { url: { contains: input.search, mode: "insensitive" as const } },
+              ],
+            }
+          : {}),
+      }
+
+      const passwords = await prisma.password.findMany({
+        where,
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          url: true,
+          strength: true,
+        },
+        orderBy: {
+          name: "asc",
+        },
+        take: 50,
+      })
+
+      return { passwords }
+    }),
+
+  sharePasswordWithTeam: protectedProcedure("password.share")
+    .input(
+      z.object({
+        passwordId: z.string(),
+        teamId: z.string(),
+        expiresAt: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Check if password exists and is owned by current user
+      const password = await prisma.password.findUnique({
+        where: { id: input.passwordId },
+        select: {
+          id: true,
+          ownerId: true,
+        },
+      })
+
+      if (!password) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Password not found",
+        })
+      }
+
+      // Check if user owns the password
+      if (password.ownerId !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You can only share passwords you own",
+        })
+      }
+
+      // Check if team exists
+      const team = await prisma.team.findUnique({
+        where: { id: input.teamId },
+      })
+
+      if (!team) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Team not found",
+        })
+      }
+
+      // Check if password is already shared with this team
+      const existingShare = await prisma.passwordShare.findFirst({
+        where: {
+          passwordId: input.passwordId,
+          teamId: input.teamId,
+        },
+      })
+
+      if (existingShare) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "Password is already shared with this team",
+        })
+      }
+
+      // Create password share (default permission is READ)
+      const share = await prisma.passwordShare.create({
+        data: {
+          passwordId: input.passwordId,
+          teamId: input.teamId,
+          permission: "READ", // Default permission
+          expiresAt: input.expiresAt ? new Date(input.expiresAt) : null,
+        },
+        select: {
+          id: true,
+          password: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          permission: true,
+          createdAt: true,
+        },
+      })
+
+      return {
+        success: true,
+        share,
+      }
+    }),
+
+  updateTeamPasswordShare: protectedProcedure("password.share")
+    .input(
+      z.object({
+        shareId: z.string(),
+        expiresAt: z.string().optional().nullable(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Check if share exists
+      const share = await prisma.passwordShare.findUnique({
+        where: { id: input.shareId },
+        include: {
+          password: {
+            select: {
+              ownerId: true,
+            },
+          },
+        },
+      })
+
+      if (!share) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Password share not found",
+        })
+      }
+
+      // Check if user owns the password
+      if (share.password.ownerId !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You can only modify shares for passwords you own",
+        })
+      }
+
+      // Update share expiration only
+      const updatedShare = await prisma.passwordShare.update({
+        where: { id: input.shareId },
+        data: {
+          expiresAt: input.expiresAt ? new Date(input.expiresAt) : null,
+        },
+        select: {
+          id: true,
+          expiresAt: true,
+        },
+      })
+
+      return {
+        success: true,
+        share: updatedShare,
+      }
+    }),
+
+  removeTeamPasswordShare: protectedProcedure("password.share")
+    .input(
+      z.object({
+        shareId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Check if share exists
+      const share = await prisma.passwordShare.findUnique({
+        where: { id: input.shareId },
+        include: {
+          password: {
+            select: {
+              ownerId: true,
+            },
+          },
+        },
+      })
+
+      if (!share) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Password share not found",
+        })
+      }
+
+      // Check if user owns the password
+      if (share.password.ownerId !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You can only remove shares for passwords you own",
+        })
+      }
+
+      // Delete share
+      await prisma.passwordShare.delete({
+        where: { id: input.shareId },
+      })
+
+      return {
+        success: true,
+      }
+    }),
 })
 

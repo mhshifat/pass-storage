@@ -39,9 +39,17 @@ interface TeamsTableProps {
   onEdit?: (team: Team) => void
   onDelete?: (teamId: string) => void
   onCreateTeam?: () => void
+  onManagePasswords?: (team: Team) => void
 }
 
-export function TeamsTable({ teams, onViewMembers, onEdit, onDelete, onCreateTeam }: TeamsTableProps) {
+export function TeamsTable({
+  teams,
+  onViewMembers,
+  onEdit,
+  onDelete,
+  onCreateTeam,
+  onManagePasswords,
+}: TeamsTableProps) {
   const [searchQuery, setSearchQuery] = React.useState("")
 
   const filteredTeams = teams.filter(
@@ -130,7 +138,7 @@ export function TeamsTable({ teams, onViewMembers, onEdit, onDelete, onCreateTea
                           <Pencil className="mr-2 h-4 w-4" />
                           Edit Team
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => onManagePasswords?.(team)}>
                           <FolderKey className="mr-2 h-4 w-4" />
                           Manage Passwords
                         </DropdownMenuItem>
