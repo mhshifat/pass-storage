@@ -1,9 +1,11 @@
 "use client"
 
 import * as React from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { Separator } from "@/components/ui/separator"
@@ -16,149 +18,495 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Key, QrCode } from "lucide-react"
+import { Key, QrCode, FolderPlus, AlertCircle } from "lucide-react"
+import { trpc } from "@/trpc/client"
+import { CreateFolderDialog } from "@/modules/folders/client"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useEffect } from "react"
+
+const passwordSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(1, "Password is required"),
+  url: z
+    .string()
+    .refine((val) => val === "" || z.string().url().safeParse(val).success, {
+      message: "Must be a valid URL",
+    })
+    .optional()
+    .or(z.literal("")),
+  folderId: z.string().optional(),
+  notes: z.string().optional(),
+  enableTotp: z.boolean(),
+  totpSecret: z.string().optional(),
+})
+
+type PasswordFormValues = z.infer<typeof passwordSchema>
+
+interface Password {
+  id: string
+  name: string
+  username: string
+  password: string
+  url?: string | null
+  folderId?: string | null
+  notes?: string | null
+  hasTotp: boolean
+  totpSecret?: string | null
+}
 
 interface PasswordFormDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSubmit: (data: Record<string, unknown>) => void
+  password?: Password | null
+  mode?: "create" | "edit"
+  formAction?: (payload: FormData) => void
+  isPending?: boolean
+  state?: { error?: string; fieldErrors?: { [key: string]: string }; success?: boolean } | null
+  onSubmit?: (data: Record<string, unknown>) => void // For backward compatibility
 }
 
-export function PasswordFormDialog({ open, onOpenChange, onSubmit }: PasswordFormDialogProps) {
-  const [enableTotp, setEnableTotp] = React.useState(false)
+export function PasswordFormDialog({
+  open,
+  onOpenChange,
+  password,
+  mode = "create",
+  formAction,
+  isPending = false,
+  state = null,
+  onSubmit,
+}: PasswordFormDialogProps) {
+  const [isCreateFolderDialogOpen, setIsCreateFolderDialogOpen] = React.useState(false)
+
+  // Fetch folders
+  const { data: foldersData, refetch: refetchFolders } = trpc.folders.list.useQuery(
+    undefined,
+    {
+      enabled: open,
+    }
+  )
+
+  const folders = foldersData?.folders || []
+
+  const form = useForm<PasswordFormValues>({
+    resolver: zodResolver(passwordSchema),
+    defaultValues: {
+      name: "",
+      username: "",
+      password: "",
+      url: "",
+      folderId: "",
+      notes: "",
+      enableTotp: false,
+      totpSecret: "",
+    },
+  })
+
+  const enableTotp = form.watch("enableTotp")
+
+  // Reset form when dialog opens/closes or password changes
+  useEffect(() => {
+    if (open) {
+      if (password && mode === "edit") {
+        // Reset form with password data when available
+        form.reset({
+          name: password.name,
+          username: password.username,
+          password: password.password,
+          url: password.url || "",
+          folderId: password.folderId || "",
+          notes: password.notes || "",
+          enableTotp: password.hasTotp,
+          totpSecret: password.totpSecret || "",
+        })
+      } else if (mode === "create") {
+        form.reset({
+          name: "",
+          username: "",
+          password: "",
+          url: "",
+          folderId: "",
+          notes: "",
+          enableTotp: false,
+          totpSecret: "",
+        })
+      }
+    } else {
+      // Reset form when dialog closes
+      form.reset()
+    }
+  }, [open, password, mode, form])
+
+  // Sync server errors to form state
+  useEffect(() => {
+    if (state?.error) {
+      form.setError("root", {
+        type: "server",
+        message: state.error,
+      })
+    }
+
+    // Set field-specific errors
+    if (state?.fieldErrors) {
+      Object.entries(state.fieldErrors).forEach(([field, message]) => {
+        form.setError(field as keyof PasswordFormValues, {
+          type: "server",
+          message,
+        })
+      })
+    }
+
+    // Close dialog on success
+    if (state?.success) {
+      onOpenChange(false)
+      form.reset()
+    }
+  }, [state, form, onOpenChange])
+
+  const generatePassword = () => {
+    // Generate a strong password with:
+    // - At least 16 characters
+    // - Uppercase letters
+    // - Lowercase letters
+    // - Numbers
+    // - Special characters
+    const length = 20
+    const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    const lowercase = "abcdefghijklmnopqrstuvwxyz"
+    const numbers = "0123456789"
+    const special = "!@#$%^&*()_+-=[]{}|;:,.<>?"
+    const allChars = uppercase + lowercase + numbers + special
+
+    // Ensure at least one of each type
+    let password = ""
+    password += uppercase[Math.floor(Math.random() * uppercase.length)]
+    password += lowercase[Math.floor(Math.random() * lowercase.length)]
+    password += numbers[Math.floor(Math.random() * numbers.length)]
+    password += special[Math.floor(Math.random() * special.length)]
+
+    // Fill the rest randomly
+    for (let i = password.length; i < length; i++) {
+      password += allChars[Math.floor(Math.random() * allChars.length)]
+    }
+
+    // Shuffle the password to avoid predictable pattern
+    password = password
+      .split("")
+      .sort(() => Math.random() - 0.5)
+      .join("")
+
+    form.setValue("password", password)
+  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const data = {
-      name: formData.get("pwd-name"),
-      username: formData.get("pwd-username"),
-      password: formData.get("pwd-password"),
-      url: formData.get("pwd-url"),
-      folder: formData.get("pwd-folder"),
-      notes: formData.get("pwd-notes"),
-      totpSecret: enableTotp ? formData.get("totp-secret") : null,
+    
+    if (formAction) {
+      // Use server action - FormData will be created from form fields
+      const formData = new FormData(e.currentTarget)
+      // Ensure totpSecret is only included if enableTotp is true
+      const values = form.getValues()
+      if (!values.enableTotp || !values.totpSecret) {
+        formData.delete("totpSecret")
+      }
+      // Add passwordId for edit mode
+      if (mode === "edit" && password?.id) {
+        formData.append("passwordId", password.id)
+      }
+      formAction(formData)
+    } else if (onSubmit) {
+      // Use callback for backward compatibility
+      const values = form.getValues()
+      const data = {
+        name: values.name,
+        username: values.username,
+        password: values.password,
+        url: values.url || null,
+        folderId: values.folderId || null,
+        notes: values.notes || null,
+        totpSecret: values.enableTotp && values.totpSecret ? values.totpSecret : null,
+      }
+      onSubmit(data)
     }
-    onSubmit(data)
+  }
+
+  const handleCreateFolderSuccess = (newFolderId: string) => {
+    refetchFolders()
+    form.setValue("folderId", newFolderId)
+    setIsCreateFolderDialogOpen(false)
+  }
+
+  const handleDialogOpenChange = (newOpen: boolean) => {
+    if (!newOpen) {
+      form.reset()
+    }
+    onOpenChange(newOpen)
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh]">
-        <DialogHeader>
-          <DialogTitle>Add New Password</DialogTitle>
-          <DialogDescription>Create a new password entry</DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-4 py-4 overflow-y-auto max-h-[calc(90vh-180px)]">
-            <div className="grid gap-2">
-              <Label htmlFor="pwd-name">Name</Label>
-              <Input id="pwd-name" name="pwd-name" placeholder="e.g., AWS Production" required />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="pwd-username">Username / Email</Label>
-              <Input id="pwd-username" name="pwd-username" placeholder="username@example.com" required />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="pwd-password">Password</Label>
-              <div className="flex gap-2">
-                <Input id="pwd-password" name="pwd-password" type="password" required />
-                <Button type="button" variant="outline" size="icon">
-                  <Key className="h-4 w-4" />
-                </Button>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Click the key icon to generate a strong password
-              </p>
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="pwd-url">URL (Optional)</Label>
-              <Input id="pwd-url" name="pwd-url" placeholder="https://example.com" />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="pwd-folder">Folder</Label>
-              <Select name="pwd-folder">
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a folder" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="infrastructure">Infrastructure</SelectItem>
-                  <SelectItem value="databases">Databases</SelectItem>
-                  <SelectItem value="development">Development</SelectItem>
-                  <SelectItem value="marketing">Marketing</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="pwd-notes">Notes (Optional)</Label>
-              <Textarea id="pwd-notes" name="pwd-notes" placeholder="Additional notes" rows={3} />
-            </div>
-
-            <Separator />
-
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label htmlFor="enable-totp" className="text-base">
-                    TOTP / 2FA Authentication
-                  </Label>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Add two-factor authentication for enhanced security
-                  </p>
-                </div>
-                <Switch id="enable-totp" checked={enableTotp} onCheckedChange={setEnableTotp} />
-              </div>
-
-              {enableTotp && (
-                <>
-                  <div className="grid gap-2">
-                    <Label htmlFor="totp-secret">TOTP Secret Key</Label>
-                    <div className="flex gap-2">
-                      <Input
-                        id="totp-secret"
-                        name="totp-secret"
-                        placeholder="e.g., JBSWY3DPEHPK3PXP"
-                        className="font-mono"
-                      />
-                      <Button type="button" variant="outline" size="icon" title="Scan QR Code">
-                        <QrCode className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div className="rounded-lg border bg-muted/50 p-3 space-y-2">
-                    <p className="text-xs font-medium">How to get your TOTP secret key:</p>
-                    <ol className="text-xs text-muted-foreground space-y-1.5 ml-4 list-decimal">
-                      <li>Open the website/app you want to secure with 2FA</li>
-                      <li>Go to Security Settings and enable Two-Factor Authentication</li>
-                      <li>Choose &quot;Authenticator App&quot; as your 2FA method</li>
-                      <li>Click &quot;Can&apos;t scan QR code?&quot; or &quot;Enter manually&quot; option</li>
-                      <li>Copy the displayed secret key (usually 16-32 characters)</li>
-                      <li>Paste it here and save</li>
-                    </ol>
-                    <p className="text-xs text-muted-foreground mt-2">
-                      💡 <strong>Tip:</strong> You can also click the QR code button to scan directly from
-                      your screen
-                    </p>
-                  </div>
-                </>
+    <>
+      <Dialog open={open} onOpenChange={handleDialogOpenChange}>
+        <DialogContent className="sm:max-w-[600px] max-h-[90vh]">
+          <DialogHeader>
+            <DialogTitle>{mode === "create" ? "Add New Password" : "Edit Password"}</DialogTitle>
+            <DialogDescription>
+              {mode === "create" ? "Create a new password entry" : "Update password information"}
+            </DialogDescription>
+          </DialogHeader>
+          <Form {...form}>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {form.formState.errors.root && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>{form.formState.errors.root.message}</AlertDescription>
+                </Alert>
               )}
-            </div>
-          </div>
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
-            </Button>
-            <Button type="submit">Save Password</Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+              {mode === "edit" && !password && (
+                <div className="text-sm text-muted-foreground text-center py-4">
+                  Loading password data...
+                </div>
+              )}
+              <div className="overflow-y-auto max-h-[calc(90vh-180px)] pr-2 space-y-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., AWS Production" {...field} name="name" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Username / Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="username@example.com" {...field} name="username" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <div className="flex gap-2">
+                          <Input type="password" {...field} name="password" />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={generatePassword}
+                            title="Generate strong password"
+                          >
+                            <Key className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </FormControl>
+                      <FormDescription>
+                        Click the key icon to generate a strong password
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="url"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>URL (Optional)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="https://example.com" {...field} name="url" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="folderId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center justify-between">
+                        <FormLabel>Folder</FormLabel>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setIsCreateFolderDialogOpen(true)}
+                          className="h-7 text-xs"
+                        >
+                          <FolderPlus className="mr-1 h-3 w-3" />
+                          Create Folder
+                        </Button>
+                      </div>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a folder (optional)" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {folders.length === 0 ? (
+                            <div className="px-2 py-1.5 text-sm text-muted-foreground text-center">
+                              No folders yet. Create one to get started.
+                            </div>
+                          ) : (
+                            folders.map((folder) => (
+                              <SelectItem key={folder.id} value={folder.id}>
+                                {folder.name}
+                              </SelectItem>
+                            ))
+                          )}
+                        </SelectContent>
+                      </Select>
+                      <input type="hidden" name="folderId" value={field.value || ""} />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="notes"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Notes (Optional)</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="Additional notes" rows={3} {...field} name="notes" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Separator />
+
+                <div className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="enableTotp"
+                    render={({ field }) => (
+                      <FormItem className="flex items-center justify-between rounded-lg border p-4">
+                        <div className="space-y-0.5">
+                          <FormLabel className="text-base">TOTP / 2FA Authentication</FormLabel>
+                          <FormDescription>
+                            Add two-factor authentication for enhanced security
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch checked={field.value} onCheckedChange={field.onChange} />
+                        </FormControl>
+                        <input type="hidden" name="enableTotp" value={field.value ? "true" : "false"} />
+                      </FormItem>
+                    )}
+                  />
+
+                  {enableTotp && (
+                    <>
+                      <FormField
+                        control={form.control}
+                        name="totpSecret"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>TOTP Secret Key</FormLabel>
+                            <FormControl>
+                              <div className="flex gap-2">
+                                <Input
+                                  placeholder="e.g., JBSWY3DPEHPK3PXP"
+                                  className="font-mono"
+                                  {...field}
+                                  name={enableTotp ? "totpSecret" : undefined}
+                                />
+                                <Button type="button" variant="outline" size="icon" title="Scan QR Code">
+                                  <QrCode className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <div className="rounded-lg border bg-muted/50 p-3 space-y-2">
+                        <p className="text-xs font-medium">How to get your TOTP secret key:</p>
+                        <ol className="text-xs text-muted-foreground space-y-1.5 ml-4 list-decimal">
+                          <li>Open the website/app you want to secure with 2FA</li>
+                          <li>Go to Security Settings and enable Two-Factor Authentication</li>
+                          <li>Choose &quot;Authenticator App&quot; as your 2FA method</li>
+                          <li>Click &quot;Can&apos;t scan QR code?&quot; or &quot;Enter manually&quot; option</li>
+                          <li>Copy the displayed secret key (usually 16-32 characters)</li>
+                          <li>Paste it here and save</li>
+                        </ol>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          💡 <strong>Tip:</strong> You can also click the QR code button to scan directly
+                          from your screen
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <DialogFooter>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => handleDialogOpenChange(false)}
+                  disabled={isPending}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={isPending}>
+                  {isPending
+                    ? mode === "create"
+                      ? "Creating..."
+                      : "Saving..."
+                    : mode === "create"
+                    ? "Save Password"
+                    : "Save Changes"}
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+
+      <CreateFolderDialog
+        open={isCreateFolderDialogOpen}
+        onOpenChange={setIsCreateFolderDialogOpen}
+        onSuccess={handleCreateFolderSuccess}
+      />
+    </>
   )
 }

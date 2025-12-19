@@ -32,37 +32,182 @@ import {
   FolderKey,
   Clock,
 } from "lucide-react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { trpc } from "@/trpc/client"
+import { toast } from "sonner"
+import { usePermissions } from "@/hooks/use-permissions"
+
+interface PasswordShare {
+  shareId: string
+  teamId: string | null
+  teamName: string
+  expiresAt: Date | null
+}
 
 interface Password {
   id: string
   name: string
   username: string
-  url?: string
-  folder: string
+  url?: string | null
+  folder: string | null
   strength: "strong" | "medium" | "weak"
   shared: boolean
-  sharedWith: string[]
+  sharedWith: PasswordShare[] | string[] // Can be array of strings (legacy) or PasswordShare objects
   lastModified: string
-  expiresIn: number
-  owner: string
+  expiresIn: number | null
   hasTotp: boolean
-  totpSecret?: string
+  isOwner?: boolean
 }
 
 interface PasswordsTableProps {
   passwords: Password[]
   onViewDetails: (password: Password) => void
+  onEdit?: (password: Password) => void
+  onDelete?: (password: Password) => void
+  onShare?: (password: Password) => void
 }
 
-export function PasswordsTable({ passwords, onViewDetails }: PasswordsTableProps) {
-  const [searchQuery, setSearchQuery] = React.useState("")
-
-  const filteredPasswords = passwords.filter(
-    (pwd) =>
-      pwd.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      pwd.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      pwd.folder.toLowerCase().includes(searchQuery.toLowerCase())
+// Component to handle password copy functionality
+function PasswordCell({ passwordId }: { passwordId: string }) {
+  const [isCopying, setIsCopying] = React.useState(false)
+  const { refetch } = trpc.passwords.getPassword.useQuery(
+    { id: passwordId },
+    {
+      enabled: false, // Only fetch when button is clicked
+    }
   )
+
+  const handleCopyPassword = async () => {
+    try {
+      setIsCopying(true)
+      const result = await refetch()
+      if (result.data?.password) {
+        await navigator.clipboard.writeText(result.data.password)
+        toast.success("Password copied to clipboard")
+      }
+    } catch (error) {
+      toast.error("Failed to get password")
+    } finally {
+      setIsCopying(false)
+    }
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-sm font-mono text-muted-foreground">••••••••</span>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-6 w-6"
+        onClick={handleCopyPassword}
+        disabled={isCopying}
+        title="Copy password"
+      >
+        <Copy className="h-3 w-3" />
+      </Button>
+    </div>
+  )
+}
+
+// Component to handle TOTP copy functionality
+function TotpCell({ passwordId }: { passwordId: string }) {
+  const [isCopying, setIsCopying] = React.useState(false)
+  const { refetch } = trpc.passwords.generateTotp.useQuery(
+    { id: passwordId },
+    {
+      enabled: false, // Only fetch when button is clicked
+    }
+  )
+
+  const handleCopyTotp = async () => {
+    try {
+      setIsCopying(true)
+      const result = await refetch()
+      if (result.data?.totpCode) {
+        await navigator.clipboard.writeText(result.data.totpCode)
+        toast.success("TOTP code copied to clipboard")
+      }
+    } catch (error) {
+      toast.error("Failed to generate TOTP code")
+    } finally {
+      setIsCopying(false)
+    }
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1">
+        <Clock className="h-4 w-4 text-green-600" />
+        <span className="text-xs font-medium text-green-600">Enabled</span>
+      </div>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-6 w-6"
+        onClick={handleCopyTotp}
+        disabled={isCopying}
+        title="Copy TOTP code"
+      >
+        <Copy className="h-3 w-3" />
+      </Button>
+    </div>
+  )
+}
+
+export function PasswordsTable({ passwords, onViewDetails, onEdit, onDelete, onShare }: PasswordsTableProps) {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const utils = trpc.useUtils()
+  const { hasPermission } = usePermissions()
+  const [searchQuery, setSearchQuery] = React.useState(searchParams.get("search") || "")
+  const [copyingPasswordId, setCopyingPasswordId] = React.useState<string | null>(null)
+  const [copyingTotpId, setCopyingTotpId] = React.useState<string | null>(null)
+
+  React.useEffect(() => {
+    setSearchQuery(searchParams.get("search") || "")
+  }, [searchParams])
+
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value)
+    const params = new URLSearchParams(searchParams)
+    if (value) {
+      params.set("search", value)
+      params.set("page", "1") // Reset to first page on search
+    } else {
+      params.delete("search")
+    }
+    router.push(`?${params.toString()}`)
+  }
+
+  const handleCopyPassword = async (passwordId: string) => {
+    try {
+      setCopyingPasswordId(passwordId)
+      const result = await utils.passwords.getPassword.fetch({ id: passwordId })
+      if (result?.password) {
+        await navigator.clipboard.writeText(result.password)
+        toast.success("Password copied to clipboard")
+      }
+    } catch (error) {
+      toast.error("Failed to get password")
+    } finally {
+      setCopyingPasswordId(null)
+    }
+  }
+
+  const handleCopyTotp = async (passwordId: string) => {
+    try {
+      setCopyingTotpId(passwordId)
+      const result = await utils.passwords.generateTotp.fetch({ id: passwordId })
+      if (result?.totpCode) {
+        await navigator.clipboard.writeText(result.totpCode)
+        toast.success("TOTP code copied to clipboard")
+      }
+    } catch (error) {
+      toast.error("Failed to generate TOTP code")
+    } finally {
+      setCopyingTotpId(null)
+    }
+  }
 
   const getStrengthBadge = (strength: string) => {
     switch (strength) {
@@ -98,7 +243,7 @@ export function PasswordsTable({ passwords, onViewDetails }: PasswordsTableProps
               placeholder="Search passwords..."
               className="pl-8"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
             />
           </div>
         </div>
@@ -109,6 +254,7 @@ export function PasswordsTable({ passwords, onViewDetails }: PasswordsTableProps
             <TableRow>
               <TableHead>Name</TableHead>
               <TableHead>Username</TableHead>
+              <TableHead>Password</TableHead>
               <TableHead>Folder</TableHead>
               <TableHead>Strength</TableHead>
               <TableHead>TOTP</TableHead>
@@ -118,7 +264,7 @@ export function PasswordsTable({ passwords, onViewDetails }: PasswordsTableProps
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredPasswords.map((pwd) => (
+            {passwords.map((pwd) => (
               <TableRow key={pwd.id}>
                 <TableCell>
                   <div className="flex items-center gap-2">
@@ -137,15 +283,27 @@ export function PasswordsTable({ passwords, onViewDetails }: PasswordsTableProps
                   <span className="text-sm">{pwd.username}</span>
                 </TableCell>
                 <TableCell>
-                  <Badge variant="outline">{pwd.folder}</Badge>
+                  {hasPermission("password.view") ? (
+                    <PasswordCell passwordId={pwd.id} />
+                  ) : (
+                    <span className="text-xs text-muted-foreground">-</span>
+                  )}
+                </TableCell>
+                <TableCell>
+                  {pwd.folder ? (
+                    <Badge variant="outline">{pwd.folder}</Badge>
+                  ) : (
+                    <span className="text-xs text-muted-foreground">-</span>
+                  )}
                 </TableCell>
                 <TableCell>{getStrengthBadge(pwd.strength)}</TableCell>
                 <TableCell>
-                  {pwd.hasTotp ? (
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-4 w-4 text-green-600" />
-                      <span className="text-xs font-medium text-green-600">Enabled</span>
-                    </div>
+                  {hasPermission("password.view") ? (
+                    pwd.hasTotp ? (
+                      <TotpCell passwordId={pwd.id} />
+                    ) : (
+                      <span className="text-xs text-muted-foreground">-</span>
+                    )
                   ) : (
                     <span className="text-xs text-muted-foreground">-</span>
                   )}
@@ -162,7 +320,9 @@ export function PasswordsTable({ passwords, onViewDetails }: PasswordsTableProps
                     <span className="text-xs text-muted-foreground">Private</span>
                   )}
                 </TableCell>
-                <TableCell>{getExpiryBadge(pwd.expiresIn)}</TableCell>
+                <TableCell>
+                  {pwd.expiresIn !== null ? getExpiryBadge(pwd.expiresIn) : <span className="text-xs text-muted-foreground">-</span>}
+                </TableCell>
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -177,29 +337,50 @@ export function PasswordsTable({ passwords, onViewDetails }: PasswordsTableProps
                         <Eye className="mr-2 h-4 w-4" />
                         View Details
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Copy className="mr-2 h-4 w-4" />
-                        Copy Password
-                      </DropdownMenuItem>
-                      {pwd.hasTotp && (
-                        <DropdownMenuItem>
-                          <Clock className="mr-2 h-4 w-4" />
-                          Copy TOTP Code
+                      {hasPermission("password.view") && (
+                        <>
+                          <DropdownMenuItem
+                            onClick={() => handleCopyPassword(pwd.id)}
+                            disabled={copyingPasswordId === pwd.id}
+                          >
+                            <Copy className="mr-2 h-4 w-4" />
+                            {copyingPasswordId === pwd.id ? "Copying..." : "Copy Password"}
+                          </DropdownMenuItem>
+                          {pwd.hasTotp && (
+                            <DropdownMenuItem
+                              onClick={() => handleCopyTotp(pwd.id)}
+                              disabled={copyingTotpId === pwd.id}
+                            >
+                              <Clock className="mr-2 h-4 w-4" />
+                              {copyingTotpId === pwd.id ? "Generating..." : "Copy TOTP Code"}
+                            </DropdownMenuItem>
+                          )}
+                        </>
+                      )}
+                      {hasPermission("password.edit") && (
+                        <DropdownMenuItem onClick={() => onEdit?.(pwd)}>
+                          <Pencil className="mr-2 h-4 w-4" />
+                          Edit
                         </DropdownMenuItem>
                       )}
-                      <DropdownMenuItem>
-                        <Pencil className="mr-2 h-4 w-4" />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Share2 className="mr-2 h-4 w-4" />
-                        Share
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem className="text-red-600">
-                        <Trash2 className="mr-2 h-4 w-4" />
-                        Delete
-                      </DropdownMenuItem>
+                      {hasPermission("password.share") && (
+                        <DropdownMenuItem onClick={() => onShare?.(pwd)}>
+                          <Share2 className="mr-2 h-4 w-4" />
+                          Share
+                        </DropdownMenuItem>
+                      )}
+                      {hasPermission("password.delete") && (
+                        <>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem
+                            className="text-red-600"
+                            onClick={() => onDelete?.(pwd)}
+                          >
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Delete
+                          </DropdownMenuItem>
+                        </>
+                      )}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

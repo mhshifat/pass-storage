@@ -1,137 +1,23 @@
-"use client"
-
-import * as React from "react"
-import { Button } from "@/components/ui/button"
-import { Plus } from "lucide-react"
+import { Suspense } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
-  PasswordsTable,
-  PasswordFormDialog,
-  PasswordDetailsDialog,
   SecurityAlerts,
+  PasswordsTableSkeleton,
+  PasswordsEmptyState,
 } from "@/modules/passwords/client"
+import { caller } from "@/trpc/server"
+import { PasswordsContent } from "./passwords-content"
+import { PasswordsListClient } from "./passwords-list-client"
 
-type Password = {
-  id: string
-  name: string
-  username: string
-  url?: string
-  folder: string
-  strength: "strong" | "medium" | "weak"
-  shared: boolean
-  sharedWith: string[]
-  lastModified: string
-  expiresIn: number
-  owner: string
-  hasTotp: boolean
-  totpSecret?: string
+interface PasswordsPageProps {
+  searchParams: Promise<{ page?: string; search?: string; filter?: string }>
 }
 
-const passwords: Password[] = [
-  {
-    id: "1",
-    name: "AWS Production Account",
-    username: "admin@company.com",
-    url: "https://console.aws.amazon.com" as string | undefined,
-    folder: "Infrastructure",
-    strength: "strong" as const,
-    shared: true,
-    sharedWith: ["DevOps Team"],
-    lastModified: "2024-12-10",
-    expiresIn: 45,
-    owner: "John Doe",
-    hasTotp: true,
-    totpSecret: "JBSWY3DPEHPK3PXP" as string | undefined,
-  },
-  {
-    id: "2",
-    name: "Database Admin",
-    username: "dbadmin",
-    url: "postgres://prod-db.company.com:5432" as string | undefined,
-    folder: "Databases",
-    strength: "strong" as const,
-    shared: true,
-    sharedWith: ["Backend Team", "DevOps Team"],
-    lastModified: "2024-12-01",
-    expiresIn: 30,
-    owner: "Jane Smith",
-    hasTotp: false,
-    totpSecret: undefined,
-  },
-  {
-    id: "3",
-    name: "GitHub Organization",
-    username: "company-org",
-    url: "https://github.com/company" as string | undefined,
-    folder: "Development",
-    strength: "medium" as const,
-    shared: true,
-    sharedWith: ["Development Team"],
-    lastModified: "2024-11-20",
-    expiresIn: 15,
-    owner: "Mike Johnson",
-    hasTotp: true,
-    totpSecret: "HXDMVJECJJWSRB3HWIZR4IFUGFTMXBOZ" as string | undefined,
-  },
-  {
-    id: "4",
-    name: "Email Marketing Platform",
-    username: "marketing@company.com",
-    url: "https://app.mailchimp.com" as string | undefined,
-    folder: "Marketing",
-    strength: "weak" as const,
-    shared: true,
-    sharedWith: ["Marketing Team"],
-    lastModified: "2024-10-15",
-    expiresIn: -5,
-    owner: "Sarah Williams",
-    hasTotp: false,
-    totpSecret: undefined,
-  },
-  {
-    id: "5",
-    name: "SSL Certificate Private Key",
-    username: "*.company.com",
-    url: undefined,
-    folder: "Infrastructure",
-    strength: "strong" as const,
-    shared: true,
-    sharedWith: ["DevOps Team"],
-    lastModified: "2024-12-12",
-    expiresIn: 365,
-    owner: "Tom Brown",
-    hasTotp: false,
-    totpSecret: undefined,
-  },
-]
-
-export default function PasswordsPage() {
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = React.useState(false)
-  const [isViewDialogOpen, setIsViewDialogOpen] = React.useState(false)
-  const [selectedPassword, setSelectedPassword] = React.useState<Password | null>(null)
-
-  const handleCreateSubmit = (data: Record<string, unknown>) => {
-    console.log("Create password:", data)
-    setIsCreateDialogOpen(false)
-  }
-
-  const handleViewDetails = (password: Password) => {
-    setSelectedPassword(password)
-    setIsViewDialogOpen(true)
-  }
-
-  const securityAlerts = [
-    {
-      type: "weak" as const,
-      count: 489,
-      message: "489 passwords are using weak security. Consider updating them for better protection.",
-    },
-    {
-      type: "expiring" as const,
-      count: 34,
-      message: "34 passwords will expire within the next 7 days. Update them to maintain access.",
-    },
-  ]
+export default async function PasswordsPage({ searchParams }: PasswordsPageProps) {
+  const params = await searchParams
+  const currentPage = Number(params.page) || 1
+  const search = params.search || ""
+  const filter = params.filter === "weak" || params.filter === "expiring" ? params.filter : undefined
 
   return (
     <div className="p-6 space-y-6">
@@ -142,20 +28,56 @@ export default function PasswordsPage() {
             Manage and organize all stored passwords
           </p>
         </div>
-        <Button onClick={() => setIsCreateDialogOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Password
-        </Button>
+        <PasswordsContent />
       </div>
 
+      <Suspense fallback={<PasswordsStatsSkeleton />}>
+        <PasswordsStats />
+      </Suspense>
+
+      <Suspense key={`${currentPage}-${search}-${filter}`} fallback={<PasswordsTableSkeleton />}>
+        <PasswordsListContent page={currentPage} search={search} filter={filter} />
+      </Suspense>
+    </div>
+  )
+}
+
+async function PasswordsStats() {
+  const stats = await caller.passwords.stats()
+
+  const securityAlerts = [
+    ...(stats.weak > 0
+      ? [
+          {
+            type: "weak" as const,
+            count: stats.weak,
+            message: `${stats.weak} password${stats.weak === 1 ? "" : "s"} ${stats.weak === 1 ? "is" : "are"} using weak security. Consider updating ${stats.weak === 1 ? "it" : "them"} for better protection.`,
+          },
+        ]
+      : []),
+    ...(stats.expiringSoon > 0
+      ? [
+          {
+            type: "expiring" as const,
+            count: stats.expiringSoon,
+            message: `${stats.expiringSoon} password${stats.expiringSoon === 1 ? "" : "s"} will expire within the next 7 days. Update ${stats.expiringSoon === 1 ? "it" : "them"} to maintain access.`,
+          },
+        ]
+      : []),
+  ]
+
+  return (
+    <>
       <div className="grid gap-4 md:grid-cols-4">
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium">Total Passwords</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">4,891</div>
-            <p className="text-xs text-muted-foreground">+123 from last month</p>
+            <div className="text-2xl font-bold">{stats.total.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">
+              {stats.recentCount > 0 ? `+${stats.recentCount} in last 30 days` : "No recent additions"}
+            </p>
           </CardContent>
         </Card>
         <Card>
@@ -163,8 +85,8 @@ export default function PasswordsPage() {
             <CardTitle className="text-sm font-medium">Strong Passwords</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">3,668</div>
-            <p className="text-xs text-muted-foreground">75% of total</p>
+            <div className="text-2xl font-bold">{stats.strong.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">{stats.strongPercentage}% of total</p>
           </CardContent>
         </Card>
         <Card>
@@ -172,8 +94,10 @@ export default function PasswordsPage() {
             <CardTitle className="text-sm font-medium">Weak Passwords</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">489</div>
-            <p className="text-xs text-red-600">Need attention</p>
+            <div className="text-2xl font-bold">{stats.weak.toLocaleString()}</div>
+            <p className={`text-xs ${stats.weak > 0 ? "text-red-600" : "text-muted-foreground"}`}>
+              {stats.weak > 0 ? "Need attention" : "All secure"}
+            </p>
           </CardContent>
         </Card>
         <Card>
@@ -181,27 +105,56 @@ export default function PasswordsPage() {
             <CardTitle className="text-sm font-medium">Expiring Soon</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">34</div>
+            <div className="text-2xl font-bold">{stats.expiringSoon.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">Within 7 days</p>
           </CardContent>
         </Card>
       </div>
 
-      <SecurityAlerts alerts={securityAlerts} />
+      {securityAlerts.length > 0 && <SecurityAlerts alerts={securityAlerts} />}
+    </>
+  )
+}
 
-      <PasswordsTable passwords={passwords} onViewDetails={handleViewDetails} />
-
-      <PasswordFormDialog
-        open={isCreateDialogOpen}
-        onOpenChange={setIsCreateDialogOpen}
-        onSubmit={handleCreateSubmit}
-      />
-
-      <PasswordDetailsDialog
-        open={isViewDialogOpen}
-        onOpenChange={setIsViewDialogOpen}
-        password={selectedPassword}
-      />
+function PasswordsStatsSkeleton() {
+  return (
+    <div className="grid gap-4 md:grid-cols-4">
+      {[1, 2, 3, 4].map((i) => (
+        <Card key={i}>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium">
+              <div className="h-4 w-24 bg-muted animate-pulse rounded" />
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-8 w-16 bg-muted animate-pulse rounded mb-2" />
+            <div className="h-3 w-32 bg-muted animate-pulse rounded" />
+          </CardContent>
+        </Card>
+      ))}
     </div>
   )
+}
+
+async function PasswordsListContent({
+  page,
+  search,
+  filter,
+}: {
+  page: number
+  search: string
+  filter?: "weak" | "expiring"
+}) {
+  const { passwords, pagination } = await caller.passwords.list({
+    page,
+    pageSize: 10,
+    search: search || undefined,
+    filter: filter,
+  })
+
+  if (passwords.length === 0) {
+    return <PasswordsEmptyState isSearching={!!search || !!filter} />
+  }
+
+  return <PasswordsListClient passwords={passwords} pagination={pagination} />
 }

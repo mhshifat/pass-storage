@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { AlertTriangle } from "lucide-react"
+import { useRouter, useSearchParams } from "next/navigation"
 
 interface SecurityAlert {
   type: "weak" | "expiring"
@@ -15,6 +16,25 @@ interface SecurityAlertsProps {
 }
 
 export function SecurityAlerts({ alerts }: SecurityAlertsProps) {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const handleFilterClick = (type: "weak" | "expiring") => {
+    const params = new URLSearchParams(searchParams.toString())
+    
+    if (type === "weak") {
+      // Filter by weak strength
+      params.set("filter", "weak")
+      params.delete("page") // Reset to first page
+    } else if (type === "expiring") {
+      // Filter by expiring soon
+      params.set("filter", "expiring")
+      params.delete("page") // Reset to first page
+    }
+    
+    router.push(`?${params.toString()}`)
+  }
+
   return (
     <div className="grid gap-4 md:grid-cols-2">
       {alerts.map((alert) => (
@@ -50,7 +70,12 @@ export function SecurityAlerts({ alerts }: SecurityAlertsProps) {
             >
               {alert.message}
             </p>
-            <Button variant="outline" size="sm" className="mt-3">
+            <Button
+              variant="outline"
+              size="sm"
+              className="mt-3"
+              onClick={() => handleFilterClick(alert.type)}
+            >
               {alert.type === "weak" ? "Review Weak Passwords" : "View Expiring Passwords"}
             </Button>
           </CardContent>
