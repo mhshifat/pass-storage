@@ -323,5 +323,234 @@ export const teamsRouter = createTRPCRouter({
         avgTeamSize,
       }
     }),
+
+  addMember: protectedProcedure("team.edit")
+    .input(
+      z.object({
+        teamId: z.string(),
+        userId: z.string(),
+        role: z.enum(["MANAGER", "MEMBER"]).default("MEMBER"),
+      })
+    )
+    .mutation(async ({ input }) => {
+      // Check if team exists
+      const team = await prisma.team.findUnique({
+        where: { id: input.teamId },
+      })
+
+      if (!team) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Team not found",
+        })
+      }
+
+      // Check if user exists
+      const user = await prisma.user.findUnique({
+        where: { id: input.userId },
+      })
+
+      if (!user) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found",
+        })
+      }
+
+      // Check if user is already a member
+      const existingMember = await prisma.teamMember.findUnique({
+        where: {
+          teamId_userId: {
+            teamId: input.teamId,
+            userId: input.userId,
+          },
+        },
+      })
+
+      if (existingMember) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "User is already a member of this team",
+        })
+      }
+
+      // Add member
+      const member = await prisma.teamMember.create({
+        data: {
+          teamId: input.teamId,
+          userId: input.userId,
+          role: input.role,
+        },
+        select: {
+          id: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              image: true,
+            },
+          },
+          role: true,
+          createdAt: true,
+        },
+      })
+
+      return {
+        success: true,
+        member,
+      }
+    }),
+
+  removeMember: protectedProcedure("team.edit")
+    .input(
+      z.object({
+        teamId: z.string(),
+        userId: z.string(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      // Check if member exists
+      const member = await prisma.teamMember.findUnique({
+        where: {
+          teamId_userId: {
+            teamId: input.teamId,
+            userId: input.userId,
+          },
+        },
+      })
+
+      if (!member) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Member not found",
+        })
+      }
+
+      // Remove member
+      await prisma.teamMember.delete({
+        where: {
+          teamId_userId: {
+            teamId: input.teamId,
+            userId: input.userId,
+          },
+        },
+      })
+
+      return {
+        success: true,
+      }
+    }),
+
+  updateMemberRole: protectedProcedure("team.edit")
+    .input(
+      z.object({
+        teamId: z.string(),
+        userId: z.string(),
+        role: z.enum(["MANAGER", "MEMBER"]),
+      })
+    )
+    .mutation(async ({ input }) => {
+      // Check if member exists
+      const member = await prisma.teamMember.findUnique({
+        where: {
+          teamId_userId: {
+            teamId: input.teamId,
+            userId: input.userId,
+          },
+        },
+      })
+
+      if (!member) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Member not found",
+        })
+      }
+
+      // Update member role
+      const updatedMember = await prisma.teamMember.update({
+        where: {
+          teamId_userId: {
+            teamId: input.teamId,
+            userId: input.userId,
+          },
+        },
+        data: {
+          role: input.role,
+        },
+        select: {
+          id: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              image: true,
+            },
+          },
+          role: true,
+          createdAt: true,
+        },
+      })
+
+      return {
+        success: true,
+        member: updatedMember,
+      }
+    }),
+
+  getAvailableUsers: protectedProcedure("team.edit")
+    .input(
+      z.object({
+        teamId: z.string(),
+        search: z.string().optional(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      // Get current team members
+      const teamMembers = await prisma.teamMember.findMany({
+        where: { teamId: input.teamId },
+        select: { userId: true },
+      })
+
+      const memberUserIds = teamMembers.map((m) => m.userId)
+
+      // Exclude current logged-in user and team members
+      const excludedUserIds = [...memberUserIds]
+      if (ctx.userId) {
+        excludedUserIds.push(ctx.userId)
+      }
+
+      // Get all users except those already in the team and the current logged-in user
+      const where = {
+        id: { notIn: excludedUserIds },
+        isActive: true,
+        ...(input.search
+          ? {
+              OR: [
+                { name: { contains: input.search, mode: "insensitive" as const } },
+                { email: { contains: input.search, mode: "insensitive" as const } },
+              ],
+            }
+          : {}),
+      }
+
+      const users = await prisma.user.findMany({
+        where,
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+        },
+        orderBy: {
+          name: "asc",
+        },
+        take: 50, // Limit results
+      })
+
+      return { users }
+    }),
 })
 

@@ -167,7 +167,6 @@ export function TeamsActionsClient({ teams, pagination }: TeamsActionsClientProp
         open={isViewDialogOpen}
         onOpenChange={setIsViewDialogOpen}
         team={selectedTeam ? { id: selectedTeam.id, name: selectedTeam.name } : null}
-        members={[]}
       />
 
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>

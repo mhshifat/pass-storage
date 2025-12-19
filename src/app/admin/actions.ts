@@ -20,6 +20,10 @@ export async function logoutAction() {
   }
 }
 
+/**
+ * @deprecated Use getCurrentUser from @/lib/current-user instead
+ * This function is kept for backward compatibility
+ */
 export async function getUserData() {
   try {
     const trpc = await serverTrpc();

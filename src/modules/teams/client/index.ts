@@ -1,6 +1,7 @@
 export { TeamsTable } from "./teams-table"
 export { TeamFormDialog } from "./team-form-dialog"
 export { TeamMembersDialog } from "./team-members-dialog"
+export { AddMemberDialog } from "./add-member-dialog"
 export { TeamsActionsClient } from "./teams-actions-client"
 export { TeamsTableSkeleton } from "./teams-table-skeleton"
 export { TeamsEmptyState } from "./teams-empty-state"
