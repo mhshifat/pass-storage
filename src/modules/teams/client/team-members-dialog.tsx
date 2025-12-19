@@ -27,30 +27,30 @@ interface Member {
   avatar: string
 }
 
-interface Group {
+interface Team {
   id: string
   name: string
 }
 
-interface GroupMembersDialogProps {
+interface TeamMembersDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  group: Group | null
+  team: Team | null
   members: Member[]
 }
 
-export function GroupMembersDialog({
+export function TeamMembersDialog({
   open,
   onOpenChange,
-  group,
+  team,
   members,
-}: GroupMembersDialogProps) {
+}: TeamMembersDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>{group?.name} - Members</DialogTitle>
-          <DialogDescription>Manage group members and their roles</DialogDescription>
+          <DialogTitle>{team?.name} - Members</DialogTitle>
+          <DialogDescription>Manage team members and their roles</DialogDescription>
         </DialogHeader>
         <div className="py-4">
           <div className="mb-4">
@@ -90,7 +90,7 @@ export function GroupMembersDialog({
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem>Change Role</DropdownMenuItem>
                       <DropdownMenuItem className="text-red-600">
-                        Remove from Group
+                        Remove from Team
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -108,3 +108,4 @@ export function GroupMembersDialog({
     </Dialog>
   )
 }
+

@@ -4,9 +4,9 @@ import * as React from "react"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { GroupsTable, GroupFormDialog, GroupMembersDialog } from "@/modules/groups/client"
+import { TeamsTable, TeamFormDialog, TeamMembersDialog } from "@/modules/teams/client"
 
-const groups = [
+const teams = [
   {
     id: "1",
     name: "Development Team",
@@ -54,7 +54,7 @@ const groups = [
   },
 ]
 
-const groupMembers = [
+const teamMembers = [
   {
     id: "1",
     name: "John Doe",
@@ -78,18 +78,18 @@ const groupMembers = [
   },
 ]
 
-export default function GroupsPage() {
+export default function TeamsPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = React.useState(false)
   const [isViewDialogOpen, setIsViewDialogOpen] = React.useState(false)
-  const [selectedGroup, setSelectedGroup] = React.useState<typeof groups[0] | null>(null)
+  const [selectedTeam, setSelectedTeam] = React.useState<typeof teams[0] | null>(null)
 
   const handleCreateSubmit = (data: any) => {
-    console.log("Create group:", data)
+    console.log("Create team:", data)
     setIsCreateDialogOpen(false)
   }
 
-  const handleViewMembers = (group: typeof groups[0]) => {
-    setSelectedGroup(group)
+  const handleViewMembers = (team: typeof teams[0]) => {
+    setSelectedTeam(team)
     setIsViewDialogOpen(true)
   }
 
@@ -97,21 +97,21 @@ export default function GroupsPage() {
     <div className="p-6 space-y-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Groups</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Teams</h1>
           <p className="text-muted-foreground mt-1">
             Manage teams and organize password access
           </p>
         </div>
         <Button onClick={() => setIsCreateDialogOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
-          Create Group
+          Create Team
         </Button>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium">Total Groups</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Teams</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">34</div>
@@ -124,7 +124,7 @@ export default function GroupsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">847</div>
-            <p className="text-xs text-muted-foreground">Across all groups</p>
+            <p className="text-xs text-muted-foreground">Across all teams</p>
           </CardContent>
         </Card>
         <Card>
@@ -133,34 +133,35 @@ export default function GroupsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">1,234</div>
-            <p className="text-xs text-muted-foreground">Average 36 per group</p>
+            <p className="text-xs text-muted-foreground">Average 36 per team</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium">Avg Group Size</CardTitle>
+            <CardTitle className="text-sm font-medium">Avg Team Size</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">25</div>
-            <p className="text-xs text-muted-foreground">Members per group</p>
+            <p className="text-xs text-muted-foreground">Members per team</p>
           </CardContent>
         </Card>
       </div>
 
-      <GroupsTable groups={groups} onViewMembers={handleViewMembers} />
+      <TeamsTable teams={teams} onViewMembers={handleViewMembers} />
 
-      <GroupFormDialog
+      <TeamFormDialog
         open={isCreateDialogOpen}
         onOpenChange={setIsCreateDialogOpen}
         onSubmit={handleCreateSubmit}
       />
 
-      <GroupMembersDialog
+      <TeamMembersDialog
         open={isViewDialogOpen}
         onOpenChange={setIsViewDialogOpen}
-        group={selectedGroup}
-        members={groupMembers}
+        team={selectedTeam}
+        members={teamMembers}
       />
     </div>
   )
 }
+

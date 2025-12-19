@@ -43,10 +43,10 @@ const navigation = [
     permission: "user.view",
   },
   {
-    name: "Groups",
-    href: "/admin/groups",
+    name: "Teams",
+    href: "/admin/teams",
     icon: BoxesIcon,
-    permission: "group.view",
+    permission: "team.view",
   },
   {
     name: "Roles & Permissions",

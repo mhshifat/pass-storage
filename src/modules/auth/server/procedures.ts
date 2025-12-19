@@ -24,10 +24,10 @@ async function ensureSystemRolesExist() {
       { key: "password.delete", name: "Delete Passwords", description: "Remove password entries", category: "Password Management" },
       { key: "password.view", name: "View Passwords", description: "View password entries", category: "Password Management" },
       { key: "password.share", name: "Share Passwords", description: "Share passwords with others", category: "Password Management" },
-      { key: "group.create", name: "Create Groups", description: "Create new groups", category: "Group Management" },
-      { key: "group.edit", name: "Edit Groups", description: "Modify group settings", category: "Group Management" },
-      { key: "group.delete", name: "Delete Groups", description: "Remove groups", category: "Group Management" },
-      { key: "group.view", name: "View Groups", description: "View group information", category: "Group Management" },
+      { key: "team.create", name: "Create Teams", description: "Create new teams", category: "Team Management" },
+      { key: "team.edit", name: "Edit Teams", description: "Modify team settings", category: "Team Management" },
+      { key: "team.delete", name: "Delete Teams", description: "Remove teams", category: "Team Management" },
+      { key: "team.view", name: "View Teams", description: "View team information", category: "Team Management" },
       { key: "settings.view", name: "View Settings", description: "View system settings", category: "System Settings" },
       { key: "settings.edit", name: "Edit Settings", description: "Modify system settings", category: "System Settings" },
       { key: "audit.view", name: "View Audit Logs", description: "Access audit logs", category: "System Settings" },
@@ -61,7 +61,7 @@ async function ensureAllSystemRoles() {
       permissions: [
         "user.create", "user.edit", "user.delete", "user.view",
         "password.create", "password.edit", "password.delete", "password.view", "password.share",
-        "group.create", "group.edit", "group.delete", "group.view",
+        "team.create", "team.edit", "team.delete", "team.view",
         "settings.view", "settings.edit", "audit.view", "role.manage",
       ],
     },
@@ -71,7 +71,7 @@ async function ensureAllSystemRoles() {
       permissions: [
         "user.create", "user.edit", "user.delete", "user.view",
         "password.create", "password.edit", "password.delete", "password.view", "password.share",
-        "group.create", "group.edit", "group.delete", "group.view",
+        "team.create", "team.edit", "team.delete", "team.view",
         "settings.view", "audit.view",
       ],
     },
@@ -81,7 +81,7 @@ async function ensureAllSystemRoles() {
       permissions: [
         "user.view", "user.edit",
         "password.create", "password.edit", "password.delete", "password.view", "password.share",
-        "group.create", "group.edit", "group.delete", "group.view",
+        "team.create", "team.edit", "team.delete", "team.view",
         "settings.view", "audit.view",
       ],
     },
@@ -91,7 +91,7 @@ async function ensureAllSystemRoles() {
       permissions: [
         "user.view",
         "password.create", "password.edit", "password.delete", "password.view", "password.share",
-        "group.view",
+        "team.view",
       ],
     },
     {
@@ -100,7 +100,7 @@ async function ensureAllSystemRoles() {
       permissions: [
         "user.view",
         "password.view",
-        "group.view",
+        "team.view",
         "settings.view",
         "audit.view",
       ],
@@ -165,21 +165,21 @@ async function createSystemRoleWithPermissions(roleName: string, isFirstUser: bo
     rolePermissions = [
       "user.create", "user.edit", "user.delete", "user.view",
       "password.create", "password.edit", "password.delete", "password.view", "password.share",
-      "group.create", "group.edit", "group.delete", "group.view",
+      "team.create", "team.edit", "team.delete", "team.view",
       "settings.view", "settings.edit", "audit.view", "role.manage",
     ];
   } else if (roleName === "ADMIN") {
     rolePermissions = [
       "user.create", "user.edit", "user.delete", "user.view",
       "password.create", "password.edit", "password.delete", "password.view", "password.share",
-      "group.create", "group.edit", "group.delete", "group.view",
+      "team.create", "team.edit", "team.delete", "team.view",
       "settings.view", "audit.view",
     ];
   } else if (roleName === "USER") {
     rolePermissions = [
       "user.view",
       "password.create", "password.edit", "password.delete", "password.view", "password.share",
-      "group.view",
+      "team.view",
     ];
   }
 

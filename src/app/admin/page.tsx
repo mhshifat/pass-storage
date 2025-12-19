@@ -19,7 +19,7 @@ const stats = [
     icon: Lock,
   },
   {
-    name: "Groups",
+    name: "Teams",
     value: "34",
     change: "+2",
     changeType: "positive" as const,
@@ -65,7 +65,7 @@ const recentActivities = [
   },
   {
     user: "Tom Brown",
-    action: "Added user to group",
+    action: "Added user to team",
     resource: "DevOps Team",
     time: "3 hours ago",
     avatar: "/avatars/05.png",

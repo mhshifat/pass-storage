@@ -11,7 +11,7 @@ const ADMIN_ROUTE = "/admin";
 // Route permission mapping
 const ROUTE_PERMISSIONS: Record<string, string> = {
   "/admin/users": "user.view",
-  "/admin/groups": "group.view",
+  "/admin/teams": "team.view",
   "/admin/roles": "role.manage",
   "/admin/passwords": "password.view",
   "/admin/audit-logs": "audit.view",

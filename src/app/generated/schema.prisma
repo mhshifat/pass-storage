@@ -27,12 +27,12 @@ model User {
   lastLoginAt   DateTime?
 
   // Relations
-  ownedPasswords   Password[]      @relation("PasswordOwner")
-  sharedPasswords  PasswordShare[]
-  groupMemberships GroupMember[]
-  auditLogs        AuditLog[]
-  sessions         Session[]
-  accounts         Account[]
+  ownedPasswords  Password[]      @relation("PasswordOwner")
+  sharedPasswords PasswordShare[]
+  teamMemberships TeamMember[]
+  auditLogs       AuditLog[]
+  sessions        Session[]
+  accounts        Account[]
 
   createdById  String?
   createdBy    User?   @relation("UserCreatedBy", fields: [createdById], references: [id])
@@ -124,7 +124,7 @@ model PasswordShare {
   id         String          @id @default(cuid())
   passwordId String
   userId     String?
-  groupId    String?
+  teamId     String?
   permission SharePermission @default(READ)
   createdAt  DateTime        @default(now())
   expiresAt  DateTime?
@@ -132,14 +132,14 @@ model PasswordShare {
   // Relations
   password Password @relation(fields: [passwordId], references: [id], onDelete: Cascade)
   user     User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  group    Group?   @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  team     Team?    @relation(fields: [teamId], references: [id], onDelete: Cascade)
 
   @@index([passwordId])
   @@index([userId])
-  @@index([groupId])
+  @@index([teamId])
 }
 
-model Group {
+model Team {
   id          String   @id @default(cuid())
   name        String
   description String?
@@ -147,25 +147,25 @@ model Group {
   updatedAt   DateTime @updatedAt
 
   // Relations
-  members         GroupMember[]
+  members         TeamMember[]
   sharedPasswords PasswordShare[]
 
   @@index([name])
 }
 
-model GroupMember {
-  id        String    @id @default(cuid())
-  groupId   String
+model TeamMember {
+  id        String   @id @default(cuid())
+  teamId    String
   userId    String
-  role      GroupRole @default(MEMBER)
-  createdAt DateTime  @default(now())
+  role      TeamRole @default(MEMBER)
+  createdAt DateTime @default(now())
 
   // Relations
-  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([groupId, userId])
-  @@index([groupId])
+  @@unique([teamId, userId])
+  @@index([teamId])
   @@index([userId])
 }
 
@@ -281,7 +281,7 @@ enum UserRole {
   AUDITOR
 }
 
-enum GroupRole {
+enum TeamRole {
   MANAGER
   MEMBER
 }

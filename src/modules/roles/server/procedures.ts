@@ -416,11 +416,11 @@ export const rolesRouter = createTRPCRouter({
         { key: "password.delete", name: "Delete Passwords", description: "Remove password entries", category: "Password Management" },
         { key: "password.view", name: "View Passwords", description: "View password entries", category: "Password Management" },
         { key: "password.share", name: "Share Passwords", description: "Share passwords with others", category: "Password Management" },
-        // Group Management
-        { key: "group.create", name: "Create Groups", description: "Create new groups", category: "Group Management" },
-        { key: "group.edit", name: "Edit Groups", description: "Modify group settings", category: "Group Management" },
-        { key: "group.delete", name: "Delete Groups", description: "Remove groups", category: "Group Management" },
-        { key: "group.view", name: "View Groups", description: "View group information", category: "Group Management" },
+        // Team Management
+        { key: "team.create", name: "Create Teams", description: "Create new teams", category: "Team Management" },
+        { key: "team.edit", name: "Edit Teams", description: "Modify team settings", category: "Team Management" },
+        { key: "team.delete", name: "Delete Teams", description: "Remove teams", category: "Team Management" },
+        { key: "team.view", name: "View Teams", description: "View team information", category: "Team Management" },
         // System Settings
         { key: "settings.view", name: "View Settings", description: "View system settings", category: "System Settings" },
         { key: "settings.edit", name: "Edit Settings", description: "Modify system settings", category: "System Settings" },

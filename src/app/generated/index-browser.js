@@ -194,13 +194,13 @@ exports.Prisma.PasswordShareScalarFieldEnum = {
   id: 'id',
   passwordId: 'passwordId',
   userId: 'userId',
-  groupId: 'groupId',
+  teamId: 'teamId',
   permission: 'permission',
   createdAt: 'createdAt',
   expiresAt: 'expiresAt'
 };
 
-exports.Prisma.GroupScalarFieldEnum = {
+exports.Prisma.TeamScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
@@ -208,9 +208,9 @@ exports.Prisma.GroupScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.GroupMemberScalarFieldEnum = {
+exports.Prisma.TeamMemberScalarFieldEnum = {
   id: 'id',
-  groupId: 'groupId',
+  teamId: 'teamId',
   userId: 'userId',
   role: 'role',
   createdAt: 'createdAt'
@@ -318,7 +318,7 @@ exports.SharePermission = exports.$Enums.SharePermission = {
   ADMIN: 'ADMIN'
 };
 
-exports.GroupRole = exports.$Enums.GroupRole = {
+exports.TeamRole = exports.$Enums.TeamRole = {
   MANAGER: 'MANAGER',
   MEMBER: 'MEMBER'
 };
@@ -337,8 +337,8 @@ exports.Prisma.ModelName = {
   Password: 'Password',
   Folder: 'Folder',
   PasswordShare: 'PasswordShare',
-  Group: 'Group',
-  GroupMember: 'GroupMember',
+  Team: 'Team',
+  TeamMember: 'TeamMember',
   Tag: 'Tag',
   PasswordTag: 'PasswordTag',
   AuditLog: 'AuditLog',

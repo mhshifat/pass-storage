@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Search, MoreHorizontal, Pencil, Trash2, Users, FolderKey } from "lucide-react"
 
-interface Group {
+interface Team {
   id: string
   name: string
   description: string
@@ -32,20 +32,20 @@ interface Group {
   manager: string
 }
 
-interface GroupsTableProps {
-  groups: Group[]
-  onViewMembers: (group: Group) => void
-  onEdit?: (group: Group) => void
-  onDelete?: (groupId: string) => void
+interface TeamsTableProps {
+  teams: Team[]
+  onViewMembers: (team: Team) => void
+  onEdit?: (team: Team) => void
+  onDelete?: (teamId: string) => void
 }
 
-export function GroupsTable({ groups, onViewMembers, onEdit, onDelete }: GroupsTableProps) {
+export function TeamsTable({ teams, onViewMembers, onEdit, onDelete }: TeamsTableProps) {
   const [searchQuery, setSearchQuery] = React.useState("")
 
-  const filteredGroups = groups.filter(
-    (group) =>
-      group.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      group.description.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredTeams = teams.filter(
+    (team) =>
+      team.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      team.description.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
   return (
@@ -55,7 +55,7 @@ export function GroupsTable({ groups, onViewMembers, onEdit, onDelete }: GroupsT
           <div className="relative flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search groups..."
+              placeholder="Search teams..."
               className="pl-8"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -67,7 +67,7 @@ export function GroupsTable({ groups, onViewMembers, onEdit, onDelete }: GroupsT
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Group Name</TableHead>
+              <TableHead>Team Name</TableHead>
               <TableHead>Manager</TableHead>
               <TableHead>Members</TableHead>
               <TableHead>Passwords</TableHead>
@@ -76,31 +76,31 @@ export function GroupsTable({ groups, onViewMembers, onEdit, onDelete }: GroupsT
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredGroups.map((group) => (
-              <TableRow key={group.id}>
+            {filteredTeams.map((team) => (
+              <TableRow key={team.id}>
                 <TableCell>
                   <div>
-                    <div className="font-medium">{group.name}</div>
-                    <div className="text-sm text-muted-foreground">{group.description}</div>
+                    <div className="font-medium">{team.name}</div>
+                    <div className="text-sm text-muted-foreground">{team.description}</div>
                   </div>
                 </TableCell>
                 <TableCell>
-                  <div className="text-sm">{group.manager}</div>
+                  <div className="text-sm">{team.manager}</div>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1">
                     <Users className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm font-medium">{group.members}</span>
+                    <span className="text-sm font-medium">{team.members}</span>
                   </div>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1">
                     <FolderKey className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm font-medium">{group.passwords}</span>
+                    <span className="text-sm font-medium">{team.passwords}</span>
                   </div>
                 </TableCell>
                 <TableCell className="text-sm text-muted-foreground">
-                  {new Date(group.createdAt).toLocaleDateString()}
+                  {new Date(team.createdAt).toLocaleDateString()}
                 </TableCell>
                 <TableCell className="text-right">
                   <DropdownMenu>
@@ -112,13 +112,13 @@ export function GroupsTable({ groups, onViewMembers, onEdit, onDelete }: GroupsT
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => onViewMembers(group)}>
+                      <DropdownMenuItem onClick={() => onViewMembers(team)}>
                         <Users className="mr-2 h-4 w-4" />
                         View Members
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onEdit?.(group)}>
+                      <DropdownMenuItem onClick={() => onEdit?.(team)}>
                         <Pencil className="mr-2 h-4 w-4" />
-                        Edit Group
+                        Edit Team
                       </DropdownMenuItem>
                       <DropdownMenuItem>
                         <FolderKey className="mr-2 h-4 w-4" />
@@ -127,10 +127,10 @@ export function GroupsTable({ groups, onViewMembers, onEdit, onDelete }: GroupsT
                       <DropdownMenuSeparator />
                       <DropdownMenuItem
                         className="text-red-600"
-                        onClick={() => onDelete?.(group.id)}
+                        onClick={() => onDelete?.(team.id)}
                       >
                         <Trash2 className="mr-2 h-4 w-4" />
-                        Delete Group
+                        Delete Team
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -143,3 +143,4 @@ export function GroupsTable({ groups, onViewMembers, onEdit, onDelete }: GroupsT
     </Card>
   )
 }
+
