@@ -9,10 +9,12 @@ export interface SessionData {
   userId: string
   email: string
   isLoggedIn: boolean,
-  mfaVerified?: boolean
+  mfaVerified?: boolean,
+  mfaSetupRequired?: boolean,
+  mfaRequired?: boolean,
 }
 
-export async function createSession(userId: string, email: string, { mfaVerified = true } = {}) {
+export async function createSession(userId: string, email: string, { mfaVerified = true, mfaSetupRequired = false, mfaRequired = false } = {}) {
   // Get session timeout from settings
   const prisma = (await import("@/lib/prisma")).default
   const sessionTimeoutSetting = await prisma.settings.findUnique({
@@ -23,7 +25,7 @@ export async function createSession(userId: string, email: string, { mfaVerified
   const expirationTime = `${timeoutMinutes}m`
   const maxAge = timeoutMinutes * 60 // Convert to seconds
 
-  const payload = { userId, email, isLoggedIn: true, mfaVerified };
+  const payload = { userId, email, isLoggedIn: true, mfaVerified, mfaSetupRequired, mfaRequired };
   const token = await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime(expirationTime)

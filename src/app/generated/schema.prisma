@@ -11,10 +11,23 @@ datasource db {
   provider = "postgresql"
 }
 
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  subdomain String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  users User[]
+
+  @@index([subdomain])
+}
+
 model User {
   id            String     @id @default(cuid())
   name          String
-  email         String     @unique
+  email         String
   emailVerified DateTime?
   image         String?
   password      String? // Optional for OAuth users
@@ -24,11 +37,13 @@ model User {
   mfaEnabled    Boolean    @default(false)
   mfaSecret     String? // For TOTP MFA
   mfaMethod     MfaMethod? // Preferred MFA method
+  companyId     String?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   lastLoginAt   DateTime?
 
   // Relations
+  company         Company?        @relation(fields: [companyId], references: [id], onDelete: SetNull)
   ownedPasswords  Password[]      @relation("PasswordOwner")
   sharedPasswords PasswordShare[]
   teamMemberships TeamMember[]
@@ -45,6 +60,7 @@ model User {
 
   @@index([email])
   @@index([phoneNumber])
+  @@index([companyId])
 }
 
 model Account {
@@ -101,7 +117,6 @@ model Password {
   folder     Folder?         @relation(fields: [folderId], references: [id], onDelete: SetNull)
   sharedWith PasswordShare[]
   tags       PasswordTag[]
-  auditLogs  AuditLog[]
 
   @@index([ownerId])
   @@index([folderId])
@@ -212,8 +227,9 @@ model AuditLog {
   createdAt  DateTime    @default(now())
 
   // Relations
-  user     User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
-  password Password? @relation(fields: [resourceId], references: [id], onDelete: SetNull)
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  // Note: resourceId is a generic field that can reference any resource type (User, Password, Team, etc.)
+  // It does not have a foreign key constraint because it's polymorphic
 
   @@index([userId])
   @@index([resourceId])

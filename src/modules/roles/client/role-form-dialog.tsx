@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { useForm } from "react-hook-form"
@@ -117,7 +118,9 @@ export function RoleFormDialog({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    formAction(formData)
+    React.startTransition(() => {
+      formAction(formData)
+    })
   }
 
   return (

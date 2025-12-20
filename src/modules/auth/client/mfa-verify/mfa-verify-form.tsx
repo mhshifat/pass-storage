@@ -24,6 +24,7 @@ export function createMfaVerifyFormSchema(t: (key: string) => string) {
 }
 
 export function MfaVerifyForm() {
+  const { t } = useTranslation()
   const router = useRouter();
   const [error, setError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
@@ -36,6 +37,9 @@ export function MfaVerifyForm() {
       setError(error.message || "Invalid recovery code")
     },
   })
+
+  const mfaVerifyFormSchema = createMfaVerifyFormSchema(t)
+  type MfaVerifyFormData = z.infer<typeof mfaVerifyFormSchema>
 
   const form = useForm<MfaVerifyFormData>({
     mode: "onSubmit",

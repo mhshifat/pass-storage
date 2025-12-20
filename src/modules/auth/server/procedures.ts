@@ -234,11 +234,43 @@ export const authRouter = createTRPCRouter({
                 name: z.string().min(2, "Name must be at least 2 characters"),
                 email: z.string().email("Invalid email address"),
                 password: z.string().min(8, "Password must be at least 8 characters"),
+                companyName: z.string().min(2, "Company name must be at least 2 characters").regex(/^[a-z0-9-]+$/, "Company name can only contain lowercase letters, numbers, and hyphens"),
             })
         )
-        .mutation(async ({ input }) => {
-            // Check if user already exists
-            const existingUser = await prisma.user.findUnique({
+        .mutation(async ({ input, ctx }) => {
+            // Registration should only happen on main domain (no subdomain)
+            if (ctx.subdomain) {
+                throw new TRPCError({
+                    code: "FORBIDDEN",
+                    message: "Registration is only available on the main domain",
+                });
+            }
+
+            // Validate and normalize subdomain from company name
+            const subdomain = input.companyName.toLowerCase().trim().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "")
+            
+            if (subdomain.length < 2) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Company name must contain at least 2 valid characters",
+                });
+            }
+
+            // Check if company/subdomain already exists
+            const existingCompany = await prisma.company.findUnique({
+                where: { subdomain },
+            });
+
+            if (existingCompany) {
+                throw new TRPCError({
+                    code: "CONFLICT",
+                    message: "A company with this name already exists. Please choose a different name.",
+                });
+            }
+
+            // Check if user already exists globally (email should be unique per company, but we check globally for registration)
+            // Note: After migration, email+companyId will be unique, but during registration we check globally
+            const existingUser = await prisma.user.findFirst({
                 where: { email: input.email },
             });
 
@@ -287,12 +319,22 @@ export const authRouter = createTRPCRouter({
                 await createSystemRoleWithPermissions(role, isFirstUser);
             }
 
+            // Create company first
+            const company = await prisma.company.create({
+                data: {
+                    name: input.companyName,
+                    subdomain,
+                },
+            });
+
+            // Create user associated with company
             const user = await prisma.user.create({
                 data: {
                     name: input.name,
                     email: input.email,
                     password: hashedPassword,
                     role,
+                    companyId: company.id,
                 },
             });
 
@@ -307,6 +349,11 @@ export const authRouter = createTRPCRouter({
                     email: user.email,
                     role: user.role,
                 },
+                company: {
+                    id: company.id,
+                    name: company.name,
+                    subdomain: company.subdomain,
+                },
             };
         }),
     login: baseProcedure
@@ -316,7 +363,7 @@ export const authRouter = createTRPCRouter({
                 password: z.string().min(1, "Password is required"),
             })
         )
-        .mutation(async ({ input }) => {
+        .mutation(async ({ input, ctx }) => {
             // Get login security settings
             const securitySettings = await prisma.settings.findMany({
                 where: {
@@ -337,9 +384,35 @@ export const authRouter = createTRPCRouter({
             const maxAttempts = (config["security.login.max_attempts"] as number) ?? 5
             const lockoutDurationMinutes = (config["security.login.lockout_duration_minutes"] as number) ?? 15
 
-            // Find user
-            const user = await prisma.user.findUnique({
-                where: { email: input.email },
+            // Get subdomain from context (set by middleware)
+            const subdomain = ctx.subdomain
+
+            // Login must be on a subdomain (not main domain)
+            if (!subdomain) {
+                throw new TRPCError({
+                    code: "FORBIDDEN",
+                    message: "Login is only available on company subdomains",
+                })
+            }
+
+            // Find company by subdomain
+            const company = await prisma.company.findUnique({
+                where: { subdomain },
+            })
+
+            if (!company) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "Company not found for this subdomain",
+                })
+            }
+
+            // Find user in this company
+            const user = await prisma.user.findFirst({
+                where: { 
+                    email: input.email,
+                    companyId: company.id,
+                },
             })
 
             if (!user) {
@@ -418,11 +491,11 @@ export const authRouter = createTRPCRouter({
 
                 if (!hasMfaMethod) {
                     // MFA is enabled but not configured, require setup
-                    await createSession(user.id, user.email, { mfaVerified: false });
+                    await createSession(user.id, user.email, { mfaVerified: false, mfaSetupRequired: true });
                     return { success: true, mfaSetupRequired: true };
                 } else {
                     // MFA is enabled and configured, require verification
-                    await createSession(user.id, user.email, { mfaVerified: false });
+                    await createSession(user.id, user.email, { mfaVerified: false, mfaRequired: true });
                     return { success: true, mfaRequired: true };
                 }
             }
@@ -507,10 +580,14 @@ export const authRouter = createTRPCRouter({
                 (rest.mfaEnabled && rest.mfaMethod === "EMAIL" && rest.email !== null) ||
                 (rest.mfaEnabled && rest.mfaMethod === "WEBAUTHN" && _count.mfaCredentials > 0);
 
+            // Determine if MFA setup is required (MFA enabled but not configured)
+            const mfaSetupRequired = rest.mfaEnabled && !hasMfaMethod;
+
             return {
                 user: rest,
                 session,
                 shouldVerifyMfa: rest.mfaEnabled && !session.mfaVerified && hasMfaMethod,
+                mfaSetupRequired,
                 mfaMethod: rest.mfaMethod,
             };
         }),
@@ -532,18 +609,19 @@ export const authRouter = createTRPCRouter({
             const qrcode = await import("qrcode").then(mod => mod.default)
             // Generate a new MFA secret
             const user = await prisma.user.findUnique({ where: { id: session.userId } })
+            
+            let secret: string
+
+            // Only return null if MFA is already fully enabled and configured
+            // If MFA is not enabled yet (setup in progress), regenerate QR even if secret exists
             if (user && user.mfaEnabled && user.mfaSecret) {
-                return { qr: null }
+                secret = decrypt(user.mfaSecret)
+            } else {
+                secret = authenticator.generateSecret()
             }
-            const secret = authenticator.generateSecret()
+            
             const otpAuth = authenticator.keyuri(session.email, "Password Storage", secret)
             const qr = await qrcode.toDataURL(otpAuth)
-            // Encrypt and save the secret temporarily in the DB (not enabled until verified)
-            const encryptedSecret = encrypt(secret);
-            await prisma.user.update({
-                where: { id: session.userId },
-                data: { mfaSecret: encryptedSecret },
-            });
             return { qr }
         }),
     setupMfa: baseProcedure
@@ -1023,7 +1101,7 @@ export const authRouter = createTRPCRouter({
                 credentialID: cred.credentialId,
                 publicKey: cred.publicKey,
                 counter: Number(cred.counter),
-                deviceType: cred.deviceType as any,
+                deviceType: cred.deviceType,
                 backedUp: cred.backedUp,
                 transports: cred.transports ? JSON.parse(cred.transports) : undefined,
             }))
@@ -1036,9 +1114,9 @@ export const authRouter = createTRPCRouter({
             )
 
             // Store challenge temporarily (in production, use Redis)
-            const challengeStore = (global as any).webauthnChallenges || new Map()
+            const challengeStore = (global as unknown as { webauthnChallenges: Map<string, string> }).webauthnChallenges || new Map()
             challengeStore.set(session.userId, challenge)
-            ;(global as any).webauthnChallenges = challengeStore
+            ;(global as unknown as { webauthnChallenges: Map<string, string> }).webauthnChallenges = challengeStore
 
             return { options };
         }),
@@ -1063,7 +1141,7 @@ export const authRouter = createTRPCRouter({
                 });
             }
 
-            const challengeStore = (global as any).webauthnChallenges || new Map()
+            const challengeStore = (global as unknown as { webauthnChallenges: Map<string, string> }).webauthnChallenges || new Map()
             const expectedChallenge = challengeStore.get(session.userId)
             challengeStore.delete(session.userId)
 
@@ -1143,7 +1221,7 @@ export const authRouter = createTRPCRouter({
                 credentialID: cred.credentialId,
                 publicKey: cred.publicKey,
                 counter: Number(cred.counter),
-                deviceType: cred.deviceType as any,
+                deviceType: cred.deviceType,
                 backedUp: cred.backedUp,
                 transports: cred.transports ? JSON.parse(cred.transports) : undefined,
             }))
@@ -1151,9 +1229,9 @@ export const authRouter = createTRPCRouter({
             const { options, challenge } = await generateWebAuthnAuthenticationOptions(credentials)
 
             // Store challenge temporarily
-            const challengeStore = (global as any).webauthnChallenges || new Map()
+            const challengeStore = (global as unknown as { webauthnChallenges: Map<string, string> }).webauthnChallenges || new Map()
             challengeStore.set(session.userId, challenge)
-            ;(global as any).webauthnChallenges = challengeStore
+            ;(global as unknown as { webauthnChallenges: Map<string, string> }).webauthnChallenges = challengeStore
 
             return { options };
         }),
@@ -1181,7 +1259,7 @@ export const authRouter = createTRPCRouter({
                 });
             }
 
-            const challengeStore = (global as any).webauthnChallenges || new Map()
+            const challengeStore = (global as unknown as { webauthnChallenges: Map<string, string> }).webauthnChallenges || new Map()
             const expectedChallenge = challengeStore.get(session.userId)
             challengeStore.delete(session.userId)
 
@@ -1209,7 +1287,7 @@ export const authRouter = createTRPCRouter({
                 credentialID: credential.credentialId,
                 publicKey: credential.publicKey,
                 counter: Number(credential.counter),
-                deviceType: credential.deviceType as any,
+                deviceType: credential.deviceType,
                 backedUp: credential.backedUp,
                 transports: credential.transports ? JSON.parse(credential.transports) : undefined,
             }
@@ -1444,11 +1522,12 @@ export const authRouter = createTRPCRouter({
             userId: z.string(),
         }))
         .mutation(async ({ input, ctx }) => {
-            // Check if admin MFA reset is enabled
-            const adminResetEnabled = await prisma.settings.findUnique({
+            // Check if admin MFA reset is enabled (default to true if setting doesn't exist)
+            const adminResetSetting = await prisma.settings.findUnique({
                 where: { key: "mfa.admin_reset_enabled" },
             })
-            if (!adminResetEnabled || adminResetEnabled.value !== true) {
+            const adminResetEnabled = adminResetSetting ? (adminResetSetting.value === true) : true // Default to true if not set
+            if (!adminResetEnabled) {
                 throw new TRPCError({
                     code: "FORBIDDEN",
                     message: "Admin MFA reset is not enabled",
@@ -1511,5 +1590,39 @@ export const authRouter = createTRPCRouter({
             })
 
             return { success: true };
+        }),
+    findCompanyBySubdomain: baseProcedure
+        .input(
+            z.object({
+                companyName: z.string().min(1, "Company name is required"),
+            })
+        )
+        .query(async ({ input }) => {
+            // Normalize company name to subdomain format
+            const subdomain = input.companyName.toLowerCase().trim().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "")
+            
+            if (subdomain.length < 2) {
+                return null
+            }
+
+            // Find company by subdomain
+            const company = await prisma.company.findUnique({
+                where: { subdomain },
+                select: {
+                    id: true,
+                    name: true,
+                    subdomain: true,
+                },
+            })
+
+            if (!company) {
+                return null
+            }
+
+            return {
+                id: company.id,
+                name: company.name,
+                subdomain: company.subdomain,
+            }
         }),
 });

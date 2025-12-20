@@ -1,5 +1,8 @@
 {
   "common": {
+    "cancel": "বাতিল",
+    "continue": "চালিয়ে যান",
+    "searching": "খুঁজছি...",
     "save": "সংরক্ষণ করুন",
     "cancel": "বাতিল করুন",
     "delete": "মুছুন",
@@ -56,7 +59,13 @@
     "registerDescription": "শুরু করতে আপনার তথ্য লিখুন",
     "emailPlaceholder": "you@example.com",
     "namePlaceholder": "John Doe",
-    "passwordDescription": "কমপক্ষে ৮ অক্ষর হতে হবে। শক্তিশালী পাসওয়ার্ড তৈরি করতে কী আইকনে ক্লিক করুন।"
+    "passwordDescription": "কমপক্ষে ৮ অক্ষর হতে হবে। শক্তিশালী পাসওয়ার্ড তৈরি করতে কী আইকনে ক্লিক করুন।",
+    "companyName": "কোম্পানির নাম",
+    "companyNamePlaceholder": "mycompany",
+    "companyNameDescription": "এটি আপনার সাবডোমেইন তৈরি করবে (যেমন, mycompany.passstorage.com)। শুধুমাত্র ছোট হাতের অক্ষর, সংখ্যা এবং হাইফেন অনুমোদিত।",
+    "findYourCompany": "আপনার কোম্পানি খুঁজুন",
+    "findYourCompanyDescription": "আপনার লগইন পেজ খুঁজতে আপনার কোম্পানির নাম লিখুন।",
+    "companyNotFound": "কোম্পানি পাওয়া যায়নি। অনুগ্রহ করে কোম্পানির নাম পরীক্ষা করুন এবং আবার চেষ্টা করুন।"
   },
   "dashboard": {
     "title": "ড্যাশবোর্ড",
@@ -94,7 +103,8 @@
     "unusualLoginActivity": "অস্বাভাবিক লগইন কার্যক্রম সনাক্ত করা হয়েছে (গত ২৪ ঘন্টায় {{count}}টি ব্যর্থ প্রচেষ্টা)",
     "suspiciousAccessPattern": "সন্দেহজনক অ্যাক্সেস প্যাটার্ন: একাধিক ব্যর্থ লগইন প্রচেষ্টা সহ {{count}}টি IP ঠিকানা",
     "expiringPasswords": "{{count}}টি পাসওয়ার্ড পরবর্তী ৭ দিনের মধ্যে মেয়াদ শেষ হবে",
-    "usersWithoutMfa": "{{count}}জন ব্যবহারকারী ({{percentage}}%) এমএফএ সক্রিয় ছাড়াই",
+    "usersWithoutMfa_one": "{{count}}জন ব্যবহারকারী এমএফএ সক্রিয় ছাড়াই",
+    "usersWithoutMfa_other": "{{count}}জন ব্যবহারকারী এমএফএ সক্রিয় ছাড়াই",
     "unusedPasswords": "{{count}}টি পাসওয়ার্ড ৯০+ দিন ধরে অ্যাক্সেস করা হয়নি। পর্যালোচনা করার কথা বিবেচনা করুন।",
     "backupCompleted": "সিস্টেম ব্যাকআপ সফলভাবে {{hours}} ঘন্টা আগে সম্পন্ন হয়েছে",
     "backupOld": "শেষ সিস্টেম ব্যাকআপ {{days}} দিন আগে ছিল",
@@ -638,6 +648,8 @@
     "userNotFound": "ব্যবহারকারী পাওয়া যায়নি"
   },
   "errors": {
+    "companyNameMinLength": "কোম্পানির নাম কমপক্ষে ২ অক্ষর হতে হবে",
+    "companyNameInvalid": "কোম্পানির নামে শুধুমাত্র অক্ষর, সংখ্যা এবং হাইফেন থাকতে পারে",
     "required": "এই ক্ষেত্রটি প্রয়োজনীয়",
     "invalidEmail": "অবৈধ ইমেইল ঠিকানা",
     "passwordTooShort": "পাসওয়ার্ড কমপক্ষে ৮ অক্ষর হতে হবে",

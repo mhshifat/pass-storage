@@ -8,12 +8,20 @@ import { MfaSetupPageHeader } from "./mfa-setup-page-header"
 
 export default async function MfaSetupPage() {
   const trpc = await serverTrpc();
-  const user = await trpc.auth.getCurrentUser(); 
-  const { qr } = await trpc.auth.generateMfaQr();
+  const userData = await trpc.auth.getCurrentUser(); 
   
-  if (user?.shouldVerifyMfa === true) {
+  // If user needs to verify MFA (has MFA enabled and configured), redirect to verify
+  if (userData?.shouldVerifyMfa === true) {
     return redirect("/mfa-verify");
   }
+
+  // If MFA setup is not required (user doesn't have MFA enabled or already configured), redirect to admin
+  if (!userData?.mfaSetupRequired) {
+    return redirect("/admin");
+  }
+
+  // User has MFA enabled but not configured - allow setup
+  const { qr } = await trpc.auth.generateMfaQr();
 
   return (
     <div className="flex justify-center items-center">

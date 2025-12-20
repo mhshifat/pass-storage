@@ -17,6 +17,7 @@ export function createRegisterSchema(t: (key: string) => string) {
     email: z.string().email(t("errors.invalidEmail")),
     password: z.string().min(8, t("errors.passwordTooShort")),
     confirmPassword: z.string(),
+    companyName: z.string().min(2, t("errors.companyNameMinLength")).regex(/^[a-zA-Z0-9-]+$/, t("errors.companyNameInvalid")),
   }).refine((data) => data.password === data.confirmPassword, {
     message: t("errors.passwordsDoNotMatch"),
     path: ["confirmPassword"],
@@ -41,6 +42,7 @@ export function RegisterFormFields({ formAction, isPending, state }: RegisterFor
       email: "",
       password: "",
       confirmPassword: "",
+      companyName: "",
     },
   })
 
@@ -169,6 +171,35 @@ export function RegisterFormFields({ formAction, isPending, state }: RegisterFor
                     />
                   </div>
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="companyName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("auth.companyName")}</FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Input
+                      type="text"
+                      placeholder={t("auth.companyNamePlaceholder")}
+                      className="pl-10"
+                      disabled={isPending}
+                      {...field}
+                      onChange={(e) => {
+                        // Convert to lowercase and replace spaces/special chars with hyphens
+                        const value = e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-")
+                        field.onChange({ target: { value } })
+                      }}
+                    />
+                  </div>
+                </FormControl>
+                <FormDescription>{t("auth.companyNameDescription")}</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

@@ -1,6 +1,7 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import { cache } from 'react';
 import superjson from 'superjson';
+import { headers } from 'next/headers';
 import { getSession } from "@/lib/session";
 import { getUserPermissions, getUserRoleName } from "@/lib/permissions";
 
@@ -8,12 +9,16 @@ export type Context = {
   userId: string;
   userRole: string | null;
   permissions: string[];
+  subdomain: string | null;
 };
 
 export const createTRPCContext = cache(async (): Promise<Context> => {
   /**
    * @see: https://trpc.io/docs/server/context
    */
+  const headersList = await headers();
+  const subdomain = headersList.get("x-subdomain") || null;
+  
   const session = await getSession();
   const userId = session.userId;
   
@@ -23,6 +28,7 @@ export const createTRPCContext = cache(async (): Promise<Context> => {
       userId: "",
       userRole: null,
       permissions: [],
+      subdomain,
     };
   }
   
@@ -37,6 +43,7 @@ export const createTRPCContext = cache(async (): Promise<Context> => {
     userId,
     userRole,
     permissions,
+    subdomain,
   };
 });
 // Avoid exporting the entire t-object

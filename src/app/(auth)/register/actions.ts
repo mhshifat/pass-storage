@@ -16,11 +16,38 @@ export async function registerAction(
   const name = formData.get("name") as string
   const email = formData.get("email") as string
   const password = formData.get("password") as string
+  const companyName = formData.get("companyName") as string
 
   try {
     const trpc = await serverTrpc()
-    await trpc.auth.register({ name, email, password })
-    redirect("/admin")
+    const result = await trpc.auth.register({ name, email, password, companyName })
+    
+    // Redirect to subdomain after successful registration
+    if (result.company?.subdomain) {
+      // Get the current request host to determine the base domain
+      const { headers } = await import("next/headers")
+      const headersList = await headers()
+      const host = headersList.get("host") || "localhost:3000"
+      const protocol = process.env.NODE_ENV === "production" ? "https" : "http"
+      
+      // Extract base domain
+      // For localhost:3000, keep as is
+      // For production, extract domain.tld from host
+      let baseDomain = "localhost:3000"
+      if (!host.includes("localhost")) {
+        const parts = host.split(".")
+        if (parts.length >= 2) {
+          baseDomain = parts.slice(-2).join(".")
+        } else {
+          baseDomain = host
+        }
+      }
+      
+      const subdomainUrl = `${protocol}://${result.company.subdomain}.${baseDomain}/admin`
+      redirect(subdomainUrl)
+    } else {
+      redirect("/admin")
+    }
   } catch (error: unknown) {
     // Re-throw redirect errors
     if (isRedirectError(error)) {

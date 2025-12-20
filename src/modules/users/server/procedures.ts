@@ -18,15 +18,30 @@ export const usersRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      // Check if user already exists
-      const existingUser = await prisma.user.findUnique({
-        where: { email: input.email },
+      // Get current user's company from subdomain context first
+      let companyId: string | undefined = undefined
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      }
+
+      // Check if user already exists in this company
+      const existingUser = await prisma.user.findFirst({
+        where: { 
+          email: input.email,
+          companyId: companyId || null, // Check within the same company (or null if no company)
+        },
       })
 
       if (existingUser) {
         throw new TRPCError({
           code: "CONFLICT",
-          message: "User with this email already exists",
+          message: "User with this email already exists in your company",
         })
       }
 
@@ -82,6 +97,7 @@ export const usersRouter = createTRPCRouter({
           role: roleValue,
           mfaEnabled: input.mfaEnabled,
           isActive: input.isActive,
+          companyId,
           createdById,
         },
         select: {
@@ -134,6 +150,7 @@ export const usersRouter = createTRPCRouter({
           id: true,
           email: true, // Include email to check if it's being changed
           createdById: true,
+          companyId: true, // Include companyId to check for email conflicts within same company
         },
       })
 
@@ -154,8 +171,13 @@ export const usersRouter = createTRPCRouter({
 
       // If email is being updated, check for conflicts (only if email actually changed)
       if (data.email && data.email !== existingUser.email) {
-        const emailTaken = await prisma.user.findUnique({
-          where: { email: data.email },
+        // Check if email is taken within the same company
+        const emailTaken = await prisma.user.findFirst({
+          where: { 
+            email: data.email,
+            companyId: existingUser.companyId || null,
+            id: { not: input.id }, // Exclude the current user
+          },
         })
 
         if (emailTaken) {

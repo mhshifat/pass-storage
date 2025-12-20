@@ -120,6 +120,14 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.CompanyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  subdomain: 'subdomain',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -133,6 +141,7 @@ exports.Prisma.UserScalarFieldEnum = {
   mfaEnabled: 'mfaEnabled',
   mfaSecret: 'mfaSecret',
   mfaMethod: 'mfaMethod',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   lastLoginAt: 'lastLoginAt',
@@ -362,6 +371,7 @@ exports.AuditStatus = exports.$Enums.AuditStatus = {
 };
 
 exports.Prisma.ModelName = {
+  Company: 'Company',
   User: 'User',
   Account: 'Account',
   Session: 'Session',

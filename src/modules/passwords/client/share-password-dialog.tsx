@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { useState, useEffect } from "react"
 import { useActionState } from "react"
 import { useForm } from "react-hook-form"
@@ -112,7 +113,9 @@ export function SharePasswordDialog({
     if (values.expiresAt) {
       formData.append("expiresAt", values.expiresAt)
     }
-    shareFormAction(formData)
+    React.startTransition(() => {
+      shareFormAction(formData)
+    })
   }
 
   const teams = teamsData?.teams || []

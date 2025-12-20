@@ -11,10 +11,23 @@ datasource db {
   provider = "postgresql"
 }
 
+model Company {
+  id          String   @id @default(cuid())
+  name        String
+  subdomain   String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  users       User[]
+
+  @@index([subdomain])
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String
-  email         String    @unique
+  email         String
   emailVerified DateTime?
   image         String?
   password      String?   // Optional for OAuth users
@@ -24,11 +37,13 @@ model User {
   mfaEnabled    Boolean   @default(false)
   mfaSecret     String?   // For TOTP MFA
   mfaMethod     MfaMethod? // Preferred MFA method
+  companyId     String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   lastLoginAt   DateTime?
 
   // Relations
+  company           Company?         @relation(fields: [companyId], references: [id], onDelete: SetNull)
   ownedPasswords     Password[]      @relation("PasswordOwner")
   sharedPasswords    PasswordShare[]
   teamMemberships    TeamMember[]
@@ -45,6 +60,7 @@ model User {
 
   @@index([email])
   @@index([phoneNumber])
+  @@index([companyId])
 }
 
 model Account {

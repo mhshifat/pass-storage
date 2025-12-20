@@ -2,7 +2,7 @@
 CREATE TYPE "UserRole" AS ENUM ('SUPER_ADMIN', 'ADMIN', 'MANAGER', 'USER', 'AUDITOR');
 
 -- CreateEnum
-CREATE TYPE "GroupRole" AS ENUM ('MANAGER', 'MEMBER');
+CREATE TYPE "TeamRole" AS ENUM ('MANAGER', 'MEMBER');
 
 -- CreateEnum
 CREATE TYPE "SharePermission" AS ENUM ('READ', 'WRITE', 'ADMIN');
@@ -13,6 +13,20 @@ CREATE TYPE "PasswordStrength" AS ENUM ('WEAK', 'MEDIUM', 'STRONG');
 -- CreateEnum
 CREATE TYPE "AuditStatus" AS ENUM ('SUCCESS', 'FAILED', 'WARNING', 'BLOCKED');
 
+-- CreateEnum
+CREATE TYPE "MfaMethod" AS ENUM ('TOTP', 'SMS', 'EMAIL', 'WEBAUTHN');
+
+-- CreateTable
+CREATE TABLE "Company" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "subdomain" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Company_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -20,14 +34,18 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
-    "password" TEXT NOT NULL,
-    "role" "UserRole" NOT NULL DEFAULT 'USER',
+    "password" TEXT,
+    "phoneNumber" TEXT,
+    "role" TEXT NOT NULL DEFAULT 'USER',
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "mfaEnabled" BOOLEAN NOT NULL DEFAULT false,
     "mfaSecret" TEXT,
+    "mfaMethod" "MfaMethod",
+    "companyId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "lastLoginAt" TIMESTAMP(3),
+    "createdById" TEXT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -102,7 +120,7 @@ CREATE TABLE "PasswordShare" (
     "id" TEXT NOT NULL,
     "passwordId" TEXT NOT NULL,
     "userId" TEXT,
-    "groupId" TEXT,
+    "teamId" TEXT,
     "permission" "SharePermission" NOT NULL DEFAULT 'READ',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "expiresAt" TIMESTAMP(3),
@@ -111,25 +129,25 @@ CREATE TABLE "PasswordShare" (
 );
 
 -- CreateTable
-CREATE TABLE "Group" (
+CREATE TABLE "Team" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Group_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Team_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "GroupMember" (
+CREATE TABLE "TeamMember" (
     "id" TEXT NOT NULL,
-    "groupId" TEXT NOT NULL,
+    "teamId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "role" "GroupRole" NOT NULL DEFAULT 'MEMBER',
+    "role" "TeamRole" NOT NULL DEFAULT 'MEMBER',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "GroupMember_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "TeamMember_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -178,11 +196,84 @@ CREATE TABLE "Settings" (
     CONSTRAINT "Settings_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Role" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "description" TEXT,
+    "isSystem" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "createdById" TEXT,
+
+    CONSTRAINT "Role_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Permission" (
+    "id" TEXT NOT NULL,
+    "key" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "description" TEXT,
+    "category" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Permission_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "RolePermission" (
+    "id" TEXT NOT NULL,
+    "roleId" TEXT NOT NULL,
+    "permissionId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "RolePermission_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "MfaCredential" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "credentialId" TEXT NOT NULL,
+    "publicKey" TEXT NOT NULL,
+    "counter" BIGINT NOT NULL DEFAULT 0,
+    "deviceType" TEXT,
+    "backedUp" BOOLEAN NOT NULL DEFAULT false,
+    "transports" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "lastUsedAt" TIMESTAMP(3),
+
+    CONSTRAINT "MfaCredential_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "RecoveryCode" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "codeHash" TEXT NOT NULL,
+    "used" BOOLEAN NOT NULL DEFAULT false,
+    "usedAt" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "RecoveryCode_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "Company_subdomain_key" ON "Company"("subdomain");
+
+-- CreateIndex
+CREATE INDEX "Company_subdomain_idx" ON "Company"("subdomain");
 
 -- CreateIndex
 CREATE INDEX "User_email_idx" ON "User"("email");
+
+-- CreateIndex
+CREATE INDEX "User_phoneNumber_idx" ON "User"("phoneNumber");
+
+-- CreateIndex
+CREATE INDEX "User_companyId_idx" ON "User"("companyId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
@@ -209,19 +300,19 @@ CREATE INDEX "PasswordShare_passwordId_idx" ON "PasswordShare"("passwordId");
 CREATE INDEX "PasswordShare_userId_idx" ON "PasswordShare"("userId");
 
 -- CreateIndex
-CREATE INDEX "PasswordShare_groupId_idx" ON "PasswordShare"("groupId");
+CREATE INDEX "PasswordShare_teamId_idx" ON "PasswordShare"("teamId");
 
 -- CreateIndex
-CREATE INDEX "Group_name_idx" ON "Group"("name");
+CREATE INDEX "Team_name_idx" ON "Team"("name");
 
 -- CreateIndex
-CREATE INDEX "GroupMember_groupId_idx" ON "GroupMember"("groupId");
+CREATE INDEX "TeamMember_teamId_idx" ON "TeamMember"("teamId");
 
 -- CreateIndex
-CREATE INDEX "GroupMember_userId_idx" ON "GroupMember"("userId");
+CREATE INDEX "TeamMember_userId_idx" ON "TeamMember"("userId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "GroupMember_groupId_userId_key" ON "GroupMember"("groupId", "userId");
+CREATE UNIQUE INDEX "TeamMember_teamId_userId_key" ON "TeamMember"("teamId", "userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Tag_name_key" ON "Tag"("name");
@@ -250,6 +341,54 @@ CREATE UNIQUE INDEX "Settings_key_key" ON "Settings"("key");
 -- CreateIndex
 CREATE INDEX "Settings_key_idx" ON "Settings"("key");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Role_name_key" ON "Role"("name");
+
+-- CreateIndex
+CREATE INDEX "Role_name_idx" ON "Role"("name");
+
+-- CreateIndex
+CREATE INDEX "Role_createdById_idx" ON "Role"("createdById");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Permission_key_key" ON "Permission"("key");
+
+-- CreateIndex
+CREATE INDEX "Permission_key_idx" ON "Permission"("key");
+
+-- CreateIndex
+CREATE INDEX "Permission_category_idx" ON "Permission"("category");
+
+-- CreateIndex
+CREATE INDEX "RolePermission_roleId_idx" ON "RolePermission"("roleId");
+
+-- CreateIndex
+CREATE INDEX "RolePermission_permissionId_idx" ON "RolePermission"("permissionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "RolePermission_roleId_permissionId_key" ON "RolePermission"("roleId", "permissionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "MfaCredential_credentialId_key" ON "MfaCredential"("credentialId");
+
+-- CreateIndex
+CREATE INDEX "MfaCredential_userId_idx" ON "MfaCredential"("userId");
+
+-- CreateIndex
+CREATE INDEX "MfaCredential_credentialId_idx" ON "MfaCredential"("credentialId");
+
+-- CreateIndex
+CREATE INDEX "RecoveryCode_userId_idx" ON "RecoveryCode"("userId");
+
+-- CreateIndex
+CREATE INDEX "RecoveryCode_codeHash_idx" ON "RecoveryCode"("codeHash");
+
+-- AddForeignKey
+ALTER TABLE "User" ADD CONSTRAINT "User_companyId_fkey" FOREIGN KEY ("companyId") REFERENCES "Company"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "User" ADD CONSTRAINT "User_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -272,13 +411,13 @@ ALTER TABLE "PasswordShare" ADD CONSTRAINT "PasswordShare_passwordId_fkey" FOREI
 ALTER TABLE "PasswordShare" ADD CONSTRAINT "PasswordShare_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PasswordShare" ADD CONSTRAINT "PasswordShare_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "PasswordShare" ADD CONSTRAINT "PasswordShare_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "GroupMember" ADD CONSTRAINT "GroupMember_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "TeamMember" ADD CONSTRAINT "TeamMember_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "GroupMember" ADD CONSTRAINT "GroupMember_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "TeamMember" ADD CONSTRAINT "TeamMember_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PasswordTag" ADD CONSTRAINT "PasswordTag_passwordId_fkey" FOREIGN KEY ("passwordId") REFERENCES "Password"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -290,4 +429,16 @@ ALTER TABLE "PasswordTag" ADD CONSTRAINT "PasswordTag_tagId_fkey" FOREIGN KEY ("
 ALTER TABLE "AuditLog" ADD CONSTRAINT "AuditLog_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "AuditLog" ADD CONSTRAINT "AuditLog_resourceId_fkey" FOREIGN KEY ("resourceId") REFERENCES "Password"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Role" ADD CONSTRAINT "Role_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "RolePermission" ADD CONSTRAINT "RolePermission_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "Role"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "RolePermission" ADD CONSTRAINT "RolePermission_permissionId_fkey" FOREIGN KEY ("permissionId") REFERENCES "Permission"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MfaCredential" ADD CONSTRAINT "MfaCredential_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "RecoveryCode" ADD CONSTRAINT "RecoveryCode_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

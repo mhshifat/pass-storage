@@ -197,7 +197,9 @@ export function PasswordFormDialog({
       if (mode === "edit" && password?.id) {
         formData.append("passwordId", password.id)
       }
-      formAction(formData)
+      React.startTransition(() => {
+        formAction(formData)
+      })
     } else if (onSubmit) {
       // Use callback for backward compatibility
       const values = form.getValues()

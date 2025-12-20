@@ -1,5 +1,8 @@
 {
   "common": {
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "searching": "Searching...",
     "save": "Save",
     "cancel": "Cancel",
     "delete": "Delete",
@@ -56,7 +59,13 @@
     "registerDescription": "Enter your information to get started",
     "emailPlaceholder": "you@example.com",
     "namePlaceholder": "John Doe",
-    "passwordDescription": "Must be at least 8 characters. Click the key icon to generate a strong password."
+    "passwordDescription": "Must be at least 8 characters. Click the key icon to generate a strong password.",
+    "companyName": "Company Name",
+    "companyNamePlaceholder": "mycompany",
+    "companyNameDescription": "This will create your subdomain (e.g., mycompany.passstorage.com). Only lowercase letters, numbers, and hyphens are allowed.",
+    "findYourCompany": "Find Your Company",
+    "findYourCompanyDescription": "Enter your company name to find your login page.",
+    "companyNotFound": "Company not found. Please check the company name and try again."
   },
   "dashboard": {
     "title": "Dashboard",
@@ -93,7 +102,8 @@
     "unusualLoginActivity": "Unusual login activity detected ({{count}} failed attempts in last 24h)",
     "suspiciousAccessPattern": "Suspicious access pattern: {{count}} IP address{{count, plural, one {} other {es}}} with multiple failed login attempts",
     "expiringPasswords": "{{count}} password{{count, plural, one {} other {s}}} will expire in the next 7 days",
-    "usersWithoutMfa": "{{count}} user{{count, plural, one {} other {s}}} ({{percentage}}%) without MFA enabled",
+    "usersWithoutMfa_one": "{{count}} user without MFA enabled",
+    "usersWithoutMfa_other": "{{count}} users without MFA enabled",
     "unusedPasswords": "{{count}} password{{count, plural, one {} other {s}}} haven't been accessed in 90+ days. Consider reviewing.",
     "backupCompleted": "System backup completed successfully {{hours}} hour{{hours, plural, one {} other {s}}} ago",
     "backupOld": "Last system backup was {{days}} day{{days, plural, one {} other {s}}} ago",
@@ -637,6 +647,8 @@
     "userNotFound": "User not found"
   },
   "errors": {
+    "companyNameMinLength": "Company name must be at least 2 characters",
+    "companyNameInvalid": "Company name can only contain letters, numbers, and hyphens",
     "required": "This field is required",
     "invalidEmail": "Invalid email address",
     "passwordTooShort": "Password must be at least 8 characters",

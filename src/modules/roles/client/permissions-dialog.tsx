@@ -99,7 +99,9 @@ export function PermissionsDialog({ open, onOpenChange, role, permissions }: Per
     if (!role?.id) return
     
     const formData = new FormData()
-    saveFormAction(formData)
+    React.startTransition(() => {
+      saveFormAction(formData)
+    })
   }
 
   if (isLoadingPermissions) {

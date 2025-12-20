@@ -140,7 +140,7 @@ export function SecurityAlerts({ alerts: initialAlerts }: SecurityAlertsProps) {
                   <IconComponent className={`h-5 w-5 mt-0.5 shrink-0 ${config.color}`} />
                   <div className="flex-1 space-y-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <Badge variant={config.badge as any} className="text-xs">
+                      <Badge variant={config.badge as unknown as null} className="text-xs">
                         {getSeverityLabel(alert.severity)}
                       </Badge>
                     </div>

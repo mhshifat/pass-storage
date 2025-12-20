@@ -1,16 +1,17 @@
 "use client"
 
-import { useActionState } from "react"
+import { useState, useActionState } from "react"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { RegisterFormFields } from "./register-form-fields"
 import { registerAction } from "@/app/(auth)/register/actions"
-import Link from "next/link"
 import { useTranslation } from "react-i18next"
+import { CompanyLoginDialog } from "./company-login-dialog"
 
 export function RegisterForm() {
   const { t } = useTranslation()
   const [state, formAction, isPending] = useActionState(registerAction, null)
+  const [showCompanyDialog, setShowCompanyDialog] = useState(false)
 
   return (
     <>
@@ -23,11 +24,16 @@ export function RegisterForm() {
         </Button>
         <div className="text-sm text-center text-muted-foreground">
           {t("auth.alreadyHaveAccount")}{" "}
-          <Link href="/login" className="text-primary hover:underline font-medium">
+          <button
+            type="button"
+            onClick={() => setShowCompanyDialog(true)}
+            className="text-primary hover:underline font-medium"
+          >
             {t("auth.login")}
-          </Link>
+          </button>
         </div>
       </CardFooter>
+      <CompanyLoginDialog open={showCompanyDialog} onOpenChange={setShowCompanyDialog} />
     </>
   )
 }

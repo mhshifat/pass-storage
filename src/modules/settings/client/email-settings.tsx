@@ -1,6 +1,7 @@
 
 "use client"
 
+import * as React from "react"
 import { useState, useEffect, useActionState } from "react"
 import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -119,7 +120,9 @@ export function EmailSettings({ config }: EmailSettingsProps) {
                 Object.entries(submitData).forEach(([key, value]) => {
                   formData.append(key, String(value))
                 })
-                formAction(formData)
+                React.startTransition(() => {
+                  formAction(formData)
+                })
               })}
               className="space-y-6"
             >
