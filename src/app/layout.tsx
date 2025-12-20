@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { NavigationProgress } from "@/components/providers/navigation-progress";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ThemeInitializer } from "@/components/providers/theme-initializer";
+import { I18nProvider } from "@/components/providers/i18n-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,12 +39,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TRPCReactProvider>
-            <ThemeInitializer />
-            <NavigationProgress showFullPageLoader={false} />
-            {children}
-          </TRPCReactProvider>
-          <Toaster />
+          <I18nProvider>
+            <TRPCReactProvider>
+              <ThemeInitializer />
+              <NavigationProgress showFullPageLoader={false} />
+              {children}
+            </TRPCReactProvider>
+            <Toaster />
+          </I18nProvider>
         </ThemeProvider>
       </body>
     </html>

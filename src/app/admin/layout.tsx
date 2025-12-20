@@ -26,6 +26,16 @@ export default function AdminLayout({
     getUserData().then(setUser)
   }, [])
 
+  // Prevent body scrolling when in admin layout
+  React.useEffect(() => {
+    document.body.style.overflow = "hidden"
+    document.documentElement.style.overflow = "hidden"
+    return () => {
+      document.body.style.overflow = ""
+      document.documentElement.style.overflow = ""
+    }
+  }, [])
+
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed)
   }
@@ -67,7 +77,7 @@ export default function AdminLayout({
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden">
           {children}
         </main>
       </div>

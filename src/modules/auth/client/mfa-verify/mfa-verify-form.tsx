@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useTransition } from "react"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { MfaVerifyAlert } from "./mfa-verify-alert"
 import { verifyMfaAction } from "@/app/(auth-mfa)/mfa-verify/actions"
@@ -16,11 +17,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { trpc } from "@/trpc/client"
 import { Separator } from "@/components/ui/separator"
 
-const mfaVerifyFormSchema = z.object({
-  code: z.string().min(1, "Code is required"),
-});
-
-type MfaVerifyFormData = z.infer<typeof mfaVerifyFormSchema>;
+export function createMfaVerifyFormSchema(t: (key: string) => string) {
+  return z.object({
+    code: z.string().min(1, t("mfa.codeRequired")),
+  })
+}
 
 export function MfaVerifyForm() {
   const router = useRouter();
@@ -63,7 +64,7 @@ export function MfaVerifyForm() {
     startTransition(async () => {
       const res = await verifyMfaAction(null, formData)
       if (!res.success) {
-        setError(res.error || "Invalid code")
+        setError(res.error || t("mfa.invalidCode"))
       } else {
          router.push("/admin");
       }
@@ -75,8 +76,8 @@ export function MfaVerifyForm() {
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
             <Tabs value={tab} onValueChange={(v) => setTab(v as "code" | "recovery")}>
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="code">MFA Code</TabsTrigger>
-                <TabsTrigger value="recovery">Recovery Code</TabsTrigger>
+                <TabsTrigger value="code">{t("mfa.mfaCode")}</TabsTrigger>
+                <TabsTrigger value="recovery">{t("mfa.recoveryCode")}</TabsTrigger>
               </TabsList>
               
               <TabsContent value="code" className="space-y-4">
@@ -85,7 +86,7 @@ export function MfaVerifyForm() {
                   name="code"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Enter 6-digit code from your authenticator app</FormLabel>
+                      <FormLabel>{t("mfa.enterCode")}</FormLabel>
                       <FormControl>
                         <InputOTP
                           maxLength={6} 
@@ -116,9 +117,9 @@ export function MfaVerifyForm() {
                   name="code"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Enter your recovery code</FormLabel>
+                      <FormLabel>{t("mfa.enterRecoveryCode")}</FormLabel>
                       <FormDescription>
-                        Format: XXXX-XXXX-XXXX (use a recovery code you saved earlier)
+                        {t("mfa.recoveryCodeFormat")}
                       </FormDescription>
                       <FormControl>
                         <Input
@@ -148,7 +149,7 @@ export function MfaVerifyForm() {
 
             <MfaVerifyAlert error={error} />
             <Button type="submit" className="w-full" disabled={isPending || verifyRecoveryCode.isPending}>
-                {isPending || verifyRecoveryCode.isPending ? "Verifying..." : "Verify"}
+                {isPending || verifyRecoveryCode.isPending ? t("mfa.verifying") : t("mfa.verifyCode")}
             </Button>
         </form>
     </Form>

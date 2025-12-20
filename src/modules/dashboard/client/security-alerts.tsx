@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -13,8 +14,12 @@ interface Alert {
   id: string
   severity: "critical" | "high" | "medium" | "low"
   type: "warning" | "info" | "error"
-  message: string
-  time: string
+  message?: string
+  messageKey?: string
+  messageParams?: Record<string, number>
+  time?: string
+  timeKey?: string
+  timeParams?: Record<string, number>
 }
 
 interface SecurityAlertsProps {
@@ -49,17 +54,18 @@ const severityConfig = {
 }
 
 export function SecurityAlerts({ alerts: initialAlerts }: SecurityAlertsProps) {
+  const { t } = useTranslation()
   const router = useRouter()
   const [dismissedAlerts, setDismissedAlerts] = useState<Set<string>>(new Set())
   const utils = trpc.useUtils()
   const dismissAlert = trpc.dashboard.dismissAlert.useMutation({
     onSuccess: () => {
-      toast.success("Alert dismissed")
+      toast.success(t("dashboard.alertDismissed"))
       // Invalidate alerts to refetch
       utils.dashboard.securityAlerts.invalidate()
     },
     onError: (error) => {
-      toast.error(`Failed to dismiss alert: ${error.message}`)
+      toast.error(t("dashboard.alertDismissFailed", { error: error.message }))
     },
   })
 
@@ -78,15 +84,15 @@ export function SecurityAlerts({ alerts: initialAlerts }: SecurityAlertsProps) {
   )
 
   const getSeverityLabel = (severity: Alert["severity"]) => {
-    return severity.charAt(0).toUpperCase() + severity.slice(1)
+    return t(`dashboard.severity.${severity}`)
   }
 
   return (
     <Card className="lg:col-span-1">
       <CardHeader>
-        <CardTitle>Security Alerts</CardTitle>
+        <CardTitle>{t("dashboard.securityAlerts")}</CardTitle>
         <CardDescription>
-          Important notifications and warnings
+          {t("dashboard.securityAlertsDescription")}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -115,9 +121,9 @@ export function SecurityAlerts({ alerts: initialAlerts }: SecurityAlertsProps) {
                 opacity="0.3"
               />
             </svg>
-            <h3 className="text-sm font-semibold mt-4 mb-1">All clear!</h3>
+            <h3 className="text-sm font-semibold mt-4 mb-1">{t("dashboard.allClear")}</h3>
             <p className="text-xs text-muted-foreground max-w-xs">
-              No active security alerts. Your system is secure.
+              {t("dashboard.noSecurityAlerts")}
             </p>
           </div>
         ) : (
@@ -139,10 +145,17 @@ export function SecurityAlerts({ alerts: initialAlerts }: SecurityAlertsProps) {
                       </Badge>
                     </div>
                     <p className="text-sm font-medium leading-none">
-                      {alert.message}
+                      {alert.messageKey 
+                        ? t(alert.messageKey, {
+                            ...alert.messageParams,
+                            count: alert.messageParams?.count || 0,
+                          })
+                        : alert.message}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {alert.time}
+                      {alert.timeKey 
+                        ? t(alert.timeKey, alert.timeParams || {})
+                        : alert.time}
                     </p>
                   </div>
                   <Button
@@ -164,7 +177,7 @@ export function SecurityAlerts({ alerts: initialAlerts }: SecurityAlertsProps) {
           className="w-full mt-4"
           onClick={handleViewAllAlerts}
         >
-          View All Alerts
+          {t("dashboard.viewAllAlerts")}
         </Button>
       </CardContent>
     </Card>

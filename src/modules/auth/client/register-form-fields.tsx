@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -10,17 +11,17 @@ import { Input } from "@/components/ui/input"
 import { PasswordInput, generateStrongPassword } from "@/components/ui/password-input"
 import { Lock, Mail, User, AlertCircle } from "lucide-react"
 
-const registerSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords do not match",
-  path: ["confirmPassword"],
-})
-
-type RegisterFormValues = z.infer<typeof registerSchema>
+export function createRegisterSchema(t: (key: string) => string) {
+  return z.object({
+    name: z.string().min(2, t("errors.nameMinLength")),
+    email: z.string().email(t("errors.invalidEmail")),
+    password: z.string().min(8, t("errors.passwordTooShort")),
+    confirmPassword: z.string(),
+  }).refine((data) => data.password === data.confirmPassword, {
+    message: t("errors.passwordsDoNotMatch"),
+    path: ["confirmPassword"],
+  })
+}
 
 interface RegisterFormFieldsProps {
   formAction: (payload: FormData) => void
@@ -29,6 +30,10 @@ interface RegisterFormFieldsProps {
 }
 
 export function RegisterFormFields({ formAction, isPending, state }: RegisterFormFieldsProps) {
+  const { t } = useTranslation()
+  const registerSchema = createRegisterSchema(t)
+  type RegisterFormValues = z.infer<typeof registerSchema>
+  
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -77,13 +82,13 @@ export function RegisterFormFields({ formAction, isPending, state }: RegisterFor
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Full Name</FormLabel>
+                <FormLabel>{t("users.fullName")}</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                     <Input
                       type="text"
-                      placeholder="John Doe"
+                      placeholder={t("auth.namePlaceholder")}
                       className="pl-10"
                       disabled={isPending}
                       {...field}
@@ -100,13 +105,13 @@ export function RegisterFormFields({ formAction, isPending, state }: RegisterFor
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t("auth.email")}</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                     <Input
                       type="email"
-                      placeholder="you@example.com"
+                      placeholder={t("auth.emailPlaceholder")}
                       className="pl-10"
                       disabled={isPending}
                       {...field}
@@ -123,7 +128,7 @@ export function RegisterFormFields({ formAction, isPending, state }: RegisterFor
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>{t("auth.password")}</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400 z-10" />
@@ -140,7 +145,7 @@ export function RegisterFormFields({ formAction, isPending, state }: RegisterFor
                     />
                   </div>
                 </FormControl>
-                <FormDescription>Must be at least 8 characters. Click the key icon to generate a strong password.</FormDescription>
+                <FormDescription>{t("auth.passwordDescription")}</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -151,7 +156,7 @@ export function RegisterFormFields({ formAction, isPending, state }: RegisterFor
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
+                <FormLabel>{t("profile.confirmPassword")}</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />

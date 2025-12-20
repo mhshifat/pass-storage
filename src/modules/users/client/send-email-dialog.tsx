@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import {
   Dialog,
   DialogContent,
@@ -31,6 +32,7 @@ export function SendEmailDialog({
   userEmail,
   userName,
 }: SendEmailDialogProps) {
+  const { t } = useTranslation()
   const [subject, setSubject] = useState("")
   const [message, setMessage] = useState("")
   const [error, setError] = useState("")
@@ -40,12 +42,12 @@ export function SendEmailDialog({
     setError("")
 
     if (!subject.trim()) {
-      setError("Subject is required")
+      setError(t("users.emailSubjectRequired"))
       return
     }
 
     if (!message.trim()) {
-      setError("Message is required")
+      setError(t("users.emailMessageRequired"))
       return
     }
 
@@ -56,7 +58,7 @@ export function SendEmailDialog({
       setMessage("")
       onOpenChange(false)
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to send email")
+      setError(err instanceof Error ? err.message : t("users.emailSendFailed"))
     } finally {
       setIsLoading(false)
     }
@@ -73,11 +75,11 @@ export function SendEmailDialog({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[525px]">
         <DialogHeader>
-          <DialogTitle>Send Email</DialogTitle>
+          <DialogTitle>{t("users.sendEmail")}</DialogTitle>
           <DialogDescription>
             {userName && userEmail
-              ? `Send an email to ${userName} (${userEmail})`
-              : "Compose and send an email to this user"}
+              ? t("users.sendEmailDescription", { userName, userEmail })
+              : t("users.sendEmailDescriptionGeneric")}
           </DialogDescription>
         </DialogHeader>
 
@@ -90,7 +92,7 @@ export function SendEmailDialog({
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="to">To</Label>
+            <Label htmlFor="to">{t("users.emailTo")}</Label>
             <Input
               id="to"
               type="email"
@@ -101,10 +103,10 @@ export function SendEmailDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="subject">Subject</Label>
+            <Label htmlFor="subject">{t("users.emailSubject")}</Label>
             <Input
               id="subject"
-              placeholder="Enter email subject"
+              placeholder={t("users.emailSubjectPlaceholder")}
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
               disabled={isLoading}
@@ -112,10 +114,10 @@ export function SendEmailDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="message">Message</Label>
+            <Label htmlFor="message">{t("users.emailMessage")}</Label>
             <Textarea
               id="message"
-              placeholder="Enter your message"
+              placeholder={t("users.emailMessagePlaceholder")}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               disabled={isLoading}
@@ -126,10 +128,10 @@ export function SendEmailDialog({
 
         <DialogFooter>
           <Button variant="outline" onClick={handleClose} disabled={isLoading}>
-            Cancel
+            {t("common.cancel")}
           </Button>
           <Button onClick={handleConfirm} disabled={isLoading}>
-            {isLoading ? "Sending..." : "Send Email"}
+            {isLoading ? t("users.sending") : t("users.sendEmail")}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -204,7 +204,8 @@ export const auditLogsRouter = createTRPCRouter({
       return {
         totalEvents: {
           value: totalEvents,
-          label: `Last ${days} days`,
+          labelKey: "audit.lastDays",
+          labelParams: { days },
         },
         failedLogins: {
           value: failedLogins,
@@ -213,7 +214,8 @@ export const auditLogsRouter = createTRPCRouter({
         },
         passwordChanges: {
           value: passwordChanges,
-          label: `Last ${days} days`,
+          labelKey: "audit.lastDays",
+          labelParams: { days },
         },
         securityAlerts: {
           value: securityAlerts,
@@ -231,7 +233,8 @@ export const auditLogsRouter = createTRPCRouter({
         orderBy: { action: "asc" },
       })
 
-      return ["All Actions", ...actions.map((a) => a.action)]
+      // Return action keys for client-side translation
+      return actions.map((a) => a.action)
     }),
 
   getUsers: protectedProcedure("audit.view")

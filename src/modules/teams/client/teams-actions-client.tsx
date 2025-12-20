@@ -22,6 +22,7 @@ import { TeamMembersDialog } from "./team-members-dialog"
 import { TeamPasswordsDialog } from "./team-passwords-dialog"
 import { TeamsPagination } from "./teams-pagination"
 import { createTeamAction, updateTeamAction, deleteTeamAction } from "@/app/admin/teams/actions"
+import { useTranslation } from "react-i18next"
 import { usePermissions } from "@/hooks/use-permissions"
 
 interface Team {
@@ -45,6 +46,7 @@ interface TeamsActionsClientProps {
 }
 
 export function TeamsActionsClient({ teams, pagination }: TeamsActionsClientProps) {
+  const { t } = useTranslation()
   const router = useRouter()
   const { hasPermission } = usePermissions()
   const [isCreateDialogOpen, setIsCreateDialogOpen] = React.useState(false)
@@ -64,24 +66,24 @@ export function TeamsActionsClient({ teams, pagination }: TeamsActionsClientProp
 
   React.useEffect(() => {
     if (createState?.success) {
-      toast.success("Team created successfully")
+      toast.success(t("teams.teamCreatedSuccess"))
       setIsCreateDialogOpen(false)
       router.refresh()
     } else if (createState?.error) {
       toast.error(createState.error)
     }
-  }, [createState, router])
+  }, [createState, router, t])
 
   React.useEffect(() => {
     if (updateState?.success) {
-      toast.success("Team updated successfully")
+      toast.success(t("teams.teamUpdatedSuccess"))
       setIsEditDialogOpen(false)
       setTeamToEdit(null)
       router.refresh()
     } else if (updateState?.error) {
       toast.error(updateState.error)
     }
-  }, [updateState, router])
+  }, [updateState, router, t])
 
   const handleViewMembers = (team: Team) => {
     setSelectedTeam(team)
@@ -109,7 +111,7 @@ export function TeamsActionsClient({ teams, pagination }: TeamsActionsClientProp
     try {
       const result = await deleteTeamAction(teamToDelete)
       if (result.success) {
-        toast.success("Team deleted successfully")
+        toast.success(t("teams.teamDeletedSuccess"))
         setIsDeleteDialogOpen(false)
         setTeamToDelete(null)
         router.refresh()
@@ -117,26 +119,18 @@ export function TeamsActionsClient({ teams, pagination }: TeamsActionsClientProp
         toast.error(result.error)
       }
     } catch {
-      toast.error("Failed to delete team")
+      toast.error(t("teams.teamDeleteFailed"))
     }
   }
 
   return (
     <>
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Teams</h1>
-          <p className="text-muted-foreground mt-1">
-            Manage teams and organize password access
-          </p>
-        </div>
-        {hasPermission("team.create") && (
-          <Button onClick={() => setIsCreateDialogOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" />
-            Create Team
-          </Button>
-        )}
-      </div>
+      {hasPermission("team.create") && (
+        <Button onClick={() => setIsCreateDialogOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" />
+          {t("teams.createTeam")}
+        </Button>
+      )}
 
       <TeamsTable
         teams={teams}
@@ -190,16 +184,15 @@ export function TeamsActionsClient({ teams, pagination }: TeamsActionsClientProp
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>{t("teams.confirmDelete")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the team and remove all
-              associated members and password shares.
+              {t("teams.deleteWarning")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
             <AlertDialogAction onClick={confirmDelete} className="bg-red-600 hover:bg-red-700">
-              Delete
+              {t("common.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

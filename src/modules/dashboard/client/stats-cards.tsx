@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Users, Lock, Shield, AlertTriangle, LucideIcon } from "lucide-react"
 
@@ -23,6 +24,8 @@ const iconMap: Record<string, LucideIcon> = {
 }
 
 export function StatsCards({ stats }: StatsCardsProps) {
+  const { t } = useTranslation()
+  
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       {stats.map((stat) => {
@@ -38,7 +41,7 @@ export function StatsCards({ stats }: StatsCardsProps) {
             <CardContent>
               <div className="text-2xl font-bold">{stat.value}</div>
               <p className={`text-xs ${stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'}`}>
-                {stat.change} from last month
+                {t("dashboard.changeFromLastMonth", { change: stat.change })}
               </p>
             </CardContent>
           </Card>

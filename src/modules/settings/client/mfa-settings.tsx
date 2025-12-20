@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -36,6 +37,7 @@ const mfaSettingsSchema = z.object({
 type MfaSettingsFormValues = z.infer<typeof mfaSettingsSchema>
 
 export function MfaSettings() {
+  const { t } = useTranslation()
   const { hasPermission } = usePermissions()
   const canEdit = hasPermission("settings.edit")
   const { data: settings, isLoading, error } = trpc.settings.getMfaSettings.useQuery()
@@ -43,12 +45,12 @@ export function MfaSettings() {
   const utils = trpc.useUtils()
   const updateSettings = trpc.settings.updateMfaSettings.useMutation({
     onSuccess: () => {
-      toast.success("MFA settings saved successfully")
+      toast.success(t("settings.mfaSettingsSaved"))
       utils.settings.getMfaSettings.invalidate()
       utils.settings.checkMfaCredentialsStatus.invalidate()
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to save MFA settings")
+      toast.error(error.message || t("settings.mfaSettingsFailed"))
     },
   })
 
@@ -98,12 +100,12 @@ export function MfaSettings() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Multi-Factor Authentication</CardTitle>
-          <CardDescription>Configure MFA requirements and options</CardDescription>
+          <CardTitle>{t("settings.mfa.title")}</CardTitle>
+          <CardDescription>{t("settings.mfa.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="text-center py-8 text-destructive">
-            <p>Failed to load settings: {error.message}</p>
+            <p>{t("settings.mfa.loadFailed", { error: error.message })}</p>
           </div>
         </CardContent>
       </Card>
@@ -115,15 +117,15 @@ export function MfaSettings() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Multi-Factor Authentication</CardTitle>
-            <CardDescription>Configure MFA requirements and options</CardDescription>
+            <CardTitle>{t("settings.mfa.title")}</CardTitle>
+            <CardDescription>{t("settings.mfa.description")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {!canEdit && (
               <Alert>
                 <Info className="h-4 w-4" />
                 <AlertDescription>
-                  You have read-only access to these settings. Only users with edit permissions can modify them.
+                  {t("settings.readOnlyAccess")}
                 </AlertDescription>
               </Alert>
             )}
@@ -135,8 +137,8 @@ export function MfaSettings() {
                 <FormItem>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <FormLabel>Enforce MFA for All Users</FormLabel>
-                      <p className="text-xs text-muted-foreground">Require all users to enable MFA</p>
+                      <FormLabel>{t("settings.mfa.enforceAllUsers")}</FormLabel>
+                      <p className="text-xs text-muted-foreground">{t("settings.mfa.enforceAllUsersDescription")}</p>
                     </div>
                     <FormControl>
                       <Switch
@@ -158,8 +160,8 @@ export function MfaSettings() {
                 <FormItem>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <FormLabel>Enforce MFA for Admins</FormLabel>
-                      <p className="text-xs text-muted-foreground">Require admin users to enable MFA</p>
+                      <FormLabel>{t("settings.mfa.enforceAdmins")}</FormLabel>
+                      <p className="text-xs text-muted-foreground">{t("settings.mfa.enforceAdminsDescription")}</p>
                     </div>
                     <FormControl>
                       <Switch
@@ -177,9 +179,9 @@ export function MfaSettings() {
             <Separator />
 
             <div>
-              <FormLabel className="text-base">Available MFA Methods</FormLabel>
+              <FormLabel className="text-base">{t("settings.mfa.availableMethods")}</FormLabel>
               <p className="text-xs text-muted-foreground mb-4">
-                Select which MFA methods users can choose from
+                {t("settings.mfa.availableMethodsDescription")}
               </p>
 
               <div className="space-y-4">
@@ -191,14 +193,14 @@ export function MfaSettings() {
                       <div className="flex items-center justify-between p-3 rounded-lg border">
                         <div className="flex items-center gap-3">
                           <div className="space-y-0.5">
-                            <FormLabel>Authenticator App (TOTP)</FormLabel>
+                            <FormLabel>{t("settings.mfa.authenticatorApp")}</FormLabel>
                             <p className="text-xs text-muted-foreground">
-                              Google Authenticator, Authy, etc.
+                              {t("settings.mfa.authenticatorAppDescription")}
                             </p>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Badge variant="secondary">Recommended</Badge>
+                          <Badge variant="secondary">{t("settings.mfa.recommended")}</Badge>
                           <FormControl>
                             <Switch
                               checked={field.value}
@@ -223,15 +225,15 @@ export function MfaSettings() {
                         <div className="flex items-center justify-between p-3 rounded-lg border">
                           <div className="flex items-center gap-3">
                             <div className="space-y-0.5">
-                              <FormLabel>SMS Authentication</FormLabel>
+                              <FormLabel>{t("settings.mfa.smsAuthentication")}</FormLabel>
                               <p className="text-xs text-muted-foreground">
-                                Send verification codes via SMS
+                                {t("settings.mfa.smsAuthenticationDescription")}
                               </p>
                               {!credentialsStatus?.smsConfigured && (
                                 <p className="text-xs text-destructive mt-1">
-                                  SMS credentials not configured. Configure them in{" "}
+                                  {t("settings.mfa.smsNotConfigured")}{" "}
                                   <Link href="/admin/settings/mfa-credentials" className="underline hover:text-destructive/80">
-                                    MFA Credentials
+                                    {t("settings.mfaCredentials")}
                                   </Link>
                                 </p>
                               )}
@@ -242,7 +244,7 @@ export function MfaSettings() {
                               checked={field.value}
                               onCheckedChange={(checked) => {
                                 if (!credentialsStatus?.smsConfigured && checked) {
-                                  toast.error("SMS credentials must be configured first. Please configure them in Settings → MFA Credentials.")
+                                  toast.error(t("settings.mfa.smsMustBeConfigured"))
                                   return
                                 }
                                 field.onChange(checked)
@@ -265,9 +267,9 @@ export function MfaSettings() {
                       <div className="flex items-center justify-between p-3 rounded-lg border">
                         <div className="flex items-center gap-3">
                           <div className="space-y-0.5">
-                            <FormLabel>Email Authentication</FormLabel>
+                            <FormLabel>{t("settings.mfa.emailAuthentication")}</FormLabel>
                             <p className="text-xs text-muted-foreground">
-                              Send verification codes via email
+                              {t("settings.mfa.emailAuthenticationDescription")}
                             </p>
                           </div>
                         </div>
@@ -294,28 +296,28 @@ export function MfaSettings() {
                         <div className="flex items-center justify-between p-3 rounded-lg border">
                           <div className="flex items-center gap-3">
                             <div className="space-y-0.5">
-                              <FormLabel>Hardware Security Keys</FormLabel>
+                              <FormLabel>{t("settings.mfa.hardwareSecurityKeys")}</FormLabel>
                               <p className="text-xs text-muted-foreground">
-                                YubiKey, Titan Security Key, etc.
+                                {t("settings.mfa.hardwareSecurityKeysDescription")}
                               </p>
                               {!credentialsStatus?.webauthnConfigured && (
                                 <p className="text-xs text-destructive mt-1">
-                                  WebAuthn credentials not configured. Configure them in{" "}
+                                  {t("settings.mfa.webauthnNotConfigured")}{" "}
                                   <Link href="/admin/settings/mfa-credentials" className="underline hover:text-destructive/80">
-                                    MFA Credentials
+                                    {t("settings.mfaCredentials")}
                                   </Link>
                                 </p>
                               )}
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Badge variant="secondary">Most Secure</Badge>
+                            <Badge variant="secondary">{t("settings.mfa.mostSecure")}</Badge>
                             <FormControl>
                               <Switch
                                 checked={field.value}
                                 onCheckedChange={(checked) => {
                                   if (!credentialsStatus?.webauthnConfigured && checked) {
-                                    toast.error("WebAuthn credentials must be configured first. Please configure them in Settings → MFA Credentials.")
+                                    toast.error(t("settings.mfa.webauthnMustBeConfigured"))
                                     return
                                   }
                                   field.onChange(checked)
@@ -340,7 +342,7 @@ export function MfaSettings() {
               name="gracePeriodDays"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>MFA Enforcement Grace Period (days)</FormLabel>
+                  <FormLabel>{t("settings.mfa.gracePeriodDays")}</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -350,7 +352,7 @@ export function MfaSettings() {
                     />
                   </FormControl>
                   <p className="text-xs text-muted-foreground">
-                    Allow users this many days to set up MFA before enforcing
+                    {t("settings.mfa.gracePeriodDaysDescription")}
                   </p>
                   <FormMessage />
                 </FormItem>
@@ -363,7 +365,7 @@ export function MfaSettings() {
                   {updateSettings.isPending && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  Save MFA Settings
+                  {t("settings.mfa.saveMfaSettings")}
                 </Button>
               </div>
             )}
@@ -372,18 +374,18 @@ export function MfaSettings() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Recovery Options</CardTitle>
+            <CardTitle>{t("settings.mfa.recoveryOptions")}</CardTitle>
             <CardDescription>
-              Configure account recovery methods when MFA is lost
+              {t("settings.mfa.recoveryOptionsDescription")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <Alert>
               <Info className="h-4 w-4" />
               <AlertDescription>
-                Users can generate and manage their recovery codes in{" "}
+                {t("settings.mfa.recoveryCodesInfo")}{" "}
                 <Link href="/admin/account/recovery-codes" className="underline hover:text-foreground">
-                  Account → Recovery Codes
+                  {t("settings.mfa.recoveryCodesLink")}
                 </Link>
               </AlertDescription>
             </Alert>
@@ -394,9 +396,9 @@ export function MfaSettings() {
                 <FormItem>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <FormLabel>Recovery Codes</FormLabel>
+                      <FormLabel>{t("settings.mfa.recoveryCodes")}</FormLabel>
                       <p className="text-xs text-muted-foreground">
-                        Allow users to generate backup recovery codes
+                        {t("settings.mfa.recoveryCodesDescription")}
                       </p>
                     </div>
                     <FormControl>
@@ -417,7 +419,7 @@ export function MfaSettings() {
               name="recoveryCodesCount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Number of Recovery Codes</FormLabel>
+                  <FormLabel>{t("settings.mfa.recoveryCodesCount")}</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -440,8 +442,8 @@ export function MfaSettings() {
                 <FormItem>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <FormLabel>Admin MFA Reset</FormLabel>
-                      <p className="text-xs text-muted-foreground">Allow admins to reset MFA for users</p>
+                      <FormLabel>{t("settings.mfa.adminMfaReset")}</FormLabel>
+                      <p className="text-xs text-muted-foreground">{t("settings.mfa.adminMfaResetDescription")}</p>
                     </div>
                     <FormControl>
                       <Switch
@@ -462,7 +464,7 @@ export function MfaSettings() {
                   {updateSettings.isPending && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  Save Recovery Settings
+                  {t("settings.mfa.saveRecoverySettings")}
                 </Button>
               </div>
             )}

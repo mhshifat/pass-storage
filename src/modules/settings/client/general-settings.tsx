@@ -18,29 +18,33 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Info } from "lucide-react"
 import { ThemeSelect } from "@/components/ui/theme-selector"
 import { useTheme } from "next-themes"
+import { LanguageSelector } from "@/components/ui/language-selector"
+import { useTranslation } from "react-i18next"
 
-const generalSettingsSchema = z.object({
-  appName: z.string().min(1, "Application name is required"),
+const createGeneralSettingsSchema = (t: (key: string) => string) => z.object({
+  appName: z.string().min(1, t("settings.appNameRequired")),
   maintenanceMode: z.boolean(),
   theme: z.enum(["light", "dark", "system"]).optional(),
 })
 
-type GeneralSettingsFormValues = z.infer<typeof generalSettingsSchema>
-
 export function GeneralSettings() {
+  const { t } = useTranslation()
   const { hasPermission } = usePermissions()
   const canEdit = hasPermission("settings.edit")
   const { data: settings, isLoading, error } = trpc.settings.getGeneralSettings.useQuery()
   const utils = trpc.useUtils()
   const updateSettings = trpc.settings.updateGeneralSettings.useMutation({
     onSuccess: () => {
-      toast.success("General settings saved successfully")
+      toast.success(t("settings.generalSettingsSaved"))
       utils.settings.getGeneralSettings.invalidate()
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to save general settings")
+      toast.error(error.message || t("settings.generalSettingsFailed"))
     },
   })
+
+  const generalSettingsSchema = createGeneralSettingsSchema(t)
+  type GeneralSettingsFormValues = z.infer<typeof generalSettingsSchema>
 
   const { theme: currentTheme, setTheme } = useTheme()
   const form = useForm<GeneralSettingsFormValues>({
@@ -81,8 +85,8 @@ export function GeneralSettings() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Application Settings</CardTitle>
-          <CardDescription>Configure general application settings and preferences</CardDescription>
+          <CardTitle>{t("settings.applicationSettings")}</CardTitle>
+          <CardDescription>{t("settings.generalSettingsDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-8">
@@ -97,12 +101,12 @@ export function GeneralSettings() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Application Settings</CardTitle>
-          <CardDescription>Configure general application settings and preferences</CardDescription>
+          <CardTitle>{t("settings.applicationSettings")}</CardTitle>
+          <CardDescription>{t("settings.generalSettingsDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="text-center py-8 text-destructive">
-            <p>Failed to load settings: {error.message}</p>
+            <p>{t("settings.loadSettingsFailed", { error: error.message })}</p>
           </div>
         </CardContent>
       </Card>
@@ -114,15 +118,15 @@ export function GeneralSettings() {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Card>
           <CardHeader>
-            <CardTitle>Application Settings</CardTitle>
-            <CardDescription>Configure general application settings and preferences</CardDescription>
+            <CardTitle>{t("settings.title")}</CardTitle>
+            <CardDescription>{t("settings.generalSettingsDescription")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {!canEdit && (
               <Alert>
                 <Info className="h-4 w-4" />
                 <AlertDescription>
-                  You have read-only access to these settings. Only users with edit permissions can modify them.
+                  {t("settings.readOnlyAccess")}
                 </AlertDescription>
               </Alert>
             )}
@@ -132,12 +136,12 @@ export function GeneralSettings() {
               name="appName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Application Name</FormLabel>
+                  <FormLabel>{t("settings.appName")}</FormLabel>
                   <FormControl>
                     <Input {...field} placeholder="PassStorage" disabled={!canEdit} />
                   </FormControl>
                   <p className="text-xs text-muted-foreground">
-                    The name displayed throughout the application
+                    {t("settings.appNameDescription")}
                   </p>
                   <FormMessage />
                 </FormItem>
@@ -151,7 +155,7 @@ export function GeneralSettings() {
               name="theme"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Theme</FormLabel>
+                  <FormLabel>{t("settings.theme")}</FormLabel>
                   <FormControl>
                     <ThemeSelect
                       value={field.value || "system"}
@@ -163,12 +167,24 @@ export function GeneralSettings() {
                     />
                   </FormControl>
                   <p className="text-xs text-muted-foreground">
-                    Choose the color theme for the application. System will match your device preference.
+                    {t("settings.themeDescription")}
                   </p>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+            <Separator />
+
+            <FormItem>
+              <FormLabel>{t("settings.language")}</FormLabel>
+              <FormControl>
+                <LanguageSelector disabled={!canEdit} />
+              </FormControl>
+              <p className="text-xs text-muted-foreground">
+                {t("settings.languageDescription")}
+              </p>
+            </FormItem>
 
             <Separator />
 
@@ -179,9 +195,9 @@ export function GeneralSettings() {
                 <FormItem>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <FormLabel>Maintenance Mode</FormLabel>
+                      <FormLabel>{t("settings.maintenanceMode")}</FormLabel>
                       <p className="text-xs text-muted-foreground">
-                        Disable access for non-admin users
+                        {t("settings.maintenanceModeDescription")}
                       </p>
                     </div>
                     <FormControl>
@@ -203,7 +219,7 @@ export function GeneralSettings() {
                   {updateSettings.isPending && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  Save General Settings
+                  {t("settings.saveSettings")}
                 </Button>
               </div>
             )}

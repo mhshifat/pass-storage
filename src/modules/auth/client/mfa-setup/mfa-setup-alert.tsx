@@ -1,7 +1,12 @@
+"use client"
+
+import { useTranslation } from "react-i18next"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 
 export function MfaSetupAlert({ error, success }: { error: string | null; success: boolean }) {
+  const { t } = useTranslation()
+  
   if (error)
     return (
       <Alert variant="destructive">
@@ -12,7 +17,7 @@ export function MfaSetupAlert({ error, success }: { error: string | null; succes
   if (success)
     return (
       <Alert>
-        <AlertDescription>MFA setup complete! You can now access your account.</AlertDescription>
+        <AlertDescription>{t("mfa.setupComplete")}</AlertDescription>
       </Alert>
     )
   return null

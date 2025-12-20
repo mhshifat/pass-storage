@@ -25,6 +25,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { AlertCircle } from "lucide-react"
+import { useTranslation } from "react-i18next"
 
 type TeamFormValues = {
   name: string
@@ -61,6 +62,7 @@ export function TeamFormDialog({
   isPending,
   state,
 }: TeamFormDialogProps) {
+  const { t } = useTranslation()
   const form = useForm<TeamFormValues>({
     resolver: zodResolver(teamSchema),
     defaultValues: {
@@ -122,11 +124,9 @@ export function TeamFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{mode === "create" ? "Create New Team" : "Edit Team"}</DialogTitle>
+          <DialogTitle>{mode === "create" ? t("teams.createTeam") : t("teams.editTeam")}</DialogTitle>
           <DialogDescription>
-            {mode === "create"
-              ? "Create a team to organize users and manage password access"
-              : "Update team details"}
+            {mode === "create" ? t("teams.createTeamDescription") : t("teams.updateTeamDescription")}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -142,9 +142,9 @@ export function TeamFormDialog({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Team Name</FormLabel>
+                  <FormLabel>{t("teams.teamName")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Development Team" {...field} name="name" />
+                    <Input placeholder={t("teams.teamNamePlaceholder")} {...field} name="name" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -156,10 +156,10 @@ export function TeamFormDialog({
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>{t("teams.description")}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Brief description of the team"
+                      placeholder={t("teams.descriptionPlaceholder")}
                       rows={3}
                       {...field}
                       name="description"
@@ -177,16 +177,16 @@ export function TeamFormDialog({
                 onClick={() => onOpenChange(false)}
                 disabled={isPending}
               >
-                Cancel
+                {t("common.cancel")}
               </Button>
               <Button type="submit" disabled={isPending}>
                 {isPending
                   ? mode === "create"
-                    ? "Creating..."
-                    : "Saving..."
+                    ? t("teams.creating")
+                    : t("teams.saving")
                   : mode === "create"
-                  ? "Create Team"
-                  : "Save Changes"}
+                  ? t("teams.createTeam")
+                  : t("common.save")}
               </Button>
             </DialogFooter>
           </form>

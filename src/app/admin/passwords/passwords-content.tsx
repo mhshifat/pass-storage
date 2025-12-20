@@ -9,8 +9,10 @@ import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { createPasswordAction } from "./actions"
 import { usePermissions } from "@/hooks/use-permissions"
+import { useTranslation } from "react-i18next"
 
 export function PasswordsContent() {
+  const { t } = useTranslation()
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const router = useRouter()
   const { hasPermission } = usePermissions()
@@ -18,13 +20,13 @@ export function PasswordsContent() {
 
   useEffect(() => {
     if (state?.success) {
-      toast.success("Password created successfully")
+      toast.success(t("passwords.addPassword") + " " + t("common.success").toLowerCase())
       setIsCreateDialogOpen(false)
       router.refresh()
     } else if (state?.error) {
       toast.error(state.error)
     }
-  }, [state, router])
+  }, [state, router, t])
 
   if (!hasPermission("password.create")) {
     return null
@@ -34,7 +36,7 @@ export function PasswordsContent() {
     <>
       <Button onClick={() => setIsCreateDialogOpen(true)}>
         <Plus className="mr-2 h-4 w-4" />
-        Add Password
+        {t("passwords.addPassword")}
       </Button>
       <PasswordFormDialog
         open={isCreateDialogOpen}

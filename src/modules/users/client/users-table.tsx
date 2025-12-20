@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import {
@@ -48,6 +49,7 @@ interface UsersTableProps {
 }
 
 export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, onResetMfa, onAddUser }: UsersTableProps) {
+  const { t } = useTranslation()
   const [searchQuery, setSearchQuery] = React.useState("")
 
   const filteredUsers = users.filter(
@@ -71,7 +73,7 @@ export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, 
           <div className="relative flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search users..."
+              placeholder={t("users.searchUsers")}
               className="pl-8"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -89,12 +91,12 @@ export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, 
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>User</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>MFA</TableHead>
-              <TableHead>Last Login</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>{t("audit.user")}</TableHead>
+              <TableHead>{t("common.role")}</TableHead>
+              <TableHead>{t("common.status")}</TableHead>
+              <TableHead>{t("users.mfaEnabled")}</TableHead>
+              <TableHead>{t("users.lastLogin")}</TableHead>
+              <TableHead className="text-right">{t("common.actions")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -124,12 +126,12 @@ export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, 
                         : "outline"
                     }
                   >
-                    {user.role}
+                    {t(`users.roles.${user.role.toLowerCase()}`, { defaultValue: user.role })}
                   </Badge>
                 </TableCell>
                 <TableCell>
                   <Badge variant={user.status === "active" ? "default" : "secondary"}>
-                    {user.status}
+                    {user.status === "active" ? t("common.active") : t("common.inactive")}
                   </Badge>
                 </TableCell>
                 <TableCell>
@@ -137,11 +139,11 @@ export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, 
                       <>
                         {user.mfa ? (
                           <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                            Enabled
+                            {t("mfa.enabled")}
                           </Badge>
                         ) : (
                           <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
-                            Disabled
+                            {t("mfa.disabled")}
                           </Badge>
                         )}
                       </>
@@ -159,10 +161,10 @@ export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, 
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
                         {user.isCreator ? (
                           <DropdownMenuItem disabled className="text-muted-foreground">
-                            Cannot modify creator account
+                            {t("users.cannotModifyCreator")}
                           </DropdownMenuItem>
                         ) : (
                           <>
@@ -170,25 +172,25 @@ export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, 
                             {onEdit && (
                               <DropdownMenuItem onClick={() => onEdit(user)}>
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Edit
+                                {t("common.edit")}
                               </DropdownMenuItem>
                             )}
                             {onEmail && (
                               <DropdownMenuItem onClick={() => onEmail(user.id)}>
                                 <Mail className="mr-2 h-4 w-4" />
-                                Send Email
+                                {t("users.sendEmail")}
                               </DropdownMenuItem>
                             )}
                             {onResetPassword && (
                               <DropdownMenuItem onClick={() => onResetPassword(user.id)}>
                                 <Shield className="mr-2 h-4 w-4" />
-                                Reset Password
+                                {t("users.resetPassword")}
                               </DropdownMenuItem>
                             )}
                             {onResetMfa && user.mfa && (
                               <DropdownMenuItem onClick={() => onResetMfa(user.id)}>
                                 <Shield className="mr-2 h-4 w-4" />
-                                Reset MFA
+                                {t("users.resetMfa")}
                               </DropdownMenuItem>
                             )}
                             {onDelete && (
@@ -199,7 +201,7 @@ export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, 
                                   onClick={() => onDelete(user.id)}
                                 >
                                   <Trash2 className="mr-2 h-4 w-4" />
-                                  Delete
+                                  {t("common.delete")}
                                 </DropdownMenuItem>
                               </>
                             )}

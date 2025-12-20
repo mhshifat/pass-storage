@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -18,6 +19,7 @@ import {
 import { Badge } from "@/components/ui/badge"
 
 export function RecoveryCodesManager() {
+  const { t } = useTranslation()
   const [generatedCodes, setGeneratedCodes] = useState<string[] | null>(null)
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
   const utils = trpc.useUtils()
@@ -27,10 +29,10 @@ export function RecoveryCodesManager() {
     onSuccess: (data) => {
       setGeneratedCodes(data.codes)
       utils.auth.listRecoveryCodes.invalidate()
-      toast.success("Recovery codes generated successfully. Please save them now!")
+      toast.success(t("mfa.recoveryCodesGenerated"))
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to generate recovery codes")
+      toast.error(error.message || t("mfa.recoveryCodesGenerateFailed"))
     },
   })
 
@@ -39,9 +41,9 @@ export function RecoveryCodesManager() {
       await navigator.clipboard.writeText(code)
       setCopiedIndex(index)
       setTimeout(() => setCopiedIndex(null), 2000)
-      toast.success("Code copied to clipboard")
+      toast.success(t("mfa.codeCopied"))
     } catch {
-      toast.error("Failed to copy code")
+      toast.error(t("mfa.codeCopyFailed"))
     }
   }
 
@@ -49,9 +51,9 @@ export function RecoveryCodesManager() {
     if (!generatedCodes) return
     try {
       await navigator.clipboard.writeText(generatedCodes.join("\n"))
-      toast.success("All codes copied to clipboard")
+      toast.success(t("mfa.allCodesCopied"))
     } catch {
-      toast.error("Failed to copy codes")
+      toast.error(t("mfa.codesCopyFailed"))
     }
   }
 
@@ -59,22 +61,22 @@ export function RecoveryCodesManager() {
     if (!generatedCodes) return
     
     const content = [
-      "Recovery Codes",
+      t("mfa.recoveryCodes"),
       "==============",
       "",
-      "Save these codes in a secure location. Each code can only be used once.",
+      t("mfa.saveCodesSecure"),
       "",
-      "IMPORTANT: If you lose access to your MFA device, use one of these codes to access your account.",
+      t("mfa.importantRecoveryCodes"),
       "",
       ...generatedCodes.map((code, index) => `${index + 1}. ${code}`),
       "",
-      `Generated: ${new Date().toLocaleString()}`,
+      `${t("mfa.generated")}: ${new Date().toLocaleString()}`,
       "",
-      "Security Notice:",
-      "- Store these codes in a secure, private location",
-      "- Do not share these codes with anyone",
-      "- Each code can only be used once",
-      "- Generate new codes if you suspect they have been compromised",
+      t("mfa.securityNotice") + ":",
+      t("mfa.securityNotice1"),
+      t("mfa.securityNotice2"),
+      t("mfa.securityNotice3"),
+      t("mfa.securityNotice4"),
     ].join("\n")
 
     const blob = new Blob([content], { type: "text/plain" })
@@ -86,7 +88,7 @@ export function RecoveryCodesManager() {
     link.click()
     document.body.removeChild(link)
     URL.revokeObjectURL(url)
-    toast.success("Recovery codes downloaded")
+    toast.success(t("mfa.recoveryCodesDownloaded"))
   }
 
   const unusedCount = codesData?.unusedCount ?? 0
@@ -95,9 +97,9 @@ export function RecoveryCodesManager() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Recovery Codes</CardTitle>
+        <CardTitle>{t("mfa.recoveryCodes")}</CardTitle>
         <CardDescription>
-          Backup codes to access your account if you lose your MFA device
+          {t("mfa.recoveryCodesDescription")}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -111,31 +113,31 @@ export function RecoveryCodesManager() {
               <Alert>
                 <AlertTriangle className="h-4 w-4" />
                 <AlertDescription>
-                  Recovery codes are not enabled by your administrator.
+                  {t("mfa.recoveryCodesNotEnabled")}
                 </AlertDescription>
               </Alert>
             ) : totalCount === 0 ? (
               <Alert>
                 <AlertTriangle className="h-4 w-4" />
                 <AlertDescription>
-                  You don't have any recovery codes. Generate them now to secure your account.
+                  {t("mfa.noRecoveryCodes")}
                 </AlertDescription>
               </Alert>
             ) : (
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <p className="text-sm text-muted-foreground">
-                    Unused codes: <span className="font-semibold">{unusedCount}</span> / {totalCount}
+                    {t("mfa.unusedCodes", { unused: unusedCount, total: totalCount })}
                   </p>
                   {unusedCount === 0 && (
-                    <Badge variant="destructive">All codes used</Badge>
+                    <Badge variant="destructive">{t("mfa.allCodesUsed")}</Badge>
                   )}
                 </div>
                 {unusedCount === 0 && (
                   <Alert>
                     <AlertTriangle className="h-4 w-4" />
                     <AlertDescription>
-                      All your recovery codes have been used. Generate new ones to maintain account access.
+                      {t("mfa.allCodesUsedDescription")}
                     </AlertDescription>
                   </Alert>
                 )}
@@ -152,21 +154,21 @@ export function RecoveryCodesManager() {
                   {generateCodes.isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Generating...
+                      {t("mfa.generating")}
                     </>
                   ) : (
                     <>
                       <RefreshCw className="mr-2 h-4 w-4" />
-                      {totalCount === 0 ? "Generate Recovery Codes" : "Generate New Codes"}
+                      {totalCount === 0 ? t("mfa.generateRecoveryCodes") : t("mfa.generateNewCodes")}
                     </>
                   )}
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-2xl">
                 <DialogHeader>
-                  <DialogTitle>Recovery Codes</DialogTitle>
+                  <DialogTitle>{t("mfa.recoveryCodes")}</DialogTitle>
                   <DialogDescription>
-                    Save these codes in a safe place. Each code can only be used once.
+                    {t("mfa.saveCodesSafe")}
                   </DialogDescription>
                 </DialogHeader>
                 {generatedCodes ? (
@@ -174,7 +176,7 @@ export function RecoveryCodesManager() {
                     <Alert>
                       <AlertTriangle className="h-4 w-4" />
                       <AlertDescription>
-                        <strong>Important:</strong> Save these codes now. You won't be able to see them again after closing this dialog.
+                        <strong>{t("mfa.important")}:</strong> {t("mfa.saveCodesNow")}
                       </AlertDescription>
                     </Alert>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -202,25 +204,25 @@ export function RecoveryCodesManager() {
                     <div className="flex gap-2">
                       <Button onClick={handleCopyAll} variant="outline" className="flex-1">
                         <Copy className="mr-2 h-4 w-4" />
-                        Copy All
+                        {t("mfa.copyAll")}
                       </Button>
                       <Button onClick={handleDownload} variant="outline" className="flex-1">
                         <Download className="mr-2 h-4 w-4" />
-                        Download
+                        {t("common.download") || "Download"}
                       </Button>
                       <Button
                         onClick={() => setGeneratedCodes(null)}
                         variant="default"
                         className="flex-1"
                       >
-                        I've Saved Them
+                        {t("mfa.iveSavedThem")}
                       </Button>
                     </div>
                   </div>
                 ) : (
                   <div className="text-center py-8">
                     <p className="text-muted-foreground mb-4">
-                      Click the button below to generate recovery codes
+                      {t("mfa.clickToGenerate")}
                     </p>
                     <Button
                       onClick={() => generateCodes.mutate()}
@@ -229,12 +231,12 @@ export function RecoveryCodesManager() {
                       {generateCodes.isPending ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Generating...
+                          {t("mfa.generating")}
                         </>
                       ) : (
                         <>
                           <RefreshCw className="mr-2 h-4 w-4" />
-                          Generate Codes
+                          {t("mfa.generateCodes")}
                         </>
                       )}
                     </Button>

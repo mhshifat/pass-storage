@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -48,6 +49,7 @@ interface RolesTableProps {
 }
 
 export function RolesTable({ roles, onViewPermissions, onEdit, onDelete, onCreateRole }: RolesTableProps) {
+  const { t } = useTranslation()
   const { hasPermission } = usePermissions()
   const [searchQuery, setSearchQuery] = React.useState("")
 
@@ -64,7 +66,7 @@ export function RolesTable({ roles, onViewPermissions, onEdit, onDelete, onCreat
           <div className="relative flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search roles..."
+              placeholder={t("roles.searchRoles")}
               className="pl-8"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -82,11 +84,11 @@ export function RolesTable({ roles, onViewPermissions, onEdit, onDelete, onCreat
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Role Name</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Users</TableHead>
-                <TableHead>Created</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>{t("roles.roleName")}</TableHead>
+                <TableHead>{t("roles.type")}</TableHead>
+                <TableHead>{t("audit.user")}</TableHead>
+                <TableHead>{t("roles.created")}</TableHead>
+                <TableHead className="text-right">{t("common.actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -115,19 +117,19 @@ export function RolesTable({ roles, onViewPermissions, onEdit, onDelete, onCreat
                         </Tooltip>
                       ) : (
                         <div className="text-sm text-muted-foreground mt-1 italic">
-                          No description
+                          {t("roles.noDescription")}
                         </div>
                       )}
                     </div>
                   </TableCell>
                   <TableCell>
                     <Badge variant={role.isSystem ? "secondary" : "default"}>
-                      {role.isSystem ? "System" : "Custom"}
+                      {role.isSystem ? t("roles.system") : t("roles.custom")}
                     </Badge>
                   </TableCell>
                   <TableCell>
                     <span className="text-sm font-medium">{role.users}</span>
-                    <span className="text-sm text-muted-foreground"> users</span>
+                    <span className="text-sm text-muted-foreground"> {t("roles.users")}</span>
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground">
                     {new Date(role.createdAt).toLocaleDateString()}
@@ -140,11 +142,11 @@ export function RolesTable({ roles, onViewPermissions, onEdit, onDelete, onCreat
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => onViewPermissions(role)}>
                           <Shield className="mr-2 h-4 w-4" />
-                          View Permissions
+                          {t("roles.viewPermissions")}
                         </DropdownMenuItem>
                         {hasPermission("role.manage") && (
                           <DropdownMenuItem
@@ -152,7 +154,7 @@ export function RolesTable({ roles, onViewPermissions, onEdit, onDelete, onCreat
                             onClick={() => onEdit && onEdit(role)}
                           >
                             <Pencil className="mr-2 h-4 w-4" />
-                            Edit Role
+                            {t("roles.editRole")}
                           </DropdownMenuItem>
                         )}
                         {hasPermission("role.manage") && (
@@ -164,7 +166,7 @@ export function RolesTable({ roles, onViewPermissions, onEdit, onDelete, onCreat
                               onClick={() => onDelete && onDelete(role)}
                             >
                               <Trash2 className="mr-2 h-4 w-4" />
-                              Delete Role
+                              {t("roles.deleteRole")}
                             </DropdownMenuItem>
                           </>
                         )}

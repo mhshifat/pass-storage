@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod"
@@ -25,6 +26,7 @@ const changePasswordSchema = z.object({
 type ChangePasswordFormValues = z.infer<typeof changePasswordSchema>
 
 export function ChangePasswordForm() {
+  const { t } = useTranslation()
   const [showCurrentPassword, setShowCurrentPassword] = React.useState(false)
   const [showNewPassword, setShowNewPassword] = React.useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false)
@@ -34,12 +36,12 @@ export function ChangePasswordForm() {
   // All users must provide current password to change their own password
   const changeOwnPassword = trpc.users.changeOwnPassword.useMutation({
     onSuccess: () => {
-      toast.success("Password changed successfully")
+      toast.success(t("profile.passwordChanged"))
       form.reset()
       utils.auth.getCurrentUser.invalidate()
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to change password")
+      toast.error(error.message || t("profile.passwordChangeFailed"))
     },
   })
 
@@ -64,9 +66,9 @@ export function ChangePasswordForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Change Password</CardTitle>
+        <CardTitle>{t("profile.changePassword")}</CardTitle>
         <CardDescription>
-          Update your password. You must provide your current password to change it.
+          {t("profile.changePasswordDescription")}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -77,13 +79,13 @@ export function ChangePasswordForm() {
               name="currentPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Current Password</FormLabel>
+                  <FormLabel>{t("profile.currentPassword")}</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Input
                         type={showCurrentPassword ? "text" : "password"}
                         {...field}
-                        placeholder="Enter your current password"
+                        placeholder={t("profile.currentPasswordPlaceholder")}
                         disabled={isLoading}
                       />
                       <Button
@@ -112,13 +114,13 @@ export function ChangePasswordForm() {
               name="newPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>New Password</FormLabel>
+                  <FormLabel>{t("profile.newPassword")}</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <PasswordInput
                         type={showNewPassword ? "text" : "password"}
                         {...field}
-                        placeholder="Enter your new password"
+                        placeholder={t("profile.newPasswordPlaceholder")}
                         disabled={isLoading}
                         onGenerate={() => {
                           const generated = generateStrongPassword(16)
@@ -143,7 +145,7 @@ export function ChangePasswordForm() {
                     </div>
                   </FormControl>
                   <p className="text-xs text-muted-foreground">
-                    Password must be at least 8 characters and meet security requirements. Click the key icon to generate a strong password.
+                    {t("profile.newPasswordDescription")}
                   </p>
                   <FormMessage />
                 </FormItem>
@@ -155,13 +157,13 @@ export function ChangePasswordForm() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm New Password</FormLabel>
+                  <FormLabel>{t("profile.confirmPassword")}</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Input
                         type={showConfirmPassword ? "text" : "password"}
                         {...field}
-                        placeholder="Confirm your new password"
+                        placeholder={t("profile.confirmPasswordPlaceholder")}
                         disabled={isLoading}
                       />
                       <Button
@@ -187,7 +189,7 @@ export function ChangePasswordForm() {
 
             <Button type="submit" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Change Password
+              {t("profile.changePassword")}
             </Button>
           </form>
         </Form>

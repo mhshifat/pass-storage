@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslation } from "react-i18next"
 import {
   Pagination,
   PaginationContent,
@@ -19,6 +20,7 @@ interface TeamsPaginationProps {
 }
 
 export function TeamsPagination({ currentPage, totalPages, total, pageSize }: TeamsPaginationProps) {
+  const { t } = useTranslation()
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -65,11 +67,13 @@ export function TeamsPagination({ currentPage, totalPages, total, pageSize }: Te
     return pages
   }
 
+  const start = Math.min((currentPage - 1) * pageSize + 1, total)
+  const end = Math.min(currentPage * pageSize, total)
+
   return (
     <div className="flex items-center justify-between mt-6">
       <p className="text-sm text-muted-foreground">
-        Showing {Math.min((currentPage - 1) * pageSize + 1, total)} to{" "}
-        {Math.min(currentPage * pageSize, total)} of {total} teams
+        {t("teams.paginationInfo", { start, end, total })}
       </p>
       <Pagination>
         <PaginationContent>

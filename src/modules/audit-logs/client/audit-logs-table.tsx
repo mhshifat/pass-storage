@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -48,15 +49,57 @@ interface AuditLogsTableProps {
   logs: AuditLog[]
   actionTypes: string[]
   onViewDetails: (log: AuditLog) => void
+  pagination?: {
+    page: number
+    pageSize: number
+    total: number
+    totalPages: number
+  }
+  onPageChange?: (page: number) => void
+  search?: string
+  onSearchChange?: (search: string) => void
+  selectedAction?: string
+  onActionChange?: (action: string) => void
+  selectedStatus?: "SUCCESS" | "FAILED" | "WARNING" | "BLOCKED" | undefined
+  onStatusChange?: (status: "SUCCESS" | "FAILED" | "WARNING" | "BLOCKED" | undefined) => void
 }
 
 type GroupByOption = "none" | "action" | "user" | "status" | "date"
 
-export function AuditLogsTable({ logs, actionTypes, onViewDetails }: AuditLogsTableProps) {
-  const [searchQuery, setSearchQuery] = React.useState("")
-  const [selectedAction, setSelectedAction] = React.useState("All Actions")
-  const [selectedStatus, setSelectedStatus] = React.useState<string>("All Statuses")
+export function AuditLogsTable({ 
+  logs, 
+  actionTypes, 
+  onViewDetails,
+  pagination,
+  onPageChange,
+  search,
+  onSearchChange,
+  selectedAction,
+  onActionChange,
+  selectedStatus,
+  onStatusChange
+}: AuditLogsTableProps) {
+  const { t } = useTranslation()
+  const [searchQuery, setSearchQuery] = React.useState(search || "")
+  const [localSelectedAction, setLocalSelectedAction] = React.useState(selectedAction || t("audit.allActions"))
   const [groupBy, setGroupBy] = React.useState<GroupByOption>("none")
+
+  const statusOptions = React.useMemo(() => [
+    { label: t("audit.allStatuses"), value: undefined },
+    { label: t("audit.success"), value: "SUCCESS" },
+    { label: t("audit.failed"), value: "FAILED" },
+    { label: t("audit.warning"), value: "WARNING" },
+    { label: t("audit.blocked"), value: "BLOCKED" },
+  ], [t])
+
+  const getInitialStatusLabel = () => {
+    if (selectedStatus) {
+      return statusOptions.find(opt => opt.value === selectedStatus)?.label || t("audit.allStatuses")
+    }
+    return t("audit.allStatuses")
+  }
+
+  const [localSelectedStatus, setLocalSelectedStatus] = React.useState<string>(getInitialStatusLabel())
 
   const filteredLogs = logs.filter((log) => {
     const matchesSearch =
@@ -65,11 +108,29 @@ export function AuditLogsTable({ logs, actionTypes, onViewDetails }: AuditLogsTa
       log.resource.toLowerCase().includes(searchQuery.toLowerCase()) ||
       log.ipAddress.includes(searchQuery)
 
-    const matchesAction = selectedAction === "All Actions" || log.action === selectedAction
-    const matchesStatus = selectedStatus === "All Statuses" || log.status === selectedStatus.toLowerCase()
+    const matchesAction = localSelectedAction === t("audit.allActions") || log.action === localSelectedAction
+    // Find the status option that matches the selected status label
+    const selectedStatusOption = statusOptions.find(opt => opt.label === localSelectedStatus)
+    const matchesStatus = !selectedStatusOption?.value || log.status.toUpperCase() === selectedStatusOption.value
 
     return matchesSearch && matchesAction && matchesStatus
   })
+
+  // Update local state when props change
+  React.useEffect(() => {
+    if (selectedAction) {
+      setLocalSelectedAction(selectedAction)
+    }
+  }, [selectedAction])
+
+  React.useEffect(() => {
+    if (selectedStatus !== undefined) {
+      const statusOption = statusOptions.find(opt => opt.value === selectedStatus)
+      setLocalSelectedStatus(statusOption?.label || t("audit.allStatuses"))
+    } else {
+      setLocalSelectedStatus(t("audit.allStatuses"))
+    }
+  }, [selectedStatus, statusOptions, t])
 
   // Group logs
   const groupedLogs = React.useMemo(() => {
@@ -115,18 +176,16 @@ export function AuditLogsTable({ logs, actionTypes, onViewDetails }: AuditLogsTa
     return sortedGroups
   }, [filteredLogs, groupBy])
 
-  const statusOptions = ["All Statuses", "Success", "Failed", "Warning", "Blocked"]
-
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "success":
-        return <Badge className="bg-green-100 text-green-800 border-green-200">Success</Badge>
+        return <Badge className="bg-green-100 text-green-800 border-green-200">{t("audit.success")}</Badge>
       case "failed":
-        return <Badge className="bg-red-100 text-red-800 border-red-200">Failed</Badge>
+        return <Badge className="bg-red-100 text-red-800 border-red-200">{t("audit.failed")}</Badge>
       case "warning":
-        return <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">Warning</Badge>
+        return <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">{t("audit.warning")}</Badge>
       case "blocked":
-        return <Badge className="bg-gray-100 text-gray-800 border-gray-200">Blocked</Badge>
+        return <Badge className="bg-gray-100 text-gray-800 border-gray-200">{t("audit.blocked")}</Badge>
       default:
         return <Badge variant="outline">{status}</Badge>
     }
@@ -139,33 +198,49 @@ export function AuditLogsTable({ logs, actionTypes, onViewDetails }: AuditLogsTa
           <div className="relative flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search by user, action, resource, or IP..."
+              placeholder={t("audit.searchPlaceholder")}
               className="pl-8"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value)
+                onSearchChange?.(e.target.value)
+              }}
             />
           </div>
           <div className="flex gap-2">
-            <Select value={selectedAction} onValueChange={setSelectedAction}>
+            <Select value={localSelectedAction} onValueChange={(value) => {
+              setLocalSelectedAction(value)
+              onActionChange?.(value)
+            }}>
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Filter by action" />
+                <SelectValue placeholder={t("audit.filterByAction")} />
               </SelectTrigger>
               <SelectContent>
-                {actionTypes.map((action) => (
-                  <SelectItem key={action} value={action}>
-                    {action}
-                  </SelectItem>
-                ))}
+                <SelectItem value={t("audit.allActions")}>
+                  {t("audit.allActions")}
+                </SelectItem>
+                {actionTypes.map((action) => {
+                  const actionKey = `audit.actions.${action.toLowerCase()}`
+                  return (
+                    <SelectItem key={action} value={action}>
+                      {t(actionKey, { defaultValue: action })}
+                    </SelectItem>
+                  )
+                })}
               </SelectContent>
             </Select>
-            <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+            <Select value={localSelectedStatus} onValueChange={(value) => {
+              setLocalSelectedStatus(value)
+              const selectedOption = statusOptions.find(opt => opt.label === value)
+              onStatusChange?.(selectedOption?.value as any)
+            }}>
               <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder="Filter by status" />
+                <SelectValue placeholder={t("audit.filterByStatus")} />
               </SelectTrigger>
               <SelectContent>
                 {statusOptions.map((status) => (
-                  <SelectItem key={status} value={status}>
-                    {status}
+                  <SelectItem key={status.label} value={status.label}>
+                    {status.label}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -174,37 +249,40 @@ export function AuditLogsTable({ logs, actionTypes, onViewDetails }: AuditLogsTa
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="gap-2">
                   <Group className="h-4 w-4" />
-                  Group By
+                  {t("audit.groupBy")}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Group By</DropdownMenuLabel>
+                <DropdownMenuLabel>{t("audit.groupBy")}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => setGroupBy("none")}>
-                  None {groupBy === "none" && "✓"}
+                  {t("audit.groupByNone")} {groupBy === "none" && "✓"}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setGroupBy("action")}>
-                  Action {groupBy === "action" && "✓"}
+                  {t("audit.action")} {groupBy === "action" && "✓"}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setGroupBy("user")}>
-                  User {groupBy === "user" && "✓"}
+                  {t("audit.user")} {groupBy === "user" && "✓"}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setGroupBy("status")}>
-                  Status {groupBy === "status" && "✓"}
+                  {t("audit.status")} {groupBy === "status" && "✓"}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setGroupBy("date")}>
-                  Date {groupBy === "date" && "✓"}
+                  {t("audit.date")} {groupBy === "date" && "✓"}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            {(selectedAction !== "All Actions" || selectedStatus !== "All Statuses" || searchQuery) && (
+            {(localSelectedAction !== t("audit.allActions") || localSelectedStatus !== t("audit.allStatuses") || searchQuery) && (
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => {
                   setSearchQuery("")
-                  setSelectedAction("All Actions")
-                  setSelectedStatus("All Statuses")
+                  setLocalSelectedAction(t("audit.allActions"))
+                  setLocalSelectedStatus(t("audit.allStatuses"))
+                  onSearchChange?.("")
+                  onActionChange?.(t("audit.allActions"))
+                  onStatusChange?.(undefined)
                 }}
               >
                 <X className="h-4 w-4" />
@@ -216,7 +294,7 @@ export function AuditLogsTable({ logs, actionTypes, onViewDetails }: AuditLogsTa
       <CardContent>
         {Object.keys(groupedLogs).length === 0 ? (
           <div className="text-center py-8 text-muted-foreground">
-            No logs found matching your filters
+            {t("audit.noLogsMatchingFilters")}
           </div>
         ) : (
           Object.entries(groupedLogs).map(([groupKey, groupLogs]) => (
@@ -233,7 +311,7 @@ export function AuditLogsTable({ logs, actionTypes, onViewDetails }: AuditLogsTa
                         })
                       : groupKey}
                     <span className="ml-2 text-muted-foreground font-normal">
-                      ({groupLogs.length} {groupLogs.length === 1 ? "event" : "events"})
+                      ({t("audit.eventsCount", { count: groupLogs.length })})
                     </span>
                   </h3>
                 </div>
@@ -241,13 +319,13 @@ export function AuditLogsTable({ logs, actionTypes, onViewDetails }: AuditLogsTa
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>User</TableHead>
-                    <TableHead>Action</TableHead>
-                    <TableHead>Resource</TableHead>
-                    <TableHead>IP Address</TableHead>
-                    <TableHead>Timestamp</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Details</TableHead>
+                    <TableHead>{t("audit.user")}</TableHead>
+                    <TableHead>{t("audit.action")}</TableHead>
+                    <TableHead>{t("audit.resource")}</TableHead>
+                    <TableHead>{t("audit.ipAddress")}</TableHead>
+                    <TableHead>{t("audit.time")}</TableHead>
+                    <TableHead>{t("audit.status")}</TableHead>
+                    <TableHead className="text-right">{t("audit.details")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -273,7 +351,9 @@ export function AuditLogsTable({ logs, actionTypes, onViewDetails }: AuditLogsTa
                       <TableCell>
                         <div className="flex items-center gap-2">
                           <Activity className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-sm font-medium">{log.action}</span>
+                          <span className="text-sm font-medium">
+                            {t(`audit.actions.${log.action.toLowerCase()}`, { defaultValue: log.action })}
+                          </span>
                         </div>
                       </TableCell>
                       <TableCell>
@@ -286,7 +366,7 @@ export function AuditLogsTable({ logs, actionTypes, onViewDetails }: AuditLogsTa
                       <TableCell>{getStatusBadge(log.status)}</TableCell>
                       <TableCell className="text-right">
                         <Button variant="ghost" size="sm" onClick={() => onViewDetails(log)}>
-                          View
+                          {t("audit.view")}
                         </Button>
                       </TableCell>
                     </TableRow>

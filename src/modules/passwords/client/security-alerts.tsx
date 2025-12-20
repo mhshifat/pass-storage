@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { AlertTriangle } from "lucide-react"
@@ -16,6 +17,7 @@ interface SecurityAlertsProps {
 }
 
 export function SecurityAlerts({ alerts }: SecurityAlertsProps) {
+  const { t } = useTranslation()
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -62,7 +64,7 @@ export function SecurityAlerts({ alerts }: SecurityAlertsProps) {
                     : "text-yellow-900 dark:text-yellow-200"
                 }`}
               >
-                {alert.type === "weak" ? "Weak Passwords" : "Expiring Passwords"}
+                {alert.type === "weak" ? t("passwords.weakPasswordsAlert") : t("passwords.expiringPasswordsAlert")}
               </CardTitle>
             </div>
           </CardHeader>
@@ -82,7 +84,7 @@ export function SecurityAlerts({ alerts }: SecurityAlertsProps) {
               className="mt-3"
               onClick={() => handleFilterClick(alert.type)}
             >
-              {alert.type === "weak" ? "Review Weak Passwords" : "View Expiring Passwords"}
+              {alert.type === "weak" ? t("passwords.reviewWeakPasswords") : t("passwords.viewExpiringPasswords")}
             </Button>
           </CardContent>
         </Card>

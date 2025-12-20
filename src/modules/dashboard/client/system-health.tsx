@@ -1,13 +1,15 @@
 "use client"
 
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 interface HealthMetric {
-  label: string
-  status: string
+  labelKey: string
+  statusKey: string
   percentage: number
-  description: string
+  descriptionKey: string
+  descriptionParams?: Record<string, number>
   color: string
 }
 
@@ -39,23 +41,24 @@ const EmptyHealthIllustration = () => (
 )
 
 export function SystemHealth({ metrics }: SystemHealthProps) {
+  const { t } = useTranslation()
   const hasData = metrics && metrics.length > 0
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>System Health</CardTitle>
+        <CardTitle>{t("dashboard.systemHealth")}</CardTitle>
         <CardDescription>
-          Overview of system performance and status
+          {t("dashboard.systemHealthDescription")}
         </CardDescription>
       </CardHeader>
       <CardContent>
         {!hasData ? (
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <EmptyHealthIllustration />
-            <h3 className="text-sm font-semibold mt-4 mb-1">No health data available</h3>
+            <h3 className="text-sm font-semibold mt-4 mb-1">{t("dashboard.noHealthData")}</h3>
             <p className="text-xs text-muted-foreground max-w-xs">
-              System health metrics will appear here once data is available
+              {t("dashboard.noHealthDataDescription")}
             </p>
           </div>
         ) : (
@@ -63,13 +66,18 @@ export function SystemHealth({ metrics }: SystemHealthProps) {
             {metrics.map((metric, index) => (
               <div key={index} className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">{metric.label}</span>
-                  <Badge variant="secondary">{metric.status}</Badge>
+                  <span className="text-sm font-medium">{t(metric.labelKey)}</span>
+                  <Badge variant="secondary">{t(`dashboard.status.${metric.statusKey}`)}</Badge>
                 </div>
                 <div className="h-2 bg-secondary rounded-full overflow-hidden">
                   <div className={`h-full ${metric.color} w-[${metric.percentage}%]`} style={{ width: `${metric.percentage}%` }} />
                 </div>
-                <p className="text-xs text-muted-foreground">{metric.description}</p>
+                <p className="text-xs text-muted-foreground">
+                  {t(metric.descriptionKey, {
+                    ...metric.descriptionParams,
+                    count: metric.descriptionParams?.count || 0,
+                  })}
+                </p>
               </div>
             ))}
           </div>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import {
   Dialog,
   DialogContent,
@@ -29,6 +30,7 @@ export function ResetPasswordDialog({
   onConfirm,
   userName,
 }: ResetPasswordDialogProps) {
+  const { t } = useTranslation()
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [error, setError] = useState("")
@@ -38,12 +40,12 @@ export function ResetPasswordDialog({
     setError("")
 
     if (!newPassword || newPassword.length < 8) {
-      setError("Password must be at least 8 characters")
+      setError(t("errors.passwordTooShort"))
       return
     }
 
     if (newPassword !== confirmPassword) {
-      setError("Passwords do not match")
+      setError(t("errors.passwordsDoNotMatch"))
       return
     }
 
@@ -54,7 +56,7 @@ export function ResetPasswordDialog({
       setConfirmPassword("")
       onOpenChange(false)
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to reset password")
+      setError(err instanceof Error ? err.message : t("users.passwordResetFailed"))
     } finally {
       setIsLoading(false)
     }
@@ -71,9 +73,11 @@ export function ResetPasswordDialog({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Reset Password</DialogTitle>
+          <DialogTitle>{t("users.resetPassword")}</DialogTitle>
           <DialogDescription>
-            {userName ? `Reset password for ${userName}. As an admin, you don't need to provide the current password.` : "Enter a new password for this user"}
+            {userName 
+              ? t("users.resetPasswordDescription", { userName })
+              : t("users.resetPasswordDescriptionGeneric")}
           </DialogDescription>
         </DialogHeader>
 
@@ -86,7 +90,7 @@ export function ResetPasswordDialog({
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="newPassword">New Password</Label>
+            <Label htmlFor="newPassword">{t("users.newPassword")}</Label>
             <PasswordInput
               id="newPassword"
               type="password"
@@ -97,12 +101,12 @@ export function ResetPasswordDialog({
               onGenerate={() => setNewPassword(generateStrongPassword(16))}
             />
             <p className="text-xs text-muted-foreground">
-              Password must be at least 8 characters and meet security requirements. Click the key icon to generate a strong password.
+              {t("users.resetPasswordHint")}
             </p>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Label htmlFor="confirmPassword">{t("users.confirmPassword")}</Label>
             <Input
               id="confirmPassword"
               type="password"
@@ -116,10 +120,10 @@ export function ResetPasswordDialog({
 
         <DialogFooter>
           <Button variant="outline" onClick={handleClose} disabled={isLoading}>
-            Cancel
+            {t("common.cancel")}
           </Button>
           <Button onClick={handleConfirm} disabled={isLoading}>
-            {isLoading ? "Resetting..." : "Reset Password"}
+            {isLoading ? t("users.resetting") : t("users.resetPassword")}
           </Button>
         </DialogFooter>
       </DialogContent>

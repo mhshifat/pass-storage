@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
@@ -51,6 +52,7 @@ export function TeamsTable({
   onCreateTeam,
   onManagePasswords,
 }: TeamsTableProps) {
+  const { t } = useTranslation()
   const { hasPermission } = usePermissions()
   const [searchQuery, setSearchQuery] = React.useState("")
 
@@ -70,7 +72,7 @@ export function TeamsTable({
           <div className="relative flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search teams..."
+              placeholder={t("teams.searchTeams")}
               className="pl-8"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -85,12 +87,12 @@ export function TeamsTable({
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Team Name</TableHead>
-                <TableHead>Manager</TableHead>
-                <TableHead>Members</TableHead>
-                <TableHead>Passwords</TableHead>
-                <TableHead>Created</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>{t("teams.teamName")}</TableHead>
+                <TableHead>{t("teams.manager")}</TableHead>
+                <TableHead>{t("teams.members")}</TableHead>
+                <TableHead>{t("teams.passwords")}</TableHead>
+                <TableHead>{t("teams.created")}</TableHead>
+                <TableHead className="text-right">{t("common.actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -130,22 +132,22 @@ export function TeamsTable({
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => onViewMembers(team)}>
                           <Users className="mr-2 h-4 w-4" />
-                          View Members
+                          {t("teams.viewMembers")}
                         </DropdownMenuItem>
                         {hasPermission("team.edit") && (
                           <DropdownMenuItem onClick={() => onEdit?.(team)}>
                             <Pencil className="mr-2 h-4 w-4" />
-                            Edit Team
+                            {t("teams.editTeam")}
                           </DropdownMenuItem>
                         )}
                         {hasPermission("password.share") && (
                           <DropdownMenuItem onClick={() => onManagePasswords?.(team)}>
                             <FolderKey className="mr-2 h-4 w-4" />
-                            Manage Passwords
+                            {t("teams.managePasswords")}
                           </DropdownMenuItem>
                         )}
                         {hasPermission("team.delete") && (
@@ -156,7 +158,7 @@ export function TeamsTable({
                               onClick={() => onDelete?.(team.id)}
                             >
                               <Trash2 className="mr-2 h-4 w-4" />
-                              Delete Team
+                              {t("teams.deleteTeam")}
                             </DropdownMenuItem>
                           </>
                         )}

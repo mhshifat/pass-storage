@@ -1,13 +1,10 @@
-
 import EmailSettingsWrapper from "@/modules/settings/client/email-settings-wrapper"
+import { EmailSettingsPageHeader } from "./email-settings-page-header"
 
 export default function EmailSettingsPage() {
   return (
     <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Email Settings</h1>
-        <p className="text-muted-foreground mt-1">Configure email notifications and delivery settings</p>
-      </div>
+      <EmailSettingsPageHeader />
       <EmailSettingsWrapper />
     </div>
   )

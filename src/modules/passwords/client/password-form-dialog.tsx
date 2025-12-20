@@ -39,6 +39,7 @@ import { trpc } from "@/trpc/client"
 import { CreateFolderDialog } from "@/modules/folders/client"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 
 const passwordSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -92,6 +93,7 @@ export function PasswordFormDialog({
   state = null,
   onSubmit,
 }: PasswordFormDialogProps) {
+  const { t } = useTranslation()
   const [isCreateFolderDialogOpen, setIsCreateFolderDialogOpen] = React.useState(false)
 
   // Fetch folders
@@ -230,9 +232,9 @@ export function PasswordFormDialog({
       <Dialog open={open} onOpenChange={handleDialogOpenChange}>
         <DialogContent className="sm:max-w-[600px] max-h-[90vh]">
           <DialogHeader>
-            <DialogTitle>{mode === "create" ? "Add New Password" : "Edit Password"}</DialogTitle>
+            <DialogTitle>{mode === "create" ? t("passwords.addPassword") : t("passwords.editPassword")}</DialogTitle>
             <DialogDescription>
-              {mode === "create" ? "Create a new password entry" : "Update password information"}
+              {mode === "create" ? t("passwords.createPasswordDescription") : t("passwords.updatePasswordDescription")}
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
@@ -245,7 +247,7 @@ export function PasswordFormDialog({
               )}
               {mode === "edit" && !password && (
                 <div className="text-sm text-muted-foreground text-center py-4">
-                  Loading password data...
+                  {t("common.loading")}
                 </div>
               )}
               <div className="overflow-y-auto max-h-[calc(90vh-180px)] pr-2 space-y-4">
@@ -254,9 +256,9 @@ export function PasswordFormDialog({
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel>{t("passwords.passwordName")}</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., AWS Production" {...field} name="name" />
+                        <Input placeholder={t("passwords.passwordNamePlaceholder")} {...field} name="name" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -268,9 +270,9 @@ export function PasswordFormDialog({
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Username / Email</FormLabel>
+                      <FormLabel>{t("passwords.username")}</FormLabel>
                       <FormControl>
-                        <Input placeholder="username@example.com" {...field} name="username" />
+                        <Input placeholder={t("passwords.usernamePlaceholder")} {...field} name="username" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -282,7 +284,7 @@ export function PasswordFormDialog({
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel>{t("common.password")}</FormLabel>
                       <FormControl>
                         <PasswordInput
                           {...field}
@@ -295,7 +297,7 @@ export function PasswordFormDialog({
                         />
                       </FormControl>
                       <FormDescription>
-                        Click the key icon to generate a strong password
+                        {t("passwords.passwordDescription")}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -307,9 +309,9 @@ export function PasswordFormDialog({
                   name="url"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>URL (Optional)</FormLabel>
+                      <FormLabel>{t("passwords.url")} ({t("common.optional")})</FormLabel>
                       <FormControl>
-                        <Input placeholder="https://example.com" {...field} name="url" />
+                        <Input placeholder={t("passwords.urlPlaceholder")} {...field} name="url" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -322,7 +324,7 @@ export function PasswordFormDialog({
                   render={({ field }) => (
                     <FormItem>
                       <div className="flex items-center justify-between">
-                        <FormLabel>Folder</FormLabel>
+                        <FormLabel>{t("passwords.folder")}</FormLabel>
                         <Button
                           type="button"
                           variant="ghost"
@@ -331,19 +333,19 @@ export function PasswordFormDialog({
                           className="h-7 text-xs"
                         >
                           <FolderPlus className="mr-1 h-3 w-3" />
-                          Create Folder
+                          {t("passwords.createFolder")}
                         </Button>
                       </div>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a folder (optional)" />
+                            <SelectValue placeholder={t("passwords.selectFolder")} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {folders.length === 0 ? (
                             <div className="px-2 py-1.5 text-sm text-muted-foreground text-center">
-                              No folders yet. Create one to get started.
+                              {t("passwords.noFolders")}
                             </div>
                           ) : (
                             folders.map((folder) => (
@@ -365,9 +367,9 @@ export function PasswordFormDialog({
                   name="notes"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Notes (Optional)</FormLabel>
+                      <FormLabel>{t("passwords.notes")} ({t("common.optional")})</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Additional notes" rows={3} {...field} name="notes" />
+                        <Textarea placeholder={t("passwords.notesPlaceholder")} rows={3} {...field} name="notes" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -383,9 +385,9 @@ export function PasswordFormDialog({
                     render={({ field }) => (
                       <FormItem className="flex items-center justify-between rounded-lg border p-4">
                         <div className="space-y-0.5">
-                          <FormLabel className="text-base">TOTP / 2FA Authentication</FormLabel>
+                          <FormLabel className="text-base">{t("passwords.totpAuth")}</FormLabel>
                           <FormDescription>
-                            Add two-factor authentication for enhanced security
+                            {t("passwords.totpAuthDescription")}
                           </FormDescription>
                         </div>
                         <FormControl>
@@ -403,16 +405,16 @@ export function PasswordFormDialog({
                         name="totpSecret"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>TOTP Secret Key</FormLabel>
+                            <FormLabel>{t("passwords.totpSecretKey")}</FormLabel>
                             <FormControl>
                               <div className="flex gap-2">
                                 <Input
-                                  placeholder="e.g., JBSWY3DPEHPK3PXP"
+                                  placeholder={t("passwords.totpSecretPlaceholder")}
                                   className="font-mono"
                                   {...field}
                                   name={enableTotp ? "totpSecret" : undefined}
                                 />
-                                <Button type="button" variant="outline" size="icon" title="Scan QR Code">
+                                <Button type="button" variant="outline" size="icon" title={t("passwords.scanQrCode")}>
                                   <QrCode className="h-4 w-4" />
                                 </Button>
                               </div>
@@ -423,18 +425,17 @@ export function PasswordFormDialog({
                       />
 
                       <div className="rounded-lg border bg-muted/50 p-3 space-y-2">
-                        <p className="text-xs font-medium">How to get your TOTP secret key:</p>
+                        <p className="text-xs font-medium">{t("passwords.totpInstructionsTitle")}</p>
                         <ol className="text-xs text-muted-foreground space-y-1.5 ml-4 list-decimal">
-                          <li>Open the website/app you want to secure with 2FA</li>
-                          <li>Go to Security Settings and enable Two-Factor Authentication</li>
-                          <li>Choose &quot;Authenticator App&quot; as your 2FA method</li>
-                          <li>Click &quot;Can&apos;t scan QR code?&quot; or &quot;Enter manually&quot; option</li>
-                          <li>Copy the displayed secret key (usually 16-32 characters)</li>
-                          <li>Paste it here and save</li>
+                          <li>{t("passwords.totpInstruction1")}</li>
+                          <li>{t("passwords.totpInstruction2")}</li>
+                          <li>{t("passwords.totpInstruction3")}</li>
+                          <li>{t("passwords.totpInstruction4")}</li>
+                          <li>{t("passwords.totpInstruction5")}</li>
+                          <li>{t("passwords.totpInstruction6")}</li>
                         </ol>
                         <p className="text-xs text-muted-foreground mt-2">
-                          💡 <strong>Tip:</strong> You can also click the QR code button to scan directly
-                          from your screen
+                          💡 <strong>{t("passwords.tip")}:</strong> {t("passwords.totpTip")}
                         </p>
                       </div>
                     </>
@@ -449,16 +450,16 @@ export function PasswordFormDialog({
                   onClick={() => handleDialogOpenChange(false)}
                   disabled={isPending}
                 >
-                  Cancel
+                  {t("common.cancel")}
                 </Button>
                 <Button type="submit" disabled={isPending}>
                   {isPending
                     ? mode === "create"
-                      ? "Creating..."
-                      : "Saving..."
+                      ? t("passwords.creating")
+                      : t("passwords.saving")
                     : mode === "create"
-                    ? "Save Password"
-                    : "Save Changes"}
+                    ? t("passwords.savePassword")
+                    : t("common.save")}
                 </Button>
               </DialogFooter>
             </form>

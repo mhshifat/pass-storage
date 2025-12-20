@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslation } from "react-i18next"
 import {
   Pagination,
   PaginationContent,
@@ -18,6 +19,7 @@ interface UsersPaginationProps {
 }
 
 export function UsersPagination({ currentPage, totalPages, total }: UsersPaginationProps) {
+  const { t } = useTranslation()
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -64,11 +66,13 @@ export function UsersPagination({ currentPage, totalPages, total }: UsersPaginat
     return pages
   }
 
+  const start = Math.min((currentPage - 1) * 10 + 1, total)
+  const end = Math.min(currentPage * 10, total)
+
   return (
     <div className="flex items-center justify-between mt-6">
       <p className="text-sm text-muted-foreground">
-        Showing {Math.min((currentPage - 1) * 10 + 1, total)} to{" "}
-        {Math.min(currentPage * 10, total)} of {total} users
+        {t("users.paginationInfo", { start, end, total })}
       </p>
       <Pagination>
         <PaginationContent>

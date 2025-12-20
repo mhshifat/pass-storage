@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { trpc } from "@/trpc/client"
 import { Loader2 } from "lucide-react"
@@ -9,6 +10,7 @@ import { Separator } from "@/components/ui/separator"
 import { ChangePasswordForm } from "@/modules/users/client/change-password-form"
 
 export default function ProfilePage() {
+  const { t } = useTranslation()
   const { data: authData, isLoading, error } = trpc.auth.getCurrentUser.useQuery()
   const user = authData?.user
 
@@ -28,7 +30,7 @@ export default function ProfilePage() {
         <Card>
           <CardContent className="pt-6">
             <div className="text-center text-destructive">
-              <p>Failed to load profile: {error.message}</p>
+              <p>{t("profile.loadFailed", { error: error.message })}</p>
             </div>
           </CardContent>
         </Card>
@@ -42,7 +44,7 @@ export default function ProfilePage() {
         <Card>
           <CardContent className="pt-6">
             <div className="text-center">
-              <p>User not found</p>
+              <p>{t("profile.userNotFound")}</p>
             </div>
           </CardContent>
         </Card>
@@ -60,14 +62,14 @@ export default function ProfilePage() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">My Profile</h1>
-        <p className="text-muted-foreground mt-1">View and manage your account information</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t("profile.title")}</h1>
+        <p className="text-muted-foreground mt-1">{t("profile.description")}</p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Profile Information</CardTitle>
-          <CardDescription>Your account details and information</CardDescription>
+          <CardTitle>{t("profile.profileInformation")}</CardTitle>
+          <CardDescription>{t("profile.accountDetails")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center gap-4">
@@ -86,26 +88,26 @@ export default function ProfilePage() {
 
           <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <label className="text-sm font-medium text-muted-foreground">Email</label>
+              <label className="text-sm font-medium text-muted-foreground">{t("common.email")}</label>
               <p className="text-sm font-medium">{user.email}</p>
             </div>
             <div>
-              <label className="text-sm font-medium text-muted-foreground">Role</label>
+              <label className="text-sm font-medium text-muted-foreground">{t("common.role")}</label>
               <p className="text-sm font-medium">
                 <Badge variant="secondary">{user.role}</Badge>
               </p>
             </div>
             {user.phoneNumber && (
               <div>
-                <label className="text-sm font-medium text-muted-foreground">Phone Number</label>
+                <label className="text-sm font-medium text-muted-foreground">{t("profile.phoneNumber")}</label>
                 <p className="text-sm font-medium">{user.phoneNumber}</p>
               </div>
             )}
             <div>
-              <label className="text-sm font-medium text-muted-foreground">MFA Status</label>
+              <label className="text-sm font-medium text-muted-foreground">{t("profile.mfaStatus")}</label>
               <p className="text-sm font-medium">
                 <Badge variant={user.mfaEnabled ? "default" : "secondary"}>
-                  {user.mfaEnabled ? "Enabled" : "Disabled"}
+                  {user.mfaEnabled ? t("mfa.enabled") : t("mfa.disabled")}
                 </Badge>
                 {user.mfaEnabled && user.mfaMethod && (
                   <span className="ml-2 text-xs text-muted-foreground">({user.mfaMethod})</span>

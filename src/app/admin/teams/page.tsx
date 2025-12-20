@@ -1,7 +1,8 @@
 import { Suspense } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { TeamsActionsClient, TeamsTableSkeleton, TeamsStatsSkeleton } from "@/modules/teams/client"
 import { caller } from "@/trpc/server"
+import { TeamsPageHeader } from "./teams-page-header"
+import { TeamsStatsClient } from "./teams-stats-client"
 
 async function TeamsContent({ page }: { page: number }) {
   const { teams, pagination } = await caller.teams.list({
@@ -14,49 +15,7 @@ async function TeamsContent({ page }: { page: number }) {
 
 async function TeamsStats() {
   const stats = await caller.teams.stats()
-
-  return (
-    <div className="grid gap-4 md:grid-cols-4">
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium">Total Teams</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{stats.total}</div>
-          <p className="text-xs text-muted-foreground">Active teams</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium">Total Members</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{stats.totalMembers}</div>
-          <p className="text-xs text-muted-foreground">Across all teams</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium">Shared Passwords</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{stats.totalPasswords}</div>
-          <p className="text-xs text-muted-foreground">
-            {stats.total > 0 ? `Average ${Math.round(stats.totalPasswords / stats.total)} per team` : "No passwords shared"}
-          </p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium">Avg Team Size</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{stats.avgTeamSize}</div>
-          <p className="text-xs text-muted-foreground">Members per team</p>
-        </CardContent>
-      </Card>
-    </div>
-  )
+  return <TeamsStatsClient stats={stats} />
 }
 
 interface TeamsPageProps {

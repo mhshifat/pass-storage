@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useTransition } from "react"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { MfaSetupAlert } from "./mfa-setup-alert"
 import { setupMfaAction } from "@/app/(auth-mfa)/mfa-setup/actions"
@@ -12,17 +13,20 @@ import { useRouter } from "next/navigation"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp"
 
-const mfaFormSchema = z.object({
-    code: z.string().length(6, "Code must be 6 digits").regex(/^\d+$/, "Code must be numeric"),
-});
-
-type MfaFormData = z.infer<typeof mfaFormSchema>;
+export function createMfaFormSchema(t: (key: string) => string) {
+  return z.object({
+    code: z.string().length(6, t("mfa.codeMustBe6Digits")).regex(/^\d+$/, t("mfa.codeMustBeNumeric")),
+  })
+}
 
 export function MfaSetupForm() {
+    const { t } = useTranslation()
     const router = useRouter();
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState(false)
     const [isPending, startTransition] = useTransition();
+    const mfaFormSchema = createMfaFormSchema(t)
+    type MfaFormData = z.infer<typeof mfaFormSchema>
 
     const form = useForm<MfaFormData>({
         mode: "onSubmit",
@@ -80,7 +84,7 @@ export function MfaSetupForm() {
                 />
                 <MfaSetupAlert error={error} success={success} />
                 <Button type="submit" className="w-full" disabled={isPending}>
-                    {isPending ? "Verifying..." : "Verify & Enable MFA"}
+                    {isPending ? t("mfa.verifying") : t("mfa.verifyAndEnable")}
                 </Button>
             </form>
         </Form>

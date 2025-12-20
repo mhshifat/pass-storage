@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -16,29 +17,30 @@ import { usePermissions } from "@/hooks/use-permissions"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Info } from "lucide-react"
 
-const mfaCredentialsSchema = z.object({
+const createMfaCredentialsSchema = (t: (key: string) => string) => z.object({
   smsAccountSid: z.string().optional(),
   smsAuthToken: z.string().optional(),
   smsPhoneNumber: z.string().optional(),
   webauthnRpId: z.string().optional(),
   webauthnRpName: z.string().optional(),
-  webauthnOrigin: z.string().url("Invalid URL format").optional().or(z.literal("")),
+  webauthnOrigin: z.string().url(t("settings.mfaCredentialsSettings.invalidUrl")).optional().or(z.literal("")),
 })
 
-type MfaCredentialsFormValues = z.infer<typeof mfaCredentialsSchema>
-
 export function MfaCredentialsSettings() {
+  const { t } = useTranslation()
+  const mfaCredentialsSchema = createMfaCredentialsSchema(t)
+  type MfaCredentialsFormValues = z.infer<typeof mfaCredentialsSchema>
   const { hasPermission } = usePermissions()
   const canEdit = hasPermission("settings.edit")
   const { data: credentials, isLoading, error } = trpc.settings.getMfaCredentials.useQuery()
   const utils = trpc.useUtils()
   const updateCredentials = trpc.settings.updateMfaCredentials.useMutation({
     onSuccess: () => {
-      toast.success("MFA credentials saved successfully")
+      toast.success(t("settings.mfaCredentialsSettings.saved"))
       utils.settings.getMfaCredentials.invalidate()
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to save MFA credentials")
+      toast.error(error.message || t("settings.mfaCredentialsSettings.saveFailed"))
     },
   })
 
@@ -76,8 +78,8 @@ export function MfaCredentialsSettings() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>MFA Credentials</CardTitle>
-          <CardDescription>Configure credentials for SMS and WebAuthn MFA methods</CardDescription>
+          <CardTitle>{t("settings.mfaCredentials")}</CardTitle>
+          <CardDescription>{t("settings.mfaCredentialsDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-8">
@@ -92,12 +94,12 @@ export function MfaCredentialsSettings() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>MFA Credentials</CardTitle>
-          <CardDescription>Configure credentials for SMS and WebAuthn MFA methods</CardDescription>
+          <CardTitle>{t("settings.mfaCredentials")}</CardTitle>
+          <CardDescription>{t("settings.mfaCredentialsDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="text-center py-8 text-destructive">
-            <p>Failed to load credentials: {error.message}</p>
+            <p>{t("settings.mfaCredentialsSettings.loadFailed", { error: error.message })}</p>
           </div>
         </CardContent>
       </Card>
@@ -111,7 +113,7 @@ export function MfaCredentialsSettings() {
           <Alert>
             <Info className="h-4 w-4" />
             <AlertDescription>
-              You have read-only access to these settings. Only users with edit permissions can modify them.
+              {t("settings.readOnlyAccess")}
             </AlertDescription>
           </Alert>
         )}
@@ -119,9 +121,9 @@ export function MfaCredentialsSettings() {
         {/* SMS Credentials */}
         <Card>
           <CardHeader>
-            <CardTitle>SMS Authentication Credentials</CardTitle>
+            <CardTitle>{t("settings.mfaCredentialsSettings.smsTitle")}</CardTitle>
             <CardDescription>
-              Configure Twilio credentials for SMS-based MFA. Required if SMS MFA is enabled.
+              {t("settings.mfaCredentialsSettings.smsDescription")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -130,17 +132,17 @@ export function MfaCredentialsSettings() {
               name="smsAccountSid"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Twilio Account SID</FormLabel>
+                  <FormLabel>{t("settings.mfaCredentialsSettings.smsAccountSid")}</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                      placeholder={t("settings.mfaCredentialsSettings.smsAccountSidPlaceholder")}
                       {...field}
                       disabled={!canEdit}
                     />
                   </FormControl>
                   <FormDescription>
-                    Your Twilio Account SID from the Twilio Console
+                    {t("settings.mfaCredentialsSettings.smsAccountSidDescription")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -152,17 +154,17 @@ export function MfaCredentialsSettings() {
               name="smsAuthToken"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Twilio Auth Token</FormLabel>
+                  <FormLabel>{t("settings.mfaCredentialsSettings.smsAuthToken")}</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Your Twilio Auth Token"
+                      placeholder={t("settings.mfaCredentialsSettings.smsAuthTokenPlaceholder")}
                       {...field}
                       disabled={!canEdit}
                     />
                   </FormControl>
                   <FormDescription>
-                    Your Twilio Auth Token from the Twilio Console
+                    {t("settings.mfaCredentialsSettings.smsAuthTokenDescription")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -174,17 +176,17 @@ export function MfaCredentialsSettings() {
               name="smsPhoneNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Twilio Phone Number</FormLabel>
+                  <FormLabel>{t("settings.mfaCredentialsSettings.smsPhoneNumber")}</FormLabel>
                   <FormControl>
                     <Input
                       type="tel"
-                      placeholder="+1234567890"
+                      placeholder={t("settings.mfaCredentialsSettings.smsPhoneNumberPlaceholder")}
                       {...field}
                       disabled={!canEdit}
                     />
                   </FormControl>
                   <FormDescription>
-                    The Twilio phone number to send SMS from (E.164 format)
+                    {t("settings.mfaCredentialsSettings.smsPhoneNumberDescription")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -196,9 +198,9 @@ export function MfaCredentialsSettings() {
         {/* WebAuthn Credentials */}
         <Card>
           <CardHeader>
-            <CardTitle>WebAuthn (Hardware Security Keys) Credentials</CardTitle>
+            <CardTitle>{t("settings.mfaCredentialsSettings.webauthnTitle")}</CardTitle>
             <CardDescription>
-              Configure WebAuthn settings for hardware security key authentication. Required if WebAuthn MFA is enabled.
+              {t("settings.mfaCredentialsSettings.webauthnDescription")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -207,17 +209,17 @@ export function MfaCredentialsSettings() {
               name="webauthnRpId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Relying Party ID (RP ID)</FormLabel>
+                  <FormLabel>{t("settings.mfaCredentialsSettings.webauthnRpId")}</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="example.com"
+                      placeholder={t("settings.mfaCredentialsSettings.webauthnRpIdPlaceholder")}
                       {...field}
                       disabled={!canEdit}
                     />
                   </FormControl>
                   <FormDescription>
-                    Your domain name (e.g., example.com). Must match your application domain.
+                    {t("settings.mfaCredentialsSettings.webauthnRpIdDescription")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -229,17 +231,17 @@ export function MfaCredentialsSettings() {
               name="webauthnRpName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Relying Party Name</FormLabel>
+                  <FormLabel>{t("settings.mfaCredentialsSettings.webauthnRpName")}</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Password Storage"
+                      placeholder={t("settings.mfaCredentialsSettings.webauthnRpNamePlaceholder")}
                       {...field}
                       disabled={!canEdit}
                     />
                   </FormControl>
                   <FormDescription>
-                    The name displayed to users when registering security keys
+                    {t("settings.mfaCredentialsSettings.webauthnRpNameDescription")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -251,17 +253,17 @@ export function MfaCredentialsSettings() {
               name="webauthnOrigin"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Origin URL</FormLabel>
+                  <FormLabel>{t("settings.mfaCredentialsSettings.webauthnOrigin")}</FormLabel>
                   <FormControl>
                     <Input
                       type="url"
-                      placeholder="https://example.com"
+                      placeholder={t("settings.mfaCredentialsSettings.webauthnOriginPlaceholder")}
                       {...field}
                       disabled={!canEdit}
                     />
                   </FormControl>
                   <FormDescription>
-                    The origin URL of your application (e.g., https://example.com)
+                    {t("settings.mfaCredentialsSettings.webauthnOriginDescription")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -276,7 +278,7 @@ export function MfaCredentialsSettings() {
               {updateCredentials.isPending && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Save MFA Credentials
+              {t("settings.mfaCredentialsSettings.saveButton")}
             </Button>
           </div>
         )}

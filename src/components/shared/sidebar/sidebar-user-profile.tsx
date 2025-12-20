@@ -19,6 +19,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { logoutAction } from "@/app/admin/actions"
+import { useTranslation } from "react-i18next"
 
 interface User {
   id: string
@@ -33,6 +34,7 @@ interface SidebarUserProfileProps {
 }
 
 export function SidebarUserProfile({ user, isCollapsed }: SidebarUserProfileProps) {
+  const { t } = useTranslation()
   const [isLoggingOut, setIsLoggingOut] = React.useState(false)
 
   const handleLogout = async () => {
@@ -77,19 +79,19 @@ export function SidebarUserProfile({ user, isCollapsed }: SidebarUserProfileProp
             <DropdownMenuItem asChild>
               <Link href="/admin/account/profile">
                 <User className="mr-2 h-4 w-4" />
-                Profile
+                {t("common.profile")}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link href="/admin/settings/general">
                 <Settings className="mr-2 h-4 w-4" />
-                Settings
+                {t("settings.title")}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout} disabled={isLoggingOut}>
               <LogOut className="mr-2 h-4 w-4" />
-              {isLoggingOut ? "Logging out..." : "Log out"}
+              {isLoggingOut ? t("auth.loggingOut") : t("auth.logout")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -124,24 +126,24 @@ export function SidebarUserProfile({ user, isCollapsed }: SidebarUserProfileProp
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel>{t("common.myAccount")}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <Link href="/admin/account/profile">
               <User className="mr-2 h-4 w-4" />
-              Profile
+              {t("common.profile")}
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link href="/admin/settings/general">
               <Settings className="mr-2 h-4 w-4" />
-              Settings
+              {t("settings.title")}
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleLogout} disabled={isLoggingOut}>
             <LogOut className="mr-2 h-4 w-4" />
-            {isLoggingOut ? "Logging out..." : "Log out"}
+            {isLoggingOut ? t("auth.loggingOut") : t("auth.logout")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

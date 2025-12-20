@@ -35,6 +35,7 @@ import {
 import { Switch } from "@/components/ui/switch"
 import { AlertCircle } from "lucide-react"
 import { trpc } from "@/trpc/client"
+import { useTranslation } from "react-i18next"
 
 interface User {
   id: string
@@ -82,6 +83,7 @@ export function UserFormDialog({
   isPending,
   state,
 }: UserFormDialogProps) {
+  const { t } = useTranslation()
   // Fetch assignable roles
   const { data: rolesData } = trpc.roles.getAssignableRoles.useQuery(undefined, {
     enabled: open,
@@ -159,11 +161,9 @@ export function UserFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[525px]">
         <DialogHeader>
-          <DialogTitle>{mode === "create" ? "Add New User" : "Edit User"}</DialogTitle>
+          <DialogTitle>{mode === "create" ? t("users.addUser") : t("users.editUser")}</DialogTitle>
           <DialogDescription>
-            {mode === "create"
-              ? "Create a new user account and assign permissions"
-              : "Update user account details and permissions"}
+            {mode === "create" ? t("users.createUser") : t("users.updateUser")}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -179,9 +179,9 @@ export function UserFormDialog({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full Name</FormLabel>
+                  <FormLabel>{t("users.fullName")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="John Doe" {...field} />
+                    <Input placeholder={t("users.fullName")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -193,9 +193,9 @@ export function UserFormDialog({
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t("common.email")}</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="john.doe@company.com" {...field} />
+                    <Input type="email" placeholder={t("common.email")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -208,7 +208,7 @@ export function UserFormDialog({
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>{t("common.password")}</FormLabel>
                     <FormControl>
                       <PasswordInput
                         placeholder="••••••••"
@@ -221,7 +221,7 @@ export function UserFormDialog({
                       />
                     </FormControl>
                     <FormDescription>
-                      Minimum 8 characters. Click the key icon to generate a strong password.
+                      {t("users.passwordDescription")}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -234,11 +234,11 @@ export function UserFormDialog({
               name="role"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Role</FormLabel>
+                  <FormLabel>{t("common.role")}</FormLabel>
                   <Select onValueChange={field.onChange} value={field.value} name="role">
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a role" />
+                        <SelectValue placeholder={t("users.selectRole")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -261,9 +261,9 @@ export function UserFormDialog({
               render={({ field }) => (
                 <FormItem className="flex items-center justify-between space-y-0 rounded-lg border p-3">
                   <div className="space-y-0.5">
-                    <FormLabel>Require MFA</FormLabel>
+                    <FormLabel>{t("users.requireMfa")}</FormLabel>
                     <FormDescription>
-                      User must set up two-factor authentication
+                      {t("users.requireMfaDescription")}
                     </FormDescription>
                   </div>
                   <FormControl>
@@ -280,9 +280,9 @@ export function UserFormDialog({
               render={({ field }) => (
                 <FormItem className="flex items-center justify-between space-y-0 rounded-lg border p-3">
                   <div className="space-y-0.5">
-                    <FormLabel>Active</FormLabel>
+                    <FormLabel>{t("common.active")}</FormLabel>
                     <FormDescription>
-                      User can log in and access the system
+                      {t("users.isActiveDescription")}
                     </FormDescription>
                   </div>
                   <FormControl>
@@ -295,10 +295,10 @@ export function UserFormDialog({
 
             <DialogFooter>
               <Button variant="outline" type="button" onClick={() => onOpenChange(false)} disabled={isPending}>
-                Cancel
+                {t("common.cancel")}
               </Button>
               <Button type="submit" disabled={isPending}>
-                {isPending ? "Saving..." : mode === "create" ? "Create User" : "Save Changes"}
+                {isPending ? t("common.loading") : mode === "create" ? t("users.createUserButton") : t("common.save")}
               </Button>
             </DialogFooter>
           </form>

@@ -1,5 +1,6 @@
 "use client"
 
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
@@ -18,13 +19,14 @@ export function AuditLogsPagination({
   pageSize,
   onPageChange,
 }: AuditLogsPaginationProps) {
+  const { t } = useTranslation()
   const start = Math.min((currentPage - 1) * pageSize + 1, total)
   const end = Math.min(currentPage * pageSize, total)
 
   return (
     <div className="flex items-center justify-between">
       <p className="text-sm text-muted-foreground">
-        Showing {start} to {end} of {total} logs
+        {t("audit.paginationInfo", { start, end, total })}
       </p>
       <div className="flex items-center gap-2">
         <Button
@@ -34,7 +36,7 @@ export function AuditLogsPagination({
           disabled={currentPage === 1}
         >
           <ChevronLeft className="h-4 w-4" />
-          Previous
+          {t("common.previous")}
         </Button>
         <div className="flex items-center gap-1">
           {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -68,7 +70,7 @@ export function AuditLogsPagination({
           onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
           disabled={currentPage === totalPages}
         >
-          Next
+          {t("common.next")}
           <ChevronRight className="h-4 w-4" />
         </Button>
       </div>

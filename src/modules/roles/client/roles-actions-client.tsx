@@ -21,6 +21,7 @@ import { RolesTable } from "./roles-table"
 import { PermissionsDialog } from "./permissions-dialog"
 import { createRoleAction, updateRoleAction, deleteRoleAction } from "@/app/admin/roles/actions"
 import { trpc } from "@/trpc/client"
+import { useTranslation } from "react-i18next"
 import { usePermissions } from "@/hooks/use-permissions"
 
 interface Role {
@@ -37,6 +38,7 @@ interface RolesActionsClientProps {
 }
 
 export function RolesActionsClient({ roles }: RolesActionsClientProps) {
+  const { t } = useTranslation()
   const { hasPermission } = usePermissions()
   // Fetch permissions from database
   const { data: permissionsData } = trpc.roles.getAllPermissions.useQuery()
@@ -74,24 +76,24 @@ export function RolesActionsClient({ roles }: RolesActionsClientProps) {
 
   React.useEffect(() => {
     if (createState?.success) {
-      toast.success("Role created successfully")
+      toast.success(t("roles.roleCreatedSuccess"))
       setIsCreateDialogOpen(false)
       router.refresh()
     } else if (createState?.error) {
       toast.error(createState.error)
     }
-  }, [createState, router])
+  }, [createState, router, t])
 
   React.useEffect(() => {
     if (updateState?.success) {
-      toast.success("Role updated successfully")
+      toast.success(t("roles.roleUpdatedSuccess"))
       setIsEditDialogOpen(false)
       setRoleToEdit(null)
       router.refresh()
     } else if (updateState?.error) {
       toast.error(updateState.error)
     }
-  }, [updateState, router])
+  }, [updateState, router, t])
 
   const handleViewPermissions = (role: Role) => {
     setSelectedRole(role)
@@ -114,7 +116,7 @@ export function RolesActionsClient({ roles }: RolesActionsClientProps) {
       if (result.error) {
         toast.error(result.error)
       } else {
-        toast.success("Role has been successfully deleted.")
+        toast.success(t("roles.roleDeletedSuccess"))
         router.refresh()
       }
       setIsDeleteDialogOpen(false)
@@ -124,20 +126,12 @@ export function RolesActionsClient({ roles }: RolesActionsClientProps) {
 
   return (
     <>
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Roles & Permissions</h1>
-          <p className="text-muted-foreground mt-1">
-            Define roles and manage access permissions
-          </p>
-        </div>
-        {hasPermission("role.manage") && (
-          <Button onClick={() => setIsCreateDialogOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" />
-            Create Role
-          </Button>
-        )}
-      </div>
+      {hasPermission("role.manage") && (
+        <Button onClick={() => setIsCreateDialogOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" />
+          {t("roles.createRole")}
+        </Button>
+      )}
 
       <RolesTable 
         roles={roles} 
@@ -176,16 +170,15 @@ export function RolesActionsClient({ roles }: RolesActionsClientProps) {
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>{t("roles.confirmDelete")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the role
-              and remove all associated permissions. Users assigned to this role will need to be reassigned.
+              {t("roles.deleteWarning")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
             <AlertDialogAction onClick={confirmDelete} className="bg-red-600 hover:bg-red-700">
-              Delete
+              {t("common.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -61,6 +62,7 @@ export function RoleFormDialog({
   isPending,
   state,
 }: RoleFormDialogProps) {
+  const { t } = useTranslation()
   const form = useForm<RoleFormValues>({
     resolver: zodResolver(roleSchema),
     defaultValues: {
@@ -122,11 +124,9 @@ export function RoleFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{mode === "create" ? "Create New Role" : "Edit Role"}</DialogTitle>
+          <DialogTitle>{mode === "create" ? t("roles.createRole") : t("roles.editRole")}</DialogTitle>
           <DialogDescription>
-            {mode === "create"
-              ? "Define a custom role with specific permissions"
-              : "Update role details and permissions"}
+            {mode === "create" ? t("roles.createRoleDescription") : t("roles.updateRoleDescription")}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -142,9 +142,9 @@ export function RoleFormDialog({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Role Name</FormLabel>
+                  <FormLabel>{t("roles.roleName")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Custom Role" {...field} name="role-name" />
+                    <Input placeholder={t("roles.roleNamePlaceholder")} {...field} name="role-name" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -156,10 +156,10 @@ export function RoleFormDialog({
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>{t("roles.roleDescription")}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Brief description of the role"
+                      placeholder={t("roles.roleDescriptionPlaceholder")}
                       rows={3}
                       {...field}
                       name="role-description"
@@ -177,16 +177,16 @@ export function RoleFormDialog({
                 onClick={() => onOpenChange(false)}
                 disabled={isPending}
               >
-                Cancel
+                {t("common.cancel")}
               </Button>
               <Button type="submit" disabled={isPending}>
                 {isPending
                   ? mode === "create"
-                    ? "Creating..."
-                    : "Saving..."
+                    ? t("roles.creating")
+                    : t("roles.saving")
                   : mode === "create"
-                  ? "Create & Set Permissions"
-                  : "Save Changes"}
+                  ? t("roles.createAndSetPermissions")
+                  : t("common.save")}
               </Button>
             </DialogFooter>
           </form>

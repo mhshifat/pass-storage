@@ -29,55 +29,57 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { usePermissions } from "@/hooks/use-permissions"
+import { useTranslation } from "react-i18next"
 
-const navigation = [
+// Navigation structure with translation keys
+const navigationStructure = [
   {
-    name: "Dashboard",
+    nameKey: "dashboard.title",
     href: "/admin",
     icon: LayoutDashboard,
     permission: null, // Always visible
   },
   {
-    name: "Users",
+    nameKey: "users.title",
     href: "/admin/users",
     icon: Users,
     permission: "user.view",
   },
   {
-    name: "Teams",
+    nameKey: "teams.title",
     href: "/admin/teams",
     icon: BoxesIcon,
     permission: "team.view",
   },
   {
-    name: "Roles & Permissions",
+    nameKey: "roles.title",
     href: "/admin/roles",
     icon: Shield,
     permission: "role.manage",
   },
   {
-    name: "Passwords",
+    nameKey: "passwords.title",
     href: "/admin/passwords",
     icon: Lock,
     permission: "password.view",
   },
   {
-    name: "Audit Logs",
+    nameKey: "audit.title",
     href: "/admin/audit-logs",
     icon: Activity,
     permission: "audit.view",
   },
   {
-    name: "Settings",
+    nameKey: "settings.title",
     href: "/admin/settings/general",
     icon: Settings,
     permission: "settings.view",
     children: [
-      { name: "General", href: "/admin/settings/general", permission: "settings.view" },
-      { name: "Email", href: "/admin/settings/email", permission: "settings.view" },
-      { name: "Security", href: "/admin/settings/security", permission: "settings.view" },
-      { name: "MFA", href: "/admin/settings/mfa", permission: "settings.view" },
-      { name: "MFA Credentials", href: "/admin/settings/mfa-credentials", permission: "settings.view" },
+      { nameKey: "settings.general", href: "/admin/settings/general", permission: "settings.view" },
+      { nameKey: "settings.emailMenu", href: "/admin/settings/email", permission: "settings.view" },
+      { nameKey: "settings.securityMenu", href: "/admin/settings/security", permission: "settings.view" },
+      { nameKey: "settings.mfaMenu", href: "/admin/settings/mfa", permission: "settings.view" },
+      { nameKey: "settings.mfaCredentials", href: "/admin/settings/mfa-credentials", permission: "settings.view" },
     ],
   },
 ]
@@ -87,9 +89,23 @@ interface SidebarNavigationProps {
 }
 
 export function SidebarNavigation({ isCollapsed }: SidebarNavigationProps) {
+  const { t } = useTranslation()
   const pathname = usePathname()
-  const [expandedItems, setExpandedItems] = React.useState<string[]>(["Settings"])
   const { hasPermission } = usePermissions()
+
+  // Build navigation with translated names
+  const navigation = navigationStructure.map((item) => ({
+    ...item,
+    name: t(item.nameKey),
+    children: item.children?.map((child) => ({
+      ...child,
+      name: t(child.nameKey),
+    })),
+  }))
+
+  // Initialize expanded items with translated Settings name
+  const settingsName = t("settings.title")
+  const [expandedItems, setExpandedItems] = React.useState<string[]>([settingsName])
 
   const toggleExpand = (name: string) => {
     setExpandedItems((prev) =>
@@ -230,7 +246,7 @@ export function SidebarNavigation({ isCollapsed }: SidebarNavigationProps) {
                       toggleExpand(item.name)
                     }}
                     className="p-1 rounded hover:bg-accent"
-                    aria-label={isExpanded ? "Collapse" : "Expand"}
+                    aria-label={isExpanded ? t("common.collapse") : t("common.expand")}
                   >
                     <ChevronRight
                       className={cn(

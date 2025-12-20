@@ -1,12 +1,15 @@
 "use client"
 
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 interface Activity {
   user: string
-  action: string
+  action?: string
+  actionKey?: string
   resource: string
+  resourceType?: string
   time: string
   avatar: string
 }
@@ -55,21 +58,23 @@ const EmptyActivitiesIllustration = () => (
 )
 
 export function RecentActivities({ activities }: RecentActivitiesProps) {
+  const { t } = useTranslation()
+  
   return (
     <Card className="lg:col-span-1">
       <CardHeader>
-        <CardTitle>Recent Activities</CardTitle>
+        <CardTitle>{t("dashboard.recentActivities")}</CardTitle>
         <CardDescription>
-          Latest actions performed by users
+          {t("dashboard.recentActivitiesDescription")}
         </CardDescription>
       </CardHeader>
       <CardContent>
         {activities.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <EmptyActivitiesIllustration />
-            <h3 className="text-sm font-semibold mt-4 mb-1">No activities yet</h3>
+            <h3 className="text-sm font-semibold mt-4 mb-1">{t("dashboard.noActivities")}</h3>
             <p className="text-xs text-muted-foreground max-w-xs">
-              Activity will appear here as users perform actions in the system
+              {t("dashboard.noActivitiesDescription")}
             </p>
           </div>
         ) : (
@@ -90,7 +95,11 @@ export function RecentActivities({ activities }: RecentActivitiesProps) {
                     </p>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    {activity.action} • {activity.resource}
+                    {activity.actionKey 
+                      ? t(activity.actionKey, { defaultValue: activity.action || activity.actionKey })
+                      : activity.action} • {activity.resourceType 
+                        ? t(`audit.resourceTypes.${activity.resourceType.toLowerCase()}`, { defaultValue: activity.resource })
+                        : activity.resource}
                   </p>
                 </div>
               </div>

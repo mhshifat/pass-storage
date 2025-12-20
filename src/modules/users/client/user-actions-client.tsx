@@ -24,6 +24,7 @@ import { sendEmailAction } from "@/app/admin/users/email-actions"
 import { useRouter } from "next/navigation"
 import { usePermissions } from "@/hooks/use-permissions"
 import { trpc } from "@/trpc/client"
+import { useTranslation } from "react-i18next"
 
 interface User {
   id: string
@@ -46,16 +47,17 @@ interface UserActionsClientProps {
 }
 
 export function UserActionsClient({ users, currentUserId, isSuperAdmin = false, currentUser }: UserActionsClientProps) {
+  const { t } = useTranslation()
   const router = useRouter()
   const { hasPermission } = usePermissions()
   const utils = trpc.useUtils()
   const resetMfa = trpc.auth.resetUserMfa.useMutation({
     onSuccess: () => {
-      toast.success("MFA reset successfully")
+      toast.success(t("users.mfaResetSuccess"))
       router.refresh()
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to reset MFA")
+      toast.error(error.message || t("users.mfaResetFailed"))
     },
   })
   const [isCreateDialogOpen, setIsCreateDialogOpen] = React.useState(false)
@@ -118,7 +120,7 @@ export function UserActionsClient({ users, currentUserId, isSuperAdmin = false, 
       if (result.error) {
         throw new Error(result.error)
       }
-      toast.success(`Email sent successfully to ${userToEmail.email}.`)
+      toast.success(t("users.emailSentSuccess", { email: userToEmail.email }))
       router.refresh()
       setUserToEmail(null)
     }
@@ -130,7 +132,7 @@ export function UserActionsClient({ users, currentUserId, isSuperAdmin = false, 
       if (result.error) {
         throw new Error(result.error)
       }
-      toast.success("Password has been reset successfully.")
+      toast.success(t("users.passwordResetSuccess"))
       router.refresh()
       setUserToResetPassword(null)
     }
@@ -142,7 +144,7 @@ export function UserActionsClient({ users, currentUserId, isSuperAdmin = false, 
       if (result.error) {
         toast.error(result.error)
       } else {
-        toast.success("User has been successfully deleted.")
+        toast.success(t("users.userDeletedSuccess"))
         router.refresh()
       }
       setIsDeleteDialogOpen(false)
@@ -153,18 +155,18 @@ export function UserActionsClient({ users, currentUserId, isSuperAdmin = false, 
   React.useEffect(() => {
     if (createState?.success) {
       setIsCreateDialogOpen(false)
-      toast.success("User created successfully.")
+      toast.success(t("users.userCreatedSuccess"))
       router.refresh()
     }
-  }, [createState, router])
+  }, [createState, router, t])
 
   React.useEffect(() => {
     if (updateState?.success) {
       setIsEditDialogOpen(false)
-      toast.success("User updated successfully.")
+      toast.success(t("users.userUpdatedSuccess"))
       router.refresh()
     }
-  }, [updateState, router])
+  }, [updateState, router, t])
 
   // Map users to the format expected by UsersTable
   // Handle cases where sensitive fields might not be included
@@ -190,16 +192,10 @@ export function UserActionsClient({ users, currentUserId, isSuperAdmin = false, 
   return (
     <>
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Users</h1>
-          <p className="text-muted-foreground mt-1">
-            Manage user accounts and permissions
-          </p>
-        </div>
         {hasPermission("user.create") && (
           <Button onClick={() => setIsCreateDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
-            Add User
+            {t("users.addUser")}
           </Button>
         )}
       </div>
@@ -274,15 +270,14 @@ export function UserActionsClient({ users, currentUserId, isSuperAdmin = false, 
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>{t("users.confirmDelete")}</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the user account
-              and remove their data from our servers.
+              {t("users.deleteWarning")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete}>Delete</AlertDialogAction>
+            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete}>{t("common.delete")}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

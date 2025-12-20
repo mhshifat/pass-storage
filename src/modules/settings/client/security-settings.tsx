@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -38,17 +39,18 @@ const securitySettingsSchema = z.object({
 type SecuritySettingsFormValues = z.infer<typeof securitySettingsSchema>
 
 export function SecuritySettings() {
+  const { t } = useTranslation()
   const { hasPermission } = usePermissions()
   const canEdit = hasPermission("settings.edit")
   const { data: settings, isLoading, error } = trpc.settings.getSecuritySettings.useQuery()
   const utils = trpc.useUtils()
   const updateSettings = trpc.settings.updateSecuritySettings.useMutation({
     onSuccess: () => {
-      toast.success("Security settings saved successfully")
+      toast.success(t("settings.securitySettingsSaved"))
       utils.settings.getSecuritySettings.invalidate()
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to save security settings")
+      toast.error(error.message || t("settings.securitySettingsFailed"))
     },
   })
 
@@ -100,12 +102,12 @@ export function SecuritySettings() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Security Settings</CardTitle>
-          <CardDescription>Configure security policies and settings</CardDescription>
+          <CardTitle>{t("settings.security.title")}</CardTitle>
+          <CardDescription>{t("settings.security.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="text-center py-8 text-destructive">
-            <p>Failed to load settings: {error.message}</p>
+            <p>{t("settings.security.loadFailed", { error: error.message })}</p>
           </div>
         </CardContent>
       </Card>
@@ -119,7 +121,7 @@ export function SecuritySettings() {
           <Alert>
             <Info className="h-4 w-4" />
             <AlertDescription>
-              You have read-only access to these settings. Only users with edit permissions can modify them.
+              {t("settings.readOnlyAccess")}
             </AlertDescription>
           </Alert>
         )}
@@ -127,9 +129,9 @@ export function SecuritySettings() {
         {/* Password Policies */}
         <Card>
           <CardHeader>
-            <CardTitle>Password Policies</CardTitle>
+            <CardTitle>{t("settings.security.passwordPolicies")}</CardTitle>
             <CardDescription>
-              Define password strength and complexity requirements
+              {t("settings.security.passwordPoliciesDescription")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -138,7 +140,7 @@ export function SecuritySettings() {
               name="passwordMinLength"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Minimum Password Length</FormLabel>
+                  <FormLabel>{t("settings.security.passwordMinLength")}</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -148,7 +150,7 @@ export function SecuritySettings() {
                     />
                   </FormControl>
                   <p className="text-xs text-muted-foreground">
-                    Minimum number of characters required
+                    {t("settings.security.passwordMinLengthDescription")}
                   </p>
                   <FormMessage />
                 </FormItem>
@@ -164,9 +166,9 @@ export function SecuritySettings() {
                 <FormItem>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <FormLabel>Require Uppercase Letters</FormLabel>
+                      <FormLabel>{t("settings.security.requireUppercase")}</FormLabel>
                       <p className="text-xs text-muted-foreground">
-                        At least one uppercase letter (A-Z)
+                        {t("settings.security.requireUppercaseDescription")}
                       </p>
                     </div>
                     <FormControl>
@@ -189,9 +191,9 @@ export function SecuritySettings() {
                 <FormItem>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <FormLabel>Require Lowercase Letters</FormLabel>
+                      <FormLabel>{t("settings.security.requireLowercase")}</FormLabel>
                       <p className="text-xs text-muted-foreground">
-                        At least one lowercase letter (a-z)
+                        {t("settings.security.requireLowercaseDescription")}
                       </p>
                     </div>
                     <FormControl>
@@ -214,9 +216,9 @@ export function SecuritySettings() {
                 <FormItem>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <FormLabel>Require Numbers</FormLabel>
+                      <FormLabel>{t("settings.security.requireNumbers")}</FormLabel>
                       <p className="text-xs text-muted-foreground">
-                        At least one number (0-9)
+                        {t("settings.security.requireNumbersDescription")}
                       </p>
                     </div>
                     <FormControl>
@@ -239,9 +241,9 @@ export function SecuritySettings() {
                 <FormItem>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <FormLabel>Require Special Characters</FormLabel>
+                      <FormLabel>{t("settings.security.requireSpecial")}</FormLabel>
                       <p className="text-xs text-muted-foreground">
-                        At least one special character (!@#$%...)
+                        {t("settings.security.requireSpecialDescription")}
                       </p>
                     </div>
                     <FormControl>
@@ -264,7 +266,7 @@ export function SecuritySettings() {
               name="passwordExpiryDays"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password Expiry (days)</FormLabel>
+                  <FormLabel>{t("settings.security.passwordExpiry")}</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -274,7 +276,7 @@ export function SecuritySettings() {
                     />
                   </FormControl>
                   <p className="text-xs text-muted-foreground">
-                    Number of days before password must be changed (0 = never)
+                    {t("settings.security.passwordExpiryDescription")}
                   </p>
                   <FormMessage />
                 </FormItem>
@@ -287,7 +289,7 @@ export function SecuritySettings() {
                   {updateSettings.isPending && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  Save Password Policies
+                  {t("settings.security.savePasswordPolicies")}
                 </Button>
               </div>
             )}
@@ -297,8 +299,8 @@ export function SecuritySettings() {
         {/* Session Management */}
         <Card>
           <CardHeader>
-            <CardTitle>Session Management</CardTitle>
-            <CardDescription>Configure user session and timeout settings</CardDescription>
+            <CardTitle>{t("settings.security.sessionManagement")}</CardTitle>
+            <CardDescription>{t("settings.security.sessionManagementDescription")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <FormField
@@ -306,7 +308,7 @@ export function SecuritySettings() {
               name="sessionTimeoutMinutes"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Session Timeout (minutes)</FormLabel>
+                  <FormLabel>{t("settings.security.sessionTimeout")}</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -316,7 +318,7 @@ export function SecuritySettings() {
                     />
                   </FormControl>
                   <p className="text-xs text-muted-foreground">
-                    Automatically log out inactive users after this time
+                    {t("settings.security.sessionTimeoutDescription")}
                   </p>
                   <FormMessage />
                 </FormItem>
@@ -328,7 +330,7 @@ export function SecuritySettings() {
               name="sessionMaxConcurrent"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Maximum Concurrent Sessions</FormLabel>
+                  <FormLabel>{t("settings.security.maxConcurrentSessions")}</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -338,7 +340,7 @@ export function SecuritySettings() {
                     />
                   </FormControl>
                   <p className="text-xs text-muted-foreground">
-                    Maximum number of active sessions per user
+                    {t("settings.security.maxConcurrentSessionsDescription")}
                   </p>
                   <FormMessage />
                 </FormItem>
@@ -354,9 +356,9 @@ export function SecuritySettings() {
                 <FormItem>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <FormLabel>Require Re-authentication for Sensitive Actions</FormLabel>
+                      <FormLabel>{t("settings.security.requireReauth")}</FormLabel>
                       <p className="text-xs text-muted-foreground">
-                        Require password confirmation for critical operations
+                        {t("settings.security.requireReauthDescription")}
                       </p>
                     </div>
                     <FormControl>
@@ -378,7 +380,7 @@ export function SecuritySettings() {
                   {updateSettings.isPending && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  Save Session Settings
+                  {t("settings.security.saveSessionSettings")}
                 </Button>
               </div>
             )}
@@ -388,8 +390,8 @@ export function SecuritySettings() {
         {/* Login Security */}
         <Card>
           <CardHeader>
-            <CardTitle>Login Security</CardTitle>
-            <CardDescription>Configure login attempt limits and account lockout</CardDescription>
+            <CardTitle>{t("settings.security.loginSecurity")}</CardTitle>
+            <CardDescription>{t("settings.security.loginSecurityDescription")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <FormField
@@ -397,7 +399,7 @@ export function SecuritySettings() {
               name="loginMaxAttempts"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Maximum Failed Login Attempts</FormLabel>
+                  <FormLabel>{t("settings.security.maxFailedLoginAttempts")}</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -407,7 +409,7 @@ export function SecuritySettings() {
                     />
                   </FormControl>
                   <p className="text-xs text-muted-foreground">
-                    Lock account after this many failed attempts
+                    {t("settings.security.maxFailedLoginAttemptsDescription")}
                   </p>
                   <FormMessage />
                 </FormItem>
@@ -419,7 +421,7 @@ export function SecuritySettings() {
               name="loginLockoutDurationMinutes"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Account Lockout Duration (minutes)</FormLabel>
+                  <FormLabel>{t("settings.security.accountLockoutDuration")}</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -429,7 +431,7 @@ export function SecuritySettings() {
                     />
                   </FormControl>
                   <p className="text-xs text-muted-foreground">
-                    How long to lock the account
+                    {t("settings.security.accountLockoutDurationDescription")}
                   </p>
                   <FormMessage />
                 </FormItem>
@@ -442,7 +444,7 @@ export function SecuritySettings() {
                   {updateSettings.isPending && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  Save Login Security
+                  {t("settings.security.saveLoginSecurity")}
                 </Button>
               </div>
             )}

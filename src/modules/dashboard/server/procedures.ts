@@ -128,11 +128,25 @@ export const dashboardRouter = createTRPCRouter({
       const activities = logs.map((log) => {
         const userName = log.user?.name || "Unknown User"
         const timeAgo = getTimeAgo(log.createdAt)
+        
+        // Derive resource type from action
+        let resourceType = "Unknown"
+        if (log.action.includes("PASSWORD")) {
+          resourceType = "Password"
+        } else if (log.action.includes("USER")) {
+          resourceType = "User"
+        } else if (log.action.includes("TEAM")) {
+          resourceType = "Team"
+        } else if (log.action.includes("ROLE")) {
+          resourceType = "Role"
+        }
 
         return {
           user: userName,
-          action: formatAction(log.action),
+          actionKey: `audit.actions.${log.action.toLowerCase()}`,
+          action: log.action, // Keep original for fallback
           resource: log.resource,
+          resourceType: resourceType,
           time: timeAgo,
           avatar: `/avatars/${(log.user?.name || "Unknown").charAt(0).toUpperCase()}.png`,
         }
@@ -299,8 +313,12 @@ export const dashboardRouter = createTRPCRouter({
         id: string
         severity: "critical" | "high" | "medium" | "low"
         type: "warning" | "info" | "error"
-        message: string
-        time: string
+        message?: string
+        messageKey?: string
+        messageParams?: Record<string, number>
+        time?: string
+        timeKey?: string
+        timeParams?: Record<string, number>
         timestamp: Date
       }> = []
 
@@ -310,8 +328,9 @@ export const dashboardRouter = createTRPCRouter({
           id: "failed-logins-critical",
           severity: "critical",
           type: "error",
-          message: `Critical: ${failedLogins} failed login attempts detected in last 24 hours`,
-          time: "Just now",
+          messageKey: "dashboard.failedLoginsCritical",
+          messageParams: { count: failedLogins },
+          timeKey: "dashboard.justNow",
           timestamp: now,
         })
       }
@@ -321,8 +340,9 @@ export const dashboardRouter = createTRPCRouter({
           id: "failed-logins-high",
           severity: "high",
           type: "warning",
-          message: `Unusual login activity detected (${failedLogins} failed attempts in last 24h)`,
-          time: "Today",
+          messageKey: "dashboard.unusualLoginActivity",
+          messageParams: { count: failedLogins },
+          timeKey: "dashboard.today",
           timestamp: now,
         })
       }
@@ -333,8 +353,9 @@ export const dashboardRouter = createTRPCRouter({
           id: "suspicious-ips",
           severity: "high",
           type: "warning",
-          message: `Suspicious access pattern: ${suspiciousIPs.length} IP address${suspiciousIPs.length > 1 ? "es" : ""} with multiple failed login attempts`,
-          time: "Today",
+          messageKey: "dashboard.suspiciousAccessPattern",
+          messageParams: { count: suspiciousIPs.length },
+          timeKey: "dashboard.today",
           timestamp: now,
         })
       }
@@ -345,8 +366,9 @@ export const dashboardRouter = createTRPCRouter({
           id: "expiring-passwords",
           severity: "high",
           type: "warning",
-          message: `${expiringPasswords} password${expiringPasswords > 1 ? "s" : ""} will expire in the next 7 days`,
-          time: "Today",
+          messageKey: "dashboard.expiringPasswords",
+          messageParams: { count: expiringPasswords },
+          timeKey: "dashboard.today",
           timestamp: now,
         })
       }
@@ -357,7 +379,8 @@ export const dashboardRouter = createTRPCRouter({
           id: "weak-passwords",
           severity: "medium",
           type: "warning",
-          message: `${weakPasswords} weak password${weakPasswords > 1 ? "s" : ""} detected. Consider strengthening them.`,
+          messageKey: "dashboard.weakPasswordsDetected",
+          messageParams: { count: weakPasswords },
           time: "Today",
           timestamp: now,
         })
@@ -371,8 +394,9 @@ export const dashboardRouter = createTRPCRouter({
             id: "mfa-not-enabled",
             severity: "medium",
             type: "warning",
-            message: `${usersWithoutMFA} user${usersWithoutMFA > 1 ? "s" : ""} (${percentage}%) without MFA enabled`,
-            time: "Today",
+            messageKey: "dashboard.usersWithoutMfa",
+            messageParams: { count: usersWithoutMFA, percentage },
+            timeKey: "dashboard.today",
             timestamp: now,
           })
         }
@@ -384,8 +408,9 @@ export const dashboardRouter = createTRPCRouter({
           id: "unused-passwords",
           severity: "low",
           type: "info",
-          message: `${unusedPasswords} password${unusedPasswords > 1 ? "s" : ""} haven't been accessed in 90+ days. Consider reviewing.`,
-          time: "Today",
+          messageKey: "dashboard.unusedPasswords",
+          messageParams: { count: unusedPasswords },
+          timeKey: "dashboard.today",
           timestamp: now,
         })
       }
@@ -399,17 +424,22 @@ export const dashboardRouter = createTRPCRouter({
               id: "backup-success",
               severity: "low",
               type: "info",
-              message: `System backup completed successfully ${hoursSinceBackup} hour${hoursSinceBackup !== 1 ? "s" : ""} ago`,
-              time: hoursSinceBackup < 1 ? "Just now" : `${hoursSinceBackup}h ago`,
+              messageKey: "dashboard.backupCompleted",
+              messageParams: { hours: hoursSinceBackup },
+              timeKey: hoursSinceBackup < 1 ? "dashboard.justNow" : "dashboard.hoursAgo",
+              timeParams: hoursSinceBackup >= 1 ? { hours: hoursSinceBackup } : undefined,
               timestamp: lastBackupTime,
             })
           } else {
+            const days = Math.floor(hoursSinceBackup / 24)
             alerts.push({
               id: "backup-old",
               severity: "medium",
               type: "warning",
-              message: `Last system backup was ${Math.floor(hoursSinceBackup / 24)} day${Math.floor(hoursSinceBackup / 24) > 1 ? "s" : ""} ago`,
-              time: `${Math.floor(hoursSinceBackup / 24)}d ago`,
+              messageKey: "dashboard.backupOld",
+              messageParams: { days },
+              timeKey: "dashboard.daysAgo",
+              timeParams: { days },
               timestamp: lastBackupTime,
             })
           }
@@ -418,8 +448,8 @@ export const dashboardRouter = createTRPCRouter({
             id: "backup-failed",
             severity: "high",
             type: "error",
-            message: "System backup failed. Please check backup configuration.",
-            time: "Today",
+            messageKey: "dashboard.backupFailed",
+            timeKey: "dashboard.today",
             timestamp: now,
           })
         }
@@ -429,8 +459,8 @@ export const dashboardRouter = createTRPCRouter({
           id: "backup-unknown",
           severity: "medium",
           type: "warning",
-          message: "System backup status unknown. Please verify backup configuration.",
-          time: "Today",
+          messageKey: "dashboard.backupUnknown",
+          timeKey: "dashboard.today",
           timestamp: now,
         })
       }
@@ -588,26 +618,34 @@ export const dashboardRouter = createTRPCRouter({
       const mfaAdoptionPercentage =
         totalUsers > 0 ? Math.round((mfaUsers / totalUsers) * 100) : 0
 
+      // Return status keys for client-side translation
+      const passwordStrengthStatus = passwordStrengthPercentage >= 70 ? "good" : passwordStrengthPercentage >= 50 ? "fair" : "poor"
+      const mfaAdoptionStatus = mfaAdoptionPercentage >= 90 ? "excellent" : mfaAdoptionPercentage >= 70 ? "good" : "fair"
+      const sessionStatusKey = sessionStatus === "No Activity" ? "noActivity" : sessionStatus.toLowerCase()
+
       return [
         {
-          label: "Password Strength",
-          status: passwordStrengthPercentage >= 70 ? "Good" : passwordStrengthPercentage >= 50 ? "Fair" : "Poor",
+          labelKey: "dashboard.passwordStrength",
+          statusKey: passwordStrengthStatus,
           percentage: passwordStrengthPercentage,
-          description: `${passwordStrengthPercentage}% of passwords meet security requirements`,
+          descriptionKey: "dashboard.passwordStrengthDescription",
+          descriptionParams: { percentage: passwordStrengthPercentage },
           color: passwordStrengthPercentage >= 70 ? "bg-green-600" : passwordStrengthPercentage >= 50 ? "bg-yellow-600" : "bg-red-600",
         },
         {
-          label: "MFA Adoption",
-          status: mfaAdoptionPercentage >= 90 ? "Excellent" : mfaAdoptionPercentage >= 70 ? "Good" : "Fair",
+          labelKey: "dashboard.mfaAdoption",
+          statusKey: mfaAdoptionStatus,
           percentage: mfaAdoptionPercentage,
-          description: `${mfaAdoptionPercentage}% of users have MFA enabled`,
+          descriptionKey: "dashboard.mfaAdoptionDescription",
+          descriptionParams: { percentage: mfaAdoptionPercentage },
           color: mfaAdoptionPercentage >= 90 ? "bg-green-600" : mfaAdoptionPercentage >= 70 ? "bg-blue-600" : "bg-yellow-600",
         },
         {
-          label: "Active Sessions",
-          status: sessionStatus,
+          labelKey: "dashboard.activeSessions",
+          statusKey: sessionStatusKey,
           percentage: sessionPercentage,
-          description: `${activeSessions} active session${activeSessions !== 1 ? "s" : ""} currently`,
+          descriptionKey: "dashboard.activeSessionsDescription",
+          descriptionParams: { count: activeSessions },
           color:
             sessionStatus === "High" || sessionStatus === "Elevated"
               ? "bg-orange-600"
