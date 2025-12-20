@@ -7,6 +7,7 @@ import * as z from "zod"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { PasswordInput, generateStrongPassword } from "@/components/ui/password-input"
 import { Lock, Mail, User, AlertCircle } from "lucide-react"
 
 const registerSchema = z.object({
@@ -125,17 +126,21 @@ export function RegisterFormFields({ formAction, isPending, state }: RegisterFor
                 <FormLabel>Password</FormLabel>
                 <FormControl>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                    <Input
-                      type="password"
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400 z-10" />
+                    <PasswordInput
                       placeholder="••••••••"
                       className="pl-10"
                       disabled={isPending}
                       {...field}
+                      onGenerate={() => {
+                        const generated = generateStrongPassword(16)
+                        form.setValue("password", generated)
+                        field.onChange({ target: { value: generated } })
+                      }}
                     />
                   </div>
                 </FormControl>
-                <FormDescription>Must be at least 8 characters</FormDescription>
+                <FormDescription>Must be at least 8 characters. Click the key icon to generate a strong password.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

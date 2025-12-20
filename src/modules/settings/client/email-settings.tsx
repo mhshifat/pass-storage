@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle, Loader2, Info } from "lucide-react"
 import { Input } from "@/components/ui/input"
+import { PasswordInput, generateStrongPassword } from "@/components/ui/password-input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
@@ -218,7 +219,15 @@ export function EmailSettings({ config }: EmailSettingsProps) {
                   <FormItem>
                     <FormLabel>SMTP Password (Optional)</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
+                      <PasswordInput
+                        placeholder="••••••••"
+                        {...field}
+                        onGenerate={() => {
+                          const generated = generateStrongPassword(16)
+                          form.setValue("smtp_password", generated)
+                          field.onChange({ target: { value: generated } })
+                        }}
+                      />
                     </FormControl>
                     <p className="text-xs text-muted-foreground">
                       Leave blank if your SMTP server doesn&apos;t require authentication

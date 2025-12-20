@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PasswordInput, generateStrongPassword } from "@/components/ui/password-input"
 import {
   Form,
   FormControl,
@@ -209,10 +210,18 @@ export function UserFormDialog({
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
+                      <PasswordInput
+                        placeholder="••••••••"
+                        {...field}
+                        onGenerate={() => {
+                          const generated = generateStrongPassword(16)
+                          form.setValue("password", generated)
+                          field.onChange({ target: { value: generated } })
+                        }}
+                      />
                     </FormControl>
                     <FormDescription>
-                      Minimum 8 characters
+                      Minimum 8 characters. Click the key icon to generate a strong password.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PasswordInput, generateStrongPassword } from "@/components/ui/password-input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
@@ -18,7 +19,7 @@ import { AlertCircle } from "lucide-react"
 interface ResetPasswordDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onConfirm: (currentPassword: string, newPassword: string) => Promise<void>
+  onConfirm: (newPassword: string) => Promise<void>
   userName?: string
 }
 
@@ -28,7 +29,6 @@ export function ResetPasswordDialog({
   onConfirm,
   userName,
 }: ResetPasswordDialogProps) {
-  const [currentPassword, setCurrentPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [error, setError] = useState("")
@@ -36,11 +36,6 @@ export function ResetPasswordDialog({
 
   const handleConfirm = async () => {
     setError("")
-
-    if (!currentPassword) {
-      setError("Current password is required")
-      return
-    }
 
     if (!newPassword || newPassword.length < 8) {
       setError("Password must be at least 8 characters")
@@ -54,8 +49,7 @@ export function ResetPasswordDialog({
 
     setIsLoading(true)
     try {
-      await onConfirm(currentPassword, newPassword)
-      setCurrentPassword("")
+      await onConfirm(newPassword)
       setNewPassword("")
       setConfirmPassword("")
       onOpenChange(false)
@@ -67,7 +61,6 @@ export function ResetPasswordDialog({
   }
 
   const handleClose = () => {
-    setCurrentPassword("")
     setNewPassword("")
     setConfirmPassword("")
     setError("")
@@ -80,7 +73,7 @@ export function ResetPasswordDialog({
         <DialogHeader>
           <DialogTitle>Reset Password</DialogTitle>
           <DialogDescription>
-            {userName ? `Reset password for ${userName}` : "Enter a new password for this user"}
+            {userName ? `Reset password for ${userName}. As an admin, you don't need to provide the current password.` : "Enter a new password for this user"}
           </DialogDescription>
         </DialogHeader>
 
@@ -93,27 +86,19 @@ export function ResetPasswordDialog({
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="currentPassword">Current Password</Label>
-            <Input
-              id="currentPassword"
-              type="password"
-              placeholder="••••••••"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              disabled={isLoading}
-            />
-          </div>
-
-          <div className="space-y-2">
             <Label htmlFor="newPassword">New Password</Label>
-            <Input
+            <PasswordInput
               id="newPassword"
               type="password"
               placeholder="••••••••"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               disabled={isLoading}
+              onGenerate={() => setNewPassword(generateStrongPassword(16))}
             />
+            <p className="text-xs text-muted-foreground">
+              Password must be at least 8 characters and meet security requirements. Click the key icon to generate a strong password.
+            </p>
           </div>
 
           <div className="space-y-2">

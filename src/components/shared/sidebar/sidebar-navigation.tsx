@@ -25,6 +25,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { usePermissions } from "@/hooks/use-permissions"
@@ -68,6 +69,7 @@ const navigation = [
   },
   {
     name: "Settings",
+    href: "/admin/settings/general",
     icon: Settings,
     permission: "settings.view",
     children: [
@@ -126,6 +128,7 @@ export function SidebarNavigation({ isCollapsed }: SidebarNavigationProps) {
 
               if (item.children) {
                 // For collapsed mode with children, show dropdown menu
+                const isParentActive = item.href === pathname || item.children.some(child => child.href === pathname)
                 return (
                   <DropdownMenu key={item.name}>
                     <Tooltip>
@@ -134,7 +137,9 @@ export function SidebarNavigation({ isCollapsed }: SidebarNavigationProps) {
                           <button
                             className={cn(
                               "flex w-full items-center justify-center rounded-lg p-3 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
-                              "text-muted-foreground"
+                              isParentActive
+                                ? "bg-accent text-accent-foreground"
+                                : "text-muted-foreground"
                             )}
                           >
                             <item.icon className="h-5 w-5" />
@@ -146,6 +151,16 @@ export function SidebarNavigation({ isCollapsed }: SidebarNavigationProps) {
                       </TooltipContent>
                     </Tooltip>
                     <DropdownMenuContent side="right" align="start" className="w-48">
+                      {item.href && (
+                        <>
+                          <DropdownMenuItem asChild>
+                            <Link href={item.href} className="cursor-pointer font-medium">
+                              {item.name}
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                        </>
+                      )}
                       {item.children.map((child) => (
                         <DropdownMenuItem key={child.href} asChild>
                           <Link href={child.href} className="cursor-pointer">
@@ -193,26 +208,38 @@ export function SidebarNavigation({ isCollapsed }: SidebarNavigationProps) {
           const isExpanded = expandedItems.includes(item.name)
 
           if (item.children) {
+            const isParentActive = item.href === pathname || item.children.some(child => child.href === pathname)
             return (
               <div key={item.name}>
-                <button
-                  onClick={() => toggleExpand(item.name)}
-                  className={cn(
-                    "flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
-                    "text-muted-foreground"
-                  )}
-                >
-                  <div className="flex items-center">
+                <div className="flex items-center">
+                  <Link
+                    href={item.href || "#"}
+                    className={cn(
+                      "flex flex-1 items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
+                      isParentActive
+                        ? "bg-accent text-accent-foreground"
+                        : "text-muted-foreground"
+                    )}
+                  >
                     <item.icon className="mr-3 h-4 w-4" />
                     {item.name}
-                  </div>
-                  <ChevronRight
-                    className={cn(
-                      "h-4 w-4 transition-transform",
-                      isExpanded && "rotate-90"
-                    )}
-                  />
-                </button>
+                  </Link>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      toggleExpand(item.name)
+                    }}
+                    className="p-1 rounded hover:bg-accent"
+                    aria-label={isExpanded ? "Collapse" : "Expand"}
+                  >
+                    <ChevronRight
+                      className={cn(
+                        "h-4 w-4 transition-transform",
+                        isExpanded && "rotate-90"
+                      )}
+                    />
+                  </button>
+                </div>
                 {isExpanded && (
                   <div className="ml-7 mt-1 space-y-1">
                     {item.children.map((child) => {

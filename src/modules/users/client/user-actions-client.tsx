@@ -124,9 +124,9 @@ export function UserActionsClient({ users, currentUserId, isSuperAdmin = false, 
     }
   }
 
-  const confirmResetPassword = async (currentPassword: string, newPassword: string) => {
+  const confirmResetPassword = async (newPassword: string) => {
     if (userToResetPassword) {
-      const result = await resetPasswordAction(userToResetPassword.id, currentPassword, newPassword)
+      const result = await resetPasswordAction(userToResetPassword.id, newPassword)
       if (result.error) {
         throw new Error(result.error)
       }

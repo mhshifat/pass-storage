@@ -290,40 +290,31 @@ export const usersRouter = createTRPCRouter({
       }
     }),
 
-  resetPassword: protectedProcedure("user.edit")
+  // Change own password - requires current password
+  changeOwnPassword: protectedProcedure()
     .input(z.object({ 
-      id: z.string(),
       currentPassword: z.string().min(1, "Current password is required"),
       newPassword: z.string().min(8, "Password must be at least 8 characters")
     }))
     .mutation(async ({ input, ctx }) => {
-      // Check if user exists
-      const existingUser = await prisma.user.findUnique({
-        where: { id: input.id },
+      // Get current user
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.userId },
         select: {
           id: true,
           password: true,
-          createdById: true,
         },
       })
 
-      if (!existingUser) {
+      if (!user) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "User not found",
         })
       }
 
-      // Prevent users from resetting their creator's password (SUPER_ADMIN can reset anyone's password)
-      if (ctx.userRole !== "SUPER_ADMIN" && existingUser.createdById === ctx.userId) {
-        throw new TRPCError({
-          code: "FORBIDDEN",
-          message: "You cannot reset the password of the user who created your account",
-        })
-      }
-
       // Verify current password
-      if (!existingUser.password) {
+      if (!user.password) {
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "User does not have a password set",
@@ -331,7 +322,7 @@ export const usersRouter = createTRPCRouter({
       }
 
       const { verifyPassword } = await import("@/lib/auth")
-      const isCurrentPasswordValid = await verifyPassword(input.currentPassword, existingUser.password)
+      const isCurrentPasswordValid = await verifyPassword(input.currentPassword, user.password)
 
       if (!isCurrentPasswordValid) {
         throw new TRPCError({
@@ -341,7 +332,7 @@ export const usersRouter = createTRPCRouter({
       }
 
       // Check if new password is same as current
-      const isSamePassword = await verifyPassword(input.newPassword, existingUser.password)
+      const isSamePassword = await verifyPassword(input.newPassword, user.password)
 
       if (isSamePassword) {
         throw new TRPCError({
@@ -365,8 +356,113 @@ export const usersRouter = createTRPCRouter({
 
       // Update user password
       await prisma.user.update({
+        where: { id: user.id },
+        data: { password: hashedPassword },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "PASSWORD_RESET",
+        resource: "User",
+        resourceId: user.id,
+        details: { changedBy: "self" },
+        userId: ctx.userId,
+      })
+
+      return {
+        success: true,
+      }
+    }),
+
+  resetPassword: protectedProcedure("user.edit")
+    .input(z.object({ 
+      id: z.string(),
+      currentPassword: z.string().optional(), // Optional for admins
+      newPassword: z.string().min(8, "Password must be at least 8 characters")
+    }))
+    .mutation(async ({ input, ctx }) => {
+      // Check if user exists
+      const existingUser = await prisma.user.findUnique({
+        where: { id: input.id },
+        select: {
+          id: true,
+          password: true,
+          createdById: true,
+        },
+      })
+
+      if (!existingUser) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found",
+        })
+      }
+
+      // Check if user is resetting their own password
+      const isResettingOwnPassword = existingUser.id === ctx.userId
+
+      // Admin can reset any password (including their own) without current password
+      // Regular users must use changeOwnPassword procedure which requires current password
+      // So if we're here and it's their own password, they must be an admin
+      
+      // If not resetting own password, check permissions
+      if (!isResettingOwnPassword) {
+        // Prevent users from resetting their creator's password (SUPER_ADMIN can reset anyone's password)
+        if (ctx.userRole !== "SUPER_ADMIN" && existingUser.createdById === ctx.userId) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "You cannot reset the password of the user who created your account",
+          })
+        }
+      }
+      
+      // Admins don't need to provide current password (even for their own password)
+      // If currentPassword is provided, we can optionally verify it, but it's not required
+
+      // Check if new password is same as current (if password exists)
+      if (existingUser.password) {
+        const { verifyPassword } = await import("@/lib/auth")
+        const isSamePassword = await verifyPassword(input.newPassword, existingUser.password)
+
+        if (isSamePassword) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "New password must be different from current password",
+          })
+        }
+      }
+
+      // Validate new password against security policies
+      const { validatePassword } = await import("@/lib/password-validation")
+      const validation = await validatePassword(input.newPassword)
+      if (!validation.isValid) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: validation.errors.join(". "),
+        })
+      }
+
+      // Hash the new password
+      const hashedPassword = await hashPassword(input.newPassword)
+
+      // Update user password
+      await prisma.user.update({
         where: { id: input.id },
         data: { password: hashedPassword },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "PASSWORD_RESET",
+        resource: "User",
+        resourceId: input.id,
+        details: { 
+          changedBy: isResettingOwnPassword ? "self" : "admin",
+          changedByUserId: ctx.userId,
+        },
+        userId: ctx.userId,
       })
 
       return {

@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PasswordInput, generateStrongPassword } from "@/components/ui/password-input"
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { Separator } from "@/components/ui/separator"
@@ -33,7 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Key, QrCode, FolderPlus, AlertCircle } from "lucide-react"
+import { QrCode, FolderPlus, AlertCircle } from "lucide-react"
 import { trpc } from "@/trpc/client"
 import { CreateFolderDialog } from "@/modules/folders/client"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -178,40 +179,6 @@ export function PasswordFormDialog({
     }
   }, [state, form, onOpenChange])
 
-  const generatePassword = () => {
-    // Generate a strong password with:
-    // - At least 16 characters
-    // - Uppercase letters
-    // - Lowercase letters
-    // - Numbers
-    // - Special characters
-    const length = 20
-    const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    const lowercase = "abcdefghijklmnopqrstuvwxyz"
-    const numbers = "0123456789"
-    const special = "!@#$%^&*()_+-=[]{}|;:,.<>?"
-    const allChars = uppercase + lowercase + numbers + special
-
-    // Ensure at least one of each type
-    let password = ""
-    password += uppercase[Math.floor(Math.random() * uppercase.length)]
-    password += lowercase[Math.floor(Math.random() * lowercase.length)]
-    password += numbers[Math.floor(Math.random() * numbers.length)]
-    password += special[Math.floor(Math.random() * special.length)]
-
-    // Fill the rest randomly
-    for (let i = password.length; i < length; i++) {
-      password += allChars[Math.floor(Math.random() * allChars.length)]
-    }
-
-    // Shuffle the password to avoid predictable pattern
-    password = password
-      .split("")
-      .sort(() => Math.random() - 0.5)
-      .join("")
-
-    form.setValue("password", password)
-  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -317,18 +284,15 @@ export function PasswordFormDialog({
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <div className="flex gap-2">
-                          <Input type="password" {...field} name="password" />
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="icon"
-                            onClick={generatePassword}
-                            title="Generate strong password"
-                          >
-                            <Key className="h-4 w-4" />
-                          </Button>
-                        </div>
+                        <PasswordInput
+                          {...field}
+                          name="password"
+                          onGenerate={() => {
+                            const generated = generateStrongPassword(20)
+                            form.setValue("password", generated)
+                            field.onChange({ target: { value: generated } })
+                          }}
+                        />
                       </FormControl>
                       <FormDescription>
                         Click the key icon to generate a strong password

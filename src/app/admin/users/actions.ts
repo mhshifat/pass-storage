@@ -143,10 +143,10 @@ export async function deleteUserAction(userId: string) {
   }
 }
 
-export async function resetPasswordAction(userId: string, currentPassword: string, newPassword: string) {
+export async function resetPasswordAction(userId: string, newPassword: string) {
   try {
     const trpc = await serverTrpc()
-    await trpc.users.resetPassword({ id: userId, currentPassword, newPassword })
+    await trpc.users.resetPassword({ id: userId, newPassword })
 
     revalidatePath("/admin/users")
     return { success: true }
