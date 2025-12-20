@@ -1,0 +1,622 @@
+import prisma from "@/lib/prisma"
+import { createTRPCRouter, protectedProcedure } from "@/trpc/init"
+import z from "zod"
+
+export const dashboardRouter = createTRPCRouter({
+  stats: protectedProcedure("password.view")
+    .query(async ({ ctx }) => {
+      // Get user teams
+      const userTeams = await prisma.teamMember.findMany({
+        where: { userId: ctx.userId },
+        select: { teamId: true },
+      })
+      const teamIds = userTeams.map((tm) => tm.teamId)
+
+      // Build where clause for passwords accessible to user
+      const passwordWhere = {
+        OR: [
+          { ownerId: ctx.userId },
+          ...(teamIds.length > 0
+            ? [
+                {
+                  sharedWith: {
+                    some: {
+                      teamId: { in: teamIds },
+                      OR: [
+                        { expiresAt: null },
+                        { expiresAt: { gt: new Date() } },
+                      ],
+                    },
+                  },
+                },
+              ]
+            : []),
+        ],
+      }
+
+      // Fetch all stats in parallel
+      const [userStats, passwordStats, teamStats, securityEvents] = await Promise.all([
+        // User stats
+        prisma.user.count(),
+        
+        // Password stats
+        prisma.password.count({ where: passwordWhere }),
+        
+        // Team stats
+        prisma.team.count(),
+        
+        // Security events (audit logs with security-related actions)
+        prisma.auditLog.count({
+          where: {
+            action: {
+              in: ["LOGIN_FAILED", "PASSWORD_VIEWED", "PASSWORD_SHARED", "PASSWORD_DELETED"],
+            },
+            createdAt: {
+              gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // Last 30 days
+            },
+          },
+        }),
+      ])
+
+      // Calculate changes (simplified - in real app, compare with previous period)
+      const userChange = "+12%"
+      const passwordChange = "+8%"
+      const teamChange = "+2"
+      const securityChange = "-15%"
+
+      return {
+        users: {
+          total: userStats,
+          change: userChange,
+          changeType: "positive" as const,
+        },
+        passwords: {
+          total: passwordStats,
+          change: passwordChange,
+          changeType: "positive" as const,
+        },
+        teams: {
+          total: teamStats,
+          change: teamChange,
+          changeType: "positive" as const,
+        },
+        securityEvents: {
+          total: securityEvents,
+          change: securityChange,
+          changeType: "negative" as const,
+        },
+      }
+    }),
+
+  recentActivities: protectedProcedure("password.view")
+    .query(async ({ ctx }) => {
+      // Get recent audit logs with user information
+      const logs = await prisma.auditLog.findMany({
+        take: 5,
+        orderBy: { createdAt: "desc" },
+        include: {
+          user: {
+            select: {
+              name: true,
+              email: true,
+            },
+          },
+        },
+      })
+
+      // Format activities
+      const activities = logs.map((log) => {
+        const userName = log.user?.name || "Unknown User"
+        const timeAgo = getTimeAgo(log.createdAt)
+
+        return {
+          user: userName,
+          action: formatAction(log.action),
+          resource: log.resource,
+          time: timeAgo,
+          avatar: `/avatars/${(log.user?.name || "Unknown").charAt(0).toUpperCase()}.png`,
+        }
+      })
+
+      return activities
+    }),
+
+  securityAlerts: protectedProcedure("password.view")
+    .query(async ({ ctx }) => {
+      // Get dismissed alerts for this user
+      const dismissedKey = `user.${ctx.userId}.dismissedAlerts`
+      const dismissedSetting = await prisma.settings.findUnique({
+        where: { key: dismissedKey },
+      })
+      const dismissedAlerts = dismissedSetting?.value
+        ? (dismissedSetting.value as string[])
+        : []
+      const dismissedSet = new Set(dismissedAlerts)
+      const now = new Date()
+      const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
+      const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+      const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000)
+      const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000)
+
+      // Get user teams
+      const userTeams = await prisma.teamMember.findMany({
+        where: { userId: ctx.userId },
+        select: { teamId: true },
+      })
+      const teamIds = userTeams.map((tm) => tm.teamId)
+
+      // Build password where clause for user's accessible passwords
+      const passwordWhere = {
+        OR: [
+          { ownerId: ctx.userId },
+          ...(teamIds.length > 0
+            ? [
+                {
+                  sharedWith: {
+                    some: {
+                      teamId: { in: teamIds },
+                      OR: [
+                        { expiresAt: null },
+                        { expiresAt: { gt: now } },
+                      ],
+                    },
+                  },
+                },
+              ]
+            : []),
+        ],
+      }
+
+      // Check for expiring passwords (within 7 days) - HIGH severity
+      const expiringPasswordWhere = {
+        ...passwordWhere,
+        expiresAt: {
+          not: null,
+          gte: now,
+          lte: sevenDaysFromNow,
+        },
+      }
+      const expiringPasswords = await prisma.password.count({
+        where: expiringPasswordWhere,
+      })
+
+      // Check for weak passwords - MEDIUM severity
+      const weakPasswords = await prisma.password.count({
+        where: {
+          ...passwordWhere,
+          strength: "WEAK",
+        },
+      })
+
+      // Check for unused passwords (no access in last 90 days) - LOW severity
+      // Get passwords that haven't been viewed in last 90 days
+      const allUserPasswords = await prisma.password.findMany({
+        where: passwordWhere,
+        select: { id: true },
+      })
+      const passwordIds = allUserPasswords.map((p) => p.id)
+      
+      const recentlyAccessedPasswordIds = await prisma.auditLog.findMany({
+        where: {
+          action: "PASSWORD_VIEWED",
+          resourceId: { in: passwordIds },
+          createdAt: { gte: ninetyDaysAgo },
+        },
+        select: { resourceId: true },
+        distinct: ["resourceId"],
+      })
+      const accessedIds = new Set(recentlyAccessedPasswordIds.map((log) => log.resourceId).filter(Boolean))
+      const unusedPasswords = passwordIds.filter((id) => !accessedIds.has(id)).length
+
+      // Check for failed login attempts in last 24 hours - CRITICAL if >20, HIGH if >10
+      const failedLogins = await prisma.auditLog.count({
+        where: {
+          action: "LOGIN_FAILED",
+          createdAt: { gte: yesterday },
+        },
+      })
+
+      // Check for suspicious access patterns (multiple failed logins from same IP) - HIGH severity
+      const suspiciousIPs = await prisma.auditLog.groupBy({
+        by: ["ipAddress"],
+        where: {
+          action: "LOGIN_FAILED",
+          createdAt: { gte: yesterday },
+          ipAddress: { not: null },
+        },
+        _count: true,
+        having: {
+          ipAddress: {
+            _count: {
+              gt: 5, // More than 5 failed attempts from same IP
+            },
+          },
+        },
+      })
+
+      // Check for users without MFA enabled - MEDIUM severity
+      const [totalActiveUsers, usersWithoutMFA] = await Promise.all([
+        prisma.user.count({ where: { isActive: true } }),
+        prisma.user.count({
+          where: {
+            isActive: true,
+            mfaEnabled: false,
+          },
+        }),
+      ])
+
+      // Get system backup status from Settings
+      const backupSetting = await prisma.settings.findUnique({
+        where: { key: "system.backup.lastCompleted" },
+      })
+      
+      const lastBackupTime = backupSetting?.value
+        ? new Date(backupSetting.value as string)
+        : null
+      const backupStatus = backupSetting?.value
+        ? (await prisma.settings.findUnique({
+            where: { key: "system.backup.status" },
+          }))?.value || "unknown"
+        : "unknown"
+
+      const alerts: Array<{
+        id: string
+        severity: "critical" | "high" | "medium" | "low"
+        type: "warning" | "info" | "error"
+        message: string
+        time: string
+        timestamp: Date
+      }> = []
+
+      // CRITICAL: Excessive failed login attempts
+      if (failedLogins > 20) {
+        alerts.push({
+          id: "failed-logins-critical",
+          severity: "critical",
+          type: "error",
+          message: `Critical: ${failedLogins} failed login attempts detected in last 24 hours`,
+          time: "Just now",
+          timestamp: now,
+        })
+      }
+      // HIGH: Many failed login attempts
+      else if (failedLogins > 10) {
+        alerts.push({
+          id: "failed-logins-high",
+          severity: "high",
+          type: "warning",
+          message: `Unusual login activity detected (${failedLogins} failed attempts in last 24h)`,
+          time: "Today",
+          timestamp: now,
+        })
+      }
+
+      // HIGH: Suspicious IP patterns
+      if (suspiciousIPs.length > 0) {
+        alerts.push({
+          id: "suspicious-ips",
+          severity: "high",
+          type: "warning",
+          message: `Suspicious access pattern: ${suspiciousIPs.length} IP address${suspiciousIPs.length > 1 ? "es" : ""} with multiple failed login attempts`,
+          time: "Today",
+          timestamp: now,
+        })
+      }
+
+      // HIGH: Expiring passwords
+      if (expiringPasswords > 0) {
+        alerts.push({
+          id: "expiring-passwords",
+          severity: "high",
+          type: "warning",
+          message: `${expiringPasswords} password${expiringPasswords > 1 ? "s" : ""} will expire in the next 7 days`,
+          time: "Today",
+          timestamp: now,
+        })
+      }
+
+      // MEDIUM: Weak passwords
+      if (weakPasswords > 0) {
+        alerts.push({
+          id: "weak-passwords",
+          severity: "medium",
+          type: "warning",
+          message: `${weakPasswords} weak password${weakPasswords > 1 ? "s" : ""} detected. Consider strengthening them.`,
+          time: "Today",
+          timestamp: now,
+        })
+      }
+
+      // MEDIUM: Users without MFA
+      if (usersWithoutMFA > 0 && totalActiveUsers > 0) {
+        const percentage = Math.round((usersWithoutMFA / totalActiveUsers) * 100)
+        if (percentage > 20) {
+          alerts.push({
+            id: "mfa-not-enabled",
+            severity: "medium",
+            type: "warning",
+            message: `${usersWithoutMFA} user${usersWithoutMFA > 1 ? "s" : ""} (${percentage}%) without MFA enabled`,
+            time: "Today",
+            timestamp: now,
+          })
+        }
+      }
+
+      // LOW: Unused passwords
+      if (unusedPasswords > 0) {
+        alerts.push({
+          id: "unused-passwords",
+          severity: "low",
+          type: "info",
+          message: `${unusedPasswords} password${unusedPasswords > 1 ? "s" : ""} haven't been accessed in 90+ days. Consider reviewing.`,
+          time: "Today",
+          timestamp: now,
+        })
+      }
+
+      // System backup status
+      if (lastBackupTime) {
+        const hoursSinceBackup = Math.floor((now.getTime() - lastBackupTime.getTime()) / (1000 * 60 * 60))
+        if (backupStatus === "success" || backupStatus === "completed") {
+          if (hoursSinceBackup < 24) {
+            alerts.push({
+              id: "backup-success",
+              severity: "low",
+              type: "info",
+              message: `System backup completed successfully ${hoursSinceBackup} hour${hoursSinceBackup !== 1 ? "s" : ""} ago`,
+              time: hoursSinceBackup < 1 ? "Just now" : `${hoursSinceBackup}h ago`,
+              timestamp: lastBackupTime,
+            })
+          } else {
+            alerts.push({
+              id: "backup-old",
+              severity: "medium",
+              type: "warning",
+              message: `Last system backup was ${Math.floor(hoursSinceBackup / 24)} day${Math.floor(hoursSinceBackup / 24) > 1 ? "s" : ""} ago`,
+              time: `${Math.floor(hoursSinceBackup / 24)}d ago`,
+              timestamp: lastBackupTime,
+            })
+          }
+        } else if (backupStatus === "failed" || backupStatus === "error") {
+          alerts.push({
+            id: "backup-failed",
+            severity: "high",
+            type: "error",
+            message: "System backup failed. Please check backup configuration.",
+            time: "Today",
+            timestamp: now,
+          })
+        }
+      } else {
+        // No backup record found
+        alerts.push({
+          id: "backup-unknown",
+          severity: "medium",
+          type: "warning",
+          message: "System backup status unknown. Please verify backup configuration.",
+          time: "Today",
+          timestamp: now,
+        })
+      }
+
+      // Filter out dismissed alerts
+      const activeAlerts = alerts.filter((alert) => !dismissedSet.has(alert.id))
+
+      // Sort by severity (critical > high > medium > low) and timestamp
+      const severityOrder = { critical: 0, high: 1, medium: 2, low: 3 }
+      activeAlerts.sort((a, b) => {
+        const severityDiff = severityOrder[a.severity] - severityOrder[b.severity]
+        if (severityDiff !== 0) return severityDiff
+        return b.timestamp.getTime() - a.timestamp.getTime()
+      })
+
+      return activeAlerts
+    }),
+
+  dismissAlert: protectedProcedure("password.view")
+    .input(
+      z.object({
+        alertId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Store dismissed alerts in Settings as a JSON array
+      const dismissedKey = `user.${ctx.userId}.dismissedAlerts`
+      const existing = await prisma.settings.findUnique({
+        where: { key: dismissedKey },
+      })
+
+      const dismissedAlerts = existing?.value
+        ? (existing.value as string[])
+        : []
+
+      if (!dismissedAlerts.includes(input.alertId)) {
+        dismissedAlerts.push(input.alertId)
+        await prisma.settings.upsert({
+          where: { key: dismissedKey },
+          update: {
+            value: dismissedAlerts,
+          },
+          create: {
+            key: dismissedKey,
+            value: dismissedAlerts,
+          },
+        })
+      }
+
+      return { success: true }
+    }),
+
+  healthMetrics: protectedProcedure("password.view")
+    .query(async ({ ctx }) => {
+      const now = new Date()
+      
+      // Get user teams
+      const userTeams = await prisma.teamMember.findMany({
+        where: { userId: ctx.userId },
+        select: { teamId: true },
+      })
+      const teamIds = userTeams.map((tm) => tm.teamId)
+
+      // Build where clause for passwords accessible to user
+      const passwordWhere = {
+        OR: [
+          { ownerId: ctx.userId },
+          ...(teamIds.length > 0
+            ? [
+                {
+                  sharedWith: {
+                    some: {
+                      teamId: { in: teamIds },
+                      OR: [
+                        { expiresAt: null },
+                        { expiresAt: { gt: new Date() } },
+                      ],
+                    },
+                  },
+                },
+              ]
+            : []),
+        ],
+      }
+
+      // Get password strength stats
+      const [totalPasswords, strongPasswords, mediumPasswords] = await Promise.all([
+        prisma.password.count({ where: passwordWhere }),
+        prisma.password.count({
+          where: { ...passwordWhere, strength: "STRONG" },
+        }),
+        prisma.password.count({
+          where: { ...passwordWhere, strength: "MEDIUM" },
+        }),
+      ])
+
+      // Get MFA adoption
+      const [totalUsers, mfaUsers, activeUsers] = await Promise.all([
+        prisma.user.count({ where: { isActive: true } }),
+        prisma.user.count({ where: { mfaEnabled: true, isActive: true } }),
+        prisma.user.count({
+          where: {
+            isActive: true,
+            lastLoginAt: {
+              gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000), // Active in last 30 days
+            },
+          },
+        }),
+      ])
+
+      // Get active sessions (sessions that haven't expired yet)
+      const activeSessions = await prisma.session.count({
+        where: {
+          expires: {
+            gt: now,
+          },
+        },
+      })
+
+      // Calculate session percentage based on active users
+      // If we have active users, calculate percentage of sessions vs active users
+      // Otherwise, use a baseline of 100% if there are any sessions
+      const sessionPercentage =
+        activeUsers > 0
+          ? Math.min(100, Math.round((activeSessions / activeUsers) * 100))
+          : activeSessions > 0
+            ? 100
+            : 0
+
+      // Determine session status based on count and percentage
+      let sessionStatus = "Normal"
+      if (activeSessions === 0) {
+        sessionStatus = "No Activity"
+      } else if (sessionPercentage > 150) {
+        sessionStatus = "High"
+      } else if (sessionPercentage > 100) {
+        sessionStatus = "Elevated"
+      } else if (sessionPercentage < 20 && activeUsers > 0) {
+        sessionStatus = "Low"
+      }
+
+      const passwordStrengthPercentage =
+        totalPasswords > 0
+          ? Math.round(((strongPasswords + mediumPasswords) / totalPasswords) * 100)
+          : 0
+
+      const mfaAdoptionPercentage =
+        totalUsers > 0 ? Math.round((mfaUsers / totalUsers) * 100) : 0
+
+      return [
+        {
+          label: "Password Strength",
+          status: passwordStrengthPercentage >= 70 ? "Good" : passwordStrengthPercentage >= 50 ? "Fair" : "Poor",
+          percentage: passwordStrengthPercentage,
+          description: `${passwordStrengthPercentage}% of passwords meet security requirements`,
+          color: passwordStrengthPercentage >= 70 ? "bg-green-600" : passwordStrengthPercentage >= 50 ? "bg-yellow-600" : "bg-red-600",
+        },
+        {
+          label: "MFA Adoption",
+          status: mfaAdoptionPercentage >= 90 ? "Excellent" : mfaAdoptionPercentage >= 70 ? "Good" : "Fair",
+          percentage: mfaAdoptionPercentage,
+          description: `${mfaAdoptionPercentage}% of users have MFA enabled`,
+          color: mfaAdoptionPercentage >= 90 ? "bg-green-600" : mfaAdoptionPercentage >= 70 ? "bg-blue-600" : "bg-yellow-600",
+        },
+        {
+          label: "Active Sessions",
+          status: sessionStatus,
+          percentage: sessionPercentage,
+          description: `${activeSessions} active session${activeSessions !== 1 ? "s" : ""} currently`,
+          color:
+            sessionStatus === "High" || sessionStatus === "Elevated"
+              ? "bg-orange-600"
+              : sessionStatus === "Low" || sessionStatus === "No Activity"
+                ? "bg-yellow-600"
+                : "bg-blue-600",
+        },
+      ]
+    }),
+})
+
+// Helper functions
+function getTimeAgo(date: Date): string {
+  const now = new Date()
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000)
+
+  if (diffInSeconds < 60) {
+    return `${diffInSeconds} second${diffInSeconds !== 1 ? "s" : ""} ago`
+  }
+
+  const diffInMinutes = Math.floor(diffInSeconds / 60)
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes} minute${diffInMinutes !== 1 ? "s" : ""} ago`
+  }
+
+  const diffInHours = Math.floor(diffInMinutes / 60)
+  if (diffInHours < 24) {
+    return `${diffInHours} hour${diffInHours !== 1 ? "s" : ""} ago`
+  }
+
+  const diffInDays = Math.floor(diffInHours / 24)
+  if (diffInDays < 7) {
+    return `${diffInDays} day${diffInDays !== 1 ? "s" : ""} ago`
+  }
+
+  const diffInWeeks = Math.floor(diffInDays / 7)
+  return `${diffInWeeks} week${diffInWeeks !== 1 ? "s" : ""} ago`
+}
+
+function formatAction(action: string): string {
+  const actionMap: Record<string, string> = {
+    PASSWORD_CREATED: "Created new password",
+    PASSWORD_UPDATED: "Updated password",
+    PASSWORD_DELETED: "Deleted password",
+    PASSWORD_SHARED: "Shared password",
+    PASSWORD_VIEWED: "Viewed password",
+    USER_CREATED: "Created user",
+    USER_UPDATED: "Updated user",
+    TEAM_CREATED: "Created team",
+    TEAM_MEMBER_ADDED: "Added user to team",
+    LOGIN_SUCCESS: "Logged in",
+    LOGIN_FAILED: "Failed login attempt",
+  }
+
+  return actionMap[action] || action.replace(/_/g, " ").toLowerCase()
+}

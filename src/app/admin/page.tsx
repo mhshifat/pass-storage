@@ -1,118 +1,67 @@
-"use client"
+import { Suspense } from "react"
+import { caller } from "@/trpc/server"
+import {
+  StatsCards,
+  RecentActivities,
+  SecurityAlerts,
+  SystemHealth,
+  StatsCardsSkeleton,
+  RecentActivitiesSkeleton,
+  SecurityAlertsSkeleton,
+  SystemHealthSkeleton,
+} from "@/modules/dashboard/client"
 
-import { Users, Lock, Shield, AlertTriangle } from "lucide-react"
-import { StatsCards, RecentActivities, SecurityAlerts, SystemHealth } from "@/modules/dashboard/client"
+async function DashboardStats() {
+  const stats = await caller.dashboard.stats()
 
-const stats = [
-  {
-    name: "Total Users",
-    value: "1,247",
-    change: "+12%",
-    changeType: "positive" as const,
-    icon: Users,
-  },
-  {
-    name: "Active Passwords",
-    value: "4,891",
-    change: "+8%",
-    changeType: "positive" as const,
-    icon: Lock,
-  },
-  {
-    name: "Teams",
-    value: "34",
-    change: "+2",
-    changeType: "positive" as const,
-    icon: Shield,
-  },
-  {
-    name: "Security Events",
-    value: "23",
-    change: "-15%",
-    changeType: "negative" as const,
-    icon: AlertTriangle,
-  },
-]
+  const statsData = [
+    {
+      name: "Total Users",
+      value: stats.users.total.toLocaleString(),
+      change: stats.users.change,
+      changeType: stats.users.changeType,
+      icon: "Users",
+    },
+    {
+      name: "Active Passwords",
+      value: stats.passwords.total.toLocaleString(),
+      change: stats.passwords.change,
+      changeType: stats.passwords.changeType,
+      icon: "Lock",
+    },
+    {
+      name: "Teams",
+      value: stats.teams.total.toLocaleString(),
+      change: stats.teams.change,
+      changeType: stats.teams.changeType,
+      icon: "Shield",
+    },
+    {
+      name: "Security Events",
+      value: stats.securityEvents.total.toLocaleString(),
+      change: stats.securityEvents.change,
+      changeType: stats.securityEvents.changeType,
+      icon: "AlertTriangle",
+    },
+  ]
 
-const recentActivities = [
-  {
-    user: "John Doe",
-    action: "Created new password",
-    resource: "AWS Production",
-    time: "2 minutes ago",
-    avatar: "/avatars/01.png",
-  },
-  {
-    user: "Jane Smith",
-    action: "Shared password",
-    resource: "Database Credentials",
-    time: "15 minutes ago",
-    avatar: "/avatars/02.png",
-  },
-  {
-    user: "Mike Johnson",
-    action: "Updated password",
-    resource: "Email Account",
-    time: "1 hour ago",
-    avatar: "/avatars/03.png",
-  },
-  {
-    user: "Sarah Williams",
-    action: "Deleted password",
-    resource: "Old API Key",
-    time: "2 hours ago",
-    avatar: "/avatars/04.png",
-  },
-  {
-    user: "Tom Brown",
-    action: "Added user to team",
-    resource: "DevOps Team",
-    time: "3 hours ago",
-    avatar: "/avatars/05.png",
-  },
-]
+  return <StatsCards stats={statsData} />
+}
 
-const securityAlerts = [
-  {
-    type: "warning" as const,
-    message: "3 passwords will expire in the next 7 days",
-    time: "Today",
-  },
-  {
-    type: "info" as const,
-    message: "System backup completed successfully",
-    time: "Yesterday",
-  },
-  {
-    type: "warning" as const,
-    message: "Unusual login activity detected for user@example.com",
-    time: "2 days ago",
-  },
-]
+async function DashboardActivities() {
+  const activities = await caller.dashboard.recentActivities()
+  return <RecentActivities activities={activities} />
+}
 
-const healthMetrics = [
-  {
-    label: "Password Strength",
-    status: "Good",
-    percentage: 75,
-    description: "75% of passwords meet security requirements",
-    color: "bg-green-600",
-  },
-  {
-    label: "MFA Adoption",
-    status: "Excellent",
-    percentage: 92,
-    description: "92% of users have MFA enabled",
-    color: "bg-green-600",
-  },
-  {
-    label: "Active Sessions",
-    status: "Normal",
-    percentage: 60,
-    description: "348 active sessions currently",
-    color: "bg-blue-600",
-  },
-]
+async function DashboardAlerts() {
+  const alerts = await caller.dashboard.securityAlerts()
+  return <SecurityAlerts alerts={alerts} />
+}
+
+async function DashboardHealth() {
+  const metrics = await caller.dashboard.healthMetrics()
+  return <SystemHealth metrics={metrics} />
+}
 
 export default function AdminDashboard() {
   return (
@@ -126,14 +75,22 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats Grid */}
-      <StatsCards stats={stats} />
+      <Suspense fallback={<StatsCardsSkeleton />}>
+        <DashboardStats />
+      </Suspense>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <RecentActivities activities={recentActivities} />
-        <SecurityAlerts alerts={securityAlerts} />
+        <Suspense fallback={<RecentActivitiesSkeleton />}>
+          <DashboardActivities />
+        </Suspense>
+        <Suspense fallback={<SecurityAlertsSkeleton />}>
+          <DashboardAlerts />
+        </Suspense>
       </div>
 
-      <SystemHealth metrics={healthMetrics} />
+      <Suspense fallback={<SystemHealthSkeleton />}>
+        <DashboardHealth />
+      </Suspense>
     </div>
   )
 }

@@ -6,6 +6,7 @@ import { rolesRouter } from "@/modules/roles/server/procedures"
 import { teamsRouter } from "@/modules/teams/server/procedures"
 import { foldersRouter } from "@/modules/folders/server/procedures"
 import { passwordsRouter } from "@/modules/passwords/server/procedures"
+import { dashboardRouter } from "@/modules/dashboard/server/procedures"
 
 export const appRouter = createTRPCRouter({
   auth: authRouter,
@@ -15,6 +16,7 @@ export const appRouter = createTRPCRouter({
   teams: teamsRouter,
   folders: foldersRouter,
   passwords: passwordsRouter,
+  dashboard: dashboardRouter,
 });
 // export type definition of API
 export type AppRouter = typeof appRouter;
