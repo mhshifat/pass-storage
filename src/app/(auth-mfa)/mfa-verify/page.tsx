@@ -4,8 +4,8 @@ import { MfaVerifyForm } from "@/modules/auth/client/mfa-verify/mfa-verify-form"
 
 export default async function MfaVerifyPage() {
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <Card className="w-full max-w-sm">
+    <div className="flex justify-center items-center">
+      <Card className="w-full max-w-sm backdrop-blur-sm bg-card/95 border-border/50 shadow-xl">
         <CardHeader>
           <CardTitle>Verify Multi-Factor Authentication</CardTitle>
           <CardDescription>

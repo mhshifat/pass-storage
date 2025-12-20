@@ -158,6 +158,7 @@ export const settingsRouter = createTRPCRouter({
           in: [
             "app.name",
             "app.maintenance_mode",
+            "app.theme",
           ],
         },
       },
@@ -171,6 +172,7 @@ export const settingsRouter = createTRPCRouter({
     return {
       appName: (config["app.name"] as string) || "PassStorage",
       maintenanceMode: (config["app.maintenance_mode"] as boolean) || false,
+      theme: (config["app.theme"] as string) || "system",
     }
   }),
 
@@ -179,11 +181,12 @@ export const settingsRouter = createTRPCRouter({
       z.object({
         appName: z.string().min(1, "Application name is required"),
         maintenanceMode: z.boolean(),
+        theme: z.enum(["light", "dark", "system"]).optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
       // Update or create each setting
-      await Promise.all([
+      const updates = [
         prisma.settings.upsert({
           where: { key: "app.name" },
           update: { value: input.appName },
@@ -194,14 +197,31 @@ export const settingsRouter = createTRPCRouter({
           update: { value: input.maintenanceMode },
           create: { key: "app.maintenance_mode", value: input.maintenanceMode },
         }),
-      ])
+      ]
+
+      if (input.theme !== undefined) {
+        updates.push(
+          prisma.settings.upsert({
+            where: { key: "app.theme" },
+            update: { value: input.theme },
+            create: { key: "app.theme", value: input.theme },
+          })
+        )
+      }
+
+      await Promise.all(updates)
 
       // Create audit log
       const { createAuditLog } = await import("@/lib/audit-log")
       await createAuditLog({
         action: "SETTINGS_UPDATED",
         resource: "Settings",
-        details: { category: "general", appName: input.appName, maintenanceMode: input.maintenanceMode },
+        details: { 
+          category: "general", 
+          appName: input.appName, 
+          maintenanceMode: input.maintenanceMode,
+          theme: input.theme,
+        },
         userId: ctx.userId,
       })
 

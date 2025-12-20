@@ -2,7 +2,6 @@
 
 import { useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
@@ -17,10 +16,13 @@ import { Loader2 } from "lucide-react"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Info } from "lucide-react"
+import { ThemeSelect } from "@/components/ui/theme-selector"
+import { useTheme } from "next-themes"
 
 const generalSettingsSchema = z.object({
   appName: z.string().min(1, "Application name is required"),
   maintenanceMode: z.boolean(),
+  theme: z.enum(["light", "dark", "system"]).optional(),
 })
 
 type GeneralSettingsFormValues = z.infer<typeof generalSettingsSchema>
@@ -40,25 +42,38 @@ export function GeneralSettings() {
     },
   })
 
+  const { theme: currentTheme, setTheme } = useTheme()
   const form = useForm<GeneralSettingsFormValues>({
     resolver: zodResolver(generalSettingsSchema),
     defaultValues: {
       appName: "PassStorage",
       maintenanceMode: false,
+      theme: "system",
     },
   })
 
-  // Update form when settings are loaded
+  // Update form when settings are loaded (only when settings change, not when theme changes)
   useEffect(() => {
     if (settings) {
+      const themeValue = settings.theme || "system"
       form.reset({
         appName: settings.appName,
         maintenanceMode: settings.maintenanceMode,
+        theme: themeValue as "light" | "dark" | "system",
       })
+      // Sync theme with next-themes only on initial load
+      if (settings.theme) {
+        setTheme(settings.theme)
+      }
     }
-  }, [settings, form])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [settings]) // Only depend on settings, not currentTheme or setTheme
 
   const onSubmit = async (values: GeneralSettingsFormValues) => {
+    // Sync theme with next-themes immediately
+    if (values.theme && values.theme !== currentTheme) {
+      setTheme(values.theme)
+    }
     updateSettings.mutate(values)
   }
 
@@ -123,6 +138,32 @@ export function GeneralSettings() {
                   </FormControl>
                   <p className="text-xs text-muted-foreground">
                     The name displayed throughout the application
+                  </p>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Separator />
+
+            <FormField
+              control={form.control}
+              name="theme"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Theme</FormLabel>
+                  <FormControl>
+                    <ThemeSelect
+                      value={field.value || "system"}
+                      onValueChange={(value) => {
+                        field.onChange(value)
+                        setTheme(value)
+                      }}
+                      disabled={!canEdit}
+                    />
+                  </FormControl>
+                  <p className="text-xs text-muted-foreground">
+                    Choose the color theme for the application. System will match your device preference.
                   </p>
                   <FormMessage />
                 </FormItem>

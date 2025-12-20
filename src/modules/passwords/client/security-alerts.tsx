@@ -42,20 +42,24 @@ export function SecurityAlerts({ alerts }: SecurityAlertsProps) {
           key={alert.type}
           className={
             alert.type === "weak"
-              ? "border-red-200 bg-red-50/50"
-              : "border-yellow-200 bg-yellow-50/50"
+              ? "border-red-200 dark:border-red-800/50 bg-red-50/50 dark:bg-red-950/30"
+              : "border-yellow-200 dark:border-yellow-800/50 bg-yellow-50/50 dark:bg-yellow-950/30"
           }
         >
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
               <AlertTriangle
                 className={`h-5 w-5 ${
-                  alert.type === "weak" ? "text-red-600" : "text-yellow-600"
+                  alert.type === "weak" 
+                    ? "text-red-600 dark:text-red-400" 
+                    : "text-yellow-600 dark:text-yellow-400"
                 }`}
               />
               <CardTitle
                 className={`text-sm font-medium ${
-                  alert.type === "weak" ? "text-red-900" : "text-yellow-900"
+                  alert.type === "weak" 
+                    ? "text-red-900 dark:text-red-200" 
+                    : "text-yellow-900 dark:text-yellow-200"
                 }`}
               >
                 {alert.type === "weak" ? "Weak Passwords" : "Expiring Passwords"}
@@ -65,7 +69,9 @@ export function SecurityAlerts({ alerts }: SecurityAlertsProps) {
           <CardContent>
             <p
               className={`text-sm ${
-                alert.type === "weak" ? "text-red-800" : "text-yellow-800"
+                alert.type === "weak" 
+                  ? "text-red-800 dark:text-red-300" 
+                  : "text-yellow-800 dark:text-yellow-300"
               }`}
             >
               {alert.message}

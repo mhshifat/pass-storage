@@ -19,9 +19,9 @@ export function RegisterForm() {
         <Button type="submit" className="w-full" disabled={isPending} form="register-form">
           {isPending ? "Creating account..." : "Create account"}
         </Button>
-        <div className="text-sm text-center text-gray-600">
+        <div className="text-sm text-center text-muted-foreground">
           Already have an account?{" "}
-          <Link href="/login" className="text-blue-600 hover:underline">
+          <Link href="/login" className="text-primary hover:underline font-medium">
             Sign in
           </Link>
         </div>

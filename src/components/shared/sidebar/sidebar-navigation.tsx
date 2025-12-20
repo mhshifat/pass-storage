@@ -68,12 +68,6 @@ const navigation = [
     permission: "audit.view",
   },
   {
-    name: "Test Loader",
-    href: "/admin/test-loader",
-    icon: Activity,
-    permission: null, // Always visible for testing
-  },
-  {
     name: "Settings",
     href: "/admin/settings/general",
     icon: Settings,

@@ -90,8 +90,13 @@ export const dashboardRouter = createTRPCRouter({
 
   recentActivities: protectedProcedure("password.view")
     .query(async ({ ctx }) => {
-      // Get recent audit logs with user information
+      // Get recent audit logs with user information, excluding current user's activities
       const logs = await prisma.auditLog.findMany({
+        where: {
+          userId: {
+            not: ctx.userId, // Exclude current logged-in user
+          },
+        },
         take: 5,
         orderBy: { createdAt: "desc" },
         include: {

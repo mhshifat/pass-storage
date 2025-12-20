@@ -4,6 +4,8 @@ import "./globals.css";
 import { TRPCReactProvider } from "@/trpc/client";
 import { Toaster } from "@/components/ui/sonner";
 import { NavigationProgress } from "@/components/providers/navigation-progress";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ThemeInitializer } from "@/components/providers/theme-initializer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,15 +28,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <TRPCReactProvider>
-          <NavigationProgress showFullPageLoader={false} />
-          {children}
-        </TRPCReactProvider>
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TRPCReactProvider>
+            <ThemeInitializer />
+            <NavigationProgress showFullPageLoader={false} />
+            {children}
+          </TRPCReactProvider>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

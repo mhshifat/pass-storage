@@ -95,7 +95,7 @@ async function PasswordsStats() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.weak.toLocaleString()}</div>
-            <p className={`text-xs ${stats.weak > 0 ? "text-red-600" : "text-muted-foreground"}`}>
+            <p className={`text-xs ${stats.weak > 0 ? "text-red-600 dark:text-red-400" : "text-muted-foreground"}`}>
               {stats.weak > 0 ? "Need attention" : "All secure"}
             </p>
           </CardContent>

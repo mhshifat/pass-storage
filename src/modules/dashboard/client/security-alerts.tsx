@@ -24,26 +24,26 @@ interface SecurityAlertsProps {
 const severityConfig = {
   critical: {
     icon: AlertCircle,
-    color: "text-red-600",
-    bgColor: "bg-red-50 border-red-200",
+    color: "text-red-600 dark:text-red-400",
+    bgColor: "bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800/50",
     badge: "destructive",
   },
   high: {
     icon: AlertTriangle,
-    color: "text-orange-600",
-    bgColor: "bg-orange-50 border-orange-200",
+    color: "text-orange-600 dark:text-orange-400",
+    bgColor: "bg-orange-50 dark:bg-orange-950/30 border-orange-200 dark:border-orange-800/50",
     badge: "destructive",
   },
   medium: {
     icon: AlertTriangle,
-    color: "text-yellow-600",
-    bgColor: "bg-yellow-50 border-yellow-200",
+    color: "text-yellow-600 dark:text-yellow-400",
+    bgColor: "bg-yellow-50 dark:bg-yellow-950/30 border-yellow-200 dark:border-yellow-800/50",
     badge: "secondary",
   },
   low: {
     icon: Info,
-    color: "text-blue-600",
-    bgColor: "bg-blue-50 border-blue-200",
+    color: "text-blue-600 dark:text-blue-400",
+    bgColor: "bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800/50",
     badge: "outline",
   },
 }
@@ -100,18 +100,18 @@ export function SecurityAlerts({ alerts: initialAlerts }: SecurityAlertsProps) {
               xmlns="http://www.w3.org/2000/svg"
               className="mx-auto"
             >
-              <circle cx="60" cy="60" r="50" fill="#ECFDF5" />
-              <circle cx="60" cy="50" r="20" fill="#10B981" opacity="0.2" />
+              <circle cx="60" cy="60" r="50" className="fill-green-50 dark:fill-green-950/20" />
+              <circle cx="60" cy="50" r="20" className="fill-green-500 dark:fill-green-400" opacity="0.2" />
               <path
                 d="M60 35L60 55M60 65L60 70"
-                stroke="#10B981"
+                className="stroke-green-500 dark:stroke-green-400"
                 strokeWidth="3"
                 strokeLinecap="round"
               />
-              <circle cx="60" cy="50" r="15" stroke="#10B981" strokeWidth="2" fill="none" />
+              <circle cx="60" cy="50" r="15" className="stroke-green-500 dark:stroke-green-400" strokeWidth="2" fill="none" />
               <path
                 d="M45 75C45 70.5817 48.5817 67 53 67H67C71.4183 67 75 70.5817 75 75V80H45V75Z"
-                fill="#10B981"
+                className="fill-green-500 dark:fill-green-400"
                 opacity="0.3"
               />
             </svg>
@@ -131,7 +131,7 @@ export function SecurityAlerts({ alerts: initialAlerts }: SecurityAlertsProps) {
                   key={alert.id}
                   className={`flex items-start gap-3 p-3 rounded-lg border ${config.bgColor} relative group`}
                 >
-                  <IconComponent className={`h-5 w-5 mt-0.5 flex-shrink-0 ${config.color}`} />
+                  <IconComponent className={`h-5 w-5 mt-0.5 shrink-0 ${config.color}`} />
                   <div className="flex-1 space-y-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <Badge variant={config.badge as any} className="text-xs">
@@ -148,7 +148,7 @@ export function SecurityAlerts({ alerts: initialAlerts }: SecurityAlertsProps) {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+                    className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
                     onClick={() => handleDismiss(alert.id)}
                     disabled={dismissAlert.isPending}
                   >

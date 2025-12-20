@@ -15,8 +15,8 @@ export default async function MfaSetupPage() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <Card className="w-full max-w-sm">
+    <div className="flex justify-center items-center">
+      <Card className="w-full max-w-sm backdrop-blur-sm bg-card/95 border-border/50 shadow-xl">
         <CardHeader>
           <CardTitle>Set up Multi-Factor Authentication</CardTitle>
           <CardDescription>
