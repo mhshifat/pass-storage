@@ -282,6 +282,16 @@ export const passwordsRouter = createTRPCRouter({
         },
       })
 
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "PASSWORD_CREATED",
+        resource: "Password",
+        resourceId: password.id,
+        details: { name: password.name, hasTotp: password.hasTotp },
+        userId: ctx.userId,
+      })
+
       return { password }
     }),
 
@@ -361,6 +371,16 @@ export const passwordsRouter = createTRPCRouter({
           hasTotp: true,
           updatedAt: true,
         },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "PASSWORD_UPDATED",
+        resource: "Password",
+        resourceId: password.id,
+        details: { name: password.name },
+        userId: ctx.userId,
       })
 
       return { password }
@@ -706,6 +726,15 @@ export const passwordsRouter = createTRPCRouter({
         })
       }
 
+      // Create audit log for password view
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "PASSWORD_VIEWED",
+        resource: "Password",
+        resourceId: password.id,
+        userId: ctx.userId,
+      })
+
       // Decrypt password
       const decryptedPassword = decrypt(password.password)
 
@@ -733,6 +762,16 @@ export const passwordsRouter = createTRPCRouter({
           message: "Password not found",
         })
       }
+
+      // Create audit log before deletion
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "PASSWORD_DELETED",
+        resource: "Password",
+        resourceId: input.id,
+        details: { name: existingPassword.name },
+        userId: ctx.userId,
+      })
 
       // Delete the password (cascade will handle related records)
       await prisma.password.delete({

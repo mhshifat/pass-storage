@@ -127,10 +127,12 @@ exports.Prisma.UserScalarFieldEnum = {
   emailVerified: 'emailVerified',
   image: 'image',
   password: 'password',
+  phoneNumber: 'phoneNumber',
   role: 'role',
   isActive: 'isActive',
   mfaEnabled: 'mfaEnabled',
   mfaSecret: 'mfaSecret',
+  mfaMethod: 'mfaMethod',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   lastLoginAt: 'lastLoginAt',
@@ -277,6 +279,28 @@ exports.Prisma.RolePermissionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.MfaCredentialScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  credentialId: 'credentialId',
+  publicKey: 'publicKey',
+  counter: 'counter',
+  deviceType: 'deviceType',
+  backedUp: 'backedUp',
+  transports: 'transports',
+  createdAt: 'createdAt',
+  lastUsedAt: 'lastUsedAt'
+};
+
+exports.Prisma.RecoveryCodeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  codeHash: 'codeHash',
+  used: 'used',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -306,6 +330,13 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.MfaMethod = exports.$Enums.MfaMethod = {
+  TOTP: 'TOTP',
+  SMS: 'SMS',
+  EMAIL: 'EMAIL',
+  WEBAUTHN: 'WEBAUTHN'
+};
+
 exports.PasswordStrength = exports.$Enums.PasswordStrength = {
   WEAK: 'WEAK',
   MEDIUM: 'MEDIUM',
@@ -345,7 +376,9 @@ exports.Prisma.ModelName = {
   Settings: 'Settings',
   Role: 'Role',
   Permission: 'Permission',
-  RolePermission: 'RolePermission'
+  RolePermission: 'RolePermission',
+  MfaCredential: 'MfaCredential',
+  RecoveryCode: 'RecoveryCode'
 };
 
 /**

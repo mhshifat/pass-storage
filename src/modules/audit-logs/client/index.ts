@@ -1,2 +1,5 @@
-export { AuditLogsTable } from "./audit-logs-table"
+export { AuditLogsTable } from "./audit-logs-table-updated"
 export { LogDetailsDialog } from "./log-details-dialog"
+export { AuditLogsSkeleton } from "./audit-logs-skeleton"
+export { AuditLogsEmptyState } from "./audit-logs-empty-state"
+export { AuditLogsContent } from "./audit-logs-content"

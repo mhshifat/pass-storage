@@ -52,6 +52,16 @@ export const teamsRouter = createTRPCRouter({
         },
       })
 
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "TEAM_CREATED",
+        resource: "Team",
+        resourceId: team.id,
+        details: { name: team.name },
+        userId: ctx.userId,
+      })
+
       return {
         success: true,
         team,
@@ -190,6 +200,17 @@ export const teamsRouter = createTRPCRouter({
         },
       })
 
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      const changedFields = Object.keys(data).filter(key => data[key as keyof typeof data] !== undefined)
+      await createAuditLog({
+        action: "TEAM_UPDATED",
+        resource: "Team",
+        resourceId: team.id,
+        details: { name: team.name, changedFields },
+        userId: ctx.userId,
+      })
+
       return {
         success: true,
         team,
@@ -217,6 +238,16 @@ export const teamsRouter = createTRPCRouter({
           message: "Team not found",
         })
       }
+
+      // Create audit log before deletion
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "TEAM_DELETED",
+        resource: "Team",
+        resourceId: input.id,
+        details: { name: existingTeam.name },
+        userId: ctx.userId,
+      })
 
       // Delete team (cascade will handle members and shared passwords)
       await prisma.team.delete({
@@ -396,6 +427,16 @@ export const teamsRouter = createTRPCRouter({
         },
       })
 
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "TEAM_MEMBER_ADDED",
+        resource: "Team",
+        resourceId: input.teamId,
+        details: { userId: input.userId, userName: member.user.name, role: input.role },
+        userId: ctx.userId,
+      })
+
       return {
         success: true,
         member,
@@ -435,6 +476,16 @@ export const teamsRouter = createTRPCRouter({
             userId: input.userId,
           },
         },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "TEAM_MEMBER_REMOVED",
+        resource: "Team",
+        resourceId: input.teamId,
+        details: { userId: input.userId },
+        userId: ctx.userId,
       })
 
       return {
@@ -731,6 +782,12 @@ export const teamsRouter = createTRPCRouter({
         })
       }
 
+      // Get password name for audit log
+      const passwordForLog = await prisma.password.findUnique({
+        where: { id: input.passwordId },
+        select: { name: true },
+      })
+
       // Create password share (default permission is READ)
       const share = await prisma.passwordShare.create({
         data: {
@@ -750,6 +807,21 @@ export const teamsRouter = createTRPCRouter({
           permission: true,
           createdAt: true,
         },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "PASSWORD_SHARED",
+        resource: "Password",
+        resourceId: input.passwordId,
+        details: {
+          passwordName: passwordForLog?.name,
+          teamId: input.teamId,
+          teamName: team.name,
+          expiresAt: input.expiresAt || null,
+        },
+        userId: ctx.userId,
       })
 
       return {
@@ -845,10 +917,35 @@ export const teamsRouter = createTRPCRouter({
         })
       }
 
+      // Get share info for audit log
+      const shareForLog = await prisma.passwordShare.findUnique({
+        where: { id: input.shareId },
+        include: {
+          password: { select: { id: true, name: true } },
+          team: { select: { id: true, name: true } },
+        },
+      })
+
       // Delete share
       await prisma.passwordShare.delete({
         where: { id: input.shareId },
       })
+
+      // Create audit log
+      if (shareForLog) {
+        const { createAuditLog } = await import("@/lib/audit-log")
+        await createAuditLog({
+          action: "PASSWORD_SHARE_REMOVED",
+          resource: "Password",
+          resourceId: shareForLog.passwordId,
+          details: {
+            passwordName: shareForLog.password.name,
+            teamId: shareForLog.teamId,
+            teamName: shareForLog.team.name,
+          },
+          userId: ctx.userId,
+        })
+      }
 
       return {
         success: true,

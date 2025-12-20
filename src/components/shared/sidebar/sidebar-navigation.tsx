@@ -75,6 +75,7 @@ const navigation = [
       { name: "Email", href: "/admin/settings/email", permission: "settings.view" },
       { name: "Security", href: "/admin/settings/security", permission: "settings.view" },
       { name: "MFA", href: "/admin/settings/mfa", permission: "settings.view" },
+      { name: "MFA Credentials", href: "/admin/settings/mfa-credentials", permission: "settings.view" },
     ],
   },
 ]

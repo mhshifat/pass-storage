@@ -10,7 +10,7 @@ import { toast } from "sonner"
 import { updateEmailConfigAction, testEmailConfigAction } from "@/app/admin/settings/email-actions"
 import { useRouter } from "next/navigation"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { AlertCircle, Loader2 } from "lucide-react"
+import { AlertCircle, Loader2, Info } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -18,6 +18,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { useForm } from "react-hook-form"
 import z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { usePermissions } from "@/hooks/use-permissions"
 
 export interface EmailConfig {
   smtp_host: string
@@ -46,6 +47,8 @@ const emailSettingsSchema = z.object({
 type EmailSettingsFormValues = z.infer<typeof emailSettingsSchema>
 
 export function EmailSettings({ config }: EmailSettingsProps) {
+  const { hasPermission } = usePermissions()
+  const canEdit = hasPermission("settings.edit")
   const router = useRouter()
   const [testEmail, setTestEmail] = useState("")
   const [isTesting, setIsTesting] = useState(false)
@@ -117,6 +120,15 @@ export function EmailSettings({ config }: EmailSettingsProps) {
               })}
               className="space-y-6"
             >
+              {!canEdit && (
+                <Alert>
+                  <Info className="h-4 w-4" />
+                  <AlertDescription>
+                    You have read-only access to these settings. Only users with edit permissions can modify them.
+                  </AlertDescription>
+                </Alert>
+              )}
+
               {state?.error && (
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
@@ -131,7 +143,7 @@ export function EmailSettings({ config }: EmailSettingsProps) {
                   <FormItem>
                     <FormLabel>SMTP Host</FormLabel>
                     <FormControl>
-                      <Input placeholder="smtp.example.com" {...field} />
+                      <Input placeholder="smtp.example.com" {...field} disabled={!canEdit} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -146,7 +158,7 @@ export function EmailSettings({ config }: EmailSettingsProps) {
                     <FormItem>
                       <FormLabel>SMTP Port</FormLabel>
                       <FormControl>
-                        <Input placeholder="587" {...field} />
+                        <Input placeholder="587" {...field} disabled={!canEdit} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -161,6 +173,7 @@ export function EmailSettings({ config }: EmailSettingsProps) {
                       <Select
                         value={field.value}
                         onValueChange={field.onChange}
+                        disabled={!canEdit}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -188,7 +201,7 @@ export function EmailSettings({ config }: EmailSettingsProps) {
                   <FormItem>
                     <FormLabel>SMTP Username (Optional)</FormLabel>
                     <FormControl>
-                      <Input placeholder="notifications@example.com" {...field} />
+                      <Input placeholder="notifications@example.com" {...field} disabled={!canEdit} />
                     </FormControl>
                     <p className="text-xs text-muted-foreground">
                       Leave blank if your SMTP server doesn&#39;t require authentication
@@ -224,7 +237,7 @@ export function EmailSettings({ config }: EmailSettingsProps) {
                   <FormItem>
                     <FormLabel>From Email Address</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="noreply@passstorage.com" {...field} />
+                      <Input type="email" placeholder="noreply@passstorage.com" {...field} disabled={!canEdit} />
                     </FormControl>
                     <p className="text-xs text-muted-foreground">
                       Email address used as sender for notifications
@@ -241,7 +254,7 @@ export function EmailSettings({ config }: EmailSettingsProps) {
                   <FormItem>
                     <FormLabel>From Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="PassStorage" {...field} />
+                      <Input placeholder="PassStorage" {...field} disabled={!canEdit} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -250,18 +263,20 @@ export function EmailSettings({ config }: EmailSettingsProps) {
 
               <Separator />
 
-              <div className="flex gap-2">
-                <Button type="submit" disabled={isPending}>
-                  {isPending ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Saving...
-                    </>
-                  ) : (
-                    "Save Email Settings"
-                  )}
-                </Button>
-              </div>
+              {canEdit && (
+                <div className="flex gap-2">
+                  <Button type="submit" disabled={isPending}>
+                    {isPending ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Saving...
+                      </>
+                    ) : (
+                      "Save Email Settings"
+                    )}
+                  </Button>
+                </div>
+              )}
             </form>
           </Form>
         </CardContent>
@@ -281,9 +296,10 @@ export function EmailSettings({ config }: EmailSettingsProps) {
               placeholder="test@example.com"
               value={testEmail}
               onChange={(e) => setTestEmail(e.target.value)}
+              disabled={!canEdit}
             />
           </div>
-          <Button variant="outline" onClick={handleTestEmail} disabled={isTesting}>
+          <Button variant="outline" onClick={handleTestEmail} disabled={isTesting || !canEdit}>
             {isTesting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -307,7 +323,7 @@ export function EmailSettings({ config }: EmailSettingsProps) {
               <Label>New User Registration</Label>
               <p className="text-xs text-muted-foreground">Email admins when new users register</p>
             </div>
-            <Switch defaultChecked />
+            <Switch defaultChecked disabled={!canEdit} />
           </div>
 
           <div className="flex items-center justify-between">
@@ -317,7 +333,7 @@ export function EmailSettings({ config }: EmailSettingsProps) {
                 Email users when passwords are shared with them
               </p>
             </div>
-            <Switch defaultChecked />
+            <Switch defaultChecked disabled={!canEdit} />
           </div>
 
           <div className="flex items-center justify-between">
@@ -325,7 +341,7 @@ export function EmailSettings({ config }: EmailSettingsProps) {
               <Label>Password Expiring</Label>
               <p className="text-xs text-muted-foreground">Email users about expiring passwords</p>
             </div>
-            <Switch defaultChecked />
+            <Switch defaultChecked disabled={!canEdit} />
           </div>
 
           <div className="flex items-center justify-between">
@@ -333,12 +349,14 @@ export function EmailSettings({ config }: EmailSettingsProps) {
               <Label>Security Alerts</Label>
               <p className="text-xs text-muted-foreground">Email admins about security events</p>
             </div>
-            <Switch defaultChecked />
+            <Switch defaultChecked disabled={!canEdit} />
           </div>
 
-          <div className="pt-4">
-            <Button>Save Notification Settings</Button>
-          </div>
+          {canEdit && (
+            <div className="pt-4">
+              <Button>Save Notification Settings</Button>
+            </div>
+          )}
         </CardContent>
       </Card>
     </>

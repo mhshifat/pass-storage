@@ -5,9 +5,17 @@ import { serverTrpc } from "@/trpc/server-caller"
 
 export async function verifyMfaAction(_prevState: unknown, formData: FormData) {
   const code = formData.get("code") as string
+  const useRecoveryCode = formData.get("useRecoveryCode") === "true"
+  
   try {
     const trpc = await serverTrpc();
-    await trpc.auth.verifyMfa({ code });
+    
+    if (useRecoveryCode) {
+      await trpc.auth.verifyRecoveryCode({ code });
+    } else {
+      await trpc.auth.verifyMfa({ code });
+    }
+    
     revalidatePath("/admin")
     return { success: true }
   } catch (err) {

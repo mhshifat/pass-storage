@@ -30,6 +30,16 @@ export const usersRouter = createTRPCRouter({
         })
       }
 
+      // Validate password against security policies
+      const { validatePassword } = await import("@/lib/password-validation")
+      const validation = await validatePassword(input.password)
+      if (!validation.isValid) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: validation.errors.join(". "),
+        })
+      }
+
       // Hash password
       const hashedPassword = await hashPassword(input.password)
 
@@ -84,6 +94,16 @@ export const usersRouter = createTRPCRouter({
           createdAt: true,
           updatedAt: true,
         },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "USER_CREATED",
+        resource: "User",
+        resourceId: user.id,
+        details: { name: user.name, email: user.email, role: user.role },
+        userId: ctx.userId,
       })
 
       return {
@@ -149,6 +169,15 @@ export const usersRouter = createTRPCRouter({
       // Hash password if provided
       const updateData: Record<string, unknown> = { ...data }
       if (password) {
+        // Validate password against security policies
+        const { validatePassword } = await import("@/lib/password-validation")
+        const validation = await validatePassword(password)
+        if (!validation.isValid) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: validation.errors.join(". "),
+          })
+        }
         updateData.password = await hashPassword(password)
       }
 
@@ -198,6 +227,17 @@ export const usersRouter = createTRPCRouter({
         },
       })
 
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      const changedFields = Object.keys(data).filter(key => data[key as keyof typeof data] !== undefined)
+      await createAuditLog({
+        action: "USER_UPDATED",
+        resource: "User",
+        resourceId: user.id,
+        details: { changedFields, email: user.email },
+        userId: ctx.userId,
+      })
+
       return {
         success: true,
         user,
@@ -230,6 +270,15 @@ export const usersRouter = createTRPCRouter({
           message: "You cannot delete the user who created your account",
         })
       }
+
+      // Create audit log before deletion
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "USER_DELETED",
+        resource: "User",
+        resourceId: input.id,
+        userId: ctx.userId,
+      })
 
       // Delete user
       await prisma.user.delete({
@@ -298,6 +347,16 @@ export const usersRouter = createTRPCRouter({
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "New password must be different from current password",
+        })
+      }
+
+      // Validate new password against security policies
+      const { validatePassword } = await import("@/lib/password-validation")
+      const validation = await validatePassword(input.newPassword)
+      if (!validation.isValid) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: validation.errors.join(". "),
         })
       }
 

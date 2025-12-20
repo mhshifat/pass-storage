@@ -43,10 +43,11 @@ interface UsersTableProps {
   onDelete?: (userId: string) => void
   onResetPassword?: (userId: string) => void
   onEmail?: (userId: string) => void
+  onResetMfa?: (userId: string) => void
   onAddUser?: () => void
 }
 
-export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, onAddUser }: UsersTableProps) {
+export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, onResetMfa, onAddUser }: UsersTableProps) {
   const [searchQuery, setSearchQuery] = React.useState("")
 
   const filteredUsers = users.filter(
@@ -150,7 +151,7 @@ export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, 
                     {user.lastLogin || '-'}
                   </TableCell>
                 <TableCell className="text-right">
-                  {(onEdit || onEmail || onResetPassword || onDelete) ? (
+                  {(onEdit || onEmail || onResetPassword || onResetMfa || onDelete) ? (
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
@@ -182,6 +183,12 @@ export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, 
                               <DropdownMenuItem onClick={() => onResetPassword(user.id)}>
                                 <Shield className="mr-2 h-4 w-4" />
                                 Reset Password
+                              </DropdownMenuItem>
+                            )}
+                            {onResetMfa && user.mfa && (
+                              <DropdownMenuItem onClick={() => onResetMfa(user.id)}>
+                                <Shield className="mr-2 h-4 w-4" />
+                                Reset MFA
                               </DropdownMenuItem>
                             )}
                             {onDelete && (

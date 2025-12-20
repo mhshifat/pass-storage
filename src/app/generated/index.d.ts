@@ -88,6 +88,16 @@ export type Permission = $Result.DefaultSelection<Prisma.$PermissionPayload>
  * 
  */
 export type RolePermission = $Result.DefaultSelection<Prisma.$RolePermissionPayload>
+/**
+ * Model MfaCredential
+ * 
+ */
+export type MfaCredential = $Result.DefaultSelection<Prisma.$MfaCredentialPayload>
+/**
+ * Model RecoveryCode
+ * 
+ */
+export type RecoveryCode = $Result.DefaultSelection<Prisma.$RecoveryCodePayload>
 
 /**
  * Enums
@@ -139,6 +149,16 @@ export const AuditStatus: {
 
 export type AuditStatus = (typeof AuditStatus)[keyof typeof AuditStatus]
 
+
+export const MfaMethod: {
+  TOTP: 'TOTP',
+  SMS: 'SMS',
+  EMAIL: 'EMAIL',
+  WEBAUTHN: 'WEBAUTHN'
+};
+
+export type MfaMethod = (typeof MfaMethod)[keyof typeof MfaMethod]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -160,6 +180,10 @@ export const PasswordStrength: typeof $Enums.PasswordStrength
 export type AuditStatus = $Enums.AuditStatus
 
 export const AuditStatus: typeof $Enums.AuditStatus
+
+export type MfaMethod = $Enums.MfaMethod
+
+export const MfaMethod: typeof $Enums.MfaMethod
 
 /**
  * ##  Prisma Client ʲˢ
@@ -427,6 +451,26 @@ export class PrismaClient<
     * ```
     */
   get rolePermission(): Prisma.RolePermissionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.mfaCredential`: Exposes CRUD operations for the **MfaCredential** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MfaCredentials
+    * const mfaCredentials = await prisma.mfaCredential.findMany()
+    * ```
+    */
+  get mfaCredential(): Prisma.MfaCredentialDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.recoveryCode`: Exposes CRUD operations for the **RecoveryCode** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RecoveryCodes
+    * const recoveryCodes = await prisma.recoveryCode.findMany()
+    * ```
+    */
+  get recoveryCode(): Prisma.RecoveryCodeDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -875,7 +919,9 @@ export namespace Prisma {
     Settings: 'Settings',
     Role: 'Role',
     Permission: 'Permission',
-    RolePermission: 'RolePermission'
+    RolePermission: 'RolePermission',
+    MfaCredential: 'MfaCredential',
+    RecoveryCode: 'RecoveryCode'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -891,7 +937,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "password" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "role" | "permission" | "rolePermission"
+      modelProps: "user" | "account" | "session" | "password" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2005,6 +2051,154 @@ export namespace Prisma {
           }
         }
       }
+      MfaCredential: {
+        payload: Prisma.$MfaCredentialPayload<ExtArgs>
+        fields: Prisma.MfaCredentialFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MfaCredentialFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MfaCredentialPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MfaCredentialFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MfaCredentialPayload>
+          }
+          findFirst: {
+            args: Prisma.MfaCredentialFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MfaCredentialPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MfaCredentialFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MfaCredentialPayload>
+          }
+          findMany: {
+            args: Prisma.MfaCredentialFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MfaCredentialPayload>[]
+          }
+          create: {
+            args: Prisma.MfaCredentialCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MfaCredentialPayload>
+          }
+          createMany: {
+            args: Prisma.MfaCredentialCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MfaCredentialCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MfaCredentialPayload>[]
+          }
+          delete: {
+            args: Prisma.MfaCredentialDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MfaCredentialPayload>
+          }
+          update: {
+            args: Prisma.MfaCredentialUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MfaCredentialPayload>
+          }
+          deleteMany: {
+            args: Prisma.MfaCredentialDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MfaCredentialUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MfaCredentialUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MfaCredentialPayload>[]
+          }
+          upsert: {
+            args: Prisma.MfaCredentialUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MfaCredentialPayload>
+          }
+          aggregate: {
+            args: Prisma.MfaCredentialAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMfaCredential>
+          }
+          groupBy: {
+            args: Prisma.MfaCredentialGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MfaCredentialGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MfaCredentialCountArgs<ExtArgs>
+            result: $Utils.Optional<MfaCredentialCountAggregateOutputType> | number
+          }
+        }
+      }
+      RecoveryCode: {
+        payload: Prisma.$RecoveryCodePayload<ExtArgs>
+        fields: Prisma.RecoveryCodeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RecoveryCodeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecoveryCodePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RecoveryCodeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecoveryCodePayload>
+          }
+          findFirst: {
+            args: Prisma.RecoveryCodeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecoveryCodePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RecoveryCodeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecoveryCodePayload>
+          }
+          findMany: {
+            args: Prisma.RecoveryCodeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecoveryCodePayload>[]
+          }
+          create: {
+            args: Prisma.RecoveryCodeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecoveryCodePayload>
+          }
+          createMany: {
+            args: Prisma.RecoveryCodeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RecoveryCodeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecoveryCodePayload>[]
+          }
+          delete: {
+            args: Prisma.RecoveryCodeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecoveryCodePayload>
+          }
+          update: {
+            args: Prisma.RecoveryCodeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecoveryCodePayload>
+          }
+          deleteMany: {
+            args: Prisma.RecoveryCodeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RecoveryCodeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RecoveryCodeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecoveryCodePayload>[]
+          }
+          upsert: {
+            args: Prisma.RecoveryCodeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RecoveryCodePayload>
+          }
+          aggregate: {
+            args: Prisma.RecoveryCodeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRecoveryCode>
+          }
+          groupBy: {
+            args: Prisma.RecoveryCodeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RecoveryCodeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RecoveryCodeCountArgs<ExtArgs>
+            result: $Utils.Optional<RecoveryCodeCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2112,6 +2306,8 @@ export namespace Prisma {
     role?: RoleOmit
     permission?: PermissionOmit
     rolePermission?: RolePermissionOmit
+    mfaCredential?: MfaCredentialOmit
+    recoveryCode?: RecoveryCodeOmit
   }
 
   /* Types for Logging */
@@ -2198,6 +2394,8 @@ export namespace Prisma {
     auditLogs: number
     sessions: number
     accounts: number
+    mfaCredentials: number
+    recoveryCodes: number
     createdUsers: number
     createdRoles: number
   }
@@ -2209,6 +2407,8 @@ export namespace Prisma {
     auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
+    mfaCredentials?: boolean | UserCountOutputTypeCountMfaCredentialsArgs
+    recoveryCodes?: boolean | UserCountOutputTypeCountRecoveryCodesArgs
     createdUsers?: boolean | UserCountOutputTypeCountCreatedUsersArgs
     createdRoles?: boolean | UserCountOutputTypeCountCreatedRolesArgs
   }
@@ -2264,6 +2464,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AccountWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMfaCredentialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MfaCredentialWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRecoveryCodesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecoveryCodeWhereInput
   }
 
   /**
@@ -2524,10 +2738,12 @@ export namespace Prisma {
     emailVerified: Date | null
     image: string | null
     password: string | null
+    phoneNumber: string | null
     role: string | null
     isActive: boolean | null
     mfaEnabled: boolean | null
     mfaSecret: string | null
+    mfaMethod: $Enums.MfaMethod | null
     createdAt: Date | null
     updatedAt: Date | null
     lastLoginAt: Date | null
@@ -2541,10 +2757,12 @@ export namespace Prisma {
     emailVerified: Date | null
     image: string | null
     password: string | null
+    phoneNumber: string | null
     role: string | null
     isActive: boolean | null
     mfaEnabled: boolean | null
     mfaSecret: string | null
+    mfaMethod: $Enums.MfaMethod | null
     createdAt: Date | null
     updatedAt: Date | null
     lastLoginAt: Date | null
@@ -2558,10 +2776,12 @@ export namespace Prisma {
     emailVerified: number
     image: number
     password: number
+    phoneNumber: number
     role: number
     isActive: number
     mfaEnabled: number
     mfaSecret: number
+    mfaMethod: number
     createdAt: number
     updatedAt: number
     lastLoginAt: number
@@ -2577,10 +2797,12 @@ export namespace Prisma {
     emailVerified?: true
     image?: true
     password?: true
+    phoneNumber?: true
     role?: true
     isActive?: true
     mfaEnabled?: true
     mfaSecret?: true
+    mfaMethod?: true
     createdAt?: true
     updatedAt?: true
     lastLoginAt?: true
@@ -2594,10 +2816,12 @@ export namespace Prisma {
     emailVerified?: true
     image?: true
     password?: true
+    phoneNumber?: true
     role?: true
     isActive?: true
     mfaEnabled?: true
     mfaSecret?: true
+    mfaMethod?: true
     createdAt?: true
     updatedAt?: true
     lastLoginAt?: true
@@ -2611,10 +2835,12 @@ export namespace Prisma {
     emailVerified?: true
     image?: true
     password?: true
+    phoneNumber?: true
     role?: true
     isActive?: true
     mfaEnabled?: true
     mfaSecret?: true
+    mfaMethod?: true
     createdAt?: true
     updatedAt?: true
     lastLoginAt?: true
@@ -2701,10 +2927,12 @@ export namespace Prisma {
     emailVerified: Date | null
     image: string | null
     password: string | null
+    phoneNumber: string | null
     role: string
     isActive: boolean
     mfaEnabled: boolean
     mfaSecret: string | null
+    mfaMethod: $Enums.MfaMethod | null
     createdAt: Date
     updatedAt: Date
     lastLoginAt: Date | null
@@ -2735,10 +2963,12 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: boolean
     password?: boolean
+    phoneNumber?: boolean
     role?: boolean
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: boolean
+    mfaMethod?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     lastLoginAt?: boolean
@@ -2749,6 +2979,8 @@ export namespace Prisma {
     auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
+    mfaCredentials?: boolean | User$mfaCredentialsArgs<ExtArgs>
+    recoveryCodes?: boolean | User$recoveryCodesArgs<ExtArgs>
     createdBy?: boolean | User$createdByArgs<ExtArgs>
     createdUsers?: boolean | User$createdUsersArgs<ExtArgs>
     createdRoles?: boolean | User$createdRolesArgs<ExtArgs>
@@ -2762,10 +2994,12 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: boolean
     password?: boolean
+    phoneNumber?: boolean
     role?: boolean
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: boolean
+    mfaMethod?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     lastLoginAt?: boolean
@@ -2780,10 +3014,12 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: boolean
     password?: boolean
+    phoneNumber?: boolean
     role?: boolean
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: boolean
+    mfaMethod?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     lastLoginAt?: boolean
@@ -2798,17 +3034,19 @@ export namespace Prisma {
     emailVerified?: boolean
     image?: boolean
     password?: boolean
+    phoneNumber?: boolean
     role?: boolean
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: boolean
+    mfaMethod?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     lastLoginAt?: boolean
     createdById?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "role" | "isActive" | "mfaEnabled" | "mfaSecret" | "createdAt" | "updatedAt" | "lastLoginAt" | "createdById", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "phoneNumber" | "role" | "isActive" | "mfaEnabled" | "mfaSecret" | "mfaMethod" | "createdAt" | "updatedAt" | "lastLoginAt" | "createdById", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ownedPasswords?: boolean | User$ownedPasswordsArgs<ExtArgs>
     sharedPasswords?: boolean | User$sharedPasswordsArgs<ExtArgs>
@@ -2816,6 +3054,8 @@ export namespace Prisma {
     auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
+    mfaCredentials?: boolean | User$mfaCredentialsArgs<ExtArgs>
+    recoveryCodes?: boolean | User$recoveryCodesArgs<ExtArgs>
     createdBy?: boolean | User$createdByArgs<ExtArgs>
     createdUsers?: boolean | User$createdUsersArgs<ExtArgs>
     createdRoles?: boolean | User$createdRolesArgs<ExtArgs>
@@ -2837,6 +3077,8 @@ export namespace Prisma {
       auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       accounts: Prisma.$AccountPayload<ExtArgs>[]
+      mfaCredentials: Prisma.$MfaCredentialPayload<ExtArgs>[]
+      recoveryCodes: Prisma.$RecoveryCodePayload<ExtArgs>[]
       createdBy: Prisma.$UserPayload<ExtArgs> | null
       createdUsers: Prisma.$UserPayload<ExtArgs>[]
       createdRoles: Prisma.$RolePayload<ExtArgs>[]
@@ -2848,10 +3090,12 @@ export namespace Prisma {
       emailVerified: Date | null
       image: string | null
       password: string | null
+      phoneNumber: string | null
       role: string
       isActive: boolean
       mfaEnabled: boolean
       mfaSecret: string | null
+      mfaMethod: $Enums.MfaMethod | null
       createdAt: Date
       updatedAt: Date
       lastLoginAt: Date | null
@@ -3256,6 +3500,8 @@ export namespace Prisma {
     auditLogs<T extends User$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mfaCredentials<T extends User$mfaCredentialsArgs<ExtArgs> = {}>(args?: Subset<T, User$mfaCredentialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MfaCredentialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    recoveryCodes<T extends User$recoveryCodesArgs<ExtArgs> = {}>(args?: Subset<T, User$recoveryCodesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecoveryCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdBy<T extends User$createdByArgs<ExtArgs> = {}>(args?: Subset<T, User$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     createdUsers<T extends User$createdUsersArgs<ExtArgs> = {}>(args?: Subset<T, User$createdUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdRoles<T extends User$createdRolesArgs<ExtArgs> = {}>(args?: Subset<T, User$createdRolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3294,10 +3540,12 @@ export namespace Prisma {
     readonly emailVerified: FieldRef<"User", 'DateTime'>
     readonly image: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
+    readonly phoneNumber: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'String'>
     readonly isActive: FieldRef<"User", 'Boolean'>
     readonly mfaEnabled: FieldRef<"User", 'Boolean'>
     readonly mfaSecret: FieldRef<"User", 'String'>
+    readonly mfaMethod: FieldRef<"User", 'MfaMethod'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly lastLoginAt: FieldRef<"User", 'DateTime'>
@@ -3839,6 +4087,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AccountScalarFieldEnum | AccountScalarFieldEnum[]
+  }
+
+  /**
+   * User.mfaCredentials
+   */
+  export type User$mfaCredentialsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MfaCredential
+     */
+    select?: MfaCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MfaCredential
+     */
+    omit?: MfaCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MfaCredentialInclude<ExtArgs> | null
+    where?: MfaCredentialWhereInput
+    orderBy?: MfaCredentialOrderByWithRelationInput | MfaCredentialOrderByWithRelationInput[]
+    cursor?: MfaCredentialWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MfaCredentialScalarFieldEnum | MfaCredentialScalarFieldEnum[]
+  }
+
+  /**
+   * User.recoveryCodes
+   */
+  export type User$recoveryCodesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecoveryCode
+     */
+    select?: RecoveryCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecoveryCode
+     */
+    omit?: RecoveryCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecoveryCodeInclude<ExtArgs> | null
+    where?: RecoveryCodeWhereInput
+    orderBy?: RecoveryCodeOrderByWithRelationInput | RecoveryCodeOrderByWithRelationInput[]
+    cursor?: RecoveryCodeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RecoveryCodeScalarFieldEnum | RecoveryCodeScalarFieldEnum[]
   }
 
   /**
@@ -19494,6 +19790,2234 @@ export namespace Prisma {
 
 
   /**
+   * Model MfaCredential
+   */
+
+  export type AggregateMfaCredential = {
+    _count: MfaCredentialCountAggregateOutputType | null
+    _avg: MfaCredentialAvgAggregateOutputType | null
+    _sum: MfaCredentialSumAggregateOutputType | null
+    _min: MfaCredentialMinAggregateOutputType | null
+    _max: MfaCredentialMaxAggregateOutputType | null
+  }
+
+  export type MfaCredentialAvgAggregateOutputType = {
+    counter: number | null
+  }
+
+  export type MfaCredentialSumAggregateOutputType = {
+    counter: bigint | null
+  }
+
+  export type MfaCredentialMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    credentialId: string | null
+    publicKey: string | null
+    counter: bigint | null
+    deviceType: string | null
+    backedUp: boolean | null
+    transports: string | null
+    createdAt: Date | null
+    lastUsedAt: Date | null
+  }
+
+  export type MfaCredentialMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    credentialId: string | null
+    publicKey: string | null
+    counter: bigint | null
+    deviceType: string | null
+    backedUp: boolean | null
+    transports: string | null
+    createdAt: Date | null
+    lastUsedAt: Date | null
+  }
+
+  export type MfaCredentialCountAggregateOutputType = {
+    id: number
+    userId: number
+    credentialId: number
+    publicKey: number
+    counter: number
+    deviceType: number
+    backedUp: number
+    transports: number
+    createdAt: number
+    lastUsedAt: number
+    _all: number
+  }
+
+
+  export type MfaCredentialAvgAggregateInputType = {
+    counter?: true
+  }
+
+  export type MfaCredentialSumAggregateInputType = {
+    counter?: true
+  }
+
+  export type MfaCredentialMinAggregateInputType = {
+    id?: true
+    userId?: true
+    credentialId?: true
+    publicKey?: true
+    counter?: true
+    deviceType?: true
+    backedUp?: true
+    transports?: true
+    createdAt?: true
+    lastUsedAt?: true
+  }
+
+  export type MfaCredentialMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    credentialId?: true
+    publicKey?: true
+    counter?: true
+    deviceType?: true
+    backedUp?: true
+    transports?: true
+    createdAt?: true
+    lastUsedAt?: true
+  }
+
+  export type MfaCredentialCountAggregateInputType = {
+    id?: true
+    userId?: true
+    credentialId?: true
+    publicKey?: true
+    counter?: true
+    deviceType?: true
+    backedUp?: true
+    transports?: true
+    createdAt?: true
+    lastUsedAt?: true
+    _all?: true
+  }
+
+  export type MfaCredentialAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MfaCredential to aggregate.
+     */
+    where?: MfaCredentialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MfaCredentials to fetch.
+     */
+    orderBy?: MfaCredentialOrderByWithRelationInput | MfaCredentialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MfaCredentialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MfaCredentials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MfaCredentials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MfaCredentials
+    **/
+    _count?: true | MfaCredentialCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MfaCredentialAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MfaCredentialSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MfaCredentialMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MfaCredentialMaxAggregateInputType
+  }
+
+  export type GetMfaCredentialAggregateType<T extends MfaCredentialAggregateArgs> = {
+        [P in keyof T & keyof AggregateMfaCredential]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMfaCredential[P]>
+      : GetScalarType<T[P], AggregateMfaCredential[P]>
+  }
+
+
+
+
+  export type MfaCredentialGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MfaCredentialWhereInput
+    orderBy?: MfaCredentialOrderByWithAggregationInput | MfaCredentialOrderByWithAggregationInput[]
+    by: MfaCredentialScalarFieldEnum[] | MfaCredentialScalarFieldEnum
+    having?: MfaCredentialScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MfaCredentialCountAggregateInputType | true
+    _avg?: MfaCredentialAvgAggregateInputType
+    _sum?: MfaCredentialSumAggregateInputType
+    _min?: MfaCredentialMinAggregateInputType
+    _max?: MfaCredentialMaxAggregateInputType
+  }
+
+  export type MfaCredentialGroupByOutputType = {
+    id: string
+    userId: string
+    credentialId: string
+    publicKey: string
+    counter: bigint
+    deviceType: string | null
+    backedUp: boolean
+    transports: string | null
+    createdAt: Date
+    lastUsedAt: Date | null
+    _count: MfaCredentialCountAggregateOutputType | null
+    _avg: MfaCredentialAvgAggregateOutputType | null
+    _sum: MfaCredentialSumAggregateOutputType | null
+    _min: MfaCredentialMinAggregateOutputType | null
+    _max: MfaCredentialMaxAggregateOutputType | null
+  }
+
+  type GetMfaCredentialGroupByPayload<T extends MfaCredentialGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MfaCredentialGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MfaCredentialGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MfaCredentialGroupByOutputType[P]>
+            : GetScalarType<T[P], MfaCredentialGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MfaCredentialSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    credentialId?: boolean
+    publicKey?: boolean
+    counter?: boolean
+    deviceType?: boolean
+    backedUp?: boolean
+    transports?: boolean
+    createdAt?: boolean
+    lastUsedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mfaCredential"]>
+
+  export type MfaCredentialSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    credentialId?: boolean
+    publicKey?: boolean
+    counter?: boolean
+    deviceType?: boolean
+    backedUp?: boolean
+    transports?: boolean
+    createdAt?: boolean
+    lastUsedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mfaCredential"]>
+
+  export type MfaCredentialSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    credentialId?: boolean
+    publicKey?: boolean
+    counter?: boolean
+    deviceType?: boolean
+    backedUp?: boolean
+    transports?: boolean
+    createdAt?: boolean
+    lastUsedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mfaCredential"]>
+
+  export type MfaCredentialSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    credentialId?: boolean
+    publicKey?: boolean
+    counter?: boolean
+    deviceType?: boolean
+    backedUp?: boolean
+    transports?: boolean
+    createdAt?: boolean
+    lastUsedAt?: boolean
+  }
+
+  export type MfaCredentialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "credentialId" | "publicKey" | "counter" | "deviceType" | "backedUp" | "transports" | "createdAt" | "lastUsedAt", ExtArgs["result"]["mfaCredential"]>
+  export type MfaCredentialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type MfaCredentialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type MfaCredentialIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $MfaCredentialPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MfaCredential"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      credentialId: string
+      publicKey: string
+      counter: bigint
+      deviceType: string | null
+      backedUp: boolean
+      transports: string | null
+      createdAt: Date
+      lastUsedAt: Date | null
+    }, ExtArgs["result"]["mfaCredential"]>
+    composites: {}
+  }
+
+  type MfaCredentialGetPayload<S extends boolean | null | undefined | MfaCredentialDefaultArgs> = $Result.GetResult<Prisma.$MfaCredentialPayload, S>
+
+  type MfaCredentialCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MfaCredentialFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MfaCredentialCountAggregateInputType | true
+    }
+
+  export interface MfaCredentialDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MfaCredential'], meta: { name: 'MfaCredential' } }
+    /**
+     * Find zero or one MfaCredential that matches the filter.
+     * @param {MfaCredentialFindUniqueArgs} args - Arguments to find a MfaCredential
+     * @example
+     * // Get one MfaCredential
+     * const mfaCredential = await prisma.mfaCredential.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MfaCredentialFindUniqueArgs>(args: SelectSubset<T, MfaCredentialFindUniqueArgs<ExtArgs>>): Prisma__MfaCredentialClient<$Result.GetResult<Prisma.$MfaCredentialPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MfaCredential that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MfaCredentialFindUniqueOrThrowArgs} args - Arguments to find a MfaCredential
+     * @example
+     * // Get one MfaCredential
+     * const mfaCredential = await prisma.mfaCredential.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MfaCredentialFindUniqueOrThrowArgs>(args: SelectSubset<T, MfaCredentialFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MfaCredentialClient<$Result.GetResult<Prisma.$MfaCredentialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MfaCredential that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MfaCredentialFindFirstArgs} args - Arguments to find a MfaCredential
+     * @example
+     * // Get one MfaCredential
+     * const mfaCredential = await prisma.mfaCredential.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MfaCredentialFindFirstArgs>(args?: SelectSubset<T, MfaCredentialFindFirstArgs<ExtArgs>>): Prisma__MfaCredentialClient<$Result.GetResult<Prisma.$MfaCredentialPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MfaCredential that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MfaCredentialFindFirstOrThrowArgs} args - Arguments to find a MfaCredential
+     * @example
+     * // Get one MfaCredential
+     * const mfaCredential = await prisma.mfaCredential.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MfaCredentialFindFirstOrThrowArgs>(args?: SelectSubset<T, MfaCredentialFindFirstOrThrowArgs<ExtArgs>>): Prisma__MfaCredentialClient<$Result.GetResult<Prisma.$MfaCredentialPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MfaCredentials that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MfaCredentialFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MfaCredentials
+     * const mfaCredentials = await prisma.mfaCredential.findMany()
+     * 
+     * // Get first 10 MfaCredentials
+     * const mfaCredentials = await prisma.mfaCredential.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const mfaCredentialWithIdOnly = await prisma.mfaCredential.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MfaCredentialFindManyArgs>(args?: SelectSubset<T, MfaCredentialFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MfaCredentialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MfaCredential.
+     * @param {MfaCredentialCreateArgs} args - Arguments to create a MfaCredential.
+     * @example
+     * // Create one MfaCredential
+     * const MfaCredential = await prisma.mfaCredential.create({
+     *   data: {
+     *     // ... data to create a MfaCredential
+     *   }
+     * })
+     * 
+     */
+    create<T extends MfaCredentialCreateArgs>(args: SelectSubset<T, MfaCredentialCreateArgs<ExtArgs>>): Prisma__MfaCredentialClient<$Result.GetResult<Prisma.$MfaCredentialPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MfaCredentials.
+     * @param {MfaCredentialCreateManyArgs} args - Arguments to create many MfaCredentials.
+     * @example
+     * // Create many MfaCredentials
+     * const mfaCredential = await prisma.mfaCredential.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MfaCredentialCreateManyArgs>(args?: SelectSubset<T, MfaCredentialCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MfaCredentials and returns the data saved in the database.
+     * @param {MfaCredentialCreateManyAndReturnArgs} args - Arguments to create many MfaCredentials.
+     * @example
+     * // Create many MfaCredentials
+     * const mfaCredential = await prisma.mfaCredential.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MfaCredentials and only return the `id`
+     * const mfaCredentialWithIdOnly = await prisma.mfaCredential.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MfaCredentialCreateManyAndReturnArgs>(args?: SelectSubset<T, MfaCredentialCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MfaCredentialPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MfaCredential.
+     * @param {MfaCredentialDeleteArgs} args - Arguments to delete one MfaCredential.
+     * @example
+     * // Delete one MfaCredential
+     * const MfaCredential = await prisma.mfaCredential.delete({
+     *   where: {
+     *     // ... filter to delete one MfaCredential
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MfaCredentialDeleteArgs>(args: SelectSubset<T, MfaCredentialDeleteArgs<ExtArgs>>): Prisma__MfaCredentialClient<$Result.GetResult<Prisma.$MfaCredentialPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MfaCredential.
+     * @param {MfaCredentialUpdateArgs} args - Arguments to update one MfaCredential.
+     * @example
+     * // Update one MfaCredential
+     * const mfaCredential = await prisma.mfaCredential.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MfaCredentialUpdateArgs>(args: SelectSubset<T, MfaCredentialUpdateArgs<ExtArgs>>): Prisma__MfaCredentialClient<$Result.GetResult<Prisma.$MfaCredentialPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MfaCredentials.
+     * @param {MfaCredentialDeleteManyArgs} args - Arguments to filter MfaCredentials to delete.
+     * @example
+     * // Delete a few MfaCredentials
+     * const { count } = await prisma.mfaCredential.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MfaCredentialDeleteManyArgs>(args?: SelectSubset<T, MfaCredentialDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MfaCredentials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MfaCredentialUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MfaCredentials
+     * const mfaCredential = await prisma.mfaCredential.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MfaCredentialUpdateManyArgs>(args: SelectSubset<T, MfaCredentialUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MfaCredentials and returns the data updated in the database.
+     * @param {MfaCredentialUpdateManyAndReturnArgs} args - Arguments to update many MfaCredentials.
+     * @example
+     * // Update many MfaCredentials
+     * const mfaCredential = await prisma.mfaCredential.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MfaCredentials and only return the `id`
+     * const mfaCredentialWithIdOnly = await prisma.mfaCredential.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MfaCredentialUpdateManyAndReturnArgs>(args: SelectSubset<T, MfaCredentialUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MfaCredentialPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MfaCredential.
+     * @param {MfaCredentialUpsertArgs} args - Arguments to update or create a MfaCredential.
+     * @example
+     * // Update or create a MfaCredential
+     * const mfaCredential = await prisma.mfaCredential.upsert({
+     *   create: {
+     *     // ... data to create a MfaCredential
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MfaCredential we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MfaCredentialUpsertArgs>(args: SelectSubset<T, MfaCredentialUpsertArgs<ExtArgs>>): Prisma__MfaCredentialClient<$Result.GetResult<Prisma.$MfaCredentialPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MfaCredentials.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MfaCredentialCountArgs} args - Arguments to filter MfaCredentials to count.
+     * @example
+     * // Count the number of MfaCredentials
+     * const count = await prisma.mfaCredential.count({
+     *   where: {
+     *     // ... the filter for the MfaCredentials we want to count
+     *   }
+     * })
+    **/
+    count<T extends MfaCredentialCountArgs>(
+      args?: Subset<T, MfaCredentialCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MfaCredentialCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MfaCredential.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MfaCredentialAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MfaCredentialAggregateArgs>(args: Subset<T, MfaCredentialAggregateArgs>): Prisma.PrismaPromise<GetMfaCredentialAggregateType<T>>
+
+    /**
+     * Group by MfaCredential.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MfaCredentialGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MfaCredentialGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MfaCredentialGroupByArgs['orderBy'] }
+        : { orderBy?: MfaCredentialGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MfaCredentialGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMfaCredentialGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MfaCredential model
+   */
+  readonly fields: MfaCredentialFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MfaCredential.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MfaCredentialClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MfaCredential model
+   */
+  interface MfaCredentialFieldRefs {
+    readonly id: FieldRef<"MfaCredential", 'String'>
+    readonly userId: FieldRef<"MfaCredential", 'String'>
+    readonly credentialId: FieldRef<"MfaCredential", 'String'>
+    readonly publicKey: FieldRef<"MfaCredential", 'String'>
+    readonly counter: FieldRef<"MfaCredential", 'BigInt'>
+    readonly deviceType: FieldRef<"MfaCredential", 'String'>
+    readonly backedUp: FieldRef<"MfaCredential", 'Boolean'>
+    readonly transports: FieldRef<"MfaCredential", 'String'>
+    readonly createdAt: FieldRef<"MfaCredential", 'DateTime'>
+    readonly lastUsedAt: FieldRef<"MfaCredential", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MfaCredential findUnique
+   */
+  export type MfaCredentialFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MfaCredential
+     */
+    select?: MfaCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MfaCredential
+     */
+    omit?: MfaCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MfaCredentialInclude<ExtArgs> | null
+    /**
+     * Filter, which MfaCredential to fetch.
+     */
+    where: MfaCredentialWhereUniqueInput
+  }
+
+  /**
+   * MfaCredential findUniqueOrThrow
+   */
+  export type MfaCredentialFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MfaCredential
+     */
+    select?: MfaCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MfaCredential
+     */
+    omit?: MfaCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MfaCredentialInclude<ExtArgs> | null
+    /**
+     * Filter, which MfaCredential to fetch.
+     */
+    where: MfaCredentialWhereUniqueInput
+  }
+
+  /**
+   * MfaCredential findFirst
+   */
+  export type MfaCredentialFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MfaCredential
+     */
+    select?: MfaCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MfaCredential
+     */
+    omit?: MfaCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MfaCredentialInclude<ExtArgs> | null
+    /**
+     * Filter, which MfaCredential to fetch.
+     */
+    where?: MfaCredentialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MfaCredentials to fetch.
+     */
+    orderBy?: MfaCredentialOrderByWithRelationInput | MfaCredentialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MfaCredentials.
+     */
+    cursor?: MfaCredentialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MfaCredentials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MfaCredentials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MfaCredentials.
+     */
+    distinct?: MfaCredentialScalarFieldEnum | MfaCredentialScalarFieldEnum[]
+  }
+
+  /**
+   * MfaCredential findFirstOrThrow
+   */
+  export type MfaCredentialFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MfaCredential
+     */
+    select?: MfaCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MfaCredential
+     */
+    omit?: MfaCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MfaCredentialInclude<ExtArgs> | null
+    /**
+     * Filter, which MfaCredential to fetch.
+     */
+    where?: MfaCredentialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MfaCredentials to fetch.
+     */
+    orderBy?: MfaCredentialOrderByWithRelationInput | MfaCredentialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MfaCredentials.
+     */
+    cursor?: MfaCredentialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MfaCredentials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MfaCredentials.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MfaCredentials.
+     */
+    distinct?: MfaCredentialScalarFieldEnum | MfaCredentialScalarFieldEnum[]
+  }
+
+  /**
+   * MfaCredential findMany
+   */
+  export type MfaCredentialFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MfaCredential
+     */
+    select?: MfaCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MfaCredential
+     */
+    omit?: MfaCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MfaCredentialInclude<ExtArgs> | null
+    /**
+     * Filter, which MfaCredentials to fetch.
+     */
+    where?: MfaCredentialWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MfaCredentials to fetch.
+     */
+    orderBy?: MfaCredentialOrderByWithRelationInput | MfaCredentialOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MfaCredentials.
+     */
+    cursor?: MfaCredentialWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MfaCredentials from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MfaCredentials.
+     */
+    skip?: number
+    distinct?: MfaCredentialScalarFieldEnum | MfaCredentialScalarFieldEnum[]
+  }
+
+  /**
+   * MfaCredential create
+   */
+  export type MfaCredentialCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MfaCredential
+     */
+    select?: MfaCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MfaCredential
+     */
+    omit?: MfaCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MfaCredentialInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MfaCredential.
+     */
+    data: XOR<MfaCredentialCreateInput, MfaCredentialUncheckedCreateInput>
+  }
+
+  /**
+   * MfaCredential createMany
+   */
+  export type MfaCredentialCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MfaCredentials.
+     */
+    data: MfaCredentialCreateManyInput | MfaCredentialCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MfaCredential createManyAndReturn
+   */
+  export type MfaCredentialCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MfaCredential
+     */
+    select?: MfaCredentialSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MfaCredential
+     */
+    omit?: MfaCredentialOmit<ExtArgs> | null
+    /**
+     * The data used to create many MfaCredentials.
+     */
+    data: MfaCredentialCreateManyInput | MfaCredentialCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MfaCredentialIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MfaCredential update
+   */
+  export type MfaCredentialUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MfaCredential
+     */
+    select?: MfaCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MfaCredential
+     */
+    omit?: MfaCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MfaCredentialInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MfaCredential.
+     */
+    data: XOR<MfaCredentialUpdateInput, MfaCredentialUncheckedUpdateInput>
+    /**
+     * Choose, which MfaCredential to update.
+     */
+    where: MfaCredentialWhereUniqueInput
+  }
+
+  /**
+   * MfaCredential updateMany
+   */
+  export type MfaCredentialUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MfaCredentials.
+     */
+    data: XOR<MfaCredentialUpdateManyMutationInput, MfaCredentialUncheckedUpdateManyInput>
+    /**
+     * Filter which MfaCredentials to update
+     */
+    where?: MfaCredentialWhereInput
+    /**
+     * Limit how many MfaCredentials to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MfaCredential updateManyAndReturn
+   */
+  export type MfaCredentialUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MfaCredential
+     */
+    select?: MfaCredentialSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MfaCredential
+     */
+    omit?: MfaCredentialOmit<ExtArgs> | null
+    /**
+     * The data used to update MfaCredentials.
+     */
+    data: XOR<MfaCredentialUpdateManyMutationInput, MfaCredentialUncheckedUpdateManyInput>
+    /**
+     * Filter which MfaCredentials to update
+     */
+    where?: MfaCredentialWhereInput
+    /**
+     * Limit how many MfaCredentials to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MfaCredentialIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MfaCredential upsert
+   */
+  export type MfaCredentialUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MfaCredential
+     */
+    select?: MfaCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MfaCredential
+     */
+    omit?: MfaCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MfaCredentialInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MfaCredential to update in case it exists.
+     */
+    where: MfaCredentialWhereUniqueInput
+    /**
+     * In case the MfaCredential found by the `where` argument doesn't exist, create a new MfaCredential with this data.
+     */
+    create: XOR<MfaCredentialCreateInput, MfaCredentialUncheckedCreateInput>
+    /**
+     * In case the MfaCredential was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MfaCredentialUpdateInput, MfaCredentialUncheckedUpdateInput>
+  }
+
+  /**
+   * MfaCredential delete
+   */
+  export type MfaCredentialDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MfaCredential
+     */
+    select?: MfaCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MfaCredential
+     */
+    omit?: MfaCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MfaCredentialInclude<ExtArgs> | null
+    /**
+     * Filter which MfaCredential to delete.
+     */
+    where: MfaCredentialWhereUniqueInput
+  }
+
+  /**
+   * MfaCredential deleteMany
+   */
+  export type MfaCredentialDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MfaCredentials to delete
+     */
+    where?: MfaCredentialWhereInput
+    /**
+     * Limit how many MfaCredentials to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MfaCredential without action
+   */
+  export type MfaCredentialDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MfaCredential
+     */
+    select?: MfaCredentialSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MfaCredential
+     */
+    omit?: MfaCredentialOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MfaCredentialInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RecoveryCode
+   */
+
+  export type AggregateRecoveryCode = {
+    _count: RecoveryCodeCountAggregateOutputType | null
+    _min: RecoveryCodeMinAggregateOutputType | null
+    _max: RecoveryCodeMaxAggregateOutputType | null
+  }
+
+  export type RecoveryCodeMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    codeHash: string | null
+    used: boolean | null
+    usedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type RecoveryCodeMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    codeHash: string | null
+    used: boolean | null
+    usedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type RecoveryCodeCountAggregateOutputType = {
+    id: number
+    userId: number
+    codeHash: number
+    used: number
+    usedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RecoveryCodeMinAggregateInputType = {
+    id?: true
+    userId?: true
+    codeHash?: true
+    used?: true
+    usedAt?: true
+    createdAt?: true
+  }
+
+  export type RecoveryCodeMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    codeHash?: true
+    used?: true
+    usedAt?: true
+    createdAt?: true
+  }
+
+  export type RecoveryCodeCountAggregateInputType = {
+    id?: true
+    userId?: true
+    codeHash?: true
+    used?: true
+    usedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RecoveryCodeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RecoveryCode to aggregate.
+     */
+    where?: RecoveryCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecoveryCodes to fetch.
+     */
+    orderBy?: RecoveryCodeOrderByWithRelationInput | RecoveryCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RecoveryCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecoveryCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecoveryCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RecoveryCodes
+    **/
+    _count?: true | RecoveryCodeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RecoveryCodeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RecoveryCodeMaxAggregateInputType
+  }
+
+  export type GetRecoveryCodeAggregateType<T extends RecoveryCodeAggregateArgs> = {
+        [P in keyof T & keyof AggregateRecoveryCode]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRecoveryCode[P]>
+      : GetScalarType<T[P], AggregateRecoveryCode[P]>
+  }
+
+
+
+
+  export type RecoveryCodeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecoveryCodeWhereInput
+    orderBy?: RecoveryCodeOrderByWithAggregationInput | RecoveryCodeOrderByWithAggregationInput[]
+    by: RecoveryCodeScalarFieldEnum[] | RecoveryCodeScalarFieldEnum
+    having?: RecoveryCodeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RecoveryCodeCountAggregateInputType | true
+    _min?: RecoveryCodeMinAggregateInputType
+    _max?: RecoveryCodeMaxAggregateInputType
+  }
+
+  export type RecoveryCodeGroupByOutputType = {
+    id: string
+    userId: string
+    codeHash: string
+    used: boolean
+    usedAt: Date | null
+    createdAt: Date
+    _count: RecoveryCodeCountAggregateOutputType | null
+    _min: RecoveryCodeMinAggregateOutputType | null
+    _max: RecoveryCodeMaxAggregateOutputType | null
+  }
+
+  type GetRecoveryCodeGroupByPayload<T extends RecoveryCodeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RecoveryCodeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RecoveryCodeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RecoveryCodeGroupByOutputType[P]>
+            : GetScalarType<T[P], RecoveryCodeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RecoveryCodeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    codeHash?: boolean
+    used?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["recoveryCode"]>
+
+  export type RecoveryCodeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    codeHash?: boolean
+    used?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["recoveryCode"]>
+
+  export type RecoveryCodeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    codeHash?: boolean
+    used?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["recoveryCode"]>
+
+  export type RecoveryCodeSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    codeHash?: boolean
+    used?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type RecoveryCodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "codeHash" | "used" | "usedAt" | "createdAt", ExtArgs["result"]["recoveryCode"]>
+  export type RecoveryCodeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RecoveryCodeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RecoveryCodeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $RecoveryCodePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RecoveryCode"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      codeHash: string
+      used: boolean
+      usedAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["recoveryCode"]>
+    composites: {}
+  }
+
+  type RecoveryCodeGetPayload<S extends boolean | null | undefined | RecoveryCodeDefaultArgs> = $Result.GetResult<Prisma.$RecoveryCodePayload, S>
+
+  type RecoveryCodeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RecoveryCodeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RecoveryCodeCountAggregateInputType | true
+    }
+
+  export interface RecoveryCodeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RecoveryCode'], meta: { name: 'RecoveryCode' } }
+    /**
+     * Find zero or one RecoveryCode that matches the filter.
+     * @param {RecoveryCodeFindUniqueArgs} args - Arguments to find a RecoveryCode
+     * @example
+     * // Get one RecoveryCode
+     * const recoveryCode = await prisma.recoveryCode.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RecoveryCodeFindUniqueArgs>(args: SelectSubset<T, RecoveryCodeFindUniqueArgs<ExtArgs>>): Prisma__RecoveryCodeClient<$Result.GetResult<Prisma.$RecoveryCodePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RecoveryCode that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RecoveryCodeFindUniqueOrThrowArgs} args - Arguments to find a RecoveryCode
+     * @example
+     * // Get one RecoveryCode
+     * const recoveryCode = await prisma.recoveryCode.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RecoveryCodeFindUniqueOrThrowArgs>(args: SelectSubset<T, RecoveryCodeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RecoveryCodeClient<$Result.GetResult<Prisma.$RecoveryCodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RecoveryCode that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecoveryCodeFindFirstArgs} args - Arguments to find a RecoveryCode
+     * @example
+     * // Get one RecoveryCode
+     * const recoveryCode = await prisma.recoveryCode.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RecoveryCodeFindFirstArgs>(args?: SelectSubset<T, RecoveryCodeFindFirstArgs<ExtArgs>>): Prisma__RecoveryCodeClient<$Result.GetResult<Prisma.$RecoveryCodePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RecoveryCode that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecoveryCodeFindFirstOrThrowArgs} args - Arguments to find a RecoveryCode
+     * @example
+     * // Get one RecoveryCode
+     * const recoveryCode = await prisma.recoveryCode.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RecoveryCodeFindFirstOrThrowArgs>(args?: SelectSubset<T, RecoveryCodeFindFirstOrThrowArgs<ExtArgs>>): Prisma__RecoveryCodeClient<$Result.GetResult<Prisma.$RecoveryCodePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RecoveryCodes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecoveryCodeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RecoveryCodes
+     * const recoveryCodes = await prisma.recoveryCode.findMany()
+     * 
+     * // Get first 10 RecoveryCodes
+     * const recoveryCodes = await prisma.recoveryCode.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const recoveryCodeWithIdOnly = await prisma.recoveryCode.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RecoveryCodeFindManyArgs>(args?: SelectSubset<T, RecoveryCodeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecoveryCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RecoveryCode.
+     * @param {RecoveryCodeCreateArgs} args - Arguments to create a RecoveryCode.
+     * @example
+     * // Create one RecoveryCode
+     * const RecoveryCode = await prisma.recoveryCode.create({
+     *   data: {
+     *     // ... data to create a RecoveryCode
+     *   }
+     * })
+     * 
+     */
+    create<T extends RecoveryCodeCreateArgs>(args: SelectSubset<T, RecoveryCodeCreateArgs<ExtArgs>>): Prisma__RecoveryCodeClient<$Result.GetResult<Prisma.$RecoveryCodePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RecoveryCodes.
+     * @param {RecoveryCodeCreateManyArgs} args - Arguments to create many RecoveryCodes.
+     * @example
+     * // Create many RecoveryCodes
+     * const recoveryCode = await prisma.recoveryCode.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RecoveryCodeCreateManyArgs>(args?: SelectSubset<T, RecoveryCodeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RecoveryCodes and returns the data saved in the database.
+     * @param {RecoveryCodeCreateManyAndReturnArgs} args - Arguments to create many RecoveryCodes.
+     * @example
+     * // Create many RecoveryCodes
+     * const recoveryCode = await prisma.recoveryCode.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RecoveryCodes and only return the `id`
+     * const recoveryCodeWithIdOnly = await prisma.recoveryCode.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RecoveryCodeCreateManyAndReturnArgs>(args?: SelectSubset<T, RecoveryCodeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecoveryCodePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RecoveryCode.
+     * @param {RecoveryCodeDeleteArgs} args - Arguments to delete one RecoveryCode.
+     * @example
+     * // Delete one RecoveryCode
+     * const RecoveryCode = await prisma.recoveryCode.delete({
+     *   where: {
+     *     // ... filter to delete one RecoveryCode
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RecoveryCodeDeleteArgs>(args: SelectSubset<T, RecoveryCodeDeleteArgs<ExtArgs>>): Prisma__RecoveryCodeClient<$Result.GetResult<Prisma.$RecoveryCodePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RecoveryCode.
+     * @param {RecoveryCodeUpdateArgs} args - Arguments to update one RecoveryCode.
+     * @example
+     * // Update one RecoveryCode
+     * const recoveryCode = await prisma.recoveryCode.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RecoveryCodeUpdateArgs>(args: SelectSubset<T, RecoveryCodeUpdateArgs<ExtArgs>>): Prisma__RecoveryCodeClient<$Result.GetResult<Prisma.$RecoveryCodePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RecoveryCodes.
+     * @param {RecoveryCodeDeleteManyArgs} args - Arguments to filter RecoveryCodes to delete.
+     * @example
+     * // Delete a few RecoveryCodes
+     * const { count } = await prisma.recoveryCode.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RecoveryCodeDeleteManyArgs>(args?: SelectSubset<T, RecoveryCodeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RecoveryCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecoveryCodeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RecoveryCodes
+     * const recoveryCode = await prisma.recoveryCode.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RecoveryCodeUpdateManyArgs>(args: SelectSubset<T, RecoveryCodeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RecoveryCodes and returns the data updated in the database.
+     * @param {RecoveryCodeUpdateManyAndReturnArgs} args - Arguments to update many RecoveryCodes.
+     * @example
+     * // Update many RecoveryCodes
+     * const recoveryCode = await prisma.recoveryCode.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RecoveryCodes and only return the `id`
+     * const recoveryCodeWithIdOnly = await prisma.recoveryCode.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RecoveryCodeUpdateManyAndReturnArgs>(args: SelectSubset<T, RecoveryCodeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecoveryCodePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RecoveryCode.
+     * @param {RecoveryCodeUpsertArgs} args - Arguments to update or create a RecoveryCode.
+     * @example
+     * // Update or create a RecoveryCode
+     * const recoveryCode = await prisma.recoveryCode.upsert({
+     *   create: {
+     *     // ... data to create a RecoveryCode
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RecoveryCode we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RecoveryCodeUpsertArgs>(args: SelectSubset<T, RecoveryCodeUpsertArgs<ExtArgs>>): Prisma__RecoveryCodeClient<$Result.GetResult<Prisma.$RecoveryCodePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RecoveryCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecoveryCodeCountArgs} args - Arguments to filter RecoveryCodes to count.
+     * @example
+     * // Count the number of RecoveryCodes
+     * const count = await prisma.recoveryCode.count({
+     *   where: {
+     *     // ... the filter for the RecoveryCodes we want to count
+     *   }
+     * })
+    **/
+    count<T extends RecoveryCodeCountArgs>(
+      args?: Subset<T, RecoveryCodeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RecoveryCodeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RecoveryCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecoveryCodeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RecoveryCodeAggregateArgs>(args: Subset<T, RecoveryCodeAggregateArgs>): Prisma.PrismaPromise<GetRecoveryCodeAggregateType<T>>
+
+    /**
+     * Group by RecoveryCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecoveryCodeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RecoveryCodeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RecoveryCodeGroupByArgs['orderBy'] }
+        : { orderBy?: RecoveryCodeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RecoveryCodeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRecoveryCodeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RecoveryCode model
+   */
+  readonly fields: RecoveryCodeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RecoveryCode.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RecoveryCodeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RecoveryCode model
+   */
+  interface RecoveryCodeFieldRefs {
+    readonly id: FieldRef<"RecoveryCode", 'String'>
+    readonly userId: FieldRef<"RecoveryCode", 'String'>
+    readonly codeHash: FieldRef<"RecoveryCode", 'String'>
+    readonly used: FieldRef<"RecoveryCode", 'Boolean'>
+    readonly usedAt: FieldRef<"RecoveryCode", 'DateTime'>
+    readonly createdAt: FieldRef<"RecoveryCode", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RecoveryCode findUnique
+   */
+  export type RecoveryCodeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecoveryCode
+     */
+    select?: RecoveryCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecoveryCode
+     */
+    omit?: RecoveryCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecoveryCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which RecoveryCode to fetch.
+     */
+    where: RecoveryCodeWhereUniqueInput
+  }
+
+  /**
+   * RecoveryCode findUniqueOrThrow
+   */
+  export type RecoveryCodeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecoveryCode
+     */
+    select?: RecoveryCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecoveryCode
+     */
+    omit?: RecoveryCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecoveryCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which RecoveryCode to fetch.
+     */
+    where: RecoveryCodeWhereUniqueInput
+  }
+
+  /**
+   * RecoveryCode findFirst
+   */
+  export type RecoveryCodeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecoveryCode
+     */
+    select?: RecoveryCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecoveryCode
+     */
+    omit?: RecoveryCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecoveryCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which RecoveryCode to fetch.
+     */
+    where?: RecoveryCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecoveryCodes to fetch.
+     */
+    orderBy?: RecoveryCodeOrderByWithRelationInput | RecoveryCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RecoveryCodes.
+     */
+    cursor?: RecoveryCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecoveryCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecoveryCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RecoveryCodes.
+     */
+    distinct?: RecoveryCodeScalarFieldEnum | RecoveryCodeScalarFieldEnum[]
+  }
+
+  /**
+   * RecoveryCode findFirstOrThrow
+   */
+  export type RecoveryCodeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecoveryCode
+     */
+    select?: RecoveryCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecoveryCode
+     */
+    omit?: RecoveryCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecoveryCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which RecoveryCode to fetch.
+     */
+    where?: RecoveryCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecoveryCodes to fetch.
+     */
+    orderBy?: RecoveryCodeOrderByWithRelationInput | RecoveryCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RecoveryCodes.
+     */
+    cursor?: RecoveryCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecoveryCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecoveryCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RecoveryCodes.
+     */
+    distinct?: RecoveryCodeScalarFieldEnum | RecoveryCodeScalarFieldEnum[]
+  }
+
+  /**
+   * RecoveryCode findMany
+   */
+  export type RecoveryCodeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecoveryCode
+     */
+    select?: RecoveryCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecoveryCode
+     */
+    omit?: RecoveryCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecoveryCodeInclude<ExtArgs> | null
+    /**
+     * Filter, which RecoveryCodes to fetch.
+     */
+    where?: RecoveryCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecoveryCodes to fetch.
+     */
+    orderBy?: RecoveryCodeOrderByWithRelationInput | RecoveryCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RecoveryCodes.
+     */
+    cursor?: RecoveryCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecoveryCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecoveryCodes.
+     */
+    skip?: number
+    distinct?: RecoveryCodeScalarFieldEnum | RecoveryCodeScalarFieldEnum[]
+  }
+
+  /**
+   * RecoveryCode create
+   */
+  export type RecoveryCodeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecoveryCode
+     */
+    select?: RecoveryCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecoveryCode
+     */
+    omit?: RecoveryCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecoveryCodeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RecoveryCode.
+     */
+    data: XOR<RecoveryCodeCreateInput, RecoveryCodeUncheckedCreateInput>
+  }
+
+  /**
+   * RecoveryCode createMany
+   */
+  export type RecoveryCodeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RecoveryCodes.
+     */
+    data: RecoveryCodeCreateManyInput | RecoveryCodeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RecoveryCode createManyAndReturn
+   */
+  export type RecoveryCodeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecoveryCode
+     */
+    select?: RecoveryCodeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecoveryCode
+     */
+    omit?: RecoveryCodeOmit<ExtArgs> | null
+    /**
+     * The data used to create many RecoveryCodes.
+     */
+    data: RecoveryCodeCreateManyInput | RecoveryCodeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecoveryCodeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RecoveryCode update
+   */
+  export type RecoveryCodeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecoveryCode
+     */
+    select?: RecoveryCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecoveryCode
+     */
+    omit?: RecoveryCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecoveryCodeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RecoveryCode.
+     */
+    data: XOR<RecoveryCodeUpdateInput, RecoveryCodeUncheckedUpdateInput>
+    /**
+     * Choose, which RecoveryCode to update.
+     */
+    where: RecoveryCodeWhereUniqueInput
+  }
+
+  /**
+   * RecoveryCode updateMany
+   */
+  export type RecoveryCodeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RecoveryCodes.
+     */
+    data: XOR<RecoveryCodeUpdateManyMutationInput, RecoveryCodeUncheckedUpdateManyInput>
+    /**
+     * Filter which RecoveryCodes to update
+     */
+    where?: RecoveryCodeWhereInput
+    /**
+     * Limit how many RecoveryCodes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RecoveryCode updateManyAndReturn
+   */
+  export type RecoveryCodeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecoveryCode
+     */
+    select?: RecoveryCodeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecoveryCode
+     */
+    omit?: RecoveryCodeOmit<ExtArgs> | null
+    /**
+     * The data used to update RecoveryCodes.
+     */
+    data: XOR<RecoveryCodeUpdateManyMutationInput, RecoveryCodeUncheckedUpdateManyInput>
+    /**
+     * Filter which RecoveryCodes to update
+     */
+    where?: RecoveryCodeWhereInput
+    /**
+     * Limit how many RecoveryCodes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecoveryCodeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RecoveryCode upsert
+   */
+  export type RecoveryCodeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecoveryCode
+     */
+    select?: RecoveryCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecoveryCode
+     */
+    omit?: RecoveryCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecoveryCodeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RecoveryCode to update in case it exists.
+     */
+    where: RecoveryCodeWhereUniqueInput
+    /**
+     * In case the RecoveryCode found by the `where` argument doesn't exist, create a new RecoveryCode with this data.
+     */
+    create: XOR<RecoveryCodeCreateInput, RecoveryCodeUncheckedCreateInput>
+    /**
+     * In case the RecoveryCode was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RecoveryCodeUpdateInput, RecoveryCodeUncheckedUpdateInput>
+  }
+
+  /**
+   * RecoveryCode delete
+   */
+  export type RecoveryCodeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecoveryCode
+     */
+    select?: RecoveryCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecoveryCode
+     */
+    omit?: RecoveryCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecoveryCodeInclude<ExtArgs> | null
+    /**
+     * Filter which RecoveryCode to delete.
+     */
+    where: RecoveryCodeWhereUniqueInput
+  }
+
+  /**
+   * RecoveryCode deleteMany
+   */
+  export type RecoveryCodeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RecoveryCodes to delete
+     */
+    where?: RecoveryCodeWhereInput
+    /**
+     * Limit how many RecoveryCodes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RecoveryCode without action
+   */
+  export type RecoveryCodeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecoveryCode
+     */
+    select?: RecoveryCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RecoveryCode
+     */
+    omit?: RecoveryCodeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RecoveryCodeInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -19514,10 +22038,12 @@ export namespace Prisma {
     emailVerified: 'emailVerified',
     image: 'image',
     password: 'password',
+    phoneNumber: 'phoneNumber',
     role: 'role',
     isActive: 'isActive',
     mfaEnabled: 'mfaEnabled',
     mfaSecret: 'mfaSecret',
+    mfaMethod: 'mfaMethod',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     lastLoginAt: 'lastLoginAt',
@@ -19709,6 +22235,34 @@ export namespace Prisma {
   export type RolePermissionScalarFieldEnum = (typeof RolePermissionScalarFieldEnum)[keyof typeof RolePermissionScalarFieldEnum]
 
 
+  export const MfaCredentialScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    credentialId: 'credentialId',
+    publicKey: 'publicKey',
+    counter: 'counter',
+    deviceType: 'deviceType',
+    backedUp: 'backedUp',
+    transports: 'transports',
+    createdAt: 'createdAt',
+    lastUsedAt: 'lastUsedAt'
+  };
+
+  export type MfaCredentialScalarFieldEnum = (typeof MfaCredentialScalarFieldEnum)[keyof typeof MfaCredentialScalarFieldEnum]
+
+
+  export const RecoveryCodeScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    codeHash: 'codeHash',
+    used: 'used',
+    usedAt: 'usedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type RecoveryCodeScalarFieldEnum = (typeof RecoveryCodeScalarFieldEnum)[keyof typeof RecoveryCodeScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -19798,6 +22352,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'MfaMethod'
+   */
+  export type EnumMfaMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MfaMethod'>
+    
+
+
+  /**
+   * Reference to a field of type 'MfaMethod[]'
+   */
+  export type ListEnumMfaMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MfaMethod[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -19882,6 +22450,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'BigInt'
+   */
+  export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+  /**
+   * Reference to a field of type 'BigInt[]'
+   */
+  export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -19908,10 +22490,12 @@ export namespace Prisma {
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
     password?: StringNullableFilter<"User"> | string | null
+    phoneNumber?: StringNullableFilter<"User"> | string | null
     role?: StringFilter<"User"> | string
     isActive?: BoolFilter<"User"> | boolean
     mfaEnabled?: BoolFilter<"User"> | boolean
     mfaSecret?: StringNullableFilter<"User"> | string | null
+    mfaMethod?: EnumMfaMethodNullableFilter<"User"> | $Enums.MfaMethod | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     lastLoginAt?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -19922,6 +22506,8 @@ export namespace Prisma {
     auditLogs?: AuditLogListRelationFilter
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
+    mfaCredentials?: MfaCredentialListRelationFilter
+    recoveryCodes?: RecoveryCodeListRelationFilter
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     createdUsers?: UserListRelationFilter
     createdRoles?: RoleListRelationFilter
@@ -19934,10 +22520,12 @@ export namespace Prisma {
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
+    phoneNumber?: SortOrderInput | SortOrder
     role?: SortOrder
     isActive?: SortOrder
     mfaEnabled?: SortOrder
     mfaSecret?: SortOrderInput | SortOrder
+    mfaMethod?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     lastLoginAt?: SortOrderInput | SortOrder
@@ -19948,6 +22536,8 @@ export namespace Prisma {
     auditLogs?: AuditLogOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
+    mfaCredentials?: MfaCredentialOrderByRelationAggregateInput
+    recoveryCodes?: RecoveryCodeOrderByRelationAggregateInput
     createdBy?: UserOrderByWithRelationInput
     createdUsers?: UserOrderByRelationAggregateInput
     createdRoles?: RoleOrderByRelationAggregateInput
@@ -19963,10 +22553,12 @@ export namespace Prisma {
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
     password?: StringNullableFilter<"User"> | string | null
+    phoneNumber?: StringNullableFilter<"User"> | string | null
     role?: StringFilter<"User"> | string
     isActive?: BoolFilter<"User"> | boolean
     mfaEnabled?: BoolFilter<"User"> | boolean
     mfaSecret?: StringNullableFilter<"User"> | string | null
+    mfaMethod?: EnumMfaMethodNullableFilter<"User"> | $Enums.MfaMethod | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     lastLoginAt?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -19977,6 +22569,8 @@ export namespace Prisma {
     auditLogs?: AuditLogListRelationFilter
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
+    mfaCredentials?: MfaCredentialListRelationFilter
+    recoveryCodes?: RecoveryCodeListRelationFilter
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     createdUsers?: UserListRelationFilter
     createdRoles?: RoleListRelationFilter
@@ -19989,10 +22583,12 @@ export namespace Prisma {
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
+    phoneNumber?: SortOrderInput | SortOrder
     role?: SortOrder
     isActive?: SortOrder
     mfaEnabled?: SortOrder
     mfaSecret?: SortOrderInput | SortOrder
+    mfaMethod?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     lastLoginAt?: SortOrderInput | SortOrder
@@ -20012,10 +22608,12 @@ export namespace Prisma {
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     password?: StringNullableWithAggregatesFilter<"User"> | string | null
+    phoneNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: StringWithAggregatesFilter<"User"> | string
     isActive?: BoolWithAggregatesFilter<"User"> | boolean
     mfaEnabled?: BoolWithAggregatesFilter<"User"> | boolean
     mfaSecret?: StringNullableWithAggregatesFilter<"User"> | string | null
+    mfaMethod?: EnumMfaMethodNullableWithAggregatesFilter<"User"> | $Enums.MfaMethod | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     lastLoginAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -20977,6 +23575,148 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"RolePermission"> | Date | string
   }
 
+  export type MfaCredentialWhereInput = {
+    AND?: MfaCredentialWhereInput | MfaCredentialWhereInput[]
+    OR?: MfaCredentialWhereInput[]
+    NOT?: MfaCredentialWhereInput | MfaCredentialWhereInput[]
+    id?: StringFilter<"MfaCredential"> | string
+    userId?: StringFilter<"MfaCredential"> | string
+    credentialId?: StringFilter<"MfaCredential"> | string
+    publicKey?: StringFilter<"MfaCredential"> | string
+    counter?: BigIntFilter<"MfaCredential"> | bigint | number
+    deviceType?: StringNullableFilter<"MfaCredential"> | string | null
+    backedUp?: BoolFilter<"MfaCredential"> | boolean
+    transports?: StringNullableFilter<"MfaCredential"> | string | null
+    createdAt?: DateTimeFilter<"MfaCredential"> | Date | string
+    lastUsedAt?: DateTimeNullableFilter<"MfaCredential"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type MfaCredentialOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    credentialId?: SortOrder
+    publicKey?: SortOrder
+    counter?: SortOrder
+    deviceType?: SortOrderInput | SortOrder
+    backedUp?: SortOrder
+    transports?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    lastUsedAt?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type MfaCredentialWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    credentialId?: string
+    AND?: MfaCredentialWhereInput | MfaCredentialWhereInput[]
+    OR?: MfaCredentialWhereInput[]
+    NOT?: MfaCredentialWhereInput | MfaCredentialWhereInput[]
+    userId?: StringFilter<"MfaCredential"> | string
+    publicKey?: StringFilter<"MfaCredential"> | string
+    counter?: BigIntFilter<"MfaCredential"> | bigint | number
+    deviceType?: StringNullableFilter<"MfaCredential"> | string | null
+    backedUp?: BoolFilter<"MfaCredential"> | boolean
+    transports?: StringNullableFilter<"MfaCredential"> | string | null
+    createdAt?: DateTimeFilter<"MfaCredential"> | Date | string
+    lastUsedAt?: DateTimeNullableFilter<"MfaCredential"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "credentialId">
+
+  export type MfaCredentialOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    credentialId?: SortOrder
+    publicKey?: SortOrder
+    counter?: SortOrder
+    deviceType?: SortOrderInput | SortOrder
+    backedUp?: SortOrder
+    transports?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    lastUsedAt?: SortOrderInput | SortOrder
+    _count?: MfaCredentialCountOrderByAggregateInput
+    _avg?: MfaCredentialAvgOrderByAggregateInput
+    _max?: MfaCredentialMaxOrderByAggregateInput
+    _min?: MfaCredentialMinOrderByAggregateInput
+    _sum?: MfaCredentialSumOrderByAggregateInput
+  }
+
+  export type MfaCredentialScalarWhereWithAggregatesInput = {
+    AND?: MfaCredentialScalarWhereWithAggregatesInput | MfaCredentialScalarWhereWithAggregatesInput[]
+    OR?: MfaCredentialScalarWhereWithAggregatesInput[]
+    NOT?: MfaCredentialScalarWhereWithAggregatesInput | MfaCredentialScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MfaCredential"> | string
+    userId?: StringWithAggregatesFilter<"MfaCredential"> | string
+    credentialId?: StringWithAggregatesFilter<"MfaCredential"> | string
+    publicKey?: StringWithAggregatesFilter<"MfaCredential"> | string
+    counter?: BigIntWithAggregatesFilter<"MfaCredential"> | bigint | number
+    deviceType?: StringNullableWithAggregatesFilter<"MfaCredential"> | string | null
+    backedUp?: BoolWithAggregatesFilter<"MfaCredential"> | boolean
+    transports?: StringNullableWithAggregatesFilter<"MfaCredential"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"MfaCredential"> | Date | string
+    lastUsedAt?: DateTimeNullableWithAggregatesFilter<"MfaCredential"> | Date | string | null
+  }
+
+  export type RecoveryCodeWhereInput = {
+    AND?: RecoveryCodeWhereInput | RecoveryCodeWhereInput[]
+    OR?: RecoveryCodeWhereInput[]
+    NOT?: RecoveryCodeWhereInput | RecoveryCodeWhereInput[]
+    id?: StringFilter<"RecoveryCode"> | string
+    userId?: StringFilter<"RecoveryCode"> | string
+    codeHash?: StringFilter<"RecoveryCode"> | string
+    used?: BoolFilter<"RecoveryCode"> | boolean
+    usedAt?: DateTimeNullableFilter<"RecoveryCode"> | Date | string | null
+    createdAt?: DateTimeFilter<"RecoveryCode"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type RecoveryCodeOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    codeHash?: SortOrder
+    used?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type RecoveryCodeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RecoveryCodeWhereInput | RecoveryCodeWhereInput[]
+    OR?: RecoveryCodeWhereInput[]
+    NOT?: RecoveryCodeWhereInput | RecoveryCodeWhereInput[]
+    userId?: StringFilter<"RecoveryCode"> | string
+    codeHash?: StringFilter<"RecoveryCode"> | string
+    used?: BoolFilter<"RecoveryCode"> | boolean
+    usedAt?: DateTimeNullableFilter<"RecoveryCode"> | Date | string | null
+    createdAt?: DateTimeFilter<"RecoveryCode"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type RecoveryCodeOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    codeHash?: SortOrder
+    used?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: RecoveryCodeCountOrderByAggregateInput
+    _max?: RecoveryCodeMaxOrderByAggregateInput
+    _min?: RecoveryCodeMinOrderByAggregateInput
+  }
+
+  export type RecoveryCodeScalarWhereWithAggregatesInput = {
+    AND?: RecoveryCodeScalarWhereWithAggregatesInput | RecoveryCodeScalarWhereWithAggregatesInput[]
+    OR?: RecoveryCodeScalarWhereWithAggregatesInput[]
+    NOT?: RecoveryCodeScalarWhereWithAggregatesInput | RecoveryCodeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RecoveryCode"> | string
+    userId?: StringWithAggregatesFilter<"RecoveryCode"> | string
+    codeHash?: StringWithAggregatesFilter<"RecoveryCode"> | string
+    used?: BoolWithAggregatesFilter<"RecoveryCode"> | boolean
+    usedAt?: DateTimeNullableWithAggregatesFilter<"RecoveryCode"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"RecoveryCode"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -20984,10 +23724,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -20997,6 +23739,8 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -21009,10 +23753,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -21023,6 +23769,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -21034,10 +23782,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21047,6 +23797,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -21059,10 +23811,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21073,6 +23827,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -21084,10 +23840,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -21101,10 +23859,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21117,10 +23877,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22130,6 +24892,158 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MfaCredentialCreateInput = {
+    id?: string
+    credentialId: string
+    publicKey: string
+    counter?: bigint | number
+    deviceType?: string | null
+    backedUp?: boolean
+    transports?: string | null
+    createdAt?: Date | string
+    lastUsedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutMfaCredentialsInput
+  }
+
+  export type MfaCredentialUncheckedCreateInput = {
+    id?: string
+    userId: string
+    credentialId: string
+    publicKey: string
+    counter?: bigint | number
+    deviceType?: string | null
+    backedUp?: boolean
+    transports?: string | null
+    createdAt?: Date | string
+    lastUsedAt?: Date | string | null
+  }
+
+  export type MfaCredentialUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    credentialId?: StringFieldUpdateOperationsInput | string
+    publicKey?: StringFieldUpdateOperationsInput | string
+    counter?: BigIntFieldUpdateOperationsInput | bigint | number
+    deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    backedUp?: BoolFieldUpdateOperationsInput | boolean
+    transports?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutMfaCredentialsNestedInput
+  }
+
+  export type MfaCredentialUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    credentialId?: StringFieldUpdateOperationsInput | string
+    publicKey?: StringFieldUpdateOperationsInput | string
+    counter?: BigIntFieldUpdateOperationsInput | bigint | number
+    deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    backedUp?: BoolFieldUpdateOperationsInput | boolean
+    transports?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type MfaCredentialCreateManyInput = {
+    id?: string
+    userId: string
+    credentialId: string
+    publicKey: string
+    counter?: bigint | number
+    deviceType?: string | null
+    backedUp?: boolean
+    transports?: string | null
+    createdAt?: Date | string
+    lastUsedAt?: Date | string | null
+  }
+
+  export type MfaCredentialUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    credentialId?: StringFieldUpdateOperationsInput | string
+    publicKey?: StringFieldUpdateOperationsInput | string
+    counter?: BigIntFieldUpdateOperationsInput | bigint | number
+    deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    backedUp?: BoolFieldUpdateOperationsInput | boolean
+    transports?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type MfaCredentialUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    credentialId?: StringFieldUpdateOperationsInput | string
+    publicKey?: StringFieldUpdateOperationsInput | string
+    counter?: BigIntFieldUpdateOperationsInput | bigint | number
+    deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    backedUp?: BoolFieldUpdateOperationsInput | boolean
+    transports?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type RecoveryCodeCreateInput = {
+    id?: string
+    codeHash: string
+    used?: boolean
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutRecoveryCodesInput
+  }
+
+  export type RecoveryCodeUncheckedCreateInput = {
+    id?: string
+    userId: string
+    codeHash: string
+    used?: boolean
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type RecoveryCodeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codeHash?: StringFieldUpdateOperationsInput | string
+    used?: BoolFieldUpdateOperationsInput | boolean
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRecoveryCodesNestedInput
+  }
+
+  export type RecoveryCodeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    codeHash?: StringFieldUpdateOperationsInput | string
+    used?: BoolFieldUpdateOperationsInput | boolean
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecoveryCodeCreateManyInput = {
+    id?: string
+    userId: string
+    codeHash: string
+    used?: boolean
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type RecoveryCodeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codeHash?: StringFieldUpdateOperationsInput | string
+    used?: BoolFieldUpdateOperationsInput | boolean
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecoveryCodeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    codeHash?: StringFieldUpdateOperationsInput | string
+    used?: BoolFieldUpdateOperationsInput | boolean
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -22174,6 +25088,13 @@ export namespace Prisma {
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type EnumMfaMethodNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.MfaMethod | EnumMfaMethodFieldRefInput<$PrismaModel> | null
+    in?: $Enums.MfaMethod[] | ListEnumMfaMethodFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.MfaMethod[] | ListEnumMfaMethodFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumMfaMethodNullableFilter<$PrismaModel> | $Enums.MfaMethod | null
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -22223,6 +25144,18 @@ export namespace Prisma {
     none?: AccountWhereInput
   }
 
+  export type MfaCredentialListRelationFilter = {
+    every?: MfaCredentialWhereInput
+    some?: MfaCredentialWhereInput
+    none?: MfaCredentialWhereInput
+  }
+
+  export type RecoveryCodeListRelationFilter = {
+    every?: RecoveryCodeWhereInput
+    some?: RecoveryCodeWhereInput
+    none?: RecoveryCodeWhereInput
+  }
+
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
@@ -22269,6 +25202,14 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type MfaCredentialOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RecoveryCodeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -22284,10 +25225,12 @@ export namespace Prisma {
     emailVerified?: SortOrder
     image?: SortOrder
     password?: SortOrder
+    phoneNumber?: SortOrder
     role?: SortOrder
     isActive?: SortOrder
     mfaEnabled?: SortOrder
     mfaSecret?: SortOrder
+    mfaMethod?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     lastLoginAt?: SortOrder
@@ -22301,10 +25244,12 @@ export namespace Prisma {
     emailVerified?: SortOrder
     image?: SortOrder
     password?: SortOrder
+    phoneNumber?: SortOrder
     role?: SortOrder
     isActive?: SortOrder
     mfaEnabled?: SortOrder
     mfaSecret?: SortOrder
+    mfaMethod?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     lastLoginAt?: SortOrder
@@ -22318,10 +25263,12 @@ export namespace Prisma {
     emailVerified?: SortOrder
     image?: SortOrder
     password?: SortOrder
+    phoneNumber?: SortOrder
     role?: SortOrder
     isActive?: SortOrder
     mfaEnabled?: SortOrder
     mfaSecret?: SortOrder
+    mfaMethod?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     lastLoginAt?: SortOrder
@@ -22384,6 +25331,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type EnumMfaMethodNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MfaMethod | EnumMfaMethodFieldRefInput<$PrismaModel> | null
+    in?: $Enums.MfaMethod[] | ListEnumMfaMethodFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.MfaMethod[] | ListEnumMfaMethodFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumMfaMethodNullableWithAggregatesFilter<$PrismaModel> | $Enums.MfaMethod | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumMfaMethodNullableFilter<$PrismaModel>
+    _max?: NestedEnumMfaMethodNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -23112,6 +26069,107 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type BigIntFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  }
+
+  export type MfaCredentialCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    credentialId?: SortOrder
+    publicKey?: SortOrder
+    counter?: SortOrder
+    deviceType?: SortOrder
+    backedUp?: SortOrder
+    transports?: SortOrder
+    createdAt?: SortOrder
+    lastUsedAt?: SortOrder
+  }
+
+  export type MfaCredentialAvgOrderByAggregateInput = {
+    counter?: SortOrder
+  }
+
+  export type MfaCredentialMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    credentialId?: SortOrder
+    publicKey?: SortOrder
+    counter?: SortOrder
+    deviceType?: SortOrder
+    backedUp?: SortOrder
+    transports?: SortOrder
+    createdAt?: SortOrder
+    lastUsedAt?: SortOrder
+  }
+
+  export type MfaCredentialMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    credentialId?: SortOrder
+    publicKey?: SortOrder
+    counter?: SortOrder
+    deviceType?: SortOrder
+    backedUp?: SortOrder
+    transports?: SortOrder
+    createdAt?: SortOrder
+    lastUsedAt?: SortOrder
+  }
+
+  export type MfaCredentialSumOrderByAggregateInput = {
+    counter?: SortOrder
+  }
+
+  export type BigIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedBigIntFilter<$PrismaModel>
+    _min?: NestedBigIntFilter<$PrismaModel>
+    _max?: NestedBigIntFilter<$PrismaModel>
+  }
+
+  export type RecoveryCodeCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    codeHash?: SortOrder
+    used?: SortOrder
+    usedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RecoveryCodeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    codeHash?: SortOrder
+    used?: SortOrder
+    usedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RecoveryCodeMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    codeHash?: SortOrder
+    used?: SortOrder
+    usedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type PasswordCreateNestedManyWithoutOwnerInput = {
     create?: XOR<PasswordCreateWithoutOwnerInput, PasswordUncheckedCreateWithoutOwnerInput> | PasswordCreateWithoutOwnerInput[] | PasswordUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PasswordCreateOrConnectWithoutOwnerInput | PasswordCreateOrConnectWithoutOwnerInput[]
@@ -23152,6 +26210,20 @@ export namespace Prisma {
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
     createMany?: AccountCreateManyUserInputEnvelope
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
+  }
+
+  export type MfaCredentialCreateNestedManyWithoutUserInput = {
+    create?: XOR<MfaCredentialCreateWithoutUserInput, MfaCredentialUncheckedCreateWithoutUserInput> | MfaCredentialCreateWithoutUserInput[] | MfaCredentialUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: MfaCredentialCreateOrConnectWithoutUserInput | MfaCredentialCreateOrConnectWithoutUserInput[]
+    createMany?: MfaCredentialCreateManyUserInputEnvelope
+    connect?: MfaCredentialWhereUniqueInput | MfaCredentialWhereUniqueInput[]
+  }
+
+  export type RecoveryCodeCreateNestedManyWithoutUserInput = {
+    create?: XOR<RecoveryCodeCreateWithoutUserInput, RecoveryCodeUncheckedCreateWithoutUserInput> | RecoveryCodeCreateWithoutUserInput[] | RecoveryCodeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecoveryCodeCreateOrConnectWithoutUserInput | RecoveryCodeCreateOrConnectWithoutUserInput[]
+    createMany?: RecoveryCodeCreateManyUserInputEnvelope
+    connect?: RecoveryCodeWhereUniqueInput | RecoveryCodeWhereUniqueInput[]
   }
 
   export type UserCreateNestedOneWithoutCreatedUsersInput = {
@@ -23216,6 +26288,20 @@ export namespace Prisma {
     connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
+  export type MfaCredentialUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<MfaCredentialCreateWithoutUserInput, MfaCredentialUncheckedCreateWithoutUserInput> | MfaCredentialCreateWithoutUserInput[] | MfaCredentialUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: MfaCredentialCreateOrConnectWithoutUserInput | MfaCredentialCreateOrConnectWithoutUserInput[]
+    createMany?: MfaCredentialCreateManyUserInputEnvelope
+    connect?: MfaCredentialWhereUniqueInput | MfaCredentialWhereUniqueInput[]
+  }
+
+  export type RecoveryCodeUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RecoveryCodeCreateWithoutUserInput, RecoveryCodeUncheckedCreateWithoutUserInput> | RecoveryCodeCreateWithoutUserInput[] | RecoveryCodeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecoveryCodeCreateOrConnectWithoutUserInput | RecoveryCodeCreateOrConnectWithoutUserInput[]
+    createMany?: RecoveryCodeCreateManyUserInputEnvelope
+    connect?: RecoveryCodeWhereUniqueInput | RecoveryCodeWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<UserCreateWithoutCreatedByInput, UserUncheckedCreateWithoutCreatedByInput> | UserCreateWithoutCreatedByInput[] | UserUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCreatedByInput | UserCreateOrConnectWithoutCreatedByInput[]
@@ -23244,6 +26330,10 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type NullableEnumMfaMethodFieldUpdateOperationsInput = {
+    set?: $Enums.MfaMethod | null
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -23332,6 +26422,34 @@ export namespace Prisma {
     update?: AccountUpdateWithWhereUniqueWithoutUserInput | AccountUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AccountUpdateManyWithWhereWithoutUserInput | AccountUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
+  }
+
+  export type MfaCredentialUpdateManyWithoutUserNestedInput = {
+    create?: XOR<MfaCredentialCreateWithoutUserInput, MfaCredentialUncheckedCreateWithoutUserInput> | MfaCredentialCreateWithoutUserInput[] | MfaCredentialUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: MfaCredentialCreateOrConnectWithoutUserInput | MfaCredentialCreateOrConnectWithoutUserInput[]
+    upsert?: MfaCredentialUpsertWithWhereUniqueWithoutUserInput | MfaCredentialUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: MfaCredentialCreateManyUserInputEnvelope
+    set?: MfaCredentialWhereUniqueInput | MfaCredentialWhereUniqueInput[]
+    disconnect?: MfaCredentialWhereUniqueInput | MfaCredentialWhereUniqueInput[]
+    delete?: MfaCredentialWhereUniqueInput | MfaCredentialWhereUniqueInput[]
+    connect?: MfaCredentialWhereUniqueInput | MfaCredentialWhereUniqueInput[]
+    update?: MfaCredentialUpdateWithWhereUniqueWithoutUserInput | MfaCredentialUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: MfaCredentialUpdateManyWithWhereWithoutUserInput | MfaCredentialUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: MfaCredentialScalarWhereInput | MfaCredentialScalarWhereInput[]
+  }
+
+  export type RecoveryCodeUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RecoveryCodeCreateWithoutUserInput, RecoveryCodeUncheckedCreateWithoutUserInput> | RecoveryCodeCreateWithoutUserInput[] | RecoveryCodeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecoveryCodeCreateOrConnectWithoutUserInput | RecoveryCodeCreateOrConnectWithoutUserInput[]
+    upsert?: RecoveryCodeUpsertWithWhereUniqueWithoutUserInput | RecoveryCodeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RecoveryCodeCreateManyUserInputEnvelope
+    set?: RecoveryCodeWhereUniqueInput | RecoveryCodeWhereUniqueInput[]
+    disconnect?: RecoveryCodeWhereUniqueInput | RecoveryCodeWhereUniqueInput[]
+    delete?: RecoveryCodeWhereUniqueInput | RecoveryCodeWhereUniqueInput[]
+    connect?: RecoveryCodeWhereUniqueInput | RecoveryCodeWhereUniqueInput[]
+    update?: RecoveryCodeUpdateWithWhereUniqueWithoutUserInput | RecoveryCodeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RecoveryCodeUpdateManyWithWhereWithoutUserInput | RecoveryCodeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RecoveryCodeScalarWhereInput | RecoveryCodeScalarWhereInput[]
   }
 
   export type UserUpdateOneWithoutCreatedUsersNestedInput = {
@@ -23454,6 +26572,34 @@ export namespace Prisma {
     update?: AccountUpdateWithWhereUniqueWithoutUserInput | AccountUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AccountUpdateManyWithWhereWithoutUserInput | AccountUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
+  }
+
+  export type MfaCredentialUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<MfaCredentialCreateWithoutUserInput, MfaCredentialUncheckedCreateWithoutUserInput> | MfaCredentialCreateWithoutUserInput[] | MfaCredentialUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: MfaCredentialCreateOrConnectWithoutUserInput | MfaCredentialCreateOrConnectWithoutUserInput[]
+    upsert?: MfaCredentialUpsertWithWhereUniqueWithoutUserInput | MfaCredentialUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: MfaCredentialCreateManyUserInputEnvelope
+    set?: MfaCredentialWhereUniqueInput | MfaCredentialWhereUniqueInput[]
+    disconnect?: MfaCredentialWhereUniqueInput | MfaCredentialWhereUniqueInput[]
+    delete?: MfaCredentialWhereUniqueInput | MfaCredentialWhereUniqueInput[]
+    connect?: MfaCredentialWhereUniqueInput | MfaCredentialWhereUniqueInput[]
+    update?: MfaCredentialUpdateWithWhereUniqueWithoutUserInput | MfaCredentialUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: MfaCredentialUpdateManyWithWhereWithoutUserInput | MfaCredentialUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: MfaCredentialScalarWhereInput | MfaCredentialScalarWhereInput[]
+  }
+
+  export type RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RecoveryCodeCreateWithoutUserInput, RecoveryCodeUncheckedCreateWithoutUserInput> | RecoveryCodeCreateWithoutUserInput[] | RecoveryCodeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecoveryCodeCreateOrConnectWithoutUserInput | RecoveryCodeCreateOrConnectWithoutUserInput[]
+    upsert?: RecoveryCodeUpsertWithWhereUniqueWithoutUserInput | RecoveryCodeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RecoveryCodeCreateManyUserInputEnvelope
+    set?: RecoveryCodeWhereUniqueInput | RecoveryCodeWhereUniqueInput[]
+    disconnect?: RecoveryCodeWhereUniqueInput | RecoveryCodeWhereUniqueInput[]
+    delete?: RecoveryCodeWhereUniqueInput | RecoveryCodeWhereUniqueInput[]
+    connect?: RecoveryCodeWhereUniqueInput | RecoveryCodeWhereUniqueInput[]
+    update?: RecoveryCodeUpdateWithWhereUniqueWithoutUserInput | RecoveryCodeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RecoveryCodeUpdateManyWithWhereWithoutUserInput | RecoveryCodeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RecoveryCodeScalarWhereInput | RecoveryCodeScalarWhereInput[]
   }
 
   export type UserUncheckedUpdateManyWithoutCreatedByNestedInput = {
@@ -24180,6 +27326,42 @@ export namespace Prisma {
     update?: XOR<XOR<PermissionUpdateToOneWithWhereWithoutRolePermissionsInput, PermissionUpdateWithoutRolePermissionsInput>, PermissionUncheckedUpdateWithoutRolePermissionsInput>
   }
 
+  export type UserCreateNestedOneWithoutMfaCredentialsInput = {
+    create?: XOR<UserCreateWithoutMfaCredentialsInput, UserUncheckedCreateWithoutMfaCredentialsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMfaCredentialsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BigIntFieldUpdateOperationsInput = {
+    set?: bigint | number
+    increment?: bigint | number
+    decrement?: bigint | number
+    multiply?: bigint | number
+    divide?: bigint | number
+  }
+
+  export type UserUpdateOneRequiredWithoutMfaCredentialsNestedInput = {
+    create?: XOR<UserCreateWithoutMfaCredentialsInput, UserUncheckedCreateWithoutMfaCredentialsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMfaCredentialsInput
+    upsert?: UserUpsertWithoutMfaCredentialsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMfaCredentialsInput, UserUpdateWithoutMfaCredentialsInput>, UserUncheckedUpdateWithoutMfaCredentialsInput>
+  }
+
+  export type UserCreateNestedOneWithoutRecoveryCodesInput = {
+    create?: XOR<UserCreateWithoutRecoveryCodesInput, UserUncheckedCreateWithoutRecoveryCodesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecoveryCodesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutRecoveryCodesNestedInput = {
+    create?: XOR<UserCreateWithoutRecoveryCodesInput, UserUncheckedCreateWithoutRecoveryCodesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecoveryCodesInput
+    upsert?: UserUpsertWithoutRecoveryCodesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRecoveryCodesInput, UserUpdateWithoutRecoveryCodesInput>, UserUncheckedUpdateWithoutRecoveryCodesInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -24222,6 +27404,13 @@ export namespace Prisma {
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedEnumMfaMethodNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.MfaMethod | EnumMfaMethodFieldRefInput<$PrismaModel> | null
+    in?: $Enums.MfaMethod[] | ListEnumMfaMethodFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.MfaMethod[] | ListEnumMfaMethodFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumMfaMethodNullableFilter<$PrismaModel> | $Enums.MfaMethod | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -24311,6 +27500,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedEnumMfaMethodNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MfaMethod | EnumMfaMethodFieldRefInput<$PrismaModel> | null
+    in?: $Enums.MfaMethod[] | ListEnumMfaMethodFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.MfaMethod[] | ListEnumMfaMethodFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumMfaMethodNullableWithAggregatesFilter<$PrismaModel> | $Enums.MfaMethod | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumMfaMethodNullableFilter<$PrismaModel>
+    _max?: NestedEnumMfaMethodNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -24466,6 +27665,44 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedBigIntFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  }
+
+  export type NestedBigIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedBigIntFilter<$PrismaModel>
+    _min?: NestedBigIntFilter<$PrismaModel>
+    _max?: NestedBigIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type PasswordCreateWithoutOwnerInput = {
@@ -24668,6 +27905,66 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MfaCredentialCreateWithoutUserInput = {
+    id?: string
+    credentialId: string
+    publicKey: string
+    counter?: bigint | number
+    deviceType?: string | null
+    backedUp?: boolean
+    transports?: string | null
+    createdAt?: Date | string
+    lastUsedAt?: Date | string | null
+  }
+
+  export type MfaCredentialUncheckedCreateWithoutUserInput = {
+    id?: string
+    credentialId: string
+    publicKey: string
+    counter?: bigint | number
+    deviceType?: string | null
+    backedUp?: boolean
+    transports?: string | null
+    createdAt?: Date | string
+    lastUsedAt?: Date | string | null
+  }
+
+  export type MfaCredentialCreateOrConnectWithoutUserInput = {
+    where: MfaCredentialWhereUniqueInput
+    create: XOR<MfaCredentialCreateWithoutUserInput, MfaCredentialUncheckedCreateWithoutUserInput>
+  }
+
+  export type MfaCredentialCreateManyUserInputEnvelope = {
+    data: MfaCredentialCreateManyUserInput | MfaCredentialCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RecoveryCodeCreateWithoutUserInput = {
+    id?: string
+    codeHash: string
+    used?: boolean
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type RecoveryCodeUncheckedCreateWithoutUserInput = {
+    id?: string
+    codeHash: string
+    used?: boolean
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type RecoveryCodeCreateOrConnectWithoutUserInput = {
+    where: RecoveryCodeWhereUniqueInput
+    create: XOR<RecoveryCodeCreateWithoutUserInput, RecoveryCodeUncheckedCreateWithoutUserInput>
+  }
+
+  export type RecoveryCodeCreateManyUserInputEnvelope = {
+    data: RecoveryCodeCreateManyUserInput | RecoveryCodeCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserCreateWithoutCreatedUsersInput = {
     id?: string
     name: string
@@ -24675,10 +27972,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -24688,6 +27987,8 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
   }
@@ -24699,10 +28000,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -24713,6 +28016,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
@@ -24728,10 +28033,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -24741,6 +28048,8 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
   }
@@ -24752,10 +28061,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -24765,6 +28076,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -24996,6 +28309,66 @@ export namespace Prisma {
     session_state?: StringNullableFilter<"Account"> | string | null
   }
 
+  export type MfaCredentialUpsertWithWhereUniqueWithoutUserInput = {
+    where: MfaCredentialWhereUniqueInput
+    update: XOR<MfaCredentialUpdateWithoutUserInput, MfaCredentialUncheckedUpdateWithoutUserInput>
+    create: XOR<MfaCredentialCreateWithoutUserInput, MfaCredentialUncheckedCreateWithoutUserInput>
+  }
+
+  export type MfaCredentialUpdateWithWhereUniqueWithoutUserInput = {
+    where: MfaCredentialWhereUniqueInput
+    data: XOR<MfaCredentialUpdateWithoutUserInput, MfaCredentialUncheckedUpdateWithoutUserInput>
+  }
+
+  export type MfaCredentialUpdateManyWithWhereWithoutUserInput = {
+    where: MfaCredentialScalarWhereInput
+    data: XOR<MfaCredentialUpdateManyMutationInput, MfaCredentialUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type MfaCredentialScalarWhereInput = {
+    AND?: MfaCredentialScalarWhereInput | MfaCredentialScalarWhereInput[]
+    OR?: MfaCredentialScalarWhereInput[]
+    NOT?: MfaCredentialScalarWhereInput | MfaCredentialScalarWhereInput[]
+    id?: StringFilter<"MfaCredential"> | string
+    userId?: StringFilter<"MfaCredential"> | string
+    credentialId?: StringFilter<"MfaCredential"> | string
+    publicKey?: StringFilter<"MfaCredential"> | string
+    counter?: BigIntFilter<"MfaCredential"> | bigint | number
+    deviceType?: StringNullableFilter<"MfaCredential"> | string | null
+    backedUp?: BoolFilter<"MfaCredential"> | boolean
+    transports?: StringNullableFilter<"MfaCredential"> | string | null
+    createdAt?: DateTimeFilter<"MfaCredential"> | Date | string
+    lastUsedAt?: DateTimeNullableFilter<"MfaCredential"> | Date | string | null
+  }
+
+  export type RecoveryCodeUpsertWithWhereUniqueWithoutUserInput = {
+    where: RecoveryCodeWhereUniqueInput
+    update: XOR<RecoveryCodeUpdateWithoutUserInput, RecoveryCodeUncheckedUpdateWithoutUserInput>
+    create: XOR<RecoveryCodeCreateWithoutUserInput, RecoveryCodeUncheckedCreateWithoutUserInput>
+  }
+
+  export type RecoveryCodeUpdateWithWhereUniqueWithoutUserInput = {
+    where: RecoveryCodeWhereUniqueInput
+    data: XOR<RecoveryCodeUpdateWithoutUserInput, RecoveryCodeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RecoveryCodeUpdateManyWithWhereWithoutUserInput = {
+    where: RecoveryCodeScalarWhereInput
+    data: XOR<RecoveryCodeUpdateManyMutationInput, RecoveryCodeUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RecoveryCodeScalarWhereInput = {
+    AND?: RecoveryCodeScalarWhereInput | RecoveryCodeScalarWhereInput[]
+    OR?: RecoveryCodeScalarWhereInput[]
+    NOT?: RecoveryCodeScalarWhereInput | RecoveryCodeScalarWhereInput[]
+    id?: StringFilter<"RecoveryCode"> | string
+    userId?: StringFilter<"RecoveryCode"> | string
+    codeHash?: StringFilter<"RecoveryCode"> | string
+    used?: BoolFilter<"RecoveryCode"> | boolean
+    usedAt?: DateTimeNullableFilter<"RecoveryCode"> | Date | string | null
+    createdAt?: DateTimeFilter<"RecoveryCode"> | Date | string
+  }
+
   export type UserUpsertWithoutCreatedUsersInput = {
     update: XOR<UserUpdateWithoutCreatedUsersInput, UserUncheckedUpdateWithoutCreatedUsersInput>
     create: XOR<UserCreateWithoutCreatedUsersInput, UserUncheckedCreateWithoutCreatedUsersInput>
@@ -25014,10 +28387,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25027,6 +28402,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
   }
@@ -25038,10 +28415,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25052,6 +28431,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
@@ -25081,10 +28462,12 @@ export namespace Prisma {
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
     password?: StringNullableFilter<"User"> | string | null
+    phoneNumber?: StringNullableFilter<"User"> | string | null
     role?: StringFilter<"User"> | string
     isActive?: BoolFilter<"User"> | boolean
     mfaEnabled?: BoolFilter<"User"> | boolean
     mfaSecret?: StringNullableFilter<"User"> | string | null
+    mfaMethod?: EnumMfaMethodNullableFilter<"User"> | $Enums.MfaMethod | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     lastLoginAt?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -25127,10 +28510,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -25139,6 +28524,8 @@ export namespace Prisma {
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -25151,10 +28538,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -25164,6 +28553,8 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -25191,10 +28582,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25203,6 +28596,8 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -25215,10 +28610,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25228,6 +28625,8 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -25239,10 +28638,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -25251,6 +28652,8 @@ export namespace Prisma {
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -25263,10 +28666,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -25276,6 +28681,8 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -25303,10 +28710,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25315,6 +28724,8 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -25327,10 +28738,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25340,6 +28753,8 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -25351,10 +28766,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -25363,6 +28780,8 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -25375,10 +28794,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -25388,6 +28809,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -25528,10 +28951,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25540,6 +28965,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -25552,10 +28979,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25565,6 +28994,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -25904,10 +29335,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -25916,6 +29349,8 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -25928,10 +29363,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -25941,6 +29378,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -26040,10 +29479,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26052,6 +29493,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -26064,10 +29507,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26077,6 +29522,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -26224,10 +29671,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -26236,6 +29685,8 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -26248,10 +29699,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -26261,6 +29714,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -26317,10 +29772,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26329,6 +29786,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -26341,10 +29800,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26354,6 +29815,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -26539,10 +30002,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -26551,6 +30016,8 @@ export namespace Prisma {
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -26563,10 +30030,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -26576,6 +30045,8 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -26646,10 +30117,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26658,6 +30131,8 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -26670,10 +30145,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26683,6 +30160,8 @@ export namespace Prisma {
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -26743,10 +30222,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -26756,6 +30237,8 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
   }
@@ -26767,10 +30250,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -26781,6 +30266,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
@@ -26829,10 +30316,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26842,6 +30331,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
   }
@@ -26853,10 +30344,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26867,6 +30360,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
@@ -27046,6 +30541,262 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserCreateWithoutMfaCredentialsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutMfaCredentialsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutMfaCredentialsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMfaCredentialsInput, UserUncheckedCreateWithoutMfaCredentialsInput>
+  }
+
+  export type UserUpsertWithoutMfaCredentialsInput = {
+    update: XOR<UserUpdateWithoutMfaCredentialsInput, UserUncheckedUpdateWithoutMfaCredentialsInput>
+    create: XOR<UserCreateWithoutMfaCredentialsInput, UserUncheckedCreateWithoutMfaCredentialsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMfaCredentialsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMfaCredentialsInput, UserUncheckedUpdateWithoutMfaCredentialsInput>
+  }
+
+  export type UserUpdateWithoutMfaCredentialsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMfaCredentialsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserCreateWithoutRecoveryCodesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutRecoveryCodesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutRecoveryCodesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRecoveryCodesInput, UserUncheckedCreateWithoutRecoveryCodesInput>
+  }
+
+  export type UserUpsertWithoutRecoveryCodesInput = {
+    update: XOR<UserUpdateWithoutRecoveryCodesInput, UserUncheckedUpdateWithoutRecoveryCodesInput>
+    create: XOR<UserCreateWithoutRecoveryCodesInput, UserUncheckedCreateWithoutRecoveryCodesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRecoveryCodesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRecoveryCodesInput, UserUncheckedUpdateWithoutRecoveryCodesInput>
+  }
+
+  export type UserUpdateWithoutRecoveryCodesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRecoveryCodesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
   export type PasswordCreateManyOwnerInput = {
     id?: string
     name: string
@@ -27113,6 +30864,26 @@ export namespace Prisma {
     session_state?: string | null
   }
 
+  export type MfaCredentialCreateManyUserInput = {
+    id?: string
+    credentialId: string
+    publicKey: string
+    counter?: bigint | number
+    deviceType?: string | null
+    backedUp?: boolean
+    transports?: string | null
+    createdAt?: Date | string
+    lastUsedAt?: Date | string | null
+  }
+
+  export type RecoveryCodeCreateManyUserInput = {
+    id?: string
+    codeHash: string
+    used?: boolean
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
   export type UserCreateManyCreatedByInput = {
     id?: string
     name: string
@@ -27120,10 +30891,12 @@ export namespace Prisma {
     emailVerified?: Date | string | null
     image?: string | null
     password?: string | null
+    phoneNumber?: string | null
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
     mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
     createdAt?: Date | string
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
@@ -27345,6 +31118,66 @@ export namespace Prisma {
     session_state?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type MfaCredentialUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    credentialId?: StringFieldUpdateOperationsInput | string
+    publicKey?: StringFieldUpdateOperationsInput | string
+    counter?: BigIntFieldUpdateOperationsInput | bigint | number
+    deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    backedUp?: BoolFieldUpdateOperationsInput | boolean
+    transports?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type MfaCredentialUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    credentialId?: StringFieldUpdateOperationsInput | string
+    publicKey?: StringFieldUpdateOperationsInput | string
+    counter?: BigIntFieldUpdateOperationsInput | bigint | number
+    deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    backedUp?: BoolFieldUpdateOperationsInput | boolean
+    transports?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type MfaCredentialUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    credentialId?: StringFieldUpdateOperationsInput | string
+    publicKey?: StringFieldUpdateOperationsInput | string
+    counter?: BigIntFieldUpdateOperationsInput | bigint | number
+    deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    backedUp?: BoolFieldUpdateOperationsInput | boolean
+    transports?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type RecoveryCodeUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codeHash?: StringFieldUpdateOperationsInput | string
+    used?: BoolFieldUpdateOperationsInput | boolean
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecoveryCodeUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codeHash?: StringFieldUpdateOperationsInput | string
+    used?: BoolFieldUpdateOperationsInput | boolean
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RecoveryCodeUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codeHash?: StringFieldUpdateOperationsInput | string
+    used?: BoolFieldUpdateOperationsInput | boolean
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserUpdateWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -27352,10 +31185,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27365,6 +31200,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
   }
@@ -27376,10 +31213,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27389,6 +31228,8 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -27400,10 +31241,12 @@ export namespace Prisma {
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
     mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

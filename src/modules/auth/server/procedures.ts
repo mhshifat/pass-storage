@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { baseProcedure, createTRPCRouter } from "@/trpc/init";
+import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import z from "zod";
 import { hashPassword, verifyPassword } from "@/lib/auth";
 import { createSession, destroySession, getSession } from "@/lib/session";
@@ -249,6 +249,16 @@ export const authRouter = createTRPCRouter({
                 });
             }
 
+            // Validate password against security policies
+            const { validatePassword } = await import("@/lib/password-validation");
+            const validation = await validatePassword(input.password);
+            if (!validation.isValid) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: validation.errors.join(". "),
+                });
+            }
+
             // Hash password
             const hashedPassword = await hashPassword(input.password);
 
@@ -307,50 +317,129 @@ export const authRouter = createTRPCRouter({
             })
         )
         .mutation(async ({ input }) => {
+            // Get login security settings
+            const securitySettings = await prisma.settings.findMany({
+                where: {
+                    key: {
+                        in: [
+                            "security.login.max_attempts",
+                            "security.login.lockout_duration_minutes",
+                        ],
+                    },
+                },
+            })
+
+            const config: Record<string, unknown> = {}
+            securitySettings.forEach((setting) => {
+                config[setting.key] = setting.value
+            })
+
+            const maxAttempts = (config["security.login.max_attempts"] as number) ?? 5
+            const lockoutDurationMinutes = (config["security.login.lockout_duration_minutes"] as number) ?? 15
+
             // Find user
             const user = await prisma.user.findUnique({
                 where: { email: input.email },
-            });
+            })
 
             if (!user) {
                 throw new TRPCError({
                     code: "UNAUTHORIZED",
                     message: "Invalid email or password",
-                });
+                })
+            }
+
+            // Check for account lockout
+            const lockoutThreshold = new Date(Date.now() - lockoutDurationMinutes * 60 * 1000)
+            const recentFailedAttempts = await prisma.auditLog.count({
+                where: {
+                    userId: user.id,
+                    action: "LOGIN_FAILED",
+                    createdAt: {
+                        gte: lockoutThreshold,
+                    },
+                },
+            })
+
+            if (recentFailedAttempts >= maxAttempts) {
+                throw new TRPCError({
+                    code: "FORBIDDEN",
+                    message: `Account locked due to too many failed login attempts. Please try again in ${lockoutDurationMinutes} minutes.`,
+                })
             }
 
             // Check if user has a password (might be null for OAuth users)
             if (!user.password) {
+                // Log failed attempt
+                await prisma.auditLog.create({
+                    data: {
+                        userId: user.id,
+                        action: "LOGIN_FAILED",
+                        resource: "User",
+                        resourceId: user.id,
+                        status: "FAILED",
+                        details: "No password set for user",
+                    },
+                })
                 throw new TRPCError({
                     code: "UNAUTHORIZED",
                     message: "Invalid email or password",
-                });
+                })
             }
 
             // Verify password
-            const isValid = await verifyPassword(input.password, user.password);
+            const isValid = await verifyPassword(input.password, user.password)
 
             if (!isValid) {
+                // Log failed attempt
+                await prisma.auditLog.create({
+                    data: {
+                        userId: user.id,
+                        action: "LOGIN_FAILED",
+                        resource: "User",
+                        resourceId: user.id,
+                        status: "FAILED",
+                        details: "Invalid password",
+                    },
+                })
                 throw new TRPCError({
                     code: "UNAUTHORIZED",
                     message: "Invalid email or password",
-                });
+                })
             }
 
-            if (user.mfaEnabled && user.mfaSecret === null) {
-                // MFA is enabled, require verification
-                await createSession(user.id, user.email, { mfaVerified: false });
-                return { success: true, mfaSetupRequired: true };
-            } else if (user.mfaEnabled) {
-                // MFA is enabled, require verification
-                await createSession(user.id, user.email, { mfaVerified: false });
-                return { success: true, mfaRequired: true };
+            // Check if MFA is enabled and what method is configured
+            if (user.mfaEnabled) {
+                const hasMfaMethod = 
+                    (user.mfaMethod === "TOTP" && user.mfaSecret !== null) ||
+                    (user.mfaMethod === "SMS" && user.phoneNumber !== null) ||
+                    (user.mfaMethod === "EMAIL" && user.email !== null) ||
+                    (user.mfaMethod === "WEBAUTHN" && (await prisma.mfaCredential.count({ where: { userId: user.id } })) > 0);
+
+                if (!hasMfaMethod) {
+                    // MFA is enabled but not configured, require setup
+                    await createSession(user.id, user.email, { mfaVerified: false });
+                    return { success: true, mfaSetupRequired: true };
+                } else {
+                    // MFA is enabled and configured, require verification
+                    await createSession(user.id, user.email, { mfaVerified: false });
+                    return { success: true, mfaRequired: true };
+                }
             }
 
             // Update last login time
             await prisma.user.update({
                 where: { id: user.id },
                 data: { lastLoginAt: new Date() },
+            });
+
+            // Create audit log for successful login
+            const { createAuditLog } = await import("@/lib/audit-log")
+            await createAuditLog({
+                action: "LOGIN_SUCCESS",
+                resource: "User",
+                resourceId: user.id,
+                userId: user.id,
             });
 
             // Create session
@@ -391,7 +480,14 @@ export const authRouter = createTRPCRouter({
                     role: true,
                     mfaEnabled: true,
                     mfaSecret: true,
+                    mfaMethod: true,
+                    phoneNumber: true,
                     createdById: true,
+                    _count: {
+                        select: {
+                            mfaCredentials: true,
+                        },
+                    },
                 },
             });
 
@@ -402,12 +498,20 @@ export const authRouter = createTRPCRouter({
                 });
             }
 
-            const { mfaSecret, ...rest } = userRes;
+            const { mfaSecret, _count, ...rest } = userRes;
+
+            // Determine if MFA verification is needed
+            const hasMfaMethod = 
+                (rest.mfaEnabled && rest.mfaMethod === "TOTP" && mfaSecret !== null) ||
+                (rest.mfaEnabled && rest.mfaMethod === "SMS" && rest.phoneNumber !== null) ||
+                (rest.mfaEnabled && rest.mfaMethod === "EMAIL" && rest.email !== null) ||
+                (rest.mfaEnabled && rest.mfaMethod === "WEBAUTHN" && _count.mfaCredentials > 0);
 
             return {
                 user: rest,
                 session,
-                shouldVerifyMfa: rest.mfaEnabled && !session.mfaVerified && mfaSecret !== null,
+                shouldVerifyMfa: rest.mfaEnabled && !session.mfaVerified && hasMfaMethod,
+                mfaMethod: rest.mfaMethod,
             };
         }),
     getCurrentUserPermissions: baseProcedure
@@ -445,6 +549,7 @@ export const authRouter = createTRPCRouter({
     setupMfa: baseProcedure
         .input(z.object({
             code: z.string().min(6).max(6),
+            method: z.enum(["TOTP", "SMS", "EMAIL", "WEBAUTHN"]).optional(),
         }))
         .mutation(async ({ input }) => {
             const session = await getSession()
@@ -455,29 +560,274 @@ export const authRouter = createTRPCRouter({
                 });
             }
             const user = await prisma.user.findUnique({ where: { id: session.userId } })
-            if (!user || !user.mfaSecret) {
+            if (!user) {
                 throw new TRPCError({
                     code: "NOT_FOUND",
-                    message: "No MFA secret found",
+                    message: "User not found",
                 });
             }
-            const decryptedSecret = decrypt(user.mfaSecret)
-            const authenticator = await import("otplib").then(mod => mod.authenticator)
-            const isValid = authenticator.check(input.code, decryptedSecret)
-            if (!isValid) {
+
+            const method = input.method || user.mfaMethod || "TOTP"
+
+            // Check if credentials are configured for the selected method
+            if (method === "SMS") {
+                const { checkSmsCredentials } = await import("@/lib/sms")
+                const credentialsCheck = await checkSmsCredentials()
+                if (!credentialsCheck.configured) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: credentialsCheck.error || "SMS credentials are not configured. Please configure them in Settings → MFA Credentials before enabling SMS MFA.",
+                    });
+                }
+                if (!user.phoneNumber) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: "Phone number is required for SMS MFA. Please add a phone number to your account.",
+                    });
+                }
+            } else if (method === "WEBAUTHN") {
+                const { checkWebAuthnCredentials } = await import("@/lib/webauthn")
+                const credentialsCheck = await checkWebAuthnCredentials()
+                if (!credentialsCheck.configured) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: credentialsCheck.error || "WebAuthn credentials are not configured. Please configure them in Settings → MFA Credentials before enabling WebAuthn MFA.",
+                    });
+                }
+            }
+
+            // Verify based on method
+            if (method === "TOTP") {
+                if (!user.mfaSecret) {
+                    throw new TRPCError({
+                        code: "NOT_FOUND",
+                        message: "No MFA secret found",
+                    });
+                }
+                const decryptedSecret = decrypt(user.mfaSecret)
+                const authenticator = await import("otplib").then(mod => mod.authenticator)
+                const isValid = authenticator.check(input.code, decryptedSecret)
+                if (!isValid) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: "Invalid MFA code",
+                    });
+                }
+            } else if (method === "SMS") {
+                const { verifyMfaCode } = await import("@/lib/mfa-codes")
+                const isValid = verifyMfaCode(user.id, "SMS", input.code)
+                if (!isValid) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: "Invalid or expired SMS code",
+                    });
+                }
+            } else if (method === "EMAIL") {
+                const { verifyMfaCode } = await import("@/lib/mfa-codes")
+                const isValid = verifyMfaCode(user.id, "EMAIL", input.code)
+                if (!isValid) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: "Invalid or expired email code",
+                    });
+                }
+            } else if (method === "WEBAUTHN") {
+                // WebAuthn setup is handled separately via verifyWebAuthnRegistration
                 throw new TRPCError({
                     code: "BAD_REQUEST",
-                    message: "Invalid MFA code",
+                    message: "WebAuthn setup is handled separately",
                 });
             }
+
+            // Enable MFA and set method
             await prisma.user.update({
                 where: { id: session.userId },
-                data: { mfaEnabled: true },
+                data: { 
+                    mfaEnabled: true,
+                    mfaMethod: method,
+                },
+            });
+
+            // Create audit log
+            const { createAuditLog } = await import("@/lib/audit-log")
+            await createAuditLog({
+                action: "MFA_SETUP",
+                resource: "User",
+                resourceId: session.userId,
+                details: { method },
+                userId: session.userId,
             });
             await createSession(user.id, user.email, { mfaVerified: true });
             return { success: true };
         }),
     verifyMfa: baseProcedure
+        .input(z.object({
+            code: z.string().min(6).max(6).optional(),
+            method: z.enum(["TOTP", "SMS", "EMAIL", "WEBAUTHN"]).optional(),
+        }))
+        .mutation(async ({ input }) => {
+            const session = await getSession()
+            if (!session) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Not authenticated",
+                });
+            }
+            const user = await prisma.user.findUnique({ 
+                where: { id: session.userId },
+                include: { mfaCredentials: true },
+            })
+            if (!user) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "User not found",
+                });
+            }
+
+            const method = input.method || user.mfaMethod || "TOTP"
+
+            // Verify based on method
+            if (method === "TOTP") {
+                if (!user.mfaSecret || !input.code) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: "TOTP code is required",
+                    });
+                }
+                const decryptedSecret = decrypt(user.mfaSecret);
+                const authenticator = await import("otplib").then(mod => mod.authenticator);
+                const isValid = authenticator.check(input.code, decryptedSecret)
+                if (!isValid) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: "Invalid MFA code",
+                    });
+                }
+            } else if (method === "SMS") {
+                // Check if SMS credentials are configured
+                const { checkSmsCredentials } = await import("@/lib/sms")
+                const credentialsCheck = await checkSmsCredentials()
+                if (!credentialsCheck.configured) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: credentialsCheck.error || "SMS credentials are not configured. Please configure them in Settings → MFA Credentials.",
+                    });
+                }
+                if (!input.code) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: "SMS code is required",
+                    });
+                }
+                const { verifyMfaCode } = await import("@/lib/mfa-codes")
+                const isValid = verifyMfaCode(user.id, "SMS", input.code)
+                if (!isValid) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: "Invalid or expired SMS code",
+                    });
+                }
+            } else if (method === "EMAIL") {
+                if (!input.code) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: "Email code is required",
+                    });
+                }
+                const { verifyMfaCode } = await import("@/lib/mfa-codes")
+                const isValid = verifyMfaCode(user.id, "EMAIL", input.code)
+                if (!isValid) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: "Invalid or expired email code",
+                    });
+                }
+            } else if (method === "WEBAUTHN") {
+                // Check if WebAuthn credentials are configured
+                const { checkWebAuthnCredentials } = await import("@/lib/webauthn")
+                const credentialsCheck = await checkWebAuthnCredentials()
+                if (!credentialsCheck.configured) {
+                    throw new TRPCError({
+                        code: "BAD_REQUEST",
+                        message: credentialsCheck.error || "WebAuthn credentials are not configured. Please configure them in Settings → MFA Credentials.",
+                    });
+                }
+                // WebAuthn verification is handled separately via verifyWebAuthnAuthentication
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "WebAuthn verification is handled separately",
+                });
+            }
+
+            // Create audit logs
+            const { createAuditLog } = await import("@/lib/audit-log")
+            await Promise.all([
+                createAuditLog({
+                    action: "MFA_VERIFIED",
+                    resource: "User",
+                    resourceId: user.id,
+                    details: { method },
+                    userId: user.id,
+                }),
+                createAuditLog({
+                    action: "LOGIN_SUCCESS",
+                    resource: "User",
+                    resourceId: user.id,
+                    details: { mfaMethod: method },
+                    userId: user.id,
+                }),
+            ])
+
+            await createSession(user.id, user.email, { mfaVerified: true });
+            return { success: true };
+        }),
+
+    // SMS MFA
+    sendSmsMfaCode: baseProcedure
+        .mutation(async () => {
+            const session = await getSession()
+            if (!session) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Not authenticated",
+                });
+            }
+            const user = await prisma.user.findUnique({ where: { id: session.userId } })
+            if (!user || !user.phoneNumber) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Phone number not set. Please add a phone number to your account.",
+                });
+            }
+
+            // Check if SMS credentials are configured
+            const { checkSmsCredentials } = await import("@/lib/sms")
+            const credentialsCheck = await checkSmsCredentials()
+            if (!credentialsCheck.configured) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: credentialsCheck.error || "SMS credentials are not configured. Please configure them in Settings → MFA Credentials.",
+                });
+            }
+
+            const { generateMfaCode, storeMfaCode } = await import("@/lib/mfa-codes")
+            const { sendSmsCode } = await import("@/lib/sms")
+            
+            const code = generateMfaCode()
+            storeMfaCode(user.id, "SMS", code)
+            
+            const result = await sendSmsCode(user.phoneNumber, code)
+            if (!result.success) {
+                throw new TRPCError({
+                    code: "INTERNAL_SERVER_ERROR",
+                    message: result.error || "Failed to send SMS code",
+                });
+            }
+
+            return { success: true };
+        }),
+
+    verifySmsMfa: baseProcedure
         .input(z.object({
             code: z.string().min(6).max(6),
         }))
@@ -490,22 +840,676 @@ export const authRouter = createTRPCRouter({
                 });
             }
             const user = await prisma.user.findUnique({ where: { id: session.userId } })
-            if (!user || !user.mfaSecret) {
+            if (!user) {
                 throw new TRPCError({
                     code: "NOT_FOUND",
-                    message: "No MFA secret found",
+                    message: "User not found",
                 });
             }
-            const decryptedSecret = decrypt(user.mfaSecret);
-            const authenticator = await import("otplib").then(mod => mod.authenticator);
-            const isValid = authenticator.check(input.code, decryptedSecret)
+
+            const { verifyMfaCode } = await import("@/lib/mfa-codes")
+            const isValid = verifyMfaCode(user.id, "SMS", input.code)
+            
             if (!isValid) {
                 throw new TRPCError({
                     code: "BAD_REQUEST",
-                    message: "Invalid MFA code",
+                    message: "Invalid or expired SMS code",
                 });
             }
+
+            // Create audit logs
+            const { createAuditLog } = await import("@/lib/audit-log")
+            await Promise.all([
+                createAuditLog({
+                    action: "MFA_VERIFIED",
+                    resource: "User",
+                    resourceId: user.id,
+                    details: { method: "SMS" },
+                    userId: user.id,
+                }),
+                createAuditLog({
+                    action: "LOGIN_SUCCESS",
+                    resource: "User",
+                    resourceId: user.id,
+                    details: { mfaMethod: "SMS" },
+                    userId: user.id,
+                }),
+            ])
+
             await createSession(user.id, user.email, { mfaVerified: true });
+            return { success: true };
+        }),
+
+    // Email MFA
+    sendEmailMfaCode: baseProcedure
+        .mutation(async () => {
+            const session = await getSession()
+            if (!session) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Not authenticated",
+                });
+            }
+            const user = await prisma.user.findUnique({ where: { id: session.userId } })
+            if (!user || !user.email) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Email not found",
+                });
+            }
+
+            const { generateMfaCode, storeMfaCode } = await import("@/lib/mfa-codes")
+            const { sendEmail } = await import("@/lib/mailer")
+            
+            const code = generateMfaCode()
+            storeMfaCode(user.id, "EMAIL", code)
+            
+            const result = await sendEmail({
+                to: user.email,
+                subject: "Your Password Storage Verification Code",
+                html: `
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                        <h2 style="color: #333;">Verification Code</h2>
+                        <p>Your verification code is:</p>
+                        <div style="background-color: #f5f5f5; padding: 20px; border-radius: 5px; margin: 20px 0; text-align: center;">
+                            <h1 style="color: #333; font-size: 32px; letter-spacing: 4px; margin: 0;">${code}</h1>
+                        </div>
+                        <p style="color: #666; font-size: 14px;">This code will expire in 10 minutes.</p>
+                        <p style="color: #999; font-size: 12px; margin-top: 20px;">
+                            If you didn't request this code, please ignore this email.
+                        </p>
+                    </div>
+                `,
+                text: `Your Password Storage verification code is: ${code}. This code will expire in 10 minutes.`,
+            })
+
+            if (!result.success) {
+                throw new TRPCError({
+                    code: "INTERNAL_SERVER_ERROR",
+                    message: result.error || "Failed to send email code",
+                });
+            }
+
+            return { success: true };
+        }),
+
+    verifyEmailMfa: baseProcedure
+        .input(z.object({
+            code: z.string().min(6).max(6),
+        }))
+        .mutation(async ({ input }) => {
+            const session = await getSession()
+            if (!session) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Not authenticated",
+                });
+            }
+            const user = await prisma.user.findUnique({ where: { id: session.userId } })
+            if (!user) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "User not found",
+                });
+            }
+
+            const { verifyMfaCode } = await import("@/lib/mfa-codes")
+            const isValid = verifyMfaCode(user.id, "EMAIL", input.code)
+            
+            if (!isValid) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Invalid or expired email code",
+                });
+            }
+
+            // Create audit logs
+            const { createAuditLog } = await import("@/lib/audit-log")
+            await Promise.all([
+                createAuditLog({
+                    action: "MFA_VERIFIED",
+                    resource: "User",
+                    resourceId: user.id,
+                    details: { method: "EMAIL" },
+                    userId: user.id,
+                }),
+                createAuditLog({
+                    action: "LOGIN_SUCCESS",
+                    resource: "User",
+                    resourceId: user.id,
+                    details: { mfaMethod: "EMAIL" },
+                    userId: user.id,
+                }),
+            ])
+
+            await createSession(user.id, user.email, { mfaVerified: true });
+            return { success: true };
+        }),
+
+    // WebAuthn MFA
+    generateWebAuthnRegistration: baseProcedure
+        .query(async () => {
+            const session = await getSession()
+            if (!session) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Not authenticated",
+                });
+            }
+            const user = await prisma.user.findUnique({
+                where: { id: session.userId },
+                include: { mfaCredentials: true },
+            })
+            if (!user) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "User not found",
+                });
+            }
+
+            // Check if WebAuthn credentials are configured
+            const { checkWebAuthnCredentials } = await import("@/lib/webauthn")
+            const credentialsCheck = await checkWebAuthnCredentials()
+            if (!credentialsCheck.configured) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: credentialsCheck.error || "WebAuthn credentials are not configured. Please configure them in Settings → MFA Credentials.",
+                });
+            }
+
+            const { generateWebAuthnRegistrationOptions } = await import("@/lib/webauthn")
+            
+            const existingCredentials = user.mfaCredentials.map((cred) => ({
+                credentialID: cred.credentialId,
+                publicKey: cred.publicKey,
+                counter: Number(cred.counter),
+                deviceType: cred.deviceType as any,
+                backedUp: cred.backedUp,
+                transports: cred.transports ? JSON.parse(cred.transports) : undefined,
+            }))
+
+            const { options, challenge } = await generateWebAuthnRegistrationOptions(
+                user.id,
+                user.email,
+                user.name,
+                existingCredentials
+            )
+
+            // Store challenge temporarily (in production, use Redis)
+            const challengeStore = (global as any).webauthnChallenges || new Map()
+            challengeStore.set(session.userId, challenge)
+            ;(global as any).webauthnChallenges = challengeStore
+
+            return { options };
+        }),
+
+    verifyWebAuthnRegistration: baseProcedure
+        .input(z.object({
+            response: z.any(),
+        }))
+        .mutation(async ({ input }) => {
+            const session = await getSession()
+            if (!session) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Not authenticated",
+                });
+            }
+            const user = await prisma.user.findUnique({ where: { id: session.userId } })
+            if (!user) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "User not found",
+                });
+            }
+
+            const challengeStore = (global as any).webauthnChallenges || new Map()
+            const expectedChallenge = challengeStore.get(session.userId)
+            challengeStore.delete(session.userId)
+
+            if (!expectedChallenge) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Registration challenge not found or expired",
+                });
+            }
+
+            const { verifyWebAuthnRegistration } = await import("@/lib/webauthn")
+            const result = await verifyWebAuthnRegistration(input.response, expectedChallenge)
+
+            if (!result.verified || !result.credential) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: result.error || "WebAuthn registration verification failed",
+                });
+            }
+
+            // Save credential to database
+            await prisma.mfaCredential.create({
+                data: {
+                    userId: user.id,
+                    credentialId: result.credential.credentialID,
+                    publicKey: result.credential.publicKey,
+                    counter: BigInt(result.credential.counter),
+                    deviceType: result.credential.deviceType,
+                    backedUp: result.credential.backedUp,
+                    transports: result.credential.transports ? JSON.stringify(result.credential.transports) : null,
+                },
+            })
+
+            return { success: true };
+        }),
+
+    generateWebAuthnAuthentication: baseProcedure
+        .query(async () => {
+            const session = await getSession()
+            if (!session) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Not authenticated",
+                });
+            }
+            const user = await prisma.user.findUnique({
+                where: { id: session.userId },
+                include: { mfaCredentials: true },
+            })
+            if (!user) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "User not found",
+                });
+            }
+
+            if (user.mfaCredentials.length === 0) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "No WebAuthn credentials found",
+                });
+            }
+
+            // Check if WebAuthn credentials are configured
+            const { checkWebAuthnCredentials } = await import("@/lib/webauthn")
+            const credentialsCheck = await checkWebAuthnCredentials()
+            if (!credentialsCheck.configured) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: credentialsCheck.error || "WebAuthn credentials are not configured. Please configure them in Settings → MFA Credentials.",
+                });
+            }
+
+            const { generateWebAuthnAuthenticationOptions } = await import("@/lib/webauthn")
+            
+            const credentials = user.mfaCredentials.map((cred) => ({
+                credentialID: cred.credentialId,
+                publicKey: cred.publicKey,
+                counter: Number(cred.counter),
+                deviceType: cred.deviceType as any,
+                backedUp: cred.backedUp,
+                transports: cred.transports ? JSON.parse(cred.transports) : undefined,
+            }))
+
+            const { options, challenge } = await generateWebAuthnAuthenticationOptions(credentials)
+
+            // Store challenge temporarily
+            const challengeStore = (global as any).webauthnChallenges || new Map()
+            challengeStore.set(session.userId, challenge)
+            ;(global as any).webauthnChallenges = challengeStore
+
+            return { options };
+        }),
+
+    verifyWebAuthnAuthentication: baseProcedure
+        .input(z.object({
+            response: z.any(),
+        }))
+        .mutation(async ({ input }) => {
+            const session = await getSession()
+            if (!session) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Not authenticated",
+                });
+            }
+            const user = await prisma.user.findUnique({
+                where: { id: session.userId },
+                include: { mfaCredentials: true },
+            })
+            if (!user) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "User not found",
+                });
+            }
+
+            const challengeStore = (global as any).webauthnChallenges || new Map()
+            const expectedChallenge = challengeStore.get(session.userId)
+            challengeStore.delete(session.userId)
+
+            if (!expectedChallenge) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Authentication challenge not found or expired",
+                });
+            }
+
+            // Find the credential being used
+            // The response.id is already base64url encoded
+            const credentialId = input.response.id
+            const credential = user.mfaCredentials.find((c) => c.credentialId === credentialId)
+
+            if (!credential) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Credential not found",
+                });
+            }
+
+            const { verifyWebAuthnAuthentication } = await import("@/lib/webauthn")
+            const credentialData = {
+                credentialID: credential.credentialId,
+                publicKey: credential.publicKey,
+                counter: Number(credential.counter),
+                deviceType: credential.deviceType as any,
+                backedUp: credential.backedUp,
+                transports: credential.transports ? JSON.parse(credential.transports) : undefined,
+            }
+
+            const result = await verifyWebAuthnAuthentication(
+                input.response,
+                expectedChallenge,
+                credentialData
+            )
+
+            if (!result.verified) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: result.error || "WebAuthn authentication verification failed",
+                });
+            }
+
+            // Update counter
+            if (result.newCounter !== undefined) {
+                await prisma.mfaCredential.update({
+                    where: { id: credential.id },
+                    data: {
+                        counter: BigInt(result.newCounter),
+                        lastUsedAt: new Date(),
+                    },
+                })
+            }
+
+            // Create audit logs
+            const { createAuditLog } = await import("@/lib/audit-log")
+            await Promise.all([
+                createAuditLog({
+                    action: "MFA_VERIFIED",
+                    resource: "User",
+                    resourceId: user.id,
+                    details: { method: "WEBAUTHN" },
+                    userId: user.id,
+                }),
+                createAuditLog({
+                    action: "LOGIN_SUCCESS",
+                    resource: "User",
+                    resourceId: user.id,
+                    details: { mfaMethod: "WEBAUTHN" },
+                    userId: user.id,
+                }),
+            ])
+
+            await createSession(user.id, user.email, { mfaVerified: true });
+            return { success: true };
+        }),
+
+    // Recovery Codes
+    generateRecoveryCodes: baseProcedure
+        .mutation(async () => {
+            const session = await getSession()
+            if (!session) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Not authenticated",
+                });
+            }
+            const user = await prisma.user.findUnique({ where: { id: session.userId } })
+            if (!user) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "User not found",
+                });
+            }
+
+            // Check if recovery codes are enabled
+            const recoveryCodesEnabled = await prisma.settings.findUnique({
+                where: { key: "mfa.recovery_codes_enabled" },
+            })
+            if (!recoveryCodesEnabled || recoveryCodesEnabled.value !== true) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Recovery codes are not enabled",
+                });
+            }
+
+            // Get count from settings
+            const recoveryCodesCountSetting = await prisma.settings.findUnique({
+                where: { key: "mfa.recovery_codes_count" },
+            })
+            const count = (recoveryCodesCountSetting?.value as number) || 10
+
+            // Generate new codes
+            const { generateRecoveryCodes, hashRecoveryCode } = await import("@/lib/recovery-codes")
+            const codes = generateRecoveryCodes(count)
+
+            // Delete old unused codes
+            await prisma.recoveryCode.deleteMany({
+                where: {
+                    userId: user.id,
+                    used: false,
+                },
+            })
+
+            // Hash and store new codes (hash without dashes for consistency)
+            // Codes are displayed with dashes but stored/hashed without dashes
+            const hashedCodes = await Promise.all(
+                codes.map((formattedCode) => {
+                    const rawCode = formattedCode.replace(/-/g, "").toUpperCase()
+                    return hashRecoveryCode(rawCode)
+                })
+            )
+
+            await Promise.all(
+                hashedCodes.map((hash) =>
+                    prisma.recoveryCode.create({
+                        data: {
+                            userId: user.id,
+                            codeHash: hash,
+                        },
+                    })
+                )
+            )
+
+            // Return plain codes only once (user should save them)
+            return { codes };
+        }),
+
+    verifyRecoveryCode: baseProcedure
+        .input(z.object({
+            code: z.string().min(1),
+        }))
+        .mutation(async ({ input }) => {
+            const session = await getSession()
+            if (!session) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Not authenticated",
+                });
+            }
+            const user = await prisma.user.findUnique({
+                where: { id: session.userId },
+                include: { recoveryCodes: true },
+            })
+            if (!user) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "User not found",
+                });
+            }
+
+            // Find unused recovery code
+            const unusedCodes = user.recoveryCodes.filter((rc) => !rc.used)
+            const { verifyRecoveryCode } = await import("@/lib/recovery-codes")
+
+            // Remove dashes from input code for verification
+            const normalizedCode = input.code.replace(/-/g, "").toUpperCase()
+
+            for (const recoveryCode of unusedCodes) {
+                const isValid = await verifyRecoveryCode(normalizedCode, recoveryCode.codeHash)
+                if (isValid) {
+                    // Mark as used
+                    await prisma.recoveryCode.update({
+                        where: { id: recoveryCode.id },
+                        data: {
+                            used: true,
+                            usedAt: new Date(),
+                        },
+                    })
+
+                    // Create audit logs
+                    const { createAuditLog } = await import("@/lib/audit-log")
+                    await Promise.all([
+                        createAuditLog({
+                            action: "MFA_VERIFIED",
+                            resource: "User",
+                            resourceId: user.id,
+                            details: { method: "RECOVERY_CODE" },
+                            userId: user.id,
+                        }),
+                        createAuditLog({
+                            action: "LOGIN_SUCCESS",
+                            resource: "User",
+                            resourceId: user.id,
+                            details: { mfaMethod: "RECOVERY_CODE" },
+                            userId: user.id,
+                        }),
+                    ])
+
+                    await createSession(user.id, user.email, { mfaVerified: true });
+                    return { success: true };
+                }
+            }
+
+            throw new TRPCError({
+                code: "BAD_REQUEST",
+                message: "Invalid or already used recovery code",
+            });
+        }),
+
+    listRecoveryCodes: baseProcedure
+        .query(async () => {
+            const session = await getSession()
+            if (!session) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Not authenticated",
+                });
+            }
+            const recoveryCodes = await prisma.recoveryCode.findMany({
+                where: {
+                    userId: session.userId,
+                },
+                select: {
+                    id: true,
+                    used: true,
+                    usedAt: true,
+                    createdAt: true,
+                },
+                orderBy: {
+                    createdAt: "desc",
+                },
+            })
+
+            const unusedCount = recoveryCodes.filter((rc) => !rc.used).length
+            const totalCount = recoveryCodes.length
+
+            return {
+                codes: recoveryCodes,
+                unusedCount,
+                totalCount,
+            };
+        }),
+
+    // Admin MFA Reset
+    resetUserMfa: protectedProcedure("user.edit")
+        .input(z.object({
+            userId: z.string(),
+        }))
+        .mutation(async ({ input, ctx }) => {
+            // Check if admin MFA reset is enabled
+            const adminResetEnabled = await prisma.settings.findUnique({
+                where: { key: "mfa.admin_reset_enabled" },
+            })
+            if (!adminResetEnabled || adminResetEnabled.value !== true) {
+                throw new TRPCError({
+                    code: "FORBIDDEN",
+                    message: "Admin MFA reset is not enabled",
+                });
+            }
+
+            const user = await prisma.user.findUnique({
+                where: { id: input.userId },
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    createdById: true,
+                },
+            })
+
+            if (!user) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "User not found",
+                });
+            }
+
+            // Prevent users from resetting their creator's MFA (SUPER_ADMIN can reset anyone)
+            if (ctx.userRole !== "SUPER_ADMIN" && user.createdById === ctx.userId) {
+                throw new TRPCError({
+                    code: "FORBIDDEN",
+                    message: "You cannot reset the MFA of the user who created your account",
+                });
+            }
+
+            // Disable MFA and clear MFA data
+            await Promise.all([
+                prisma.user.update({
+                    where: { id: input.userId },
+                    data: {
+                        mfaEnabled: false,
+                        mfaSecret: null,
+                        mfaMethod: null,
+                    },
+                }),
+                prisma.mfaCredential.deleteMany({
+                    where: { userId: input.userId },
+                }),
+                prisma.recoveryCode.deleteMany({
+                    where: { userId: input.userId },
+                }),
+            ])
+
+            // Create audit log
+            await prisma.auditLog.create({
+                data: {
+                    action: "MFA_RESET",
+                    resource: "User",
+                    userId: input.userId,
+                    resourceId: input.userId,
+                    details: `MFA reset by admin ${ctx.userId}`,
+                    status: "SUCCESS",
+                },
+            })
+
             return { success: true };
         }),
 });

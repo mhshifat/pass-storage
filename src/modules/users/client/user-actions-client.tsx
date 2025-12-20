@@ -23,6 +23,7 @@ import { createUserAction, updateUserAction, deleteUserAction, resetPasswordActi
 import { sendEmailAction } from "@/app/admin/users/email-actions"
 import { useRouter } from "next/navigation"
 import { usePermissions } from "@/hooks/use-permissions"
+import { trpc } from "@/trpc/client"
 
 interface User {
   id: string
@@ -47,6 +48,16 @@ interface UserActionsClientProps {
 export function UserActionsClient({ users, currentUserId, isSuperAdmin = false, currentUser }: UserActionsClientProps) {
   const router = useRouter()
   const { hasPermission } = usePermissions()
+  const utils = trpc.useUtils()
+  const resetMfa = trpc.auth.resetUserMfa.useMutation({
+    onSuccess: () => {
+      toast.success("MFA reset successfully")
+      router.refresh()
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to reset MFA")
+    },
+  })
   const [isCreateDialogOpen, setIsCreateDialogOpen] = React.useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false)
@@ -90,6 +101,10 @@ export function UserActionsClient({ users, currentUserId, isSuperAdmin = false, 
       setUserToEmail({ id: user.id, name: user.name, email: user.email })
       setIsSendEmailDialogOpen(true)
     }
+  }
+
+  const handleResetMfa = (userId: string) => {
+    resetMfa.mutate({ userId })
   }
 
   const confirmEmail = async (subject: string, message: string) => {
@@ -216,6 +231,12 @@ export function UserActionsClient({ users, currentUserId, isSuperAdmin = false, 
           const user = users.find(u => u.id === userId);
           if (!isSuperAdmin && user?.createdById === currentUserId) return;
           if (hasPermission("user.edit")) handleEmail(userId);
+        }}
+        onResetMfa={(userId) => {
+          // SUPER_ADMIN can reset anyone's MFA, others cannot reset their creator's MFA
+          const user = users.find(u => u.id === userId);
+          if (!isSuperAdmin && user?.createdById === currentUserId) return;
+          if (hasPermission("user.edit")) handleResetMfa(userId);
         }}
         onAddUser={hasPermission("user.create") ? () => setIsCreateDialogOpen(true) : undefined}
       />

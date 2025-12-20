@@ -7,6 +7,7 @@ import { hasPermission } from "./lib/permissions";
 const MFA_ROUTES = ["/mfa-setup", "/mfa-verify"];
 const AUTH_ROUTES = ["/login", "/register"];
 const ADMIN_ROUTE = "/admin";
+const MAINTENANCE_ROUTE = "/maintenance";
 
 // Route permission mapping
 const ROUTE_PERMISSIONS: Record<string, string> = {
@@ -66,11 +67,50 @@ export async function proxy(req: NextRequest) {
     return NextResponse.redirect(new URL("/mfa-verify", req.url));
   }
 
+  // Check maintenance mode - block non-admin users if enabled
+  // Allow maintenance page itself and auth routes
+  if (pathname !== MAINTENANCE_ROUTE && !AUTH_ROUTES.some(route => pathname.startsWith(route))) {
+    const maintenanceModeSetting = await prisma.settings.findUnique({
+      where: { key: "app.maintenance_mode" },
+    })
+    
+    const isMaintenanceMode = maintenanceModeSetting?.value === true
+    
+    if (isMaintenanceMode) {
+      // Check if user is an admin (SUPER_ADMIN role, ADMIN role, or has settings.edit permission)
+      const userWithRole = await prisma.user.findUnique({
+        where: { id: session.userId },
+        select: { role: true },
+      })
+      
+      const isSuperAdmin = userWithRole?.role === "SUPER_ADMIN"
+      const isAdmin = userWithRole?.role === "ADMIN"
+      const hasSettingsEdit = await hasPermission(session.userId, "settings.edit")
+      
+      const isAdminUser = isSuperAdmin || isAdmin || hasSettingsEdit
+      
+      // If not admin, block access and redirect to maintenance page
+      if (!isAdminUser) {
+        return NextResponse.redirect(new URL(MAINTENANCE_ROUTE, req.url))
+      }
+    }
+  }
+
   // Check permissions for protected routes
-  const requiredPermission = ROUTE_PERMISSIONS[pathname] || 
-    Object.keys(ROUTE_PERMISSIONS).find(route => pathname.startsWith(route)) 
-      ? ROUTE_PERMISSIONS[Object.keys(ROUTE_PERMISSIONS).find(route => pathname.startsWith(route))!]
-      : null;
+  // First check exact match, then check if pathname starts with any route
+  let requiredPermission: string | null = null
+  
+  if (ROUTE_PERMISSIONS[pathname]) {
+    requiredPermission = ROUTE_PERMISSIONS[pathname]
+  } else {
+    // Check if pathname starts with any protected route
+    const matchingRoute = Object.keys(ROUTE_PERMISSIONS).find(route => 
+      pathname.startsWith(route + "/") || pathname === route
+    )
+    if (matchingRoute) {
+      requiredPermission = ROUTE_PERMISSIONS[matchingRoute]
+    }
+  }
   
   if (requiredPermission) {
     try {

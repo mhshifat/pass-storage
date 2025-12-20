@@ -12,18 +12,20 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String
-  email         String    @unique
+  email         String     @unique
   emailVerified DateTime?
   image         String?
   password      String? // Optional for OAuth users
-  role          String    @default("USER")
-  isActive      Boolean   @default(true)
-  mfaEnabled    Boolean   @default(false)
-  mfaSecret     String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  phoneNumber   String? // For SMS MFA
+  role          String     @default("USER")
+  isActive      Boolean    @default(true)
+  mfaEnabled    Boolean    @default(false)
+  mfaSecret     String? // For TOTP MFA
+  mfaMethod     MfaMethod? // Preferred MFA method
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   lastLoginAt   DateTime?
 
   // Relations
@@ -33,6 +35,8 @@ model User {
   auditLogs       AuditLog[]
   sessions        Session[]
   accounts        Account[]
+  mfaCredentials  MfaCredential[]
+  recoveryCodes   RecoveryCode[]
 
   createdById  String?
   createdBy    User?   @relation("UserCreatedBy", fields: [createdById], references: [id])
@@ -40,6 +44,7 @@ model User {
   createdRoles Role[]  @relation("RoleCreatedBy")
 
   @@index([email])
+  @@index([phoneNumber])
 }
 
 model Account {
@@ -303,4 +308,45 @@ enum AuditStatus {
   FAILED
   WARNING
   BLOCKED
+}
+
+enum MfaMethod {
+  TOTP
+  SMS
+  EMAIL
+  WEBAUTHN
+}
+
+model MfaCredential {
+  id           String    @id @default(cuid())
+  userId       String
+  credentialId String    @unique // Base64URL encoded credential ID
+  publicKey    String // Base64URL encoded public key
+  counter      BigInt    @default(0)
+  deviceType   String? // e.g., "singleDevice", "multiDevice"
+  backedUp     Boolean   @default(false)
+  transports   String? // JSON array of transport methods
+  createdAt    DateTime  @default(now())
+  lastUsedAt   DateTime?
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([credentialId])
+}
+
+model RecoveryCode {
+  id        String    @id @default(cuid())
+  userId    String
+  codeHash  String // Hashed recovery code
+  used      Boolean   @default(false)
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([codeHash])
 }

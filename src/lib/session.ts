@@ -13,10 +13,20 @@ export interface SessionData {
 }
 
 export async function createSession(userId: string, email: string, { mfaVerified = true } = {}) {
+  // Get session timeout from settings
+  const prisma = (await import("@/lib/prisma")).default
+  const sessionTimeoutSetting = await prisma.settings.findUnique({
+    where: { key: "security.session.timeout_minutes" },
+  })
+  
+  const timeoutMinutes = (sessionTimeoutSetting?.value as number) ?? 30
+  const expirationTime = `${timeoutMinutes}m`
+  const maxAge = timeoutMinutes * 60 // Convert to seconds
+
   const payload = { userId, email, isLoggedIn: true, mfaVerified };
   const token = await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
-    .setExpirationTime("7d")
+    .setExpirationTime(expirationTime)
     .sign(secret)
 
   const cookieStore = await cookies()
@@ -24,7 +34,7 @@ export async function createSession(userId: string, email: string, { mfaVerified
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 7, // 7 days
+    maxAge,
     path: "/",
   })
 }
