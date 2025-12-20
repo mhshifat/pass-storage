@@ -34,28 +34,35 @@ export const dashboardRouter = createTRPCRouter({
         ],
       }
 
-      // Fetch all stats in parallel
+      // Check permissions for different stats
+      const hasUserView = ctx.permissions.includes("user.view")
+      const hasTeamView = ctx.permissions.includes("team.view")
+      const hasAuditView = ctx.permissions.includes("audit.view")
+
+      // Fetch stats based on permissions
       const [userStats, passwordStats, teamStats, securityEvents] = await Promise.all([
-        // User stats
-        prisma.user.count(),
+        // User stats - only if user has user.view permission
+        hasUserView ? prisma.user.count() : Promise.resolve(0),
         
-        // Password stats
+        // Password stats - always available (user has password.view permission)
         prisma.password.count({ where: passwordWhere }),
         
-        // Team stats
-        prisma.team.count(),
+        // Team stats - only if user has team.view permission
+        hasTeamView ? prisma.team.count() : Promise.resolve(0),
         
-        // Security events (audit logs with security-related actions)
-        prisma.auditLog.count({
-          where: {
-            action: {
-              in: ["LOGIN_FAILED", "PASSWORD_VIEWED", "PASSWORD_SHARED", "PASSWORD_DELETED"],
-            },
-            createdAt: {
-              gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // Last 30 days
-            },
-          },
-        }),
+        // Security events - only if user has audit.view permission
+        hasAuditView
+          ? prisma.auditLog.count({
+              where: {
+                action: {
+                  in: ["LOGIN_FAILED", "PASSWORD_VIEWED", "PASSWORD_SHARED", "PASSWORD_DELETED"],
+                },
+                createdAt: {
+                  gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // Last 30 days
+                },
+              },
+            })
+          : Promise.resolve(0),
       ])
 
       // Calculate changes (simplified - in real app, compare with previous period)
@@ -88,8 +95,16 @@ export const dashboardRouter = createTRPCRouter({
       }
     }),
 
-  recentActivities: protectedProcedure("password.view")
+  recentActivities: protectedProcedure(["password.view", "audit.view"])
     .query(async ({ ctx }) => {
+      // Check if user has audit.view permission to see other users' activities
+      const hasAuditView = ctx.permissions.includes("audit.view")
+      
+      if (!hasAuditView) {
+        // If no audit permission, return empty activities
+        return []
+      }
+
       // Get recent audit logs with user information, excluding current user's activities
       const logs = await prisma.auditLog.findMany({
         where: {
@@ -193,6 +208,10 @@ export const dashboardRouter = createTRPCRouter({
         },
       })
 
+      // Check permissions
+      const hasAuditView = ctx.permissions.includes("audit.view")
+      const hasUserView = ctx.permissions.includes("user.view")
+
       // Check for unused passwords (no access in last 90 days) - LOW severity
       // Get passwords that haven't been viewed in last 90 days
       const allUserPasswords = await prisma.password.findMany({
@@ -201,54 +220,66 @@ export const dashboardRouter = createTRPCRouter({
       })
       const passwordIds = allUserPasswords.map((p) => p.id)
       
-      const recentlyAccessedPasswordIds = await prisma.auditLog.findMany({
-        where: {
-          action: "PASSWORD_VIEWED",
-          resourceId: { in: passwordIds },
-          createdAt: { gte: ninetyDaysAgo },
-        },
-        select: { resourceId: true },
-        distinct: ["resourceId"],
-      })
-      const accessedIds = new Set(recentlyAccessedPasswordIds.map((log) => log.resourceId).filter(Boolean))
-      const unusedPasswords = passwordIds.filter((id) => !accessedIds.has(id)).length
+      let unusedPasswords = 0
+      if (hasAuditView && passwordIds.length > 0) {
+        const recentlyAccessedPasswordIds = await prisma.auditLog.findMany({
+          where: {
+            action: "PASSWORD_VIEWED",
+            resourceId: { in: passwordIds },
+            createdAt: { gte: ninetyDaysAgo },
+          },
+          select: { resourceId: true },
+          distinct: ["resourceId"],
+        })
+        const accessedIds = new Set(recentlyAccessedPasswordIds.map((log) => log.resourceId).filter(Boolean))
+        unusedPasswords = passwordIds.filter((id) => !accessedIds.has(id)).length
+      }
 
       // Check for failed login attempts in last 24 hours - CRITICAL if >20, HIGH if >10
-      const failedLogins = await prisma.auditLog.count({
-        where: {
-          action: "LOGIN_FAILED",
-          createdAt: { gte: yesterday },
-        },
-      })
+      // Only if user has audit.view permission
+      const failedLogins = hasAuditView
+        ? await prisma.auditLog.count({
+            where: {
+              action: "LOGIN_FAILED",
+              createdAt: { gte: yesterday },
+            },
+          })
+        : 0
 
       // Check for suspicious access patterns (multiple failed logins from same IP) - HIGH severity
-      const suspiciousIPs = await prisma.auditLog.groupBy({
-        by: ["ipAddress"],
-        where: {
-          action: "LOGIN_FAILED",
-          createdAt: { gte: yesterday },
-          ipAddress: { not: null },
-        },
-        _count: true,
-        having: {
-          ipAddress: {
-            _count: {
-              gt: 5, // More than 5 failed attempts from same IP
+      // Only if user has audit.view permission
+      const suspiciousIPs = hasAuditView
+        ? await prisma.auditLog.groupBy({
+            by: ["ipAddress"],
+            where: {
+              action: "LOGIN_FAILED",
+              createdAt: { gte: yesterday },
+              ipAddress: { not: null },
             },
-          },
-        },
-      })
+            _count: true,
+            having: {
+              ipAddress: {
+                _count: {
+                  gt: 5, // More than 5 failed attempts from same IP
+                },
+              },
+            },
+          })
+        : []
 
       // Check for users without MFA enabled - MEDIUM severity
-      const [totalActiveUsers, usersWithoutMFA] = await Promise.all([
-        prisma.user.count({ where: { isActive: true } }),
-        prisma.user.count({
-          where: {
-            isActive: true,
-            mfaEnabled: false,
-          },
-        }),
-      ])
+      // Only if user has user.view permission
+      const [totalActiveUsers, usersWithoutMFA] = hasUserView
+        ? await Promise.all([
+            prisma.user.count({ where: { isActive: true } }),
+            prisma.user.count({
+              where: {
+                isActive: true,
+                mfaEnabled: false,
+              },
+            }),
+          ])
+        : [0, 0]
 
       // Get system backup status from Settings
       const backupSetting = await prisma.settings.findUnique({
@@ -496,28 +527,36 @@ export const dashboardRouter = createTRPCRouter({
         }),
       ])
 
-      // Get MFA adoption
+      // Check permissions for user stats
+      const hasUserView = ctx.permissions.includes("user.view")
+      
+      // Get MFA adoption - only if user has user.view permission
       const [totalUsers, mfaUsers, activeUsers] = await Promise.all([
-        prisma.user.count({ where: { isActive: true } }),
-        prisma.user.count({ where: { mfaEnabled: true, isActive: true } }),
-        prisma.user.count({
-          where: {
-            isActive: true,
-            lastLoginAt: {
-              gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000), // Active in last 30 days
-            },
-          },
-        }),
+        hasUserView ? prisma.user.count({ where: { isActive: true } }) : Promise.resolve(0),
+        hasUserView ? prisma.user.count({ where: { mfaEnabled: true, isActive: true } }) : Promise.resolve(0),
+        hasUserView
+          ? prisma.user.count({
+              where: {
+                isActive: true,
+                lastLoginAt: {
+                  gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000), // Active in last 30 days
+                },
+              },
+            })
+          : Promise.resolve(0),
       ])
 
       // Get active sessions (sessions that haven't expired yet)
-      const activeSessions = await prisma.session.count({
-        where: {
-          expires: {
-            gt: now,
-          },
-        },
-      })
+      // Only if user has user.view permission (sessions are user-related)
+      const activeSessions = hasUserView
+        ? await prisma.session.count({
+            where: {
+              expires: {
+                gt: now,
+              },
+            },
+          })
+        : 0
 
       // Calculate session percentage based on active users
       // If we have active users, calculate percentage of sessions vs active users

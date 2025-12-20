@@ -22,6 +22,7 @@ import { TeamMembersDialog } from "./team-members-dialog"
 import { TeamPasswordsDialog } from "./team-passwords-dialog"
 import { TeamsPagination } from "./teams-pagination"
 import { createTeamAction, updateTeamAction, deleteTeamAction } from "@/app/admin/teams/actions"
+import { usePermissions } from "@/hooks/use-permissions"
 
 interface Team {
   id: string
@@ -45,6 +46,7 @@ interface TeamsActionsClientProps {
 
 export function TeamsActionsClient({ teams, pagination }: TeamsActionsClientProps) {
   const router = useRouter()
+  const { hasPermission } = usePermissions()
   const [isCreateDialogOpen, setIsCreateDialogOpen] = React.useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false)
   const [isViewDialogOpen, setIsViewDialogOpen] = React.useState(false)
@@ -114,7 +116,7 @@ export function TeamsActionsClient({ teams, pagination }: TeamsActionsClientProp
       } else if (result.error) {
         toast.error(result.error)
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to delete team")
     }
   }
@@ -128,10 +130,12 @@ export function TeamsActionsClient({ teams, pagination }: TeamsActionsClientProp
             Manage teams and organize password access
           </p>
         </div>
-        <Button onClick={() => setIsCreateDialogOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Create Team
-        </Button>
+        {hasPermission("team.create") && (
+          <Button onClick={() => setIsCreateDialogOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Create Team
+          </Button>
+        )}
       </div>
 
       <TeamsTable

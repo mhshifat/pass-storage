@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Search, MoreHorizontal, Pencil, Trash2, Users, FolderKey } from "lucide-react"
 import { TeamsEmptyState } from "./teams-empty-state"
+import { usePermissions } from "@/hooks/use-permissions"
 
 interface Team {
   id: string
@@ -50,6 +51,7 @@ export function TeamsTable({
   onCreateTeam,
   onManagePasswords,
 }: TeamsTableProps) {
+  const { hasPermission } = usePermissions()
   const [searchQuery, setSearchQuery] = React.useState("")
 
   const filteredTeams = teams.filter(
@@ -134,22 +136,30 @@ export function TeamsTable({
                           <Users className="mr-2 h-4 w-4" />
                           View Members
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => onEdit?.(team)}>
-                          <Pencil className="mr-2 h-4 w-4" />
-                          Edit Team
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => onManagePasswords?.(team)}>
-                          <FolderKey className="mr-2 h-4 w-4" />
-                          Manage Passwords
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                          className="text-red-600"
-                          onClick={() => onDelete?.(team.id)}
-                        >
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          Delete Team
-                        </DropdownMenuItem>
+                        {hasPermission("team.edit") && (
+                          <DropdownMenuItem onClick={() => onEdit?.(team)}>
+                            <Pencil className="mr-2 h-4 w-4" />
+                            Edit Team
+                          </DropdownMenuItem>
+                        )}
+                        {hasPermission("password.share") && (
+                          <DropdownMenuItem onClick={() => onManagePasswords?.(team)}>
+                            <FolderKey className="mr-2 h-4 w-4" />
+                            Manage Passwords
+                          </DropdownMenuItem>
+                        )}
+                        {hasPermission("team.delete") && (
+                          <>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              className="text-red-600"
+                              onClick={() => onDelete?.(team.id)}
+                            >
+                              <Trash2 className="mr-2 h-4 w-4" />
+                              Delete Team
+                            </DropdownMenuItem>
+                          </>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

@@ -21,6 +21,7 @@ import { RolesTable } from "./roles-table"
 import { PermissionsDialog } from "./permissions-dialog"
 import { createRoleAction, updateRoleAction, deleteRoleAction } from "@/app/admin/roles/actions"
 import { trpc } from "@/trpc/client"
+import { usePermissions } from "@/hooks/use-permissions"
 
 interface Role {
   id: string
@@ -36,6 +37,7 @@ interface RolesActionsClientProps {
 }
 
 export function RolesActionsClient({ roles }: RolesActionsClientProps) {
+  const { hasPermission } = usePermissions()
   // Fetch permissions from database
   const { data: permissionsData } = trpc.roles.getAllPermissions.useQuery()
   
@@ -129,10 +131,12 @@ export function RolesActionsClient({ roles }: RolesActionsClientProps) {
             Define roles and manage access permissions
           </p>
         </div>
-        <Button onClick={() => setIsCreateDialogOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Create Role
-        </Button>
+        {hasPermission("role.manage") && (
+          <Button onClick={() => setIsCreateDialogOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Create Role
+          </Button>
+        )}
       </div>
 
       <RolesTable 

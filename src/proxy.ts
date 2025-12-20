@@ -17,6 +17,8 @@ const ROUTE_PERMISSIONS: Record<string, string> = {
   "/admin/passwords": "password.view",
   "/admin/audit-logs": "audit.view",
   "/admin/settings": "settings.view",
+  // Account pages are accessible to all logged-in users (no specific permission required)
+  // Dashboard is accessible to all logged-in users (no specific permission required)
 };
 
 export async function proxy(req: NextRequest) {

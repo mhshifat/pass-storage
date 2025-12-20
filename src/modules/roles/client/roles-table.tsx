@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/tooltip"
 import { Search, MoreHorizontal, Pencil, Trash2, Shield } from "lucide-react"
 import { RolesEmptyState } from "./roles-empty-state"
+import { usePermissions } from "@/hooks/use-permissions"
 
 interface Role {
   id: string
@@ -47,6 +48,7 @@ interface RolesTableProps {
 }
 
 export function RolesTable({ roles, onViewPermissions, onEdit, onDelete, onCreateRole }: RolesTableProps) {
+  const { hasPermission } = usePermissions()
   const [searchQuery, setSearchQuery] = React.useState("")
 
   const filteredRoles = roles.filter(
@@ -144,22 +146,28 @@ export function RolesTable({ roles, onViewPermissions, onEdit, onDelete, onCreat
                           <Shield className="mr-2 h-4 w-4" />
                           View Permissions
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                          disabled={role.isSystem}
-                          onClick={() => onEdit && onEdit(role)}
-                        >
-                          <Pencil className="mr-2 h-4 w-4" />
-                          Edit Role
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                          disabled={role.isSystem}
-                          className="text-red-600"
-                          onClick={() => onDelete && onDelete(role)}
-                        >
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          Delete Role
-                        </DropdownMenuItem>
+                        {hasPermission("role.manage") && (
+                          <DropdownMenuItem
+                            disabled={role.isSystem}
+                            onClick={() => onEdit && onEdit(role)}
+                          >
+                            <Pencil className="mr-2 h-4 w-4" />
+                            Edit Role
+                          </DropdownMenuItem>
+                        )}
+                        {hasPermission("role.manage") && (
+                          <>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              disabled={role.isSystem}
+                              className="text-red-600"
+                              onClick={() => onDelete && onDelete(role)}
+                            >
+                              <Trash2 className="mr-2 h-4 w-4" />
+                              Delete Role
+                            </DropdownMenuItem>
+                          </>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
