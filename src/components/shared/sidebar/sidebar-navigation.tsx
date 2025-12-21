@@ -62,6 +62,10 @@ const navigationStructure = [
     href: "/admin/passwords",
     icon: Lock,
     permission: "password.view",
+    children: [
+      { nameKey: "passwords.duplicates.title", href: "/admin/passwords/duplicates", permission: "password.view" },
+      { nameKey: "passwords.breach.title", href: "/admin/passwords/breaches", permission: "password.view" },
+    ],
   },
   {
     nameKey: "audit.title",
@@ -103,9 +107,10 @@ export function SidebarNavigation({ isCollapsed }: SidebarNavigationProps) {
     })),
   }))
 
-  // Initialize expanded items with translated Settings name
+  // Initialize expanded items with translated Settings and Passwords names
   const settingsName = t("settings.title")
-  const [expandedItems, setExpandedItems] = React.useState<string[]>([settingsName])
+  const passwordsName = t("passwords.title")
+  const [expandedItems, setExpandedItems] = React.useState<string[]>([settingsName, passwordsName])
 
   const toggleExpand = (name: string) => {
     setExpandedItems((prev) =>

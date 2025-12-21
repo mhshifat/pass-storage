@@ -402,6 +402,29 @@ export const dashboardRouter = createTRPCRouter({
         }
       }
 
+      // HIGH: Breached passwords - Check for unresolved breaches
+      const breachedPasswords = await prisma.passwordBreach.count({
+        where: {
+          password: {
+            ownerId: ctx.userId,
+          },
+          isBreached: true,
+          resolved: false,
+        },
+      })
+
+      if (breachedPasswords > 0) {
+        alerts.push({
+          id: "breached-passwords",
+          severity: "high",
+          type: "error",
+          messageKey: "dashboard.breachedPasswords",
+          messageParams: { count: breachedPasswords },
+          timeKey: "dashboard.today",
+          timestamp: now,
+        })
+      }
+
       // LOW: Unused passwords
       if (unusedPasswords > 0) {
         alerts.push({

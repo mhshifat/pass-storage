@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useActionState } from "react"
 import { Button } from "@/components/ui/button"
-import { Plus, Upload, Download, Copy } from "lucide-react"
+import { Plus, Upload, Download } from "lucide-react"
 import { PasswordFormDialog, ImportPasswordDialog, ExportPasswordDialog } from "@/modules/passwords/client"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
@@ -49,15 +49,6 @@ export function PasswordsContent() {
           <Download className="mr-2 h-4 w-4" />
           {t("passwords.export.title")}
         </Button>
-        {hasPermission("password.view") && (
-          <Button 
-            variant="outline" 
-            onClick={() => router.push("/admin/passwords/duplicates")}
-          >
-            <Copy className="mr-2 h-4 w-4" />
-            {t("passwords.duplicates.title")}
-          </Button>
-        )}
       </div>
       <PasswordFormDialog
         open={isCreateDialogOpen}

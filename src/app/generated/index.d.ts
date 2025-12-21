@@ -44,6 +44,11 @@ export type Password = $Result.DefaultSelection<Prisma.$PasswordPayload>
  */
 export type PasswordHistory = $Result.DefaultSelection<Prisma.$PasswordHistoryPayload>
 /**
+ * Model PasswordBreach
+ * 
+ */
+export type PasswordBreach = $Result.DefaultSelection<Prisma.$PasswordBreachPayload>
+/**
  * Model Folder
  * 
  */
@@ -371,6 +376,16 @@ export class PrismaClient<
     * ```
     */
   get passwordHistory(): Prisma.PasswordHistoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.passwordBreach`: Exposes CRUD operations for the **PasswordBreach** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PasswordBreaches
+    * const passwordBreaches = await prisma.passwordBreach.findMany()
+    * ```
+    */
+  get passwordBreach(): Prisma.PasswordBreachDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.folder`: Exposes CRUD operations for the **Folder** model.
@@ -941,6 +956,7 @@ export namespace Prisma {
     Session: 'Session',
     Password: 'Password',
     PasswordHistory: 'PasswordHistory',
+    PasswordBreach: 'PasswordBreach',
     Folder: 'Folder',
     PasswordShare: 'PasswordShare',
     Team: 'Team',
@@ -969,7 +985,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode"
+      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1414,6 +1430,80 @@ export namespace Prisma {
           count: {
             args: Prisma.PasswordHistoryCountArgs<ExtArgs>
             result: $Utils.Optional<PasswordHistoryCountAggregateOutputType> | number
+          }
+        }
+      }
+      PasswordBreach: {
+        payload: Prisma.$PasswordBreachPayload<ExtArgs>
+        fields: Prisma.PasswordBreachFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PasswordBreachFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordBreachPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PasswordBreachFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordBreachPayload>
+          }
+          findFirst: {
+            args: Prisma.PasswordBreachFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordBreachPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PasswordBreachFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordBreachPayload>
+          }
+          findMany: {
+            args: Prisma.PasswordBreachFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordBreachPayload>[]
+          }
+          create: {
+            args: Prisma.PasswordBreachCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordBreachPayload>
+          }
+          createMany: {
+            args: Prisma.PasswordBreachCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PasswordBreachCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordBreachPayload>[]
+          }
+          delete: {
+            args: Prisma.PasswordBreachDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordBreachPayload>
+          }
+          update: {
+            args: Prisma.PasswordBreachUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordBreachPayload>
+          }
+          deleteMany: {
+            args: Prisma.PasswordBreachDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PasswordBreachUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PasswordBreachUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordBreachPayload>[]
+          }
+          upsert: {
+            args: Prisma.PasswordBreachUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordBreachPayload>
+          }
+          aggregate: {
+            args: Prisma.PasswordBreachAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePasswordBreach>
+          }
+          groupBy: {
+            args: Prisma.PasswordBreachGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PasswordBreachGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PasswordBreachCountArgs<ExtArgs>
+            result: $Utils.Optional<PasswordBreachCountAggregateOutputType> | number
           }
         }
       }
@@ -2477,6 +2567,7 @@ export namespace Prisma {
     session?: SessionOmit
     password?: PasswordOmit
     passwordHistory?: PasswordHistoryOmit
+    passwordBreach?: PasswordBreachOmit
     folder?: FolderOmit
     passwordShare?: PasswordShareOmit
     team?: TeamOmit
@@ -2610,6 +2701,8 @@ export namespace Prisma {
     mfaCredentials: number
     recoveryCodes: number
     passwordHistory: number
+    passwordBreachesChecked: number
+    passwordBreachesResolved: number
     createdUsers: number
     createdRoles: number
   }
@@ -2624,6 +2717,8 @@ export namespace Prisma {
     mfaCredentials?: boolean | UserCountOutputTypeCountMfaCredentialsArgs
     recoveryCodes?: boolean | UserCountOutputTypeCountRecoveryCodesArgs
     passwordHistory?: boolean | UserCountOutputTypeCountPasswordHistoryArgs
+    passwordBreachesChecked?: boolean | UserCountOutputTypeCountPasswordBreachesCheckedArgs
+    passwordBreachesResolved?: boolean | UserCountOutputTypeCountPasswordBreachesResolvedArgs
     createdUsers?: boolean | UserCountOutputTypeCountCreatedUsersArgs
     createdRoles?: boolean | UserCountOutputTypeCountCreatedRolesArgs
   }
@@ -2705,6 +2800,20 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountPasswordBreachesCheckedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordBreachWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPasswordBreachesResolvedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordBreachWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountCreatedUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserWhereInput
   }
@@ -2725,12 +2834,14 @@ export namespace Prisma {
     sharedWith: number
     tags: number
     history: number
+    breaches: number
   }
 
   export type PasswordCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sharedWith?: boolean | PasswordCountOutputTypeCountSharedWithArgs
     tags?: boolean | PasswordCountOutputTypeCountTagsArgs
     history?: boolean | PasswordCountOutputTypeCountHistoryArgs
+    breaches?: boolean | PasswordCountOutputTypeCountBreachesArgs
   }
 
   // Custom InputTypes
@@ -2763,6 +2874,13 @@ export namespace Prisma {
    */
   export type PasswordCountOutputTypeCountHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PasswordHistoryWhereInput
+  }
+
+  /**
+   * PasswordCountOutputType without action
+   */
+  export type PasswordCountOutputTypeCountBreachesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordBreachWhereInput
   }
 
 
@@ -4283,6 +4401,8 @@ export namespace Prisma {
     mfaCredentials?: boolean | User$mfaCredentialsArgs<ExtArgs>
     recoveryCodes?: boolean | User$recoveryCodesArgs<ExtArgs>
     passwordHistory?: boolean | User$passwordHistoryArgs<ExtArgs>
+    passwordBreachesChecked?: boolean | User$passwordBreachesCheckedArgs<ExtArgs>
+    passwordBreachesResolved?: boolean | User$passwordBreachesResolvedArgs<ExtArgs>
     createdBy?: boolean | User$createdByArgs<ExtArgs>
     createdUsers?: boolean | User$createdUsersArgs<ExtArgs>
     createdRoles?: boolean | User$createdRolesArgs<ExtArgs>
@@ -4365,6 +4485,8 @@ export namespace Prisma {
     mfaCredentials?: boolean | User$mfaCredentialsArgs<ExtArgs>
     recoveryCodes?: boolean | User$recoveryCodesArgs<ExtArgs>
     passwordHistory?: boolean | User$passwordHistoryArgs<ExtArgs>
+    passwordBreachesChecked?: boolean | User$passwordBreachesCheckedArgs<ExtArgs>
+    passwordBreachesResolved?: boolean | User$passwordBreachesResolvedArgs<ExtArgs>
     createdBy?: boolean | User$createdByArgs<ExtArgs>
     createdUsers?: boolean | User$createdUsersArgs<ExtArgs>
     createdRoles?: boolean | User$createdRolesArgs<ExtArgs>
@@ -4392,6 +4514,8 @@ export namespace Prisma {
       mfaCredentials: Prisma.$MfaCredentialPayload<ExtArgs>[]
       recoveryCodes: Prisma.$RecoveryCodePayload<ExtArgs>[]
       passwordHistory: Prisma.$PasswordHistoryPayload<ExtArgs>[]
+      passwordBreachesChecked: Prisma.$PasswordBreachPayload<ExtArgs>[]
+      passwordBreachesResolved: Prisma.$PasswordBreachPayload<ExtArgs>[]
       createdBy: Prisma.$UserPayload<ExtArgs> | null
       createdUsers: Prisma.$UserPayload<ExtArgs>[]
       createdRoles: Prisma.$RolePayload<ExtArgs>[]
@@ -4818,6 +4942,8 @@ export namespace Prisma {
     mfaCredentials<T extends User$mfaCredentialsArgs<ExtArgs> = {}>(args?: Subset<T, User$mfaCredentialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MfaCredentialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     recoveryCodes<T extends User$recoveryCodesArgs<ExtArgs> = {}>(args?: Subset<T, User$recoveryCodesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecoveryCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passwordHistory<T extends User$passwordHistoryArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    passwordBreachesChecked<T extends User$passwordBreachesCheckedArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordBreachesCheckedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    passwordBreachesResolved<T extends User$passwordBreachesResolvedArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordBreachesResolvedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdBy<T extends User$createdByArgs<ExtArgs> = {}>(args?: Subset<T, User$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     createdUsers<T extends User$createdUsersArgs<ExtArgs> = {}>(args?: Subset<T, User$createdUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdRoles<T extends User$createdRolesArgs<ExtArgs> = {}>(args?: Subset<T, User$createdRolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5495,6 +5621,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PasswordHistoryScalarFieldEnum | PasswordHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * User.passwordBreachesChecked
+   */
+  export type User$passwordBreachesCheckedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordBreach
+     */
+    select?: PasswordBreachSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordBreach
+     */
+    omit?: PasswordBreachOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordBreachInclude<ExtArgs> | null
+    where?: PasswordBreachWhereInput
+    orderBy?: PasswordBreachOrderByWithRelationInput | PasswordBreachOrderByWithRelationInput[]
+    cursor?: PasswordBreachWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PasswordBreachScalarFieldEnum | PasswordBreachScalarFieldEnum[]
+  }
+
+  /**
+   * User.passwordBreachesResolved
+   */
+  export type User$passwordBreachesResolvedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordBreach
+     */
+    select?: PasswordBreachSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordBreach
+     */
+    omit?: PasswordBreachOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordBreachInclude<ExtArgs> | null
+    where?: PasswordBreachWhereInput
+    orderBy?: PasswordBreachOrderByWithRelationInput | PasswordBreachOrderByWithRelationInput[]
+    cursor?: PasswordBreachWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PasswordBreachScalarFieldEnum | PasswordBreachScalarFieldEnum[]
   }
 
   /**
@@ -8091,6 +8265,7 @@ export namespace Prisma {
     sharedWith?: boolean | Password$sharedWithArgs<ExtArgs>
     tags?: boolean | Password$tagsArgs<ExtArgs>
     history?: boolean | Password$historyArgs<ExtArgs>
+    breaches?: boolean | Password$breachesArgs<ExtArgs>
     _count?: boolean | PasswordCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["password"]>
 
@@ -8156,6 +8331,7 @@ export namespace Prisma {
     sharedWith?: boolean | Password$sharedWithArgs<ExtArgs>
     tags?: boolean | Password$tagsArgs<ExtArgs>
     history?: boolean | Password$historyArgs<ExtArgs>
+    breaches?: boolean | Password$breachesArgs<ExtArgs>
     _count?: boolean | PasswordCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PasswordIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8175,6 +8351,7 @@ export namespace Prisma {
       sharedWith: Prisma.$PasswordSharePayload<ExtArgs>[]
       tags: Prisma.$PasswordTagPayload<ExtArgs>[]
       history: Prisma.$PasswordHistoryPayload<ExtArgs>[]
+      breaches: Prisma.$PasswordBreachPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8590,6 +8767,7 @@ export namespace Prisma {
     sharedWith<T extends Password$sharedWithArgs<ExtArgs> = {}>(args?: Subset<T, Password$sharedWithArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tags<T extends Password$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Password$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     history<T extends Password$historyArgs<ExtArgs> = {}>(args?: Subset<T, Password$historyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    breaches<T extends Password$breachesArgs<ExtArgs> = {}>(args?: Subset<T, Password$breachesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9117,6 +9295,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PasswordHistoryScalarFieldEnum | PasswordHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * Password.breaches
+   */
+  export type Password$breachesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordBreach
+     */
+    select?: PasswordBreachSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordBreach
+     */
+    omit?: PasswordBreachOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordBreachInclude<ExtArgs> | null
+    where?: PasswordBreachWhereInput
+    orderBy?: PasswordBreachOrderByWithRelationInput | PasswordBreachOrderByWithRelationInput[]
+    cursor?: PasswordBreachWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PasswordBreachScalarFieldEnum | PasswordBreachScalarFieldEnum[]
   }
 
   /**
@@ -10331,6 +10533,1198 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PasswordHistoryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PasswordBreach
+   */
+
+  export type AggregatePasswordBreach = {
+    _count: PasswordBreachCountAggregateOutputType | null
+    _avg: PasswordBreachAvgAggregateOutputType | null
+    _sum: PasswordBreachSumAggregateOutputType | null
+    _min: PasswordBreachMinAggregateOutputType | null
+    _max: PasswordBreachMaxAggregateOutputType | null
+  }
+
+  export type PasswordBreachAvgAggregateOutputType = {
+    breachCount: number | null
+  }
+
+  export type PasswordBreachSumAggregateOutputType = {
+    breachCount: number | null
+  }
+
+  export type PasswordBreachMinAggregateOutputType = {
+    id: string | null
+    passwordId: string | null
+    isBreached: boolean | null
+    breachCount: number | null
+    hashPrefix: string | null
+    checkedAt: Date | null
+    checkedBy: string | null
+    resolved: boolean | null
+    resolvedAt: Date | null
+    resolvedBy: string | null
+  }
+
+  export type PasswordBreachMaxAggregateOutputType = {
+    id: string | null
+    passwordId: string | null
+    isBreached: boolean | null
+    breachCount: number | null
+    hashPrefix: string | null
+    checkedAt: Date | null
+    checkedBy: string | null
+    resolved: boolean | null
+    resolvedAt: Date | null
+    resolvedBy: string | null
+  }
+
+  export type PasswordBreachCountAggregateOutputType = {
+    id: number
+    passwordId: number
+    isBreached: number
+    breachCount: number
+    hashPrefix: number
+    checkedAt: number
+    checkedBy: number
+    resolved: number
+    resolvedAt: number
+    resolvedBy: number
+    _all: number
+  }
+
+
+  export type PasswordBreachAvgAggregateInputType = {
+    breachCount?: true
+  }
+
+  export type PasswordBreachSumAggregateInputType = {
+    breachCount?: true
+  }
+
+  export type PasswordBreachMinAggregateInputType = {
+    id?: true
+    passwordId?: true
+    isBreached?: true
+    breachCount?: true
+    hashPrefix?: true
+    checkedAt?: true
+    checkedBy?: true
+    resolved?: true
+    resolvedAt?: true
+    resolvedBy?: true
+  }
+
+  export type PasswordBreachMaxAggregateInputType = {
+    id?: true
+    passwordId?: true
+    isBreached?: true
+    breachCount?: true
+    hashPrefix?: true
+    checkedAt?: true
+    checkedBy?: true
+    resolved?: true
+    resolvedAt?: true
+    resolvedBy?: true
+  }
+
+  export type PasswordBreachCountAggregateInputType = {
+    id?: true
+    passwordId?: true
+    isBreached?: true
+    breachCount?: true
+    hashPrefix?: true
+    checkedAt?: true
+    checkedBy?: true
+    resolved?: true
+    resolvedAt?: true
+    resolvedBy?: true
+    _all?: true
+  }
+
+  export type PasswordBreachAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordBreach to aggregate.
+     */
+    where?: PasswordBreachWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordBreaches to fetch.
+     */
+    orderBy?: PasswordBreachOrderByWithRelationInput | PasswordBreachOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PasswordBreachWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordBreaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordBreaches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PasswordBreaches
+    **/
+    _count?: true | PasswordBreachCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PasswordBreachAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PasswordBreachSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PasswordBreachMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PasswordBreachMaxAggregateInputType
+  }
+
+  export type GetPasswordBreachAggregateType<T extends PasswordBreachAggregateArgs> = {
+        [P in keyof T & keyof AggregatePasswordBreach]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePasswordBreach[P]>
+      : GetScalarType<T[P], AggregatePasswordBreach[P]>
+  }
+
+
+
+
+  export type PasswordBreachGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordBreachWhereInput
+    orderBy?: PasswordBreachOrderByWithAggregationInput | PasswordBreachOrderByWithAggregationInput[]
+    by: PasswordBreachScalarFieldEnum[] | PasswordBreachScalarFieldEnum
+    having?: PasswordBreachScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PasswordBreachCountAggregateInputType | true
+    _avg?: PasswordBreachAvgAggregateInputType
+    _sum?: PasswordBreachSumAggregateInputType
+    _min?: PasswordBreachMinAggregateInputType
+    _max?: PasswordBreachMaxAggregateInputType
+  }
+
+  export type PasswordBreachGroupByOutputType = {
+    id: string
+    passwordId: string
+    isBreached: boolean
+    breachCount: number
+    hashPrefix: string
+    checkedAt: Date
+    checkedBy: string
+    resolved: boolean
+    resolvedAt: Date | null
+    resolvedBy: string | null
+    _count: PasswordBreachCountAggregateOutputType | null
+    _avg: PasswordBreachAvgAggregateOutputType | null
+    _sum: PasswordBreachSumAggregateOutputType | null
+    _min: PasswordBreachMinAggregateOutputType | null
+    _max: PasswordBreachMaxAggregateOutputType | null
+  }
+
+  type GetPasswordBreachGroupByPayload<T extends PasswordBreachGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PasswordBreachGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PasswordBreachGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PasswordBreachGroupByOutputType[P]>
+            : GetScalarType<T[P], PasswordBreachGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PasswordBreachSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    passwordId?: boolean
+    isBreached?: boolean
+    breachCount?: boolean
+    hashPrefix?: boolean
+    checkedAt?: boolean
+    checkedBy?: boolean
+    resolved?: boolean
+    resolvedAt?: boolean
+    resolvedBy?: boolean
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    checkedByUser?: boolean | UserDefaultArgs<ExtArgs>
+    resolvedByUser?: boolean | PasswordBreach$resolvedByUserArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordBreach"]>
+
+  export type PasswordBreachSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    passwordId?: boolean
+    isBreached?: boolean
+    breachCount?: boolean
+    hashPrefix?: boolean
+    checkedAt?: boolean
+    checkedBy?: boolean
+    resolved?: boolean
+    resolvedAt?: boolean
+    resolvedBy?: boolean
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    checkedByUser?: boolean | UserDefaultArgs<ExtArgs>
+    resolvedByUser?: boolean | PasswordBreach$resolvedByUserArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordBreach"]>
+
+  export type PasswordBreachSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    passwordId?: boolean
+    isBreached?: boolean
+    breachCount?: boolean
+    hashPrefix?: boolean
+    checkedAt?: boolean
+    checkedBy?: boolean
+    resolved?: boolean
+    resolvedAt?: boolean
+    resolvedBy?: boolean
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    checkedByUser?: boolean | UserDefaultArgs<ExtArgs>
+    resolvedByUser?: boolean | PasswordBreach$resolvedByUserArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordBreach"]>
+
+  export type PasswordBreachSelectScalar = {
+    id?: boolean
+    passwordId?: boolean
+    isBreached?: boolean
+    breachCount?: boolean
+    hashPrefix?: boolean
+    checkedAt?: boolean
+    checkedBy?: boolean
+    resolved?: boolean
+    resolvedAt?: boolean
+    resolvedBy?: boolean
+  }
+
+  export type PasswordBreachOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "passwordId" | "isBreached" | "breachCount" | "hashPrefix" | "checkedAt" | "checkedBy" | "resolved" | "resolvedAt" | "resolvedBy", ExtArgs["result"]["passwordBreach"]>
+  export type PasswordBreachInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    checkedByUser?: boolean | UserDefaultArgs<ExtArgs>
+    resolvedByUser?: boolean | PasswordBreach$resolvedByUserArgs<ExtArgs>
+  }
+  export type PasswordBreachIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    checkedByUser?: boolean | UserDefaultArgs<ExtArgs>
+    resolvedByUser?: boolean | PasswordBreach$resolvedByUserArgs<ExtArgs>
+  }
+  export type PasswordBreachIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    checkedByUser?: boolean | UserDefaultArgs<ExtArgs>
+    resolvedByUser?: boolean | PasswordBreach$resolvedByUserArgs<ExtArgs>
+  }
+
+  export type $PasswordBreachPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PasswordBreach"
+    objects: {
+      password: Prisma.$PasswordPayload<ExtArgs>
+      checkedByUser: Prisma.$UserPayload<ExtArgs>
+      resolvedByUser: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      passwordId: string
+      isBreached: boolean
+      breachCount: number
+      hashPrefix: string
+      checkedAt: Date
+      checkedBy: string
+      resolved: boolean
+      resolvedAt: Date | null
+      resolvedBy: string | null
+    }, ExtArgs["result"]["passwordBreach"]>
+    composites: {}
+  }
+
+  type PasswordBreachGetPayload<S extends boolean | null | undefined | PasswordBreachDefaultArgs> = $Result.GetResult<Prisma.$PasswordBreachPayload, S>
+
+  type PasswordBreachCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PasswordBreachFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PasswordBreachCountAggregateInputType | true
+    }
+
+  export interface PasswordBreachDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PasswordBreach'], meta: { name: 'PasswordBreach' } }
+    /**
+     * Find zero or one PasswordBreach that matches the filter.
+     * @param {PasswordBreachFindUniqueArgs} args - Arguments to find a PasswordBreach
+     * @example
+     * // Get one PasswordBreach
+     * const passwordBreach = await prisma.passwordBreach.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PasswordBreachFindUniqueArgs>(args: SelectSubset<T, PasswordBreachFindUniqueArgs<ExtArgs>>): Prisma__PasswordBreachClient<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PasswordBreach that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PasswordBreachFindUniqueOrThrowArgs} args - Arguments to find a PasswordBreach
+     * @example
+     * // Get one PasswordBreach
+     * const passwordBreach = await prisma.passwordBreach.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PasswordBreachFindUniqueOrThrowArgs>(args: SelectSubset<T, PasswordBreachFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PasswordBreachClient<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordBreach that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordBreachFindFirstArgs} args - Arguments to find a PasswordBreach
+     * @example
+     * // Get one PasswordBreach
+     * const passwordBreach = await prisma.passwordBreach.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PasswordBreachFindFirstArgs>(args?: SelectSubset<T, PasswordBreachFindFirstArgs<ExtArgs>>): Prisma__PasswordBreachClient<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordBreach that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordBreachFindFirstOrThrowArgs} args - Arguments to find a PasswordBreach
+     * @example
+     * // Get one PasswordBreach
+     * const passwordBreach = await prisma.passwordBreach.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PasswordBreachFindFirstOrThrowArgs>(args?: SelectSubset<T, PasswordBreachFindFirstOrThrowArgs<ExtArgs>>): Prisma__PasswordBreachClient<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PasswordBreaches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordBreachFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PasswordBreaches
+     * const passwordBreaches = await prisma.passwordBreach.findMany()
+     * 
+     * // Get first 10 PasswordBreaches
+     * const passwordBreaches = await prisma.passwordBreach.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const passwordBreachWithIdOnly = await prisma.passwordBreach.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PasswordBreachFindManyArgs>(args?: SelectSubset<T, PasswordBreachFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PasswordBreach.
+     * @param {PasswordBreachCreateArgs} args - Arguments to create a PasswordBreach.
+     * @example
+     * // Create one PasswordBreach
+     * const PasswordBreach = await prisma.passwordBreach.create({
+     *   data: {
+     *     // ... data to create a PasswordBreach
+     *   }
+     * })
+     * 
+     */
+    create<T extends PasswordBreachCreateArgs>(args: SelectSubset<T, PasswordBreachCreateArgs<ExtArgs>>): Prisma__PasswordBreachClient<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PasswordBreaches.
+     * @param {PasswordBreachCreateManyArgs} args - Arguments to create many PasswordBreaches.
+     * @example
+     * // Create many PasswordBreaches
+     * const passwordBreach = await prisma.passwordBreach.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PasswordBreachCreateManyArgs>(args?: SelectSubset<T, PasswordBreachCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PasswordBreaches and returns the data saved in the database.
+     * @param {PasswordBreachCreateManyAndReturnArgs} args - Arguments to create many PasswordBreaches.
+     * @example
+     * // Create many PasswordBreaches
+     * const passwordBreach = await prisma.passwordBreach.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PasswordBreaches and only return the `id`
+     * const passwordBreachWithIdOnly = await prisma.passwordBreach.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PasswordBreachCreateManyAndReturnArgs>(args?: SelectSubset<T, PasswordBreachCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PasswordBreach.
+     * @param {PasswordBreachDeleteArgs} args - Arguments to delete one PasswordBreach.
+     * @example
+     * // Delete one PasswordBreach
+     * const PasswordBreach = await prisma.passwordBreach.delete({
+     *   where: {
+     *     // ... filter to delete one PasswordBreach
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PasswordBreachDeleteArgs>(args: SelectSubset<T, PasswordBreachDeleteArgs<ExtArgs>>): Prisma__PasswordBreachClient<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PasswordBreach.
+     * @param {PasswordBreachUpdateArgs} args - Arguments to update one PasswordBreach.
+     * @example
+     * // Update one PasswordBreach
+     * const passwordBreach = await prisma.passwordBreach.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PasswordBreachUpdateArgs>(args: SelectSubset<T, PasswordBreachUpdateArgs<ExtArgs>>): Prisma__PasswordBreachClient<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PasswordBreaches.
+     * @param {PasswordBreachDeleteManyArgs} args - Arguments to filter PasswordBreaches to delete.
+     * @example
+     * // Delete a few PasswordBreaches
+     * const { count } = await prisma.passwordBreach.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PasswordBreachDeleteManyArgs>(args?: SelectSubset<T, PasswordBreachDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordBreaches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordBreachUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PasswordBreaches
+     * const passwordBreach = await prisma.passwordBreach.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PasswordBreachUpdateManyArgs>(args: SelectSubset<T, PasswordBreachUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordBreaches and returns the data updated in the database.
+     * @param {PasswordBreachUpdateManyAndReturnArgs} args - Arguments to update many PasswordBreaches.
+     * @example
+     * // Update many PasswordBreaches
+     * const passwordBreach = await prisma.passwordBreach.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PasswordBreaches and only return the `id`
+     * const passwordBreachWithIdOnly = await prisma.passwordBreach.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PasswordBreachUpdateManyAndReturnArgs>(args: SelectSubset<T, PasswordBreachUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PasswordBreach.
+     * @param {PasswordBreachUpsertArgs} args - Arguments to update or create a PasswordBreach.
+     * @example
+     * // Update or create a PasswordBreach
+     * const passwordBreach = await prisma.passwordBreach.upsert({
+     *   create: {
+     *     // ... data to create a PasswordBreach
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PasswordBreach we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PasswordBreachUpsertArgs>(args: SelectSubset<T, PasswordBreachUpsertArgs<ExtArgs>>): Prisma__PasswordBreachClient<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PasswordBreaches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordBreachCountArgs} args - Arguments to filter PasswordBreaches to count.
+     * @example
+     * // Count the number of PasswordBreaches
+     * const count = await prisma.passwordBreach.count({
+     *   where: {
+     *     // ... the filter for the PasswordBreaches we want to count
+     *   }
+     * })
+    **/
+    count<T extends PasswordBreachCountArgs>(
+      args?: Subset<T, PasswordBreachCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PasswordBreachCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PasswordBreach.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordBreachAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PasswordBreachAggregateArgs>(args: Subset<T, PasswordBreachAggregateArgs>): Prisma.PrismaPromise<GetPasswordBreachAggregateType<T>>
+
+    /**
+     * Group by PasswordBreach.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordBreachGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PasswordBreachGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PasswordBreachGroupByArgs['orderBy'] }
+        : { orderBy?: PasswordBreachGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PasswordBreachGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPasswordBreachGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PasswordBreach model
+   */
+  readonly fields: PasswordBreachFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PasswordBreach.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PasswordBreachClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    password<T extends PasswordDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PasswordDefaultArgs<ExtArgs>>): Prisma__PasswordClient<$Result.GetResult<Prisma.$PasswordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    checkedByUser<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    resolvedByUser<T extends PasswordBreach$resolvedByUserArgs<ExtArgs> = {}>(args?: Subset<T, PasswordBreach$resolvedByUserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PasswordBreach model
+   */
+  interface PasswordBreachFieldRefs {
+    readonly id: FieldRef<"PasswordBreach", 'String'>
+    readonly passwordId: FieldRef<"PasswordBreach", 'String'>
+    readonly isBreached: FieldRef<"PasswordBreach", 'Boolean'>
+    readonly breachCount: FieldRef<"PasswordBreach", 'Int'>
+    readonly hashPrefix: FieldRef<"PasswordBreach", 'String'>
+    readonly checkedAt: FieldRef<"PasswordBreach", 'DateTime'>
+    readonly checkedBy: FieldRef<"PasswordBreach", 'String'>
+    readonly resolved: FieldRef<"PasswordBreach", 'Boolean'>
+    readonly resolvedAt: FieldRef<"PasswordBreach", 'DateTime'>
+    readonly resolvedBy: FieldRef<"PasswordBreach", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PasswordBreach findUnique
+   */
+  export type PasswordBreachFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordBreach
+     */
+    select?: PasswordBreachSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordBreach
+     */
+    omit?: PasswordBreachOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordBreachInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordBreach to fetch.
+     */
+    where: PasswordBreachWhereUniqueInput
+  }
+
+  /**
+   * PasswordBreach findUniqueOrThrow
+   */
+  export type PasswordBreachFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordBreach
+     */
+    select?: PasswordBreachSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordBreach
+     */
+    omit?: PasswordBreachOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordBreachInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordBreach to fetch.
+     */
+    where: PasswordBreachWhereUniqueInput
+  }
+
+  /**
+   * PasswordBreach findFirst
+   */
+  export type PasswordBreachFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordBreach
+     */
+    select?: PasswordBreachSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordBreach
+     */
+    omit?: PasswordBreachOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordBreachInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordBreach to fetch.
+     */
+    where?: PasswordBreachWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordBreaches to fetch.
+     */
+    orderBy?: PasswordBreachOrderByWithRelationInput | PasswordBreachOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordBreaches.
+     */
+    cursor?: PasswordBreachWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordBreaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordBreaches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordBreaches.
+     */
+    distinct?: PasswordBreachScalarFieldEnum | PasswordBreachScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordBreach findFirstOrThrow
+   */
+  export type PasswordBreachFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordBreach
+     */
+    select?: PasswordBreachSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordBreach
+     */
+    omit?: PasswordBreachOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordBreachInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordBreach to fetch.
+     */
+    where?: PasswordBreachWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordBreaches to fetch.
+     */
+    orderBy?: PasswordBreachOrderByWithRelationInput | PasswordBreachOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordBreaches.
+     */
+    cursor?: PasswordBreachWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordBreaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordBreaches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordBreaches.
+     */
+    distinct?: PasswordBreachScalarFieldEnum | PasswordBreachScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordBreach findMany
+   */
+  export type PasswordBreachFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordBreach
+     */
+    select?: PasswordBreachSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordBreach
+     */
+    omit?: PasswordBreachOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordBreachInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordBreaches to fetch.
+     */
+    where?: PasswordBreachWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordBreaches to fetch.
+     */
+    orderBy?: PasswordBreachOrderByWithRelationInput | PasswordBreachOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PasswordBreaches.
+     */
+    cursor?: PasswordBreachWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordBreaches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordBreaches.
+     */
+    skip?: number
+    distinct?: PasswordBreachScalarFieldEnum | PasswordBreachScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordBreach create
+   */
+  export type PasswordBreachCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordBreach
+     */
+    select?: PasswordBreachSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordBreach
+     */
+    omit?: PasswordBreachOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordBreachInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PasswordBreach.
+     */
+    data: XOR<PasswordBreachCreateInput, PasswordBreachUncheckedCreateInput>
+  }
+
+  /**
+   * PasswordBreach createMany
+   */
+  export type PasswordBreachCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PasswordBreaches.
+     */
+    data: PasswordBreachCreateManyInput | PasswordBreachCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PasswordBreach createManyAndReturn
+   */
+  export type PasswordBreachCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordBreach
+     */
+    select?: PasswordBreachSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordBreach
+     */
+    omit?: PasswordBreachOmit<ExtArgs> | null
+    /**
+     * The data used to create many PasswordBreaches.
+     */
+    data: PasswordBreachCreateManyInput | PasswordBreachCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordBreachIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PasswordBreach update
+   */
+  export type PasswordBreachUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordBreach
+     */
+    select?: PasswordBreachSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordBreach
+     */
+    omit?: PasswordBreachOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordBreachInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PasswordBreach.
+     */
+    data: XOR<PasswordBreachUpdateInput, PasswordBreachUncheckedUpdateInput>
+    /**
+     * Choose, which PasswordBreach to update.
+     */
+    where: PasswordBreachWhereUniqueInput
+  }
+
+  /**
+   * PasswordBreach updateMany
+   */
+  export type PasswordBreachUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PasswordBreaches.
+     */
+    data: XOR<PasswordBreachUpdateManyMutationInput, PasswordBreachUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordBreaches to update
+     */
+    where?: PasswordBreachWhereInput
+    /**
+     * Limit how many PasswordBreaches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordBreach updateManyAndReturn
+   */
+  export type PasswordBreachUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordBreach
+     */
+    select?: PasswordBreachSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordBreach
+     */
+    omit?: PasswordBreachOmit<ExtArgs> | null
+    /**
+     * The data used to update PasswordBreaches.
+     */
+    data: XOR<PasswordBreachUpdateManyMutationInput, PasswordBreachUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordBreaches to update
+     */
+    where?: PasswordBreachWhereInput
+    /**
+     * Limit how many PasswordBreaches to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordBreachIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PasswordBreach upsert
+   */
+  export type PasswordBreachUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordBreach
+     */
+    select?: PasswordBreachSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordBreach
+     */
+    omit?: PasswordBreachOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordBreachInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PasswordBreach to update in case it exists.
+     */
+    where: PasswordBreachWhereUniqueInput
+    /**
+     * In case the PasswordBreach found by the `where` argument doesn't exist, create a new PasswordBreach with this data.
+     */
+    create: XOR<PasswordBreachCreateInput, PasswordBreachUncheckedCreateInput>
+    /**
+     * In case the PasswordBreach was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PasswordBreachUpdateInput, PasswordBreachUncheckedUpdateInput>
+  }
+
+  /**
+   * PasswordBreach delete
+   */
+  export type PasswordBreachDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordBreach
+     */
+    select?: PasswordBreachSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordBreach
+     */
+    omit?: PasswordBreachOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordBreachInclude<ExtArgs> | null
+    /**
+     * Filter which PasswordBreach to delete.
+     */
+    where: PasswordBreachWhereUniqueInput
+  }
+
+  /**
+   * PasswordBreach deleteMany
+   */
+  export type PasswordBreachDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordBreaches to delete
+     */
+    where?: PasswordBreachWhereInput
+    /**
+     * Limit how many PasswordBreaches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordBreach.resolvedByUser
+   */
+  export type PasswordBreach$resolvedByUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * PasswordBreach without action
+   */
+  export type PasswordBreachDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordBreach
+     */
+    select?: PasswordBreachSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordBreach
+     */
+    omit?: PasswordBreachOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordBreachInclude<ExtArgs> | null
   }
 
 
@@ -24666,6 +26060,22 @@ export namespace Prisma {
   export type PasswordHistoryScalarFieldEnum = (typeof PasswordHistoryScalarFieldEnum)[keyof typeof PasswordHistoryScalarFieldEnum]
 
 
+  export const PasswordBreachScalarFieldEnum: {
+    id: 'id',
+    passwordId: 'passwordId',
+    isBreached: 'isBreached',
+    breachCount: 'breachCount',
+    hashPrefix: 'hashPrefix',
+    checkedAt: 'checkedAt',
+    checkedBy: 'checkedBy',
+    resolved: 'resolved',
+    resolvedAt: 'resolvedAt',
+    resolvedBy: 'resolvedBy'
+  };
+
+  export type PasswordBreachScalarFieldEnum = (typeof PasswordBreachScalarFieldEnum)[keyof typeof PasswordBreachScalarFieldEnum]
+
+
   export const FolderScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -25128,6 +26538,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialListRelationFilter
     recoveryCodes?: RecoveryCodeListRelationFilter
     passwordHistory?: PasswordHistoryListRelationFilter
+    passwordBreachesChecked?: PasswordBreachListRelationFilter
+    passwordBreachesResolved?: PasswordBreachListRelationFilter
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     createdUsers?: UserListRelationFilter
     createdRoles?: RoleListRelationFilter
@@ -25161,6 +26573,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialOrderByRelationAggregateInput
     recoveryCodes?: RecoveryCodeOrderByRelationAggregateInput
     passwordHistory?: PasswordHistoryOrderByRelationAggregateInput
+    passwordBreachesChecked?: PasswordBreachOrderByRelationAggregateInput
+    passwordBreachesResolved?: PasswordBreachOrderByRelationAggregateInput
     createdBy?: UserOrderByWithRelationInput
     createdUsers?: UserOrderByRelationAggregateInput
     createdRoles?: RoleOrderByRelationAggregateInput
@@ -25197,6 +26611,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialListRelationFilter
     recoveryCodes?: RecoveryCodeListRelationFilter
     passwordHistory?: PasswordHistoryListRelationFilter
+    passwordBreachesChecked?: PasswordBreachListRelationFilter
+    passwordBreachesResolved?: PasswordBreachListRelationFilter
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     createdUsers?: UserListRelationFilter
     createdRoles?: RoleListRelationFilter
@@ -25429,6 +26845,7 @@ export namespace Prisma {
     sharedWith?: PasswordShareListRelationFilter
     tags?: PasswordTagListRelationFilter
     history?: PasswordHistoryListRelationFilter
+    breaches?: PasswordBreachListRelationFilter
   }
 
   export type PasswordOrderByWithRelationInput = {
@@ -25451,6 +26868,7 @@ export namespace Prisma {
     sharedWith?: PasswordShareOrderByRelationAggregateInput
     tags?: PasswordTagOrderByRelationAggregateInput
     history?: PasswordHistoryOrderByRelationAggregateInput
+    breaches?: PasswordBreachOrderByRelationAggregateInput
   }
 
   export type PasswordWhereUniqueInput = Prisma.AtLeast<{
@@ -25476,6 +26894,7 @@ export namespace Prisma {
     sharedWith?: PasswordShareListRelationFilter
     tags?: PasswordTagListRelationFilter
     history?: PasswordHistoryListRelationFilter
+    breaches?: PasswordBreachListRelationFilter
   }, "id">
 
   export type PasswordOrderByWithAggregationInput = {
@@ -25624,6 +27043,94 @@ export namespace Prisma {
     changedBy?: StringWithAggregatesFilter<"PasswordHistory"> | string
     changeType?: StringWithAggregatesFilter<"PasswordHistory"> | string
     createdAt?: DateTimeWithAggregatesFilter<"PasswordHistory"> | Date | string
+  }
+
+  export type PasswordBreachWhereInput = {
+    AND?: PasswordBreachWhereInput | PasswordBreachWhereInput[]
+    OR?: PasswordBreachWhereInput[]
+    NOT?: PasswordBreachWhereInput | PasswordBreachWhereInput[]
+    id?: StringFilter<"PasswordBreach"> | string
+    passwordId?: StringFilter<"PasswordBreach"> | string
+    isBreached?: BoolFilter<"PasswordBreach"> | boolean
+    breachCount?: IntFilter<"PasswordBreach"> | number
+    hashPrefix?: StringFilter<"PasswordBreach"> | string
+    checkedAt?: DateTimeFilter<"PasswordBreach"> | Date | string
+    checkedBy?: StringFilter<"PasswordBreach"> | string
+    resolved?: BoolFilter<"PasswordBreach"> | boolean
+    resolvedAt?: DateTimeNullableFilter<"PasswordBreach"> | Date | string | null
+    resolvedBy?: StringNullableFilter<"PasswordBreach"> | string | null
+    password?: XOR<PasswordScalarRelationFilter, PasswordWhereInput>
+    checkedByUser?: XOR<UserScalarRelationFilter, UserWhereInput>
+    resolvedByUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type PasswordBreachOrderByWithRelationInput = {
+    id?: SortOrder
+    passwordId?: SortOrder
+    isBreached?: SortOrder
+    breachCount?: SortOrder
+    hashPrefix?: SortOrder
+    checkedAt?: SortOrder
+    checkedBy?: SortOrder
+    resolved?: SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    resolvedBy?: SortOrderInput | SortOrder
+    password?: PasswordOrderByWithRelationInput
+    checkedByUser?: UserOrderByWithRelationInput
+    resolvedByUser?: UserOrderByWithRelationInput
+  }
+
+  export type PasswordBreachWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PasswordBreachWhereInput | PasswordBreachWhereInput[]
+    OR?: PasswordBreachWhereInput[]
+    NOT?: PasswordBreachWhereInput | PasswordBreachWhereInput[]
+    passwordId?: StringFilter<"PasswordBreach"> | string
+    isBreached?: BoolFilter<"PasswordBreach"> | boolean
+    breachCount?: IntFilter<"PasswordBreach"> | number
+    hashPrefix?: StringFilter<"PasswordBreach"> | string
+    checkedAt?: DateTimeFilter<"PasswordBreach"> | Date | string
+    checkedBy?: StringFilter<"PasswordBreach"> | string
+    resolved?: BoolFilter<"PasswordBreach"> | boolean
+    resolvedAt?: DateTimeNullableFilter<"PasswordBreach"> | Date | string | null
+    resolvedBy?: StringNullableFilter<"PasswordBreach"> | string | null
+    password?: XOR<PasswordScalarRelationFilter, PasswordWhereInput>
+    checkedByUser?: XOR<UserScalarRelationFilter, UserWhereInput>
+    resolvedByUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type PasswordBreachOrderByWithAggregationInput = {
+    id?: SortOrder
+    passwordId?: SortOrder
+    isBreached?: SortOrder
+    breachCount?: SortOrder
+    hashPrefix?: SortOrder
+    checkedAt?: SortOrder
+    checkedBy?: SortOrder
+    resolved?: SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    resolvedBy?: SortOrderInput | SortOrder
+    _count?: PasswordBreachCountOrderByAggregateInput
+    _avg?: PasswordBreachAvgOrderByAggregateInput
+    _max?: PasswordBreachMaxOrderByAggregateInput
+    _min?: PasswordBreachMinOrderByAggregateInput
+    _sum?: PasswordBreachSumOrderByAggregateInput
+  }
+
+  export type PasswordBreachScalarWhereWithAggregatesInput = {
+    AND?: PasswordBreachScalarWhereWithAggregatesInput | PasswordBreachScalarWhereWithAggregatesInput[]
+    OR?: PasswordBreachScalarWhereWithAggregatesInput[]
+    NOT?: PasswordBreachScalarWhereWithAggregatesInput | PasswordBreachScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PasswordBreach"> | string
+    passwordId?: StringWithAggregatesFilter<"PasswordBreach"> | string
+    isBreached?: BoolWithAggregatesFilter<"PasswordBreach"> | boolean
+    breachCount?: IntWithAggregatesFilter<"PasswordBreach"> | number
+    hashPrefix?: StringWithAggregatesFilter<"PasswordBreach"> | string
+    checkedAt?: DateTimeWithAggregatesFilter<"PasswordBreach"> | Date | string
+    checkedBy?: StringWithAggregatesFilter<"PasswordBreach"> | string
+    resolved?: BoolWithAggregatesFilter<"PasswordBreach"> | boolean
+    resolvedAt?: DateTimeNullableWithAggregatesFilter<"PasswordBreach"> | Date | string | null
+    resolvedBy?: StringNullableWithAggregatesFilter<"PasswordBreach"> | string | null
   }
 
   export type FolderWhereInput = {
@@ -26536,6 +28043,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -26568,6 +28077,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -26598,6 +28109,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -26630,6 +28143,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -26883,6 +28398,7 @@ export namespace Prisma {
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordUncheckedCreateInput = {
@@ -26903,6 +28419,7 @@ export namespace Prisma {
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordUpdateInput = {
@@ -26923,6 +28440,7 @@ export namespace Prisma {
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
   }
 
   export type PasswordUncheckedUpdateInput = {
@@ -26943,6 +28461,7 @@ export namespace Prisma {
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
   }
 
   export type PasswordCreateManyInput = {
@@ -27116,6 +28635,94 @@ export namespace Prisma {
     changedBy?: StringFieldUpdateOperationsInput | string
     changeType?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordBreachCreateInput = {
+    id?: string
+    isBreached: boolean
+    breachCount?: number
+    hashPrefix: string
+    checkedAt?: Date | string
+    resolved?: boolean
+    resolvedAt?: Date | string | null
+    password: PasswordCreateNestedOneWithoutBreachesInput
+    checkedByUser: UserCreateNestedOneWithoutPasswordBreachesCheckedInput
+    resolvedByUser?: UserCreateNestedOneWithoutPasswordBreachesResolvedInput
+  }
+
+  export type PasswordBreachUncheckedCreateInput = {
+    id?: string
+    passwordId: string
+    isBreached: boolean
+    breachCount?: number
+    hashPrefix: string
+    checkedAt?: Date | string
+    checkedBy: string
+    resolved?: boolean
+    resolvedAt?: Date | string | null
+    resolvedBy?: string | null
+  }
+
+  export type PasswordBreachUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isBreached?: BoolFieldUpdateOperationsInput | boolean
+    breachCount?: IntFieldUpdateOperationsInput | number
+    hashPrefix?: StringFieldUpdateOperationsInput | string
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: PasswordUpdateOneRequiredWithoutBreachesNestedInput
+    checkedByUser?: UserUpdateOneRequiredWithoutPasswordBreachesCheckedNestedInput
+    resolvedByUser?: UserUpdateOneWithoutPasswordBreachesResolvedNestedInput
+  }
+
+  export type PasswordBreachUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    isBreached?: BoolFieldUpdateOperationsInput | boolean
+    breachCount?: IntFieldUpdateOperationsInput | number
+    hashPrefix?: StringFieldUpdateOperationsInput | string
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkedBy?: StringFieldUpdateOperationsInput | string
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PasswordBreachCreateManyInput = {
+    id?: string
+    passwordId: string
+    isBreached: boolean
+    breachCount?: number
+    hashPrefix: string
+    checkedAt?: Date | string
+    checkedBy: string
+    resolved?: boolean
+    resolvedAt?: Date | string | null
+    resolvedBy?: string | null
+  }
+
+  export type PasswordBreachUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isBreached?: BoolFieldUpdateOperationsInput | boolean
+    breachCount?: IntFieldUpdateOperationsInput | number
+    hashPrefix?: StringFieldUpdateOperationsInput | string
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PasswordBreachUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    isBreached?: BoolFieldUpdateOperationsInput | boolean
+    breachCount?: IntFieldUpdateOperationsInput | number
+    hashPrefix?: StringFieldUpdateOperationsInput | string
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkedBy?: StringFieldUpdateOperationsInput | string
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type FolderCreateInput = {
@@ -28161,6 +29768,12 @@ export namespace Prisma {
     none?: PasswordHistoryWhereInput
   }
 
+  export type PasswordBreachListRelationFilter = {
+    every?: PasswordBreachWhereInput
+    some?: PasswordBreachWhereInput
+    none?: PasswordBreachWhereInput
+  }
+
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
@@ -28210,6 +29823,10 @@ export namespace Prisma {
   }
 
   export type PasswordHistoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PasswordBreachOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -28587,6 +30204,80 @@ export namespace Prisma {
     changedBy?: SortOrder
     changeType?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type PasswordBreachCountOrderByAggregateInput = {
+    id?: SortOrder
+    passwordId?: SortOrder
+    isBreached?: SortOrder
+    breachCount?: SortOrder
+    hashPrefix?: SortOrder
+    checkedAt?: SortOrder
+    checkedBy?: SortOrder
+    resolved?: SortOrder
+    resolvedAt?: SortOrder
+    resolvedBy?: SortOrder
+  }
+
+  export type PasswordBreachAvgOrderByAggregateInput = {
+    breachCount?: SortOrder
+  }
+
+  export type PasswordBreachMaxOrderByAggregateInput = {
+    id?: SortOrder
+    passwordId?: SortOrder
+    isBreached?: SortOrder
+    breachCount?: SortOrder
+    hashPrefix?: SortOrder
+    checkedAt?: SortOrder
+    checkedBy?: SortOrder
+    resolved?: SortOrder
+    resolvedAt?: SortOrder
+    resolvedBy?: SortOrder
+  }
+
+  export type PasswordBreachMinOrderByAggregateInput = {
+    id?: SortOrder
+    passwordId?: SortOrder
+    isBreached?: SortOrder
+    breachCount?: SortOrder
+    hashPrefix?: SortOrder
+    checkedAt?: SortOrder
+    checkedBy?: SortOrder
+    resolved?: SortOrder
+    resolvedAt?: SortOrder
+    resolvedBy?: SortOrder
+  }
+
+  export type PasswordBreachSumOrderByAggregateInput = {
+    breachCount?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type FolderListRelationFilter = {
@@ -29308,6 +30999,20 @@ export namespace Prisma {
     connect?: PasswordHistoryWhereUniqueInput | PasswordHistoryWhereUniqueInput[]
   }
 
+  export type PasswordBreachCreateNestedManyWithoutCheckedByUserInput = {
+    create?: XOR<PasswordBreachCreateWithoutCheckedByUserInput, PasswordBreachUncheckedCreateWithoutCheckedByUserInput> | PasswordBreachCreateWithoutCheckedByUserInput[] | PasswordBreachUncheckedCreateWithoutCheckedByUserInput[]
+    connectOrCreate?: PasswordBreachCreateOrConnectWithoutCheckedByUserInput | PasswordBreachCreateOrConnectWithoutCheckedByUserInput[]
+    createMany?: PasswordBreachCreateManyCheckedByUserInputEnvelope
+    connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+  }
+
+  export type PasswordBreachCreateNestedManyWithoutResolvedByUserInput = {
+    create?: XOR<PasswordBreachCreateWithoutResolvedByUserInput, PasswordBreachUncheckedCreateWithoutResolvedByUserInput> | PasswordBreachCreateWithoutResolvedByUserInput[] | PasswordBreachUncheckedCreateWithoutResolvedByUserInput[]
+    connectOrCreate?: PasswordBreachCreateOrConnectWithoutResolvedByUserInput | PasswordBreachCreateOrConnectWithoutResolvedByUserInput[]
+    createMany?: PasswordBreachCreateManyResolvedByUserInputEnvelope
+    connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutCreatedUsersInput = {
     create?: XOR<UserCreateWithoutCreatedUsersInput, UserUncheckedCreateWithoutCreatedUsersInput>
     connectOrCreate?: UserCreateOrConnectWithoutCreatedUsersInput
@@ -29389,6 +31094,20 @@ export namespace Prisma {
     connectOrCreate?: PasswordHistoryCreateOrConnectWithoutChangedByUserInput | PasswordHistoryCreateOrConnectWithoutChangedByUserInput[]
     createMany?: PasswordHistoryCreateManyChangedByUserInputEnvelope
     connect?: PasswordHistoryWhereUniqueInput | PasswordHistoryWhereUniqueInput[]
+  }
+
+  export type PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput = {
+    create?: XOR<PasswordBreachCreateWithoutCheckedByUserInput, PasswordBreachUncheckedCreateWithoutCheckedByUserInput> | PasswordBreachCreateWithoutCheckedByUserInput[] | PasswordBreachUncheckedCreateWithoutCheckedByUserInput[]
+    connectOrCreate?: PasswordBreachCreateOrConnectWithoutCheckedByUserInput | PasswordBreachCreateOrConnectWithoutCheckedByUserInput[]
+    createMany?: PasswordBreachCreateManyCheckedByUserInputEnvelope
+    connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+  }
+
+  export type PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput = {
+    create?: XOR<PasswordBreachCreateWithoutResolvedByUserInput, PasswordBreachUncheckedCreateWithoutResolvedByUserInput> | PasswordBreachCreateWithoutResolvedByUserInput[] | PasswordBreachUncheckedCreateWithoutResolvedByUserInput[]
+    connectOrCreate?: PasswordBreachCreateOrConnectWithoutResolvedByUserInput | PasswordBreachCreateOrConnectWithoutResolvedByUserInput[]
+    createMany?: PasswordBreachCreateManyResolvedByUserInputEnvelope
+    connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
   }
 
   export type UserUncheckedCreateNestedManyWithoutCreatedByInput = {
@@ -29557,6 +31276,34 @@ export namespace Prisma {
     deleteMany?: PasswordHistoryScalarWhereInput | PasswordHistoryScalarWhereInput[]
   }
 
+  export type PasswordBreachUpdateManyWithoutCheckedByUserNestedInput = {
+    create?: XOR<PasswordBreachCreateWithoutCheckedByUserInput, PasswordBreachUncheckedCreateWithoutCheckedByUserInput> | PasswordBreachCreateWithoutCheckedByUserInput[] | PasswordBreachUncheckedCreateWithoutCheckedByUserInput[]
+    connectOrCreate?: PasswordBreachCreateOrConnectWithoutCheckedByUserInput | PasswordBreachCreateOrConnectWithoutCheckedByUserInput[]
+    upsert?: PasswordBreachUpsertWithWhereUniqueWithoutCheckedByUserInput | PasswordBreachUpsertWithWhereUniqueWithoutCheckedByUserInput[]
+    createMany?: PasswordBreachCreateManyCheckedByUserInputEnvelope
+    set?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    disconnect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    delete?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    update?: PasswordBreachUpdateWithWhereUniqueWithoutCheckedByUserInput | PasswordBreachUpdateWithWhereUniqueWithoutCheckedByUserInput[]
+    updateMany?: PasswordBreachUpdateManyWithWhereWithoutCheckedByUserInput | PasswordBreachUpdateManyWithWhereWithoutCheckedByUserInput[]
+    deleteMany?: PasswordBreachScalarWhereInput | PasswordBreachScalarWhereInput[]
+  }
+
+  export type PasswordBreachUpdateManyWithoutResolvedByUserNestedInput = {
+    create?: XOR<PasswordBreachCreateWithoutResolvedByUserInput, PasswordBreachUncheckedCreateWithoutResolvedByUserInput> | PasswordBreachCreateWithoutResolvedByUserInput[] | PasswordBreachUncheckedCreateWithoutResolvedByUserInput[]
+    connectOrCreate?: PasswordBreachCreateOrConnectWithoutResolvedByUserInput | PasswordBreachCreateOrConnectWithoutResolvedByUserInput[]
+    upsert?: PasswordBreachUpsertWithWhereUniqueWithoutResolvedByUserInput | PasswordBreachUpsertWithWhereUniqueWithoutResolvedByUserInput[]
+    createMany?: PasswordBreachCreateManyResolvedByUserInputEnvelope
+    set?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    disconnect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    delete?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    update?: PasswordBreachUpdateWithWhereUniqueWithoutResolvedByUserInput | PasswordBreachUpdateWithWhereUniqueWithoutResolvedByUserInput[]
+    updateMany?: PasswordBreachUpdateManyWithWhereWithoutResolvedByUserInput | PasswordBreachUpdateManyWithWhereWithoutResolvedByUserInput[]
+    deleteMany?: PasswordBreachScalarWhereInput | PasswordBreachScalarWhereInput[]
+  }
+
   export type UserUpdateOneWithoutCreatedUsersNestedInput = {
     create?: XOR<UserCreateWithoutCreatedUsersInput, UserUncheckedCreateWithoutCreatedUsersInput>
     connectOrCreate?: UserCreateOrConnectWithoutCreatedUsersInput
@@ -29721,6 +31468,34 @@ export namespace Prisma {
     deleteMany?: PasswordHistoryScalarWhereInput | PasswordHistoryScalarWhereInput[]
   }
 
+  export type PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput = {
+    create?: XOR<PasswordBreachCreateWithoutCheckedByUserInput, PasswordBreachUncheckedCreateWithoutCheckedByUserInput> | PasswordBreachCreateWithoutCheckedByUserInput[] | PasswordBreachUncheckedCreateWithoutCheckedByUserInput[]
+    connectOrCreate?: PasswordBreachCreateOrConnectWithoutCheckedByUserInput | PasswordBreachCreateOrConnectWithoutCheckedByUserInput[]
+    upsert?: PasswordBreachUpsertWithWhereUniqueWithoutCheckedByUserInput | PasswordBreachUpsertWithWhereUniqueWithoutCheckedByUserInput[]
+    createMany?: PasswordBreachCreateManyCheckedByUserInputEnvelope
+    set?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    disconnect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    delete?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    update?: PasswordBreachUpdateWithWhereUniqueWithoutCheckedByUserInput | PasswordBreachUpdateWithWhereUniqueWithoutCheckedByUserInput[]
+    updateMany?: PasswordBreachUpdateManyWithWhereWithoutCheckedByUserInput | PasswordBreachUpdateManyWithWhereWithoutCheckedByUserInput[]
+    deleteMany?: PasswordBreachScalarWhereInput | PasswordBreachScalarWhereInput[]
+  }
+
+  export type PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput = {
+    create?: XOR<PasswordBreachCreateWithoutResolvedByUserInput, PasswordBreachUncheckedCreateWithoutResolvedByUserInput> | PasswordBreachCreateWithoutResolvedByUserInput[] | PasswordBreachUncheckedCreateWithoutResolvedByUserInput[]
+    connectOrCreate?: PasswordBreachCreateOrConnectWithoutResolvedByUserInput | PasswordBreachCreateOrConnectWithoutResolvedByUserInput[]
+    upsert?: PasswordBreachUpsertWithWhereUniqueWithoutResolvedByUserInput | PasswordBreachUpsertWithWhereUniqueWithoutResolvedByUserInput[]
+    createMany?: PasswordBreachCreateManyResolvedByUserInputEnvelope
+    set?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    disconnect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    delete?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    update?: PasswordBreachUpdateWithWhereUniqueWithoutResolvedByUserInput | PasswordBreachUpdateWithWhereUniqueWithoutResolvedByUserInput[]
+    updateMany?: PasswordBreachUpdateManyWithWhereWithoutResolvedByUserInput | PasswordBreachUpdateManyWithWhereWithoutResolvedByUserInput[]
+    deleteMany?: PasswordBreachScalarWhereInput | PasswordBreachScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<UserCreateWithoutCreatedByInput, UserUncheckedCreateWithoutCreatedByInput> | UserCreateWithoutCreatedByInput[] | UserUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCreatedByInput | UserCreateOrConnectWithoutCreatedByInput[]
@@ -29818,6 +31593,13 @@ export namespace Prisma {
     connect?: PasswordHistoryWhereUniqueInput | PasswordHistoryWhereUniqueInput[]
   }
 
+  export type PasswordBreachCreateNestedManyWithoutPasswordInput = {
+    create?: XOR<PasswordBreachCreateWithoutPasswordInput, PasswordBreachUncheckedCreateWithoutPasswordInput> | PasswordBreachCreateWithoutPasswordInput[] | PasswordBreachUncheckedCreateWithoutPasswordInput[]
+    connectOrCreate?: PasswordBreachCreateOrConnectWithoutPasswordInput | PasswordBreachCreateOrConnectWithoutPasswordInput[]
+    createMany?: PasswordBreachCreateManyPasswordInputEnvelope
+    connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+  }
+
   export type PasswordShareUncheckedCreateNestedManyWithoutPasswordInput = {
     create?: XOR<PasswordShareCreateWithoutPasswordInput, PasswordShareUncheckedCreateWithoutPasswordInput> | PasswordShareCreateWithoutPasswordInput[] | PasswordShareUncheckedCreateWithoutPasswordInput[]
     connectOrCreate?: PasswordShareCreateOrConnectWithoutPasswordInput | PasswordShareCreateOrConnectWithoutPasswordInput[]
@@ -29837,6 +31619,13 @@ export namespace Prisma {
     connectOrCreate?: PasswordHistoryCreateOrConnectWithoutPasswordEntryInput | PasswordHistoryCreateOrConnectWithoutPasswordEntryInput[]
     createMany?: PasswordHistoryCreateManyPasswordEntryInputEnvelope
     connect?: PasswordHistoryWhereUniqueInput | PasswordHistoryWhereUniqueInput[]
+  }
+
+  export type PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput = {
+    create?: XOR<PasswordBreachCreateWithoutPasswordInput, PasswordBreachUncheckedCreateWithoutPasswordInput> | PasswordBreachCreateWithoutPasswordInput[] | PasswordBreachUncheckedCreateWithoutPasswordInput[]
+    connectOrCreate?: PasswordBreachCreateOrConnectWithoutPasswordInput | PasswordBreachCreateOrConnectWithoutPasswordInput[]
+    createMany?: PasswordBreachCreateManyPasswordInputEnvelope
+    connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
   }
 
   export type EnumPasswordStrengthFieldUpdateOperationsInput = {
@@ -29903,6 +31692,20 @@ export namespace Prisma {
     deleteMany?: PasswordHistoryScalarWhereInput | PasswordHistoryScalarWhereInput[]
   }
 
+  export type PasswordBreachUpdateManyWithoutPasswordNestedInput = {
+    create?: XOR<PasswordBreachCreateWithoutPasswordInput, PasswordBreachUncheckedCreateWithoutPasswordInput> | PasswordBreachCreateWithoutPasswordInput[] | PasswordBreachUncheckedCreateWithoutPasswordInput[]
+    connectOrCreate?: PasswordBreachCreateOrConnectWithoutPasswordInput | PasswordBreachCreateOrConnectWithoutPasswordInput[]
+    upsert?: PasswordBreachUpsertWithWhereUniqueWithoutPasswordInput | PasswordBreachUpsertWithWhereUniqueWithoutPasswordInput[]
+    createMany?: PasswordBreachCreateManyPasswordInputEnvelope
+    set?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    disconnect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    delete?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    update?: PasswordBreachUpdateWithWhereUniqueWithoutPasswordInput | PasswordBreachUpdateWithWhereUniqueWithoutPasswordInput[]
+    updateMany?: PasswordBreachUpdateManyWithWhereWithoutPasswordInput | PasswordBreachUpdateManyWithWhereWithoutPasswordInput[]
+    deleteMany?: PasswordBreachScalarWhereInput | PasswordBreachScalarWhereInput[]
+  }
+
   export type PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput = {
     create?: XOR<PasswordShareCreateWithoutPasswordInput, PasswordShareUncheckedCreateWithoutPasswordInput> | PasswordShareCreateWithoutPasswordInput[] | PasswordShareUncheckedCreateWithoutPasswordInput[]
     connectOrCreate?: PasswordShareCreateOrConnectWithoutPasswordInput | PasswordShareCreateOrConnectWithoutPasswordInput[]
@@ -29945,6 +31748,20 @@ export namespace Prisma {
     deleteMany?: PasswordHistoryScalarWhereInput | PasswordHistoryScalarWhereInput[]
   }
 
+  export type PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput = {
+    create?: XOR<PasswordBreachCreateWithoutPasswordInput, PasswordBreachUncheckedCreateWithoutPasswordInput> | PasswordBreachCreateWithoutPasswordInput[] | PasswordBreachUncheckedCreateWithoutPasswordInput[]
+    connectOrCreate?: PasswordBreachCreateOrConnectWithoutPasswordInput | PasswordBreachCreateOrConnectWithoutPasswordInput[]
+    upsert?: PasswordBreachUpsertWithWhereUniqueWithoutPasswordInput | PasswordBreachUpsertWithWhereUniqueWithoutPasswordInput[]
+    createMany?: PasswordBreachCreateManyPasswordInputEnvelope
+    set?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    disconnect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    delete?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+    update?: PasswordBreachUpdateWithWhereUniqueWithoutPasswordInput | PasswordBreachUpdateWithWhereUniqueWithoutPasswordInput[]
+    updateMany?: PasswordBreachUpdateManyWithWhereWithoutPasswordInput | PasswordBreachUpdateManyWithWhereWithoutPasswordInput[]
+    deleteMany?: PasswordBreachScalarWhereInput | PasswordBreachScalarWhereInput[]
+  }
+
   export type PasswordCreateNestedOneWithoutHistoryInput = {
     create?: XOR<PasswordCreateWithoutHistoryInput, PasswordUncheckedCreateWithoutHistoryInput>
     connectOrCreate?: PasswordCreateOrConnectWithoutHistoryInput
@@ -29971,6 +31788,58 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutPasswordHistoryInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPasswordHistoryInput, UserUpdateWithoutPasswordHistoryInput>, UserUncheckedUpdateWithoutPasswordHistoryInput>
+  }
+
+  export type PasswordCreateNestedOneWithoutBreachesInput = {
+    create?: XOR<PasswordCreateWithoutBreachesInput, PasswordUncheckedCreateWithoutBreachesInput>
+    connectOrCreate?: PasswordCreateOrConnectWithoutBreachesInput
+    connect?: PasswordWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutPasswordBreachesCheckedInput = {
+    create?: XOR<UserCreateWithoutPasswordBreachesCheckedInput, UserUncheckedCreateWithoutPasswordBreachesCheckedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPasswordBreachesCheckedInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutPasswordBreachesResolvedInput = {
+    create?: XOR<UserCreateWithoutPasswordBreachesResolvedInput, UserUncheckedCreateWithoutPasswordBreachesResolvedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPasswordBreachesResolvedInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type PasswordUpdateOneRequiredWithoutBreachesNestedInput = {
+    create?: XOR<PasswordCreateWithoutBreachesInput, PasswordUncheckedCreateWithoutBreachesInput>
+    connectOrCreate?: PasswordCreateOrConnectWithoutBreachesInput
+    upsert?: PasswordUpsertWithoutBreachesInput
+    connect?: PasswordWhereUniqueInput
+    update?: XOR<XOR<PasswordUpdateToOneWithWhereWithoutBreachesInput, PasswordUpdateWithoutBreachesInput>, PasswordUncheckedUpdateWithoutBreachesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutPasswordBreachesCheckedNestedInput = {
+    create?: XOR<UserCreateWithoutPasswordBreachesCheckedInput, UserUncheckedCreateWithoutPasswordBreachesCheckedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPasswordBreachesCheckedInput
+    upsert?: UserUpsertWithoutPasswordBreachesCheckedInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPasswordBreachesCheckedInput, UserUpdateWithoutPasswordBreachesCheckedInput>, UserUncheckedUpdateWithoutPasswordBreachesCheckedInput>
+  }
+
+  export type UserUpdateOneWithoutPasswordBreachesResolvedNestedInput = {
+    create?: XOR<UserCreateWithoutPasswordBreachesResolvedInput, UserUncheckedCreateWithoutPasswordBreachesResolvedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPasswordBreachesResolvedInput
+    upsert?: UserUpsertWithoutPasswordBreachesResolvedInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPasswordBreachesResolvedInput, UserUpdateWithoutPasswordBreachesResolvedInput>, UserUncheckedUpdateWithoutPasswordBreachesResolvedInput>
   }
 
   export type FolderCreateNestedOneWithoutChildrenInput = {
@@ -30701,6 +32570,33 @@ export namespace Prisma {
     _max?: NestedEnumPasswordStrengthFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedEnumSharePermissionFilter<$PrismaModel = never> = {
     equals?: $Enums.SharePermission | EnumSharePermissionFieldRefInput<$PrismaModel>
     in?: $Enums.SharePermission[] | ListEnumSharePermissionFieldRefInput<$PrismaModel>
@@ -30825,17 +32721,6 @@ export namespace Prisma {
     _max?: NestedBigIntFilter<$PrismaModel>
   }
 
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
   export type UserCreateWithoutCompanyInput = {
     id?: string
     name: string
@@ -30861,6 +32746,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -30892,6 +32779,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -30983,6 +32872,7 @@ export namespace Prisma {
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordUncheckedCreateWithoutOwnerInput = {
@@ -31002,6 +32892,7 @@ export namespace Prisma {
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordCreateOrConnectWithoutOwnerInput = {
@@ -31270,6 +33161,74 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PasswordBreachCreateWithoutCheckedByUserInput = {
+    id?: string
+    isBreached: boolean
+    breachCount?: number
+    hashPrefix: string
+    checkedAt?: Date | string
+    resolved?: boolean
+    resolvedAt?: Date | string | null
+    password: PasswordCreateNestedOneWithoutBreachesInput
+    resolvedByUser?: UserCreateNestedOneWithoutPasswordBreachesResolvedInput
+  }
+
+  export type PasswordBreachUncheckedCreateWithoutCheckedByUserInput = {
+    id?: string
+    passwordId: string
+    isBreached: boolean
+    breachCount?: number
+    hashPrefix: string
+    checkedAt?: Date | string
+    resolved?: boolean
+    resolvedAt?: Date | string | null
+    resolvedBy?: string | null
+  }
+
+  export type PasswordBreachCreateOrConnectWithoutCheckedByUserInput = {
+    where: PasswordBreachWhereUniqueInput
+    create: XOR<PasswordBreachCreateWithoutCheckedByUserInput, PasswordBreachUncheckedCreateWithoutCheckedByUserInput>
+  }
+
+  export type PasswordBreachCreateManyCheckedByUserInputEnvelope = {
+    data: PasswordBreachCreateManyCheckedByUserInput | PasswordBreachCreateManyCheckedByUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PasswordBreachCreateWithoutResolvedByUserInput = {
+    id?: string
+    isBreached: boolean
+    breachCount?: number
+    hashPrefix: string
+    checkedAt?: Date | string
+    resolved?: boolean
+    resolvedAt?: Date | string | null
+    password: PasswordCreateNestedOneWithoutBreachesInput
+    checkedByUser: UserCreateNestedOneWithoutPasswordBreachesCheckedInput
+  }
+
+  export type PasswordBreachUncheckedCreateWithoutResolvedByUserInput = {
+    id?: string
+    passwordId: string
+    isBreached: boolean
+    breachCount?: number
+    hashPrefix: string
+    checkedAt?: Date | string
+    checkedBy: string
+    resolved?: boolean
+    resolvedAt?: Date | string | null
+  }
+
+  export type PasswordBreachCreateOrConnectWithoutResolvedByUserInput = {
+    where: PasswordBreachWhereUniqueInput
+    create: XOR<PasswordBreachCreateWithoutResolvedByUserInput, PasswordBreachUncheckedCreateWithoutResolvedByUserInput>
+  }
+
+  export type PasswordBreachCreateManyResolvedByUserInputEnvelope = {
+    data: PasswordBreachCreateManyResolvedByUserInput | PasswordBreachCreateManyResolvedByUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserCreateWithoutCreatedUsersInput = {
     id?: string
     name: string
@@ -31296,6 +33255,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
   }
@@ -31327,6 +33288,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
@@ -31361,6 +33324,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
   }
@@ -31391,6 +33356,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -31746,6 +33713,54 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"PasswordHistory"> | Date | string
   }
 
+  export type PasswordBreachUpsertWithWhereUniqueWithoutCheckedByUserInput = {
+    where: PasswordBreachWhereUniqueInput
+    update: XOR<PasswordBreachUpdateWithoutCheckedByUserInput, PasswordBreachUncheckedUpdateWithoutCheckedByUserInput>
+    create: XOR<PasswordBreachCreateWithoutCheckedByUserInput, PasswordBreachUncheckedCreateWithoutCheckedByUserInput>
+  }
+
+  export type PasswordBreachUpdateWithWhereUniqueWithoutCheckedByUserInput = {
+    where: PasswordBreachWhereUniqueInput
+    data: XOR<PasswordBreachUpdateWithoutCheckedByUserInput, PasswordBreachUncheckedUpdateWithoutCheckedByUserInput>
+  }
+
+  export type PasswordBreachUpdateManyWithWhereWithoutCheckedByUserInput = {
+    where: PasswordBreachScalarWhereInput
+    data: XOR<PasswordBreachUpdateManyMutationInput, PasswordBreachUncheckedUpdateManyWithoutCheckedByUserInput>
+  }
+
+  export type PasswordBreachScalarWhereInput = {
+    AND?: PasswordBreachScalarWhereInput | PasswordBreachScalarWhereInput[]
+    OR?: PasswordBreachScalarWhereInput[]
+    NOT?: PasswordBreachScalarWhereInput | PasswordBreachScalarWhereInput[]
+    id?: StringFilter<"PasswordBreach"> | string
+    passwordId?: StringFilter<"PasswordBreach"> | string
+    isBreached?: BoolFilter<"PasswordBreach"> | boolean
+    breachCount?: IntFilter<"PasswordBreach"> | number
+    hashPrefix?: StringFilter<"PasswordBreach"> | string
+    checkedAt?: DateTimeFilter<"PasswordBreach"> | Date | string
+    checkedBy?: StringFilter<"PasswordBreach"> | string
+    resolved?: BoolFilter<"PasswordBreach"> | boolean
+    resolvedAt?: DateTimeNullableFilter<"PasswordBreach"> | Date | string | null
+    resolvedBy?: StringNullableFilter<"PasswordBreach"> | string | null
+  }
+
+  export type PasswordBreachUpsertWithWhereUniqueWithoutResolvedByUserInput = {
+    where: PasswordBreachWhereUniqueInput
+    update: XOR<PasswordBreachUpdateWithoutResolvedByUserInput, PasswordBreachUncheckedUpdateWithoutResolvedByUserInput>
+    create: XOR<PasswordBreachCreateWithoutResolvedByUserInput, PasswordBreachUncheckedCreateWithoutResolvedByUserInput>
+  }
+
+  export type PasswordBreachUpdateWithWhereUniqueWithoutResolvedByUserInput = {
+    where: PasswordBreachWhereUniqueInput
+    data: XOR<PasswordBreachUpdateWithoutResolvedByUserInput, PasswordBreachUncheckedUpdateWithoutResolvedByUserInput>
+  }
+
+  export type PasswordBreachUpdateManyWithWhereWithoutResolvedByUserInput = {
+    where: PasswordBreachScalarWhereInput
+    data: XOR<PasswordBreachUpdateManyMutationInput, PasswordBreachUncheckedUpdateManyWithoutResolvedByUserInput>
+  }
+
   export type UserUpsertWithoutCreatedUsersInput = {
     update: XOR<UserUpdateWithoutCreatedUsersInput, UserUncheckedUpdateWithoutCreatedUsersInput>
     create: XOR<UserCreateWithoutCreatedUsersInput, UserUncheckedCreateWithoutCreatedUsersInput>
@@ -31783,6 +33798,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
   }
@@ -31814,6 +33831,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
@@ -31887,6 +33906,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -31918,6 +33939,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -31963,6 +33986,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -31994,6 +34019,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -32023,6 +34050,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -32054,6 +34083,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -32099,6 +34130,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -32130,6 +34163,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -32159,6 +34194,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -32190,6 +34227,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -32322,6 +34361,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PasswordBreachCreateWithoutPasswordInput = {
+    id?: string
+    isBreached: boolean
+    breachCount?: number
+    hashPrefix: string
+    checkedAt?: Date | string
+    resolved?: boolean
+    resolvedAt?: Date | string | null
+    checkedByUser: UserCreateNestedOneWithoutPasswordBreachesCheckedInput
+    resolvedByUser?: UserCreateNestedOneWithoutPasswordBreachesResolvedInput
+  }
+
+  export type PasswordBreachUncheckedCreateWithoutPasswordInput = {
+    id?: string
+    isBreached: boolean
+    breachCount?: number
+    hashPrefix: string
+    checkedAt?: Date | string
+    checkedBy: string
+    resolved?: boolean
+    resolvedAt?: Date | string | null
+    resolvedBy?: string | null
+  }
+
+  export type PasswordBreachCreateOrConnectWithoutPasswordInput = {
+    where: PasswordBreachWhereUniqueInput
+    create: XOR<PasswordBreachCreateWithoutPasswordInput, PasswordBreachUncheckedCreateWithoutPasswordInput>
+  }
+
+  export type PasswordBreachCreateManyPasswordInputEnvelope = {
+    data: PasswordBreachCreateManyPasswordInput | PasswordBreachCreateManyPasswordInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutOwnedPasswordsInput = {
     update: XOR<UserUpdateWithoutOwnedPasswordsInput, UserUncheckedUpdateWithoutOwnedPasswordsInput>
     create: XOR<UserCreateWithoutOwnedPasswordsInput, UserUncheckedCreateWithoutOwnedPasswordsInput>
@@ -32358,6 +34431,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -32389,6 +34464,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -32486,6 +34563,22 @@ export namespace Prisma {
     data: XOR<PasswordHistoryUpdateManyMutationInput, PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryInput>
   }
 
+  export type PasswordBreachUpsertWithWhereUniqueWithoutPasswordInput = {
+    where: PasswordBreachWhereUniqueInput
+    update: XOR<PasswordBreachUpdateWithoutPasswordInput, PasswordBreachUncheckedUpdateWithoutPasswordInput>
+    create: XOR<PasswordBreachCreateWithoutPasswordInput, PasswordBreachUncheckedCreateWithoutPasswordInput>
+  }
+
+  export type PasswordBreachUpdateWithWhereUniqueWithoutPasswordInput = {
+    where: PasswordBreachWhereUniqueInput
+    data: XOR<PasswordBreachUpdateWithoutPasswordInput, PasswordBreachUncheckedUpdateWithoutPasswordInput>
+  }
+
+  export type PasswordBreachUpdateManyWithWhereWithoutPasswordInput = {
+    where: PasswordBreachScalarWhereInput
+    data: XOR<PasswordBreachUpdateManyMutationInput, PasswordBreachUncheckedUpdateManyWithoutPasswordInput>
+  }
+
   export type PasswordCreateWithoutHistoryInput = {
     id?: string
     name: string
@@ -32503,6 +34596,7 @@ export namespace Prisma {
     folder?: FolderCreateNestedOneWithoutPasswordsInput
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
+    breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordUncheckedCreateWithoutHistoryInput = {
@@ -32522,6 +34616,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
+    breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordCreateOrConnectWithoutHistoryInput = {
@@ -32554,6 +34649,8 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -32585,6 +34682,8 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -32622,6 +34721,7 @@ export namespace Prisma {
     folder?: FolderUpdateOneWithoutPasswordsNestedInput
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
+    breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
   }
 
   export type PasswordUncheckedUpdateWithoutHistoryInput = {
@@ -32641,6 +34741,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
+    breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
   }
 
   export type UserUpsertWithoutPasswordHistoryInput = {
@@ -32679,6 +34780,8 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -32710,6 +34813,392 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type PasswordCreateWithoutBreachesInput = {
+    id?: string
+    name: string
+    username: string
+    password: string
+    url?: string | null
+    notes?: string | null
+    strength?: $Enums.PasswordStrength
+    hasTotp?: boolean
+    totpSecret?: string | null
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutOwnedPasswordsInput
+    folder?: FolderCreateNestedOneWithoutPasswordsInput
+    sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
+    tags?: PasswordTagCreateNestedManyWithoutPasswordInput
+    history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
+  }
+
+  export type PasswordUncheckedCreateWithoutBreachesInput = {
+    id?: string
+    name: string
+    username: string
+    password: string
+    url?: string | null
+    notes?: string | null
+    folderId?: string | null
+    strength?: $Enums.PasswordStrength
+    hasTotp?: boolean
+    totpSecret?: string | null
+    expiresAt?: Date | string | null
+    ownerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
+    tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
+    history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
+  }
+
+  export type PasswordCreateOrConnectWithoutBreachesInput = {
+    where: PasswordWhereUniqueInput
+    create: XOR<PasswordCreateWithoutBreachesInput, PasswordUncheckedCreateWithoutBreachesInput>
+  }
+
+  export type UserCreateWithoutPasswordBreachesCheckedInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutPasswordBreachesCheckedInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutPasswordBreachesCheckedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPasswordBreachesCheckedInput, UserUncheckedCreateWithoutPasswordBreachesCheckedInput>
+  }
+
+  export type UserCreateWithoutPasswordBreachesResolvedInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutPasswordBreachesResolvedInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutPasswordBreachesResolvedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPasswordBreachesResolvedInput, UserUncheckedCreateWithoutPasswordBreachesResolvedInput>
+  }
+
+  export type PasswordUpsertWithoutBreachesInput = {
+    update: XOR<PasswordUpdateWithoutBreachesInput, PasswordUncheckedUpdateWithoutBreachesInput>
+    create: XOR<PasswordCreateWithoutBreachesInput, PasswordUncheckedCreateWithoutBreachesInput>
+    where?: PasswordWhereInput
+  }
+
+  export type PasswordUpdateToOneWithWhereWithoutBreachesInput = {
+    where?: PasswordWhereInput
+    data: XOR<PasswordUpdateWithoutBreachesInput, PasswordUncheckedUpdateWithoutBreachesInput>
+  }
+
+  export type PasswordUpdateWithoutBreachesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    strength?: EnumPasswordStrengthFieldUpdateOperationsInput | $Enums.PasswordStrength
+    hasTotp?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
+    folder?: FolderUpdateOneWithoutPasswordsNestedInput
+    sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
+    tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
+    history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
+  }
+
+  export type PasswordUncheckedUpdateWithoutBreachesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    strength?: EnumPasswordStrengthFieldUpdateOperationsInput | $Enums.PasswordStrength
+    hasTotp?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
+    tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
+    history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
+  }
+
+  export type UserUpsertWithoutPasswordBreachesCheckedInput = {
+    update: XOR<UserUpdateWithoutPasswordBreachesCheckedInput, UserUncheckedUpdateWithoutPasswordBreachesCheckedInput>
+    create: XOR<UserCreateWithoutPasswordBreachesCheckedInput, UserUncheckedCreateWithoutPasswordBreachesCheckedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPasswordBreachesCheckedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPasswordBreachesCheckedInput, UserUncheckedUpdateWithoutPasswordBreachesCheckedInput>
+  }
+
+  export type UserUpdateWithoutPasswordBreachesCheckedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPasswordBreachesCheckedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserUpsertWithoutPasswordBreachesResolvedInput = {
+    update: XOR<UserUpdateWithoutPasswordBreachesResolvedInput, UserUncheckedUpdateWithoutPasswordBreachesResolvedInput>
+    create: XOR<UserCreateWithoutPasswordBreachesResolvedInput, UserUncheckedCreateWithoutPasswordBreachesResolvedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPasswordBreachesResolvedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPasswordBreachesResolvedInput, UserUncheckedUpdateWithoutPasswordBreachesResolvedInput>
+  }
+
+  export type UserUpdateWithoutPasswordBreachesResolvedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPasswordBreachesResolvedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -32794,6 +35283,7 @@ export namespace Prisma {
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordUncheckedCreateWithoutFolderInput = {
@@ -32813,6 +35303,7 @@ export namespace Prisma {
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordCreateOrConnectWithoutFolderInput = {
@@ -32923,6 +35414,7 @@ export namespace Prisma {
     folder?: FolderCreateNestedOneWithoutPasswordsInput
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordUncheckedCreateWithoutSharedWithInput = {
@@ -32942,6 +35434,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordCreateOrConnectWithoutSharedWithInput = {
@@ -32974,6 +35467,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -33005,6 +35500,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -33065,6 +35562,7 @@ export namespace Prisma {
     folder?: FolderUpdateOneWithoutPasswordsNestedInput
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
   }
 
   export type PasswordUncheckedUpdateWithoutSharedWithInput = {
@@ -33084,6 +35582,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
   }
 
   export type UserUpsertWithoutSharedPasswordsInput = {
@@ -33122,6 +35621,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -33153,6 +35654,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -33318,6 +35821,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -33349,6 +35854,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -33423,6 +35930,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -33454,6 +35963,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -33513,6 +36024,7 @@ export namespace Prisma {
     folder?: FolderCreateNestedOneWithoutPasswordsInput
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordUncheckedCreateWithoutTagsInput = {
@@ -33532,6 +36044,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordCreateOrConnectWithoutTagsInput = {
@@ -33586,6 +36099,7 @@ export namespace Prisma {
     folder?: FolderUpdateOneWithoutPasswordsNestedInput
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
   }
 
   export type PasswordUncheckedUpdateWithoutTagsInput = {
@@ -33605,6 +36119,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
   }
 
   export type TagUpsertWithoutPasswordsInput = {
@@ -33657,6 +36172,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -33688,6 +36205,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -33733,6 +36252,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -33764,6 +36285,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -33794,6 +36317,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
   }
@@ -33825,6 +36350,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
@@ -33892,6 +36419,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
   }
@@ -33923,6 +36452,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
@@ -34127,6 +36658,8 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -34158,6 +36691,8 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -34203,6 +36738,8 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -34234,6 +36771,8 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -34263,6 +36802,8 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -34294,6 +36835,8 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -34339,6 +36882,8 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -34370,6 +36915,8 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -34418,6 +36965,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -34449,6 +36998,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -34576,6 +37127,30 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type PasswordBreachCreateManyCheckedByUserInput = {
+    id?: string
+    passwordId: string
+    isBreached: boolean
+    breachCount?: number
+    hashPrefix: string
+    checkedAt?: Date | string
+    resolved?: boolean
+    resolvedAt?: Date | string | null
+    resolvedBy?: string | null
+  }
+
+  export type PasswordBreachCreateManyResolvedByUserInput = {
+    id?: string
+    passwordId: string
+    isBreached: boolean
+    breachCount?: number
+    hashPrefix: string
+    checkedAt?: Date | string
+    checkedBy: string
+    resolved?: boolean
+    resolvedAt?: Date | string | null
+  }
+
   export type UserCreateManyCreatedByInput = {
     id?: string
     name: string
@@ -34621,6 +37196,7 @@ export namespace Prisma {
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
   }
 
   export type PasswordUncheckedUpdateWithoutOwnerInput = {
@@ -34640,6 +37216,7 @@ export namespace Prisma {
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
   }
 
   export type PasswordUncheckedUpdateManyWithoutOwnerInput = {
@@ -34922,6 +37499,78 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PasswordBreachUpdateWithoutCheckedByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isBreached?: BoolFieldUpdateOperationsInput | boolean
+    breachCount?: IntFieldUpdateOperationsInput | number
+    hashPrefix?: StringFieldUpdateOperationsInput | string
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: PasswordUpdateOneRequiredWithoutBreachesNestedInput
+    resolvedByUser?: UserUpdateOneWithoutPasswordBreachesResolvedNestedInput
+  }
+
+  export type PasswordBreachUncheckedUpdateWithoutCheckedByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    isBreached?: BoolFieldUpdateOperationsInput | boolean
+    breachCount?: IntFieldUpdateOperationsInput | number
+    hashPrefix?: StringFieldUpdateOperationsInput | string
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PasswordBreachUncheckedUpdateManyWithoutCheckedByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    isBreached?: BoolFieldUpdateOperationsInput | boolean
+    breachCount?: IntFieldUpdateOperationsInput | number
+    hashPrefix?: StringFieldUpdateOperationsInput | string
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PasswordBreachUpdateWithoutResolvedByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isBreached?: BoolFieldUpdateOperationsInput | boolean
+    breachCount?: IntFieldUpdateOperationsInput | number
+    hashPrefix?: StringFieldUpdateOperationsInput | string
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: PasswordUpdateOneRequiredWithoutBreachesNestedInput
+    checkedByUser?: UserUpdateOneRequiredWithoutPasswordBreachesCheckedNestedInput
+  }
+
+  export type PasswordBreachUncheckedUpdateWithoutResolvedByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    isBreached?: BoolFieldUpdateOperationsInput | boolean
+    breachCount?: IntFieldUpdateOperationsInput | number
+    hashPrefix?: StringFieldUpdateOperationsInput | string
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkedBy?: StringFieldUpdateOperationsInput | string
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PasswordBreachUncheckedUpdateManyWithoutResolvedByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    isBreached?: BoolFieldUpdateOperationsInput | boolean
+    breachCount?: IntFieldUpdateOperationsInput | number
+    hashPrefix?: StringFieldUpdateOperationsInput | string
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkedBy?: StringFieldUpdateOperationsInput | string
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type UserUpdateWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -34948,6 +37597,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
   }
@@ -34978,6 +37629,8 @@ export namespace Prisma {
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -35060,6 +37713,18 @@ export namespace Prisma {
     changedBy: string
     changeType?: string
     createdAt?: Date | string
+  }
+
+  export type PasswordBreachCreateManyPasswordInput = {
+    id?: string
+    isBreached: boolean
+    breachCount?: number
+    hashPrefix: string
+    checkedAt?: Date | string
+    checkedBy: string
+    resolved?: boolean
+    resolvedAt?: Date | string | null
+    resolvedBy?: string | null
   }
 
   export type PasswordShareUpdateWithoutPasswordInput = {
@@ -35158,6 +37823,42 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PasswordBreachUpdateWithoutPasswordInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isBreached?: BoolFieldUpdateOperationsInput | boolean
+    breachCount?: IntFieldUpdateOperationsInput | number
+    hashPrefix?: StringFieldUpdateOperationsInput | string
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkedByUser?: UserUpdateOneRequiredWithoutPasswordBreachesCheckedNestedInput
+    resolvedByUser?: UserUpdateOneWithoutPasswordBreachesResolvedNestedInput
+  }
+
+  export type PasswordBreachUncheckedUpdateWithoutPasswordInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isBreached?: BoolFieldUpdateOperationsInput | boolean
+    breachCount?: IntFieldUpdateOperationsInput | number
+    hashPrefix?: StringFieldUpdateOperationsInput | string
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkedBy?: StringFieldUpdateOperationsInput | string
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PasswordBreachUncheckedUpdateManyWithoutPasswordInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isBreached?: BoolFieldUpdateOperationsInput | boolean
+    breachCount?: IntFieldUpdateOperationsInput | number
+    hashPrefix?: StringFieldUpdateOperationsInput | string
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    checkedBy?: StringFieldUpdateOperationsInput | string
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type FolderCreateManyParentInput = {
     id?: string
     name: string
@@ -35235,6 +37936,7 @@ export namespace Prisma {
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
   }
 
   export type PasswordUncheckedUpdateWithoutFolderInput = {
@@ -35254,6 +37956,7 @@ export namespace Prisma {
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
   }
 
   export type PasswordUncheckedUpdateManyWithoutFolderInput = {

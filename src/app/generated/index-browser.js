@@ -208,6 +208,19 @@ exports.Prisma.PasswordHistoryScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PasswordBreachScalarFieldEnum = {
+  id: 'id',
+  passwordId: 'passwordId',
+  isBreached: 'isBreached',
+  breachCount: 'breachCount',
+  hashPrefix: 'hashPrefix',
+  checkedAt: 'checkedAt',
+  checkedBy: 'checkedBy',
+  resolved: 'resolved',
+  resolvedAt: 'resolvedAt',
+  resolvedBy: 'resolvedBy'
+};
+
 exports.Prisma.FolderScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -395,6 +408,7 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   Password: 'Password',
   PasswordHistory: 'PasswordHistory',
+  PasswordBreach: 'PasswordBreach',
   Folder: 'Folder',
   PasswordShare: 'PasswordShare',
   Team: 'Team',

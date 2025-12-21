@@ -2475,5 +2475,273 @@ export const passwordsRouter = createTRPCRouter({
         })
       }
     }),
+
+  checkPasswordBreach: protectedProcedure("password.view")
+    .input(
+      z.object({
+        passwordId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify ownership
+      const password = await prisma.password.findUnique({
+        where: { id: input.passwordId },
+        select: { id: true, password: true, ownerId: true, name: true },
+      })
+
+      if (!password || password.ownerId !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You don't have permission to check this password",
+        })
+      }
+
+      // Decrypt password
+      const decryptedPassword = decrypt(password.password)
+
+      // Check breach using Have I Been Pwned API
+      const { checkPasswordBreach } = await import("@/lib/breach-detection")
+      const breachResult = await checkPasswordBreach(decryptedPassword)
+
+      // Save breach record
+      const breach = await prisma.passwordBreach.create({
+        data: {
+          passwordId: input.passwordId,
+          isBreached: breachResult.isBreached,
+          breachCount: breachResult.breachCount,
+          hashPrefix: breachResult.hashPrefix,
+          checkedBy: ctx.userId,
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: breachResult.isBreached ? "PASSWORD_BREACH_DETECTED" : "PASSWORD_BREACH_CHECKED",
+        resource: "Password",
+        resourceId: input.passwordId,
+        details: {
+          isBreached: breachResult.isBreached,
+          breachCount: breachResult.breachCount,
+          passwordName: password.name,
+        },
+        userId: ctx.userId,
+      })
+
+      return {
+        success: true,
+        isBreached: breachResult.isBreached,
+        breachCount: breachResult.breachCount,
+        breachId: breach.id,
+      }
+    }),
+
+  checkAllPasswordsBreach: protectedProcedure("password.view")
+    .mutation(async ({ ctx }) => {
+      // Get all passwords owned by the user
+      const passwords = await prisma.password.findMany({
+        where: {
+          ownerId: ctx.userId,
+        },
+        select: {
+          id: true,
+          password: true,
+          name: true,
+        },
+      })
+
+      const { checkMultiplePasswords } = await import("@/lib/breach-detection")
+      const { createAuditLog } = await import("@/lib/audit-log")
+
+      const results = []
+      let breachedCount = 0
+
+      // Decrypt and check each password
+      for (const pwd of passwords) {
+        try {
+          const decryptedPassword = decrypt(pwd.password)
+          const breachResult = await checkMultiplePasswords([decryptedPassword])
+          
+          if (breachResult.length > 0) {
+            const result = breachResult[0]
+            
+            // Save breach record
+            const breach = await prisma.passwordBreach.create({
+              data: {
+                passwordId: pwd.id,
+                isBreached: result.isBreached,
+                breachCount: result.breachCount,
+                hashPrefix: result.hashPrefix,
+                checkedBy: ctx.userId,
+              },
+            })
+
+            if (result.isBreached) {
+              breachedCount++
+            }
+
+            results.push({
+              passwordId: pwd.id,
+              passwordName: pwd.name,
+              isBreached: result.isBreached,
+              breachCount: result.breachCount,
+              breachId: breach.id,
+            })
+
+            // Create audit log
+            await createAuditLog({
+              action: result.isBreached ? "PASSWORD_BREACH_DETECTED" : "PASSWORD_BREACH_CHECKED",
+              resource: "Password",
+              resourceId: pwd.id,
+              details: {
+                isBreached: result.isBreached,
+                breachCount: result.breachCount,
+                passwordName: pwd.name,
+                bulkCheck: true,
+              },
+              userId: ctx.userId,
+            })
+          }
+        } catch (error) {
+          // Skip passwords that can't be decrypted
+          console.error(`Failed to check password ${pwd.id}:`, error)
+          continue
+        }
+      }
+
+      return {
+        success: true,
+        checked: passwords.length,
+        breached: breachedCount,
+        results,
+      }
+    }),
+
+  getBreachHistory: protectedProcedure("password.view")
+    .input(
+      z.object({
+        passwordId: z.string().optional(),
+        includeResolved: z.boolean().default(false),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      // Build where clause
+      const where: any = {
+        password: {
+          ownerId: ctx.userId,
+        },
+      }
+
+      if (input.passwordId) {
+        where.passwordId = input.passwordId
+      }
+
+      if (!input.includeResolved) {
+        where.resolved = false
+      }
+
+      // Get breach history
+      const breaches = await prisma.passwordBreach.findMany({
+        where,
+        include: {
+          password: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+              url: true,
+            },
+          },
+          checkedByUser: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+          resolvedByUser: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+        orderBy: {
+          checkedAt: "desc",
+        },
+      })
+
+      return {
+        breaches,
+        total: breaches.length,
+        breached: breaches.filter((b) => b.isBreached && !b.resolved).length,
+      }
+    }),
+
+  resolveBreach: protectedProcedure("password.edit")
+    .input(
+      z.object({
+        breachId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Get breach record
+      const breach = await prisma.passwordBreach.findUnique({
+        where: { id: input.breachId },
+        include: {
+          password: {
+            select: {
+              id: true,
+              ownerId: true,
+              name: true,
+            },
+          },
+        },
+      })
+
+      if (!breach) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Breach record not found",
+        })
+      }
+
+      // Verify ownership
+      if (breach.password.ownerId !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You don't have permission to resolve this breach",
+        })
+      }
+
+      // Mark as resolved
+      const updated = await prisma.passwordBreach.update({
+        where: { id: input.breachId },
+        data: {
+          resolved: true,
+          resolvedAt: new Date(),
+          resolvedBy: ctx.userId,
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "PASSWORD_BREACH_RESOLVED",
+        resource: "Password",
+        resourceId: breach.passwordId,
+        details: {
+          breachId: input.breachId,
+          passwordName: breach.password.name,
+        },
+        userId: ctx.userId,
+      })
+
+      return {
+        success: true,
+        breach: updated,
+      }
+    }),
 })
 

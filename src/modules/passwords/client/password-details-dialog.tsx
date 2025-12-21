@@ -14,10 +14,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Eye, EyeOff, Copy, Clock, X, Users, History } from "lucide-react"
+import { Eye, EyeOff, Copy, Clock, X, Users, History, Shield, AlertTriangle, CheckCircle2 } from "lucide-react"
 import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
 import { usePermissions } from "@/hooks/use-permissions"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,6 +31,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { removePasswordShareAction } from "@/app/admin/passwords/unshare-actions"
 import { useRouter } from "next/navigation"
+import { useTranslation } from "react-i18next"
 
 interface PasswordShare {
   shareId: string
@@ -67,6 +69,7 @@ export function PasswordDetailsDialog({
   password,
   onEdit,
 }: PasswordDetailsDialogProps) {
+  const { t } = useTranslation()
   const router = useRouter()
   const { hasPermission } = usePermissions()
   const [showPassword, setShowPassword] = React.useState(false)
@@ -75,6 +78,8 @@ export function PasswordDetailsDialog({
   const [isRemoveShareDialogOpen, setIsRemoveShareDialogOpen] = React.useState(false)
   const [shareToRemove, setShareToRemove] = React.useState<{ shareId: string; teamName: string } | null>(null)
   const [isRemoving, setIsRemoving] = React.useState(false)
+  const [isCheckingBreach, setIsCheckingBreach] = React.useState(false)
+  const [breachStatus, setBreachStatus] = React.useState<{ isBreached: boolean; breachCount: number } | null>(null)
 
   // Fetch password details with decrypted password
   const { data: passwordData, isLoading, refetch: refetchPasswordData } = trpc.passwords.getById.useQuery(
@@ -88,6 +93,50 @@ export function PasswordDetailsDialog({
   const utils = trpc.useUtils()
 
   const decryptedPassword = passwordData?.password || ""
+
+  // Check for existing breach status
+  const { data: breachData } = trpc.passwords.getBreachHistory.useQuery(
+    { passwordId: password?.id, includeResolved: false },
+    { enabled: open && !!password?.id }
+  )
+
+  React.useEffect(() => {
+    if (breachData?.breaches && breachData.breaches.length > 0) {
+      const latestBreach = breachData.breaches[0]
+      setBreachStatus({
+        isBreached: latestBreach.isBreached,
+        breachCount: latestBreach.breachCount,
+      })
+    } else {
+      setBreachStatus(null)
+    }
+  }, [breachData])
+
+  const checkBreachMutation = trpc.passwords.checkPasswordBreach.useMutation({
+    onSuccess: (result) => {
+      setBreachStatus({
+        isBreached: result.isBreached,
+        breachCount: result.breachCount,
+      })
+      if (result.isBreached) {
+        toast.error(t("passwords.breach.detected", { count: result.breachCount }))
+      } else {
+        toast.success(t("passwords.breach.safe"))
+      }
+      setIsCheckingBreach(false)
+      router.refresh()
+    },
+    onError: (error) => {
+      toast.error(error.message || t("passwords.breach.checkError"))
+      setIsCheckingBreach(false)
+    },
+  })
+
+  const handleCheckBreach = () => {
+    if (!password?.id) return
+    setIsCheckingBreach(true)
+    checkBreachMutation.mutate({ passwordId: password.id })
+  }
 
   // Reset showPassword when dialog closes or password changes
   React.useEffect(() => {
@@ -327,6 +376,33 @@ export function PasswordDetailsDialog({
               <div className="col-span-2">{getExpiryBadge(displayPassword.expiresIn)}</div>
             </div>
 
+            {breachStatus && (
+              <>
+                <Separator />
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Shield className={`h-4 w-4 ${breachStatus.isBreached ? "text-red-600" : "text-green-600"}`} />
+                    <span className="text-sm font-medium">{t("passwords.breach.status")}</span>
+                  </div>
+                  {breachStatus.isBreached ? (
+                    <Alert variant="destructive">
+                      <AlertTriangle className="h-4 w-4" />
+                      <AlertDescription>
+                        {t("passwords.breach.detected", { count: breachStatus.breachCount })}
+                      </AlertDescription>
+                    </Alert>
+                  ) : (
+                    <Alert>
+                      <CheckCircle2 className="h-4 w-4" />
+                      <AlertDescription>
+                        {t("passwords.breach.safe")}
+                      </AlertDescription>
+                    </Alert>
+                  )}
+                </div>
+              </>
+            )}
+
             {displayPassword.hasTotp && hasPermission("password.view") && (
               <>
                 <Separator />
@@ -366,14 +442,34 @@ export function PasswordDetailsDialog({
           </div>
         </div>
         <DialogFooter className="flex items-center justify-between">
-          <div>
+          <div className="flex gap-2">
             {hasPermission("password.view") && isOwner && (
+              <>
+                <Button
+                  variant="outline"
+                  onClick={() => router.push(`/admin/passwords/${password.id}/history`)}
+                >
+                  <History className="h-4 w-4 mr-2" />
+                  View History
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={handleCheckBreach}
+                  disabled={isCheckingBreach}
+                >
+                  <Shield className="h-4 w-4 mr-2" />
+                  {isCheckingBreach ? t("passwords.breach.checking") : t("passwords.breach.check")}
+                </Button>
+              </>
+            )}
+            {breachStatus?.isBreached && (
               <Button
                 variant="outline"
-                onClick={() => router.push(`/admin/passwords/${password.id}/history`)}
+                onClick={() => router.push("/admin/passwords/breaches")}
+                className="border-red-200 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400"
               >
-                <History className="h-4 w-4 mr-2" />
-                View History
+                <AlertTriangle className="h-4 w-4 mr-2" />
+                {t("passwords.breach.viewBreaches")}
               </Button>
             )}
           </div>

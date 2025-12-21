@@ -53,6 +53,8 @@ model User {
   mfaCredentials     MfaCredential[]
   recoveryCodes      RecoveryCode[]
   passwordHistory    PasswordHistory[] @relation("PasswordHistoryChangedBy")
+  passwordBreachesChecked  PasswordBreach[] @relation("PasswordBreachCheckedBy")
+  passwordBreachesResolved  PasswordBreach[] @relation("PasswordBreachResolvedBy")
 
   createdById        String?
   createdBy          User?           @relation("UserCreatedBy", fields: [createdById], references: [id])
@@ -119,6 +121,7 @@ model Password {
   sharedWith    PasswordShare[]
   tags          PasswordTag[]
   history       PasswordHistory[]
+  breaches      PasswordBreach[]
 
   @@index([ownerId])
   @@index([folderId])
@@ -148,6 +151,30 @@ model PasswordHistory {
   @@index([passwordId])
   @@index([changedBy])
   @@index([createdAt])
+}
+
+model PasswordBreach {
+  id            String    @id @default(cuid())
+  passwordId    String
+  isBreached    Boolean
+  breachCount   Int       @default(0)
+  hashPrefix    String    // First 5 chars of SHA-1 hash (k-anonymity)
+  checkedAt     DateTime  @default(now())
+  checkedBy     String    // User ID who triggered the check
+  resolved      Boolean   @default(false) // User marked as resolved
+  resolvedAt    DateTime?
+  resolvedBy    String?   // User ID who resolved it
+
+  // Relations
+  password      Password  @relation(fields: [passwordId], references: [id], onDelete: Cascade)
+  checkedByUser User      @relation("PasswordBreachCheckedBy", fields: [checkedBy], references: [id], onDelete: SetNull)
+  resolvedByUser User?    @relation("PasswordBreachResolvedBy", fields: [resolvedBy], references: [id], onDelete: SetNull)
+
+  @@index([passwordId])
+  @@index([checkedBy])
+  @@index([checkedAt])
+  @@index([isBreached])
+  @@index([resolved])
 }
 
 model Folder {
