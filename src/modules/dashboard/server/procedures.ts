@@ -425,6 +425,67 @@ export const dashboardRouter = createTRPCRouter({
         })
       }
 
+      // MEDIUM: Password rotation reminders - Check for upcoming rotations
+      const rotationReminders = await prisma.password.findMany({
+        where: {
+          ownerId: ctx.userId,
+          rotationPolicyId: { not: null },
+          rotationPolicy: {
+            isActive: true,
+          },
+        },
+        include: {
+          rotationPolicy: true,
+          rotations: {
+            where: {
+              status: "COMPLETED",
+            },
+            orderBy: {
+              rotatedAt: "desc",
+            },
+            take: 1,
+          },
+        },
+      })
+
+      let upcomingRotations = 0
+      for (const password of rotationReminders) {
+        if (!password.rotationPolicy) continue
+
+        let lastRotationDate: Date
+        if (password.rotations.length > 0) {
+          lastRotationDate = password.rotations[0].rotatedAt
+        } else {
+          lastRotationDate = password.createdAt
+        }
+
+        const nextRotationDate = new Date(
+          lastRotationDate.getTime() + password.rotationPolicy.rotationDays * 24 * 60 * 60 * 1000
+        )
+
+        const reminderDate = new Date(
+          nextRotationDate.getTime() - password.rotationPolicy.reminderDays * 24 * 60 * 60 * 1000
+        )
+
+        // Check if reminder is within next 7 days
+        const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
+        if (reminderDate <= sevenDaysFromNow && reminderDate >= now) {
+          upcomingRotations++
+        }
+      }
+
+      if (upcomingRotations > 0) {
+        alerts.push({
+          id: "rotation-reminders",
+          severity: "medium",
+          type: "warning",
+          messageKey: "dashboard.rotationReminders",
+          messageParams: { count: upcomingRotations },
+          timeKey: "dashboard.today",
+          timestamp: now,
+        })
+      }
+
       // LOW: Unused passwords
       if (unusedPasswords > 0) {
         alerts.push({

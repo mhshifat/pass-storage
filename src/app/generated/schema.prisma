@@ -43,8 +43,8 @@ model User {
   lastLoginAt   DateTime?
 
   // Relations
-  company                  Company?          @relation(fields: [companyId], references: [id], onDelete: SetNull)
-  ownedPasswords           Password[]        @relation("PasswordOwner")
+  company                  Company?                 @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  ownedPasswords           Password[]               @relation("PasswordOwner")
   sharedPasswords          PasswordShare[]
   teamMemberships          TeamMember[]
   auditLogs                AuditLog[]
@@ -52,9 +52,11 @@ model User {
   accounts                 Account[]
   mfaCredentials           MfaCredential[]
   recoveryCodes            RecoveryCode[]
-  passwordHistory          PasswordHistory[] @relation("PasswordHistoryChangedBy")
-  passwordBreachesChecked  PasswordBreach[]  @relation("PasswordBreachCheckedBy")
-  passwordBreachesResolved PasswordBreach[]  @relation("PasswordBreachResolvedBy")
+  passwordHistory          PasswordHistory[]        @relation("PasswordHistoryChangedBy")
+  passwordBreachesChecked  PasswordBreach[]         @relation("PasswordBreachCheckedBy")
+  passwordBreachesResolved PasswordBreach[]         @relation("PasswordBreachResolvedBy")
+  rotationPolicies         PasswordRotationPolicy[] @relation("PasswordRotationPolicyOwner")
+  passwordRotations        PasswordRotation[]       @relation("PasswordRotationRotatedBy")
 
   createdById  String?
   createdBy    User?   @relation("UserCreatedBy", fields: [createdById], references: [id])
@@ -116,15 +118,21 @@ model Password {
   updatedAt  DateTime         @updatedAt
 
   // Relations
-  owner      User              @relation("PasswordOwner", fields: [ownerId], references: [id], onDelete: Cascade)
-  folder     Folder?           @relation(fields: [folderId], references: [id], onDelete: SetNull)
-  sharedWith PasswordShare[]
-  tags       PasswordTag[]
-  history    PasswordHistory[]
-  breaches   PasswordBreach[]
+  owner            User               @relation("PasswordOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  folder           Folder?            @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  sharedWith       PasswordShare[]
+  tags             PasswordTag[]
+  history          PasswordHistory[]
+  breaches         PasswordBreach[]
+  rotationPolicyId String?
+  rotations        PasswordRotation[]
+
+  // Relations
+  rotationPolicy PasswordRotationPolicy? @relation(fields: [rotationPolicyId], references: [id], onDelete: SetNull)
 
   @@index([ownerId])
   @@index([folderId])
+  @@index([rotationPolicyId])
 }
 
 model PasswordHistory {
@@ -175,6 +183,55 @@ model PasswordBreach {
   @@index([checkedAt])
   @@index([isBreached])
   @@index([resolved])
+}
+
+model PasswordRotationPolicy {
+  id              String   @id @default(cuid())
+  name            String
+  description     String?
+  rotationDays    Int // Days between rotations (e.g., 90 for 90 days)
+  reminderDays    Int // Days before rotation to send reminder (e.g., 7 for 7 days before)
+  autoRotate      Boolean  @default(false) // Automatically rotate password on schedule
+  requireApproval Boolean  @default(false) // Require approval before auto-rotation
+  isActive        Boolean  @default(true)
+  ownerId         String // User who created the policy
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  owner     User               @relation("PasswordRotationPolicyOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  passwords Password[]
+  rotations PasswordRotation[]
+
+  @@index([ownerId])
+  @@index([isActive])
+}
+
+model PasswordRotation {
+  id           String    @id @default(cuid())
+  passwordId   String
+  policyId     String? // Optional: which policy triggered this rotation
+  rotationType String    @default("MANUAL") // MANUAL, SCHEDULED, POLICY
+  oldPassword  String? // Encrypted old password (optional, for history)
+  newPassword  String // Encrypted new password
+  rotatedAt    DateTime  @default(now())
+  rotatedBy    String // User ID who performed the rotation
+  scheduledFor DateTime? // When this rotation was scheduled for
+  completedAt  DateTime? // When rotation was actually completed
+  status       String    @default("COMPLETED") // COMPLETED, PENDING, FAILED, CANCELLED
+  notes        String?
+
+  // Relations
+  password      Password                @relation(fields: [passwordId], references: [id], onDelete: Cascade)
+  policy        PasswordRotationPolicy? @relation(fields: [policyId], references: [id], onDelete: SetNull)
+  rotatedByUser User                    @relation("PasswordRotationRotatedBy", fields: [rotatedBy], references: [id], onDelete: SetNull)
+
+  @@index([passwordId])
+  @@index([policyId])
+  @@index([rotatedBy])
+  @@index([rotatedAt])
+  @@index([status])
+  @@index([scheduledFor])
 }
 
 model Folder {

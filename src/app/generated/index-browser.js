@@ -187,7 +187,8 @@ exports.Prisma.PasswordScalarFieldEnum = {
   expiresAt: 'expiresAt',
   ownerId: 'ownerId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  rotationPolicyId: 'rotationPolicyId'
 };
 
 exports.Prisma.PasswordHistoryScalarFieldEnum = {
@@ -219,6 +220,35 @@ exports.Prisma.PasswordBreachScalarFieldEnum = {
   resolved: 'resolved',
   resolvedAt: 'resolvedAt',
   resolvedBy: 'resolvedBy'
+};
+
+exports.Prisma.PasswordRotationPolicyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  rotationDays: 'rotationDays',
+  reminderDays: 'reminderDays',
+  autoRotate: 'autoRotate',
+  requireApproval: 'requireApproval',
+  isActive: 'isActive',
+  ownerId: 'ownerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PasswordRotationScalarFieldEnum = {
+  id: 'id',
+  passwordId: 'passwordId',
+  policyId: 'policyId',
+  rotationType: 'rotationType',
+  oldPassword: 'oldPassword',
+  newPassword: 'newPassword',
+  rotatedAt: 'rotatedAt',
+  rotatedBy: 'rotatedBy',
+  scheduledFor: 'scheduledFor',
+  completedAt: 'completedAt',
+  status: 'status',
+  notes: 'notes'
 };
 
 exports.Prisma.FolderScalarFieldEnum = {
@@ -409,6 +439,8 @@ exports.Prisma.ModelName = {
   Password: 'Password',
   PasswordHistory: 'PasswordHistory',
   PasswordBreach: 'PasswordBreach',
+  PasswordRotationPolicy: 'PasswordRotationPolicy',
+  PasswordRotation: 'PasswordRotation',
   Folder: 'Folder',
   PasswordShare: 'PasswordShare',
   Team: 'Team',

@@ -49,6 +49,16 @@ export type PasswordHistory = $Result.DefaultSelection<Prisma.$PasswordHistoryPa
  */
 export type PasswordBreach = $Result.DefaultSelection<Prisma.$PasswordBreachPayload>
 /**
+ * Model PasswordRotationPolicy
+ * 
+ */
+export type PasswordRotationPolicy = $Result.DefaultSelection<Prisma.$PasswordRotationPolicyPayload>
+/**
+ * Model PasswordRotation
+ * 
+ */
+export type PasswordRotation = $Result.DefaultSelection<Prisma.$PasswordRotationPayload>
+/**
  * Model Folder
  * 
  */
@@ -386,6 +396,26 @@ export class PrismaClient<
     * ```
     */
   get passwordBreach(): Prisma.PasswordBreachDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.passwordRotationPolicy`: Exposes CRUD operations for the **PasswordRotationPolicy** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PasswordRotationPolicies
+    * const passwordRotationPolicies = await prisma.passwordRotationPolicy.findMany()
+    * ```
+    */
+  get passwordRotationPolicy(): Prisma.PasswordRotationPolicyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.passwordRotation`: Exposes CRUD operations for the **PasswordRotation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PasswordRotations
+    * const passwordRotations = await prisma.passwordRotation.findMany()
+    * ```
+    */
+  get passwordRotation(): Prisma.PasswordRotationDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.folder`: Exposes CRUD operations for the **Folder** model.
@@ -957,6 +987,8 @@ export namespace Prisma {
     Password: 'Password',
     PasswordHistory: 'PasswordHistory',
     PasswordBreach: 'PasswordBreach',
+    PasswordRotationPolicy: 'PasswordRotationPolicy',
+    PasswordRotation: 'PasswordRotation',
     Folder: 'Folder',
     PasswordShare: 'PasswordShare',
     Team: 'Team',
@@ -985,7 +1017,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode"
+      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "passwordRotationPolicy" | "passwordRotation" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1504,6 +1536,154 @@ export namespace Prisma {
           count: {
             args: Prisma.PasswordBreachCountArgs<ExtArgs>
             result: $Utils.Optional<PasswordBreachCountAggregateOutputType> | number
+          }
+        }
+      }
+      PasswordRotationPolicy: {
+        payload: Prisma.$PasswordRotationPolicyPayload<ExtArgs>
+        fields: Prisma.PasswordRotationPolicyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PasswordRotationPolicyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPolicyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PasswordRotationPolicyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPolicyPayload>
+          }
+          findFirst: {
+            args: Prisma.PasswordRotationPolicyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPolicyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PasswordRotationPolicyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPolicyPayload>
+          }
+          findMany: {
+            args: Prisma.PasswordRotationPolicyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPolicyPayload>[]
+          }
+          create: {
+            args: Prisma.PasswordRotationPolicyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPolicyPayload>
+          }
+          createMany: {
+            args: Prisma.PasswordRotationPolicyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PasswordRotationPolicyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPolicyPayload>[]
+          }
+          delete: {
+            args: Prisma.PasswordRotationPolicyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPolicyPayload>
+          }
+          update: {
+            args: Prisma.PasswordRotationPolicyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPolicyPayload>
+          }
+          deleteMany: {
+            args: Prisma.PasswordRotationPolicyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PasswordRotationPolicyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PasswordRotationPolicyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPolicyPayload>[]
+          }
+          upsert: {
+            args: Prisma.PasswordRotationPolicyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPolicyPayload>
+          }
+          aggregate: {
+            args: Prisma.PasswordRotationPolicyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePasswordRotationPolicy>
+          }
+          groupBy: {
+            args: Prisma.PasswordRotationPolicyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PasswordRotationPolicyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PasswordRotationPolicyCountArgs<ExtArgs>
+            result: $Utils.Optional<PasswordRotationPolicyCountAggregateOutputType> | number
+          }
+        }
+      }
+      PasswordRotation: {
+        payload: Prisma.$PasswordRotationPayload<ExtArgs>
+        fields: Prisma.PasswordRotationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PasswordRotationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PasswordRotationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPayload>
+          }
+          findFirst: {
+            args: Prisma.PasswordRotationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PasswordRotationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPayload>
+          }
+          findMany: {
+            args: Prisma.PasswordRotationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPayload>[]
+          }
+          create: {
+            args: Prisma.PasswordRotationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPayload>
+          }
+          createMany: {
+            args: Prisma.PasswordRotationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PasswordRotationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPayload>[]
+          }
+          delete: {
+            args: Prisma.PasswordRotationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPayload>
+          }
+          update: {
+            args: Prisma.PasswordRotationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPayload>
+          }
+          deleteMany: {
+            args: Prisma.PasswordRotationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PasswordRotationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PasswordRotationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPayload>[]
+          }
+          upsert: {
+            args: Prisma.PasswordRotationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordRotationPayload>
+          }
+          aggregate: {
+            args: Prisma.PasswordRotationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePasswordRotation>
+          }
+          groupBy: {
+            args: Prisma.PasswordRotationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PasswordRotationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PasswordRotationCountArgs<ExtArgs>
+            result: $Utils.Optional<PasswordRotationCountAggregateOutputType> | number
           }
         }
       }
@@ -2568,6 +2748,8 @@ export namespace Prisma {
     password?: PasswordOmit
     passwordHistory?: PasswordHistoryOmit
     passwordBreach?: PasswordBreachOmit
+    passwordRotationPolicy?: PasswordRotationPolicyOmit
+    passwordRotation?: PasswordRotationOmit
     folder?: FolderOmit
     passwordShare?: PasswordShareOmit
     team?: TeamOmit
@@ -2703,6 +2885,8 @@ export namespace Prisma {
     passwordHistory: number
     passwordBreachesChecked: number
     passwordBreachesResolved: number
+    rotationPolicies: number
+    passwordRotations: number
     createdUsers: number
     createdRoles: number
   }
@@ -2719,6 +2903,8 @@ export namespace Prisma {
     passwordHistory?: boolean | UserCountOutputTypeCountPasswordHistoryArgs
     passwordBreachesChecked?: boolean | UserCountOutputTypeCountPasswordBreachesCheckedArgs
     passwordBreachesResolved?: boolean | UserCountOutputTypeCountPasswordBreachesResolvedArgs
+    rotationPolicies?: boolean | UserCountOutputTypeCountRotationPoliciesArgs
+    passwordRotations?: boolean | UserCountOutputTypeCountPasswordRotationsArgs
     createdUsers?: boolean | UserCountOutputTypeCountCreatedUsersArgs
     createdRoles?: boolean | UserCountOutputTypeCountCreatedRolesArgs
   }
@@ -2814,6 +3000,20 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountRotationPoliciesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordRotationPolicyWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPasswordRotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordRotationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountCreatedUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserWhereInput
   }
@@ -2835,6 +3035,7 @@ export namespace Prisma {
     tags: number
     history: number
     breaches: number
+    rotations: number
   }
 
   export type PasswordCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2842,6 +3043,7 @@ export namespace Prisma {
     tags?: boolean | PasswordCountOutputTypeCountTagsArgs
     history?: boolean | PasswordCountOutputTypeCountHistoryArgs
     breaches?: boolean | PasswordCountOutputTypeCountBreachesArgs
+    rotations?: boolean | PasswordCountOutputTypeCountRotationsArgs
   }
 
   // Custom InputTypes
@@ -2881,6 +3083,53 @@ export namespace Prisma {
    */
   export type PasswordCountOutputTypeCountBreachesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PasswordBreachWhereInput
+  }
+
+  /**
+   * PasswordCountOutputType without action
+   */
+  export type PasswordCountOutputTypeCountRotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordRotationWhereInput
+  }
+
+
+  /**
+   * Count Type PasswordRotationPolicyCountOutputType
+   */
+
+  export type PasswordRotationPolicyCountOutputType = {
+    passwords: number
+    rotations: number
+  }
+
+  export type PasswordRotationPolicyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    passwords?: boolean | PasswordRotationPolicyCountOutputTypeCountPasswordsArgs
+    rotations?: boolean | PasswordRotationPolicyCountOutputTypeCountRotationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PasswordRotationPolicyCountOutputType without action
+   */
+  export type PasswordRotationPolicyCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicyCountOutputType
+     */
+    select?: PasswordRotationPolicyCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PasswordRotationPolicyCountOutputType without action
+   */
+  export type PasswordRotationPolicyCountOutputTypeCountPasswordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordWhereInput
+  }
+
+  /**
+   * PasswordRotationPolicyCountOutputType without action
+   */
+  export type PasswordRotationPolicyCountOutputTypeCountRotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordRotationWhereInput
   }
 
 
@@ -4403,6 +4652,8 @@ export namespace Prisma {
     passwordHistory?: boolean | User$passwordHistoryArgs<ExtArgs>
     passwordBreachesChecked?: boolean | User$passwordBreachesCheckedArgs<ExtArgs>
     passwordBreachesResolved?: boolean | User$passwordBreachesResolvedArgs<ExtArgs>
+    rotationPolicies?: boolean | User$rotationPoliciesArgs<ExtArgs>
+    passwordRotations?: boolean | User$passwordRotationsArgs<ExtArgs>
     createdBy?: boolean | User$createdByArgs<ExtArgs>
     createdUsers?: boolean | User$createdUsersArgs<ExtArgs>
     createdRoles?: boolean | User$createdRolesArgs<ExtArgs>
@@ -4487,6 +4738,8 @@ export namespace Prisma {
     passwordHistory?: boolean | User$passwordHistoryArgs<ExtArgs>
     passwordBreachesChecked?: boolean | User$passwordBreachesCheckedArgs<ExtArgs>
     passwordBreachesResolved?: boolean | User$passwordBreachesResolvedArgs<ExtArgs>
+    rotationPolicies?: boolean | User$rotationPoliciesArgs<ExtArgs>
+    passwordRotations?: boolean | User$passwordRotationsArgs<ExtArgs>
     createdBy?: boolean | User$createdByArgs<ExtArgs>
     createdUsers?: boolean | User$createdUsersArgs<ExtArgs>
     createdRoles?: boolean | User$createdRolesArgs<ExtArgs>
@@ -4516,6 +4769,8 @@ export namespace Prisma {
       passwordHistory: Prisma.$PasswordHistoryPayload<ExtArgs>[]
       passwordBreachesChecked: Prisma.$PasswordBreachPayload<ExtArgs>[]
       passwordBreachesResolved: Prisma.$PasswordBreachPayload<ExtArgs>[]
+      rotationPolicies: Prisma.$PasswordRotationPolicyPayload<ExtArgs>[]
+      passwordRotations: Prisma.$PasswordRotationPayload<ExtArgs>[]
       createdBy: Prisma.$UserPayload<ExtArgs> | null
       createdUsers: Prisma.$UserPayload<ExtArgs>[]
       createdRoles: Prisma.$RolePayload<ExtArgs>[]
@@ -4944,6 +5199,8 @@ export namespace Prisma {
     passwordHistory<T extends User$passwordHistoryArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passwordBreachesChecked<T extends User$passwordBreachesCheckedArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordBreachesCheckedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passwordBreachesResolved<T extends User$passwordBreachesResolvedArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordBreachesResolvedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    rotationPolicies<T extends User$rotationPoliciesArgs<ExtArgs> = {}>(args?: Subset<T, User$rotationPoliciesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    passwordRotations<T extends User$passwordRotationsArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordRotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdBy<T extends User$createdByArgs<ExtArgs> = {}>(args?: Subset<T, User$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     createdUsers<T extends User$createdUsersArgs<ExtArgs> = {}>(args?: Subset<T, User$createdUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdRoles<T extends User$createdRolesArgs<ExtArgs> = {}>(args?: Subset<T, User$createdRolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5669,6 +5926,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PasswordBreachScalarFieldEnum | PasswordBreachScalarFieldEnum[]
+  }
+
+  /**
+   * User.rotationPolicies
+   */
+  export type User$rotationPoliciesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicy
+     */
+    select?: PasswordRotationPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotationPolicy
+     */
+    omit?: PasswordRotationPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationPolicyInclude<ExtArgs> | null
+    where?: PasswordRotationPolicyWhereInput
+    orderBy?: PasswordRotationPolicyOrderByWithRelationInput | PasswordRotationPolicyOrderByWithRelationInput[]
+    cursor?: PasswordRotationPolicyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PasswordRotationPolicyScalarFieldEnum | PasswordRotationPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * User.passwordRotations
+   */
+  export type User$passwordRotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotation
+     */
+    select?: PasswordRotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotation
+     */
+    omit?: PasswordRotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationInclude<ExtArgs> | null
+    where?: PasswordRotationWhereInput
+    orderBy?: PasswordRotationOrderByWithRelationInput | PasswordRotationOrderByWithRelationInput[]
+    cursor?: PasswordRotationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PasswordRotationScalarFieldEnum | PasswordRotationScalarFieldEnum[]
   }
 
   /**
@@ -8049,6 +8354,7 @@ export namespace Prisma {
     ownerId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    rotationPolicyId: string | null
   }
 
   export type PasswordMaxAggregateOutputType = {
@@ -8066,6 +8372,7 @@ export namespace Prisma {
     ownerId: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    rotationPolicyId: string | null
   }
 
   export type PasswordCountAggregateOutputType = {
@@ -8083,6 +8390,7 @@ export namespace Prisma {
     ownerId: number
     createdAt: number
     updatedAt: number
+    rotationPolicyId: number
     _all: number
   }
 
@@ -8102,6 +8410,7 @@ export namespace Prisma {
     ownerId?: true
     createdAt?: true
     updatedAt?: true
+    rotationPolicyId?: true
   }
 
   export type PasswordMaxAggregateInputType = {
@@ -8119,6 +8428,7 @@ export namespace Prisma {
     ownerId?: true
     createdAt?: true
     updatedAt?: true
+    rotationPolicyId?: true
   }
 
   export type PasswordCountAggregateInputType = {
@@ -8136,6 +8446,7 @@ export namespace Prisma {
     ownerId?: true
     createdAt?: true
     updatedAt?: true
+    rotationPolicyId?: true
     _all?: true
   }
 
@@ -8226,6 +8537,7 @@ export namespace Prisma {
     ownerId: string
     createdAt: Date
     updatedAt: Date
+    rotationPolicyId: string | null
     _count: PasswordCountAggregateOutputType | null
     _min: PasswordMinAggregateOutputType | null
     _max: PasswordMaxAggregateOutputType | null
@@ -8260,12 +8572,15 @@ export namespace Prisma {
     ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    rotationPolicyId?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
     folder?: boolean | Password$folderArgs<ExtArgs>
     sharedWith?: boolean | Password$sharedWithArgs<ExtArgs>
     tags?: boolean | Password$tagsArgs<ExtArgs>
     history?: boolean | Password$historyArgs<ExtArgs>
     breaches?: boolean | Password$breachesArgs<ExtArgs>
+    rotations?: boolean | Password$rotationsArgs<ExtArgs>
+    rotationPolicy?: boolean | Password$rotationPolicyArgs<ExtArgs>
     _count?: boolean | PasswordCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["password"]>
 
@@ -8284,8 +8599,10 @@ export namespace Prisma {
     ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    rotationPolicyId?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
     folder?: boolean | Password$folderArgs<ExtArgs>
+    rotationPolicy?: boolean | Password$rotationPolicyArgs<ExtArgs>
   }, ExtArgs["result"]["password"]>
 
   export type PasswordSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8303,8 +8620,10 @@ export namespace Prisma {
     ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    rotationPolicyId?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
     folder?: boolean | Password$folderArgs<ExtArgs>
+    rotationPolicy?: boolean | Password$rotationPolicyArgs<ExtArgs>
   }, ExtArgs["result"]["password"]>
 
   export type PasswordSelectScalar = {
@@ -8322,9 +8641,10 @@ export namespace Prisma {
     ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    rotationPolicyId?: boolean
   }
 
-  export type PasswordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "password" | "url" | "notes" | "folderId" | "strength" | "hasTotp" | "totpSecret" | "expiresAt" | "ownerId" | "createdAt" | "updatedAt", ExtArgs["result"]["password"]>
+  export type PasswordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "password" | "url" | "notes" | "folderId" | "strength" | "hasTotp" | "totpSecret" | "expiresAt" | "ownerId" | "createdAt" | "updatedAt" | "rotationPolicyId", ExtArgs["result"]["password"]>
   export type PasswordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     folder?: boolean | Password$folderArgs<ExtArgs>
@@ -8332,15 +8652,19 @@ export namespace Prisma {
     tags?: boolean | Password$tagsArgs<ExtArgs>
     history?: boolean | Password$historyArgs<ExtArgs>
     breaches?: boolean | Password$breachesArgs<ExtArgs>
+    rotations?: boolean | Password$rotationsArgs<ExtArgs>
+    rotationPolicy?: boolean | Password$rotationPolicyArgs<ExtArgs>
     _count?: boolean | PasswordCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PasswordIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     folder?: boolean | Password$folderArgs<ExtArgs>
+    rotationPolicy?: boolean | Password$rotationPolicyArgs<ExtArgs>
   }
   export type PasswordIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     folder?: boolean | Password$folderArgs<ExtArgs>
+    rotationPolicy?: boolean | Password$rotationPolicyArgs<ExtArgs>
   }
 
   export type $PasswordPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8352,6 +8676,8 @@ export namespace Prisma {
       tags: Prisma.$PasswordTagPayload<ExtArgs>[]
       history: Prisma.$PasswordHistoryPayload<ExtArgs>[]
       breaches: Prisma.$PasswordBreachPayload<ExtArgs>[]
+      rotations: Prisma.$PasswordRotationPayload<ExtArgs>[]
+      rotationPolicy: Prisma.$PasswordRotationPolicyPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8368,6 +8694,7 @@ export namespace Prisma {
       ownerId: string
       createdAt: Date
       updatedAt: Date
+      rotationPolicyId: string | null
     }, ExtArgs["result"]["password"]>
     composites: {}
   }
@@ -8768,6 +9095,8 @@ export namespace Prisma {
     tags<T extends Password$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Password$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     history<T extends Password$historyArgs<ExtArgs> = {}>(args?: Subset<T, Password$historyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     breaches<T extends Password$breachesArgs<ExtArgs> = {}>(args?: Subset<T, Password$breachesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    rotations<T extends Password$rotationsArgs<ExtArgs> = {}>(args?: Subset<T, Password$rotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    rotationPolicy<T extends Password$rotationPolicyArgs<ExtArgs> = {}>(args?: Subset<T, Password$rotationPolicyArgs<ExtArgs>>): Prisma__PasswordRotationPolicyClient<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8811,6 +9140,7 @@ export namespace Prisma {
     readonly ownerId: FieldRef<"Password", 'String'>
     readonly createdAt: FieldRef<"Password", 'DateTime'>
     readonly updatedAt: FieldRef<"Password", 'DateTime'>
+    readonly rotationPolicyId: FieldRef<"Password", 'String'>
   }
     
 
@@ -9319,6 +9649,49 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PasswordBreachScalarFieldEnum | PasswordBreachScalarFieldEnum[]
+  }
+
+  /**
+   * Password.rotations
+   */
+  export type Password$rotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotation
+     */
+    select?: PasswordRotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotation
+     */
+    omit?: PasswordRotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationInclude<ExtArgs> | null
+    where?: PasswordRotationWhereInput
+    orderBy?: PasswordRotationOrderByWithRelationInput | PasswordRotationOrderByWithRelationInput[]
+    cursor?: PasswordRotationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PasswordRotationScalarFieldEnum | PasswordRotationScalarFieldEnum[]
+  }
+
+  /**
+   * Password.rotationPolicy
+   */
+  export type Password$rotationPolicyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicy
+     */
+    select?: PasswordRotationPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotationPolicy
+     */
+    omit?: PasswordRotationPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationPolicyInclude<ExtArgs> | null
+    where?: PasswordRotationPolicyWhereInput
   }
 
   /**
@@ -11725,6 +12098,2422 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PasswordBreachInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PasswordRotationPolicy
+   */
+
+  export type AggregatePasswordRotationPolicy = {
+    _count: PasswordRotationPolicyCountAggregateOutputType | null
+    _avg: PasswordRotationPolicyAvgAggregateOutputType | null
+    _sum: PasswordRotationPolicySumAggregateOutputType | null
+    _min: PasswordRotationPolicyMinAggregateOutputType | null
+    _max: PasswordRotationPolicyMaxAggregateOutputType | null
+  }
+
+  export type PasswordRotationPolicyAvgAggregateOutputType = {
+    rotationDays: number | null
+    reminderDays: number | null
+  }
+
+  export type PasswordRotationPolicySumAggregateOutputType = {
+    rotationDays: number | null
+    reminderDays: number | null
+  }
+
+  export type PasswordRotationPolicyMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    rotationDays: number | null
+    reminderDays: number | null
+    autoRotate: boolean | null
+    requireApproval: boolean | null
+    isActive: boolean | null
+    ownerId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PasswordRotationPolicyMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    rotationDays: number | null
+    reminderDays: number | null
+    autoRotate: boolean | null
+    requireApproval: boolean | null
+    isActive: boolean | null
+    ownerId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PasswordRotationPolicyCountAggregateOutputType = {
+    id: number
+    name: number
+    description: number
+    rotationDays: number
+    reminderDays: number
+    autoRotate: number
+    requireApproval: number
+    isActive: number
+    ownerId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PasswordRotationPolicyAvgAggregateInputType = {
+    rotationDays?: true
+    reminderDays?: true
+  }
+
+  export type PasswordRotationPolicySumAggregateInputType = {
+    rotationDays?: true
+    reminderDays?: true
+  }
+
+  export type PasswordRotationPolicyMinAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    rotationDays?: true
+    reminderDays?: true
+    autoRotate?: true
+    requireApproval?: true
+    isActive?: true
+    ownerId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PasswordRotationPolicyMaxAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    rotationDays?: true
+    reminderDays?: true
+    autoRotate?: true
+    requireApproval?: true
+    isActive?: true
+    ownerId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PasswordRotationPolicyCountAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    rotationDays?: true
+    reminderDays?: true
+    autoRotate?: true
+    requireApproval?: true
+    isActive?: true
+    ownerId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PasswordRotationPolicyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordRotationPolicy to aggregate.
+     */
+    where?: PasswordRotationPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordRotationPolicies to fetch.
+     */
+    orderBy?: PasswordRotationPolicyOrderByWithRelationInput | PasswordRotationPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PasswordRotationPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordRotationPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordRotationPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PasswordRotationPolicies
+    **/
+    _count?: true | PasswordRotationPolicyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PasswordRotationPolicyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PasswordRotationPolicySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PasswordRotationPolicyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PasswordRotationPolicyMaxAggregateInputType
+  }
+
+  export type GetPasswordRotationPolicyAggregateType<T extends PasswordRotationPolicyAggregateArgs> = {
+        [P in keyof T & keyof AggregatePasswordRotationPolicy]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePasswordRotationPolicy[P]>
+      : GetScalarType<T[P], AggregatePasswordRotationPolicy[P]>
+  }
+
+
+
+
+  export type PasswordRotationPolicyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordRotationPolicyWhereInput
+    orderBy?: PasswordRotationPolicyOrderByWithAggregationInput | PasswordRotationPolicyOrderByWithAggregationInput[]
+    by: PasswordRotationPolicyScalarFieldEnum[] | PasswordRotationPolicyScalarFieldEnum
+    having?: PasswordRotationPolicyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PasswordRotationPolicyCountAggregateInputType | true
+    _avg?: PasswordRotationPolicyAvgAggregateInputType
+    _sum?: PasswordRotationPolicySumAggregateInputType
+    _min?: PasswordRotationPolicyMinAggregateInputType
+    _max?: PasswordRotationPolicyMaxAggregateInputType
+  }
+
+  export type PasswordRotationPolicyGroupByOutputType = {
+    id: string
+    name: string
+    description: string | null
+    rotationDays: number
+    reminderDays: number
+    autoRotate: boolean
+    requireApproval: boolean
+    isActive: boolean
+    ownerId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: PasswordRotationPolicyCountAggregateOutputType | null
+    _avg: PasswordRotationPolicyAvgAggregateOutputType | null
+    _sum: PasswordRotationPolicySumAggregateOutputType | null
+    _min: PasswordRotationPolicyMinAggregateOutputType | null
+    _max: PasswordRotationPolicyMaxAggregateOutputType | null
+  }
+
+  type GetPasswordRotationPolicyGroupByPayload<T extends PasswordRotationPolicyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PasswordRotationPolicyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PasswordRotationPolicyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PasswordRotationPolicyGroupByOutputType[P]>
+            : GetScalarType<T[P], PasswordRotationPolicyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PasswordRotationPolicySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    rotationDays?: boolean
+    reminderDays?: boolean
+    autoRotate?: boolean
+    requireApproval?: boolean
+    isActive?: boolean
+    ownerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+    passwords?: boolean | PasswordRotationPolicy$passwordsArgs<ExtArgs>
+    rotations?: boolean | PasswordRotationPolicy$rotationsArgs<ExtArgs>
+    _count?: boolean | PasswordRotationPolicyCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordRotationPolicy"]>
+
+  export type PasswordRotationPolicySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    rotationDays?: boolean
+    reminderDays?: boolean
+    autoRotate?: boolean
+    requireApproval?: boolean
+    isActive?: boolean
+    ownerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordRotationPolicy"]>
+
+  export type PasswordRotationPolicySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    rotationDays?: boolean
+    reminderDays?: boolean
+    autoRotate?: boolean
+    requireApproval?: boolean
+    isActive?: boolean
+    ownerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordRotationPolicy"]>
+
+  export type PasswordRotationPolicySelectScalar = {
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    rotationDays?: boolean
+    reminderDays?: boolean
+    autoRotate?: boolean
+    requireApproval?: boolean
+    isActive?: boolean
+    ownerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PasswordRotationPolicyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "rotationDays" | "reminderDays" | "autoRotate" | "requireApproval" | "isActive" | "ownerId" | "createdAt" | "updatedAt", ExtArgs["result"]["passwordRotationPolicy"]>
+  export type PasswordRotationPolicyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+    passwords?: boolean | PasswordRotationPolicy$passwordsArgs<ExtArgs>
+    rotations?: boolean | PasswordRotationPolicy$rotationsArgs<ExtArgs>
+    _count?: boolean | PasswordRotationPolicyCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PasswordRotationPolicyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PasswordRotationPolicyIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PasswordRotationPolicyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PasswordRotationPolicy"
+    objects: {
+      owner: Prisma.$UserPayload<ExtArgs>
+      passwords: Prisma.$PasswordPayload<ExtArgs>[]
+      rotations: Prisma.$PasswordRotationPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      description: string | null
+      rotationDays: number
+      reminderDays: number
+      autoRotate: boolean
+      requireApproval: boolean
+      isActive: boolean
+      ownerId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["passwordRotationPolicy"]>
+    composites: {}
+  }
+
+  type PasswordRotationPolicyGetPayload<S extends boolean | null | undefined | PasswordRotationPolicyDefaultArgs> = $Result.GetResult<Prisma.$PasswordRotationPolicyPayload, S>
+
+  type PasswordRotationPolicyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PasswordRotationPolicyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PasswordRotationPolicyCountAggregateInputType | true
+    }
+
+  export interface PasswordRotationPolicyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PasswordRotationPolicy'], meta: { name: 'PasswordRotationPolicy' } }
+    /**
+     * Find zero or one PasswordRotationPolicy that matches the filter.
+     * @param {PasswordRotationPolicyFindUniqueArgs} args - Arguments to find a PasswordRotationPolicy
+     * @example
+     * // Get one PasswordRotationPolicy
+     * const passwordRotationPolicy = await prisma.passwordRotationPolicy.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PasswordRotationPolicyFindUniqueArgs>(args: SelectSubset<T, PasswordRotationPolicyFindUniqueArgs<ExtArgs>>): Prisma__PasswordRotationPolicyClient<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PasswordRotationPolicy that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PasswordRotationPolicyFindUniqueOrThrowArgs} args - Arguments to find a PasswordRotationPolicy
+     * @example
+     * // Get one PasswordRotationPolicy
+     * const passwordRotationPolicy = await prisma.passwordRotationPolicy.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PasswordRotationPolicyFindUniqueOrThrowArgs>(args: SelectSubset<T, PasswordRotationPolicyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PasswordRotationPolicyClient<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordRotationPolicy that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordRotationPolicyFindFirstArgs} args - Arguments to find a PasswordRotationPolicy
+     * @example
+     * // Get one PasswordRotationPolicy
+     * const passwordRotationPolicy = await prisma.passwordRotationPolicy.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PasswordRotationPolicyFindFirstArgs>(args?: SelectSubset<T, PasswordRotationPolicyFindFirstArgs<ExtArgs>>): Prisma__PasswordRotationPolicyClient<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordRotationPolicy that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordRotationPolicyFindFirstOrThrowArgs} args - Arguments to find a PasswordRotationPolicy
+     * @example
+     * // Get one PasswordRotationPolicy
+     * const passwordRotationPolicy = await prisma.passwordRotationPolicy.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PasswordRotationPolicyFindFirstOrThrowArgs>(args?: SelectSubset<T, PasswordRotationPolicyFindFirstOrThrowArgs<ExtArgs>>): Prisma__PasswordRotationPolicyClient<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PasswordRotationPolicies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordRotationPolicyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PasswordRotationPolicies
+     * const passwordRotationPolicies = await prisma.passwordRotationPolicy.findMany()
+     * 
+     * // Get first 10 PasswordRotationPolicies
+     * const passwordRotationPolicies = await prisma.passwordRotationPolicy.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const passwordRotationPolicyWithIdOnly = await prisma.passwordRotationPolicy.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PasswordRotationPolicyFindManyArgs>(args?: SelectSubset<T, PasswordRotationPolicyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PasswordRotationPolicy.
+     * @param {PasswordRotationPolicyCreateArgs} args - Arguments to create a PasswordRotationPolicy.
+     * @example
+     * // Create one PasswordRotationPolicy
+     * const PasswordRotationPolicy = await prisma.passwordRotationPolicy.create({
+     *   data: {
+     *     // ... data to create a PasswordRotationPolicy
+     *   }
+     * })
+     * 
+     */
+    create<T extends PasswordRotationPolicyCreateArgs>(args: SelectSubset<T, PasswordRotationPolicyCreateArgs<ExtArgs>>): Prisma__PasswordRotationPolicyClient<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PasswordRotationPolicies.
+     * @param {PasswordRotationPolicyCreateManyArgs} args - Arguments to create many PasswordRotationPolicies.
+     * @example
+     * // Create many PasswordRotationPolicies
+     * const passwordRotationPolicy = await prisma.passwordRotationPolicy.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PasswordRotationPolicyCreateManyArgs>(args?: SelectSubset<T, PasswordRotationPolicyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PasswordRotationPolicies and returns the data saved in the database.
+     * @param {PasswordRotationPolicyCreateManyAndReturnArgs} args - Arguments to create many PasswordRotationPolicies.
+     * @example
+     * // Create many PasswordRotationPolicies
+     * const passwordRotationPolicy = await prisma.passwordRotationPolicy.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PasswordRotationPolicies and only return the `id`
+     * const passwordRotationPolicyWithIdOnly = await prisma.passwordRotationPolicy.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PasswordRotationPolicyCreateManyAndReturnArgs>(args?: SelectSubset<T, PasswordRotationPolicyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PasswordRotationPolicy.
+     * @param {PasswordRotationPolicyDeleteArgs} args - Arguments to delete one PasswordRotationPolicy.
+     * @example
+     * // Delete one PasswordRotationPolicy
+     * const PasswordRotationPolicy = await prisma.passwordRotationPolicy.delete({
+     *   where: {
+     *     // ... filter to delete one PasswordRotationPolicy
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PasswordRotationPolicyDeleteArgs>(args: SelectSubset<T, PasswordRotationPolicyDeleteArgs<ExtArgs>>): Prisma__PasswordRotationPolicyClient<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PasswordRotationPolicy.
+     * @param {PasswordRotationPolicyUpdateArgs} args - Arguments to update one PasswordRotationPolicy.
+     * @example
+     * // Update one PasswordRotationPolicy
+     * const passwordRotationPolicy = await prisma.passwordRotationPolicy.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PasswordRotationPolicyUpdateArgs>(args: SelectSubset<T, PasswordRotationPolicyUpdateArgs<ExtArgs>>): Prisma__PasswordRotationPolicyClient<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PasswordRotationPolicies.
+     * @param {PasswordRotationPolicyDeleteManyArgs} args - Arguments to filter PasswordRotationPolicies to delete.
+     * @example
+     * // Delete a few PasswordRotationPolicies
+     * const { count } = await prisma.passwordRotationPolicy.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PasswordRotationPolicyDeleteManyArgs>(args?: SelectSubset<T, PasswordRotationPolicyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordRotationPolicies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordRotationPolicyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PasswordRotationPolicies
+     * const passwordRotationPolicy = await prisma.passwordRotationPolicy.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PasswordRotationPolicyUpdateManyArgs>(args: SelectSubset<T, PasswordRotationPolicyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordRotationPolicies and returns the data updated in the database.
+     * @param {PasswordRotationPolicyUpdateManyAndReturnArgs} args - Arguments to update many PasswordRotationPolicies.
+     * @example
+     * // Update many PasswordRotationPolicies
+     * const passwordRotationPolicy = await prisma.passwordRotationPolicy.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PasswordRotationPolicies and only return the `id`
+     * const passwordRotationPolicyWithIdOnly = await prisma.passwordRotationPolicy.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PasswordRotationPolicyUpdateManyAndReturnArgs>(args: SelectSubset<T, PasswordRotationPolicyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PasswordRotationPolicy.
+     * @param {PasswordRotationPolicyUpsertArgs} args - Arguments to update or create a PasswordRotationPolicy.
+     * @example
+     * // Update or create a PasswordRotationPolicy
+     * const passwordRotationPolicy = await prisma.passwordRotationPolicy.upsert({
+     *   create: {
+     *     // ... data to create a PasswordRotationPolicy
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PasswordRotationPolicy we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PasswordRotationPolicyUpsertArgs>(args: SelectSubset<T, PasswordRotationPolicyUpsertArgs<ExtArgs>>): Prisma__PasswordRotationPolicyClient<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PasswordRotationPolicies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordRotationPolicyCountArgs} args - Arguments to filter PasswordRotationPolicies to count.
+     * @example
+     * // Count the number of PasswordRotationPolicies
+     * const count = await prisma.passwordRotationPolicy.count({
+     *   where: {
+     *     // ... the filter for the PasswordRotationPolicies we want to count
+     *   }
+     * })
+    **/
+    count<T extends PasswordRotationPolicyCountArgs>(
+      args?: Subset<T, PasswordRotationPolicyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PasswordRotationPolicyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PasswordRotationPolicy.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordRotationPolicyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PasswordRotationPolicyAggregateArgs>(args: Subset<T, PasswordRotationPolicyAggregateArgs>): Prisma.PrismaPromise<GetPasswordRotationPolicyAggregateType<T>>
+
+    /**
+     * Group by PasswordRotationPolicy.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordRotationPolicyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PasswordRotationPolicyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PasswordRotationPolicyGroupByArgs['orderBy'] }
+        : { orderBy?: PasswordRotationPolicyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PasswordRotationPolicyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPasswordRotationPolicyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PasswordRotationPolicy model
+   */
+  readonly fields: PasswordRotationPolicyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PasswordRotationPolicy.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PasswordRotationPolicyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    passwords<T extends PasswordRotationPolicy$passwordsArgs<ExtArgs> = {}>(args?: Subset<T, PasswordRotationPolicy$passwordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    rotations<T extends PasswordRotationPolicy$rotationsArgs<ExtArgs> = {}>(args?: Subset<T, PasswordRotationPolicy$rotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PasswordRotationPolicy model
+   */
+  interface PasswordRotationPolicyFieldRefs {
+    readonly id: FieldRef<"PasswordRotationPolicy", 'String'>
+    readonly name: FieldRef<"PasswordRotationPolicy", 'String'>
+    readonly description: FieldRef<"PasswordRotationPolicy", 'String'>
+    readonly rotationDays: FieldRef<"PasswordRotationPolicy", 'Int'>
+    readonly reminderDays: FieldRef<"PasswordRotationPolicy", 'Int'>
+    readonly autoRotate: FieldRef<"PasswordRotationPolicy", 'Boolean'>
+    readonly requireApproval: FieldRef<"PasswordRotationPolicy", 'Boolean'>
+    readonly isActive: FieldRef<"PasswordRotationPolicy", 'Boolean'>
+    readonly ownerId: FieldRef<"PasswordRotationPolicy", 'String'>
+    readonly createdAt: FieldRef<"PasswordRotationPolicy", 'DateTime'>
+    readonly updatedAt: FieldRef<"PasswordRotationPolicy", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PasswordRotationPolicy findUnique
+   */
+  export type PasswordRotationPolicyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicy
+     */
+    select?: PasswordRotationPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotationPolicy
+     */
+    omit?: PasswordRotationPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordRotationPolicy to fetch.
+     */
+    where: PasswordRotationPolicyWhereUniqueInput
+  }
+
+  /**
+   * PasswordRotationPolicy findUniqueOrThrow
+   */
+  export type PasswordRotationPolicyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicy
+     */
+    select?: PasswordRotationPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotationPolicy
+     */
+    omit?: PasswordRotationPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordRotationPolicy to fetch.
+     */
+    where: PasswordRotationPolicyWhereUniqueInput
+  }
+
+  /**
+   * PasswordRotationPolicy findFirst
+   */
+  export type PasswordRotationPolicyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicy
+     */
+    select?: PasswordRotationPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotationPolicy
+     */
+    omit?: PasswordRotationPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordRotationPolicy to fetch.
+     */
+    where?: PasswordRotationPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordRotationPolicies to fetch.
+     */
+    orderBy?: PasswordRotationPolicyOrderByWithRelationInput | PasswordRotationPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordRotationPolicies.
+     */
+    cursor?: PasswordRotationPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordRotationPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordRotationPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordRotationPolicies.
+     */
+    distinct?: PasswordRotationPolicyScalarFieldEnum | PasswordRotationPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordRotationPolicy findFirstOrThrow
+   */
+  export type PasswordRotationPolicyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicy
+     */
+    select?: PasswordRotationPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotationPolicy
+     */
+    omit?: PasswordRotationPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordRotationPolicy to fetch.
+     */
+    where?: PasswordRotationPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordRotationPolicies to fetch.
+     */
+    orderBy?: PasswordRotationPolicyOrderByWithRelationInput | PasswordRotationPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordRotationPolicies.
+     */
+    cursor?: PasswordRotationPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordRotationPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordRotationPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordRotationPolicies.
+     */
+    distinct?: PasswordRotationPolicyScalarFieldEnum | PasswordRotationPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordRotationPolicy findMany
+   */
+  export type PasswordRotationPolicyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicy
+     */
+    select?: PasswordRotationPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotationPolicy
+     */
+    omit?: PasswordRotationPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordRotationPolicies to fetch.
+     */
+    where?: PasswordRotationPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordRotationPolicies to fetch.
+     */
+    orderBy?: PasswordRotationPolicyOrderByWithRelationInput | PasswordRotationPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PasswordRotationPolicies.
+     */
+    cursor?: PasswordRotationPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordRotationPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordRotationPolicies.
+     */
+    skip?: number
+    distinct?: PasswordRotationPolicyScalarFieldEnum | PasswordRotationPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordRotationPolicy create
+   */
+  export type PasswordRotationPolicyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicy
+     */
+    select?: PasswordRotationPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotationPolicy
+     */
+    omit?: PasswordRotationPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationPolicyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PasswordRotationPolicy.
+     */
+    data: XOR<PasswordRotationPolicyCreateInput, PasswordRotationPolicyUncheckedCreateInput>
+  }
+
+  /**
+   * PasswordRotationPolicy createMany
+   */
+  export type PasswordRotationPolicyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PasswordRotationPolicies.
+     */
+    data: PasswordRotationPolicyCreateManyInput | PasswordRotationPolicyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PasswordRotationPolicy createManyAndReturn
+   */
+  export type PasswordRotationPolicyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicy
+     */
+    select?: PasswordRotationPolicySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotationPolicy
+     */
+    omit?: PasswordRotationPolicyOmit<ExtArgs> | null
+    /**
+     * The data used to create many PasswordRotationPolicies.
+     */
+    data: PasswordRotationPolicyCreateManyInput | PasswordRotationPolicyCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationPolicyIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PasswordRotationPolicy update
+   */
+  export type PasswordRotationPolicyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicy
+     */
+    select?: PasswordRotationPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotationPolicy
+     */
+    omit?: PasswordRotationPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationPolicyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PasswordRotationPolicy.
+     */
+    data: XOR<PasswordRotationPolicyUpdateInput, PasswordRotationPolicyUncheckedUpdateInput>
+    /**
+     * Choose, which PasswordRotationPolicy to update.
+     */
+    where: PasswordRotationPolicyWhereUniqueInput
+  }
+
+  /**
+   * PasswordRotationPolicy updateMany
+   */
+  export type PasswordRotationPolicyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PasswordRotationPolicies.
+     */
+    data: XOR<PasswordRotationPolicyUpdateManyMutationInput, PasswordRotationPolicyUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordRotationPolicies to update
+     */
+    where?: PasswordRotationPolicyWhereInput
+    /**
+     * Limit how many PasswordRotationPolicies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordRotationPolicy updateManyAndReturn
+   */
+  export type PasswordRotationPolicyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicy
+     */
+    select?: PasswordRotationPolicySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotationPolicy
+     */
+    omit?: PasswordRotationPolicyOmit<ExtArgs> | null
+    /**
+     * The data used to update PasswordRotationPolicies.
+     */
+    data: XOR<PasswordRotationPolicyUpdateManyMutationInput, PasswordRotationPolicyUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordRotationPolicies to update
+     */
+    where?: PasswordRotationPolicyWhereInput
+    /**
+     * Limit how many PasswordRotationPolicies to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationPolicyIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PasswordRotationPolicy upsert
+   */
+  export type PasswordRotationPolicyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicy
+     */
+    select?: PasswordRotationPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotationPolicy
+     */
+    omit?: PasswordRotationPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationPolicyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PasswordRotationPolicy to update in case it exists.
+     */
+    where: PasswordRotationPolicyWhereUniqueInput
+    /**
+     * In case the PasswordRotationPolicy found by the `where` argument doesn't exist, create a new PasswordRotationPolicy with this data.
+     */
+    create: XOR<PasswordRotationPolicyCreateInput, PasswordRotationPolicyUncheckedCreateInput>
+    /**
+     * In case the PasswordRotationPolicy was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PasswordRotationPolicyUpdateInput, PasswordRotationPolicyUncheckedUpdateInput>
+  }
+
+  /**
+   * PasswordRotationPolicy delete
+   */
+  export type PasswordRotationPolicyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicy
+     */
+    select?: PasswordRotationPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotationPolicy
+     */
+    omit?: PasswordRotationPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationPolicyInclude<ExtArgs> | null
+    /**
+     * Filter which PasswordRotationPolicy to delete.
+     */
+    where: PasswordRotationPolicyWhereUniqueInput
+  }
+
+  /**
+   * PasswordRotationPolicy deleteMany
+   */
+  export type PasswordRotationPolicyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordRotationPolicies to delete
+     */
+    where?: PasswordRotationPolicyWhereInput
+    /**
+     * Limit how many PasswordRotationPolicies to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordRotationPolicy.passwords
+   */
+  export type PasswordRotationPolicy$passwordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Password
+     */
+    select?: PasswordSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Password
+     */
+    omit?: PasswordOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordInclude<ExtArgs> | null
+    where?: PasswordWhereInput
+    orderBy?: PasswordOrderByWithRelationInput | PasswordOrderByWithRelationInput[]
+    cursor?: PasswordWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PasswordScalarFieldEnum | PasswordScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordRotationPolicy.rotations
+   */
+  export type PasswordRotationPolicy$rotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotation
+     */
+    select?: PasswordRotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotation
+     */
+    omit?: PasswordRotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationInclude<ExtArgs> | null
+    where?: PasswordRotationWhereInput
+    orderBy?: PasswordRotationOrderByWithRelationInput | PasswordRotationOrderByWithRelationInput[]
+    cursor?: PasswordRotationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PasswordRotationScalarFieldEnum | PasswordRotationScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordRotationPolicy without action
+   */
+  export type PasswordRotationPolicyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicy
+     */
+    select?: PasswordRotationPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotationPolicy
+     */
+    omit?: PasswordRotationPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationPolicyInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PasswordRotation
+   */
+
+  export type AggregatePasswordRotation = {
+    _count: PasswordRotationCountAggregateOutputType | null
+    _min: PasswordRotationMinAggregateOutputType | null
+    _max: PasswordRotationMaxAggregateOutputType | null
+  }
+
+  export type PasswordRotationMinAggregateOutputType = {
+    id: string | null
+    passwordId: string | null
+    policyId: string | null
+    rotationType: string | null
+    oldPassword: string | null
+    newPassword: string | null
+    rotatedAt: Date | null
+    rotatedBy: string | null
+    scheduledFor: Date | null
+    completedAt: Date | null
+    status: string | null
+    notes: string | null
+  }
+
+  export type PasswordRotationMaxAggregateOutputType = {
+    id: string | null
+    passwordId: string | null
+    policyId: string | null
+    rotationType: string | null
+    oldPassword: string | null
+    newPassword: string | null
+    rotatedAt: Date | null
+    rotatedBy: string | null
+    scheduledFor: Date | null
+    completedAt: Date | null
+    status: string | null
+    notes: string | null
+  }
+
+  export type PasswordRotationCountAggregateOutputType = {
+    id: number
+    passwordId: number
+    policyId: number
+    rotationType: number
+    oldPassword: number
+    newPassword: number
+    rotatedAt: number
+    rotatedBy: number
+    scheduledFor: number
+    completedAt: number
+    status: number
+    notes: number
+    _all: number
+  }
+
+
+  export type PasswordRotationMinAggregateInputType = {
+    id?: true
+    passwordId?: true
+    policyId?: true
+    rotationType?: true
+    oldPassword?: true
+    newPassword?: true
+    rotatedAt?: true
+    rotatedBy?: true
+    scheduledFor?: true
+    completedAt?: true
+    status?: true
+    notes?: true
+  }
+
+  export type PasswordRotationMaxAggregateInputType = {
+    id?: true
+    passwordId?: true
+    policyId?: true
+    rotationType?: true
+    oldPassword?: true
+    newPassword?: true
+    rotatedAt?: true
+    rotatedBy?: true
+    scheduledFor?: true
+    completedAt?: true
+    status?: true
+    notes?: true
+  }
+
+  export type PasswordRotationCountAggregateInputType = {
+    id?: true
+    passwordId?: true
+    policyId?: true
+    rotationType?: true
+    oldPassword?: true
+    newPassword?: true
+    rotatedAt?: true
+    rotatedBy?: true
+    scheduledFor?: true
+    completedAt?: true
+    status?: true
+    notes?: true
+    _all?: true
+  }
+
+  export type PasswordRotationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordRotation to aggregate.
+     */
+    where?: PasswordRotationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordRotations to fetch.
+     */
+    orderBy?: PasswordRotationOrderByWithRelationInput | PasswordRotationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PasswordRotationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordRotations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordRotations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PasswordRotations
+    **/
+    _count?: true | PasswordRotationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PasswordRotationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PasswordRotationMaxAggregateInputType
+  }
+
+  export type GetPasswordRotationAggregateType<T extends PasswordRotationAggregateArgs> = {
+        [P in keyof T & keyof AggregatePasswordRotation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePasswordRotation[P]>
+      : GetScalarType<T[P], AggregatePasswordRotation[P]>
+  }
+
+
+
+
+  export type PasswordRotationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordRotationWhereInput
+    orderBy?: PasswordRotationOrderByWithAggregationInput | PasswordRotationOrderByWithAggregationInput[]
+    by: PasswordRotationScalarFieldEnum[] | PasswordRotationScalarFieldEnum
+    having?: PasswordRotationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PasswordRotationCountAggregateInputType | true
+    _min?: PasswordRotationMinAggregateInputType
+    _max?: PasswordRotationMaxAggregateInputType
+  }
+
+  export type PasswordRotationGroupByOutputType = {
+    id: string
+    passwordId: string
+    policyId: string | null
+    rotationType: string
+    oldPassword: string | null
+    newPassword: string
+    rotatedAt: Date
+    rotatedBy: string
+    scheduledFor: Date | null
+    completedAt: Date | null
+    status: string
+    notes: string | null
+    _count: PasswordRotationCountAggregateOutputType | null
+    _min: PasswordRotationMinAggregateOutputType | null
+    _max: PasswordRotationMaxAggregateOutputType | null
+  }
+
+  type GetPasswordRotationGroupByPayload<T extends PasswordRotationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PasswordRotationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PasswordRotationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PasswordRotationGroupByOutputType[P]>
+            : GetScalarType<T[P], PasswordRotationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PasswordRotationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    passwordId?: boolean
+    policyId?: boolean
+    rotationType?: boolean
+    oldPassword?: boolean
+    newPassword?: boolean
+    rotatedAt?: boolean
+    rotatedBy?: boolean
+    scheduledFor?: boolean
+    completedAt?: boolean
+    status?: boolean
+    notes?: boolean
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    policy?: boolean | PasswordRotation$policyArgs<ExtArgs>
+    rotatedByUser?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordRotation"]>
+
+  export type PasswordRotationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    passwordId?: boolean
+    policyId?: boolean
+    rotationType?: boolean
+    oldPassword?: boolean
+    newPassword?: boolean
+    rotatedAt?: boolean
+    rotatedBy?: boolean
+    scheduledFor?: boolean
+    completedAt?: boolean
+    status?: boolean
+    notes?: boolean
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    policy?: boolean | PasswordRotation$policyArgs<ExtArgs>
+    rotatedByUser?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordRotation"]>
+
+  export type PasswordRotationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    passwordId?: boolean
+    policyId?: boolean
+    rotationType?: boolean
+    oldPassword?: boolean
+    newPassword?: boolean
+    rotatedAt?: boolean
+    rotatedBy?: boolean
+    scheduledFor?: boolean
+    completedAt?: boolean
+    status?: boolean
+    notes?: boolean
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    policy?: boolean | PasswordRotation$policyArgs<ExtArgs>
+    rotatedByUser?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordRotation"]>
+
+  export type PasswordRotationSelectScalar = {
+    id?: boolean
+    passwordId?: boolean
+    policyId?: boolean
+    rotationType?: boolean
+    oldPassword?: boolean
+    newPassword?: boolean
+    rotatedAt?: boolean
+    rotatedBy?: boolean
+    scheduledFor?: boolean
+    completedAt?: boolean
+    status?: boolean
+    notes?: boolean
+  }
+
+  export type PasswordRotationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "passwordId" | "policyId" | "rotationType" | "oldPassword" | "newPassword" | "rotatedAt" | "rotatedBy" | "scheduledFor" | "completedAt" | "status" | "notes", ExtArgs["result"]["passwordRotation"]>
+  export type PasswordRotationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    policy?: boolean | PasswordRotation$policyArgs<ExtArgs>
+    rotatedByUser?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PasswordRotationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    policy?: boolean | PasswordRotation$policyArgs<ExtArgs>
+    rotatedByUser?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PasswordRotationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    policy?: boolean | PasswordRotation$policyArgs<ExtArgs>
+    rotatedByUser?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PasswordRotationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PasswordRotation"
+    objects: {
+      password: Prisma.$PasswordPayload<ExtArgs>
+      policy: Prisma.$PasswordRotationPolicyPayload<ExtArgs> | null
+      rotatedByUser: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      passwordId: string
+      policyId: string | null
+      rotationType: string
+      oldPassword: string | null
+      newPassword: string
+      rotatedAt: Date
+      rotatedBy: string
+      scheduledFor: Date | null
+      completedAt: Date | null
+      status: string
+      notes: string | null
+    }, ExtArgs["result"]["passwordRotation"]>
+    composites: {}
+  }
+
+  type PasswordRotationGetPayload<S extends boolean | null | undefined | PasswordRotationDefaultArgs> = $Result.GetResult<Prisma.$PasswordRotationPayload, S>
+
+  type PasswordRotationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PasswordRotationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PasswordRotationCountAggregateInputType | true
+    }
+
+  export interface PasswordRotationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PasswordRotation'], meta: { name: 'PasswordRotation' } }
+    /**
+     * Find zero or one PasswordRotation that matches the filter.
+     * @param {PasswordRotationFindUniqueArgs} args - Arguments to find a PasswordRotation
+     * @example
+     * // Get one PasswordRotation
+     * const passwordRotation = await prisma.passwordRotation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PasswordRotationFindUniqueArgs>(args: SelectSubset<T, PasswordRotationFindUniqueArgs<ExtArgs>>): Prisma__PasswordRotationClient<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PasswordRotation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PasswordRotationFindUniqueOrThrowArgs} args - Arguments to find a PasswordRotation
+     * @example
+     * // Get one PasswordRotation
+     * const passwordRotation = await prisma.passwordRotation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PasswordRotationFindUniqueOrThrowArgs>(args: SelectSubset<T, PasswordRotationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PasswordRotationClient<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordRotation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordRotationFindFirstArgs} args - Arguments to find a PasswordRotation
+     * @example
+     * // Get one PasswordRotation
+     * const passwordRotation = await prisma.passwordRotation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PasswordRotationFindFirstArgs>(args?: SelectSubset<T, PasswordRotationFindFirstArgs<ExtArgs>>): Prisma__PasswordRotationClient<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordRotation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordRotationFindFirstOrThrowArgs} args - Arguments to find a PasswordRotation
+     * @example
+     * // Get one PasswordRotation
+     * const passwordRotation = await prisma.passwordRotation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PasswordRotationFindFirstOrThrowArgs>(args?: SelectSubset<T, PasswordRotationFindFirstOrThrowArgs<ExtArgs>>): Prisma__PasswordRotationClient<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PasswordRotations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordRotationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PasswordRotations
+     * const passwordRotations = await prisma.passwordRotation.findMany()
+     * 
+     * // Get first 10 PasswordRotations
+     * const passwordRotations = await prisma.passwordRotation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const passwordRotationWithIdOnly = await prisma.passwordRotation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PasswordRotationFindManyArgs>(args?: SelectSubset<T, PasswordRotationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PasswordRotation.
+     * @param {PasswordRotationCreateArgs} args - Arguments to create a PasswordRotation.
+     * @example
+     * // Create one PasswordRotation
+     * const PasswordRotation = await prisma.passwordRotation.create({
+     *   data: {
+     *     // ... data to create a PasswordRotation
+     *   }
+     * })
+     * 
+     */
+    create<T extends PasswordRotationCreateArgs>(args: SelectSubset<T, PasswordRotationCreateArgs<ExtArgs>>): Prisma__PasswordRotationClient<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PasswordRotations.
+     * @param {PasswordRotationCreateManyArgs} args - Arguments to create many PasswordRotations.
+     * @example
+     * // Create many PasswordRotations
+     * const passwordRotation = await prisma.passwordRotation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PasswordRotationCreateManyArgs>(args?: SelectSubset<T, PasswordRotationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PasswordRotations and returns the data saved in the database.
+     * @param {PasswordRotationCreateManyAndReturnArgs} args - Arguments to create many PasswordRotations.
+     * @example
+     * // Create many PasswordRotations
+     * const passwordRotation = await prisma.passwordRotation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PasswordRotations and only return the `id`
+     * const passwordRotationWithIdOnly = await prisma.passwordRotation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PasswordRotationCreateManyAndReturnArgs>(args?: SelectSubset<T, PasswordRotationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PasswordRotation.
+     * @param {PasswordRotationDeleteArgs} args - Arguments to delete one PasswordRotation.
+     * @example
+     * // Delete one PasswordRotation
+     * const PasswordRotation = await prisma.passwordRotation.delete({
+     *   where: {
+     *     // ... filter to delete one PasswordRotation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PasswordRotationDeleteArgs>(args: SelectSubset<T, PasswordRotationDeleteArgs<ExtArgs>>): Prisma__PasswordRotationClient<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PasswordRotation.
+     * @param {PasswordRotationUpdateArgs} args - Arguments to update one PasswordRotation.
+     * @example
+     * // Update one PasswordRotation
+     * const passwordRotation = await prisma.passwordRotation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PasswordRotationUpdateArgs>(args: SelectSubset<T, PasswordRotationUpdateArgs<ExtArgs>>): Prisma__PasswordRotationClient<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PasswordRotations.
+     * @param {PasswordRotationDeleteManyArgs} args - Arguments to filter PasswordRotations to delete.
+     * @example
+     * // Delete a few PasswordRotations
+     * const { count } = await prisma.passwordRotation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PasswordRotationDeleteManyArgs>(args?: SelectSubset<T, PasswordRotationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordRotations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordRotationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PasswordRotations
+     * const passwordRotation = await prisma.passwordRotation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PasswordRotationUpdateManyArgs>(args: SelectSubset<T, PasswordRotationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordRotations and returns the data updated in the database.
+     * @param {PasswordRotationUpdateManyAndReturnArgs} args - Arguments to update many PasswordRotations.
+     * @example
+     * // Update many PasswordRotations
+     * const passwordRotation = await prisma.passwordRotation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PasswordRotations and only return the `id`
+     * const passwordRotationWithIdOnly = await prisma.passwordRotation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PasswordRotationUpdateManyAndReturnArgs>(args: SelectSubset<T, PasswordRotationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PasswordRotation.
+     * @param {PasswordRotationUpsertArgs} args - Arguments to update or create a PasswordRotation.
+     * @example
+     * // Update or create a PasswordRotation
+     * const passwordRotation = await prisma.passwordRotation.upsert({
+     *   create: {
+     *     // ... data to create a PasswordRotation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PasswordRotation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PasswordRotationUpsertArgs>(args: SelectSubset<T, PasswordRotationUpsertArgs<ExtArgs>>): Prisma__PasswordRotationClient<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PasswordRotations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordRotationCountArgs} args - Arguments to filter PasswordRotations to count.
+     * @example
+     * // Count the number of PasswordRotations
+     * const count = await prisma.passwordRotation.count({
+     *   where: {
+     *     // ... the filter for the PasswordRotations we want to count
+     *   }
+     * })
+    **/
+    count<T extends PasswordRotationCountArgs>(
+      args?: Subset<T, PasswordRotationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PasswordRotationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PasswordRotation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordRotationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PasswordRotationAggregateArgs>(args: Subset<T, PasswordRotationAggregateArgs>): Prisma.PrismaPromise<GetPasswordRotationAggregateType<T>>
+
+    /**
+     * Group by PasswordRotation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordRotationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PasswordRotationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PasswordRotationGroupByArgs['orderBy'] }
+        : { orderBy?: PasswordRotationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PasswordRotationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPasswordRotationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PasswordRotation model
+   */
+  readonly fields: PasswordRotationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PasswordRotation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PasswordRotationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    password<T extends PasswordDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PasswordDefaultArgs<ExtArgs>>): Prisma__PasswordClient<$Result.GetResult<Prisma.$PasswordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    policy<T extends PasswordRotation$policyArgs<ExtArgs> = {}>(args?: Subset<T, PasswordRotation$policyArgs<ExtArgs>>): Prisma__PasswordRotationPolicyClient<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    rotatedByUser<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PasswordRotation model
+   */
+  interface PasswordRotationFieldRefs {
+    readonly id: FieldRef<"PasswordRotation", 'String'>
+    readonly passwordId: FieldRef<"PasswordRotation", 'String'>
+    readonly policyId: FieldRef<"PasswordRotation", 'String'>
+    readonly rotationType: FieldRef<"PasswordRotation", 'String'>
+    readonly oldPassword: FieldRef<"PasswordRotation", 'String'>
+    readonly newPassword: FieldRef<"PasswordRotation", 'String'>
+    readonly rotatedAt: FieldRef<"PasswordRotation", 'DateTime'>
+    readonly rotatedBy: FieldRef<"PasswordRotation", 'String'>
+    readonly scheduledFor: FieldRef<"PasswordRotation", 'DateTime'>
+    readonly completedAt: FieldRef<"PasswordRotation", 'DateTime'>
+    readonly status: FieldRef<"PasswordRotation", 'String'>
+    readonly notes: FieldRef<"PasswordRotation", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PasswordRotation findUnique
+   */
+  export type PasswordRotationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotation
+     */
+    select?: PasswordRotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotation
+     */
+    omit?: PasswordRotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordRotation to fetch.
+     */
+    where: PasswordRotationWhereUniqueInput
+  }
+
+  /**
+   * PasswordRotation findUniqueOrThrow
+   */
+  export type PasswordRotationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotation
+     */
+    select?: PasswordRotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotation
+     */
+    omit?: PasswordRotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordRotation to fetch.
+     */
+    where: PasswordRotationWhereUniqueInput
+  }
+
+  /**
+   * PasswordRotation findFirst
+   */
+  export type PasswordRotationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotation
+     */
+    select?: PasswordRotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotation
+     */
+    omit?: PasswordRotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordRotation to fetch.
+     */
+    where?: PasswordRotationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordRotations to fetch.
+     */
+    orderBy?: PasswordRotationOrderByWithRelationInput | PasswordRotationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordRotations.
+     */
+    cursor?: PasswordRotationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordRotations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordRotations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordRotations.
+     */
+    distinct?: PasswordRotationScalarFieldEnum | PasswordRotationScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordRotation findFirstOrThrow
+   */
+  export type PasswordRotationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotation
+     */
+    select?: PasswordRotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotation
+     */
+    omit?: PasswordRotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordRotation to fetch.
+     */
+    where?: PasswordRotationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordRotations to fetch.
+     */
+    orderBy?: PasswordRotationOrderByWithRelationInput | PasswordRotationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordRotations.
+     */
+    cursor?: PasswordRotationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordRotations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordRotations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordRotations.
+     */
+    distinct?: PasswordRotationScalarFieldEnum | PasswordRotationScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordRotation findMany
+   */
+  export type PasswordRotationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotation
+     */
+    select?: PasswordRotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotation
+     */
+    omit?: PasswordRotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordRotations to fetch.
+     */
+    where?: PasswordRotationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordRotations to fetch.
+     */
+    orderBy?: PasswordRotationOrderByWithRelationInput | PasswordRotationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PasswordRotations.
+     */
+    cursor?: PasswordRotationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordRotations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordRotations.
+     */
+    skip?: number
+    distinct?: PasswordRotationScalarFieldEnum | PasswordRotationScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordRotation create
+   */
+  export type PasswordRotationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotation
+     */
+    select?: PasswordRotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotation
+     */
+    omit?: PasswordRotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PasswordRotation.
+     */
+    data: XOR<PasswordRotationCreateInput, PasswordRotationUncheckedCreateInput>
+  }
+
+  /**
+   * PasswordRotation createMany
+   */
+  export type PasswordRotationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PasswordRotations.
+     */
+    data: PasswordRotationCreateManyInput | PasswordRotationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PasswordRotation createManyAndReturn
+   */
+  export type PasswordRotationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotation
+     */
+    select?: PasswordRotationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotation
+     */
+    omit?: PasswordRotationOmit<ExtArgs> | null
+    /**
+     * The data used to create many PasswordRotations.
+     */
+    data: PasswordRotationCreateManyInput | PasswordRotationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PasswordRotation update
+   */
+  export type PasswordRotationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotation
+     */
+    select?: PasswordRotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotation
+     */
+    omit?: PasswordRotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PasswordRotation.
+     */
+    data: XOR<PasswordRotationUpdateInput, PasswordRotationUncheckedUpdateInput>
+    /**
+     * Choose, which PasswordRotation to update.
+     */
+    where: PasswordRotationWhereUniqueInput
+  }
+
+  /**
+   * PasswordRotation updateMany
+   */
+  export type PasswordRotationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PasswordRotations.
+     */
+    data: XOR<PasswordRotationUpdateManyMutationInput, PasswordRotationUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordRotations to update
+     */
+    where?: PasswordRotationWhereInput
+    /**
+     * Limit how many PasswordRotations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordRotation updateManyAndReturn
+   */
+  export type PasswordRotationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotation
+     */
+    select?: PasswordRotationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotation
+     */
+    omit?: PasswordRotationOmit<ExtArgs> | null
+    /**
+     * The data used to update PasswordRotations.
+     */
+    data: XOR<PasswordRotationUpdateManyMutationInput, PasswordRotationUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordRotations to update
+     */
+    where?: PasswordRotationWhereInput
+    /**
+     * Limit how many PasswordRotations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PasswordRotation upsert
+   */
+  export type PasswordRotationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotation
+     */
+    select?: PasswordRotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotation
+     */
+    omit?: PasswordRotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PasswordRotation to update in case it exists.
+     */
+    where: PasswordRotationWhereUniqueInput
+    /**
+     * In case the PasswordRotation found by the `where` argument doesn't exist, create a new PasswordRotation with this data.
+     */
+    create: XOR<PasswordRotationCreateInput, PasswordRotationUncheckedCreateInput>
+    /**
+     * In case the PasswordRotation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PasswordRotationUpdateInput, PasswordRotationUncheckedUpdateInput>
+  }
+
+  /**
+   * PasswordRotation delete
+   */
+  export type PasswordRotationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotation
+     */
+    select?: PasswordRotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotation
+     */
+    omit?: PasswordRotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationInclude<ExtArgs> | null
+    /**
+     * Filter which PasswordRotation to delete.
+     */
+    where: PasswordRotationWhereUniqueInput
+  }
+
+  /**
+   * PasswordRotation deleteMany
+   */
+  export type PasswordRotationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordRotations to delete
+     */
+    where?: PasswordRotationWhereInput
+    /**
+     * Limit how many PasswordRotations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordRotation.policy
+   */
+  export type PasswordRotation$policyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotationPolicy
+     */
+    select?: PasswordRotationPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotationPolicy
+     */
+    omit?: PasswordRotationPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationPolicyInclude<ExtArgs> | null
+    where?: PasswordRotationPolicyWhereInput
+  }
+
+  /**
+   * PasswordRotation without action
+   */
+  export type PasswordRotationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordRotation
+     */
+    select?: PasswordRotationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordRotation
+     */
+    omit?: PasswordRotationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordRotationInclude<ExtArgs> | null
   }
 
 
@@ -26033,7 +28822,8 @@ export namespace Prisma {
     expiresAt: 'expiresAt',
     ownerId: 'ownerId',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    rotationPolicyId: 'rotationPolicyId'
   };
 
   export type PasswordScalarFieldEnum = (typeof PasswordScalarFieldEnum)[keyof typeof PasswordScalarFieldEnum]
@@ -26074,6 +28864,41 @@ export namespace Prisma {
   };
 
   export type PasswordBreachScalarFieldEnum = (typeof PasswordBreachScalarFieldEnum)[keyof typeof PasswordBreachScalarFieldEnum]
+
+
+  export const PasswordRotationPolicyScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    description: 'description',
+    rotationDays: 'rotationDays',
+    reminderDays: 'reminderDays',
+    autoRotate: 'autoRotate',
+    requireApproval: 'requireApproval',
+    isActive: 'isActive',
+    ownerId: 'ownerId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PasswordRotationPolicyScalarFieldEnum = (typeof PasswordRotationPolicyScalarFieldEnum)[keyof typeof PasswordRotationPolicyScalarFieldEnum]
+
+
+  export const PasswordRotationScalarFieldEnum: {
+    id: 'id',
+    passwordId: 'passwordId',
+    policyId: 'policyId',
+    rotationType: 'rotationType',
+    oldPassword: 'oldPassword',
+    newPassword: 'newPassword',
+    rotatedAt: 'rotatedAt',
+    rotatedBy: 'rotatedBy',
+    scheduledFor: 'scheduledFor',
+    completedAt: 'completedAt',
+    status: 'status',
+    notes: 'notes'
+  };
+
+  export type PasswordRotationScalarFieldEnum = (typeof PasswordRotationScalarFieldEnum)[keyof typeof PasswordRotationScalarFieldEnum]
 
 
   export const FolderScalarFieldEnum: {
@@ -26540,6 +29365,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryListRelationFilter
     passwordBreachesChecked?: PasswordBreachListRelationFilter
     passwordBreachesResolved?: PasswordBreachListRelationFilter
+    rotationPolicies?: PasswordRotationPolicyListRelationFilter
+    passwordRotations?: PasswordRotationListRelationFilter
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     createdUsers?: UserListRelationFilter
     createdRoles?: RoleListRelationFilter
@@ -26575,6 +29402,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryOrderByRelationAggregateInput
     passwordBreachesChecked?: PasswordBreachOrderByRelationAggregateInput
     passwordBreachesResolved?: PasswordBreachOrderByRelationAggregateInput
+    rotationPolicies?: PasswordRotationPolicyOrderByRelationAggregateInput
+    passwordRotations?: PasswordRotationOrderByRelationAggregateInput
     createdBy?: UserOrderByWithRelationInput
     createdUsers?: UserOrderByRelationAggregateInput
     createdRoles?: RoleOrderByRelationAggregateInput
@@ -26613,6 +29442,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryListRelationFilter
     passwordBreachesChecked?: PasswordBreachListRelationFilter
     passwordBreachesResolved?: PasswordBreachListRelationFilter
+    rotationPolicies?: PasswordRotationPolicyListRelationFilter
+    passwordRotations?: PasswordRotationListRelationFilter
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     createdUsers?: UserListRelationFilter
     createdRoles?: RoleListRelationFilter
@@ -26840,12 +29671,15 @@ export namespace Prisma {
     ownerId?: StringFilter<"Password"> | string
     createdAt?: DateTimeFilter<"Password"> | Date | string
     updatedAt?: DateTimeFilter<"Password"> | Date | string
+    rotationPolicyId?: StringNullableFilter<"Password"> | string | null
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     folder?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
     sharedWith?: PasswordShareListRelationFilter
     tags?: PasswordTagListRelationFilter
     history?: PasswordHistoryListRelationFilter
     breaches?: PasswordBreachListRelationFilter
+    rotations?: PasswordRotationListRelationFilter
+    rotationPolicy?: XOR<PasswordRotationPolicyNullableScalarRelationFilter, PasswordRotationPolicyWhereInput> | null
   }
 
   export type PasswordOrderByWithRelationInput = {
@@ -26863,12 +29697,15 @@ export namespace Prisma {
     ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    rotationPolicyId?: SortOrderInput | SortOrder
     owner?: UserOrderByWithRelationInput
     folder?: FolderOrderByWithRelationInput
     sharedWith?: PasswordShareOrderByRelationAggregateInput
     tags?: PasswordTagOrderByRelationAggregateInput
     history?: PasswordHistoryOrderByRelationAggregateInput
     breaches?: PasswordBreachOrderByRelationAggregateInput
+    rotations?: PasswordRotationOrderByRelationAggregateInput
+    rotationPolicy?: PasswordRotationPolicyOrderByWithRelationInput
   }
 
   export type PasswordWhereUniqueInput = Prisma.AtLeast<{
@@ -26889,12 +29726,15 @@ export namespace Prisma {
     ownerId?: StringFilter<"Password"> | string
     createdAt?: DateTimeFilter<"Password"> | Date | string
     updatedAt?: DateTimeFilter<"Password"> | Date | string
+    rotationPolicyId?: StringNullableFilter<"Password"> | string | null
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     folder?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
     sharedWith?: PasswordShareListRelationFilter
     tags?: PasswordTagListRelationFilter
     history?: PasswordHistoryListRelationFilter
     breaches?: PasswordBreachListRelationFilter
+    rotations?: PasswordRotationListRelationFilter
+    rotationPolicy?: XOR<PasswordRotationPolicyNullableScalarRelationFilter, PasswordRotationPolicyWhereInput> | null
   }, "id">
 
   export type PasswordOrderByWithAggregationInput = {
@@ -26912,6 +29752,7 @@ export namespace Prisma {
     ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    rotationPolicyId?: SortOrderInput | SortOrder
     _count?: PasswordCountOrderByAggregateInput
     _max?: PasswordMaxOrderByAggregateInput
     _min?: PasswordMinOrderByAggregateInput
@@ -26935,6 +29776,7 @@ export namespace Prisma {
     ownerId?: StringWithAggregatesFilter<"Password"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Password"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Password"> | Date | string
+    rotationPolicyId?: StringNullableWithAggregatesFilter<"Password"> | string | null
   }
 
   export type PasswordHistoryWhereInput = {
@@ -27131,6 +29973,195 @@ export namespace Prisma {
     resolved?: BoolWithAggregatesFilter<"PasswordBreach"> | boolean
     resolvedAt?: DateTimeNullableWithAggregatesFilter<"PasswordBreach"> | Date | string | null
     resolvedBy?: StringNullableWithAggregatesFilter<"PasswordBreach"> | string | null
+  }
+
+  export type PasswordRotationPolicyWhereInput = {
+    AND?: PasswordRotationPolicyWhereInput | PasswordRotationPolicyWhereInput[]
+    OR?: PasswordRotationPolicyWhereInput[]
+    NOT?: PasswordRotationPolicyWhereInput | PasswordRotationPolicyWhereInput[]
+    id?: StringFilter<"PasswordRotationPolicy"> | string
+    name?: StringFilter<"PasswordRotationPolicy"> | string
+    description?: StringNullableFilter<"PasswordRotationPolicy"> | string | null
+    rotationDays?: IntFilter<"PasswordRotationPolicy"> | number
+    reminderDays?: IntFilter<"PasswordRotationPolicy"> | number
+    autoRotate?: BoolFilter<"PasswordRotationPolicy"> | boolean
+    requireApproval?: BoolFilter<"PasswordRotationPolicy"> | boolean
+    isActive?: BoolFilter<"PasswordRotationPolicy"> | boolean
+    ownerId?: StringFilter<"PasswordRotationPolicy"> | string
+    createdAt?: DateTimeFilter<"PasswordRotationPolicy"> | Date | string
+    updatedAt?: DateTimeFilter<"PasswordRotationPolicy"> | Date | string
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    passwords?: PasswordListRelationFilter
+    rotations?: PasswordRotationListRelationFilter
+  }
+
+  export type PasswordRotationPolicyOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    rotationDays?: SortOrder
+    reminderDays?: SortOrder
+    autoRotate?: SortOrder
+    requireApproval?: SortOrder
+    isActive?: SortOrder
+    ownerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    owner?: UserOrderByWithRelationInput
+    passwords?: PasswordOrderByRelationAggregateInput
+    rotations?: PasswordRotationOrderByRelationAggregateInput
+  }
+
+  export type PasswordRotationPolicyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PasswordRotationPolicyWhereInput | PasswordRotationPolicyWhereInput[]
+    OR?: PasswordRotationPolicyWhereInput[]
+    NOT?: PasswordRotationPolicyWhereInput | PasswordRotationPolicyWhereInput[]
+    name?: StringFilter<"PasswordRotationPolicy"> | string
+    description?: StringNullableFilter<"PasswordRotationPolicy"> | string | null
+    rotationDays?: IntFilter<"PasswordRotationPolicy"> | number
+    reminderDays?: IntFilter<"PasswordRotationPolicy"> | number
+    autoRotate?: BoolFilter<"PasswordRotationPolicy"> | boolean
+    requireApproval?: BoolFilter<"PasswordRotationPolicy"> | boolean
+    isActive?: BoolFilter<"PasswordRotationPolicy"> | boolean
+    ownerId?: StringFilter<"PasswordRotationPolicy"> | string
+    createdAt?: DateTimeFilter<"PasswordRotationPolicy"> | Date | string
+    updatedAt?: DateTimeFilter<"PasswordRotationPolicy"> | Date | string
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    passwords?: PasswordListRelationFilter
+    rotations?: PasswordRotationListRelationFilter
+  }, "id">
+
+  export type PasswordRotationPolicyOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    rotationDays?: SortOrder
+    reminderDays?: SortOrder
+    autoRotate?: SortOrder
+    requireApproval?: SortOrder
+    isActive?: SortOrder
+    ownerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PasswordRotationPolicyCountOrderByAggregateInput
+    _avg?: PasswordRotationPolicyAvgOrderByAggregateInput
+    _max?: PasswordRotationPolicyMaxOrderByAggregateInput
+    _min?: PasswordRotationPolicyMinOrderByAggregateInput
+    _sum?: PasswordRotationPolicySumOrderByAggregateInput
+  }
+
+  export type PasswordRotationPolicyScalarWhereWithAggregatesInput = {
+    AND?: PasswordRotationPolicyScalarWhereWithAggregatesInput | PasswordRotationPolicyScalarWhereWithAggregatesInput[]
+    OR?: PasswordRotationPolicyScalarWhereWithAggregatesInput[]
+    NOT?: PasswordRotationPolicyScalarWhereWithAggregatesInput | PasswordRotationPolicyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PasswordRotationPolicy"> | string
+    name?: StringWithAggregatesFilter<"PasswordRotationPolicy"> | string
+    description?: StringNullableWithAggregatesFilter<"PasswordRotationPolicy"> | string | null
+    rotationDays?: IntWithAggregatesFilter<"PasswordRotationPolicy"> | number
+    reminderDays?: IntWithAggregatesFilter<"PasswordRotationPolicy"> | number
+    autoRotate?: BoolWithAggregatesFilter<"PasswordRotationPolicy"> | boolean
+    requireApproval?: BoolWithAggregatesFilter<"PasswordRotationPolicy"> | boolean
+    isActive?: BoolWithAggregatesFilter<"PasswordRotationPolicy"> | boolean
+    ownerId?: StringWithAggregatesFilter<"PasswordRotationPolicy"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"PasswordRotationPolicy"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PasswordRotationPolicy"> | Date | string
+  }
+
+  export type PasswordRotationWhereInput = {
+    AND?: PasswordRotationWhereInput | PasswordRotationWhereInput[]
+    OR?: PasswordRotationWhereInput[]
+    NOT?: PasswordRotationWhereInput | PasswordRotationWhereInput[]
+    id?: StringFilter<"PasswordRotation"> | string
+    passwordId?: StringFilter<"PasswordRotation"> | string
+    policyId?: StringNullableFilter<"PasswordRotation"> | string | null
+    rotationType?: StringFilter<"PasswordRotation"> | string
+    oldPassword?: StringNullableFilter<"PasswordRotation"> | string | null
+    newPassword?: StringFilter<"PasswordRotation"> | string
+    rotatedAt?: DateTimeFilter<"PasswordRotation"> | Date | string
+    rotatedBy?: StringFilter<"PasswordRotation"> | string
+    scheduledFor?: DateTimeNullableFilter<"PasswordRotation"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"PasswordRotation"> | Date | string | null
+    status?: StringFilter<"PasswordRotation"> | string
+    notes?: StringNullableFilter<"PasswordRotation"> | string | null
+    password?: XOR<PasswordScalarRelationFilter, PasswordWhereInput>
+    policy?: XOR<PasswordRotationPolicyNullableScalarRelationFilter, PasswordRotationPolicyWhereInput> | null
+    rotatedByUser?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PasswordRotationOrderByWithRelationInput = {
+    id?: SortOrder
+    passwordId?: SortOrder
+    policyId?: SortOrderInput | SortOrder
+    rotationType?: SortOrder
+    oldPassword?: SortOrderInput | SortOrder
+    newPassword?: SortOrder
+    rotatedAt?: SortOrder
+    rotatedBy?: SortOrder
+    scheduledFor?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    status?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    password?: PasswordOrderByWithRelationInput
+    policy?: PasswordRotationPolicyOrderByWithRelationInput
+    rotatedByUser?: UserOrderByWithRelationInput
+  }
+
+  export type PasswordRotationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PasswordRotationWhereInput | PasswordRotationWhereInput[]
+    OR?: PasswordRotationWhereInput[]
+    NOT?: PasswordRotationWhereInput | PasswordRotationWhereInput[]
+    passwordId?: StringFilter<"PasswordRotation"> | string
+    policyId?: StringNullableFilter<"PasswordRotation"> | string | null
+    rotationType?: StringFilter<"PasswordRotation"> | string
+    oldPassword?: StringNullableFilter<"PasswordRotation"> | string | null
+    newPassword?: StringFilter<"PasswordRotation"> | string
+    rotatedAt?: DateTimeFilter<"PasswordRotation"> | Date | string
+    rotatedBy?: StringFilter<"PasswordRotation"> | string
+    scheduledFor?: DateTimeNullableFilter<"PasswordRotation"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"PasswordRotation"> | Date | string | null
+    status?: StringFilter<"PasswordRotation"> | string
+    notes?: StringNullableFilter<"PasswordRotation"> | string | null
+    password?: XOR<PasswordScalarRelationFilter, PasswordWhereInput>
+    policy?: XOR<PasswordRotationPolicyNullableScalarRelationFilter, PasswordRotationPolicyWhereInput> | null
+    rotatedByUser?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type PasswordRotationOrderByWithAggregationInput = {
+    id?: SortOrder
+    passwordId?: SortOrder
+    policyId?: SortOrderInput | SortOrder
+    rotationType?: SortOrder
+    oldPassword?: SortOrderInput | SortOrder
+    newPassword?: SortOrder
+    rotatedAt?: SortOrder
+    rotatedBy?: SortOrder
+    scheduledFor?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    status?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    _count?: PasswordRotationCountOrderByAggregateInput
+    _max?: PasswordRotationMaxOrderByAggregateInput
+    _min?: PasswordRotationMinOrderByAggregateInput
+  }
+
+  export type PasswordRotationScalarWhereWithAggregatesInput = {
+    AND?: PasswordRotationScalarWhereWithAggregatesInput | PasswordRotationScalarWhereWithAggregatesInput[]
+    OR?: PasswordRotationScalarWhereWithAggregatesInput[]
+    NOT?: PasswordRotationScalarWhereWithAggregatesInput | PasswordRotationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PasswordRotation"> | string
+    passwordId?: StringWithAggregatesFilter<"PasswordRotation"> | string
+    policyId?: StringNullableWithAggregatesFilter<"PasswordRotation"> | string | null
+    rotationType?: StringWithAggregatesFilter<"PasswordRotation"> | string
+    oldPassword?: StringNullableWithAggregatesFilter<"PasswordRotation"> | string | null
+    newPassword?: StringWithAggregatesFilter<"PasswordRotation"> | string
+    rotatedAt?: DateTimeWithAggregatesFilter<"PasswordRotation"> | Date | string
+    rotatedBy?: StringWithAggregatesFilter<"PasswordRotation"> | string
+    scheduledFor?: DateTimeNullableWithAggregatesFilter<"PasswordRotation"> | Date | string | null
+    completedAt?: DateTimeNullableWithAggregatesFilter<"PasswordRotation"> | Date | string | null
+    status?: StringWithAggregatesFilter<"PasswordRotation"> | string
+    notes?: StringNullableWithAggregatesFilter<"PasswordRotation"> | string | null
   }
 
   export type FolderWhereInput = {
@@ -28045,6 +31076,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -28079,6 +31112,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -28111,6 +31146,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -28145,6 +31182,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -28399,6 +31438,8 @@ export namespace Prisma {
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationCreateNestedManyWithoutPasswordInput
+    rotationPolicy?: PasswordRotationPolicyCreateNestedOneWithoutPasswordsInput
   }
 
   export type PasswordUncheckedCreateInput = {
@@ -28416,10 +31457,12 @@ export namespace Prisma {
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    rotationPolicyId?: string | null
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationUncheckedCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordUpdateInput = {
@@ -28441,6 +31484,8 @@ export namespace Prisma {
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUpdateManyWithoutPasswordNestedInput
+    rotationPolicy?: PasswordRotationPolicyUpdateOneWithoutPasswordsNestedInput
   }
 
   export type PasswordUncheckedUpdateInput = {
@@ -28458,10 +31503,12 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUncheckedUpdateManyWithoutPasswordNestedInput
   }
 
   export type PasswordCreateManyInput = {
@@ -28479,6 +31526,7 @@ export namespace Prisma {
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    rotationPolicyId?: string | null
   }
 
   export type PasswordUpdateManyMutationInput = {
@@ -28511,6 +31559,7 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PasswordHistoryCreateInput = {
@@ -28723,6 +31772,213 @@ export namespace Prisma {
     resolved?: BoolFieldUpdateOperationsInput | boolean
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PasswordRotationPolicyCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    rotationDays: number
+    reminderDays: number
+    autoRotate?: boolean
+    requireApproval?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutRotationPoliciesInput
+    passwords?: PasswordCreateNestedManyWithoutRotationPolicyInput
+    rotations?: PasswordRotationCreateNestedManyWithoutPolicyInput
+  }
+
+  export type PasswordRotationPolicyUncheckedCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    rotationDays: number
+    reminderDays: number
+    autoRotate?: boolean
+    requireApproval?: boolean
+    isActive?: boolean
+    ownerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    passwords?: PasswordUncheckedCreateNestedManyWithoutRotationPolicyInput
+    rotations?: PasswordRotationUncheckedCreateNestedManyWithoutPolicyInput
+  }
+
+  export type PasswordRotationPolicyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationDays?: IntFieldUpdateOperationsInput | number
+    reminderDays?: IntFieldUpdateOperationsInput | number
+    autoRotate?: BoolFieldUpdateOperationsInput | boolean
+    requireApproval?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutRotationPoliciesNestedInput
+    passwords?: PasswordUpdateManyWithoutRotationPolicyNestedInput
+    rotations?: PasswordRotationUpdateManyWithoutPolicyNestedInput
+  }
+
+  export type PasswordRotationPolicyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationDays?: IntFieldUpdateOperationsInput | number
+    reminderDays?: IntFieldUpdateOperationsInput | number
+    autoRotate?: BoolFieldUpdateOperationsInput | boolean
+    requireApproval?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    passwords?: PasswordUncheckedUpdateManyWithoutRotationPolicyNestedInput
+    rotations?: PasswordRotationUncheckedUpdateManyWithoutPolicyNestedInput
+  }
+
+  export type PasswordRotationPolicyCreateManyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    rotationDays: number
+    reminderDays: number
+    autoRotate?: boolean
+    requireApproval?: boolean
+    isActive?: boolean
+    ownerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PasswordRotationPolicyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationDays?: IntFieldUpdateOperationsInput | number
+    reminderDays?: IntFieldUpdateOperationsInput | number
+    autoRotate?: BoolFieldUpdateOperationsInput | boolean
+    requireApproval?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordRotationPolicyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationDays?: IntFieldUpdateOperationsInput | number
+    reminderDays?: IntFieldUpdateOperationsInput | number
+    autoRotate?: BoolFieldUpdateOperationsInput | boolean
+    requireApproval?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordRotationCreateInput = {
+    id?: string
+    rotationType?: string
+    oldPassword?: string | null
+    newPassword: string
+    rotatedAt?: Date | string
+    scheduledFor?: Date | string | null
+    completedAt?: Date | string | null
+    status?: string
+    notes?: string | null
+    password: PasswordCreateNestedOneWithoutRotationsInput
+    policy?: PasswordRotationPolicyCreateNestedOneWithoutRotationsInput
+    rotatedByUser: UserCreateNestedOneWithoutPasswordRotationsInput
+  }
+
+  export type PasswordRotationUncheckedCreateInput = {
+    id?: string
+    passwordId: string
+    policyId?: string | null
+    rotationType?: string
+    oldPassword?: string | null
+    newPassword: string
+    rotatedAt?: Date | string
+    rotatedBy: string
+    scheduledFor?: Date | string | null
+    completedAt?: Date | string | null
+    status?: string
+    notes?: string | null
+  }
+
+  export type PasswordRotationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rotationType?: StringFieldUpdateOperationsInput | string
+    oldPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    newPassword?: StringFieldUpdateOperationsInput | string
+    rotatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: PasswordUpdateOneRequiredWithoutRotationsNestedInput
+    policy?: PasswordRotationPolicyUpdateOneWithoutRotationsNestedInput
+    rotatedByUser?: UserUpdateOneRequiredWithoutPasswordRotationsNestedInput
+  }
+
+  export type PasswordRotationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    policyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationType?: StringFieldUpdateOperationsInput | string
+    oldPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    newPassword?: StringFieldUpdateOperationsInput | string
+    rotatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotatedBy?: StringFieldUpdateOperationsInput | string
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PasswordRotationCreateManyInput = {
+    id?: string
+    passwordId: string
+    policyId?: string | null
+    rotationType?: string
+    oldPassword?: string | null
+    newPassword: string
+    rotatedAt?: Date | string
+    rotatedBy: string
+    scheduledFor?: Date | string | null
+    completedAt?: Date | string | null
+    status?: string
+    notes?: string | null
+  }
+
+  export type PasswordRotationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rotationType?: StringFieldUpdateOperationsInput | string
+    oldPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    newPassword?: StringFieldUpdateOperationsInput | string
+    rotatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PasswordRotationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    policyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationType?: StringFieldUpdateOperationsInput | string
+    oldPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    newPassword?: StringFieldUpdateOperationsInput | string
+    rotatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotatedBy?: StringFieldUpdateOperationsInput | string
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type FolderCreateInput = {
@@ -29774,6 +33030,18 @@ export namespace Prisma {
     none?: PasswordBreachWhereInput
   }
 
+  export type PasswordRotationPolicyListRelationFilter = {
+    every?: PasswordRotationPolicyWhereInput
+    some?: PasswordRotationPolicyWhereInput
+    none?: PasswordRotationPolicyWhereInput
+  }
+
+  export type PasswordRotationListRelationFilter = {
+    every?: PasswordRotationWhereInput
+    some?: PasswordRotationWhereInput
+    none?: PasswordRotationWhereInput
+  }
+
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
@@ -29827,6 +33095,14 @@ export namespace Prisma {
   }
 
   export type PasswordBreachOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PasswordRotationPolicyOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PasswordRotationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -30082,6 +33358,11 @@ export namespace Prisma {
     none?: PasswordTagWhereInput
   }
 
+  export type PasswordRotationPolicyNullableScalarRelationFilter = {
+    is?: PasswordRotationPolicyWhereInput | null
+    isNot?: PasswordRotationPolicyWhereInput | null
+  }
+
   export type PasswordTagOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -30101,6 +33382,7 @@ export namespace Prisma {
     ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    rotationPolicyId?: SortOrder
   }
 
   export type PasswordMaxOrderByAggregateInput = {
@@ -30118,6 +33400,7 @@ export namespace Prisma {
     ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    rotationPolicyId?: SortOrder
   }
 
   export type PasswordMinOrderByAggregateInput = {
@@ -30135,6 +33418,7 @@ export namespace Prisma {
     ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    rotationPolicyId?: SortOrder
   }
 
   export type EnumPasswordStrengthWithAggregatesFilter<$PrismaModel = never> = {
@@ -30278,6 +33562,103 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type PasswordRotationPolicyCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    rotationDays?: SortOrder
+    reminderDays?: SortOrder
+    autoRotate?: SortOrder
+    requireApproval?: SortOrder
+    isActive?: SortOrder
+    ownerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PasswordRotationPolicyAvgOrderByAggregateInput = {
+    rotationDays?: SortOrder
+    reminderDays?: SortOrder
+  }
+
+  export type PasswordRotationPolicyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    rotationDays?: SortOrder
+    reminderDays?: SortOrder
+    autoRotate?: SortOrder
+    requireApproval?: SortOrder
+    isActive?: SortOrder
+    ownerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PasswordRotationPolicyMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    rotationDays?: SortOrder
+    reminderDays?: SortOrder
+    autoRotate?: SortOrder
+    requireApproval?: SortOrder
+    isActive?: SortOrder
+    ownerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PasswordRotationPolicySumOrderByAggregateInput = {
+    rotationDays?: SortOrder
+    reminderDays?: SortOrder
+  }
+
+  export type PasswordRotationCountOrderByAggregateInput = {
+    id?: SortOrder
+    passwordId?: SortOrder
+    policyId?: SortOrder
+    rotationType?: SortOrder
+    oldPassword?: SortOrder
+    newPassword?: SortOrder
+    rotatedAt?: SortOrder
+    rotatedBy?: SortOrder
+    scheduledFor?: SortOrder
+    completedAt?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+  }
+
+  export type PasswordRotationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    passwordId?: SortOrder
+    policyId?: SortOrder
+    rotationType?: SortOrder
+    oldPassword?: SortOrder
+    newPassword?: SortOrder
+    rotatedAt?: SortOrder
+    rotatedBy?: SortOrder
+    scheduledFor?: SortOrder
+    completedAt?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+  }
+
+  export type PasswordRotationMinOrderByAggregateInput = {
+    id?: SortOrder
+    passwordId?: SortOrder
+    policyId?: SortOrder
+    rotationType?: SortOrder
+    oldPassword?: SortOrder
+    newPassword?: SortOrder
+    rotatedAt?: SortOrder
+    rotatedBy?: SortOrder
+    scheduledFor?: SortOrder
+    completedAt?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
   }
 
   export type FolderListRelationFilter = {
@@ -31013,6 +34394,20 @@ export namespace Prisma {
     connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
   }
 
+  export type PasswordRotationPolicyCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<PasswordRotationPolicyCreateWithoutOwnerInput, PasswordRotationPolicyUncheckedCreateWithoutOwnerInput> | PasswordRotationPolicyCreateWithoutOwnerInput[] | PasswordRotationPolicyUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: PasswordRotationPolicyCreateOrConnectWithoutOwnerInput | PasswordRotationPolicyCreateOrConnectWithoutOwnerInput[]
+    createMany?: PasswordRotationPolicyCreateManyOwnerInputEnvelope
+    connect?: PasswordRotationPolicyWhereUniqueInput | PasswordRotationPolicyWhereUniqueInput[]
+  }
+
+  export type PasswordRotationCreateNestedManyWithoutRotatedByUserInput = {
+    create?: XOR<PasswordRotationCreateWithoutRotatedByUserInput, PasswordRotationUncheckedCreateWithoutRotatedByUserInput> | PasswordRotationCreateWithoutRotatedByUserInput[] | PasswordRotationUncheckedCreateWithoutRotatedByUserInput[]
+    connectOrCreate?: PasswordRotationCreateOrConnectWithoutRotatedByUserInput | PasswordRotationCreateOrConnectWithoutRotatedByUserInput[]
+    createMany?: PasswordRotationCreateManyRotatedByUserInputEnvelope
+    connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutCreatedUsersInput = {
     create?: XOR<UserCreateWithoutCreatedUsersInput, UserUncheckedCreateWithoutCreatedUsersInput>
     connectOrCreate?: UserCreateOrConnectWithoutCreatedUsersInput
@@ -31108,6 +34503,20 @@ export namespace Prisma {
     connectOrCreate?: PasswordBreachCreateOrConnectWithoutResolvedByUserInput | PasswordBreachCreateOrConnectWithoutResolvedByUserInput[]
     createMany?: PasswordBreachCreateManyResolvedByUserInputEnvelope
     connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+  }
+
+  export type PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<PasswordRotationPolicyCreateWithoutOwnerInput, PasswordRotationPolicyUncheckedCreateWithoutOwnerInput> | PasswordRotationPolicyCreateWithoutOwnerInput[] | PasswordRotationPolicyUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: PasswordRotationPolicyCreateOrConnectWithoutOwnerInput | PasswordRotationPolicyCreateOrConnectWithoutOwnerInput[]
+    createMany?: PasswordRotationPolicyCreateManyOwnerInputEnvelope
+    connect?: PasswordRotationPolicyWhereUniqueInput | PasswordRotationPolicyWhereUniqueInput[]
+  }
+
+  export type PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput = {
+    create?: XOR<PasswordRotationCreateWithoutRotatedByUserInput, PasswordRotationUncheckedCreateWithoutRotatedByUserInput> | PasswordRotationCreateWithoutRotatedByUserInput[] | PasswordRotationUncheckedCreateWithoutRotatedByUserInput[]
+    connectOrCreate?: PasswordRotationCreateOrConnectWithoutRotatedByUserInput | PasswordRotationCreateOrConnectWithoutRotatedByUserInput[]
+    createMany?: PasswordRotationCreateManyRotatedByUserInputEnvelope
+    connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
   }
 
   export type UserUncheckedCreateNestedManyWithoutCreatedByInput = {
@@ -31304,6 +34713,34 @@ export namespace Prisma {
     deleteMany?: PasswordBreachScalarWhereInput | PasswordBreachScalarWhereInput[]
   }
 
+  export type PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<PasswordRotationPolicyCreateWithoutOwnerInput, PasswordRotationPolicyUncheckedCreateWithoutOwnerInput> | PasswordRotationPolicyCreateWithoutOwnerInput[] | PasswordRotationPolicyUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: PasswordRotationPolicyCreateOrConnectWithoutOwnerInput | PasswordRotationPolicyCreateOrConnectWithoutOwnerInput[]
+    upsert?: PasswordRotationPolicyUpsertWithWhereUniqueWithoutOwnerInput | PasswordRotationPolicyUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: PasswordRotationPolicyCreateManyOwnerInputEnvelope
+    set?: PasswordRotationPolicyWhereUniqueInput | PasswordRotationPolicyWhereUniqueInput[]
+    disconnect?: PasswordRotationPolicyWhereUniqueInput | PasswordRotationPolicyWhereUniqueInput[]
+    delete?: PasswordRotationPolicyWhereUniqueInput | PasswordRotationPolicyWhereUniqueInput[]
+    connect?: PasswordRotationPolicyWhereUniqueInput | PasswordRotationPolicyWhereUniqueInput[]
+    update?: PasswordRotationPolicyUpdateWithWhereUniqueWithoutOwnerInput | PasswordRotationPolicyUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: PasswordRotationPolicyUpdateManyWithWhereWithoutOwnerInput | PasswordRotationPolicyUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: PasswordRotationPolicyScalarWhereInput | PasswordRotationPolicyScalarWhereInput[]
+  }
+
+  export type PasswordRotationUpdateManyWithoutRotatedByUserNestedInput = {
+    create?: XOR<PasswordRotationCreateWithoutRotatedByUserInput, PasswordRotationUncheckedCreateWithoutRotatedByUserInput> | PasswordRotationCreateWithoutRotatedByUserInput[] | PasswordRotationUncheckedCreateWithoutRotatedByUserInput[]
+    connectOrCreate?: PasswordRotationCreateOrConnectWithoutRotatedByUserInput | PasswordRotationCreateOrConnectWithoutRotatedByUserInput[]
+    upsert?: PasswordRotationUpsertWithWhereUniqueWithoutRotatedByUserInput | PasswordRotationUpsertWithWhereUniqueWithoutRotatedByUserInput[]
+    createMany?: PasswordRotationCreateManyRotatedByUserInputEnvelope
+    set?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    disconnect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    delete?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    update?: PasswordRotationUpdateWithWhereUniqueWithoutRotatedByUserInput | PasswordRotationUpdateWithWhereUniqueWithoutRotatedByUserInput[]
+    updateMany?: PasswordRotationUpdateManyWithWhereWithoutRotatedByUserInput | PasswordRotationUpdateManyWithWhereWithoutRotatedByUserInput[]
+    deleteMany?: PasswordRotationScalarWhereInput | PasswordRotationScalarWhereInput[]
+  }
+
   export type UserUpdateOneWithoutCreatedUsersNestedInput = {
     create?: XOR<UserCreateWithoutCreatedUsersInput, UserUncheckedCreateWithoutCreatedUsersInput>
     connectOrCreate?: UserCreateOrConnectWithoutCreatedUsersInput
@@ -31496,6 +34933,34 @@ export namespace Prisma {
     deleteMany?: PasswordBreachScalarWhereInput | PasswordBreachScalarWhereInput[]
   }
 
+  export type PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<PasswordRotationPolicyCreateWithoutOwnerInput, PasswordRotationPolicyUncheckedCreateWithoutOwnerInput> | PasswordRotationPolicyCreateWithoutOwnerInput[] | PasswordRotationPolicyUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: PasswordRotationPolicyCreateOrConnectWithoutOwnerInput | PasswordRotationPolicyCreateOrConnectWithoutOwnerInput[]
+    upsert?: PasswordRotationPolicyUpsertWithWhereUniqueWithoutOwnerInput | PasswordRotationPolicyUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: PasswordRotationPolicyCreateManyOwnerInputEnvelope
+    set?: PasswordRotationPolicyWhereUniqueInput | PasswordRotationPolicyWhereUniqueInput[]
+    disconnect?: PasswordRotationPolicyWhereUniqueInput | PasswordRotationPolicyWhereUniqueInput[]
+    delete?: PasswordRotationPolicyWhereUniqueInput | PasswordRotationPolicyWhereUniqueInput[]
+    connect?: PasswordRotationPolicyWhereUniqueInput | PasswordRotationPolicyWhereUniqueInput[]
+    update?: PasswordRotationPolicyUpdateWithWhereUniqueWithoutOwnerInput | PasswordRotationPolicyUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: PasswordRotationPolicyUpdateManyWithWhereWithoutOwnerInput | PasswordRotationPolicyUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: PasswordRotationPolicyScalarWhereInput | PasswordRotationPolicyScalarWhereInput[]
+  }
+
+  export type PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput = {
+    create?: XOR<PasswordRotationCreateWithoutRotatedByUserInput, PasswordRotationUncheckedCreateWithoutRotatedByUserInput> | PasswordRotationCreateWithoutRotatedByUserInput[] | PasswordRotationUncheckedCreateWithoutRotatedByUserInput[]
+    connectOrCreate?: PasswordRotationCreateOrConnectWithoutRotatedByUserInput | PasswordRotationCreateOrConnectWithoutRotatedByUserInput[]
+    upsert?: PasswordRotationUpsertWithWhereUniqueWithoutRotatedByUserInput | PasswordRotationUpsertWithWhereUniqueWithoutRotatedByUserInput[]
+    createMany?: PasswordRotationCreateManyRotatedByUserInputEnvelope
+    set?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    disconnect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    delete?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    update?: PasswordRotationUpdateWithWhereUniqueWithoutRotatedByUserInput | PasswordRotationUpdateWithWhereUniqueWithoutRotatedByUserInput[]
+    updateMany?: PasswordRotationUpdateManyWithWhereWithoutRotatedByUserInput | PasswordRotationUpdateManyWithWhereWithoutRotatedByUserInput[]
+    deleteMany?: PasswordRotationScalarWhereInput | PasswordRotationScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<UserCreateWithoutCreatedByInput, UserUncheckedCreateWithoutCreatedByInput> | UserCreateWithoutCreatedByInput[] | UserUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCreatedByInput | UserCreateOrConnectWithoutCreatedByInput[]
@@ -31600,6 +35065,19 @@ export namespace Prisma {
     connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
   }
 
+  export type PasswordRotationCreateNestedManyWithoutPasswordInput = {
+    create?: XOR<PasswordRotationCreateWithoutPasswordInput, PasswordRotationUncheckedCreateWithoutPasswordInput> | PasswordRotationCreateWithoutPasswordInput[] | PasswordRotationUncheckedCreateWithoutPasswordInput[]
+    connectOrCreate?: PasswordRotationCreateOrConnectWithoutPasswordInput | PasswordRotationCreateOrConnectWithoutPasswordInput[]
+    createMany?: PasswordRotationCreateManyPasswordInputEnvelope
+    connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+  }
+
+  export type PasswordRotationPolicyCreateNestedOneWithoutPasswordsInput = {
+    create?: XOR<PasswordRotationPolicyCreateWithoutPasswordsInput, PasswordRotationPolicyUncheckedCreateWithoutPasswordsInput>
+    connectOrCreate?: PasswordRotationPolicyCreateOrConnectWithoutPasswordsInput
+    connect?: PasswordRotationPolicyWhereUniqueInput
+  }
+
   export type PasswordShareUncheckedCreateNestedManyWithoutPasswordInput = {
     create?: XOR<PasswordShareCreateWithoutPasswordInput, PasswordShareUncheckedCreateWithoutPasswordInput> | PasswordShareCreateWithoutPasswordInput[] | PasswordShareUncheckedCreateWithoutPasswordInput[]
     connectOrCreate?: PasswordShareCreateOrConnectWithoutPasswordInput | PasswordShareCreateOrConnectWithoutPasswordInput[]
@@ -31626,6 +35104,13 @@ export namespace Prisma {
     connectOrCreate?: PasswordBreachCreateOrConnectWithoutPasswordInput | PasswordBreachCreateOrConnectWithoutPasswordInput[]
     createMany?: PasswordBreachCreateManyPasswordInputEnvelope
     connect?: PasswordBreachWhereUniqueInput | PasswordBreachWhereUniqueInput[]
+  }
+
+  export type PasswordRotationUncheckedCreateNestedManyWithoutPasswordInput = {
+    create?: XOR<PasswordRotationCreateWithoutPasswordInput, PasswordRotationUncheckedCreateWithoutPasswordInput> | PasswordRotationCreateWithoutPasswordInput[] | PasswordRotationUncheckedCreateWithoutPasswordInput[]
+    connectOrCreate?: PasswordRotationCreateOrConnectWithoutPasswordInput | PasswordRotationCreateOrConnectWithoutPasswordInput[]
+    createMany?: PasswordRotationCreateManyPasswordInputEnvelope
+    connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
   }
 
   export type EnumPasswordStrengthFieldUpdateOperationsInput = {
@@ -31706,6 +35191,30 @@ export namespace Prisma {
     deleteMany?: PasswordBreachScalarWhereInput | PasswordBreachScalarWhereInput[]
   }
 
+  export type PasswordRotationUpdateManyWithoutPasswordNestedInput = {
+    create?: XOR<PasswordRotationCreateWithoutPasswordInput, PasswordRotationUncheckedCreateWithoutPasswordInput> | PasswordRotationCreateWithoutPasswordInput[] | PasswordRotationUncheckedCreateWithoutPasswordInput[]
+    connectOrCreate?: PasswordRotationCreateOrConnectWithoutPasswordInput | PasswordRotationCreateOrConnectWithoutPasswordInput[]
+    upsert?: PasswordRotationUpsertWithWhereUniqueWithoutPasswordInput | PasswordRotationUpsertWithWhereUniqueWithoutPasswordInput[]
+    createMany?: PasswordRotationCreateManyPasswordInputEnvelope
+    set?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    disconnect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    delete?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    update?: PasswordRotationUpdateWithWhereUniqueWithoutPasswordInput | PasswordRotationUpdateWithWhereUniqueWithoutPasswordInput[]
+    updateMany?: PasswordRotationUpdateManyWithWhereWithoutPasswordInput | PasswordRotationUpdateManyWithWhereWithoutPasswordInput[]
+    deleteMany?: PasswordRotationScalarWhereInput | PasswordRotationScalarWhereInput[]
+  }
+
+  export type PasswordRotationPolicyUpdateOneWithoutPasswordsNestedInput = {
+    create?: XOR<PasswordRotationPolicyCreateWithoutPasswordsInput, PasswordRotationPolicyUncheckedCreateWithoutPasswordsInput>
+    connectOrCreate?: PasswordRotationPolicyCreateOrConnectWithoutPasswordsInput
+    upsert?: PasswordRotationPolicyUpsertWithoutPasswordsInput
+    disconnect?: PasswordRotationPolicyWhereInput | boolean
+    delete?: PasswordRotationPolicyWhereInput | boolean
+    connect?: PasswordRotationPolicyWhereUniqueInput
+    update?: XOR<XOR<PasswordRotationPolicyUpdateToOneWithWhereWithoutPasswordsInput, PasswordRotationPolicyUpdateWithoutPasswordsInput>, PasswordRotationPolicyUncheckedUpdateWithoutPasswordsInput>
+  }
+
   export type PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput = {
     create?: XOR<PasswordShareCreateWithoutPasswordInput, PasswordShareUncheckedCreateWithoutPasswordInput> | PasswordShareCreateWithoutPasswordInput[] | PasswordShareUncheckedCreateWithoutPasswordInput[]
     connectOrCreate?: PasswordShareCreateOrConnectWithoutPasswordInput | PasswordShareCreateOrConnectWithoutPasswordInput[]
@@ -31760,6 +35269,20 @@ export namespace Prisma {
     update?: PasswordBreachUpdateWithWhereUniqueWithoutPasswordInput | PasswordBreachUpdateWithWhereUniqueWithoutPasswordInput[]
     updateMany?: PasswordBreachUpdateManyWithWhereWithoutPasswordInput | PasswordBreachUpdateManyWithWhereWithoutPasswordInput[]
     deleteMany?: PasswordBreachScalarWhereInput | PasswordBreachScalarWhereInput[]
+  }
+
+  export type PasswordRotationUncheckedUpdateManyWithoutPasswordNestedInput = {
+    create?: XOR<PasswordRotationCreateWithoutPasswordInput, PasswordRotationUncheckedCreateWithoutPasswordInput> | PasswordRotationCreateWithoutPasswordInput[] | PasswordRotationUncheckedCreateWithoutPasswordInput[]
+    connectOrCreate?: PasswordRotationCreateOrConnectWithoutPasswordInput | PasswordRotationCreateOrConnectWithoutPasswordInput[]
+    upsert?: PasswordRotationUpsertWithWhereUniqueWithoutPasswordInput | PasswordRotationUpsertWithWhereUniqueWithoutPasswordInput[]
+    createMany?: PasswordRotationCreateManyPasswordInputEnvelope
+    set?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    disconnect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    delete?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    update?: PasswordRotationUpdateWithWhereUniqueWithoutPasswordInput | PasswordRotationUpdateWithWhereUniqueWithoutPasswordInput[]
+    updateMany?: PasswordRotationUpdateManyWithWhereWithoutPasswordInput | PasswordRotationUpdateManyWithWhereWithoutPasswordInput[]
+    deleteMany?: PasswordRotationScalarWhereInput | PasswordRotationScalarWhereInput[]
   }
 
   export type PasswordCreateNestedOneWithoutHistoryInput = {
@@ -31840,6 +35363,148 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPasswordBreachesResolvedInput, UserUpdateWithoutPasswordBreachesResolvedInput>, UserUncheckedUpdateWithoutPasswordBreachesResolvedInput>
+  }
+
+  export type UserCreateNestedOneWithoutRotationPoliciesInput = {
+    create?: XOR<UserCreateWithoutRotationPoliciesInput, UserUncheckedCreateWithoutRotationPoliciesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRotationPoliciesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PasswordCreateNestedManyWithoutRotationPolicyInput = {
+    create?: XOR<PasswordCreateWithoutRotationPolicyInput, PasswordUncheckedCreateWithoutRotationPolicyInput> | PasswordCreateWithoutRotationPolicyInput[] | PasswordUncheckedCreateWithoutRotationPolicyInput[]
+    connectOrCreate?: PasswordCreateOrConnectWithoutRotationPolicyInput | PasswordCreateOrConnectWithoutRotationPolicyInput[]
+    createMany?: PasswordCreateManyRotationPolicyInputEnvelope
+    connect?: PasswordWhereUniqueInput | PasswordWhereUniqueInput[]
+  }
+
+  export type PasswordRotationCreateNestedManyWithoutPolicyInput = {
+    create?: XOR<PasswordRotationCreateWithoutPolicyInput, PasswordRotationUncheckedCreateWithoutPolicyInput> | PasswordRotationCreateWithoutPolicyInput[] | PasswordRotationUncheckedCreateWithoutPolicyInput[]
+    connectOrCreate?: PasswordRotationCreateOrConnectWithoutPolicyInput | PasswordRotationCreateOrConnectWithoutPolicyInput[]
+    createMany?: PasswordRotationCreateManyPolicyInputEnvelope
+    connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+  }
+
+  export type PasswordUncheckedCreateNestedManyWithoutRotationPolicyInput = {
+    create?: XOR<PasswordCreateWithoutRotationPolicyInput, PasswordUncheckedCreateWithoutRotationPolicyInput> | PasswordCreateWithoutRotationPolicyInput[] | PasswordUncheckedCreateWithoutRotationPolicyInput[]
+    connectOrCreate?: PasswordCreateOrConnectWithoutRotationPolicyInput | PasswordCreateOrConnectWithoutRotationPolicyInput[]
+    createMany?: PasswordCreateManyRotationPolicyInputEnvelope
+    connect?: PasswordWhereUniqueInput | PasswordWhereUniqueInput[]
+  }
+
+  export type PasswordRotationUncheckedCreateNestedManyWithoutPolicyInput = {
+    create?: XOR<PasswordRotationCreateWithoutPolicyInput, PasswordRotationUncheckedCreateWithoutPolicyInput> | PasswordRotationCreateWithoutPolicyInput[] | PasswordRotationUncheckedCreateWithoutPolicyInput[]
+    connectOrCreate?: PasswordRotationCreateOrConnectWithoutPolicyInput | PasswordRotationCreateOrConnectWithoutPolicyInput[]
+    createMany?: PasswordRotationCreateManyPolicyInputEnvelope
+    connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutRotationPoliciesNestedInput = {
+    create?: XOR<UserCreateWithoutRotationPoliciesInput, UserUncheckedCreateWithoutRotationPoliciesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRotationPoliciesInput
+    upsert?: UserUpsertWithoutRotationPoliciesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRotationPoliciesInput, UserUpdateWithoutRotationPoliciesInput>, UserUncheckedUpdateWithoutRotationPoliciesInput>
+  }
+
+  export type PasswordUpdateManyWithoutRotationPolicyNestedInput = {
+    create?: XOR<PasswordCreateWithoutRotationPolicyInput, PasswordUncheckedCreateWithoutRotationPolicyInput> | PasswordCreateWithoutRotationPolicyInput[] | PasswordUncheckedCreateWithoutRotationPolicyInput[]
+    connectOrCreate?: PasswordCreateOrConnectWithoutRotationPolicyInput | PasswordCreateOrConnectWithoutRotationPolicyInput[]
+    upsert?: PasswordUpsertWithWhereUniqueWithoutRotationPolicyInput | PasswordUpsertWithWhereUniqueWithoutRotationPolicyInput[]
+    createMany?: PasswordCreateManyRotationPolicyInputEnvelope
+    set?: PasswordWhereUniqueInput | PasswordWhereUniqueInput[]
+    disconnect?: PasswordWhereUniqueInput | PasswordWhereUniqueInput[]
+    delete?: PasswordWhereUniqueInput | PasswordWhereUniqueInput[]
+    connect?: PasswordWhereUniqueInput | PasswordWhereUniqueInput[]
+    update?: PasswordUpdateWithWhereUniqueWithoutRotationPolicyInput | PasswordUpdateWithWhereUniqueWithoutRotationPolicyInput[]
+    updateMany?: PasswordUpdateManyWithWhereWithoutRotationPolicyInput | PasswordUpdateManyWithWhereWithoutRotationPolicyInput[]
+    deleteMany?: PasswordScalarWhereInput | PasswordScalarWhereInput[]
+  }
+
+  export type PasswordRotationUpdateManyWithoutPolicyNestedInput = {
+    create?: XOR<PasswordRotationCreateWithoutPolicyInput, PasswordRotationUncheckedCreateWithoutPolicyInput> | PasswordRotationCreateWithoutPolicyInput[] | PasswordRotationUncheckedCreateWithoutPolicyInput[]
+    connectOrCreate?: PasswordRotationCreateOrConnectWithoutPolicyInput | PasswordRotationCreateOrConnectWithoutPolicyInput[]
+    upsert?: PasswordRotationUpsertWithWhereUniqueWithoutPolicyInput | PasswordRotationUpsertWithWhereUniqueWithoutPolicyInput[]
+    createMany?: PasswordRotationCreateManyPolicyInputEnvelope
+    set?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    disconnect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    delete?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    update?: PasswordRotationUpdateWithWhereUniqueWithoutPolicyInput | PasswordRotationUpdateWithWhereUniqueWithoutPolicyInput[]
+    updateMany?: PasswordRotationUpdateManyWithWhereWithoutPolicyInput | PasswordRotationUpdateManyWithWhereWithoutPolicyInput[]
+    deleteMany?: PasswordRotationScalarWhereInput | PasswordRotationScalarWhereInput[]
+  }
+
+  export type PasswordUncheckedUpdateManyWithoutRotationPolicyNestedInput = {
+    create?: XOR<PasswordCreateWithoutRotationPolicyInput, PasswordUncheckedCreateWithoutRotationPolicyInput> | PasswordCreateWithoutRotationPolicyInput[] | PasswordUncheckedCreateWithoutRotationPolicyInput[]
+    connectOrCreate?: PasswordCreateOrConnectWithoutRotationPolicyInput | PasswordCreateOrConnectWithoutRotationPolicyInput[]
+    upsert?: PasswordUpsertWithWhereUniqueWithoutRotationPolicyInput | PasswordUpsertWithWhereUniqueWithoutRotationPolicyInput[]
+    createMany?: PasswordCreateManyRotationPolicyInputEnvelope
+    set?: PasswordWhereUniqueInput | PasswordWhereUniqueInput[]
+    disconnect?: PasswordWhereUniqueInput | PasswordWhereUniqueInput[]
+    delete?: PasswordWhereUniqueInput | PasswordWhereUniqueInput[]
+    connect?: PasswordWhereUniqueInput | PasswordWhereUniqueInput[]
+    update?: PasswordUpdateWithWhereUniqueWithoutRotationPolicyInput | PasswordUpdateWithWhereUniqueWithoutRotationPolicyInput[]
+    updateMany?: PasswordUpdateManyWithWhereWithoutRotationPolicyInput | PasswordUpdateManyWithWhereWithoutRotationPolicyInput[]
+    deleteMany?: PasswordScalarWhereInput | PasswordScalarWhereInput[]
+  }
+
+  export type PasswordRotationUncheckedUpdateManyWithoutPolicyNestedInput = {
+    create?: XOR<PasswordRotationCreateWithoutPolicyInput, PasswordRotationUncheckedCreateWithoutPolicyInput> | PasswordRotationCreateWithoutPolicyInput[] | PasswordRotationUncheckedCreateWithoutPolicyInput[]
+    connectOrCreate?: PasswordRotationCreateOrConnectWithoutPolicyInput | PasswordRotationCreateOrConnectWithoutPolicyInput[]
+    upsert?: PasswordRotationUpsertWithWhereUniqueWithoutPolicyInput | PasswordRotationUpsertWithWhereUniqueWithoutPolicyInput[]
+    createMany?: PasswordRotationCreateManyPolicyInputEnvelope
+    set?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    disconnect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    delete?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+    update?: PasswordRotationUpdateWithWhereUniqueWithoutPolicyInput | PasswordRotationUpdateWithWhereUniqueWithoutPolicyInput[]
+    updateMany?: PasswordRotationUpdateManyWithWhereWithoutPolicyInput | PasswordRotationUpdateManyWithWhereWithoutPolicyInput[]
+    deleteMany?: PasswordRotationScalarWhereInput | PasswordRotationScalarWhereInput[]
+  }
+
+  export type PasswordCreateNestedOneWithoutRotationsInput = {
+    create?: XOR<PasswordCreateWithoutRotationsInput, PasswordUncheckedCreateWithoutRotationsInput>
+    connectOrCreate?: PasswordCreateOrConnectWithoutRotationsInput
+    connect?: PasswordWhereUniqueInput
+  }
+
+  export type PasswordRotationPolicyCreateNestedOneWithoutRotationsInput = {
+    create?: XOR<PasswordRotationPolicyCreateWithoutRotationsInput, PasswordRotationPolicyUncheckedCreateWithoutRotationsInput>
+    connectOrCreate?: PasswordRotationPolicyCreateOrConnectWithoutRotationsInput
+    connect?: PasswordRotationPolicyWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutPasswordRotationsInput = {
+    create?: XOR<UserCreateWithoutPasswordRotationsInput, UserUncheckedCreateWithoutPasswordRotationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPasswordRotationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PasswordUpdateOneRequiredWithoutRotationsNestedInput = {
+    create?: XOR<PasswordCreateWithoutRotationsInput, PasswordUncheckedCreateWithoutRotationsInput>
+    connectOrCreate?: PasswordCreateOrConnectWithoutRotationsInput
+    upsert?: PasswordUpsertWithoutRotationsInput
+    connect?: PasswordWhereUniqueInput
+    update?: XOR<XOR<PasswordUpdateToOneWithWhereWithoutRotationsInput, PasswordUpdateWithoutRotationsInput>, PasswordUncheckedUpdateWithoutRotationsInput>
+  }
+
+  export type PasswordRotationPolicyUpdateOneWithoutRotationsNestedInput = {
+    create?: XOR<PasswordRotationPolicyCreateWithoutRotationsInput, PasswordRotationPolicyUncheckedCreateWithoutRotationsInput>
+    connectOrCreate?: PasswordRotationPolicyCreateOrConnectWithoutRotationsInput
+    upsert?: PasswordRotationPolicyUpsertWithoutRotationsInput
+    disconnect?: PasswordRotationPolicyWhereInput | boolean
+    delete?: PasswordRotationPolicyWhereInput | boolean
+    connect?: PasswordRotationPolicyWhereUniqueInput
+    update?: XOR<XOR<PasswordRotationPolicyUpdateToOneWithWhereWithoutRotationsInput, PasswordRotationPolicyUpdateWithoutRotationsInput>, PasswordRotationPolicyUncheckedUpdateWithoutRotationsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutPasswordRotationsNestedInput = {
+    create?: XOR<UserCreateWithoutPasswordRotationsInput, UserUncheckedCreateWithoutPasswordRotationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPasswordRotationsInput
+    upsert?: UserUpsertWithoutPasswordRotationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPasswordRotationsInput, UserUpdateWithoutPasswordRotationsInput>, UserUncheckedUpdateWithoutPasswordRotationsInput>
   }
 
   export type FolderCreateNestedOneWithoutChildrenInput = {
@@ -32748,6 +36413,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -32781,6 +36448,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -32873,6 +36542,8 @@ export namespace Prisma {
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationCreateNestedManyWithoutPasswordInput
+    rotationPolicy?: PasswordRotationPolicyCreateNestedOneWithoutPasswordsInput
   }
 
   export type PasswordUncheckedCreateWithoutOwnerInput = {
@@ -32889,10 +36560,12 @@ export namespace Prisma {
     expiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    rotationPolicyId?: string | null
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationUncheckedCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordCreateOrConnectWithoutOwnerInput = {
@@ -33229,6 +36902,84 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PasswordRotationPolicyCreateWithoutOwnerInput = {
+    id?: string
+    name: string
+    description?: string | null
+    rotationDays: number
+    reminderDays: number
+    autoRotate?: boolean
+    requireApproval?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    passwords?: PasswordCreateNestedManyWithoutRotationPolicyInput
+    rotations?: PasswordRotationCreateNestedManyWithoutPolicyInput
+  }
+
+  export type PasswordRotationPolicyUncheckedCreateWithoutOwnerInput = {
+    id?: string
+    name: string
+    description?: string | null
+    rotationDays: number
+    reminderDays: number
+    autoRotate?: boolean
+    requireApproval?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    passwords?: PasswordUncheckedCreateNestedManyWithoutRotationPolicyInput
+    rotations?: PasswordRotationUncheckedCreateNestedManyWithoutPolicyInput
+  }
+
+  export type PasswordRotationPolicyCreateOrConnectWithoutOwnerInput = {
+    where: PasswordRotationPolicyWhereUniqueInput
+    create: XOR<PasswordRotationPolicyCreateWithoutOwnerInput, PasswordRotationPolicyUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type PasswordRotationPolicyCreateManyOwnerInputEnvelope = {
+    data: PasswordRotationPolicyCreateManyOwnerInput | PasswordRotationPolicyCreateManyOwnerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PasswordRotationCreateWithoutRotatedByUserInput = {
+    id?: string
+    rotationType?: string
+    oldPassword?: string | null
+    newPassword: string
+    rotatedAt?: Date | string
+    scheduledFor?: Date | string | null
+    completedAt?: Date | string | null
+    status?: string
+    notes?: string | null
+    password: PasswordCreateNestedOneWithoutRotationsInput
+    policy?: PasswordRotationPolicyCreateNestedOneWithoutRotationsInput
+  }
+
+  export type PasswordRotationUncheckedCreateWithoutRotatedByUserInput = {
+    id?: string
+    passwordId: string
+    policyId?: string | null
+    rotationType?: string
+    oldPassword?: string | null
+    newPassword: string
+    rotatedAt?: Date | string
+    scheduledFor?: Date | string | null
+    completedAt?: Date | string | null
+    status?: string
+    notes?: string | null
+  }
+
+  export type PasswordRotationCreateOrConnectWithoutRotatedByUserInput = {
+    where: PasswordRotationWhereUniqueInput
+    create: XOR<PasswordRotationCreateWithoutRotatedByUserInput, PasswordRotationUncheckedCreateWithoutRotatedByUserInput>
+  }
+
+  export type PasswordRotationCreateManyRotatedByUserInputEnvelope = {
+    data: PasswordRotationCreateManyRotatedByUserInput | PasswordRotationCreateManyRotatedByUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserCreateWithoutCreatedUsersInput = {
     id?: string
     name: string
@@ -33257,6 +37008,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
   }
@@ -33290,6 +37043,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
@@ -33326,6 +37081,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
   }
@@ -33358,6 +37115,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -33463,6 +37222,7 @@ export namespace Prisma {
     ownerId?: StringFilter<"Password"> | string
     createdAt?: DateTimeFilter<"Password"> | Date | string
     updatedAt?: DateTimeFilter<"Password"> | Date | string
+    rotationPolicyId?: StringNullableFilter<"Password"> | string | null
   }
 
   export type PasswordShareUpsertWithWhereUniqueWithoutUserInput = {
@@ -33761,6 +37521,73 @@ export namespace Prisma {
     data: XOR<PasswordBreachUpdateManyMutationInput, PasswordBreachUncheckedUpdateManyWithoutResolvedByUserInput>
   }
 
+  export type PasswordRotationPolicyUpsertWithWhereUniqueWithoutOwnerInput = {
+    where: PasswordRotationPolicyWhereUniqueInput
+    update: XOR<PasswordRotationPolicyUpdateWithoutOwnerInput, PasswordRotationPolicyUncheckedUpdateWithoutOwnerInput>
+    create: XOR<PasswordRotationPolicyCreateWithoutOwnerInput, PasswordRotationPolicyUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type PasswordRotationPolicyUpdateWithWhereUniqueWithoutOwnerInput = {
+    where: PasswordRotationPolicyWhereUniqueInput
+    data: XOR<PasswordRotationPolicyUpdateWithoutOwnerInput, PasswordRotationPolicyUncheckedUpdateWithoutOwnerInput>
+  }
+
+  export type PasswordRotationPolicyUpdateManyWithWhereWithoutOwnerInput = {
+    where: PasswordRotationPolicyScalarWhereInput
+    data: XOR<PasswordRotationPolicyUpdateManyMutationInput, PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerInput>
+  }
+
+  export type PasswordRotationPolicyScalarWhereInput = {
+    AND?: PasswordRotationPolicyScalarWhereInput | PasswordRotationPolicyScalarWhereInput[]
+    OR?: PasswordRotationPolicyScalarWhereInput[]
+    NOT?: PasswordRotationPolicyScalarWhereInput | PasswordRotationPolicyScalarWhereInput[]
+    id?: StringFilter<"PasswordRotationPolicy"> | string
+    name?: StringFilter<"PasswordRotationPolicy"> | string
+    description?: StringNullableFilter<"PasswordRotationPolicy"> | string | null
+    rotationDays?: IntFilter<"PasswordRotationPolicy"> | number
+    reminderDays?: IntFilter<"PasswordRotationPolicy"> | number
+    autoRotate?: BoolFilter<"PasswordRotationPolicy"> | boolean
+    requireApproval?: BoolFilter<"PasswordRotationPolicy"> | boolean
+    isActive?: BoolFilter<"PasswordRotationPolicy"> | boolean
+    ownerId?: StringFilter<"PasswordRotationPolicy"> | string
+    createdAt?: DateTimeFilter<"PasswordRotationPolicy"> | Date | string
+    updatedAt?: DateTimeFilter<"PasswordRotationPolicy"> | Date | string
+  }
+
+  export type PasswordRotationUpsertWithWhereUniqueWithoutRotatedByUserInput = {
+    where: PasswordRotationWhereUniqueInput
+    update: XOR<PasswordRotationUpdateWithoutRotatedByUserInput, PasswordRotationUncheckedUpdateWithoutRotatedByUserInput>
+    create: XOR<PasswordRotationCreateWithoutRotatedByUserInput, PasswordRotationUncheckedCreateWithoutRotatedByUserInput>
+  }
+
+  export type PasswordRotationUpdateWithWhereUniqueWithoutRotatedByUserInput = {
+    where: PasswordRotationWhereUniqueInput
+    data: XOR<PasswordRotationUpdateWithoutRotatedByUserInput, PasswordRotationUncheckedUpdateWithoutRotatedByUserInput>
+  }
+
+  export type PasswordRotationUpdateManyWithWhereWithoutRotatedByUserInput = {
+    where: PasswordRotationScalarWhereInput
+    data: XOR<PasswordRotationUpdateManyMutationInput, PasswordRotationUncheckedUpdateManyWithoutRotatedByUserInput>
+  }
+
+  export type PasswordRotationScalarWhereInput = {
+    AND?: PasswordRotationScalarWhereInput | PasswordRotationScalarWhereInput[]
+    OR?: PasswordRotationScalarWhereInput[]
+    NOT?: PasswordRotationScalarWhereInput | PasswordRotationScalarWhereInput[]
+    id?: StringFilter<"PasswordRotation"> | string
+    passwordId?: StringFilter<"PasswordRotation"> | string
+    policyId?: StringNullableFilter<"PasswordRotation"> | string | null
+    rotationType?: StringFilter<"PasswordRotation"> | string
+    oldPassword?: StringNullableFilter<"PasswordRotation"> | string | null
+    newPassword?: StringFilter<"PasswordRotation"> | string
+    rotatedAt?: DateTimeFilter<"PasswordRotation"> | Date | string
+    rotatedBy?: StringFilter<"PasswordRotation"> | string
+    scheduledFor?: DateTimeNullableFilter<"PasswordRotation"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"PasswordRotation"> | Date | string | null
+    status?: StringFilter<"PasswordRotation"> | string
+    notes?: StringNullableFilter<"PasswordRotation"> | string | null
+  }
+
   export type UserUpsertWithoutCreatedUsersInput = {
     update: XOR<UserUpdateWithoutCreatedUsersInput, UserUncheckedUpdateWithoutCreatedUsersInput>
     create: XOR<UserCreateWithoutCreatedUsersInput, UserUncheckedCreateWithoutCreatedUsersInput>
@@ -33800,6 +37627,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
   }
@@ -33833,6 +37662,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
@@ -33908,6 +37739,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -33941,6 +37774,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -33988,6 +37823,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -34021,6 +37858,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -34052,6 +37891,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -34085,6 +37926,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -34132,6 +37975,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -34165,6 +38010,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -34196,6 +38043,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -34229,6 +38078,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -34395,6 +38246,79 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PasswordRotationCreateWithoutPasswordInput = {
+    id?: string
+    rotationType?: string
+    oldPassword?: string | null
+    newPassword: string
+    rotatedAt?: Date | string
+    scheduledFor?: Date | string | null
+    completedAt?: Date | string | null
+    status?: string
+    notes?: string | null
+    policy?: PasswordRotationPolicyCreateNestedOneWithoutRotationsInput
+    rotatedByUser: UserCreateNestedOneWithoutPasswordRotationsInput
+  }
+
+  export type PasswordRotationUncheckedCreateWithoutPasswordInput = {
+    id?: string
+    policyId?: string | null
+    rotationType?: string
+    oldPassword?: string | null
+    newPassword: string
+    rotatedAt?: Date | string
+    rotatedBy: string
+    scheduledFor?: Date | string | null
+    completedAt?: Date | string | null
+    status?: string
+    notes?: string | null
+  }
+
+  export type PasswordRotationCreateOrConnectWithoutPasswordInput = {
+    where: PasswordRotationWhereUniqueInput
+    create: XOR<PasswordRotationCreateWithoutPasswordInput, PasswordRotationUncheckedCreateWithoutPasswordInput>
+  }
+
+  export type PasswordRotationCreateManyPasswordInputEnvelope = {
+    data: PasswordRotationCreateManyPasswordInput | PasswordRotationCreateManyPasswordInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PasswordRotationPolicyCreateWithoutPasswordsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    rotationDays: number
+    reminderDays: number
+    autoRotate?: boolean
+    requireApproval?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutRotationPoliciesInput
+    rotations?: PasswordRotationCreateNestedManyWithoutPolicyInput
+  }
+
+  export type PasswordRotationPolicyUncheckedCreateWithoutPasswordsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    rotationDays: number
+    reminderDays: number
+    autoRotate?: boolean
+    requireApproval?: boolean
+    isActive?: boolean
+    ownerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    rotations?: PasswordRotationUncheckedCreateNestedManyWithoutPolicyInput
+  }
+
+  export type PasswordRotationPolicyCreateOrConnectWithoutPasswordsInput = {
+    where: PasswordRotationPolicyWhereUniqueInput
+    create: XOR<PasswordRotationPolicyCreateWithoutPasswordsInput, PasswordRotationPolicyUncheckedCreateWithoutPasswordsInput>
+  }
+
   export type UserUpsertWithoutOwnedPasswordsInput = {
     update: XOR<UserUpdateWithoutOwnedPasswordsInput, UserUncheckedUpdateWithoutOwnedPasswordsInput>
     create: XOR<UserCreateWithoutOwnedPasswordsInput, UserUncheckedCreateWithoutOwnedPasswordsInput>
@@ -34433,6 +38357,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -34466,6 +38392,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -34579,6 +38507,63 @@ export namespace Prisma {
     data: XOR<PasswordBreachUpdateManyMutationInput, PasswordBreachUncheckedUpdateManyWithoutPasswordInput>
   }
 
+  export type PasswordRotationUpsertWithWhereUniqueWithoutPasswordInput = {
+    where: PasswordRotationWhereUniqueInput
+    update: XOR<PasswordRotationUpdateWithoutPasswordInput, PasswordRotationUncheckedUpdateWithoutPasswordInput>
+    create: XOR<PasswordRotationCreateWithoutPasswordInput, PasswordRotationUncheckedCreateWithoutPasswordInput>
+  }
+
+  export type PasswordRotationUpdateWithWhereUniqueWithoutPasswordInput = {
+    where: PasswordRotationWhereUniqueInput
+    data: XOR<PasswordRotationUpdateWithoutPasswordInput, PasswordRotationUncheckedUpdateWithoutPasswordInput>
+  }
+
+  export type PasswordRotationUpdateManyWithWhereWithoutPasswordInput = {
+    where: PasswordRotationScalarWhereInput
+    data: XOR<PasswordRotationUpdateManyMutationInput, PasswordRotationUncheckedUpdateManyWithoutPasswordInput>
+  }
+
+  export type PasswordRotationPolicyUpsertWithoutPasswordsInput = {
+    update: XOR<PasswordRotationPolicyUpdateWithoutPasswordsInput, PasswordRotationPolicyUncheckedUpdateWithoutPasswordsInput>
+    create: XOR<PasswordRotationPolicyCreateWithoutPasswordsInput, PasswordRotationPolicyUncheckedCreateWithoutPasswordsInput>
+    where?: PasswordRotationPolicyWhereInput
+  }
+
+  export type PasswordRotationPolicyUpdateToOneWithWhereWithoutPasswordsInput = {
+    where?: PasswordRotationPolicyWhereInput
+    data: XOR<PasswordRotationPolicyUpdateWithoutPasswordsInput, PasswordRotationPolicyUncheckedUpdateWithoutPasswordsInput>
+  }
+
+  export type PasswordRotationPolicyUpdateWithoutPasswordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationDays?: IntFieldUpdateOperationsInput | number
+    reminderDays?: IntFieldUpdateOperationsInput | number
+    autoRotate?: BoolFieldUpdateOperationsInput | boolean
+    requireApproval?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutRotationPoliciesNestedInput
+    rotations?: PasswordRotationUpdateManyWithoutPolicyNestedInput
+  }
+
+  export type PasswordRotationPolicyUncheckedUpdateWithoutPasswordsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationDays?: IntFieldUpdateOperationsInput | number
+    reminderDays?: IntFieldUpdateOperationsInput | number
+    autoRotate?: BoolFieldUpdateOperationsInput | boolean
+    requireApproval?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotations?: PasswordRotationUncheckedUpdateManyWithoutPolicyNestedInput
+  }
+
   export type PasswordCreateWithoutHistoryInput = {
     id?: string
     name: string
@@ -34597,6 +38582,8 @@ export namespace Prisma {
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationCreateNestedManyWithoutPasswordInput
+    rotationPolicy?: PasswordRotationPolicyCreateNestedOneWithoutPasswordsInput
   }
 
   export type PasswordUncheckedCreateWithoutHistoryInput = {
@@ -34614,9 +38601,11 @@ export namespace Prisma {
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    rotationPolicyId?: string | null
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationUncheckedCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordCreateOrConnectWithoutHistoryInput = {
@@ -34651,6 +38640,8 @@ export namespace Prisma {
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -34684,6 +38675,8 @@ export namespace Prisma {
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -34722,6 +38715,8 @@ export namespace Prisma {
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUpdateManyWithoutPasswordNestedInput
+    rotationPolicy?: PasswordRotationPolicyUpdateOneWithoutPasswordsNestedInput
   }
 
   export type PasswordUncheckedUpdateWithoutHistoryInput = {
@@ -34739,9 +38734,11 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUncheckedUpdateManyWithoutPasswordNestedInput
   }
 
   export type UserUpsertWithoutPasswordHistoryInput = {
@@ -34782,6 +38779,8 @@ export namespace Prisma {
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -34815,6 +38814,8 @@ export namespace Prisma {
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -34837,6 +38838,8 @@ export namespace Prisma {
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
+    rotations?: PasswordRotationCreateNestedManyWithoutPasswordInput
+    rotationPolicy?: PasswordRotationPolicyCreateNestedOneWithoutPasswordsInput
   }
 
   export type PasswordUncheckedCreateWithoutBreachesInput = {
@@ -34854,9 +38857,11 @@ export namespace Prisma {
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    rotationPolicyId?: string | null
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
+    rotations?: PasswordRotationUncheckedCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordCreateOrConnectWithoutBreachesInput = {
@@ -34891,6 +38896,8 @@ export namespace Prisma {
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -34924,6 +38931,8 @@ export namespace Prisma {
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -34960,6 +38969,8 @@ export namespace Prisma {
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -34993,6 +39004,8 @@ export namespace Prisma {
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -35031,6 +39044,8 @@ export namespace Prisma {
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
+    rotations?: PasswordRotationUpdateManyWithoutPasswordNestedInput
+    rotationPolicy?: PasswordRotationPolicyUpdateOneWithoutPasswordsNestedInput
   }
 
   export type PasswordUncheckedUpdateWithoutBreachesInput = {
@@ -35048,9 +39063,11 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
+    rotations?: PasswordRotationUncheckedUpdateManyWithoutPasswordNestedInput
   }
 
   export type UserUpsertWithoutPasswordBreachesCheckedInput = {
@@ -35091,6 +39108,8 @@ export namespace Prisma {
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -35124,6 +39143,8 @@ export namespace Prisma {
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -35166,6 +39187,8 @@ export namespace Prisma {
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -35199,6 +39222,616 @@ export namespace Prisma {
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserCreateWithoutRotationPoliciesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutRotationPoliciesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutRotationPoliciesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRotationPoliciesInput, UserUncheckedCreateWithoutRotationPoliciesInput>
+  }
+
+  export type PasswordCreateWithoutRotationPolicyInput = {
+    id?: string
+    name: string
+    username: string
+    password: string
+    url?: string | null
+    notes?: string | null
+    strength?: $Enums.PasswordStrength
+    hasTotp?: boolean
+    totpSecret?: string | null
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutOwnedPasswordsInput
+    folder?: FolderCreateNestedOneWithoutPasswordsInput
+    sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
+    tags?: PasswordTagCreateNestedManyWithoutPasswordInput
+    history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationCreateNestedManyWithoutPasswordInput
+  }
+
+  export type PasswordUncheckedCreateWithoutRotationPolicyInput = {
+    id?: string
+    name: string
+    username: string
+    password: string
+    url?: string | null
+    notes?: string | null
+    folderId?: string | null
+    strength?: $Enums.PasswordStrength
+    hasTotp?: boolean
+    totpSecret?: string | null
+    expiresAt?: Date | string | null
+    ownerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
+    tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
+    history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationUncheckedCreateNestedManyWithoutPasswordInput
+  }
+
+  export type PasswordCreateOrConnectWithoutRotationPolicyInput = {
+    where: PasswordWhereUniqueInput
+    create: XOR<PasswordCreateWithoutRotationPolicyInput, PasswordUncheckedCreateWithoutRotationPolicyInput>
+  }
+
+  export type PasswordCreateManyRotationPolicyInputEnvelope = {
+    data: PasswordCreateManyRotationPolicyInput | PasswordCreateManyRotationPolicyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PasswordRotationCreateWithoutPolicyInput = {
+    id?: string
+    rotationType?: string
+    oldPassword?: string | null
+    newPassword: string
+    rotatedAt?: Date | string
+    scheduledFor?: Date | string | null
+    completedAt?: Date | string | null
+    status?: string
+    notes?: string | null
+    password: PasswordCreateNestedOneWithoutRotationsInput
+    rotatedByUser: UserCreateNestedOneWithoutPasswordRotationsInput
+  }
+
+  export type PasswordRotationUncheckedCreateWithoutPolicyInput = {
+    id?: string
+    passwordId: string
+    rotationType?: string
+    oldPassword?: string | null
+    newPassword: string
+    rotatedAt?: Date | string
+    rotatedBy: string
+    scheduledFor?: Date | string | null
+    completedAt?: Date | string | null
+    status?: string
+    notes?: string | null
+  }
+
+  export type PasswordRotationCreateOrConnectWithoutPolicyInput = {
+    where: PasswordRotationWhereUniqueInput
+    create: XOR<PasswordRotationCreateWithoutPolicyInput, PasswordRotationUncheckedCreateWithoutPolicyInput>
+  }
+
+  export type PasswordRotationCreateManyPolicyInputEnvelope = {
+    data: PasswordRotationCreateManyPolicyInput | PasswordRotationCreateManyPolicyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutRotationPoliciesInput = {
+    update: XOR<UserUpdateWithoutRotationPoliciesInput, UserUncheckedUpdateWithoutRotationPoliciesInput>
+    create: XOR<UserCreateWithoutRotationPoliciesInput, UserUncheckedCreateWithoutRotationPoliciesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRotationPoliciesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRotationPoliciesInput, UserUncheckedUpdateWithoutRotationPoliciesInput>
+  }
+
+  export type UserUpdateWithoutRotationPoliciesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRotationPoliciesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type PasswordUpsertWithWhereUniqueWithoutRotationPolicyInput = {
+    where: PasswordWhereUniqueInput
+    update: XOR<PasswordUpdateWithoutRotationPolicyInput, PasswordUncheckedUpdateWithoutRotationPolicyInput>
+    create: XOR<PasswordCreateWithoutRotationPolicyInput, PasswordUncheckedCreateWithoutRotationPolicyInput>
+  }
+
+  export type PasswordUpdateWithWhereUniqueWithoutRotationPolicyInput = {
+    where: PasswordWhereUniqueInput
+    data: XOR<PasswordUpdateWithoutRotationPolicyInput, PasswordUncheckedUpdateWithoutRotationPolicyInput>
+  }
+
+  export type PasswordUpdateManyWithWhereWithoutRotationPolicyInput = {
+    where: PasswordScalarWhereInput
+    data: XOR<PasswordUpdateManyMutationInput, PasswordUncheckedUpdateManyWithoutRotationPolicyInput>
+  }
+
+  export type PasswordRotationUpsertWithWhereUniqueWithoutPolicyInput = {
+    where: PasswordRotationWhereUniqueInput
+    update: XOR<PasswordRotationUpdateWithoutPolicyInput, PasswordRotationUncheckedUpdateWithoutPolicyInput>
+    create: XOR<PasswordRotationCreateWithoutPolicyInput, PasswordRotationUncheckedCreateWithoutPolicyInput>
+  }
+
+  export type PasswordRotationUpdateWithWhereUniqueWithoutPolicyInput = {
+    where: PasswordRotationWhereUniqueInput
+    data: XOR<PasswordRotationUpdateWithoutPolicyInput, PasswordRotationUncheckedUpdateWithoutPolicyInput>
+  }
+
+  export type PasswordRotationUpdateManyWithWhereWithoutPolicyInput = {
+    where: PasswordRotationScalarWhereInput
+    data: XOR<PasswordRotationUpdateManyMutationInput, PasswordRotationUncheckedUpdateManyWithoutPolicyInput>
+  }
+
+  export type PasswordCreateWithoutRotationsInput = {
+    id?: string
+    name: string
+    username: string
+    password: string
+    url?: string | null
+    notes?: string | null
+    strength?: $Enums.PasswordStrength
+    hasTotp?: boolean
+    totpSecret?: string | null
+    expiresAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutOwnedPasswordsInput
+    folder?: FolderCreateNestedOneWithoutPasswordsInput
+    sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
+    tags?: PasswordTagCreateNestedManyWithoutPasswordInput
+    history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
+    rotationPolicy?: PasswordRotationPolicyCreateNestedOneWithoutPasswordsInput
+  }
+
+  export type PasswordUncheckedCreateWithoutRotationsInput = {
+    id?: string
+    name: string
+    username: string
+    password: string
+    url?: string | null
+    notes?: string | null
+    folderId?: string | null
+    strength?: $Enums.PasswordStrength
+    hasTotp?: boolean
+    totpSecret?: string | null
+    expiresAt?: Date | string | null
+    ownerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    rotationPolicyId?: string | null
+    sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
+    tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
+    history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
+  }
+
+  export type PasswordCreateOrConnectWithoutRotationsInput = {
+    where: PasswordWhereUniqueInput
+    create: XOR<PasswordCreateWithoutRotationsInput, PasswordUncheckedCreateWithoutRotationsInput>
+  }
+
+  export type PasswordRotationPolicyCreateWithoutRotationsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    rotationDays: number
+    reminderDays: number
+    autoRotate?: boolean
+    requireApproval?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutRotationPoliciesInput
+    passwords?: PasswordCreateNestedManyWithoutRotationPolicyInput
+  }
+
+  export type PasswordRotationPolicyUncheckedCreateWithoutRotationsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    rotationDays: number
+    reminderDays: number
+    autoRotate?: boolean
+    requireApproval?: boolean
+    isActive?: boolean
+    ownerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    passwords?: PasswordUncheckedCreateNestedManyWithoutRotationPolicyInput
+  }
+
+  export type PasswordRotationPolicyCreateOrConnectWithoutRotationsInput = {
+    where: PasswordRotationPolicyWhereUniqueInput
+    create: XOR<PasswordRotationPolicyCreateWithoutRotationsInput, PasswordRotationPolicyUncheckedCreateWithoutRotationsInput>
+  }
+
+  export type UserCreateWithoutPasswordRotationsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutPasswordRotationsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutPasswordRotationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPasswordRotationsInput, UserUncheckedCreateWithoutPasswordRotationsInput>
+  }
+
+  export type PasswordUpsertWithoutRotationsInput = {
+    update: XOR<PasswordUpdateWithoutRotationsInput, PasswordUncheckedUpdateWithoutRotationsInput>
+    create: XOR<PasswordCreateWithoutRotationsInput, PasswordUncheckedCreateWithoutRotationsInput>
+    where?: PasswordWhereInput
+  }
+
+  export type PasswordUpdateToOneWithWhereWithoutRotationsInput = {
+    where?: PasswordWhereInput
+    data: XOR<PasswordUpdateWithoutRotationsInput, PasswordUncheckedUpdateWithoutRotationsInput>
+  }
+
+  export type PasswordUpdateWithoutRotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    strength?: EnumPasswordStrengthFieldUpdateOperationsInput | $Enums.PasswordStrength
+    hasTotp?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
+    folder?: FolderUpdateOneWithoutPasswordsNestedInput
+    sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
+    tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
+    history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
+    rotationPolicy?: PasswordRotationPolicyUpdateOneWithoutPasswordsNestedInput
+  }
+
+  export type PasswordUncheckedUpdateWithoutRotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    strength?: EnumPasswordStrengthFieldUpdateOperationsInput | $Enums.PasswordStrength
+    hasTotp?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
+    sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
+    tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
+    history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
+  }
+
+  export type PasswordRotationPolicyUpsertWithoutRotationsInput = {
+    update: XOR<PasswordRotationPolicyUpdateWithoutRotationsInput, PasswordRotationPolicyUncheckedUpdateWithoutRotationsInput>
+    create: XOR<PasswordRotationPolicyCreateWithoutRotationsInput, PasswordRotationPolicyUncheckedCreateWithoutRotationsInput>
+    where?: PasswordRotationPolicyWhereInput
+  }
+
+  export type PasswordRotationPolicyUpdateToOneWithWhereWithoutRotationsInput = {
+    where?: PasswordRotationPolicyWhereInput
+    data: XOR<PasswordRotationPolicyUpdateWithoutRotationsInput, PasswordRotationPolicyUncheckedUpdateWithoutRotationsInput>
+  }
+
+  export type PasswordRotationPolicyUpdateWithoutRotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationDays?: IntFieldUpdateOperationsInput | number
+    reminderDays?: IntFieldUpdateOperationsInput | number
+    autoRotate?: BoolFieldUpdateOperationsInput | boolean
+    requireApproval?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutRotationPoliciesNestedInput
+    passwords?: PasswordUpdateManyWithoutRotationPolicyNestedInput
+  }
+
+  export type PasswordRotationPolicyUncheckedUpdateWithoutRotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationDays?: IntFieldUpdateOperationsInput | number
+    reminderDays?: IntFieldUpdateOperationsInput | number
+    autoRotate?: BoolFieldUpdateOperationsInput | boolean
+    requireApproval?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    passwords?: PasswordUncheckedUpdateManyWithoutRotationPolicyNestedInput
+  }
+
+  export type UserUpsertWithoutPasswordRotationsInput = {
+    update: XOR<UserUpdateWithoutPasswordRotationsInput, UserUncheckedUpdateWithoutPasswordRotationsInput>
+    create: XOR<UserCreateWithoutPasswordRotationsInput, UserUncheckedCreateWithoutPasswordRotationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPasswordRotationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPasswordRotationsInput, UserUncheckedUpdateWithoutPasswordRotationsInput>
+  }
+
+  export type UserUpdateWithoutPasswordRotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPasswordRotationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -35284,6 +39917,8 @@ export namespace Prisma {
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationCreateNestedManyWithoutPasswordInput
+    rotationPolicy?: PasswordRotationPolicyCreateNestedOneWithoutPasswordsInput
   }
 
   export type PasswordUncheckedCreateWithoutFolderInput = {
@@ -35300,10 +39935,12 @@ export namespace Prisma {
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    rotationPolicyId?: string | null
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationUncheckedCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordCreateOrConnectWithoutFolderInput = {
@@ -35415,6 +40052,8 @@ export namespace Prisma {
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationCreateNestedManyWithoutPasswordInput
+    rotationPolicy?: PasswordRotationPolicyCreateNestedOneWithoutPasswordsInput
   }
 
   export type PasswordUncheckedCreateWithoutSharedWithInput = {
@@ -35432,9 +40071,11 @@ export namespace Prisma {
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    rotationPolicyId?: string | null
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationUncheckedCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordCreateOrConnectWithoutSharedWithInput = {
@@ -35469,6 +40110,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -35502,6 +40145,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -35563,6 +40208,8 @@ export namespace Prisma {
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUpdateManyWithoutPasswordNestedInput
+    rotationPolicy?: PasswordRotationPolicyUpdateOneWithoutPasswordsNestedInput
   }
 
   export type PasswordUncheckedUpdateWithoutSharedWithInput = {
@@ -35580,9 +40227,11 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUncheckedUpdateManyWithoutPasswordNestedInput
   }
 
   export type UserUpsertWithoutSharedPasswordsInput = {
@@ -35623,6 +40272,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -35656,6 +40307,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -35823,6 +40476,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -35856,6 +40511,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -35932,6 +40589,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -35965,6 +40624,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -36025,6 +40686,8 @@ export namespace Prisma {
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationCreateNestedManyWithoutPasswordInput
+    rotationPolicy?: PasswordRotationPolicyCreateNestedOneWithoutPasswordsInput
   }
 
   export type PasswordUncheckedCreateWithoutTagsInput = {
@@ -36042,9 +40705,11 @@ export namespace Prisma {
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    rotationPolicyId?: string | null
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationUncheckedCreateNestedManyWithoutPasswordInput
   }
 
   export type PasswordCreateOrConnectWithoutTagsInput = {
@@ -36100,6 +40765,8 @@ export namespace Prisma {
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUpdateManyWithoutPasswordNestedInput
+    rotationPolicy?: PasswordRotationPolicyUpdateOneWithoutPasswordsNestedInput
   }
 
   export type PasswordUncheckedUpdateWithoutTagsInput = {
@@ -36117,9 +40784,11 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUncheckedUpdateManyWithoutPasswordNestedInput
   }
 
   export type TagUpsertWithoutPasswordsInput = {
@@ -36174,6 +40843,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -36207,6 +40878,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -36254,6 +40927,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -36287,6 +40962,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -36319,6 +40996,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
   }
@@ -36352,6 +41031,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
@@ -36421,6 +41102,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
   }
@@ -36454,6 +41137,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
@@ -36660,6 +41345,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -36693,6 +41380,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -36740,6 +41429,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -36773,6 +41464,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -36804,6 +41497,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -36837,6 +41532,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -36884,6 +41581,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -36917,6 +41616,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -36967,6 +41668,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -37000,6 +41703,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -37037,6 +41742,7 @@ export namespace Prisma {
     expiresAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    rotationPolicyId?: string | null
   }
 
   export type PasswordShareCreateManyUserInput = {
@@ -37151,6 +41857,33 @@ export namespace Prisma {
     resolvedAt?: Date | string | null
   }
 
+  export type PasswordRotationPolicyCreateManyOwnerInput = {
+    id?: string
+    name: string
+    description?: string | null
+    rotationDays: number
+    reminderDays: number
+    autoRotate?: boolean
+    requireApproval?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PasswordRotationCreateManyRotatedByUserInput = {
+    id?: string
+    passwordId: string
+    policyId?: string | null
+    rotationType?: string
+    oldPassword?: string | null
+    newPassword: string
+    rotatedAt?: Date | string
+    scheduledFor?: Date | string | null
+    completedAt?: Date | string | null
+    status?: string
+    notes?: string | null
+  }
+
   export type UserCreateManyCreatedByInput = {
     id?: string
     name: string
@@ -37197,6 +41930,8 @@ export namespace Prisma {
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUpdateManyWithoutPasswordNestedInput
+    rotationPolicy?: PasswordRotationPolicyUpdateOneWithoutPasswordsNestedInput
   }
 
   export type PasswordUncheckedUpdateWithoutOwnerInput = {
@@ -37213,10 +41948,12 @@ export namespace Prisma {
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUncheckedUpdateManyWithoutPasswordNestedInput
   }
 
   export type PasswordUncheckedUpdateManyWithoutOwnerInput = {
@@ -37233,6 +41970,7 @@ export namespace Prisma {
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PasswordShareUpdateWithoutUserInput = {
@@ -37571,6 +42309,91 @@ export namespace Prisma {
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type PasswordRotationPolicyUpdateWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationDays?: IntFieldUpdateOperationsInput | number
+    reminderDays?: IntFieldUpdateOperationsInput | number
+    autoRotate?: BoolFieldUpdateOperationsInput | boolean
+    requireApproval?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    passwords?: PasswordUpdateManyWithoutRotationPolicyNestedInput
+    rotations?: PasswordRotationUpdateManyWithoutPolicyNestedInput
+  }
+
+  export type PasswordRotationPolicyUncheckedUpdateWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationDays?: IntFieldUpdateOperationsInput | number
+    reminderDays?: IntFieldUpdateOperationsInput | number
+    autoRotate?: BoolFieldUpdateOperationsInput | boolean
+    requireApproval?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    passwords?: PasswordUncheckedUpdateManyWithoutRotationPolicyNestedInput
+    rotations?: PasswordRotationUncheckedUpdateManyWithoutPolicyNestedInput
+  }
+
+  export type PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationDays?: IntFieldUpdateOperationsInput | number
+    reminderDays?: IntFieldUpdateOperationsInput | number
+    autoRotate?: BoolFieldUpdateOperationsInput | boolean
+    requireApproval?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordRotationUpdateWithoutRotatedByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rotationType?: StringFieldUpdateOperationsInput | string
+    oldPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    newPassword?: StringFieldUpdateOperationsInput | string
+    rotatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: PasswordUpdateOneRequiredWithoutRotationsNestedInput
+    policy?: PasswordRotationPolicyUpdateOneWithoutRotationsNestedInput
+  }
+
+  export type PasswordRotationUncheckedUpdateWithoutRotatedByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    policyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationType?: StringFieldUpdateOperationsInput | string
+    oldPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    newPassword?: StringFieldUpdateOperationsInput | string
+    rotatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PasswordRotationUncheckedUpdateManyWithoutRotatedByUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    policyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationType?: StringFieldUpdateOperationsInput | string
+    oldPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    newPassword?: StringFieldUpdateOperationsInput | string
+    rotatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type UserUpdateWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -37599,6 +42422,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
   }
@@ -37631,6 +42456,8 @@ export namespace Prisma {
     passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -37725,6 +42552,20 @@ export namespace Prisma {
     resolved?: boolean
     resolvedAt?: Date | string | null
     resolvedBy?: string | null
+  }
+
+  export type PasswordRotationCreateManyPasswordInput = {
+    id?: string
+    policyId?: string | null
+    rotationType?: string
+    oldPassword?: string | null
+    newPassword: string
+    rotatedAt?: Date | string
+    rotatedBy: string
+    scheduledFor?: Date | string | null
+    completedAt?: Date | string | null
+    status?: string
+    notes?: string | null
   }
 
   export type PasswordShareUpdateWithoutPasswordInput = {
@@ -37859,6 +42700,182 @@ export namespace Prisma {
     resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type PasswordRotationUpdateWithoutPasswordInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rotationType?: StringFieldUpdateOperationsInput | string
+    oldPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    newPassword?: StringFieldUpdateOperationsInput | string
+    rotatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    policy?: PasswordRotationPolicyUpdateOneWithoutRotationsNestedInput
+    rotatedByUser?: UserUpdateOneRequiredWithoutPasswordRotationsNestedInput
+  }
+
+  export type PasswordRotationUncheckedUpdateWithoutPasswordInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    policyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationType?: StringFieldUpdateOperationsInput | string
+    oldPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    newPassword?: StringFieldUpdateOperationsInput | string
+    rotatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotatedBy?: StringFieldUpdateOperationsInput | string
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PasswordRotationUncheckedUpdateManyWithoutPasswordInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    policyId?: NullableStringFieldUpdateOperationsInput | string | null
+    rotationType?: StringFieldUpdateOperationsInput | string
+    oldPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    newPassword?: StringFieldUpdateOperationsInput | string
+    rotatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotatedBy?: StringFieldUpdateOperationsInput | string
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PasswordCreateManyRotationPolicyInput = {
+    id?: string
+    name: string
+    username: string
+    password: string
+    url?: string | null
+    notes?: string | null
+    folderId?: string | null
+    strength?: $Enums.PasswordStrength
+    hasTotp?: boolean
+    totpSecret?: string | null
+    expiresAt?: Date | string | null
+    ownerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PasswordRotationCreateManyPolicyInput = {
+    id?: string
+    passwordId: string
+    rotationType?: string
+    oldPassword?: string | null
+    newPassword: string
+    rotatedAt?: Date | string
+    rotatedBy: string
+    scheduledFor?: Date | string | null
+    completedAt?: Date | string | null
+    status?: string
+    notes?: string | null
+  }
+
+  export type PasswordUpdateWithoutRotationPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    strength?: EnumPasswordStrengthFieldUpdateOperationsInput | $Enums.PasswordStrength
+    hasTotp?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
+    folder?: FolderUpdateOneWithoutPasswordsNestedInput
+    sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
+    tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
+    history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUpdateManyWithoutPasswordNestedInput
+  }
+
+  export type PasswordUncheckedUpdateWithoutRotationPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    strength?: EnumPasswordStrengthFieldUpdateOperationsInput | $Enums.PasswordStrength
+    hasTotp?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
+    tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
+    history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUncheckedUpdateManyWithoutPasswordNestedInput
+  }
+
+  export type PasswordUncheckedUpdateManyWithoutRotationPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    strength?: EnumPasswordStrengthFieldUpdateOperationsInput | $Enums.PasswordStrength
+    hasTotp?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordRotationUpdateWithoutPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rotationType?: StringFieldUpdateOperationsInput | string
+    oldPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    newPassword?: StringFieldUpdateOperationsInput | string
+    rotatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: PasswordUpdateOneRequiredWithoutRotationsNestedInput
+    rotatedByUser?: UserUpdateOneRequiredWithoutPasswordRotationsNestedInput
+  }
+
+  export type PasswordRotationUncheckedUpdateWithoutPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    rotationType?: StringFieldUpdateOperationsInput | string
+    oldPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    newPassword?: StringFieldUpdateOperationsInput | string
+    rotatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotatedBy?: StringFieldUpdateOperationsInput | string
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PasswordRotationUncheckedUpdateManyWithoutPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    rotationType?: StringFieldUpdateOperationsInput | string
+    oldPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    newPassword?: StringFieldUpdateOperationsInput | string
+    rotatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotatedBy?: StringFieldUpdateOperationsInput | string
+    scheduledFor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type FolderCreateManyParentInput = {
     id?: string
     name: string
@@ -37883,6 +42900,7 @@ export namespace Prisma {
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    rotationPolicyId?: string | null
   }
 
   export type FolderUpdateWithoutParentInput = {
@@ -37937,6 +42955,8 @@ export namespace Prisma {
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUpdateManyWithoutPasswordNestedInput
+    rotationPolicy?: PasswordRotationPolicyUpdateOneWithoutPasswordsNestedInput
   }
 
   export type PasswordUncheckedUpdateWithoutFolderInput = {
@@ -37953,10 +42973,12 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUncheckedUpdateManyWithoutPasswordNestedInput
   }
 
   export type PasswordUncheckedUpdateManyWithoutFolderInput = {
@@ -37973,6 +42995,7 @@ export namespace Prisma {
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TeamMemberCreateManyTeamInput = {

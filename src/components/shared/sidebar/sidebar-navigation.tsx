@@ -65,6 +65,7 @@ const navigationStructure = [
     children: [
       { nameKey: "passwords.duplicates.title", href: "/admin/passwords/duplicates", permission: "password.view" },
       { nameKey: "passwords.breach.title", href: "/admin/passwords/breaches", permission: "password.view" },
+      { nameKey: "passwords.rotation.title", href: "/admin/passwords/rotation", permission: "password.view" },
     ],
   },
   {

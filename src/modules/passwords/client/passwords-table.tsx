@@ -34,6 +34,8 @@ import {
   Clock,
   CheckSquare,
   Square,
+  RotateCw,
+  AlertCircle,
 } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -180,6 +182,17 @@ export function PasswordsTable({
   const [copyingPasswordId, setCopyingPasswordId] = React.useState<string | null>(null)
   const [copyingTotpId, setCopyingTotpId] = React.useState<string | null>(null)
 
+  // Fetch rotation reminders to show indicators
+  const { data: reminders } = trpc.passwordRotation.getReminders.useQuery(
+    { daysAhead: 365 },
+    { enabled: hasPermission("password.view") }
+  )
+
+  const getPasswordReminder = (passwordId: string) => {
+    if (!reminders) return null
+    return reminders.find((r) => r.passwordId === passwordId)
+  }
+
   const handleSelectAll = (checked: boolean) => {
     if (onSelectionChange) {
       onSelectionChange(checked ? passwords.map((p) => p.id) : [])
@@ -323,8 +336,31 @@ export function PasswordsTable({
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <FolderKey className="h-4 w-4 text-muted-foreground" />
-                    <div>
-                      <div className="font-medium">{pwd.name}</div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <div className="font-medium">{pwd.name}</div>
+                        {(() => {
+                          const reminder = getPasswordReminder(pwd.id)
+                          if (reminder) {
+                            if (reminder.daysUntilRotation <= 0) {
+                              return (
+                                <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 flex items-center gap-1">
+                                  <RotateCw className="h-3 w-3" />
+                                  {t("passwords.rotation.rotationDue")}
+                                </Badge>
+                              )
+                            } else if (reminder.daysUntilRotation <= 30) {
+                              return (
+                                <Badge variant="outline" className="text-yellow-600 flex items-center gap-1">
+                                  <AlertCircle className="h-3 w-3" />
+                                  {reminder.daysUntilRotation} {t("passwords.rotation.days")}
+                                </Badge>
+                              )
+                            }
+                          }
+                          return null
+                        })()}
+                      </div>
                       {pwd.url && (
                         <div className="text-xs text-muted-foreground truncate max-w-[200px]">
                           {pwd.url}

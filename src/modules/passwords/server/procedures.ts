@@ -525,6 +525,18 @@ export const passwordsRouter = createTRPCRouter({
               },
             },
           },
+          rotationPolicyId: true,
+          rotationPolicy: {
+            select: {
+              id: true,
+              name: true,
+              rotationDays: true,
+              reminderDays: true,
+              autoRotate: true,
+              requireApproval: true,
+              isActive: true,
+            },
+          },
         },
       })
 
@@ -572,6 +584,8 @@ export const passwordsRouter = createTRPCRouter({
           ? Math.ceil((password.expiresAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
           : null,
         createdAt: password.createdAt,
+        rotationPolicyId: password.rotationPolicyId,
+        rotationPolicy: password.rotationPolicy,
       }
     }),
 

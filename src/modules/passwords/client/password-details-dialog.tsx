@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Eye, EyeOff, Copy, Clock, X, Users, History, Shield, AlertTriangle, CheckCircle2 } from "lucide-react"
+import { Eye, EyeOff, Copy, Clock, X, Users, History, Shield, AlertTriangle, CheckCircle2, RotateCw } from "lucide-react"
 import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
 import { usePermissions } from "@/hooks/use-permissions"
@@ -29,6 +29,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { assignPolicyToPasswordAction } from "@/app/admin/passwords/rotation-actions"
 import { removePasswordShareAction } from "@/app/admin/passwords/unshare-actions"
 import { useRouter } from "next/navigation"
 import { useTranslation } from "react-i18next"
@@ -80,6 +88,7 @@ export function PasswordDetailsDialog({
   const [isRemoving, setIsRemoving] = React.useState(false)
   const [isCheckingBreach, setIsCheckingBreach] = React.useState(false)
   const [breachStatus, setBreachStatus] = React.useState<{ isBreached: boolean; breachCount: number } | null>(null)
+  const [isUpdatingPolicy, setIsUpdatingPolicy] = React.useState(false)
 
   // Fetch password details with decrypted password
   const { data: passwordData, isLoading, refetch: refetchPasswordData } = trpc.passwords.getById.useQuery(
@@ -94,11 +103,54 @@ export function PasswordDetailsDialog({
 
   const decryptedPassword = passwordData?.password || ""
 
+  // Determine if user is owner - check both passwordData and displayPassword
+  // passwordData comes from getById query which includes isOwner
+  // displayPassword might come from list query which also includes isOwner
+  const isOwner = passwordData?.isOwner ?? (password as any)?.isOwner ?? false
+
   // Check for existing breach status
   const { data: breachData } = trpc.passwords.getBreachHistory.useQuery(
     { passwordId: password?.id, includeResolved: false },
     { enabled: open && !!password?.id }
   )
+
+  // Fetch rotation policies and rotation info
+  const { data: policies } = trpc.passwordRotation.listPolicies.useQuery(
+    undefined,
+    { enabled: open && isOwner && hasPermission("password.edit") }
+  )
+
+  // Get rotation reminder info for this password
+  const { data: reminders } = trpc.passwordRotation.getReminders.useQuery(
+    { daysAhead: 365 },
+    { enabled: open && !!password?.id }
+  )
+
+  const passwordReminder = React.useMemo(() => {
+    if (!reminders || !password?.id) return null
+    return reminders.find((r) => r.passwordId === password.id)
+  }, [reminders, password?.id])
+
+  const handlePolicyChange = async (policyId: string | null) => {
+    if (!password?.id) return
+
+    setIsUpdatingPolicy(true)
+    try {
+      const result = await assignPolicyToPasswordAction(password.id, policyId)
+      if (result.success) {
+        toast.success(t("passwords.rotation.policyAssigned"))
+        await refetchPasswordData()
+        await utils.passwordRotation.getReminders.invalidate()
+        router.refresh()
+      } else {
+        toast.error(result.error || t("passwords.rotation.policyAssignError"))
+      }
+    } catch (error) {
+      toast.error(t("passwords.rotation.policyAssignError"))
+    } finally {
+      setIsUpdatingPolicy(false)
+    }
+  }
 
   React.useEffect(() => {
     if (breachData?.breaches && breachData.breaches.length > 0) {
@@ -224,22 +276,18 @@ export function PasswordDetailsDialog({
 
   // Use fetched password data if available, otherwise use passed password
   const displayPassword = passwordData || password
-  
-  // Determine if user is owner - check both passwordData and displayPassword
-  // passwordData comes from getById query which includes isOwner
-  // displayPassword might come from list query which also includes isOwner
-  const isOwner = passwordData?.isOwner ?? (displayPassword as Password).isOwner ?? false
 
   return (
     <>
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
+      <DialogContent className="max-w-[95vw] w-full max-h-[95vh] flex flex-col p-0">
+        <DialogHeader className="px-6 pt-6 pb-4 border-b">
           <DialogTitle>Password Details</DialogTitle>
           <DialogDescription>View and manage password information</DialogDescription>
         </DialogHeader>
-        <div className="space-y-4 py-4">
-          <div className="grid gap-4">
+        <div className="flex-1 overflow-y-auto px-6 py-4">
+          <div className="space-y-4">
+            <div className="grid gap-4">
             <div className="grid grid-cols-3 items-center gap-4">
               <span className="text-sm font-medium">Name:</span>
               <span className="col-span-2 text-sm">{displayPassword.name}</span>
@@ -403,6 +451,79 @@ export function PasswordDetailsDialog({
               </>
             )}
 
+            {isOwner && hasPermission("password.edit") && (
+              <>
+                <Separator />
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <RotateCw className="h-4 w-4 text-blue-600" />
+                    <span className="text-sm font-medium">{t("passwords.rotation.title")}</span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-muted-foreground w-24">{t("passwords.rotation.policy")}:</span>
+                      <Select
+                        value={passwordData?.rotationPolicyId || "none"}
+                        onValueChange={(value) => handlePolicyChange(value === "none" ? null : value)}
+                        disabled={isUpdatingPolicy}
+                      >
+                        <SelectTrigger className="flex-1">
+                          <SelectValue placeholder={t("passwords.rotation.noPolicy")} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none">{t("passwords.rotation.noPolicy")}</SelectItem>
+                          {policies?.map((policy) => (
+                            <SelectItem key={policy.id} value={policy.id}>
+                              {policy.name} ({policy.rotationDays} {t("passwords.rotation.days")})
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    {passwordReminder && typeof passwordReminder.daysUntilRotation === "number" && (
+                      <Alert className={passwordReminder.daysUntilRotation <= 0 ? "border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20" : ""}>
+                        <Clock className="h-4 w-4" />
+                        <AlertDescription>
+                          {passwordReminder.daysUntilRotation <= 0 ? (
+                            <div className="space-y-1">
+                              <div className="font-medium">{t("passwords.rotation.rotationDue")}</div>
+                              <div className="text-sm">{t("passwords.rotation.rotationDueDescription")}</div>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="mt-2"
+                                onClick={() => router.push(`/admin/passwords/rotation?rotate=${password?.id}`)}
+                              >
+                                <RotateCw className="h-3 w-3 mr-1" />
+                                {t("passwords.rotation.rotateNow")}
+                              </Button>
+                            </div>
+                          ) : (
+                            <div>
+                              {t("passwords.rotation.nextRotationIn", { days: passwordReminder.daysUntilRotation })}
+                              {passwordData?.rotationPolicy?.autoRotate && (
+                                <div className="text-xs mt-1 text-muted-foreground">
+                                  {t("passwords.rotation.autoRotateEnabled")}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </AlertDescription>
+                      </Alert>
+                    )}
+                    {passwordData?.rotationPolicy && !passwordReminder && (
+                      <Alert>
+                        <CheckCircle2 className="h-4 w-4" />
+                        <AlertDescription>
+                          {t("passwords.rotation.policyActive", { name: passwordData.rotationPolicy.name })}
+                        </AlertDescription>
+                      </Alert>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
+
             {displayPassword.hasTotp && hasPermission("password.view") && (
               <>
                 <Separator />
@@ -440,14 +561,16 @@ export function PasswordDetailsDialog({
               </>
             )}
           </div>
+          </div>
         </div>
-        <DialogFooter className="flex items-center justify-between">
-          <div className="flex gap-2">
+        <DialogFooter className="px-6 py-4 border-t flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shrink-0">
+          <div className="flex flex-wrap gap-2">
             {hasPermission("password.view") && isOwner && (
               <>
                 <Button
                   variant="outline"
                   onClick={() => router.push(`/admin/passwords/${password.id}/history`)}
+                  className="flex-shrink-0"
                 >
                   <History className="h-4 w-4 mr-2" />
                   View History
@@ -456,6 +579,7 @@ export function PasswordDetailsDialog({
                   variant="outline"
                   onClick={handleCheckBreach}
                   disabled={isCheckingBreach}
+                  className="flex-shrink-0"
                 >
                   <Shield className="h-4 w-4 mr-2" />
                   {isCheckingBreach ? t("passwords.breach.checking") : t("passwords.breach.check")}
@@ -466,14 +590,14 @@ export function PasswordDetailsDialog({
               <Button
                 variant="outline"
                 onClick={() => router.push("/admin/passwords/breaches")}
-                className="border-red-200 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400"
+                className="border-red-200 text-red-600 hover:bg-red-50 dark:border-red-800 dark:text-red-400 flex-shrink-0"
               >
                 <AlertTriangle className="h-4 w-4 mr-2" />
                 {t("passwords.breach.viewBreaches")}
               </Button>
             )}
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-shrink-0">
             <Button variant="outline" onClick={() => onOpenChange(false)}>
               Close
             </Button>
