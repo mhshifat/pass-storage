@@ -155,10 +155,11 @@ export function BulkTagDialog({
                       >
                         {tag.color && (
                           <span
-                            className="w-3 h-3 rounded-full"
+                            className="w-3 h-3 rounded-full shrink-0"
                             style={{ backgroundColor: tag.color }}
                           />
                         )}
+                        {tag.icon && <span className="text-xs shrink-0">{tag.icon}</span>}
                         {tag.name}
                       </Label>
                     </div>

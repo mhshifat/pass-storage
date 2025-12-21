@@ -307,6 +307,7 @@ model Tag {
   id        String        @id @default(cuid())
   name      String        @unique
   color     String?
+  icon      String?
   createdAt DateTime      @default(now())
 
   // Relations

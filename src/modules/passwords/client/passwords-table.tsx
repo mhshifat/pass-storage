@@ -44,6 +44,7 @@ import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
 import { usePermissions } from "@/hooks/use-permissions"
 import { toggleFavoriteAction } from "@/app/admin/passwords/favorite-actions"
+import { TagFilter } from "@/modules/passwords/client/tag-filter"
 
 interface PasswordShare {
   shareId: string
@@ -65,6 +66,13 @@ interface Password {
   expiresIn: number | null
   hasTotp: boolean
   isOwner?: boolean
+  isFavorite?: boolean
+  tags?: Array<{
+    id: string
+    name: string
+    color?: string | null
+    icon?: string | null
+  }>
 }
 
 interface PasswordsTableProps {
@@ -321,6 +329,7 @@ export function PasswordsTable({
               onChange={(e) => handleSearchChange(e.target.value)}
             />
           </div>
+          <TagFilter />
         </div>
       </CardHeader>
       <CardContent>
@@ -409,11 +418,38 @@ export function PasswordsTable({
                   )}
                 </TableCell>
                 <TableCell>
-                  {pwd.folder ? (
-                    <Badge variant="outline">{pwd.folder}</Badge>
-                  ) : (
-                    <span className="text-xs text-muted-foreground">-</span>
-                  )}
+                  <div className="flex flex-col gap-1">
+                    {pwd.folder ? (
+                      <Badge variant="outline">{pwd.folder}</Badge>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">-</span>
+                    )}
+                    {pwd.tags && pwd.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {pwd.tags.slice(0, 3).map((tag) => (
+                          <Badge
+                            key={tag.id}
+                            variant="secondary"
+                            className="text-xs flex items-center gap-1"
+                          >
+                            {tag.color && (
+                              <span
+                                className="w-2 h-2 rounded-full"
+                                style={{ backgroundColor: tag.color }}
+                              />
+                            )}
+                            {tag.icon && <span className="text-xs">{tag.icon}</span>}
+                            <span>{tag.name}</span>
+                          </Badge>
+                        ))}
+                        {pwd.tags.length > 3 && (
+                          <Badge variant="secondary" className="text-xs">
+                            +{pwd.tags.length - 3}
+                          </Badge>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </TableCell>
                 <TableCell>{getStrengthBadge(pwd.strength)}</TableCell>
                 <TableCell>

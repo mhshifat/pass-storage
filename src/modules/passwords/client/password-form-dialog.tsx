@@ -37,6 +37,7 @@ import {
 import { QrCode, FolderPlus, AlertCircle } from "lucide-react"
 import { trpc } from "@/trpc/client"
 import { CreateFolderDialog } from "@/modules/folders/client"
+import { TagAutocomplete } from "@/modules/passwords/client"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
@@ -56,6 +57,7 @@ const passwordSchema = z.object({
   notes: z.string().optional(),
   enableTotp: z.boolean(),
   totpSecret: z.string().optional(),
+  tagIds: z.array(z.string()).optional(),
 })
 
 type PasswordFormValues = z.infer<typeof passwordSchema>
@@ -117,6 +119,7 @@ export function PasswordFormDialog({
       notes: "",
       enableTotp: false,
       totpSecret: "",
+      tagIds: [],
     },
   })
 
@@ -136,6 +139,7 @@ export function PasswordFormDialog({
           notes: password.notes || "",
           enableTotp: password.hasTotp,
           totpSecret: password.totpSecret || "",
+          tagIds: (password as { tags?: { id: string }[] }).tags?.map((t) => t.id) || [],
         })
       } else if (mode === "create") {
         form.reset({
@@ -147,6 +151,7 @@ export function PasswordFormDialog({
           notes: "",
           enableTotp: false,
           totpSecret: "",
+          tagIds: [],
         })
       }
     } else {
@@ -192,6 +197,14 @@ export function PasswordFormDialog({
       const values = form.getValues()
       if (!values.enableTotp || !values.totpSecret) {
         formData.delete("totpSecret")
+      }
+      // Add tagIds
+      if (values.tagIds && values.tagIds.length > 0) {
+        // Remove any existing tagIds from formData first
+        formData.delete("tagIds")
+        values.tagIds.forEach((tagId) => {
+          formData.append("tagIds", tagId)
+        })
       }
       // Add passwordId for edit mode
       if (mode === "edit" && password?.id) {
@@ -360,6 +373,32 @@ export function PasswordFormDialog({
                       </Select>
                       <input type="hidden" name="folderId" value={field.value || ""} />
                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="tagIds"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("passwords.tags.tags")} ({t("common.optional")})</FormLabel>
+                      <FormControl>
+                        <TagAutocomplete
+                          selectedTagIds={field.value || []}
+                          onTagsChange={field.onChange}
+                          passwordId={mode === "edit" ? password?.id : undefined}
+                          placeholder={t("passwords.tags.selectTags")}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                      {field.value && field.value.length > 0 && (
+                        <div className="hidden">
+                          {field.value.map((tagId) => (
+                            <input key={tagId} type="hidden" name="tagIds" value={tagId} />
+                          ))}
+                        </div>
+                      )}
                     </FormItem>
                   )}
                 />

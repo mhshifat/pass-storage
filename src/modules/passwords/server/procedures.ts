@@ -12,10 +12,11 @@ export const passwordsRouter = createTRPCRouter({
         pageSize: z.number().min(1).max(100).default(10),
         search: z.string().optional(),
         filter: z.enum(["weak", "expiring", "favorites"]).optional(),
+        tagIds: z.array(z.string()).optional(),
       }).optional()
     )
     .query(async ({ input = {}, ctx }) => {
-      const { page = 1, pageSize = 10, search, filter } = input
+      const { page = 1, pageSize = 10, search, filter, tagIds } = input
 
       // Get teams where the user is a member
       const userTeams = await prisma.teamMember.findMany({
@@ -60,6 +61,17 @@ export const passwordsRouter = createTRPCRouter({
         passwordFilterConditions.isFavorite = true
       }
 
+      // Build tag filter conditions
+      const tagFilterConditions = tagIds && tagIds.length > 0
+        ? {
+            tags: {
+              some: {
+                tagId: { in: tagIds },
+              },
+            },
+          }
+        : {}
+
       // Build share filter conditions for expiring filter
       const now = new Date()
       const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
@@ -74,6 +86,7 @@ export const passwordsRouter = createTRPCRouter({
             ownerId: ctx.userId,
             ...searchConditions,
             ...passwordFilterConditions,
+            ...tagFilterConditions,
           },
           // For owned passwords: also check if any share is expiring (when filter is "expiring")
           ...(filter === "expiring"
@@ -136,6 +149,7 @@ export const passwordsRouter = createTRPCRouter({
                         },
                         ...searchConditions,
                         ...passwordFilterConditions,
+                        ...tagFilterConditions,
                       },
                     ]),
               ]
@@ -163,6 +177,18 @@ export const passwordsRouter = createTRPCRouter({
               select: {
                 id: true,
                 name: true,
+              },
+            },
+            tags: {
+              select: {
+                tag: {
+                  select: {
+                    id: true,
+                    name: true,
+                    color: true,
+                    icon: true,
+                  },
+                },
               },
             },
             sharedWith: {
@@ -209,6 +235,12 @@ export const passwordsRouter = createTRPCRouter({
           })),
           isOwner: pwd.ownerId === ctx.userId,
           isFavorite: pwd.isFavorite,
+          tags: pwd.tags.map((pt) => ({
+            id: pt.tag.id,
+            name: pt.tag.name,
+            color: pt.tag.color,
+            icon: pt.tag.icon,
+          })),
           lastModified: pwd.updatedAt.toISOString().split("T")[0],
           expiresIn: pwd.expiresAt
             ? Math.ceil((pwd.expiresAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
@@ -240,6 +272,7 @@ export const passwordsRouter = createTRPCRouter({
         folderId: z.string().optional().nullable(),
         notes: z.string().optional().nullable(),
         totpSecret: z.string().optional().nullable(),
+        tagIds: z.array(z.string()).optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -287,6 +320,32 @@ export const passwordsRouter = createTRPCRouter({
         },
       })
 
+      // Assign tags if provided
+      if (input.tagIds && input.tagIds.length > 0) {
+        // Verify tags exist
+        const tags = await prisma.tag.findMany({
+          where: {
+            id: { in: input.tagIds },
+          },
+        })
+
+        if (tags.length !== input.tagIds.length) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "One or more tags not found",
+          })
+        }
+
+        // Create password-tag relationships
+        await prisma.passwordTag.createMany({
+          data: input.tagIds.map((tagId) => ({
+            passwordId: password.id,
+            tagId,
+          })),
+          skipDuplicates: true,
+        })
+      }
+
       // Save password history (initial version)
       const { savePasswordHistory } = await import("@/lib/password-history")
       await savePasswordHistory(
@@ -313,7 +372,7 @@ export const passwordsRouter = createTRPCRouter({
         action: "PASSWORD_CREATED",
         resource: "Password",
         resourceId: password.id,
-        details: { name: password.name, hasTotp: password.hasTotp },
+        details: { name: password.name, hasTotp: password.hasTotp, tagIds: input.tagIds },
         userId: ctx.userId,
       })
 
@@ -337,6 +396,7 @@ export const passwordsRouter = createTRPCRouter({
         folderId: z.string().optional().nullable(),
         notes: z.string().optional().nullable(),
         totpSecret: z.string().optional().nullable(),
+        tagIds: z.array(z.string()).optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -432,13 +492,64 @@ export const passwordsRouter = createTRPCRouter({
         },
       })
 
+      // Update tags if provided
+      if (input.tagIds !== undefined) {
+        // Get current tags
+        const currentTags = await prisma.passwordTag.findMany({
+          where: { passwordId: input.id },
+          select: { tagId: true },
+        })
+        const currentTagIds = currentTags.map((pt) => pt.tagId)
+
+        // Verify new tags exist
+        if (input.tagIds.length > 0) {
+          const tags = await prisma.tag.findMany({
+            where: {
+              id: { in: input.tagIds },
+            },
+          })
+
+          if (tags.length !== input.tagIds.length) {
+            throw new TRPCError({
+              code: "NOT_FOUND",
+              message: "One or more tags not found",
+            })
+          }
+        }
+
+        // Find tags to add and remove
+        const tagsToAdd = input.tagIds.filter((tagId) => !currentTagIds.includes(tagId))
+        const tagsToRemove = currentTagIds.filter((tagId) => !input.tagIds.includes(tagId))
+
+        // Add new tags
+        if (tagsToAdd.length > 0) {
+          await prisma.passwordTag.createMany({
+            data: tagsToAdd.map((tagId) => ({
+              passwordId: input.id,
+              tagId,
+            })),
+            skipDuplicates: true,
+          })
+        }
+
+        // Remove tags
+        if (tagsToRemove.length > 0) {
+          await prisma.passwordTag.deleteMany({
+            where: {
+              passwordId: input.id,
+              tagId: { in: tagsToRemove },
+            },
+          })
+        }
+      }
+
       // Create audit log
       const { createAuditLog } = await import("@/lib/audit-log")
       await createAuditLog({
         action: "PASSWORD_UPDATED",
         resource: "Password",
         resourceId: password.id,
-        details: { name: password.name },
+        details: { name: password.name, tagIds: input.tagIds },
         userId: ctx.userId,
       })
 
@@ -518,6 +629,19 @@ export const passwordsRouter = createTRPCRouter({
               name: true,
             },
           },
+          tags: {
+            select: {
+              id: true,
+              tag: {
+                select: {
+                  id: true,
+                  name: true,
+                  color: true,
+                  icon: true,
+                },
+              },
+            },
+          },
           sharedWith: {
             select: {
               id: true,
@@ -586,6 +710,12 @@ export const passwordsRouter = createTRPCRouter({
         })),
         isOwner,
         isFavorite: password.isFavorite,
+        tags: password.tags.map((pt) => ({
+          id: pt.tag.id,
+          name: pt.tag.name,
+          color: pt.tag.color,
+          icon: pt.tag.icon,
+        })),
         lastModified: password.updatedAt.toISOString().split("T")[0],
         expiresIn: password.expiresAt
           ? Math.ceil((password.expiresAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
@@ -1337,6 +1467,7 @@ export const passwordsRouter = createTRPCRouter({
           id: true,
           name: true,
           color: true,
+          icon: true,
         },
         orderBy: {
           name: "asc",
@@ -2935,6 +3066,367 @@ export const passwordsRouter = createTRPCRouter({
           totalPages,
         },
       }
+    }),
+
+  // Tag Autocomplete
+  tagAutocomplete: protectedProcedure("password.view")
+    .input(
+      z.object({
+        query: z.string().min(1),
+        limit: z.number().min(1).max(20).default(10),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const tags = await prisma.tag.findMany({
+        where: {
+          name: {
+            contains: input.query,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+          color: true,
+          icon: true,
+          _count: {
+            select: {
+              passwords: true,
+            },
+          },
+        },
+        orderBy: [
+          {
+            _count: {
+              passwords: "desc",
+            },
+          },
+          {
+            name: "asc",
+          },
+        ],
+        take: input.limit,
+      })
+
+      return tags.map((tag) => ({
+        id: tag.id,
+        name: tag.name,
+        color: tag.color,
+        icon: tag.icon,
+        usageCount: tag._count.passwords,
+      }))
+    }),
+
+  // Tag Suggestions (based on password context)
+  tagSuggestions: protectedProcedure("password.view")
+    .input(
+      z.object({
+        passwordId: z.string().optional(),
+        limit: z.number().min(1).max(20).default(10),
+      }).optional()
+    )
+    .query(async ({ input = {}, ctx }) => {
+      const { passwordId, limit = 10 } = input
+
+      // Get user's passwords to analyze tag patterns
+      const userPasswords = await prisma.password.findMany({
+        where: {
+          ownerId: ctx.userId,
+        },
+        include: {
+          tags: {
+            include: {
+              tag: true,
+            },
+          },
+        },
+        take: 100, // Analyze recent passwords
+        orderBy: {
+          updatedAt: "desc",
+        },
+      })
+
+      // Count tag frequencies
+      const tagFrequency = new Map<string, { tag: any; count: number }>()
+      
+      for (const password of userPasswords) {
+        for (const passwordTag of password.tags) {
+          const tagId = passwordTag.tag.id
+          const existing = tagFrequency.get(tagId)
+          if (existing) {
+            existing.count++
+          } else {
+            tagFrequency.set(tagId, {
+              tag: passwordTag.tag,
+              count: 1,
+            })
+          }
+        }
+      }
+
+      // If passwordId is provided, exclude tags already on that password
+      let existingTagIds: string[] = []
+      if (passwordId) {
+        const password = await prisma.password.findFirst({
+          where: {
+            id: passwordId,
+            ownerId: ctx.userId,
+          },
+          include: {
+            tags: {
+              select: {
+                tagId: true,
+              },
+            },
+          },
+        })
+        if (password) {
+          existingTagIds = password.tags.map((pt) => pt.tagId)
+        }
+      }
+
+      // Sort by frequency and return top suggestions
+      const suggestions = Array.from(tagFrequency.values())
+        .filter((item) => !existingTagIds.includes(item.tag.id))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, limit)
+        .map((item) => ({
+          id: item.tag.id,
+          name: item.tag.name,
+          color: item.tag.color,
+          icon: item.tag.icon,
+          usageCount: item.count,
+        }))
+
+      return suggestions
+    }),
+
+  // Tag Analytics (most used tags)
+  tagAnalytics: protectedProcedure("password.view")
+    .input(
+      z.object({
+        limit: z.number().min(1).max(50).default(10),
+      }).optional()
+    )
+    .query(async ({ input = {}, ctx }) => {
+      const { limit = 10 } = input
+
+      // Get all tags
+      const allTags = await prisma.tag.findMany({
+        select: {
+          id: true,
+          name: true,
+          color: true,
+          icon: true,
+        },
+      })
+
+      // Get user's password IDs
+      const userPasswordIds = await prisma.password.findMany({
+        where: {
+          ownerId: ctx.userId,
+        },
+        select: {
+          id: true,
+        },
+      })
+
+      const passwordIds = userPasswordIds.map((p) => p.id)
+
+      // Count tag usage for user's passwords
+      const tagUsageCounts = await prisma.passwordTag.groupBy({
+        by: ["tagId"],
+        where: {
+          passwordId: {
+            in: passwordIds,
+          },
+        },
+        _count: {
+          id: true,
+        },
+      })
+
+      // Create a map of tagId to usage count
+      const usageMap = new Map(
+        tagUsageCounts.map((item) => [item.tagId, item._count.id])
+      )
+
+      // Combine tags with their usage counts
+      const tagsWithUsage = allTags
+        .map((tag) => ({
+          ...tag,
+          usageCount: usageMap.get(tag.id) || 0,
+        }))
+        .filter((tag) => tag.usageCount > 0) // Only include tags that are used
+        .sort((a, b) => b.usageCount - a.usageCount)
+        .slice(0, limit)
+
+      const totalPasswords = passwordIds.length
+
+      return tagsWithUsage.map((tag) => ({
+        id: tag.id,
+        name: tag.name,
+        color: tag.color,
+        icon: tag.icon,
+        usageCount: tag.usageCount,
+        usagePercentage: totalPasswords > 0
+          ? Math.round((tag.usageCount / totalPasswords) * 100)
+          : 0,
+      }))
+    }),
+
+  // Tag Management
+  createTag: protectedProcedure("password.edit")
+    .input(
+      z.object({
+        name: z.string().min(1, "Tag name is required"),
+        color: z.string().optional().nullable(),
+        icon: z.string().optional().nullable(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Check if tag with same name already exists
+      const existingTag = await prisma.tag.findUnique({
+        where: { name: input.name },
+      })
+
+      if (existingTag) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "Tag with this name already exists",
+        })
+      }
+
+      const tag = await prisma.tag.create({
+        data: {
+          name: input.name,
+          color: input.color || null,
+          icon: input.icon || null,
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "TAG_CREATED",
+        resource: "Tag",
+        resourceId: tag.id,
+        details: {
+          name: tag.name,
+          color: tag.color,
+          icon: tag.icon,
+        },
+        userId: ctx.userId,
+      })
+
+      return tag
+    }),
+
+  updateTag: protectedProcedure("password.edit")
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string().min(1, "Tag name is required").optional(),
+        color: z.string().optional().nullable(),
+        icon: z.string().optional().nullable(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { id, ...updateData } = input
+
+      // Check if tag exists
+      const existingTag = await prisma.tag.findUnique({
+        where: { id },
+      })
+
+      if (!existingTag) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Tag not found",
+        })
+      }
+
+      // If name is being updated, check for conflicts
+      if (updateData.name && updateData.name !== existingTag.name) {
+        const nameConflict = await prisma.tag.findUnique({
+          where: { name: updateData.name },
+        })
+
+        if (nameConflict) {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: "Tag with this name already exists",
+          })
+        }
+      }
+
+      const tag = await prisma.tag.update({
+        where: { id },
+        data: {
+          ...(updateData.name && { name: updateData.name }),
+          color: updateData.color !== undefined ? updateData.color : existingTag.color,
+          icon: updateData.icon !== undefined ? updateData.icon : existingTag.icon,
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "TAG_UPDATED",
+        resource: "Tag",
+        resourceId: tag.id,
+        details: {
+          name: tag.name,
+          color: tag.color,
+          icon: tag.icon,
+        },
+        userId: ctx.userId,
+      })
+
+      return tag
+    }),
+
+  deleteTag: protectedProcedure("password.edit")
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      // Check if tag exists
+      const tag = await prisma.tag.findUnique({
+        where: { id: input.id },
+        include: {
+          _count: {
+            select: {
+              passwords: true,
+            },
+          },
+        },
+      })
+
+      if (!tag) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Tag not found",
+        })
+      }
+
+      // Delete tag (cascade will remove PasswordTag relations)
+      await prisma.tag.delete({
+        where: { id: input.id },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "TAG_DELETED",
+        resource: "Tag",
+        resourceId: input.id,
+        details: {
+          name: tag.name,
+          passwordCount: tag._count.passwords,
+        },
+        userId: ctx.userId,
+      })
+
+      return { success: true }
     }),
 })
 

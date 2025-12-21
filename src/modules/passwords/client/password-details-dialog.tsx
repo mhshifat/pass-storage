@@ -14,11 +14,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Eye, EyeOff, Copy, Clock, X, Users, History, Shield, AlertTriangle, CheckCircle2, RotateCw, Star } from "lucide-react"
+import { Eye, EyeOff, Copy, Clock, X, Users, History, Shield, AlertTriangle, CheckCircle2, RotateCw, Star, Tag as TagIcon } from "lucide-react"
 import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { TagAutocomplete } from "@/modules/passwords/client"
+import { useTransition } from "react"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -91,6 +93,8 @@ export function PasswordDetailsDialog({
   const [breachStatus, setBreachStatus] = React.useState<{ isBreached: boolean; breachCount: number } | null>(null)
   const [isUpdatingPolicy, setIsUpdatingPolicy] = React.useState(false)
   const [isTogglingFavorite, setIsTogglingFavorite] = React.useState(false)
+  const [isEditingTags, setIsEditingTags] = React.useState(false)
+  const [selectedTagIds, setSelectedTagIds] = React.useState<string[]>([])
 
   // Fetch password details with decrypted password
   const { data: passwordData, isLoading, refetch: refetchPasswordData } = trpc.passwords.getById.useQuery(
@@ -99,9 +103,28 @@ export function PasswordDetailsDialog({
       enabled: open && !!password?.id,
     }
   )
-  
-  // Get tRPC utils for invalidating queries
+
   const utils = trpc.useUtils()
+
+  // Update selectedTagIds when passwordData changes
+  React.useEffect(() => {
+    if (passwordData?.tags) {
+      setSelectedTagIds(passwordData.tags.map((t) => t.id))
+    }
+  }, [passwordData?.tags])
+
+  // Update tags mutation
+  const updateTagsMutation = trpc.passwords.update.useMutation({
+    onSuccess: async () => {
+      await refetchPasswordData()
+      await utils.passwords.list.invalidate()
+      toast.success(t("passwords.tags.tagUpdated"))
+      setIsEditingTags(false)
+    },
+    onError: (error) => {
+      toast.error(error.message || t("passwords.tags.tagError"))
+    },
+  })
 
   const decryptedPassword = passwordData?.password || ""
 
@@ -413,6 +436,114 @@ export function PasswordDetailsDialog({
               ) : (
                 <span className="col-span-2 text-sm text-muted-foreground">-</span>
               )}
+            </div>
+
+            <div className="grid grid-cols-3 items-start gap-4">
+              <span className="text-sm font-medium flex items-center gap-2">
+                <TagIcon className="h-4 w-4" />
+                {t("passwords.tags.tags")}:
+              </span>
+              <div className="col-span-2">
+                {isEditingTags && isOwner && hasPermission("password.edit") ? (
+                  <div className="space-y-2">
+                    <TagAutocomplete
+                      selectedTagIds={selectedTagIds}
+                      onTagsChange={setSelectedTagIds}
+                      passwordId={password?.id}
+                      disabled={updateTagsMutation.isPending}
+                    />
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          setIsEditingTags(false)
+                          // Reset to original tags
+                          if (passwordData?.tags) {
+                            setSelectedTagIds(passwordData.tags.map((t) => t.id))
+                          }
+                        }}
+                        disabled={updateTagsMutation.isPending}
+                      >
+                        {t("common.cancel")}
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        onClick={async () => {
+                          if (!password?.id || !passwordData) return
+                          
+                          await updateTagsMutation.mutateAsync({
+                            id: password.id,
+                            name: passwordData.name,
+                            username: passwordData.username,
+                            password: passwordData.password,
+                            url: passwordData.url || null,
+                            folderId: passwordData.folderId || null,
+                            notes: passwordData.notes || null,
+                            totpSecret: passwordData.totpSecret || null,
+                            tagIds: selectedTagIds,
+                          })
+                        }}
+                        disabled={updateTagsMutation.isPending}
+                      >
+                        {updateTagsMutation.isPending ? t("common.loading") : t("common.save")}
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {passwordData?.tags && passwordData.tags.length > 0 ? (
+                      <>
+                        {passwordData.tags.map((tag) => (
+                          <Badge
+                            key={tag.id}
+                            variant="secondary"
+                            className="flex items-center gap-1.5"
+                          >
+                            {tag.color && (
+                              <span
+                                className="w-2 h-2 rounded-full"
+                                style={{ backgroundColor: tag.color }}
+                              />
+                            )}
+                            {tag.icon && <span className="text-xs">{tag.icon}</span>}
+                            <span>{tag.name}</span>
+                          </Badge>
+                        ))}
+                        {isOwner && hasPermission("password.edit") && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setIsEditingTags(true)}
+                            className="h-7 text-xs"
+                          >
+                            {t("common.edit")}
+                          </Button>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-sm text-muted-foreground">-</span>
+                        {isOwner && hasPermission("password.edit") && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setIsEditingTags(true)}
+                            className="h-7 text-xs"
+                          >
+                            <TagIcon className="mr-1 h-3 w-3" />
+                            {t("passwords.tags.addTags")}
+                          </Button>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="grid grid-cols-3 items-center gap-4">

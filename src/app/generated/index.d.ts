@@ -19020,6 +19020,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     color: string | null
+    icon: string | null
     createdAt: Date | null
   }
 
@@ -19027,6 +19028,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     color: string | null
+    icon: string | null
     createdAt: Date | null
   }
 
@@ -19034,6 +19036,7 @@ export namespace Prisma {
     id: number
     name: number
     color: number
+    icon: number
     createdAt: number
     _all: number
   }
@@ -19043,6 +19046,7 @@ export namespace Prisma {
     id?: true
     name?: true
     color?: true
+    icon?: true
     createdAt?: true
   }
 
@@ -19050,6 +19054,7 @@ export namespace Prisma {
     id?: true
     name?: true
     color?: true
+    icon?: true
     createdAt?: true
   }
 
@@ -19057,6 +19062,7 @@ export namespace Prisma {
     id?: true
     name?: true
     color?: true
+    icon?: true
     createdAt?: true
     _all?: true
   }
@@ -19137,6 +19143,7 @@ export namespace Prisma {
     id: string
     name: string
     color: string | null
+    icon: string | null
     createdAt: Date
     _count: TagCountAggregateOutputType | null
     _min: TagMinAggregateOutputType | null
@@ -19161,6 +19168,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     color?: boolean
+    icon?: boolean
     createdAt?: boolean
     passwords?: boolean | Tag$passwordsArgs<ExtArgs>
     _count?: boolean | TagCountOutputTypeDefaultArgs<ExtArgs>
@@ -19170,6 +19178,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     color?: boolean
+    icon?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["tag"]>
 
@@ -19177,6 +19186,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     color?: boolean
+    icon?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["tag"]>
 
@@ -19184,10 +19194,11 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     color?: boolean
+    icon?: boolean
     createdAt?: boolean
   }
 
-  export type TagOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "color" | "createdAt", ExtArgs["result"]["tag"]>
+  export type TagOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "color" | "icon" | "createdAt", ExtArgs["result"]["tag"]>
   export type TagInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     passwords?: boolean | Tag$passwordsArgs<ExtArgs>
     _count?: boolean | TagCountOutputTypeDefaultArgs<ExtArgs>
@@ -19204,6 +19215,7 @@ export namespace Prisma {
       id: string
       name: string
       color: string | null
+      icon: string | null
       createdAt: Date
     }, ExtArgs["result"]["tag"]>
     composites: {}
@@ -19632,6 +19644,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Tag", 'String'>
     readonly name: FieldRef<"Tag", 'String'>
     readonly color: FieldRef<"Tag", 'String'>
+    readonly icon: FieldRef<"Tag", 'String'>
     readonly createdAt: FieldRef<"Tag", 'DateTime'>
   }
     
@@ -28968,6 +28981,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     color: 'color',
+    icon: 'icon',
     createdAt: 'createdAt'
   };
 
@@ -30454,6 +30468,7 @@ export namespace Prisma {
     id?: StringFilter<"Tag"> | string
     name?: StringFilter<"Tag"> | string
     color?: StringNullableFilter<"Tag"> | string | null
+    icon?: StringNullableFilter<"Tag"> | string | null
     createdAt?: DateTimeFilter<"Tag"> | Date | string
     passwords?: PasswordTagListRelationFilter
   }
@@ -30462,6 +30477,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     color?: SortOrderInput | SortOrder
+    icon?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     passwords?: PasswordTagOrderByRelationAggregateInput
   }
@@ -30473,6 +30489,7 @@ export namespace Prisma {
     OR?: TagWhereInput[]
     NOT?: TagWhereInput | TagWhereInput[]
     color?: StringNullableFilter<"Tag"> | string | null
+    icon?: StringNullableFilter<"Tag"> | string | null
     createdAt?: DateTimeFilter<"Tag"> | Date | string
     passwords?: PasswordTagListRelationFilter
   }, "id" | "name">
@@ -30481,6 +30498,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     color?: SortOrderInput | SortOrder
+    icon?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: TagCountOrderByAggregateInput
     _max?: TagMaxOrderByAggregateInput
@@ -30494,6 +30512,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Tag"> | string
     name?: StringWithAggregatesFilter<"Tag"> | string
     color?: StringNullableWithAggregatesFilter<"Tag"> | string | null
+    icon?: StringNullableWithAggregatesFilter<"Tag"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Tag"> | Date | string
   }
 
@@ -32280,6 +32299,7 @@ export namespace Prisma {
     id?: string
     name: string
     color?: string | null
+    icon?: string | null
     createdAt?: Date | string
     passwords?: PasswordTagCreateNestedManyWithoutTagInput
   }
@@ -32288,6 +32308,7 @@ export namespace Prisma {
     id?: string
     name: string
     color?: string | null
+    icon?: string | null
     createdAt?: Date | string
     passwords?: PasswordTagUncheckedCreateNestedManyWithoutTagInput
   }
@@ -32296,6 +32317,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     passwords?: PasswordTagUpdateManyWithoutTagNestedInput
   }
@@ -32304,6 +32326,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     passwords?: PasswordTagUncheckedUpdateManyWithoutTagNestedInput
   }
@@ -32312,6 +32335,7 @@ export namespace Prisma {
     id?: string
     name: string
     color?: string | null
+    icon?: string | null
     createdAt?: Date | string
   }
 
@@ -32319,6 +32343,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -32326,6 +32351,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -33864,6 +33890,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     color?: SortOrder
+    icon?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -33871,6 +33898,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     color?: SortOrder
+    icon?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -33878,6 +33906,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     color?: SortOrder
+    icon?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -40775,6 +40804,7 @@ export namespace Prisma {
     id?: string
     name: string
     color?: string | null
+    icon?: string | null
     createdAt?: Date | string
   }
 
@@ -40782,6 +40812,7 @@ export namespace Prisma {
     id?: string
     name: string
     color?: string | null
+    icon?: string | null
     createdAt?: Date | string
   }
 
@@ -40862,6 +40893,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -40869,6 +40901,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

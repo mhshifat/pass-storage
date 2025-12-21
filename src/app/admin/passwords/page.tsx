@@ -11,7 +11,7 @@ import { PasswordsPageHeader } from "./passwords-page-header"
 import { PasswordsStatsClient } from "./passwords-stats-client"
 
 interface PasswordsPageProps {
-  searchParams: Promise<{ page?: string; search?: string; filter?: string }>
+  searchParams: Promise<{ page?: string; search?: string; filter?: string; tags?: string }>
 }
 
 export default async function PasswordsPage({ searchParams }: PasswordsPageProps) {
@@ -19,6 +19,7 @@ export default async function PasswordsPage({ searchParams }: PasswordsPageProps
   const currentPage = Number(params.page) || 1
   const search = params.search || ""
   const filter = params.filter === "weak" || params.filter === "expiring" || params.filter === "favorites" ? params.filter : undefined
+  const tagIds = params.tags ? params.tags.split(",").filter(Boolean) : undefined
 
   return (
     <div className="p-6 space-y-6">
@@ -31,8 +32,8 @@ export default async function PasswordsPage({ searchParams }: PasswordsPageProps
         <PasswordsStats />
       </Suspense>
 
-      <Suspense key={`${currentPage}-${search}-${filter}`} fallback={<PasswordsTableSkeleton />}>
-        <PasswordsListContent page={currentPage} search={search} filter={filter} />
+      <Suspense key={`${currentPage}-${search}-${filter}-${tagIds?.join(",")}`} fallback={<PasswordsTableSkeleton />}>
+        <PasswordsListContent page={currentPage} search={search} filter={filter} tagIds={tagIds} />
       </Suspense>
     </div>
   )
@@ -67,16 +68,19 @@ async function PasswordsListContent({
   page,
   search,
   filter,
+  tagIds,
 }: {
   page: number
   search: string
   filter?: "weak" | "expiring" | "favorites"
+  tagIds?: string[]
 }) {
   const { passwords, pagination } = await caller.passwords.list({
     page,
     pageSize: 10,
     search: search || undefined,
     filter: filter,
+    tagIds: tagIds && tagIds.length > 0 ? tagIds : undefined,
   })
 
   if (passwords.length === 0) {

@@ -43,7 +43,7 @@ export function PasswordsStatsClient({ stats }: PasswordsStatsClientProps) {
 
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-5">
+      <div className="grid gap-4 md:grid-cols-4">
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium">{t("passwords.totalPasswords")}</CardTitle>

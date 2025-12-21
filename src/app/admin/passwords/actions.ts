@@ -19,6 +19,7 @@ export async function createPasswordAction(
   const folderId = formData.get("folderId") as string
   const notes = formData.get("notes") as string
   const totpSecret = formData.get("totpSecret") as string
+  const tagIds = formData.getAll("tagIds") as string[]
 
   try {
     const trpc = await serverTrpc()
@@ -30,6 +31,7 @@ export async function createPasswordAction(
       folderId: folderId || null,
       notes: notes || null,
       totpSecret: totpSecret || null,
+      tagIds: tagIds.length > 0 ? tagIds : undefined,
     })
 
     revalidatePath("/admin/passwords")
@@ -76,6 +78,7 @@ export async function updatePasswordAction(
   const folderId = formData.get("folderId") as string
   const notes = formData.get("notes") as string
   const totpSecret = formData.get("totpSecret") as string
+  const tagIds = formData.getAll("tagIds") as string[]
 
   try {
     const trpc = await serverTrpc()
@@ -88,6 +91,7 @@ export async function updatePasswordAction(
       folderId: folderId || null,
       notes: notes || null,
       totpSecret: totpSecret || null,
+      tagIds: tagIds.length > 0 ? tagIds : [],
     })
 
     revalidatePath("/admin/passwords")
