@@ -929,5 +929,344 @@ export const passwordsRouter = createTRPCRouter({
         recentCount,
       }
     }),
+
+  importPreview: protectedProcedure("password.create")
+    .input(
+      z.object({
+        content: z.string().min(1, "File content is required"),
+        format: z.enum(["csv", "json", "1password", "lastpass", "bitwarden", "keepass"]).optional(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const { parsePasswordFile } = await import("@/lib/password-import/parsers")
+      const result = parsePasswordFile(input.content, input.format)
+
+      return {
+        passwords: result.passwords,
+        errors: result.errors,
+        warnings: result.warnings,
+        totalRows: result.totalRows,
+        validRows: result.validRows,
+        invalidRows: result.invalidRows,
+      }
+    }),
+
+  importCommit: protectedProcedure("password.create")
+    .input(
+      z.object({
+        passwords: z.array(
+          z.object({
+            name: z.string().min(1),
+            username: z.string().min(1),
+            password: z.string().min(1),
+            url: z.string().optional().nullable(),
+            notes: z.string().optional().nullable(),
+            folderId: z.string().optional().nullable(),
+            totpSecret: z.string().optional().nullable(),
+          })
+        ),
+        skipInvalid: z.boolean().default(true),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { createAuditLog } = await import("@/lib/audit-log")
+      const created: string[] = []
+      const errors: string[] = []
+
+      for (let i = 0; i < input.passwords.length; i++) {
+        const item = input.passwords[i]
+
+        try {
+          // Validate required fields
+          if (!item.name || !item.username || !item.password) {
+            if (!input.skipInvalid) {
+              errors.push(`Row ${i + 1}: Missing required fields`)
+            }
+            continue
+          }
+
+          // Encrypt the password
+          const encryptedPassword = await encrypt(item.password)
+
+          // Encrypt TOTP secret if provided
+          let encryptedTotpSecret: string | null = null
+          if (item.totpSecret) {
+            encryptedTotpSecret = await encrypt(item.totpSecret)
+          }
+
+          // Calculate password strength
+          let strength: "STRONG" | "MEDIUM" | "WEAK" = "MEDIUM"
+          if (item.password.length >= 16 && /[A-Z]/.test(item.password) && /[a-z]/.test(item.password) && /[0-9]/.test(item.password) && /[^A-Za-z0-9]/.test(item.password)) {
+            strength = "STRONG"
+          } else if (item.password.length < 8) {
+            strength = "WEAK"
+          }
+
+          // Create password
+          const password = await prisma.password.create({
+            data: {
+              name: item.name,
+              username: item.username,
+              password: encryptedPassword,
+              url: item.url || null,
+              folderId: item.folderId || null,
+              notes: item.notes || null,
+              strength,
+              hasTotp: !!item.totpSecret,
+              totpSecret: encryptedTotpSecret,
+              ownerId: ctx.userId,
+            },
+            select: {
+              id: true,
+              name: true,
+            },
+          })
+
+          created.push(password.id)
+
+          // Create audit log
+          await createAuditLog({
+            action: "PASSWORD_CREATED",
+            resource: "Password",
+            resourceId: password.id,
+            details: { name: password.name, imported: true },
+            userId: ctx.userId,
+          })
+        } catch (error) {
+          errors.push(`Row ${i + 1}: ${error instanceof Error ? error.message : "Unknown error"}`)
+        }
+      }
+
+      return {
+        success: true,
+        created: created.length,
+        errors: errors.length,
+        createdIds: created,
+        errorMessages: errors,
+      }
+    }),
+
+  export: protectedProcedure("password.view")
+    .input(
+      z.object({
+        format: z.enum(["csv", "json", "bitwarden", "lastpass", "encrypted"]).default("csv"),
+        folderId: z.string().optional(),
+        tagIds: z.array(z.string()).optional(),
+        dateFrom: z.string().optional(), // ISO date string
+        dateTo: z.string().optional(), // ISO date string
+        includeShared: z.boolean().default(false),
+        encryptionKey: z.string().optional(), // For encrypted exports
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      // Get teams where the user is a member
+      const userTeams = await prisma.teamMember.findMany({
+        where: {
+          userId: ctx.userId,
+        },
+        select: {
+          teamId: true,
+        },
+      })
+      const teamIds = userTeams.map((tm) => tm.teamId)
+
+      // Build where clause for passwords accessible to user
+      const passwordWhere: any = {
+        OR: [
+          { ownerId: ctx.userId },
+          ...(input.includeShared && teamIds.length > 0
+            ? [
+                {
+                  sharedWith: {
+                    some: {
+                      teamId: { in: teamIds },
+                      OR: [
+                        { expiresAt: null },
+                        { expiresAt: { gt: new Date() } },
+                      ],
+                    },
+                  },
+                },
+              ]
+            : []),
+        ],
+      }
+
+      // Apply folder filter
+      if (input.folderId) {
+        passwordWhere.folderId = input.folderId
+      }
+
+      // Apply tag filter
+      if (input.tagIds && input.tagIds.length > 0) {
+        passwordWhere.tags = {
+          some: {
+            tagId: { in: input.tagIds },
+          },
+        }
+      }
+
+      // Apply date range filter
+      if (input.dateFrom || input.dateTo) {
+        passwordWhere.createdAt = {}
+        if (input.dateFrom) {
+          passwordWhere.createdAt.gte = new Date(input.dateFrom)
+        }
+        if (input.dateTo) {
+          passwordWhere.createdAt.lte = new Date(input.dateTo)
+        }
+      }
+
+      // Fetch passwords with related data
+      const passwords = await prisma.password.findMany({
+        where: passwordWhere,
+        include: {
+          folder: {
+            select: {
+              name: true,
+            },
+          },
+          tags: {
+            include: {
+              tag: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      })
+
+      // Decrypt passwords and format for export
+      const exportPasswords = await Promise.all(
+        passwords.map(async (pwd) => {
+          const decryptedPassword = await decrypt(pwd.password)
+          
+          return {
+            name: pwd.name,
+            username: pwd.username,
+            password: decryptedPassword,
+            url: pwd.url || null,
+            notes: pwd.notes || null,
+            folder: pwd.folder?.name || null,
+            tags: pwd.tags.map((pt) => pt.tag.name),
+            strength: pwd.strength,
+            hasTotp: pwd.hasTotp,
+            expiresAt: pwd.expiresAt?.toISOString() || null,
+            createdAt: pwd.createdAt.toISOString(),
+            updatedAt: pwd.updatedAt.toISOString(),
+          }
+        })
+      )
+
+      // Generate export based on format
+      const { 
+        exportToCSV, 
+        exportToJSON, 
+        exportToBitwardenJSON, 
+        exportToLastPassCSV,
+        exportToEncrypted 
+      } = await import("@/lib/password-export/exporters")
+
+      let content: string
+      let mimeType: string
+      let fileExtension: string
+
+      switch (input.format) {
+        case "csv":
+          content = exportToCSV(exportPasswords, true)
+          mimeType = "text/csv"
+          fileExtension = "csv"
+          break
+        case "json":
+          content = exportToJSON(exportPasswords, true)
+          mimeType = "application/json"
+          fileExtension = "json"
+          break
+        case "bitwarden":
+          content = exportToBitwardenJSON(exportPasswords)
+          mimeType = "application/json"
+          fileExtension = "json"
+          break
+        case "lastpass":
+          content = exportToLastPassCSV(exportPasswords)
+          mimeType = "text/csv"
+          fileExtension = "csv"
+          break
+        case "encrypted":
+          if (!input.encryptionKey) {
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message: "Encryption key is required for encrypted exports",
+            })
+          }
+          content = await exportToEncrypted(exportPasswords, input.encryptionKey)
+          mimeType = "application/json"
+          fileExtension = "json"
+          break
+        default:
+          content = exportToCSV(exportPasswords, true)
+          mimeType = "text/csv"
+          fileExtension = "csv"
+      }
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "PASSWORD_EXPORTED",
+        resource: "Password",
+        details: {
+          format: input.format,
+          count: exportPasswords.length,
+          folderId: input.folderId,
+          tagIds: input.tagIds,
+          dateFrom: input.dateFrom,
+          dateTo: input.dateTo,
+        },
+        userId: ctx.userId,
+      })
+
+      return {
+        content,
+        mimeType,
+        fileExtension,
+        count: exportPasswords.length,
+      }
+    }),
+
+  getExportFilters: protectedProcedure("password.view")
+    .query(async ({ ctx }) => {
+      // Get folders accessible to user
+      const folders = await prisma.folder.findMany({
+        select: {
+          id: true,
+          name: true,
+        },
+        orderBy: {
+          name: "asc",
+        },
+      })
+
+      // Get tags (if tags are used)
+      const tags = await prisma.tag.findMany({
+        select: {
+          id: true,
+          name: true,
+          color: true,
+        },
+        orderBy: {
+          name: "asc",
+        },
+      })
+
+      return {
+        folders,
+        tags,
+      }
+    }),
 })
 
