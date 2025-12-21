@@ -52,6 +52,7 @@ model User {
   accounts           Account[]
   mfaCredentials     MfaCredential[]
   recoveryCodes      RecoveryCode[]
+  passwordHistory    PasswordHistory[] @relation("PasswordHistoryChangedBy")
 
   createdById        String?
   createdBy          User?           @relation("UserCreatedBy", fields: [createdById], references: [id])
@@ -117,9 +118,36 @@ model Password {
   folder        Folder?         @relation(fields: [folderId], references: [id], onDelete: SetNull)
   sharedWith    PasswordShare[]
   tags          PasswordTag[]
+  history       PasswordHistory[]
 
   @@index([ownerId])
   @@index([folderId])
+}
+
+model PasswordHistory {
+  id            String    @id @default(cuid())
+  passwordId    String
+  name          String
+  username      String
+  password      String // Encrypted
+  url           String?
+  notes         String?
+  folderId      String?
+  strength      PasswordStrength
+  hasTotp       Boolean
+  totpSecret    String?   // Encrypted
+  expiresAt     DateTime?
+  changedBy     String    // User ID who made the change
+  changeType    String    @default("UPDATE") // CREATE, UPDATE, RESTORE
+  createdAt     DateTime  @default(now())
+
+  // Relations
+  passwordEntry Password  @relation(fields: [passwordId], references: [id], onDelete: Cascade)
+  changedByUser User      @relation("PasswordHistoryChangedBy", fields: [changedBy], references: [id], onDelete: SetNull)
+
+  @@index([passwordId])
+  @@index([changedBy])
+  @@index([createdAt])
 }
 
 model Folder {

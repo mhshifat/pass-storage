@@ -282,6 +282,26 @@ export const passwordsRouter = createTRPCRouter({
         },
       })
 
+      // Save password history (initial version)
+      const { savePasswordHistory } = await import("@/lib/password-history")
+      await savePasswordHistory(
+        password.id,
+        {
+          name: input.name,
+          username: input.username,
+          password: encryptedPassword,
+          url: input.url || null,
+          notes: input.notes || null,
+          folderId: input.folderId || null,
+          strength,
+          hasTotp: !!input.totpSecret,
+          totpSecret: encryptedTotpSecret,
+          expiresAt: null,
+        },
+        ctx.userId,
+        "CREATE"
+      )
+
       // Create audit log
       const { createAuditLog } = await import("@/lib/audit-log")
       await createAuditLog({
@@ -315,11 +335,25 @@ export const passwordsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      // Check if password exists and user owns it
+      // Check if password exists and user owns it, get current data for history
       const existingPassword = await prisma.password.findFirst({
         where: {
           id: input.id,
           ownerId: ctx.userId,
+        },
+        select: {
+          id: true,
+          ownerId: true,
+          name: true,
+          username: true,
+          password: true,
+          url: true,
+          notes: true,
+          folderId: true,
+          strength: true,
+          hasTotp: true,
+          totpSecret: true,
+          expiresAt: true,
         },
       })
 
@@ -329,6 +363,26 @@ export const passwordsRouter = createTRPCRouter({
           message: "Password not found",
         })
       }
+
+      // Save current state to history before updating
+      const { savePasswordHistory } = await import("@/lib/password-history")
+      await savePasswordHistory(
+        input.id,
+        {
+          name: existingPassword.name,
+          username: existingPassword.username,
+          password: existingPassword.password,
+          url: existingPassword.url,
+          notes: existingPassword.notes,
+          folderId: existingPassword.folderId,
+          strength: existingPassword.strength,
+          hasTotp: existingPassword.hasTotp,
+          totpSecret: existingPassword.totpSecret,
+          expiresAt: existingPassword.expiresAt,
+        },
+        ctx.userId,
+        "UPDATE"
+      )
 
       // Encrypt the password
       const encryptedPassword = await encrypt(input.password)
@@ -1719,6 +1773,323 @@ export const passwordsRouter = createTRPCRouter({
       return {
         success: true,
         updated: updated.count,
+      }
+    }),
+
+  getHistory: protectedProcedure("password.view")
+    .input(
+      z.object({
+        passwordId: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      // Verify ownership
+      const password = await prisma.password.findUnique({
+        where: { id: input.passwordId },
+        select: { ownerId: true },
+      })
+
+      if (!password || password.ownerId !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You don't have permission to view this password's history",
+        })
+      }
+
+      // Get history
+      const history = await prisma.passwordHistory.findMany({
+        where: { passwordId: input.passwordId },
+        include: {
+          changedByUser: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+        orderBy: { createdAt: "desc" },
+      })
+
+      return {
+        history: history.map((h) => ({
+          id: h.id,
+          name: h.name,
+          username: h.username,
+          url: h.url,
+          notes: h.notes,
+          folderId: h.folderId,
+          strength: h.strength,
+          hasTotp: h.hasTotp,
+          expiresAt: h.expiresAt,
+          changeType: h.changeType,
+          changedBy: h.changedByUser
+            ? {
+                id: h.changedByUser.id,
+                name: h.changedByUser.name,
+                email: h.changedByUser.email,
+              }
+            : null,
+          createdAt: h.createdAt,
+        })),
+      }
+    }),
+
+  restoreVersion: protectedProcedure("password.edit")
+    .input(
+      z.object({
+        passwordId: z.string(),
+        historyId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify ownership
+      const password = await prisma.password.findUnique({
+        where: { id: input.passwordId },
+        select: { ownerId: true },
+      })
+
+      if (!password || password.ownerId !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You don't have permission to restore this password",
+        })
+      }
+
+      // Get history version
+      const historyVersion = await prisma.passwordHistory.findUnique({
+        where: { id: input.historyId },
+      })
+
+      if (!historyVersion || historyVersion.passwordId !== input.passwordId) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "History version not found",
+        })
+      }
+
+      // Get current password data for history
+      const { getCurrentPasswordData, savePasswordHistory } = await import("@/lib/password-history")
+      const currentData = await getCurrentPasswordData(input.passwordId)
+
+      if (currentData) {
+        // Save current state to history before restoring
+        await savePasswordHistory(input.passwordId, currentData, ctx.userId, "UPDATE")
+      }
+
+      // Restore from history
+      const updated = await prisma.password.update({
+        where: { id: input.passwordId },
+        data: {
+          name: historyVersion.name,
+          username: historyVersion.username,
+          password: historyVersion.password, // Already encrypted
+          url: historyVersion.url,
+          notes: historyVersion.notes,
+          folderId: historyVersion.folderId,
+          strength: historyVersion.strength,
+          hasTotp: historyVersion.hasTotp,
+          totpSecret: historyVersion.totpSecret, // Already encrypted
+          expiresAt: historyVersion.expiresAt,
+        },
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          updatedAt: true,
+        },
+      })
+
+      // Save restored version to history
+      await savePasswordHistory(
+        input.passwordId,
+        {
+          name: historyVersion.name,
+          username: historyVersion.username,
+          password: historyVersion.password,
+          url: historyVersion.url,
+          notes: historyVersion.notes,
+          folderId: historyVersion.folderId,
+          strength: historyVersion.strength,
+          hasTotp: historyVersion.hasTotp,
+          totpSecret: historyVersion.totpSecret,
+          expiresAt: historyVersion.expiresAt,
+        },
+        ctx.userId,
+        "RESTORE"
+      )
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "PASSWORD_RESTORED",
+        resource: "Password",
+        resourceId: input.passwordId,
+        details: { historyId: input.historyId, name: updated.name },
+        userId: ctx.userId,
+      })
+
+      return {
+        success: true,
+        password: updated,
+      }
+    }),
+
+  compareVersions: protectedProcedure("password.view")
+    .input(
+      z.object({
+        passwordId: z.string(),
+        historyId1: z.string().optional(),
+        historyId2: z.string().optional(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      // Verify ownership
+      const password = await prisma.password.findUnique({
+        where: { id: input.passwordId },
+        select: { ownerId: true },
+      })
+
+      if (!password || password.ownerId !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You don't have permission to view this password",
+        })
+      }
+
+      // Get current password data
+      const currentPassword = await prisma.password.findUnique({
+        where: { id: input.passwordId },
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          url: true,
+          notes: true,
+          folderId: true,
+          strength: true,
+          hasTotp: true,
+          expiresAt: true,
+          updatedAt: true,
+        },
+      })
+
+      if (!currentPassword) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Password not found",
+        })
+      }
+
+      // Get history versions if provided
+      let version1 = null
+      let version2 = null
+
+      if (input.historyId1) {
+        const h1 = await prisma.passwordHistory.findUnique({
+          where: { id: input.historyId1 },
+          include: {
+            changedByUser: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              },
+            },
+          },
+        })
+        if (h1 && h1.passwordId === input.passwordId) {
+          version1 = {
+            id: h1.id,
+            name: h1.name,
+            username: h1.username,
+            url: h1.url,
+            notes: h1.notes,
+            folderId: h1.folderId,
+            strength: h1.strength,
+            hasTotp: h1.hasTotp,
+            expiresAt: h1.expiresAt,
+            changeType: h1.changeType,
+            changedBy: h1.changedByUser
+              ? {
+                  id: h1.changedByUser.id,
+                  name: h1.changedByUser.name,
+                  email: h1.changedByUser.email,
+                }
+              : null,
+            createdAt: h1.createdAt,
+          }
+        }
+      } else {
+        // Use current version as version1
+        version1 = {
+          id: "current",
+          name: currentPassword.name,
+          username: currentPassword.username,
+          url: currentPassword.url,
+          notes: currentPassword.notes,
+          folderId: currentPassword.folderId,
+          strength: currentPassword.strength,
+          hasTotp: currentPassword.hasTotp,
+          expiresAt: currentPassword.expiresAt,
+          changeType: "CURRENT",
+          changedBy: null,
+          createdAt: currentPassword.updatedAt,
+        }
+      }
+
+      if (input.historyId2) {
+        const h2 = await prisma.passwordHistory.findUnique({
+          where: { id: input.historyId2 },
+          include: {
+            changedByUser: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              },
+            },
+          },
+        })
+        if (h2 && h2.passwordId === input.passwordId) {
+          version2 = {
+            id: h2.id,
+            name: h2.name,
+            username: h2.username,
+            url: h2.url,
+            notes: h2.notes,
+            folderId: h2.folderId,
+            strength: h2.strength,
+            hasTotp: h2.hasTotp,
+            expiresAt: h2.expiresAt,
+            changeType: h2.changeType,
+            changedBy: h2.changedByUser
+              ? {
+                  id: h2.changedByUser.id,
+                  name: h2.changedByUser.name,
+                  email: h2.changedByUser.email,
+                }
+              : null,
+            createdAt: h2.createdAt,
+          }
+        }
+      }
+
+      return {
+        version1,
+        version2,
+        current: {
+          id: "current",
+          name: currentPassword.name,
+          username: currentPassword.username,
+          url: currentPassword.url,
+          notes: currentPassword.notes,
+          folderId: currentPassword.folderId,
+          strength: currentPassword.strength,
+          hasTotp: currentPassword.hasTotp,
+          expiresAt: currentPassword.expiresAt,
+          updatedAt: currentPassword.updatedAt,
+        },
       }
     }),
 })

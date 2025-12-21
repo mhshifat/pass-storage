@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Eye, EyeOff, Copy, Clock, X, Users } from "lucide-react"
+import { Eye, EyeOff, Copy, Clock, X, Users, History } from "lucide-react"
 import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
 import { usePermissions } from "@/hooks/use-permissions"
@@ -182,6 +182,7 @@ export function PasswordDetailsDialog({
   const isOwner = passwordData?.isOwner ?? (displayPassword as Password).isOwner ?? false
 
   return (
+    <>
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
@@ -364,13 +365,29 @@ export function PasswordDetailsDialog({
             )}
           </div>
         </div>
-        <DialogFooter className="flex gap-2">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Close
-          </Button>
-          <Button onClick={() => onEdit?.(passwordData || password)}>Edit Password</Button>
+        <DialogFooter className="flex items-center justify-between">
+          <div>
+            {hasPermission("password.view") && isOwner && (
+              <Button
+                variant="outline"
+                onClick={() => router.push(`/admin/passwords/${password.id}/history`)}
+              >
+                <History className="h-4 w-4 mr-2" />
+                View History
+              </Button>
+            )}
+          </div>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => onOpenChange(false)}>
+              Close
+            </Button>
+            {hasPermission("password.edit") && isOwner && onEdit && (
+              <Button onClick={() => onEdit(passwordData || password)}>Edit Password</Button>
+            )}
+          </div>
         </DialogFooter>
       </DialogContent>
+    </Dialog>
 
       <AlertDialog open={isRemoveShareDialogOpen} onOpenChange={setIsRemoveShareDialogOpen}>
         <AlertDialogContent>
@@ -393,6 +410,6 @@ export function PasswordDetailsDialog({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </Dialog>
+    </>
   )
 }
