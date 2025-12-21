@@ -1268,5 +1268,458 @@ export const passwordsRouter = createTRPCRouter({
         tags,
       }
     }),
+
+  bulkDelete: protectedProcedure("password.delete")
+    .input(
+      z.object({
+        passwordIds: z.array(z.string()).min(1, "At least one password ID is required"),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify user owns all passwords or has permission to delete shared passwords
+      const passwords = await prisma.password.findMany({
+        where: {
+          id: { in: input.passwordIds },
+        },
+        select: {
+          id: true,
+          ownerId: true,
+          name: true,
+        },
+      })
+
+      // Check ownership - user can only delete their own passwords
+      const unauthorized = passwords.filter((p) => p.ownerId !== ctx.userId)
+      if (unauthorized.length > 0) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: `You don't have permission to delete ${unauthorized.length} password(s)`,
+        })
+      }
+
+      // Delete passwords
+      const { createAuditLog } = await import("@/lib/audit-log")
+      const deleted = await prisma.password.deleteMany({
+        where: {
+          id: { in: input.passwordIds },
+          ownerId: ctx.userId, // Double-check ownership
+        },
+      })
+
+      // Create audit log for each deleted password
+      for (const password of passwords) {
+        await createAuditLog({
+          action: "PASSWORD_DELETED",
+          resource: "Password",
+          resourceId: password.id,
+          details: { name: password.name, bulk: true },
+          userId: ctx.userId,
+        })
+      }
+
+      return {
+        success: true,
+        deleted: deleted.count,
+      }
+    }),
+
+  bulkMoveToFolder: protectedProcedure("password.edit")
+    .input(
+      z.object({
+        passwordIds: z.array(z.string()).min(1, "At least one password ID is required"),
+        folderId: z.string().nullable(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify user owns all passwords
+      const passwords = await prisma.password.findMany({
+        where: {
+          id: { in: input.passwordIds },
+        },
+        select: {
+          id: true,
+          ownerId: true,
+          name: true,
+        },
+      })
+
+      const unauthorized = passwords.filter((p) => p.ownerId !== ctx.userId)
+      if (unauthorized.length > 0) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: `You don't have permission to move ${unauthorized.length} password(s)`,
+        })
+      }
+
+      // Verify folder exists if folderId is provided
+      if (input.folderId) {
+        const folder = await prisma.folder.findUnique({
+          where: { id: input.folderId },
+        })
+        if (!folder) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Folder not found",
+          })
+        }
+      }
+
+      // Update passwords
+      const updated = await prisma.password.updateMany({
+        where: {
+          id: { in: input.passwordIds },
+          ownerId: ctx.userId,
+        },
+        data: {
+          folderId: input.folderId || null,
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      for (const password of passwords) {
+        await createAuditLog({
+          action: "PASSWORD_UPDATED",
+          resource: "Password",
+          resourceId: password.id,
+          details: { name: password.name, folderId: input.folderId, bulk: true },
+          userId: ctx.userId,
+        })
+      }
+
+      return {
+        success: true,
+        updated: updated.count,
+      }
+    }),
+
+  bulkAssignTags: protectedProcedure("password.edit")
+    .input(
+      z.object({
+        passwordIds: z.array(z.string()).min(1, "At least one password ID is required"),
+        tagIds: z.array(z.string()).min(1, "At least one tag ID is required"),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify user owns all passwords
+      const passwords = await prisma.password.findMany({
+        where: {
+          id: { in: input.passwordIds },
+        },
+        select: {
+          id: true,
+          ownerId: true,
+        },
+      })
+
+      const unauthorized = passwords.filter((p) => p.ownerId !== ctx.userId)
+      if (unauthorized.length > 0) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: `You don't have permission to modify ${unauthorized.length} password(s)`,
+        })
+      }
+
+      // Verify tags exist
+      const tags = await prisma.tag.findMany({
+        where: {
+          id: { in: input.tagIds },
+        },
+      })
+
+      if (tags.length !== input.tagIds.length) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "One or more tags not found",
+        })
+      }
+
+      // Assign tags to all passwords (using upsert to avoid duplicates)
+      const { createAuditLog } = await import("@/lib/audit-log")
+      
+      for (const passwordId of input.passwordIds) {
+        for (const tagId of input.tagIds) {
+          await prisma.passwordTag.upsert({
+            where: {
+              passwordId_tagId: {
+                passwordId,
+                tagId,
+              },
+            },
+            update: {},
+            create: {
+              passwordId,
+              tagId,
+            },
+          })
+        }
+
+        // Create audit log
+        await createAuditLog({
+          action: "PASSWORD_UPDATED",
+          resource: "Password",
+          resourceId: passwordId,
+          details: { tagIds: input.tagIds, bulk: true },
+          userId: ctx.userId,
+        })
+      }
+
+      return {
+        success: true,
+        updated: input.passwordIds.length,
+      }
+    }),
+
+  bulkRemoveTags: protectedProcedure("password.edit")
+    .input(
+      z.object({
+        passwordIds: z.array(z.string()).min(1, "At least one password ID is required"),
+        tagIds: z.array(z.string()).optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify user owns all passwords
+      const passwords = await prisma.password.findMany({
+        where: {
+          id: { in: input.passwordIds },
+        },
+        select: {
+          id: true,
+          ownerId: true,
+        },
+      })
+
+      const unauthorized = passwords.filter((p) => p.ownerId !== ctx.userId)
+      if (unauthorized.length > 0) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: `You don't have permission to modify ${unauthorized.length} password(s)`,
+        })
+      }
+
+      // Remove tags
+      const where: any = {
+        passwordId: { in: input.passwordIds },
+      }
+
+      if (input.tagIds && input.tagIds.length > 0) {
+        where.tagId = { in: input.tagIds }
+      }
+
+      const deleted = await prisma.passwordTag.deleteMany({
+        where,
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      for (const password of passwords) {
+        await createAuditLog({
+          action: "PASSWORD_UPDATED",
+          resource: "Password",
+          resourceId: password.id,
+          details: { removedTagIds: input.tagIds, bulk: true },
+          userId: ctx.userId,
+        })
+      }
+
+      return {
+        success: true,
+        removed: deleted.count,
+      }
+    }),
+
+  bulkShare: protectedProcedure("password.edit")
+    .input(
+      z.object({
+        passwordIds: z.array(z.string()).min(1, "At least one password ID is required"),
+        teamId: z.string(),
+        expiresAt: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify user owns all passwords
+      const passwords = await prisma.password.findMany({
+        where: {
+          id: { in: input.passwordIds },
+        },
+        select: {
+          id: true,
+          ownerId: true,
+          name: true,
+        },
+      })
+
+      const unauthorized = passwords.filter((p) => p.ownerId !== ctx.userId)
+      if (unauthorized.length > 0) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: `You don't have permission to share ${unauthorized.length} password(s)`,
+        })
+      }
+
+      // Verify team exists
+      const team = await prisma.team.findUnique({
+        where: { id: input.teamId },
+      })
+
+      if (!team) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Team not found",
+        })
+      }
+
+      // Share passwords with team
+      const expiresAt = input.expiresAt ? new Date(input.expiresAt) : null
+      const { createAuditLog } = await import("@/lib/audit-log")
+
+      for (const passwordId of input.passwordIds) {
+        // Check if already shared with this team
+        const existingShare = await prisma.passwordShare.findFirst({
+          where: {
+            passwordId,
+            teamId: input.teamId,
+          },
+        })
+
+        if (!existingShare) {
+          await prisma.passwordShare.create({
+            data: {
+              passwordId,
+              teamId: input.teamId,
+              expiresAt,
+            },
+          })
+
+          // Create audit log
+          await createAuditLog({
+            action: "PASSWORD_SHARED",
+            resource: "Password",
+            resourceId: passwordId,
+            details: { teamId: input.teamId, expiresAt, bulk: true },
+            userId: ctx.userId,
+          })
+        }
+      }
+
+      return {
+        success: true,
+        shared: input.passwordIds.length,
+      }
+    }),
+
+  bulkUnshare: protectedProcedure("password.edit")
+    .input(
+      z.object({
+        passwordIds: z.array(z.string()).min(1, "At least one password ID is required"),
+        teamId: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify user owns all passwords
+      const passwords = await prisma.password.findMany({
+        where: {
+          id: { in: input.passwordIds },
+        },
+        select: {
+          id: true,
+          ownerId: true,
+        },
+      })
+
+      const unauthorized = passwords.filter((p) => p.ownerId !== ctx.userId)
+      if (unauthorized.length > 0) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: `You don't have permission to unshare ${unauthorized.length} password(s)`,
+        })
+      }
+
+      // Unshare passwords
+      const where: any = {
+        passwordId: { in: input.passwordIds },
+      }
+
+      if (input.teamId) {
+        where.teamId = input.teamId
+      }
+
+      const deleted = await prisma.passwordShare.deleteMany({
+        where,
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      for (const password of passwords) {
+        await createAuditLog({
+          action: "PASSWORD_UNSHARED",
+          resource: "Password",
+          resourceId: password.id,
+          details: { teamId: input.teamId, bulk: true },
+          userId: ctx.userId,
+        })
+      }
+
+      return {
+        success: true,
+        unshared: deleted.count,
+      }
+    }),
+
+  bulkUpdateStrength: protectedProcedure("password.edit")
+    .input(
+      z.object({
+        passwordIds: z.array(z.string()).min(1, "At least one password ID is required"),
+        strength: z.enum(["WEAK", "MEDIUM", "STRONG"]),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify user owns all passwords
+      const passwords = await prisma.password.findMany({
+        where: {
+          id: { in: input.passwordIds },
+        },
+        select: {
+          id: true,
+          ownerId: true,
+        },
+      })
+
+      const unauthorized = passwords.filter((p) => p.ownerId !== ctx.userId)
+      if (unauthorized.length > 0) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: `You don't have permission to update ${unauthorized.length} password(s)`,
+        })
+      }
+
+      // Update password strength
+      const updated = await prisma.password.updateMany({
+        where: {
+          id: { in: input.passwordIds },
+          ownerId: ctx.userId,
+        },
+        data: {
+          strength: input.strength,
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      for (const password of passwords) {
+        await createAuditLog({
+          action: "PASSWORD_UPDATED",
+          resource: "Password",
+          resourceId: password.id,
+          details: { strength: input.strength, bulk: true },
+          userId: ctx.userId,
+        })
+      }
+
+      return {
+        success: true,
+        updated: updated.count,
+      }
+    }),
 })
 

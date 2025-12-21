@@ -9,10 +9,17 @@ import {
   PasswordFormDialog,
   PasswordsPagination,
   SharePasswordDialog,
+  BulkOperationsToolbar,
+  BulkMoveDialog,
+  BulkTagDialog,
+  BulkShareDialog,
+  BulkStrengthDialog,
+  BulkDeleteDialog,
 } from "@/modules/passwords/client"
 import { updatePasswordAction, deletePasswordAction } from "@/app/admin/passwords/actions"
 import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
+import { usePermissions } from "@/hooks/use-permissions"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -107,6 +114,7 @@ interface PasswordsListClientProps {
 
 export function PasswordsListClient({ passwords, pagination }: PasswordsListClientProps) {
   const router = useRouter()
+  const { hasPermission } = usePermissions()
   const [selectedPassword, setSelectedPassword] = useState<Password | null>(null)
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
@@ -115,6 +123,16 @@ export function PasswordsListClient({ passwords, pagination }: PasswordsListClie
   const [passwordToDelete, setPasswordToDelete] = useState<string | null>(null)
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false)
   const [passwordToShare, setPasswordToShare] = useState<Password | null>(null)
+  
+  // Bulk operations state
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [isBulkMoveOpen, setIsBulkMoveOpen] = useState(false)
+  const [isBulkTagOpen, setIsBulkTagOpen] = useState(false)
+  const [isBulkShareOpen, setIsBulkShareOpen] = useState(false)
+  const [isBulkUnshareOpen, setIsBulkUnshareOpen] = useState(false)
+  const [isBulkStrengthOpen, setIsBulkStrengthOpen] = useState(false)
+  const [isBulkDeleteOpen, setIsBulkDeleteOpen] = useState(false)
+  const [bulkTagMode, setBulkTagMode] = useState<"assign" | "remove">("assign")
 
   // Use a key to reset the dialog component when needed
   const [editKey, setEditKey] = useState(0)
@@ -187,20 +205,49 @@ export function PasswordsListClient({ passwords, pagination }: PasswordsListClie
     router.refresh()
   }
 
+  const handleBulkSuccess = () => {
+    setSelectedIds([])
+    router.refresh()
+  }
+
   return (
     <>
-      <PasswordsTable
-        passwords={passwords}
-        onViewDetails={handleViewDetails}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onShare={handleShare}
-      />
-      <PasswordsPagination
-        currentPage={pagination.page}
-        totalPages={pagination.totalPages}
-        total={pagination.total}
-        pageSize={pagination.pageSize}
+      <div className="pb-20">
+        <PasswordsTable
+          passwords={passwords}
+          onViewDetails={handleViewDetails}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          onShare={handleShare}
+          selectedIds={selectedIds}
+          onSelectionChange={setSelectedIds}
+        />
+        <PasswordsPagination
+          currentPage={pagination.page}
+          totalPages={pagination.totalPages}
+          total={pagination.total}
+          pageSize={pagination.pageSize}
+        />
+      </div>
+      <BulkOperationsToolbar
+        selectedCount={selectedIds.length}
+        onBulkDelete={() => setIsBulkDeleteOpen(true)}
+        onBulkMove={() => setIsBulkMoveOpen(true)}
+        onBulkTag={() => {
+          setBulkTagMode("assign")
+          setIsBulkTagOpen(true)
+        }}
+        onBulkRemoveTags={() => {
+          setBulkTagMode("remove")
+          setIsBulkTagOpen(true)
+        }}
+        onBulkShare={() => setIsBulkShareOpen(true)}
+        onBulkUnshare={() => setIsBulkUnshareOpen(true)}
+        onBulkStrength={() => setIsBulkStrengthOpen(true)}
+        onClearSelection={() => setSelectedIds([])}
+        hasDeletePermission={hasPermission("password.delete")}
+        hasEditPermission={hasPermission("password.edit")}
+        hasSharePermission={hasPermission("password.share")}
       />
       <PasswordDetailsDialog
         open={isViewDialogOpen}
@@ -245,6 +292,47 @@ export function PasswordsListClient({ passwords, pagination }: PasswordsListClie
           onSuccess={handleShareSuccess}
         />
       )}
+
+      {/* Bulk Operations Dialogs */}
+      <BulkDeleteDialog
+        open={isBulkDeleteOpen}
+        onOpenChange={setIsBulkDeleteOpen}
+        passwordIds={selectedIds}
+        onSuccess={handleBulkSuccess}
+      />
+      <BulkMoveDialog
+        open={isBulkMoveOpen}
+        onOpenChange={setIsBulkMoveOpen}
+        passwordIds={selectedIds}
+        onSuccess={handleBulkSuccess}
+      />
+      <BulkTagDialog
+        open={isBulkTagOpen}
+        onOpenChange={setIsBulkTagOpen}
+        passwordIds={selectedIds}
+        mode={bulkTagMode}
+        onSuccess={handleBulkSuccess}
+      />
+      <BulkShareDialog
+        open={isBulkShareOpen}
+        onOpenChange={setIsBulkShareOpen}
+        passwordIds={selectedIds}
+        mode="share"
+        onSuccess={handleBulkSuccess}
+      />
+      <BulkShareDialog
+        open={isBulkUnshareOpen}
+        onOpenChange={setIsBulkUnshareOpen}
+        passwordIds={selectedIds}
+        mode="unshare"
+        onSuccess={handleBulkSuccess}
+      />
+      <BulkStrengthDialog
+        open={isBulkStrengthOpen}
+        onOpenChange={setIsBulkStrengthOpen}
+        passwordIds={selectedIds}
+        onSuccess={handleBulkSuccess}
+      />
     </>
   )
 }

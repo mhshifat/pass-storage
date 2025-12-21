@@ -32,7 +32,10 @@ import {
   Share2,
   FolderKey,
   Clock,
+  CheckSquare,
+  Square,
 } from "lucide-react"
+import { Checkbox } from "@/components/ui/checkbox"
 import { useRouter, useSearchParams } from "next/navigation"
 import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
@@ -66,6 +69,8 @@ interface PasswordsTableProps {
   onEdit?: (password: Password) => void
   onDelete?: (password: Password) => void
   onShare?: (password: Password) => void
+  selectedIds?: string[]
+  onSelectionChange?: (selectedIds: string[]) => void
 }
 
 // Component to handle password copy functionality
@@ -157,7 +162,15 @@ function TotpCell({ passwordId }: { passwordId: string }) {
   )
 }
 
-export function PasswordsTable({ passwords, onViewDetails, onEdit, onDelete, onShare }: PasswordsTableProps) {
+export function PasswordsTable({ 
+  passwords, 
+  onViewDetails, 
+  onEdit, 
+  onDelete, 
+  onShare,
+  selectedIds = [],
+  onSelectionChange,
+}: PasswordsTableProps) {
   const { t } = useTranslation()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -166,6 +179,25 @@ export function PasswordsTable({ passwords, onViewDetails, onEdit, onDelete, onS
   const [searchQuery, setSearchQuery] = React.useState(searchParams.get("search") || "")
   const [copyingPasswordId, setCopyingPasswordId] = React.useState<string | null>(null)
   const [copyingTotpId, setCopyingTotpId] = React.useState<string | null>(null)
+
+  const handleSelectAll = (checked: boolean) => {
+    if (onSelectionChange) {
+      onSelectionChange(checked ? passwords.map((p) => p.id) : [])
+    }
+  }
+
+  const handleSelectOne = (passwordId: string, checked: boolean) => {
+    if (onSelectionChange) {
+      if (checked) {
+        onSelectionChange([...selectedIds, passwordId])
+      } else {
+        onSelectionChange(selectedIds.filter((id) => id !== passwordId))
+      }
+    }
+  }
+
+  const allSelected = passwords.length > 0 && selectedIds.length === passwords.length
+  const someSelected = selectedIds.length > 0 && selectedIds.length < passwords.length
 
   React.useEffect(() => {
     setSearchQuery(searchParams.get("search") || "")
@@ -256,6 +288,15 @@ export function PasswordsTable({ passwords, onViewDetails, onEdit, onDelete, onS
         <Table>
           <TableHeader>
             <TableRow>
+              {onSelectionChange && (
+                <TableHead className="w-12">
+                  <Checkbox
+                    checked={allSelected}
+                    onCheckedChange={handleSelectAll}
+                    aria-label={t("passwords.bulk.selectAll")}
+                  />
+                </TableHead>
+              )}
               <TableHead>{t("common.name")}</TableHead>
               <TableHead>{t("passwords.username")}</TableHead>
               <TableHead>{t("common.password")}</TableHead>
@@ -269,7 +310,16 @@ export function PasswordsTable({ passwords, onViewDetails, onEdit, onDelete, onS
           </TableHeader>
           <TableBody>
             {passwords.map((pwd) => (
-              <TableRow key={pwd.id}>
+              <TableRow key={pwd.id} className={selectedIds.includes(pwd.id) ? "bg-muted/50" : ""}>
+                {onSelectionChange && (
+                  <TableCell>
+                    <Checkbox
+                      checked={selectedIds.includes(pwd.id)}
+                      onCheckedChange={(checked) => handleSelectOne(pwd.id, checked as boolean)}
+                      aria-label={t("passwords.bulk.selectPassword", { name: pwd.name })}
+                    />
+                  </TableCell>
+                )}
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <FolderKey className="h-4 w-4 text-muted-foreground" />
