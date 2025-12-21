@@ -8351,6 +8351,7 @@ export namespace Prisma {
     hasTotp: boolean | null
     totpSecret: string | null
     expiresAt: Date | null
+    isFavorite: boolean | null
     ownerId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8369,6 +8370,7 @@ export namespace Prisma {
     hasTotp: boolean | null
     totpSecret: string | null
     expiresAt: Date | null
+    isFavorite: boolean | null
     ownerId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8387,6 +8389,7 @@ export namespace Prisma {
     hasTotp: number
     totpSecret: number
     expiresAt: number
+    isFavorite: number
     ownerId: number
     createdAt: number
     updatedAt: number
@@ -8407,6 +8410,7 @@ export namespace Prisma {
     hasTotp?: true
     totpSecret?: true
     expiresAt?: true
+    isFavorite?: true
     ownerId?: true
     createdAt?: true
     updatedAt?: true
@@ -8425,6 +8429,7 @@ export namespace Prisma {
     hasTotp?: true
     totpSecret?: true
     expiresAt?: true
+    isFavorite?: true
     ownerId?: true
     createdAt?: true
     updatedAt?: true
@@ -8443,6 +8448,7 @@ export namespace Prisma {
     hasTotp?: true
     totpSecret?: true
     expiresAt?: true
+    isFavorite?: true
     ownerId?: true
     createdAt?: true
     updatedAt?: true
@@ -8534,6 +8540,7 @@ export namespace Prisma {
     hasTotp: boolean
     totpSecret: string | null
     expiresAt: Date | null
+    isFavorite: boolean
     ownerId: string
     createdAt: Date
     updatedAt: Date
@@ -8569,6 +8576,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: boolean
     expiresAt?: boolean
+    isFavorite?: boolean
     ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -8596,6 +8604,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: boolean
     expiresAt?: boolean
+    isFavorite?: boolean
     ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -8617,6 +8626,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: boolean
     expiresAt?: boolean
+    isFavorite?: boolean
     ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -8638,13 +8648,14 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: boolean
     expiresAt?: boolean
+    isFavorite?: boolean
     ownerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     rotationPolicyId?: boolean
   }
 
-  export type PasswordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "password" | "url" | "notes" | "folderId" | "strength" | "hasTotp" | "totpSecret" | "expiresAt" | "ownerId" | "createdAt" | "updatedAt" | "rotationPolicyId", ExtArgs["result"]["password"]>
+  export type PasswordOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "password" | "url" | "notes" | "folderId" | "strength" | "hasTotp" | "totpSecret" | "expiresAt" | "isFavorite" | "ownerId" | "createdAt" | "updatedAt" | "rotationPolicyId", ExtArgs["result"]["password"]>
   export type PasswordInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     folder?: boolean | Password$folderArgs<ExtArgs>
@@ -8691,6 +8702,7 @@ export namespace Prisma {
       hasTotp: boolean
       totpSecret: string | null
       expiresAt: Date | null
+      isFavorite: boolean
       ownerId: string
       createdAt: Date
       updatedAt: Date
@@ -9137,6 +9149,7 @@ export namespace Prisma {
     readonly hasTotp: FieldRef<"Password", 'Boolean'>
     readonly totpSecret: FieldRef<"Password", 'String'>
     readonly expiresAt: FieldRef<"Password", 'DateTime'>
+    readonly isFavorite: FieldRef<"Password", 'Boolean'>
     readonly ownerId: FieldRef<"Password", 'String'>
     readonly createdAt: FieldRef<"Password", 'DateTime'>
     readonly updatedAt: FieldRef<"Password", 'DateTime'>
@@ -28820,6 +28833,7 @@ export namespace Prisma {
     hasTotp: 'hasTotp',
     totpSecret: 'totpSecret',
     expiresAt: 'expiresAt',
+    isFavorite: 'isFavorite',
     ownerId: 'ownerId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -29668,6 +29682,7 @@ export namespace Prisma {
     hasTotp?: BoolFilter<"Password"> | boolean
     totpSecret?: StringNullableFilter<"Password"> | string | null
     expiresAt?: DateTimeNullableFilter<"Password"> | Date | string | null
+    isFavorite?: BoolFilter<"Password"> | boolean
     ownerId?: StringFilter<"Password"> | string
     createdAt?: DateTimeFilter<"Password"> | Date | string
     updatedAt?: DateTimeFilter<"Password"> | Date | string
@@ -29694,6 +29709,7 @@ export namespace Prisma {
     hasTotp?: SortOrder
     totpSecret?: SortOrderInput | SortOrder
     expiresAt?: SortOrderInput | SortOrder
+    isFavorite?: SortOrder
     ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -29723,6 +29739,7 @@ export namespace Prisma {
     hasTotp?: BoolFilter<"Password"> | boolean
     totpSecret?: StringNullableFilter<"Password"> | string | null
     expiresAt?: DateTimeNullableFilter<"Password"> | Date | string | null
+    isFavorite?: BoolFilter<"Password"> | boolean
     ownerId?: StringFilter<"Password"> | string
     createdAt?: DateTimeFilter<"Password"> | Date | string
     updatedAt?: DateTimeFilter<"Password"> | Date | string
@@ -29749,6 +29766,7 @@ export namespace Prisma {
     hasTotp?: SortOrder
     totpSecret?: SortOrderInput | SortOrder
     expiresAt?: SortOrderInput | SortOrder
+    isFavorite?: SortOrder
     ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -29773,6 +29791,7 @@ export namespace Prisma {
     hasTotp?: BoolWithAggregatesFilter<"Password"> | boolean
     totpSecret?: StringNullableWithAggregatesFilter<"Password"> | string | null
     expiresAt?: DateTimeNullableWithAggregatesFilter<"Password"> | Date | string | null
+    isFavorite?: BoolWithAggregatesFilter<"Password"> | boolean
     ownerId?: StringWithAggregatesFilter<"Password"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Password"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Password"> | Date | string
@@ -31430,6 +31449,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
@@ -31454,6 +31474,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31476,6 +31497,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
@@ -31500,6 +31522,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31523,6 +31546,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31540,6 +31564,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31556,6 +31581,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33379,6 +33405,7 @@ export namespace Prisma {
     hasTotp?: SortOrder
     totpSecret?: SortOrder
     expiresAt?: SortOrder
+    isFavorite?: SortOrder
     ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -33397,6 +33424,7 @@ export namespace Prisma {
     hasTotp?: SortOrder
     totpSecret?: SortOrder
     expiresAt?: SortOrder
+    isFavorite?: SortOrder
     ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -33415,6 +33443,7 @@ export namespace Prisma {
     hasTotp?: SortOrder
     totpSecret?: SortOrder
     expiresAt?: SortOrder
+    isFavorite?: SortOrder
     ownerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -36535,6 +36564,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     folder?: FolderCreateNestedOneWithoutPasswordsInput
@@ -36558,6 +36588,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     rotationPolicyId?: string | null
@@ -37219,6 +37250,7 @@ export namespace Prisma {
     hasTotp?: BoolFilter<"Password"> | boolean
     totpSecret?: StringNullableFilter<"Password"> | string | null
     expiresAt?: DateTimeNullableFilter<"Password"> | Date | string | null
+    isFavorite?: BoolFilter<"Password"> | boolean
     ownerId?: StringFilter<"Password"> | string
     createdAt?: DateTimeFilter<"Password"> | Date | string
     updatedAt?: DateTimeFilter<"Password"> | Date | string
@@ -38575,6 +38607,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
@@ -38598,6 +38631,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -38708,6 +38742,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
@@ -38731,6 +38766,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38831,6 +38867,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
@@ -38854,6 +38891,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -39037,6 +39075,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
@@ -39060,6 +39099,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39312,6 +39352,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
@@ -39335,6 +39376,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -39515,6 +39557,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
@@ -39538,6 +39581,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -39683,6 +39727,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
@@ -39706,6 +39751,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39910,6 +39956,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
@@ -39932,6 +39979,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -40045,6 +40093,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
@@ -40068,6 +40117,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -40201,6 +40251,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
@@ -40224,6 +40275,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40679,6 +40731,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
@@ -40702,6 +40755,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -40758,6 +40812,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
@@ -40781,6 +40836,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41740,6 +41796,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     rotationPolicyId?: string | null
@@ -41923,6 +41980,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     folder?: FolderUpdateOneWithoutPasswordsNestedInput
@@ -41946,6 +42004,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41968,6 +42027,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42754,6 +42814,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -42784,6 +42845,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
@@ -42807,6 +42869,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42829,6 +42892,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42897,6 +42961,7 @@ export namespace Prisma {
     hasTotp?: boolean
     totpSecret?: string | null
     expiresAt?: Date | string | null
+    isFavorite?: boolean
     ownerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -42948,6 +43013,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
@@ -42970,6 +43036,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42992,6 +43059,7 @@ export namespace Prisma {
     hasTotp?: BoolFieldUpdateOperationsInput | boolean
     totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

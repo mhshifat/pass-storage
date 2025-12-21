@@ -100,6 +100,7 @@ interface Password {
   expiresIn: number | null
   hasTotp: boolean
   isOwner?: boolean
+  isFavorite?: boolean
 }
 
 interface PasswordsListClientProps {

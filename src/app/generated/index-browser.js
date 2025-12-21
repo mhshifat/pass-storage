@@ -185,6 +185,7 @@ exports.Prisma.PasswordScalarFieldEnum = {
   hasTotp: 'hasTotp',
   totpSecret: 'totpSecret',
   expiresAt: 'expiresAt',
+  isFavorite: 'isFavorite',
   ownerId: 'ownerId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',

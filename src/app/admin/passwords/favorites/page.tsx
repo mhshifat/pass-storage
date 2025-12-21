@@ -1,19 +1,19 @@
 import { Suspense } from "react"
-import { RotationPageClient } from "./rotation-page-client"
+import { FavoritesPageClient } from "./favorites-page-client"
 import { Card, CardContent } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
-export default function RotationPage() {
+export default function FavoritesPage() {
   return (
     <div className="p-6 space-y-6">
-      <Suspense fallback={<RotationPageSkeleton />}>
-        <RotationPageClient />
+      <Suspense fallback={<FavoritesPageSkeleton />}>
+        <FavoritesPageClient />
       </Suspense>
     </div>
   )
 }
 
-function RotationPageSkeleton() {
+function FavoritesPageSkeleton() {
   return (
     <div className="space-y-6">
       <div className="space-y-2">
@@ -28,4 +28,3 @@ function RotationPageSkeleton() {
     </div>
   )
 }
-

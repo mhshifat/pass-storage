@@ -34,7 +34,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { deleteRotationPolicyAction } from "@/app/admin/passwords/rotation-actions"
+import { deleteRotationPolicyAction, autoRotatePasswordAction } from "@/app/admin/passwords/rotation-actions"
 import { useTransition } from "react"
 
 export function RotationPageClient() {
@@ -44,10 +44,13 @@ export function RotationPageClient() {
   const [editingPolicy, setEditingPolicy] = useState<any>(null)
   const [deletingPolicyId, setDeletingPolicyId] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState("policies")
+  const [rotatingPasswordId, setRotatingPasswordId] = useState<string | null>(null)
+  const [showNewPasswordDialog, setShowNewPasswordDialog] = useState(false)
+  const [newPassword, setNewPassword] = useState<string | null>(null)
 
   const utils = trpc.useUtils()
   const { data: policies, isLoading: policiesLoading } = trpc.passwordRotation.listPolicies.useQuery()
-  const { data: reminders, isLoading: remindersLoading } = trpc.passwordRotation.getReminders.useQuery({ daysAhead: 30 })
+  const { data: reminders, isLoading: remindersLoading, refetch: refetchReminders } = trpc.passwordRotation.getReminders.useQuery({ daysAhead: 30 })
   const { data: history, isLoading: historyLoading } = trpc.passwordRotation.getRotationHistory.useQuery({ page: 1, pageSize: 20 })
 
   const handlePolicySuccess = useCallback(async () => {
@@ -91,6 +94,37 @@ export function RotationPageClient() {
         }
       } catch (error) {
         toast.error(t("passwords.rotation.policyDeleteError"))
+      }
+    })
+  }
+
+  const handleAutoRotate = (passwordId: string) => {
+    setRotatingPasswordId(passwordId)
+  }
+
+  const confirmAutoRotate = () => {
+    if (!rotatingPasswordId) return
+
+    startTransition(async () => {
+      try {
+        const result = await autoRotatePasswordAction(rotatingPasswordId)
+        if (result.success) {
+          toast.success(t("passwords.rotation.autoRotateSuccess"))
+          setNewPassword(result.newPassword || null)
+          setShowNewPasswordDialog(true)
+          setRotatingPasswordId(null)
+          // Invalidate and refetch queries to update reminders immediately
+          await utils.passwordRotation.getReminders.invalidate()
+          await refetchReminders()
+          await utils.passwordRotation.getRotationHistory.invalidate()
+          await utils.passwords.list.invalidate()
+        } else {
+          toast.error(result.error || t("passwords.rotation.autoRotateError"))
+          setRotatingPasswordId(null)
+        }
+      } catch (error) {
+        toast.error(t("passwords.rotation.autoRotateError"))
+        setRotatingPasswordId(null)
       }
     })
   }
@@ -253,9 +287,19 @@ export function RotationPageClient() {
                                 </div>
                               </div>
                             </div>
-                            <Badge variant="outline" className="text-yellow-600">
-                              {reminder.policyName}
-                            </Badge>
+                            <div className="flex items-center gap-2">
+                              <Badge variant="outline" className="text-yellow-600">
+                                {reminder.policyName}
+                              </Badge>
+                              <Button
+                                size="sm"
+                                onClick={() => handleAutoRotate(reminder.passwordId)}
+                                disabled={isPending && rotatingPasswordId === reminder.passwordId}
+                              >
+                                <RotateCw className={`h-3 w-3 mr-2 ${isPending && rotatingPasswordId === reminder.passwordId ? "animate-spin" : ""}`} />
+                                {t("passwords.rotation.rotateNow")}
+                              </Button>
+                            </div>
                           </div>
                         </CardContent>
                       </Card>
@@ -351,6 +395,68 @@ export function RotationPageClient() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <AlertDialog open={rotatingPasswordId !== null} onOpenChange={(open) => !open && setRotatingPasswordId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("passwords.rotation.autoRotateTitle")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("passwords.rotation.autoRotateDescription")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setRotatingPasswordId(null)}>
+              {t("common.cancel")}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmAutoRotate}
+              disabled={isPending}
+            >
+              {isPending ? t("common.loading") : t("passwords.rotation.confirmRotate")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={showNewPasswordDialog} onOpenChange={setShowNewPasswordDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("passwords.rotation.newPasswordTitle")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("passwords.rotation.newPasswordDescription")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="my-4">
+            <div className="bg-muted p-4 rounded-md font-mono text-sm break-all">
+              {newPassword}
+            </div>
+            <p className="text-xs text-muted-foreground mt-2">
+              {t("passwords.rotation.copyPasswordHint")}
+            </p>
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogAction
+              onClick={async () => {
+                if (newPassword) {
+                  await navigator.clipboard.writeText(newPassword)
+                  toast.success(t("passwords.passwordCopied"))
+                }
+                setShowNewPasswordDialog(false)
+                setNewPassword(null)
+              }}
+            >
+              {t("passwords.copyPassword")}
+            </AlertDialogAction>
+            <AlertDialogCancel onClick={() => {
+              setShowNewPasswordDialog(false)
+              setNewPassword(null)
+            }}>
+              {t("common.close")}
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   )
 }
+

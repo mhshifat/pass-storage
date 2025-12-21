@@ -113,6 +113,7 @@ model Password {
   hasTotp    Boolean          @default(false)
   totpSecret String? // Encrypted
   expiresAt  DateTime?
+  isFavorite Boolean          @default(false)
   ownerId    String
   createdAt  DateTime         @default(now())
   updatedAt  DateTime         @updatedAt
@@ -133,6 +134,7 @@ model Password {
   @@index([ownerId])
   @@index([folderId])
   @@index([rotationPolicyId])
+  @@index([isFavorite])
 }
 
 model PasswordHistory {

@@ -18,7 +18,7 @@ export default async function PasswordsPage({ searchParams }: PasswordsPageProps
   const params = await searchParams
   const currentPage = Number(params.page) || 1
   const search = params.search || ""
-  const filter = params.filter === "weak" || params.filter === "expiring" ? params.filter : undefined
+  const filter = params.filter === "weak" || params.filter === "expiring" || params.filter === "favorites" ? params.filter : undefined
 
   return (
     <div className="p-6 space-y-6">
@@ -70,7 +70,7 @@ async function PasswordsListContent({
 }: {
   page: number
   search: string
-  filter?: "weak" | "expiring"
+  filter?: "weak" | "expiring" | "favorites"
 }) {
   const { passwords, pagination } = await caller.passwords.list({
     page,

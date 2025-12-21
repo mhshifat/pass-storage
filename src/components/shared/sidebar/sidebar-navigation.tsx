@@ -63,6 +63,7 @@ const navigationStructure = [
     icon: Lock,
     permission: "password.view",
     children: [
+      { nameKey: "passwords.favorites.title", href: "/admin/passwords/favorites", permission: "password.view" },
       { nameKey: "passwords.duplicates.title", href: "/admin/passwords/duplicates", permission: "password.view" },
       { nameKey: "passwords.breach.title", href: "/admin/passwords/breaches", permission: "password.view" },
       { nameKey: "passwords.rotation.title", href: "/admin/passwords/rotation", permission: "password.view" },

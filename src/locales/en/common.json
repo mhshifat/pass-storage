@@ -538,6 +538,21 @@
       "checkAllSuccess": "Checked {{checked}} passwords. Found {{breached}} breached.",
       "checkAllError": "Failed to check all passwords"
     },
+    "favorites": {
+      "title": "Favorites",
+      "description": "Quick access to your favorite passwords",
+      "favoritePasswords": "Favorite Passwords",
+      "totalFavorites": "{{count}} favorite password",
+      "totalFavorites_plural": "{{count}} favorite passwords",
+      "noFavorites": "No favorite passwords yet. Mark passwords as favorites for quick access.",
+      "noFavoritesFound": "No favorite passwords found matching your search.",
+      "searchFavorites": "Search your favorite passwords",
+      "add": "Add to Favorites",
+      "remove": "Remove from Favorites",
+      "added": "Password added to favorites",
+      "removed": "Password removed from favorites",
+      "toggleError": "Failed to toggle favorite status"
+    },
     "rotation": {
       "title": "Password Rotation",
       "description": "Manage password rotation policies and schedules",
@@ -565,6 +580,7 @@
       "noReminders": "No rotation reminders at this time.",
       "historyDescription": "History of all password rotations",
       "noHistory": "No rotation history found.",
+      "historyDescription": "View all password rotation history",
       "type": "Type",
       "scheduledFor": "Scheduled For",
       "completedAt": "Completed At",
@@ -590,7 +606,15 @@
       "rotationDue": "Rotation Due",
       "rotationDueDescription": "This password needs to be rotated. Please update it to maintain security.",
       "rotateNow": "Rotate Now",
-      "autoRotateEnabled": "Auto-rotate is enabled - rotate manually when due"
+      "autoRotateEnabled": "Auto-rotate is enabled - rotate manually when due",
+      "autoRotateTitle": "Auto Rotate Password",
+      "autoRotateDescription": "A new strong password will be generated and the password will be automatically rotated. Make sure to copy and save the new password.",
+      "confirmRotate": "Rotate Password",
+      "autoRotateSuccess": "Password rotated successfully",
+      "autoRotateError": "Failed to auto-rotate password",
+      "newPasswordTitle": "New Password Generated",
+      "newPasswordDescription": "Your password has been rotated. Please copy and save this new password securely:",
+      "copyPasswordHint": "Click the button below to copy the password to your clipboard"
     }
   },
   "teams": {

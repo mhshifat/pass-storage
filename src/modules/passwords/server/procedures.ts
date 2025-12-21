@@ -11,7 +11,7 @@ export const passwordsRouter = createTRPCRouter({
         page: z.number().min(1).default(1),
         pageSize: z.number().min(1).max(100).default(10),
         search: z.string().optional(),
-        filter: z.enum(["weak", "expiring"]).optional(),
+        filter: z.enum(["weak", "expiring", "favorites"]).optional(),
       }).optional()
     )
     .query(async ({ input = {}, ctx }) => {
@@ -40,10 +40,11 @@ export const passwordsRouter = createTRPCRouter({
           }
         : {}
 
-      // Build filter conditions for password-level filters (strength, password expiration)
+      // Build filter conditions for password-level filters (strength, password expiration, favorites)
       const passwordFilterConditions: {
         strength?: "WEAK" | "MEDIUM" | "STRONG"
         expiresAt?: { not: null; gte: Date; lte: Date }
+        isFavorite?: boolean
       } = {}
       if (filter === "weak") {
         passwordFilterConditions.strength = "WEAK"
@@ -55,6 +56,8 @@ export const passwordsRouter = createTRPCRouter({
           gte: now,
           lte: sevenDaysFromNow,
         }
+      } else if (filter === "favorites") {
+        passwordFilterConditions.isFavorite = true
       }
 
       // Build share filter conditions for expiring filter
@@ -152,6 +155,7 @@ export const passwordsRouter = createTRPCRouter({
             strength: true,
             hasTotp: true,
             expiresAt: true,
+            isFavorite: true,
             createdAt: true,
             updatedAt: true,
             ownerId: true,
@@ -204,6 +208,7 @@ export const passwordsRouter = createTRPCRouter({
             expiresAt: share.expiresAt,
           })),
           isOwner: pwd.ownerId === ctx.userId,
+          isFavorite: pwd.isFavorite,
           lastModified: pwd.updatedAt.toISOString().split("T")[0],
           expiresIn: pwd.expiresAt
             ? Math.ceil((pwd.expiresAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
@@ -491,21 +496,22 @@ export const passwordsRouter = createTRPCRouter({
               : []),
           ],
         },
-        select: {
-          id: true,
-          name: true,
-          username: true,
-          password: true, // Encrypted
-          url: true,
-          notes: true,
-          folderId: true,
-          strength: true,
-          hasTotp: true,
-          totpSecret: true, // Encrypted
-          expiresAt: true,
-          createdAt: true,
-          updatedAt: true,
-          ownerId: true, // Include ownerId to determine ownership
+          select: {
+            id: true,
+            name: true,
+            username: true,
+            password: true, // Encrypted
+            url: true,
+            notes: true,
+            folderId: true,
+            strength: true,
+            hasTotp: true,
+            totpSecret: true, // Encrypted
+            expiresAt: true,
+            isFavorite: true,
+            createdAt: true,
+            updatedAt: true,
+            ownerId: true, // Include ownerId to determine ownership
           folder: {
             select: {
               id: true,
@@ -579,6 +585,7 @@ export const passwordsRouter = createTRPCRouter({
           expiresAt: share.expiresAt,
         })),
         isOwner,
+        isFavorite: password.isFavorite,
         lastModified: password.updatedAt.toISOString().split("T")[0],
         expiresIn: password.expiresAt
           ? Math.ceil((password.expiresAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
@@ -903,6 +910,7 @@ export const passwordsRouter = createTRPCRouter({
           id: true,
           strength: true,
           expiresAt: true, // Password's own expiration
+          isFavorite: true,
           createdAt: true,
           ownerId: true,
         },
@@ -987,6 +995,9 @@ export const passwordsRouter = createTRPCRouter({
       const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
       const recentCount = allPasswords.filter((p) => p.createdAt >= thirtyDaysAgo).length
 
+      // Count favorite passwords (only owned by user)
+      const favoritesCount = allPasswords.filter((p) => p.isFavorite && p.ownerId === ctx.userId).length
+
       return {
         total,
         strong: strongCount,
@@ -995,6 +1006,7 @@ export const passwordsRouter = createTRPCRouter({
         expiringSoon,
         strongPercentage,
         recentCount,
+        favorites: favoritesCount,
       }
     }),
 
@@ -2755,6 +2767,173 @@ export const passwordsRouter = createTRPCRouter({
       return {
         success: true,
         breach: updated,
+      }
+    }),
+
+  toggleFavorite: protectedProcedure("password.edit")
+    .input(
+      z.object({
+        passwordId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify password ownership
+      const password = await prisma.password.findFirst({
+        where: {
+          id: input.passwordId,
+          ownerId: ctx.userId,
+        },
+        select: {
+          id: true,
+          name: true,
+          isFavorite: true,
+        },
+      })
+
+      if (!password) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Password not found",
+        })
+      }
+
+      // Toggle favorite status
+      const updated = await prisma.password.update({
+        where: { id: input.passwordId },
+        data: {
+          isFavorite: !password.isFavorite,
+        },
+        select: {
+          id: true,
+          isFavorite: true,
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: updated.isFavorite ? "PASSWORD_FAVORITED" : "PASSWORD_UNFAVORITED",
+        resource: "Password",
+        resourceId: input.passwordId,
+        details: {
+          passwordName: password.name,
+        },
+        userId: ctx.userId,
+      })
+
+      return {
+        success: true,
+        isFavorite: updated.isFavorite,
+      }
+    }),
+
+  getFavorites: protectedProcedure("password.view")
+    .input(
+      z.object({
+        page: z.number().min(1).default(1),
+        pageSize: z.number().min(1).max(100).default(20),
+        search: z.string().optional(),
+      }).optional()
+    )
+    .query(async ({ input = {}, ctx }) => {
+      const { page = 1, pageSize = 20, search } = input
+
+      // Build search conditions
+      const searchConditions = search
+        ? {
+            OR: [
+              { name: { contains: search, mode: "insensitive" as const } },
+              { username: { contains: search, mode: "insensitive" as const } },
+              { url: { contains: search, mode: "insensitive" as const } },
+            ],
+          }
+        : {}
+
+      // Query only passwords owned by the user that are favorited
+      const where = {
+        ownerId: ctx.userId,
+        isFavorite: true,
+        ...searchConditions,
+      }
+
+      const [passwords, total] = await Promise.all([
+        prisma.password.findMany({
+          where,
+          select: {
+            id: true,
+            name: true,
+            username: true,
+            url: true,
+            folderId: true,
+            strength: true,
+            hasTotp: true,
+            expiresAt: true,
+            createdAt: true,
+            updatedAt: true,
+            ownerId: true,
+            isFavorite: true,
+            folder: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+            sharedWith: {
+              select: {
+                id: true,
+                teamId: true,
+                expiresAt: true,
+                team: {
+                  select: {
+                    id: true,
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+          orderBy: {
+            updatedAt: "desc",
+          },
+          skip: (page - 1) * pageSize,
+          take: pageSize,
+        }),
+        prisma.password.count({ where }),
+      ])
+
+      const totalPages = Math.ceil(total / pageSize)
+
+      return {
+        passwords: passwords.map((pwd) => ({
+          id: pwd.id,
+          name: pwd.name,
+          username: pwd.username,
+          url: pwd.url,
+          folder: pwd.folder?.name || null,
+          folderId: pwd.folderId,
+          strength: pwd.strength.toLowerCase() as "strong" | "medium" | "weak",
+          hasTotp: pwd.hasTotp,
+          shared: pwd.sharedWith.length > 0,
+          sharedWith: pwd.sharedWith.map((share) => ({
+            shareId: share.id,
+            teamId: share.teamId,
+            teamName: share.team?.name || "",
+            expiresAt: share.expiresAt,
+          })),
+          isOwner: true,
+          isFavorite: pwd.isFavorite,
+          lastModified: pwd.updatedAt.toISOString().split("T")[0],
+          expiresIn: pwd.expiresAt
+            ? Math.ceil((pwd.expiresAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+            : null,
+          createdAt: pwd.createdAt,
+        })),
+        pagination: {
+          page,
+          pageSize,
+          total,
+          totalPages,
+        },
       }
     }),
 })

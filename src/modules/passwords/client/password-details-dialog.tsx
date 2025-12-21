@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Eye, EyeOff, Copy, Clock, X, Users, History, Shield, AlertTriangle, CheckCircle2, RotateCw } from "lucide-react"
+import { Eye, EyeOff, Copy, Clock, X, Users, History, Shield, AlertTriangle, CheckCircle2, RotateCw, Star } from "lucide-react"
 import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
 import { usePermissions } from "@/hooks/use-permissions"
@@ -37,6 +37,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { assignPolicyToPasswordAction } from "@/app/admin/passwords/rotation-actions"
+import { toggleFavoriteAction } from "@/app/admin/passwords/favorite-actions"
 import { removePasswordShareAction } from "@/app/admin/passwords/unshare-actions"
 import { useRouter } from "next/navigation"
 import { useTranslation } from "react-i18next"
@@ -89,6 +90,7 @@ export function PasswordDetailsDialog({
   const [isCheckingBreach, setIsCheckingBreach] = React.useState(false)
   const [breachStatus, setBreachStatus] = React.useState<{ isBreached: boolean; breachCount: number } | null>(null)
   const [isUpdatingPolicy, setIsUpdatingPolicy] = React.useState(false)
+  const [isTogglingFavorite, setIsTogglingFavorite] = React.useState(false)
 
   // Fetch password details with decrypted password
   const { data: passwordData, isLoading, refetch: refetchPasswordData } = trpc.passwords.getById.useQuery(
@@ -149,6 +151,32 @@ export function PasswordDetailsDialog({
       toast.error(t("passwords.rotation.policyAssignError"))
     } finally {
       setIsUpdatingPolicy(false)
+    }
+  }
+
+  const handleToggleFavorite = async () => {
+    if (!password?.id || !isOwner) return
+
+    setIsTogglingFavorite(true)
+    try {
+      const result = await toggleFavoriteAction(password.id)
+      if (result.success) {
+        toast.success(
+          result.isFavorite
+            ? t("passwords.favorites.added")
+            : t("passwords.favorites.removed")
+        )
+        await refetchPasswordData()
+        await utils.passwords.list.invalidate()
+        await utils.passwords.getFavorites.invalidate()
+        router.refresh()
+      } else {
+        toast.error(result.error || t("passwords.favorites.toggleError"))
+      }
+    } catch (error) {
+      toast.error(t("passwords.favorites.toggleError"))
+    } finally {
+      setIsTogglingFavorite(false)
     }
   }
 
@@ -282,8 +310,35 @@ export function PasswordDetailsDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-[95vw] w-full max-h-[95vh] flex flex-col p-0">
         <DialogHeader className="px-6 pt-6 pb-4 border-b">
-          <DialogTitle>Password Details</DialogTitle>
-          <DialogDescription>View and manage password information</DialogDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <DialogTitle className="flex items-center gap-2">
+                {passwordData?.isFavorite && (
+                  <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                )}
+                Password Details
+              </DialogTitle>
+              <DialogDescription>View and manage password information</DialogDescription>
+            </div>
+            {isOwner && hasPermission("password.edit") && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleToggleFavorite}
+                disabled={isTogglingFavorite}
+                className="h-9 w-9"
+                title={passwordData?.isFavorite ? t("passwords.favorites.remove") : t("passwords.favorites.add")}
+              >
+                <Star
+                  className={`h-5 w-5 ${
+                    passwordData?.isFavorite
+                      ? "fill-yellow-400 text-yellow-400"
+                      : "text-muted-foreground"
+                  }`}
+                />
+              </Button>
+            )}
+          </div>
         </DialogHeader>
         <div className="flex-1 overflow-y-auto px-6 py-4">
           <div className="space-y-4">

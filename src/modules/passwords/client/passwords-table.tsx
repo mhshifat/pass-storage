@@ -36,12 +36,14 @@ import {
   Square,
   RotateCw,
   AlertCircle,
+  Star,
 } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useRouter, useSearchParams } from "next/navigation"
 import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
 import { usePermissions } from "@/hooks/use-permissions"
+import { toggleFavoriteAction } from "@/app/admin/passwords/favorite-actions"
 
 interface PasswordShare {
   shareId: string
@@ -181,6 +183,7 @@ export function PasswordsTable({
   const [searchQuery, setSearchQuery] = React.useState(searchParams.get("search") || "")
   const [copyingPasswordId, setCopyingPasswordId] = React.useState<string | null>(null)
   const [copyingTotpId, setCopyingTotpId] = React.useState<string | null>(null)
+  const [togglingFavoriteId, setTogglingFavoriteId] = React.useState<string | null>(null)
 
   // Fetch rotation reminders to show indicators
   const { data: reminders } = trpc.passwordRotation.getReminders.useQuery(
@@ -255,6 +258,29 @@ export function PasswordsTable({
       toast.error(t("passwords.totpCodeFailed"))
     } finally {
       setCopyingTotpId(null)
+    }
+  }
+
+  const handleToggleFavorite = async (passwordId: string, currentFavorite: boolean) => {
+    try {
+      setTogglingFavoriteId(passwordId)
+      const result = await toggleFavoriteAction(passwordId)
+      if (result.success) {
+        toast.success(
+          result.isFavorite
+            ? t("passwords.favorites.added")
+            : t("passwords.favorites.removed")
+        )
+        await utils.passwords.list.invalidate()
+        await utils.passwords.getFavorites.invalidate()
+        router.refresh()
+      } else {
+        toast.error(result.error || t("passwords.favorites.toggleError"))
+      }
+    } catch (error) {
+      toast.error(t("passwords.favorites.toggleError"))
+    } finally {
+      setTogglingFavoriteId(null)
     }
   }
 
@@ -338,6 +364,9 @@ export function PasswordsTable({
                     <FolderKey className="h-4 w-4 text-muted-foreground" />
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
+                        {pwd.isFavorite && (
+                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 shrink-0" />
+                        )}
                         <div className="font-medium">{pwd.name}</div>
                         {(() => {
                           const reminder = getPasswordReminder(pwd.id)
@@ -422,6 +451,20 @@ export function PasswordsTable({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      {pwd.isOwner && hasPermission("password.edit") && (
+                        <DropdownMenuItem
+                          onClick={() => handleToggleFavorite(pwd.id, pwd.isFavorite || false)}
+                          disabled={togglingFavoriteId === pwd.id}
+                        >
+                          <Star
+                            className={`mr-2 h-4 w-4 ${
+                              pwd.isFavorite ? "fill-yellow-400 text-yellow-400" : ""
+                            }`}
+                          />
+                          {pwd.isFavorite ? t("passwords.favorites.remove") : t("passwords.favorites.add")}
+                        </DropdownMenuItem>
+                      )}
                       <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={() => onViewDetails(pwd)}>
                         <Eye className="mr-2 h-4 w-4" />

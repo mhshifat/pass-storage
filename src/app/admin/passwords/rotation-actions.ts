@@ -121,3 +121,19 @@ export async function cancelRotationAction(rotationId: string) {
     return { success: false, error: "Failed to cancel rotation" }
   }
 }
+
+export async function autoRotatePasswordAction(passwordId: string, notes?: string) {
+  try {
+    const trpc = await serverTrpc()
+    const result = await trpc.passwordRotation.autoRotatePassword({ passwordId, notes })
+    revalidatePath("/admin/passwords/rotation")
+    revalidatePath("/admin/passwords")
+    return { success: true, rotation: result.rotation, newPassword: result.newPassword }
+  } catch (error: unknown) {
+    if (error instanceof TRPCError) {
+      return { success: false, error: error.message }
+    }
+    return { success: false, error: "Failed to auto-rotate password" }
+  }
+}
+

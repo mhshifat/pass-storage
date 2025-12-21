@@ -3,6 +3,7 @@
 import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { SecurityAlerts } from "@/modules/passwords/client"
+import { Star } from "lucide-react"
 
 interface PasswordsStatsClientProps {
   stats: {
@@ -12,6 +13,7 @@ interface PasswordsStatsClientProps {
     expiringSoon: number
     strongPercentage: number
     recentCount: number
+    favorites: number
   }
 }
 
@@ -41,7 +43,7 @@ export function PasswordsStatsClient({ stats }: PasswordsStatsClientProps) {
 
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-5">
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium">{t("passwords.totalPasswords")}</CardTitle>
