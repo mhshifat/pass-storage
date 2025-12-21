@@ -2092,5 +2092,388 @@ export const passwordsRouter = createTRPCRouter({
         },
       }
     }),
+
+  findDuplicates: protectedProcedure("password.view")
+    .input(
+      z.object({
+        threshold: z.number().min(0).max(1).default(0.8).optional(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      // Get all passwords owned by the current user
+      // This ensures we only detect duplicates in passwords the user owns
+      const passwords = await prisma.password.findMany({
+        where: {
+          ownerId: ctx.userId,
+        },
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          password: true,
+          url: true,
+          ownerId: true,
+          owner: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+      })
+
+      // Decrypt and group passwords by their decrypted value
+      const passwordGroups = new Map<string, Array<typeof passwords[0] & { decryptedPassword: string }>>()
+
+      for (const pwd of passwords) {
+        try {
+          const decrypted = decrypt(pwd.password)
+          // Normalize whitespace for comparison
+          const normalized = decrypted.trim()
+          if (!passwordGroups.has(normalized)) {
+            passwordGroups.set(normalized, [])
+          }
+          passwordGroups.get(normalized)!.push({ ...pwd, decryptedPassword: normalized })
+        } catch (error) {
+          // Skip passwords that can't be decrypted
+          console.error(`Failed to decrypt password ${pwd.id}:`, error)
+          continue
+        }
+      }
+
+      // Filter to only groups with duplicates (2+ passwords)
+      const duplicates: Array<{
+        password: string
+        count: number
+        entries: Array<{
+          id: string
+          name: string
+          username: string
+          url: string | null
+          ownerId: string
+          owner: { id: string; name: string; email: string }
+        }>
+      }> = []
+
+      for (const [decryptedPassword, entries] of passwordGroups.entries()) {
+        if (entries.length > 1) {
+          duplicates.push({
+            password: decryptedPassword,
+            count: entries.length,
+            entries: entries.map((e) => ({
+              id: e.id,
+              name: e.name,
+              username: e.username,
+              url: e.url,
+              ownerId: e.ownerId,
+              owner: e.owner,
+            })),
+          })
+        }
+      }
+
+      return {
+        duplicates,
+        totalDuplicates: duplicates.reduce((sum, d) => sum + d.count, 0),
+        uniqueDuplicatedPasswords: duplicates.length,
+      }
+    }),
+
+  findReused: protectedProcedure("password.view")
+    .query(async ({ ctx }) => {
+      // Get all passwords owned by the current user
+      const passwords = await prisma.password.findMany({
+        where: {
+          ownerId: ctx.userId,
+        },
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          password: true,
+          url: true,
+          ownerId: true,
+          owner: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+      })
+
+      // Group by decrypted password value
+      const passwordMap = new Map<string, Array<typeof passwords[0] & { decryptedPassword: string }>>()
+
+      for (const pwd of passwords) {
+        try {
+          const decrypted = decrypt(pwd.password)
+          if (!passwordMap.has(decrypted)) {
+            passwordMap.set(decrypted, [])
+          }
+          passwordMap.get(decrypted)!.push({ ...pwd, decryptedPassword: decrypted })
+        } catch (error) {
+          continue
+        }
+      }
+
+      // Find passwords used in multiple entries (reused)
+      const reused: Array<{
+        password: string
+        count: number
+        entries: Array<{
+          id: string
+          name: string
+          username: string
+          url: string | null
+          ownerId: string
+          owner: { id: string; name: string; email: string }
+        }>
+      }> = []
+
+      for (const [decryptedPassword, entries] of passwordMap.entries()) {
+        if (entries.length > 1) {
+          reused.push({
+            password: decryptedPassword,
+            count: entries.length,
+            entries: entries.map((e) => ({
+              id: e.id,
+              name: e.name,
+              username: e.username,
+              url: e.url,
+              ownerId: e.ownerId,
+              owner: e.owner,
+            })),
+          })
+        }
+      }
+
+      return {
+        reused,
+        totalReused: reused.reduce((sum, r) => sum + r.count, 0),
+        uniqueReusedPasswords: reused.length,
+      }
+    }),
+
+  findSimilar: protectedProcedure("password.view")
+    .input(
+      z.object({
+        threshold: z.number().min(0).max(1).default(0.8).optional(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const { calculateSimilarity, arePasswordsSimilar } = await import("@/lib/password-similarity")
+      const threshold = input.threshold ?? 0.8
+
+      // Get all passwords owned by the current user
+      const passwords = await prisma.password.findMany({
+        where: {
+          ownerId: ctx.userId,
+        },
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          password: true,
+          url: true,
+          ownerId: true,
+          owner: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+      })
+
+      // Decrypt all passwords
+      const decryptedPasswords = passwords
+        .map((pwd) => {
+          try {
+            return {
+              ...pwd,
+              decryptedPassword: decrypt(pwd.password),
+            }
+          } catch (error) {
+            return null
+          }
+        })
+        .filter((p): p is NonNullable<typeof p> => p !== null)
+
+      // Find similar passwords
+      const similarGroups: Array<{
+        entries: Array<{
+          id: string
+          name: string
+          username: string
+          url: string | null
+          ownerId: string
+          owner: { id: string; name: string; email: string }
+          password: string
+        }>
+        similarity: number
+      }> = []
+
+      const processed = new Set<string>()
+
+      for (let i = 0; i < decryptedPasswords.length; i++) {
+        if (processed.has(decryptedPasswords[i].id)) continue
+
+        const group = [decryptedPasswords[i]]
+        processed.add(decryptedPasswords[i].id)
+
+        for (let j = i + 1; j < decryptedPasswords.length; j++) {
+          if (processed.has(decryptedPasswords[j].id)) continue
+
+          if (arePasswordsSimilar(decryptedPasswords[i].decryptedPassword, decryptedPasswords[j].decryptedPassword, threshold)) {
+            group.push(decryptedPasswords[j])
+            processed.add(decryptedPasswords[j].id)
+          }
+        }
+
+        if (group.length > 1) {
+          // Calculate average similarity
+          let totalSimilarity = 0
+          let comparisons = 0
+          for (let k = 0; k < group.length; k++) {
+            for (let l = k + 1; l < group.length; l++) {
+              totalSimilarity += calculateSimilarity(group[k].decryptedPassword, group[l].decryptedPassword)
+              comparisons++
+            }
+          }
+          const avgSimilarity = comparisons > 0 ? totalSimilarity / comparisons : 0
+
+          similarGroups.push({
+            entries: group.map((e) => ({
+              id: e.id,
+              name: e.name,
+              username: e.username,
+              url: e.url,
+              ownerId: e.ownerId,
+              owner: e.owner,
+              password: e.decryptedPassword,
+            })),
+            similarity: avgSimilarity,
+          })
+        }
+      }
+
+      return {
+        similarGroups,
+        totalSimilar: similarGroups.reduce((sum, g) => sum + g.entries.length, 0),
+        uniqueSimilarGroups: similarGroups.length,
+      }
+    }),
+
+  bulkResolveDuplicates: protectedProcedure("password.edit")
+    .input(
+      z.object({
+        action: z.enum(["delete", "merge"]),
+        passwordIds: z.array(z.string()).min(1),
+        keepPasswordId: z.string().optional(), // For merge action
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify user owns all passwords
+      const passwords = await prisma.password.findMany({
+        where: {
+          id: { in: input.passwordIds },
+        },
+        select: {
+          id: true,
+          ownerId: true,
+        },
+      })
+
+      const unauthorized = passwords.filter((p) => p.ownerId !== ctx.userId)
+      if (unauthorized.length > 0) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: `You don't have permission to modify ${unauthorized.length} password(s)`,
+        })
+      }
+
+      const { createAuditLog } = await import("@/lib/audit-log")
+
+      if (input.action === "delete") {
+        // Delete all specified passwords
+        const deleted = await prisma.password.deleteMany({
+          where: {
+            id: { in: input.passwordIds },
+            ownerId: ctx.userId,
+          },
+        })
+
+        // Create audit log
+        await createAuditLog({
+          action: "PASSWORD_BULK_DELETE",
+          resource: "Password",
+          resourceId: input.passwordIds[0],
+          details: {
+            count: deleted.count,
+            passwordIds: input.passwordIds,
+            reason: "duplicate_resolution",
+          },
+          userId: ctx.userId,
+        })
+
+        return {
+          success: true,
+          deleted: deleted.count,
+        }
+      } else if (input.action === "merge" && input.keepPasswordId) {
+        // Merge: keep one password, delete others
+        if (!input.passwordIds.includes(input.keepPasswordId)) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "keepPasswordId must be in passwordIds array",
+          })
+        }
+
+        const passwordsToDelete = input.passwordIds.filter((id) => id !== input.keepPasswordId)
+
+        if (passwordsToDelete.length === 0) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "No passwords to delete for merge",
+          })
+        }
+
+        const deleted = await prisma.password.deleteMany({
+          where: {
+            id: { in: passwordsToDelete },
+            ownerId: ctx.userId,
+          },
+        })
+
+        // Create audit log
+        await createAuditLog({
+          action: "PASSWORD_BULK_MERGE",
+          resource: "Password",
+          resourceId: input.keepPasswordId,
+          details: {
+            mergedCount: deleted.count,
+            keptPasswordId: input.keepPasswordId,
+            deletedPasswordIds: passwordsToDelete,
+            reason: "duplicate_resolution",
+          },
+          userId: ctx.userId,
+        })
+
+        return {
+          success: true,
+          merged: deleted.count,
+          keptPasswordId: input.keepPasswordId,
+        }
+      } else {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Invalid action or missing keepPasswordId for merge",
+        })
+      }
+    }),
 })
 
