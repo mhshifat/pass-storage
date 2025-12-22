@@ -99,6 +99,16 @@ export type AuditLog = $Result.DefaultSelection<Prisma.$AuditLogPayload>
  */
 export type Settings = $Result.DefaultSelection<Prisma.$SettingsPayload>
 /**
+ * Model ThreatEvent
+ * 
+ */
+export type ThreatEvent = $Result.DefaultSelection<Prisma.$ThreatEventPayload>
+/**
+ * Model RateLimit
+ * 
+ */
+export type RateLimit = $Result.DefaultSelection<Prisma.$RateLimitPayload>
+/**
  * Model Role
  * 
  */
@@ -168,7 +178,37 @@ export type GeographicRestriction = $Result.DefaultSelection<Prisma.$GeographicR
  * Enums
  */
 export namespace $Enums {
-  export const UserRole: {
+  export const ThreatType: {
+  BRUTE_FORCE: 'BRUTE_FORCE',
+  RATE_LIMIT_EXCEEDED: 'RATE_LIMIT_EXCEEDED',
+  UNUSUAL_ACCESS_PATTERN: 'UNUSUAL_ACCESS_PATTERN',
+  SUSPICIOUS_LOCATION: 'SUSPICIOUS_LOCATION',
+  MULTIPLE_FAILED_LOGINS: 'MULTIPLE_FAILED_LOGINS',
+  ANOMALY_DETECTED: 'ANOMALY_DETECTED'
+};
+
+export type ThreatType = (typeof ThreatType)[keyof typeof ThreatType]
+
+
+export const ThreatSeverity: {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL'
+};
+
+export type ThreatSeverity = (typeof ThreatSeverity)[keyof typeof ThreatSeverity]
+
+
+export const RateLimitType: {
+  IP: 'IP',
+  USER: 'USER'
+};
+
+export type RateLimitType = (typeof RateLimitType)[keyof typeof RateLimitType]
+
+
+export const UserRole: {
   SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
   MANAGER: 'MANAGER',
@@ -225,6 +265,18 @@ export const MfaMethod: {
 export type MfaMethod = (typeof MfaMethod)[keyof typeof MfaMethod]
 
 }
+
+export type ThreatType = $Enums.ThreatType
+
+export const ThreatType: typeof $Enums.ThreatType
+
+export type ThreatSeverity = $Enums.ThreatSeverity
+
+export const ThreatSeverity: typeof $Enums.ThreatSeverity
+
+export type RateLimitType = $Enums.RateLimitType
+
+export const RateLimitType: typeof $Enums.RateLimitType
 
 export type UserRole = $Enums.UserRole
 
@@ -536,6 +588,26 @@ export class PrismaClient<
     * ```
     */
   get settings(): Prisma.SettingsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.threatEvent`: Exposes CRUD operations for the **ThreatEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ThreatEvents
+    * const threatEvents = await prisma.threatEvent.findMany()
+    * ```
+    */
+  get threatEvent(): Prisma.ThreatEventDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.rateLimit`: Exposes CRUD operations for the **RateLimit** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RateLimits
+    * const rateLimits = await prisma.rateLimit.findMany()
+    * ```
+    */
+  get rateLimit(): Prisma.RateLimitDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.role`: Exposes CRUD operations for the **Role** model.
@@ -1117,6 +1189,8 @@ export namespace Prisma {
     PasswordTag: 'PasswordTag',
     AuditLog: 'AuditLog',
     Settings: 'Settings',
+    ThreatEvent: 'ThreatEvent',
+    RateLimit: 'RateLimit',
     Role: 'Role',
     Permission: 'Permission',
     RolePermission: 'RolePermission',
@@ -1145,7 +1219,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "passwordRotationPolicy" | "passwordRotation" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode" | "savedSearch" | "searchHistory" | "passwordTemplate" | "emailVerificationToken" | "passwordResetToken" | "securityQuestion" | "ipWhitelist" | "geographicRestriction"
+      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "passwordRotationPolicy" | "passwordRotation" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "threatEvent" | "rateLimit" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode" | "savedSearch" | "searchHistory" | "passwordTemplate" | "emailVerificationToken" | "passwordResetToken" | "securityQuestion" | "ipWhitelist" | "geographicRestriction"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2407,6 +2481,154 @@ export namespace Prisma {
           }
         }
       }
+      ThreatEvent: {
+        payload: Prisma.$ThreatEventPayload<ExtArgs>
+        fields: Prisma.ThreatEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ThreatEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreatEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ThreatEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreatEventPayload>
+          }
+          findFirst: {
+            args: Prisma.ThreatEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreatEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ThreatEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreatEventPayload>
+          }
+          findMany: {
+            args: Prisma.ThreatEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreatEventPayload>[]
+          }
+          create: {
+            args: Prisma.ThreatEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreatEventPayload>
+          }
+          createMany: {
+            args: Prisma.ThreatEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ThreatEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreatEventPayload>[]
+          }
+          delete: {
+            args: Prisma.ThreatEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreatEventPayload>
+          }
+          update: {
+            args: Prisma.ThreatEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreatEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.ThreatEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ThreatEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ThreatEventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreatEventPayload>[]
+          }
+          upsert: {
+            args: Prisma.ThreatEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ThreatEventPayload>
+          }
+          aggregate: {
+            args: Prisma.ThreatEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateThreatEvent>
+          }
+          groupBy: {
+            args: Prisma.ThreatEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ThreatEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ThreatEventCountArgs<ExtArgs>
+            result: $Utils.Optional<ThreatEventCountAggregateOutputType> | number
+          }
+        }
+      }
+      RateLimit: {
+        payload: Prisma.$RateLimitPayload<ExtArgs>
+        fields: Prisma.RateLimitFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RateLimitFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateLimitPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RateLimitFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateLimitPayload>
+          }
+          findFirst: {
+            args: Prisma.RateLimitFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateLimitPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RateLimitFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateLimitPayload>
+          }
+          findMany: {
+            args: Prisma.RateLimitFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateLimitPayload>[]
+          }
+          create: {
+            args: Prisma.RateLimitCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateLimitPayload>
+          }
+          createMany: {
+            args: Prisma.RateLimitCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RateLimitCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateLimitPayload>[]
+          }
+          delete: {
+            args: Prisma.RateLimitDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateLimitPayload>
+          }
+          update: {
+            args: Prisma.RateLimitUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateLimitPayload>
+          }
+          deleteMany: {
+            args: Prisma.RateLimitDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RateLimitUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RateLimitUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateLimitPayload>[]
+          }
+          upsert: {
+            args: Prisma.RateLimitUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RateLimitPayload>
+          }
+          aggregate: {
+            args: Prisma.RateLimitAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRateLimit>
+          }
+          groupBy: {
+            args: Prisma.RateLimitGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RateLimitGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RateLimitCountArgs<ExtArgs>
+            result: $Utils.Optional<RateLimitCountAggregateOutputType> | number
+          }
+        }
+      }
       Role: {
         payload: Prisma.$RolePayload<ExtArgs>
         fields: Prisma.RoleFieldRefs
@@ -3478,6 +3700,8 @@ export namespace Prisma {
     passwordTag?: PasswordTagOmit
     auditLog?: AuditLogOmit
     settings?: SettingsOmit
+    threatEvent?: ThreatEventOmit
+    rateLimit?: RateLimitOmit
     role?: RoleOmit
     permission?: PermissionOmit
     rolePermission?: RolePermissionOmit
@@ -3575,6 +3799,8 @@ export namespace Prisma {
     templates: number
     ipWhitelists: number
     geographicRestrictions: number
+    threatEvents: number
+    rateLimits: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3582,6 +3808,8 @@ export namespace Prisma {
     templates?: boolean | CompanyCountOutputTypeCountTemplatesArgs
     ipWhitelists?: boolean | CompanyCountOutputTypeCountIpWhitelistsArgs
     geographicRestrictions?: boolean | CompanyCountOutputTypeCountGeographicRestrictionsArgs
+    threatEvents?: boolean | CompanyCountOutputTypeCountThreatEventsArgs
+    rateLimits?: boolean | CompanyCountOutputTypeCountRateLimitsArgs
   }
 
   // Custom InputTypes
@@ -3623,6 +3851,20 @@ export namespace Prisma {
     where?: GeographicRestrictionWhereInput
   }
 
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountThreatEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ThreatEventWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountRateLimitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RateLimitWhereInput
+  }
+
 
   /**
    * Count Type UserCountOutputType
@@ -3633,6 +3875,7 @@ export namespace Prisma {
     sharedPasswords: number
     teamMemberships: number
     auditLogs: number
+    threatEvents: number
     sessions: number
     accounts: number
     mfaCredentials: number
@@ -3661,6 +3904,7 @@ export namespace Prisma {
     sharedPasswords?: boolean | UserCountOutputTypeCountSharedPasswordsArgs
     teamMemberships?: boolean | UserCountOutputTypeCountTeamMembershipsArgs
     auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
+    threatEvents?: boolean | UserCountOutputTypeCountThreatEventsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     mfaCredentials?: boolean | UserCountOutputTypeCountMfaCredentialsArgs
@@ -3721,6 +3965,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AuditLogWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountThreatEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ThreatEventWhereInput
   }
 
   /**
@@ -4323,6 +4574,8 @@ export namespace Prisma {
     templates?: boolean | Company$templatesArgs<ExtArgs>
     ipWhitelists?: boolean | Company$ipWhitelistsArgs<ExtArgs>
     geographicRestrictions?: boolean | Company$geographicRestrictionsArgs<ExtArgs>
+    threatEvents?: boolean | Company$threatEventsArgs<ExtArgs>
+    rateLimits?: boolean | Company$rateLimitsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -4356,6 +4609,8 @@ export namespace Prisma {
     templates?: boolean | Company$templatesArgs<ExtArgs>
     ipWhitelists?: boolean | Company$ipWhitelistsArgs<ExtArgs>
     geographicRestrictions?: boolean | Company$geographicRestrictionsArgs<ExtArgs>
+    threatEvents?: boolean | Company$threatEventsArgs<ExtArgs>
+    rateLimits?: boolean | Company$rateLimitsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4368,6 +4623,8 @@ export namespace Prisma {
       templates: Prisma.$PasswordTemplatePayload<ExtArgs>[]
       ipWhitelists: Prisma.$IpWhitelistPayload<ExtArgs>[]
       geographicRestrictions: Prisma.$GeographicRestrictionPayload<ExtArgs>[]
+      threatEvents: Prisma.$ThreatEventPayload<ExtArgs>[]
+      rateLimits: Prisma.$RateLimitPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4773,6 +5030,8 @@ export namespace Prisma {
     templates<T extends Company$templatesArgs<ExtArgs> = {}>(args?: Subset<T, Company$templatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ipWhitelists<T extends Company$ipWhitelistsArgs<ExtArgs> = {}>(args?: Subset<T, Company$ipWhitelistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     geographicRestrictions<T extends Company$geographicRestrictionsArgs<ExtArgs> = {}>(args?: Subset<T, Company$geographicRestrictionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    threatEvents<T extends Company$threatEventsArgs<ExtArgs> = {}>(args?: Subset<T, Company$threatEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    rateLimits<T extends Company$rateLimitsArgs<ExtArgs> = {}>(args?: Subset<T, Company$rateLimitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateLimitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5291,6 +5550,54 @@ export namespace Prisma {
   }
 
   /**
+   * Company.threatEvents
+   */
+  export type Company$threatEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ThreatEvent
+     */
+    select?: ThreatEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ThreatEvent
+     */
+    omit?: ThreatEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreatEventInclude<ExtArgs> | null
+    where?: ThreatEventWhereInput
+    orderBy?: ThreatEventOrderByWithRelationInput | ThreatEventOrderByWithRelationInput[]
+    cursor?: ThreatEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ThreatEventScalarFieldEnum | ThreatEventScalarFieldEnum[]
+  }
+
+  /**
+   * Company.rateLimits
+   */
+  export type Company$rateLimitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateLimit
+     */
+    select?: RateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateLimit
+     */
+    omit?: RateLimitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateLimitInclude<ExtArgs> | null
+    where?: RateLimitWhereInput
+    orderBy?: RateLimitOrderByWithRelationInput | RateLimitOrderByWithRelationInput[]
+    cursor?: RateLimitWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RateLimitScalarFieldEnum | RateLimitScalarFieldEnum[]
+  }
+
+  /**
    * Company without action
    */
   export type CompanyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5602,6 +5909,7 @@ export namespace Prisma {
     sharedPasswords?: boolean | User$sharedPasswordsArgs<ExtArgs>
     teamMemberships?: boolean | User$teamMembershipsArgs<ExtArgs>
     auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
+    threatEvents?: boolean | User$threatEventsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     mfaCredentials?: boolean | User$mfaCredentialsArgs<ExtArgs>
@@ -5710,6 +6018,7 @@ export namespace Prisma {
     sharedPasswords?: boolean | User$sharedPasswordsArgs<ExtArgs>
     teamMemberships?: boolean | User$teamMembershipsArgs<ExtArgs>
     auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
+    threatEvents?: boolean | User$threatEventsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     mfaCredentials?: boolean | User$mfaCredentialsArgs<ExtArgs>
@@ -5751,6 +6060,7 @@ export namespace Prisma {
       sharedPasswords: Prisma.$PasswordSharePayload<ExtArgs>[]
       teamMemberships: Prisma.$TeamMemberPayload<ExtArgs>[]
       auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
+      threatEvents: Prisma.$ThreatEventPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       mfaCredentials: Prisma.$MfaCredentialPayload<ExtArgs>[]
@@ -6195,6 +6505,7 @@ export namespace Prisma {
     sharedPasswords<T extends User$sharedPasswordsArgs<ExtArgs> = {}>(args?: Subset<T, User$sharedPasswordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     teamMemberships<T extends User$teamMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$teamMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     auditLogs<T extends User$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    threatEvents<T extends User$threatEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$threatEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mfaCredentials<T extends User$mfaCredentialsArgs<ExtArgs> = {}>(args?: Subset<T, User$mfaCredentialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MfaCredentialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -6775,6 +7086,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AuditLogScalarFieldEnum | AuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * User.threatEvents
+   */
+  export type User$threatEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ThreatEvent
+     */
+    select?: ThreatEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ThreatEvent
+     */
+    omit?: ThreatEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreatEventInclude<ExtArgs> | null
+    where?: ThreatEventWhereInput
+    orderBy?: ThreatEventOrderByWithRelationInput | ThreatEventOrderByWithRelationInput[]
+    cursor?: ThreatEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ThreatEventScalarFieldEnum | ThreatEventScalarFieldEnum[]
   }
 
   /**
@@ -24581,6 +24916,2373 @@ export namespace Prisma {
 
 
   /**
+   * Model ThreatEvent
+   */
+
+  export type AggregateThreatEvent = {
+    _count: ThreatEventCountAggregateOutputType | null
+    _min: ThreatEventMinAggregateOutputType | null
+    _max: ThreatEventMaxAggregateOutputType | null
+  }
+
+  export type ThreatEventMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    threatType: $Enums.ThreatType | null
+    severity: $Enums.ThreatSeverity | null
+    ipAddress: string | null
+    userAgent: string | null
+    isResolved: boolean | null
+    resolvedAt: Date | null
+    resolvedBy: string | null
+    createdAt: Date | null
+  }
+
+  export type ThreatEventMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    threatType: $Enums.ThreatType | null
+    severity: $Enums.ThreatSeverity | null
+    ipAddress: string | null
+    userAgent: string | null
+    isResolved: boolean | null
+    resolvedAt: Date | null
+    resolvedBy: string | null
+    createdAt: Date | null
+  }
+
+  export type ThreatEventCountAggregateOutputType = {
+    id: number
+    userId: number
+    companyId: number
+    threatType: number
+    severity: number
+    ipAddress: number
+    userAgent: number
+    details: number
+    isResolved: number
+    resolvedAt: number
+    resolvedBy: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ThreatEventMinAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    threatType?: true
+    severity?: true
+    ipAddress?: true
+    userAgent?: true
+    isResolved?: true
+    resolvedAt?: true
+    resolvedBy?: true
+    createdAt?: true
+  }
+
+  export type ThreatEventMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    threatType?: true
+    severity?: true
+    ipAddress?: true
+    userAgent?: true
+    isResolved?: true
+    resolvedAt?: true
+    resolvedBy?: true
+    createdAt?: true
+  }
+
+  export type ThreatEventCountAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    threatType?: true
+    severity?: true
+    ipAddress?: true
+    userAgent?: true
+    details?: true
+    isResolved?: true
+    resolvedAt?: true
+    resolvedBy?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ThreatEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ThreatEvent to aggregate.
+     */
+    where?: ThreatEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ThreatEvents to fetch.
+     */
+    orderBy?: ThreatEventOrderByWithRelationInput | ThreatEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ThreatEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ThreatEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ThreatEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ThreatEvents
+    **/
+    _count?: true | ThreatEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ThreatEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ThreatEventMaxAggregateInputType
+  }
+
+  export type GetThreatEventAggregateType<T extends ThreatEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateThreatEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateThreatEvent[P]>
+      : GetScalarType<T[P], AggregateThreatEvent[P]>
+  }
+
+
+
+
+  export type ThreatEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ThreatEventWhereInput
+    orderBy?: ThreatEventOrderByWithAggregationInput | ThreatEventOrderByWithAggregationInput[]
+    by: ThreatEventScalarFieldEnum[] | ThreatEventScalarFieldEnum
+    having?: ThreatEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ThreatEventCountAggregateInputType | true
+    _min?: ThreatEventMinAggregateInputType
+    _max?: ThreatEventMaxAggregateInputType
+  }
+
+  export type ThreatEventGroupByOutputType = {
+    id: string
+    userId: string | null
+    companyId: string | null
+    threatType: $Enums.ThreatType
+    severity: $Enums.ThreatSeverity
+    ipAddress: string | null
+    userAgent: string | null
+    details: JsonValue | null
+    isResolved: boolean
+    resolvedAt: Date | null
+    resolvedBy: string | null
+    createdAt: Date
+    _count: ThreatEventCountAggregateOutputType | null
+    _min: ThreatEventMinAggregateOutputType | null
+    _max: ThreatEventMaxAggregateOutputType | null
+  }
+
+  type GetThreatEventGroupByPayload<T extends ThreatEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ThreatEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ThreatEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ThreatEventGroupByOutputType[P]>
+            : GetScalarType<T[P], ThreatEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ThreatEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    threatType?: boolean
+    severity?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    details?: boolean
+    isResolved?: boolean
+    resolvedAt?: boolean
+    resolvedBy?: boolean
+    createdAt?: boolean
+    user?: boolean | ThreatEvent$userArgs<ExtArgs>
+    company?: boolean | ThreatEvent$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["threatEvent"]>
+
+  export type ThreatEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    threatType?: boolean
+    severity?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    details?: boolean
+    isResolved?: boolean
+    resolvedAt?: boolean
+    resolvedBy?: boolean
+    createdAt?: boolean
+    user?: boolean | ThreatEvent$userArgs<ExtArgs>
+    company?: boolean | ThreatEvent$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["threatEvent"]>
+
+  export type ThreatEventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    threatType?: boolean
+    severity?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    details?: boolean
+    isResolved?: boolean
+    resolvedAt?: boolean
+    resolvedBy?: boolean
+    createdAt?: boolean
+    user?: boolean | ThreatEvent$userArgs<ExtArgs>
+    company?: boolean | ThreatEvent$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["threatEvent"]>
+
+  export type ThreatEventSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    threatType?: boolean
+    severity?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    details?: boolean
+    isResolved?: boolean
+    resolvedAt?: boolean
+    resolvedBy?: boolean
+    createdAt?: boolean
+  }
+
+  export type ThreatEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "companyId" | "threatType" | "severity" | "ipAddress" | "userAgent" | "details" | "isResolved" | "resolvedAt" | "resolvedBy" | "createdAt", ExtArgs["result"]["threatEvent"]>
+  export type ThreatEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | ThreatEvent$userArgs<ExtArgs>
+    company?: boolean | ThreatEvent$companyArgs<ExtArgs>
+  }
+  export type ThreatEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | ThreatEvent$userArgs<ExtArgs>
+    company?: boolean | ThreatEvent$companyArgs<ExtArgs>
+  }
+  export type ThreatEventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | ThreatEvent$userArgs<ExtArgs>
+    company?: boolean | ThreatEvent$companyArgs<ExtArgs>
+  }
+
+  export type $ThreatEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ThreatEvent"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs> | null
+      company: Prisma.$CompanyPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string | null
+      companyId: string | null
+      threatType: $Enums.ThreatType
+      severity: $Enums.ThreatSeverity
+      ipAddress: string | null
+      userAgent: string | null
+      details: Prisma.JsonValue | null
+      isResolved: boolean
+      resolvedAt: Date | null
+      resolvedBy: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["threatEvent"]>
+    composites: {}
+  }
+
+  type ThreatEventGetPayload<S extends boolean | null | undefined | ThreatEventDefaultArgs> = $Result.GetResult<Prisma.$ThreatEventPayload, S>
+
+  type ThreatEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ThreatEventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ThreatEventCountAggregateInputType | true
+    }
+
+  export interface ThreatEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ThreatEvent'], meta: { name: 'ThreatEvent' } }
+    /**
+     * Find zero or one ThreatEvent that matches the filter.
+     * @param {ThreatEventFindUniqueArgs} args - Arguments to find a ThreatEvent
+     * @example
+     * // Get one ThreatEvent
+     * const threatEvent = await prisma.threatEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ThreatEventFindUniqueArgs>(args: SelectSubset<T, ThreatEventFindUniqueArgs<ExtArgs>>): Prisma__ThreatEventClient<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ThreatEvent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ThreatEventFindUniqueOrThrowArgs} args - Arguments to find a ThreatEvent
+     * @example
+     * // Get one ThreatEvent
+     * const threatEvent = await prisma.threatEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ThreatEventFindUniqueOrThrowArgs>(args: SelectSubset<T, ThreatEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ThreatEventClient<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ThreatEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ThreatEventFindFirstArgs} args - Arguments to find a ThreatEvent
+     * @example
+     * // Get one ThreatEvent
+     * const threatEvent = await prisma.threatEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ThreatEventFindFirstArgs>(args?: SelectSubset<T, ThreatEventFindFirstArgs<ExtArgs>>): Prisma__ThreatEventClient<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ThreatEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ThreatEventFindFirstOrThrowArgs} args - Arguments to find a ThreatEvent
+     * @example
+     * // Get one ThreatEvent
+     * const threatEvent = await prisma.threatEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ThreatEventFindFirstOrThrowArgs>(args?: SelectSubset<T, ThreatEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__ThreatEventClient<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ThreatEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ThreatEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ThreatEvents
+     * const threatEvents = await prisma.threatEvent.findMany()
+     * 
+     * // Get first 10 ThreatEvents
+     * const threatEvents = await prisma.threatEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const threatEventWithIdOnly = await prisma.threatEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ThreatEventFindManyArgs>(args?: SelectSubset<T, ThreatEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ThreatEvent.
+     * @param {ThreatEventCreateArgs} args - Arguments to create a ThreatEvent.
+     * @example
+     * // Create one ThreatEvent
+     * const ThreatEvent = await prisma.threatEvent.create({
+     *   data: {
+     *     // ... data to create a ThreatEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends ThreatEventCreateArgs>(args: SelectSubset<T, ThreatEventCreateArgs<ExtArgs>>): Prisma__ThreatEventClient<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ThreatEvents.
+     * @param {ThreatEventCreateManyArgs} args - Arguments to create many ThreatEvents.
+     * @example
+     * // Create many ThreatEvents
+     * const threatEvent = await prisma.threatEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ThreatEventCreateManyArgs>(args?: SelectSubset<T, ThreatEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ThreatEvents and returns the data saved in the database.
+     * @param {ThreatEventCreateManyAndReturnArgs} args - Arguments to create many ThreatEvents.
+     * @example
+     * // Create many ThreatEvents
+     * const threatEvent = await prisma.threatEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ThreatEvents and only return the `id`
+     * const threatEventWithIdOnly = await prisma.threatEvent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ThreatEventCreateManyAndReturnArgs>(args?: SelectSubset<T, ThreatEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ThreatEvent.
+     * @param {ThreatEventDeleteArgs} args - Arguments to delete one ThreatEvent.
+     * @example
+     * // Delete one ThreatEvent
+     * const ThreatEvent = await prisma.threatEvent.delete({
+     *   where: {
+     *     // ... filter to delete one ThreatEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ThreatEventDeleteArgs>(args: SelectSubset<T, ThreatEventDeleteArgs<ExtArgs>>): Prisma__ThreatEventClient<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ThreatEvent.
+     * @param {ThreatEventUpdateArgs} args - Arguments to update one ThreatEvent.
+     * @example
+     * // Update one ThreatEvent
+     * const threatEvent = await prisma.threatEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ThreatEventUpdateArgs>(args: SelectSubset<T, ThreatEventUpdateArgs<ExtArgs>>): Prisma__ThreatEventClient<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ThreatEvents.
+     * @param {ThreatEventDeleteManyArgs} args - Arguments to filter ThreatEvents to delete.
+     * @example
+     * // Delete a few ThreatEvents
+     * const { count } = await prisma.threatEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ThreatEventDeleteManyArgs>(args?: SelectSubset<T, ThreatEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ThreatEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ThreatEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ThreatEvents
+     * const threatEvent = await prisma.threatEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ThreatEventUpdateManyArgs>(args: SelectSubset<T, ThreatEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ThreatEvents and returns the data updated in the database.
+     * @param {ThreatEventUpdateManyAndReturnArgs} args - Arguments to update many ThreatEvents.
+     * @example
+     * // Update many ThreatEvents
+     * const threatEvent = await prisma.threatEvent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ThreatEvents and only return the `id`
+     * const threatEventWithIdOnly = await prisma.threatEvent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ThreatEventUpdateManyAndReturnArgs>(args: SelectSubset<T, ThreatEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ThreatEvent.
+     * @param {ThreatEventUpsertArgs} args - Arguments to update or create a ThreatEvent.
+     * @example
+     * // Update or create a ThreatEvent
+     * const threatEvent = await prisma.threatEvent.upsert({
+     *   create: {
+     *     // ... data to create a ThreatEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ThreatEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ThreatEventUpsertArgs>(args: SelectSubset<T, ThreatEventUpsertArgs<ExtArgs>>): Prisma__ThreatEventClient<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ThreatEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ThreatEventCountArgs} args - Arguments to filter ThreatEvents to count.
+     * @example
+     * // Count the number of ThreatEvents
+     * const count = await prisma.threatEvent.count({
+     *   where: {
+     *     // ... the filter for the ThreatEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends ThreatEventCountArgs>(
+      args?: Subset<T, ThreatEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ThreatEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ThreatEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ThreatEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ThreatEventAggregateArgs>(args: Subset<T, ThreatEventAggregateArgs>): Prisma.PrismaPromise<GetThreatEventAggregateType<T>>
+
+    /**
+     * Group by ThreatEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ThreatEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ThreatEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ThreatEventGroupByArgs['orderBy'] }
+        : { orderBy?: ThreatEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ThreatEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetThreatEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ThreatEvent model
+   */
+  readonly fields: ThreatEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ThreatEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ThreatEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends ThreatEvent$userArgs<ExtArgs> = {}>(args?: Subset<T, ThreatEvent$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    company<T extends ThreatEvent$companyArgs<ExtArgs> = {}>(args?: Subset<T, ThreatEvent$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ThreatEvent model
+   */
+  interface ThreatEventFieldRefs {
+    readonly id: FieldRef<"ThreatEvent", 'String'>
+    readonly userId: FieldRef<"ThreatEvent", 'String'>
+    readonly companyId: FieldRef<"ThreatEvent", 'String'>
+    readonly threatType: FieldRef<"ThreatEvent", 'ThreatType'>
+    readonly severity: FieldRef<"ThreatEvent", 'ThreatSeverity'>
+    readonly ipAddress: FieldRef<"ThreatEvent", 'String'>
+    readonly userAgent: FieldRef<"ThreatEvent", 'String'>
+    readonly details: FieldRef<"ThreatEvent", 'Json'>
+    readonly isResolved: FieldRef<"ThreatEvent", 'Boolean'>
+    readonly resolvedAt: FieldRef<"ThreatEvent", 'DateTime'>
+    readonly resolvedBy: FieldRef<"ThreatEvent", 'String'>
+    readonly createdAt: FieldRef<"ThreatEvent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ThreatEvent findUnique
+   */
+  export type ThreatEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ThreatEvent
+     */
+    select?: ThreatEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ThreatEvent
+     */
+    omit?: ThreatEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreatEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ThreatEvent to fetch.
+     */
+    where: ThreatEventWhereUniqueInput
+  }
+
+  /**
+   * ThreatEvent findUniqueOrThrow
+   */
+  export type ThreatEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ThreatEvent
+     */
+    select?: ThreatEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ThreatEvent
+     */
+    omit?: ThreatEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreatEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ThreatEvent to fetch.
+     */
+    where: ThreatEventWhereUniqueInput
+  }
+
+  /**
+   * ThreatEvent findFirst
+   */
+  export type ThreatEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ThreatEvent
+     */
+    select?: ThreatEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ThreatEvent
+     */
+    omit?: ThreatEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreatEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ThreatEvent to fetch.
+     */
+    where?: ThreatEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ThreatEvents to fetch.
+     */
+    orderBy?: ThreatEventOrderByWithRelationInput | ThreatEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ThreatEvents.
+     */
+    cursor?: ThreatEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ThreatEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ThreatEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ThreatEvents.
+     */
+    distinct?: ThreatEventScalarFieldEnum | ThreatEventScalarFieldEnum[]
+  }
+
+  /**
+   * ThreatEvent findFirstOrThrow
+   */
+  export type ThreatEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ThreatEvent
+     */
+    select?: ThreatEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ThreatEvent
+     */
+    omit?: ThreatEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreatEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ThreatEvent to fetch.
+     */
+    where?: ThreatEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ThreatEvents to fetch.
+     */
+    orderBy?: ThreatEventOrderByWithRelationInput | ThreatEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ThreatEvents.
+     */
+    cursor?: ThreatEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ThreatEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ThreatEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ThreatEvents.
+     */
+    distinct?: ThreatEventScalarFieldEnum | ThreatEventScalarFieldEnum[]
+  }
+
+  /**
+   * ThreatEvent findMany
+   */
+  export type ThreatEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ThreatEvent
+     */
+    select?: ThreatEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ThreatEvent
+     */
+    omit?: ThreatEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreatEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ThreatEvents to fetch.
+     */
+    where?: ThreatEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ThreatEvents to fetch.
+     */
+    orderBy?: ThreatEventOrderByWithRelationInput | ThreatEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ThreatEvents.
+     */
+    cursor?: ThreatEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ThreatEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ThreatEvents.
+     */
+    skip?: number
+    distinct?: ThreatEventScalarFieldEnum | ThreatEventScalarFieldEnum[]
+  }
+
+  /**
+   * ThreatEvent create
+   */
+  export type ThreatEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ThreatEvent
+     */
+    select?: ThreatEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ThreatEvent
+     */
+    omit?: ThreatEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreatEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ThreatEvent.
+     */
+    data: XOR<ThreatEventCreateInput, ThreatEventUncheckedCreateInput>
+  }
+
+  /**
+   * ThreatEvent createMany
+   */
+  export type ThreatEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ThreatEvents.
+     */
+    data: ThreatEventCreateManyInput | ThreatEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ThreatEvent createManyAndReturn
+   */
+  export type ThreatEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ThreatEvent
+     */
+    select?: ThreatEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ThreatEvent
+     */
+    omit?: ThreatEventOmit<ExtArgs> | null
+    /**
+     * The data used to create many ThreatEvents.
+     */
+    data: ThreatEventCreateManyInput | ThreatEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreatEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ThreatEvent update
+   */
+  export type ThreatEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ThreatEvent
+     */
+    select?: ThreatEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ThreatEvent
+     */
+    omit?: ThreatEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreatEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ThreatEvent.
+     */
+    data: XOR<ThreatEventUpdateInput, ThreatEventUncheckedUpdateInput>
+    /**
+     * Choose, which ThreatEvent to update.
+     */
+    where: ThreatEventWhereUniqueInput
+  }
+
+  /**
+   * ThreatEvent updateMany
+   */
+  export type ThreatEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ThreatEvents.
+     */
+    data: XOR<ThreatEventUpdateManyMutationInput, ThreatEventUncheckedUpdateManyInput>
+    /**
+     * Filter which ThreatEvents to update
+     */
+    where?: ThreatEventWhereInput
+    /**
+     * Limit how many ThreatEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ThreatEvent updateManyAndReturn
+   */
+  export type ThreatEventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ThreatEvent
+     */
+    select?: ThreatEventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ThreatEvent
+     */
+    omit?: ThreatEventOmit<ExtArgs> | null
+    /**
+     * The data used to update ThreatEvents.
+     */
+    data: XOR<ThreatEventUpdateManyMutationInput, ThreatEventUncheckedUpdateManyInput>
+    /**
+     * Filter which ThreatEvents to update
+     */
+    where?: ThreatEventWhereInput
+    /**
+     * Limit how many ThreatEvents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreatEventIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ThreatEvent upsert
+   */
+  export type ThreatEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ThreatEvent
+     */
+    select?: ThreatEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ThreatEvent
+     */
+    omit?: ThreatEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreatEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ThreatEvent to update in case it exists.
+     */
+    where: ThreatEventWhereUniqueInput
+    /**
+     * In case the ThreatEvent found by the `where` argument doesn't exist, create a new ThreatEvent with this data.
+     */
+    create: XOR<ThreatEventCreateInput, ThreatEventUncheckedCreateInput>
+    /**
+     * In case the ThreatEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ThreatEventUpdateInput, ThreatEventUncheckedUpdateInput>
+  }
+
+  /**
+   * ThreatEvent delete
+   */
+  export type ThreatEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ThreatEvent
+     */
+    select?: ThreatEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ThreatEvent
+     */
+    omit?: ThreatEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreatEventInclude<ExtArgs> | null
+    /**
+     * Filter which ThreatEvent to delete.
+     */
+    where: ThreatEventWhereUniqueInput
+  }
+
+  /**
+   * ThreatEvent deleteMany
+   */
+  export type ThreatEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ThreatEvents to delete
+     */
+    where?: ThreatEventWhereInput
+    /**
+     * Limit how many ThreatEvents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ThreatEvent.user
+   */
+  export type ThreatEvent$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * ThreatEvent.company
+   */
+  export type ThreatEvent$companyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Company
+     */
+    omit?: CompanyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+  }
+
+  /**
+   * ThreatEvent without action
+   */
+  export type ThreatEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ThreatEvent
+     */
+    select?: ThreatEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ThreatEvent
+     */
+    omit?: ThreatEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ThreatEventInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RateLimit
+   */
+
+  export type AggregateRateLimit = {
+    _count: RateLimitCountAggregateOutputType | null
+    _avg: RateLimitAvgAggregateOutputType | null
+    _sum: RateLimitSumAggregateOutputType | null
+    _min: RateLimitMinAggregateOutputType | null
+    _max: RateLimitMaxAggregateOutputType | null
+  }
+
+  export type RateLimitAvgAggregateOutputType = {
+    count: number | null
+  }
+
+  export type RateLimitSumAggregateOutputType = {
+    count: number | null
+  }
+
+  export type RateLimitMinAggregateOutputType = {
+    id: string | null
+    identifier: string | null
+    identifierType: $Enums.RateLimitType | null
+    action: string | null
+    count: number | null
+    windowStart: Date | null
+    windowEnd: Date | null
+    companyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RateLimitMaxAggregateOutputType = {
+    id: string | null
+    identifier: string | null
+    identifierType: $Enums.RateLimitType | null
+    action: string | null
+    count: number | null
+    windowStart: Date | null
+    windowEnd: Date | null
+    companyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RateLimitCountAggregateOutputType = {
+    id: number
+    identifier: number
+    identifierType: number
+    action: number
+    count: number
+    windowStart: number
+    windowEnd: number
+    companyId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RateLimitAvgAggregateInputType = {
+    count?: true
+  }
+
+  export type RateLimitSumAggregateInputType = {
+    count?: true
+  }
+
+  export type RateLimitMinAggregateInputType = {
+    id?: true
+    identifier?: true
+    identifierType?: true
+    action?: true
+    count?: true
+    windowStart?: true
+    windowEnd?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RateLimitMaxAggregateInputType = {
+    id?: true
+    identifier?: true
+    identifierType?: true
+    action?: true
+    count?: true
+    windowStart?: true
+    windowEnd?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RateLimitCountAggregateInputType = {
+    id?: true
+    identifier?: true
+    identifierType?: true
+    action?: true
+    count?: true
+    windowStart?: true
+    windowEnd?: true
+    companyId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RateLimitAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RateLimit to aggregate.
+     */
+    where?: RateLimitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateLimits to fetch.
+     */
+    orderBy?: RateLimitOrderByWithRelationInput | RateLimitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RateLimitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateLimits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateLimits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RateLimits
+    **/
+    _count?: true | RateLimitCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RateLimitAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RateLimitSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RateLimitMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RateLimitMaxAggregateInputType
+  }
+
+  export type GetRateLimitAggregateType<T extends RateLimitAggregateArgs> = {
+        [P in keyof T & keyof AggregateRateLimit]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRateLimit[P]>
+      : GetScalarType<T[P], AggregateRateLimit[P]>
+  }
+
+
+
+
+  export type RateLimitGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RateLimitWhereInput
+    orderBy?: RateLimitOrderByWithAggregationInput | RateLimitOrderByWithAggregationInput[]
+    by: RateLimitScalarFieldEnum[] | RateLimitScalarFieldEnum
+    having?: RateLimitScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RateLimitCountAggregateInputType | true
+    _avg?: RateLimitAvgAggregateInputType
+    _sum?: RateLimitSumAggregateInputType
+    _min?: RateLimitMinAggregateInputType
+    _max?: RateLimitMaxAggregateInputType
+  }
+
+  export type RateLimitGroupByOutputType = {
+    id: string
+    identifier: string
+    identifierType: $Enums.RateLimitType
+    action: string
+    count: number
+    windowStart: Date
+    windowEnd: Date
+    companyId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: RateLimitCountAggregateOutputType | null
+    _avg: RateLimitAvgAggregateOutputType | null
+    _sum: RateLimitSumAggregateOutputType | null
+    _min: RateLimitMinAggregateOutputType | null
+    _max: RateLimitMaxAggregateOutputType | null
+  }
+
+  type GetRateLimitGroupByPayload<T extends RateLimitGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RateLimitGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RateLimitGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RateLimitGroupByOutputType[P]>
+            : GetScalarType<T[P], RateLimitGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RateLimitSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    identifier?: boolean
+    identifierType?: boolean
+    action?: boolean
+    count?: boolean
+    windowStart?: boolean
+    windowEnd?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | RateLimit$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["rateLimit"]>
+
+  export type RateLimitSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    identifier?: boolean
+    identifierType?: boolean
+    action?: boolean
+    count?: boolean
+    windowStart?: boolean
+    windowEnd?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | RateLimit$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["rateLimit"]>
+
+  export type RateLimitSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    identifier?: boolean
+    identifierType?: boolean
+    action?: boolean
+    count?: boolean
+    windowStart?: boolean
+    windowEnd?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | RateLimit$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["rateLimit"]>
+
+  export type RateLimitSelectScalar = {
+    id?: boolean
+    identifier?: boolean
+    identifierType?: boolean
+    action?: boolean
+    count?: boolean
+    windowStart?: boolean
+    windowEnd?: boolean
+    companyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RateLimitOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "identifier" | "identifierType" | "action" | "count" | "windowStart" | "windowEnd" | "companyId" | "createdAt" | "updatedAt", ExtArgs["result"]["rateLimit"]>
+  export type RateLimitInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | RateLimit$companyArgs<ExtArgs>
+  }
+  export type RateLimitIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | RateLimit$companyArgs<ExtArgs>
+  }
+  export type RateLimitIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | RateLimit$companyArgs<ExtArgs>
+  }
+
+  export type $RateLimitPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RateLimit"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      identifier: string
+      identifierType: $Enums.RateLimitType
+      action: string
+      count: number
+      windowStart: Date
+      windowEnd: Date
+      companyId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["rateLimit"]>
+    composites: {}
+  }
+
+  type RateLimitGetPayload<S extends boolean | null | undefined | RateLimitDefaultArgs> = $Result.GetResult<Prisma.$RateLimitPayload, S>
+
+  type RateLimitCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RateLimitFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RateLimitCountAggregateInputType | true
+    }
+
+  export interface RateLimitDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RateLimit'], meta: { name: 'RateLimit' } }
+    /**
+     * Find zero or one RateLimit that matches the filter.
+     * @param {RateLimitFindUniqueArgs} args - Arguments to find a RateLimit
+     * @example
+     * // Get one RateLimit
+     * const rateLimit = await prisma.rateLimit.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RateLimitFindUniqueArgs>(args: SelectSubset<T, RateLimitFindUniqueArgs<ExtArgs>>): Prisma__RateLimitClient<$Result.GetResult<Prisma.$RateLimitPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RateLimit that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RateLimitFindUniqueOrThrowArgs} args - Arguments to find a RateLimit
+     * @example
+     * // Get one RateLimit
+     * const rateLimit = await prisma.rateLimit.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RateLimitFindUniqueOrThrowArgs>(args: SelectSubset<T, RateLimitFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RateLimitClient<$Result.GetResult<Prisma.$RateLimitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RateLimit that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateLimitFindFirstArgs} args - Arguments to find a RateLimit
+     * @example
+     * // Get one RateLimit
+     * const rateLimit = await prisma.rateLimit.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RateLimitFindFirstArgs>(args?: SelectSubset<T, RateLimitFindFirstArgs<ExtArgs>>): Prisma__RateLimitClient<$Result.GetResult<Prisma.$RateLimitPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RateLimit that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateLimitFindFirstOrThrowArgs} args - Arguments to find a RateLimit
+     * @example
+     * // Get one RateLimit
+     * const rateLimit = await prisma.rateLimit.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RateLimitFindFirstOrThrowArgs>(args?: SelectSubset<T, RateLimitFindFirstOrThrowArgs<ExtArgs>>): Prisma__RateLimitClient<$Result.GetResult<Prisma.$RateLimitPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RateLimits that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateLimitFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RateLimits
+     * const rateLimits = await prisma.rateLimit.findMany()
+     * 
+     * // Get first 10 RateLimits
+     * const rateLimits = await prisma.rateLimit.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const rateLimitWithIdOnly = await prisma.rateLimit.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RateLimitFindManyArgs>(args?: SelectSubset<T, RateLimitFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateLimitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RateLimit.
+     * @param {RateLimitCreateArgs} args - Arguments to create a RateLimit.
+     * @example
+     * // Create one RateLimit
+     * const RateLimit = await prisma.rateLimit.create({
+     *   data: {
+     *     // ... data to create a RateLimit
+     *   }
+     * })
+     * 
+     */
+    create<T extends RateLimitCreateArgs>(args: SelectSubset<T, RateLimitCreateArgs<ExtArgs>>): Prisma__RateLimitClient<$Result.GetResult<Prisma.$RateLimitPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RateLimits.
+     * @param {RateLimitCreateManyArgs} args - Arguments to create many RateLimits.
+     * @example
+     * // Create many RateLimits
+     * const rateLimit = await prisma.rateLimit.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RateLimitCreateManyArgs>(args?: SelectSubset<T, RateLimitCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RateLimits and returns the data saved in the database.
+     * @param {RateLimitCreateManyAndReturnArgs} args - Arguments to create many RateLimits.
+     * @example
+     * // Create many RateLimits
+     * const rateLimit = await prisma.rateLimit.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RateLimits and only return the `id`
+     * const rateLimitWithIdOnly = await prisma.rateLimit.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RateLimitCreateManyAndReturnArgs>(args?: SelectSubset<T, RateLimitCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateLimitPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RateLimit.
+     * @param {RateLimitDeleteArgs} args - Arguments to delete one RateLimit.
+     * @example
+     * // Delete one RateLimit
+     * const RateLimit = await prisma.rateLimit.delete({
+     *   where: {
+     *     // ... filter to delete one RateLimit
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RateLimitDeleteArgs>(args: SelectSubset<T, RateLimitDeleteArgs<ExtArgs>>): Prisma__RateLimitClient<$Result.GetResult<Prisma.$RateLimitPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RateLimit.
+     * @param {RateLimitUpdateArgs} args - Arguments to update one RateLimit.
+     * @example
+     * // Update one RateLimit
+     * const rateLimit = await prisma.rateLimit.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RateLimitUpdateArgs>(args: SelectSubset<T, RateLimitUpdateArgs<ExtArgs>>): Prisma__RateLimitClient<$Result.GetResult<Prisma.$RateLimitPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RateLimits.
+     * @param {RateLimitDeleteManyArgs} args - Arguments to filter RateLimits to delete.
+     * @example
+     * // Delete a few RateLimits
+     * const { count } = await prisma.rateLimit.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RateLimitDeleteManyArgs>(args?: SelectSubset<T, RateLimitDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RateLimits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateLimitUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RateLimits
+     * const rateLimit = await prisma.rateLimit.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RateLimitUpdateManyArgs>(args: SelectSubset<T, RateLimitUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RateLimits and returns the data updated in the database.
+     * @param {RateLimitUpdateManyAndReturnArgs} args - Arguments to update many RateLimits.
+     * @example
+     * // Update many RateLimits
+     * const rateLimit = await prisma.rateLimit.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RateLimits and only return the `id`
+     * const rateLimitWithIdOnly = await prisma.rateLimit.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RateLimitUpdateManyAndReturnArgs>(args: SelectSubset<T, RateLimitUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateLimitPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RateLimit.
+     * @param {RateLimitUpsertArgs} args - Arguments to update or create a RateLimit.
+     * @example
+     * // Update or create a RateLimit
+     * const rateLimit = await prisma.rateLimit.upsert({
+     *   create: {
+     *     // ... data to create a RateLimit
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RateLimit we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RateLimitUpsertArgs>(args: SelectSubset<T, RateLimitUpsertArgs<ExtArgs>>): Prisma__RateLimitClient<$Result.GetResult<Prisma.$RateLimitPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RateLimits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateLimitCountArgs} args - Arguments to filter RateLimits to count.
+     * @example
+     * // Count the number of RateLimits
+     * const count = await prisma.rateLimit.count({
+     *   where: {
+     *     // ... the filter for the RateLimits we want to count
+     *   }
+     * })
+    **/
+    count<T extends RateLimitCountArgs>(
+      args?: Subset<T, RateLimitCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RateLimitCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RateLimit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateLimitAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RateLimitAggregateArgs>(args: Subset<T, RateLimitAggregateArgs>): Prisma.PrismaPromise<GetRateLimitAggregateType<T>>
+
+    /**
+     * Group by RateLimit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RateLimitGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RateLimitGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RateLimitGroupByArgs['orderBy'] }
+        : { orderBy?: RateLimitGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RateLimitGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRateLimitGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RateLimit model
+   */
+  readonly fields: RateLimitFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RateLimit.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RateLimitClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends RateLimit$companyArgs<ExtArgs> = {}>(args?: Subset<T, RateLimit$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RateLimit model
+   */
+  interface RateLimitFieldRefs {
+    readonly id: FieldRef<"RateLimit", 'String'>
+    readonly identifier: FieldRef<"RateLimit", 'String'>
+    readonly identifierType: FieldRef<"RateLimit", 'RateLimitType'>
+    readonly action: FieldRef<"RateLimit", 'String'>
+    readonly count: FieldRef<"RateLimit", 'Int'>
+    readonly windowStart: FieldRef<"RateLimit", 'DateTime'>
+    readonly windowEnd: FieldRef<"RateLimit", 'DateTime'>
+    readonly companyId: FieldRef<"RateLimit", 'String'>
+    readonly createdAt: FieldRef<"RateLimit", 'DateTime'>
+    readonly updatedAt: FieldRef<"RateLimit", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RateLimit findUnique
+   */
+  export type RateLimitFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateLimit
+     */
+    select?: RateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateLimit
+     */
+    omit?: RateLimitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateLimitInclude<ExtArgs> | null
+    /**
+     * Filter, which RateLimit to fetch.
+     */
+    where: RateLimitWhereUniqueInput
+  }
+
+  /**
+   * RateLimit findUniqueOrThrow
+   */
+  export type RateLimitFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateLimit
+     */
+    select?: RateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateLimit
+     */
+    omit?: RateLimitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateLimitInclude<ExtArgs> | null
+    /**
+     * Filter, which RateLimit to fetch.
+     */
+    where: RateLimitWhereUniqueInput
+  }
+
+  /**
+   * RateLimit findFirst
+   */
+  export type RateLimitFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateLimit
+     */
+    select?: RateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateLimit
+     */
+    omit?: RateLimitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateLimitInclude<ExtArgs> | null
+    /**
+     * Filter, which RateLimit to fetch.
+     */
+    where?: RateLimitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateLimits to fetch.
+     */
+    orderBy?: RateLimitOrderByWithRelationInput | RateLimitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RateLimits.
+     */
+    cursor?: RateLimitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateLimits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateLimits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RateLimits.
+     */
+    distinct?: RateLimitScalarFieldEnum | RateLimitScalarFieldEnum[]
+  }
+
+  /**
+   * RateLimit findFirstOrThrow
+   */
+  export type RateLimitFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateLimit
+     */
+    select?: RateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateLimit
+     */
+    omit?: RateLimitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateLimitInclude<ExtArgs> | null
+    /**
+     * Filter, which RateLimit to fetch.
+     */
+    where?: RateLimitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateLimits to fetch.
+     */
+    orderBy?: RateLimitOrderByWithRelationInput | RateLimitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RateLimits.
+     */
+    cursor?: RateLimitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateLimits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateLimits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RateLimits.
+     */
+    distinct?: RateLimitScalarFieldEnum | RateLimitScalarFieldEnum[]
+  }
+
+  /**
+   * RateLimit findMany
+   */
+  export type RateLimitFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateLimit
+     */
+    select?: RateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateLimit
+     */
+    omit?: RateLimitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateLimitInclude<ExtArgs> | null
+    /**
+     * Filter, which RateLimits to fetch.
+     */
+    where?: RateLimitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RateLimits to fetch.
+     */
+    orderBy?: RateLimitOrderByWithRelationInput | RateLimitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RateLimits.
+     */
+    cursor?: RateLimitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RateLimits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RateLimits.
+     */
+    skip?: number
+    distinct?: RateLimitScalarFieldEnum | RateLimitScalarFieldEnum[]
+  }
+
+  /**
+   * RateLimit create
+   */
+  export type RateLimitCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateLimit
+     */
+    select?: RateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateLimit
+     */
+    omit?: RateLimitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateLimitInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RateLimit.
+     */
+    data: XOR<RateLimitCreateInput, RateLimitUncheckedCreateInput>
+  }
+
+  /**
+   * RateLimit createMany
+   */
+  export type RateLimitCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RateLimits.
+     */
+    data: RateLimitCreateManyInput | RateLimitCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RateLimit createManyAndReturn
+   */
+  export type RateLimitCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateLimit
+     */
+    select?: RateLimitSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateLimit
+     */
+    omit?: RateLimitOmit<ExtArgs> | null
+    /**
+     * The data used to create many RateLimits.
+     */
+    data: RateLimitCreateManyInput | RateLimitCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateLimitIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RateLimit update
+   */
+  export type RateLimitUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateLimit
+     */
+    select?: RateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateLimit
+     */
+    omit?: RateLimitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateLimitInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RateLimit.
+     */
+    data: XOR<RateLimitUpdateInput, RateLimitUncheckedUpdateInput>
+    /**
+     * Choose, which RateLimit to update.
+     */
+    where: RateLimitWhereUniqueInput
+  }
+
+  /**
+   * RateLimit updateMany
+   */
+  export type RateLimitUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RateLimits.
+     */
+    data: XOR<RateLimitUpdateManyMutationInput, RateLimitUncheckedUpdateManyInput>
+    /**
+     * Filter which RateLimits to update
+     */
+    where?: RateLimitWhereInput
+    /**
+     * Limit how many RateLimits to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RateLimit updateManyAndReturn
+   */
+  export type RateLimitUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateLimit
+     */
+    select?: RateLimitSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateLimit
+     */
+    omit?: RateLimitOmit<ExtArgs> | null
+    /**
+     * The data used to update RateLimits.
+     */
+    data: XOR<RateLimitUpdateManyMutationInput, RateLimitUncheckedUpdateManyInput>
+    /**
+     * Filter which RateLimits to update
+     */
+    where?: RateLimitWhereInput
+    /**
+     * Limit how many RateLimits to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateLimitIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RateLimit upsert
+   */
+  export type RateLimitUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateLimit
+     */
+    select?: RateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateLimit
+     */
+    omit?: RateLimitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateLimitInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RateLimit to update in case it exists.
+     */
+    where: RateLimitWhereUniqueInput
+    /**
+     * In case the RateLimit found by the `where` argument doesn't exist, create a new RateLimit with this data.
+     */
+    create: XOR<RateLimitCreateInput, RateLimitUncheckedCreateInput>
+    /**
+     * In case the RateLimit was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RateLimitUpdateInput, RateLimitUncheckedUpdateInput>
+  }
+
+  /**
+   * RateLimit delete
+   */
+  export type RateLimitDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateLimit
+     */
+    select?: RateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateLimit
+     */
+    omit?: RateLimitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateLimitInclude<ExtArgs> | null
+    /**
+     * Filter which RateLimit to delete.
+     */
+    where: RateLimitWhereUniqueInput
+  }
+
+  /**
+   * RateLimit deleteMany
+   */
+  export type RateLimitDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RateLimits to delete
+     */
+    where?: RateLimitWhereInput
+    /**
+     * Limit how many RateLimits to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RateLimit.company
+   */
+  export type RateLimit$companyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Company
+     */
+    omit?: CompanyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+  }
+
+  /**
+   * RateLimit without action
+   */
+  export type RateLimitDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RateLimit
+     */
+    select?: RateLimitSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RateLimit
+     */
+    omit?: RateLimitOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RateLimitInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Role
    */
 
@@ -39481,6 +42183,40 @@ export namespace Prisma {
   export type SettingsScalarFieldEnum = (typeof SettingsScalarFieldEnum)[keyof typeof SettingsScalarFieldEnum]
 
 
+  export const ThreatEventScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    companyId: 'companyId',
+    threatType: 'threatType',
+    severity: 'severity',
+    ipAddress: 'ipAddress',
+    userAgent: 'userAgent',
+    details: 'details',
+    isResolved: 'isResolved',
+    resolvedAt: 'resolvedAt',
+    resolvedBy: 'resolvedBy',
+    createdAt: 'createdAt'
+  };
+
+  export type ThreatEventScalarFieldEnum = (typeof ThreatEventScalarFieldEnum)[keyof typeof ThreatEventScalarFieldEnum]
+
+
+  export const RateLimitScalarFieldEnum: {
+    id: 'id',
+    identifier: 'identifier',
+    identifierType: 'identifierType',
+    action: 'action',
+    count: 'count',
+    windowStart: 'windowStart',
+    windowEnd: 'windowEnd',
+    companyId: 'companyId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type RateLimitScalarFieldEnum = (typeof RateLimitScalarFieldEnum)[keyof typeof RateLimitScalarFieldEnum]
+
+
   export const RoleScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -39852,6 +42588,48 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ThreatType'
+   */
+  export type EnumThreatTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ThreatType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ThreatType[]'
+   */
+  export type ListEnumThreatTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ThreatType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ThreatSeverity'
+   */
+  export type EnumThreatSeverityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ThreatSeverity'>
+    
+
+
+  /**
+   * Reference to a field of type 'ThreatSeverity[]'
+   */
+  export type ListEnumThreatSeverityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ThreatSeverity[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'RateLimitType'
+   */
+  export type EnumRateLimitTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RateLimitType'>
+    
+
+
+  /**
+   * Reference to a field of type 'RateLimitType[]'
+   */
+  export type ListEnumRateLimitTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RateLimitType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'BigInt'
    */
   export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
@@ -39895,6 +42673,8 @@ export namespace Prisma {
     templates?: PasswordTemplateListRelationFilter
     ipWhitelists?: IpWhitelistListRelationFilter
     geographicRestrictions?: GeographicRestrictionListRelationFilter
+    threatEvents?: ThreatEventListRelationFilter
+    rateLimits?: RateLimitListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -39907,6 +42687,8 @@ export namespace Prisma {
     templates?: PasswordTemplateOrderByRelationAggregateInput
     ipWhitelists?: IpWhitelistOrderByRelationAggregateInput
     geographicRestrictions?: GeographicRestrictionOrderByRelationAggregateInput
+    threatEvents?: ThreatEventOrderByRelationAggregateInput
+    rateLimits?: RateLimitOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -39922,6 +42704,8 @@ export namespace Prisma {
     templates?: PasswordTemplateListRelationFilter
     ipWhitelists?: IpWhitelistListRelationFilter
     geographicRestrictions?: GeographicRestrictionListRelationFilter
+    threatEvents?: ThreatEventListRelationFilter
+    rateLimits?: RateLimitListRelationFilter
   }, "id" | "subdomain">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -39976,6 +42760,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareListRelationFilter
     teamMemberships?: TeamMemberListRelationFilter
     auditLogs?: AuditLogListRelationFilter
+    threatEvents?: ThreatEventListRelationFilter
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     mfaCredentials?: MfaCredentialListRelationFilter
@@ -40027,6 +42812,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareOrderByRelationAggregateInput
     teamMemberships?: TeamMemberOrderByRelationAggregateInput
     auditLogs?: AuditLogOrderByRelationAggregateInput
+    threatEvents?: ThreatEventOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
     mfaCredentials?: MfaCredentialOrderByRelationAggregateInput
@@ -40081,6 +42867,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareListRelationFilter
     teamMemberships?: TeamMemberListRelationFilter
     auditLogs?: AuditLogListRelationFilter
+    threatEvents?: ThreatEventListRelationFilter
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     mfaCredentials?: MfaCredentialListRelationFilter
@@ -41363,6 +44150,182 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Settings"> | Date | string
   }
 
+  export type ThreatEventWhereInput = {
+    AND?: ThreatEventWhereInput | ThreatEventWhereInput[]
+    OR?: ThreatEventWhereInput[]
+    NOT?: ThreatEventWhereInput | ThreatEventWhereInput[]
+    id?: StringFilter<"ThreatEvent"> | string
+    userId?: StringNullableFilter<"ThreatEvent"> | string | null
+    companyId?: StringNullableFilter<"ThreatEvent"> | string | null
+    threatType?: EnumThreatTypeFilter<"ThreatEvent"> | $Enums.ThreatType
+    severity?: EnumThreatSeverityFilter<"ThreatEvent"> | $Enums.ThreatSeverity
+    ipAddress?: StringNullableFilter<"ThreatEvent"> | string | null
+    userAgent?: StringNullableFilter<"ThreatEvent"> | string | null
+    details?: JsonNullableFilter<"ThreatEvent">
+    isResolved?: BoolFilter<"ThreatEvent"> | boolean
+    resolvedAt?: DateTimeNullableFilter<"ThreatEvent"> | Date | string | null
+    resolvedBy?: StringNullableFilter<"ThreatEvent"> | string | null
+    createdAt?: DateTimeFilter<"ThreatEvent"> | Date | string
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+  }
+
+  export type ThreatEventOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    companyId?: SortOrderInput | SortOrder
+    threatType?: SortOrder
+    severity?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    details?: SortOrderInput | SortOrder
+    isResolved?: SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    resolvedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type ThreatEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ThreatEventWhereInput | ThreatEventWhereInput[]
+    OR?: ThreatEventWhereInput[]
+    NOT?: ThreatEventWhereInput | ThreatEventWhereInput[]
+    userId?: StringNullableFilter<"ThreatEvent"> | string | null
+    companyId?: StringNullableFilter<"ThreatEvent"> | string | null
+    threatType?: EnumThreatTypeFilter<"ThreatEvent"> | $Enums.ThreatType
+    severity?: EnumThreatSeverityFilter<"ThreatEvent"> | $Enums.ThreatSeverity
+    ipAddress?: StringNullableFilter<"ThreatEvent"> | string | null
+    userAgent?: StringNullableFilter<"ThreatEvent"> | string | null
+    details?: JsonNullableFilter<"ThreatEvent">
+    isResolved?: BoolFilter<"ThreatEvent"> | boolean
+    resolvedAt?: DateTimeNullableFilter<"ThreatEvent"> | Date | string | null
+    resolvedBy?: StringNullableFilter<"ThreatEvent"> | string | null
+    createdAt?: DateTimeFilter<"ThreatEvent"> | Date | string
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+  }, "id">
+
+  export type ThreatEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    companyId?: SortOrderInput | SortOrder
+    threatType?: SortOrder
+    severity?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    details?: SortOrderInput | SortOrder
+    isResolved?: SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
+    resolvedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ThreatEventCountOrderByAggregateInput
+    _max?: ThreatEventMaxOrderByAggregateInput
+    _min?: ThreatEventMinOrderByAggregateInput
+  }
+
+  export type ThreatEventScalarWhereWithAggregatesInput = {
+    AND?: ThreatEventScalarWhereWithAggregatesInput | ThreatEventScalarWhereWithAggregatesInput[]
+    OR?: ThreatEventScalarWhereWithAggregatesInput[]
+    NOT?: ThreatEventScalarWhereWithAggregatesInput | ThreatEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ThreatEvent"> | string
+    userId?: StringNullableWithAggregatesFilter<"ThreatEvent"> | string | null
+    companyId?: StringNullableWithAggregatesFilter<"ThreatEvent"> | string | null
+    threatType?: EnumThreatTypeWithAggregatesFilter<"ThreatEvent"> | $Enums.ThreatType
+    severity?: EnumThreatSeverityWithAggregatesFilter<"ThreatEvent"> | $Enums.ThreatSeverity
+    ipAddress?: StringNullableWithAggregatesFilter<"ThreatEvent"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"ThreatEvent"> | string | null
+    details?: JsonNullableWithAggregatesFilter<"ThreatEvent">
+    isResolved?: BoolWithAggregatesFilter<"ThreatEvent"> | boolean
+    resolvedAt?: DateTimeNullableWithAggregatesFilter<"ThreatEvent"> | Date | string | null
+    resolvedBy?: StringNullableWithAggregatesFilter<"ThreatEvent"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ThreatEvent"> | Date | string
+  }
+
+  export type RateLimitWhereInput = {
+    AND?: RateLimitWhereInput | RateLimitWhereInput[]
+    OR?: RateLimitWhereInput[]
+    NOT?: RateLimitWhereInput | RateLimitWhereInput[]
+    id?: StringFilter<"RateLimit"> | string
+    identifier?: StringFilter<"RateLimit"> | string
+    identifierType?: EnumRateLimitTypeFilter<"RateLimit"> | $Enums.RateLimitType
+    action?: StringFilter<"RateLimit"> | string
+    count?: IntFilter<"RateLimit"> | number
+    windowStart?: DateTimeFilter<"RateLimit"> | Date | string
+    windowEnd?: DateTimeFilter<"RateLimit"> | Date | string
+    companyId?: StringNullableFilter<"RateLimit"> | string | null
+    createdAt?: DateTimeFilter<"RateLimit"> | Date | string
+    updatedAt?: DateTimeFilter<"RateLimit"> | Date | string
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+  }
+
+  export type RateLimitOrderByWithRelationInput = {
+    id?: SortOrder
+    identifier?: SortOrder
+    identifierType?: SortOrder
+    action?: SortOrder
+    count?: SortOrder
+    windowStart?: SortOrder
+    windowEnd?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type RateLimitWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    identifier_identifierType_action_windowStart?: RateLimitIdentifierIdentifierTypeActionWindowStartCompoundUniqueInput
+    AND?: RateLimitWhereInput | RateLimitWhereInput[]
+    OR?: RateLimitWhereInput[]
+    NOT?: RateLimitWhereInput | RateLimitWhereInput[]
+    identifier?: StringFilter<"RateLimit"> | string
+    identifierType?: EnumRateLimitTypeFilter<"RateLimit"> | $Enums.RateLimitType
+    action?: StringFilter<"RateLimit"> | string
+    count?: IntFilter<"RateLimit"> | number
+    windowStart?: DateTimeFilter<"RateLimit"> | Date | string
+    windowEnd?: DateTimeFilter<"RateLimit"> | Date | string
+    companyId?: StringNullableFilter<"RateLimit"> | string | null
+    createdAt?: DateTimeFilter<"RateLimit"> | Date | string
+    updatedAt?: DateTimeFilter<"RateLimit"> | Date | string
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+  }, "id" | "identifier_identifierType_action_windowStart">
+
+  export type RateLimitOrderByWithAggregationInput = {
+    id?: SortOrder
+    identifier?: SortOrder
+    identifierType?: SortOrder
+    action?: SortOrder
+    count?: SortOrder
+    windowStart?: SortOrder
+    windowEnd?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RateLimitCountOrderByAggregateInput
+    _avg?: RateLimitAvgOrderByAggregateInput
+    _max?: RateLimitMaxOrderByAggregateInput
+    _min?: RateLimitMinOrderByAggregateInput
+    _sum?: RateLimitSumOrderByAggregateInput
+  }
+
+  export type RateLimitScalarWhereWithAggregatesInput = {
+    AND?: RateLimitScalarWhereWithAggregatesInput | RateLimitScalarWhereWithAggregatesInput[]
+    OR?: RateLimitScalarWhereWithAggregatesInput[]
+    NOT?: RateLimitScalarWhereWithAggregatesInput | RateLimitScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RateLimit"> | string
+    identifier?: StringWithAggregatesFilter<"RateLimit"> | string
+    identifierType?: EnumRateLimitTypeWithAggregatesFilter<"RateLimit"> | $Enums.RateLimitType
+    action?: StringWithAggregatesFilter<"RateLimit"> | string
+    count?: IntWithAggregatesFilter<"RateLimit"> | number
+    windowStart?: DateTimeWithAggregatesFilter<"RateLimit"> | Date | string
+    windowEnd?: DateTimeWithAggregatesFilter<"RateLimit"> | Date | string
+    companyId?: StringNullableWithAggregatesFilter<"RateLimit"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"RateLimit"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"RateLimit"> | Date | string
+  }
+
   export type RoleWhereInput = {
     AND?: RoleWhereInput | RoleWhereInput[]
     OR?: RoleWhereInput[]
@@ -42321,6 +45284,8 @@ export namespace Prisma {
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -42333,6 +45298,8 @@ export namespace Prisma {
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -42345,6 +45312,8 @@ export namespace Prisma {
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -42357,6 +45326,8 @@ export namespace Prisma {
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -42408,6 +45379,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -42458,6 +45430,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -42506,6 +45479,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -42556,6 +45530,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -43948,6 +46923,199 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ThreatEventCreateInput = {
+    id?: string
+    threatType: $Enums.ThreatType
+    severity?: $Enums.ThreatSeverity
+    ipAddress?: string | null
+    userAgent?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: boolean
+    resolvedAt?: Date | string | null
+    resolvedBy?: string | null
+    createdAt?: Date | string
+    user?: UserCreateNestedOneWithoutThreatEventsInput
+    company?: CompanyCreateNestedOneWithoutThreatEventsInput
+  }
+
+  export type ThreatEventUncheckedCreateInput = {
+    id?: string
+    userId?: string | null
+    companyId?: string | null
+    threatType: $Enums.ThreatType
+    severity?: $Enums.ThreatSeverity
+    ipAddress?: string | null
+    userAgent?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: boolean
+    resolvedAt?: Date | string | null
+    resolvedBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ThreatEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    threatType?: EnumThreatTypeFieldUpdateOperationsInput | $Enums.ThreatType
+    severity?: EnumThreatSeverityFieldUpdateOperationsInput | $Enums.ThreatSeverity
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutThreatEventsNestedInput
+    company?: CompanyUpdateOneWithoutThreatEventsNestedInput
+  }
+
+  export type ThreatEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    threatType?: EnumThreatTypeFieldUpdateOperationsInput | $Enums.ThreatType
+    severity?: EnumThreatSeverityFieldUpdateOperationsInput | $Enums.ThreatSeverity
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ThreatEventCreateManyInput = {
+    id?: string
+    userId?: string | null
+    companyId?: string | null
+    threatType: $Enums.ThreatType
+    severity?: $Enums.ThreatSeverity
+    ipAddress?: string | null
+    userAgent?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: boolean
+    resolvedAt?: Date | string | null
+    resolvedBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ThreatEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    threatType?: EnumThreatTypeFieldUpdateOperationsInput | $Enums.ThreatType
+    severity?: EnumThreatSeverityFieldUpdateOperationsInput | $Enums.ThreatSeverity
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ThreatEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    threatType?: EnumThreatTypeFieldUpdateOperationsInput | $Enums.ThreatType
+    severity?: EnumThreatSeverityFieldUpdateOperationsInput | $Enums.ThreatSeverity
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateLimitCreateInput = {
+    id?: string
+    identifier: string
+    identifierType: $Enums.RateLimitType
+    action: string
+    count?: number
+    windowStart?: Date | string
+    windowEnd: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutRateLimitsInput
+  }
+
+  export type RateLimitUncheckedCreateInput = {
+    id?: string
+    identifier: string
+    identifierType: $Enums.RateLimitType
+    action: string
+    count?: number
+    windowStart?: Date | string
+    windowEnd: Date | string
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RateLimitUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identifier?: StringFieldUpdateOperationsInput | string
+    identifierType?: EnumRateLimitTypeFieldUpdateOperationsInput | $Enums.RateLimitType
+    action?: StringFieldUpdateOperationsInput | string
+    count?: IntFieldUpdateOperationsInput | number
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutRateLimitsNestedInput
+  }
+
+  export type RateLimitUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identifier?: StringFieldUpdateOperationsInput | string
+    identifierType?: EnumRateLimitTypeFieldUpdateOperationsInput | $Enums.RateLimitType
+    action?: StringFieldUpdateOperationsInput | string
+    count?: IntFieldUpdateOperationsInput | number
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateLimitCreateManyInput = {
+    id?: string
+    identifier: string
+    identifierType: $Enums.RateLimitType
+    action: string
+    count?: number
+    windowStart?: Date | string
+    windowEnd: Date | string
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RateLimitUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identifier?: StringFieldUpdateOperationsInput | string
+    identifierType?: EnumRateLimitTypeFieldUpdateOperationsInput | $Enums.RateLimitType
+    action?: StringFieldUpdateOperationsInput | string
+    count?: IntFieldUpdateOperationsInput | number
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateLimitUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identifier?: StringFieldUpdateOperationsInput | string
+    identifierType?: EnumRateLimitTypeFieldUpdateOperationsInput | $Enums.RateLimitType
+    action?: StringFieldUpdateOperationsInput | string
+    count?: IntFieldUpdateOperationsInput | number
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type RoleCreateInput = {
     id?: string
     name: string
@@ -45003,6 +48171,18 @@ export namespace Prisma {
     none?: GeographicRestrictionWhereInput
   }
 
+  export type ThreatEventListRelationFilter = {
+    every?: ThreatEventWhereInput
+    some?: ThreatEventWhereInput
+    none?: ThreatEventWhereInput
+  }
+
+  export type RateLimitListRelationFilter = {
+    every?: RateLimitWhereInput
+    some?: RateLimitWhereInput
+    none?: RateLimitWhereInput
+  }
+
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -45016,6 +48196,14 @@ export namespace Prisma {
   }
 
   export type GeographicRestrictionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ThreatEventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RateLimitOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -46286,6 +49474,154 @@ export namespace Prisma {
     _max?: NestedJsonFilter<$PrismaModel>
   }
 
+  export type EnumThreatTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ThreatType | EnumThreatTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ThreatType[] | ListEnumThreatTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ThreatType[] | ListEnumThreatTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumThreatTypeFilter<$PrismaModel> | $Enums.ThreatType
+  }
+
+  export type EnumThreatSeverityFilter<$PrismaModel = never> = {
+    equals?: $Enums.ThreatSeverity | EnumThreatSeverityFieldRefInput<$PrismaModel>
+    in?: $Enums.ThreatSeverity[] | ListEnumThreatSeverityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ThreatSeverity[] | ListEnumThreatSeverityFieldRefInput<$PrismaModel>
+    not?: NestedEnumThreatSeverityFilter<$PrismaModel> | $Enums.ThreatSeverity
+  }
+
+  export type ThreatEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    threatType?: SortOrder
+    severity?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+    details?: SortOrder
+    isResolved?: SortOrder
+    resolvedAt?: SortOrder
+    resolvedBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ThreatEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    threatType?: SortOrder
+    severity?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+    isResolved?: SortOrder
+    resolvedAt?: SortOrder
+    resolvedBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ThreatEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    threatType?: SortOrder
+    severity?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+    isResolved?: SortOrder
+    resolvedAt?: SortOrder
+    resolvedBy?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumThreatTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ThreatType | EnumThreatTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ThreatType[] | ListEnumThreatTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ThreatType[] | ListEnumThreatTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumThreatTypeWithAggregatesFilter<$PrismaModel> | $Enums.ThreatType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumThreatTypeFilter<$PrismaModel>
+    _max?: NestedEnumThreatTypeFilter<$PrismaModel>
+  }
+
+  export type EnumThreatSeverityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ThreatSeverity | EnumThreatSeverityFieldRefInput<$PrismaModel>
+    in?: $Enums.ThreatSeverity[] | ListEnumThreatSeverityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ThreatSeverity[] | ListEnumThreatSeverityFieldRefInput<$PrismaModel>
+    not?: NestedEnumThreatSeverityWithAggregatesFilter<$PrismaModel> | $Enums.ThreatSeverity
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumThreatSeverityFilter<$PrismaModel>
+    _max?: NestedEnumThreatSeverityFilter<$PrismaModel>
+  }
+
+  export type EnumRateLimitTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.RateLimitType | EnumRateLimitTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RateLimitType[] | ListEnumRateLimitTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RateLimitType[] | ListEnumRateLimitTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRateLimitTypeFilter<$PrismaModel> | $Enums.RateLimitType
+  }
+
+  export type RateLimitIdentifierIdentifierTypeActionWindowStartCompoundUniqueInput = {
+    identifier: string
+    identifierType: $Enums.RateLimitType
+    action: string
+    windowStart: Date | string
+  }
+
+  export type RateLimitCountOrderByAggregateInput = {
+    id?: SortOrder
+    identifier?: SortOrder
+    identifierType?: SortOrder
+    action?: SortOrder
+    count?: SortOrder
+    windowStart?: SortOrder
+    windowEnd?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RateLimitAvgOrderByAggregateInput = {
+    count?: SortOrder
+  }
+
+  export type RateLimitMaxOrderByAggregateInput = {
+    id?: SortOrder
+    identifier?: SortOrder
+    identifierType?: SortOrder
+    action?: SortOrder
+    count?: SortOrder
+    windowStart?: SortOrder
+    windowEnd?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RateLimitMinOrderByAggregateInput = {
+    id?: SortOrder
+    identifier?: SortOrder
+    identifierType?: SortOrder
+    action?: SortOrder
+    count?: SortOrder
+    windowStart?: SortOrder
+    windowEnd?: SortOrder
+    companyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RateLimitSumOrderByAggregateInput = {
+    count?: SortOrder
+  }
+
+  export type EnumRateLimitTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RateLimitType | EnumRateLimitTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RateLimitType[] | ListEnumRateLimitTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RateLimitType[] | ListEnumRateLimitTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRateLimitTypeWithAggregatesFilter<$PrismaModel> | $Enums.RateLimitType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRateLimitTypeFilter<$PrismaModel>
+    _max?: NestedEnumRateLimitTypeFilter<$PrismaModel>
+  }
+
   export type RolePermissionListRelationFilter = {
     every?: RolePermissionWhereInput
     some?: RolePermissionWhereInput
@@ -46819,6 +50155,20 @@ export namespace Prisma {
     connect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
   }
 
+  export type ThreatEventCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<ThreatEventCreateWithoutCompanyInput, ThreatEventUncheckedCreateWithoutCompanyInput> | ThreatEventCreateWithoutCompanyInput[] | ThreatEventUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ThreatEventCreateOrConnectWithoutCompanyInput | ThreatEventCreateOrConnectWithoutCompanyInput[]
+    createMany?: ThreatEventCreateManyCompanyInputEnvelope
+    connect?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+  }
+
+  export type RateLimitCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<RateLimitCreateWithoutCompanyInput, RateLimitUncheckedCreateWithoutCompanyInput> | RateLimitCreateWithoutCompanyInput[] | RateLimitUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RateLimitCreateOrConnectWithoutCompanyInput | RateLimitCreateOrConnectWithoutCompanyInput[]
+    createMany?: RateLimitCreateManyCompanyInputEnvelope
+    connect?: RateLimitWhereUniqueInput | RateLimitWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -46845,6 +50195,20 @@ export namespace Prisma {
     connectOrCreate?: GeographicRestrictionCreateOrConnectWithoutCompanyInput | GeographicRestrictionCreateOrConnectWithoutCompanyInput[]
     createMany?: GeographicRestrictionCreateManyCompanyInputEnvelope
     connect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+  }
+
+  export type ThreatEventUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<ThreatEventCreateWithoutCompanyInput, ThreatEventUncheckedCreateWithoutCompanyInput> | ThreatEventCreateWithoutCompanyInput[] | ThreatEventUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ThreatEventCreateOrConnectWithoutCompanyInput | ThreatEventCreateOrConnectWithoutCompanyInput[]
+    createMany?: ThreatEventCreateManyCompanyInputEnvelope
+    connect?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+  }
+
+  export type RateLimitUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<RateLimitCreateWithoutCompanyInput, RateLimitUncheckedCreateWithoutCompanyInput> | RateLimitCreateWithoutCompanyInput[] | RateLimitUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RateLimitCreateOrConnectWithoutCompanyInput | RateLimitCreateOrConnectWithoutCompanyInput[]
+    createMany?: RateLimitCreateManyCompanyInputEnvelope
+    connect?: RateLimitWhereUniqueInput | RateLimitWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -46911,6 +50275,34 @@ export namespace Prisma {
     deleteMany?: GeographicRestrictionScalarWhereInput | GeographicRestrictionScalarWhereInput[]
   }
 
+  export type ThreatEventUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<ThreatEventCreateWithoutCompanyInput, ThreatEventUncheckedCreateWithoutCompanyInput> | ThreatEventCreateWithoutCompanyInput[] | ThreatEventUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ThreatEventCreateOrConnectWithoutCompanyInput | ThreatEventCreateOrConnectWithoutCompanyInput[]
+    upsert?: ThreatEventUpsertWithWhereUniqueWithoutCompanyInput | ThreatEventUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: ThreatEventCreateManyCompanyInputEnvelope
+    set?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    disconnect?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    delete?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    connect?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    update?: ThreatEventUpdateWithWhereUniqueWithoutCompanyInput | ThreatEventUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: ThreatEventUpdateManyWithWhereWithoutCompanyInput | ThreatEventUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: ThreatEventScalarWhereInput | ThreatEventScalarWhereInput[]
+  }
+
+  export type RateLimitUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<RateLimitCreateWithoutCompanyInput, RateLimitUncheckedCreateWithoutCompanyInput> | RateLimitCreateWithoutCompanyInput[] | RateLimitUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RateLimitCreateOrConnectWithoutCompanyInput | RateLimitCreateOrConnectWithoutCompanyInput[]
+    upsert?: RateLimitUpsertWithWhereUniqueWithoutCompanyInput | RateLimitUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: RateLimitCreateManyCompanyInputEnvelope
+    set?: RateLimitWhereUniqueInput | RateLimitWhereUniqueInput[]
+    disconnect?: RateLimitWhereUniqueInput | RateLimitWhereUniqueInput[]
+    delete?: RateLimitWhereUniqueInput | RateLimitWhereUniqueInput[]
+    connect?: RateLimitWhereUniqueInput | RateLimitWhereUniqueInput[]
+    update?: RateLimitUpdateWithWhereUniqueWithoutCompanyInput | RateLimitUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: RateLimitUpdateManyWithWhereWithoutCompanyInput | RateLimitUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: RateLimitScalarWhereInput | RateLimitScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -46967,6 +50359,34 @@ export namespace Prisma {
     deleteMany?: GeographicRestrictionScalarWhereInput | GeographicRestrictionScalarWhereInput[]
   }
 
+  export type ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<ThreatEventCreateWithoutCompanyInput, ThreatEventUncheckedCreateWithoutCompanyInput> | ThreatEventCreateWithoutCompanyInput[] | ThreatEventUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: ThreatEventCreateOrConnectWithoutCompanyInput | ThreatEventCreateOrConnectWithoutCompanyInput[]
+    upsert?: ThreatEventUpsertWithWhereUniqueWithoutCompanyInput | ThreatEventUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: ThreatEventCreateManyCompanyInputEnvelope
+    set?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    disconnect?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    delete?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    connect?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    update?: ThreatEventUpdateWithWhereUniqueWithoutCompanyInput | ThreatEventUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: ThreatEventUpdateManyWithWhereWithoutCompanyInput | ThreatEventUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: ThreatEventScalarWhereInput | ThreatEventScalarWhereInput[]
+  }
+
+  export type RateLimitUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<RateLimitCreateWithoutCompanyInput, RateLimitUncheckedCreateWithoutCompanyInput> | RateLimitCreateWithoutCompanyInput[] | RateLimitUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: RateLimitCreateOrConnectWithoutCompanyInput | RateLimitCreateOrConnectWithoutCompanyInput[]
+    upsert?: RateLimitUpsertWithWhereUniqueWithoutCompanyInput | RateLimitUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: RateLimitCreateManyCompanyInputEnvelope
+    set?: RateLimitWhereUniqueInput | RateLimitWhereUniqueInput[]
+    disconnect?: RateLimitWhereUniqueInput | RateLimitWhereUniqueInput[]
+    delete?: RateLimitWhereUniqueInput | RateLimitWhereUniqueInput[]
+    connect?: RateLimitWhereUniqueInput | RateLimitWhereUniqueInput[]
+    update?: RateLimitUpdateWithWhereUniqueWithoutCompanyInput | RateLimitUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: RateLimitUpdateManyWithWhereWithoutCompanyInput | RateLimitUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: RateLimitScalarWhereInput | RateLimitScalarWhereInput[]
+  }
+
   export type CompanyCreateNestedOneWithoutUsersInput = {
     create?: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
     connectOrCreate?: CompanyCreateOrConnectWithoutUsersInput
@@ -46999,6 +50419,13 @@ export namespace Prisma {
     connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
     createMany?: AuditLogCreateManyUserInputEnvelope
     connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+  }
+
+  export type ThreatEventCreateNestedManyWithoutUserInput = {
+    create?: XOR<ThreatEventCreateWithoutUserInput, ThreatEventUncheckedCreateWithoutUserInput> | ThreatEventCreateWithoutUserInput[] | ThreatEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ThreatEventCreateOrConnectWithoutUserInput | ThreatEventCreateOrConnectWithoutUserInput[]
+    createMany?: ThreatEventCreateManyUserInputEnvelope
+    connect?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
   }
 
   export type SessionCreateNestedManyWithoutUserInput = {
@@ -47180,6 +50607,13 @@ export namespace Prisma {
     connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
     createMany?: AuditLogCreateManyUserInputEnvelope
     connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+  }
+
+  export type ThreatEventUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ThreatEventCreateWithoutUserInput, ThreatEventUncheckedCreateWithoutUserInput> | ThreatEventCreateWithoutUserInput[] | ThreatEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ThreatEventCreateOrConnectWithoutUserInput | ThreatEventCreateOrConnectWithoutUserInput[]
+    createMany?: ThreatEventCreateManyUserInputEnvelope
+    connect?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
   }
 
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
@@ -47409,6 +50843,20 @@ export namespace Prisma {
     update?: AuditLogUpdateWithWhereUniqueWithoutUserInput | AuditLogUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AuditLogUpdateManyWithWhereWithoutUserInput | AuditLogUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+  }
+
+  export type ThreatEventUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ThreatEventCreateWithoutUserInput, ThreatEventUncheckedCreateWithoutUserInput> | ThreatEventCreateWithoutUserInput[] | ThreatEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ThreatEventCreateOrConnectWithoutUserInput | ThreatEventCreateOrConnectWithoutUserInput[]
+    upsert?: ThreatEventUpsertWithWhereUniqueWithoutUserInput | ThreatEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ThreatEventCreateManyUserInputEnvelope
+    set?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    disconnect?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    delete?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    connect?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    update?: ThreatEventUpdateWithWhereUniqueWithoutUserInput | ThreatEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ThreatEventUpdateManyWithWhereWithoutUserInput | ThreatEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ThreatEventScalarWhereInput | ThreatEventScalarWhereInput[]
   }
 
   export type SessionUpdateManyWithoutUserNestedInput = {
@@ -47769,6 +51217,20 @@ export namespace Prisma {
     update?: AuditLogUpdateWithWhereUniqueWithoutUserInput | AuditLogUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AuditLogUpdateManyWithWhereWithoutUserInput | AuditLogUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+  }
+
+  export type ThreatEventUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ThreatEventCreateWithoutUserInput, ThreatEventUncheckedCreateWithoutUserInput> | ThreatEventCreateWithoutUserInput[] | ThreatEventUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ThreatEventCreateOrConnectWithoutUserInput | ThreatEventCreateOrConnectWithoutUserInput[]
+    upsert?: ThreatEventUpsertWithWhereUniqueWithoutUserInput | ThreatEventUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ThreatEventCreateManyUserInputEnvelope
+    set?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    disconnect?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    delete?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    connect?: ThreatEventWhereUniqueInput | ThreatEventWhereUniqueInput[]
+    update?: ThreatEventUpdateWithWhereUniqueWithoutUserInput | ThreatEventUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ThreatEventUpdateManyWithWhereWithoutUserInput | ThreatEventUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ThreatEventScalarWhereInput | ThreatEventScalarWhereInput[]
   }
 
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
@@ -48939,6 +52401,66 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuditLogsInput, UserUpdateWithoutAuditLogsInput>, UserUncheckedUpdateWithoutAuditLogsInput>
   }
 
+  export type UserCreateNestedOneWithoutThreatEventsInput = {
+    create?: XOR<UserCreateWithoutThreatEventsInput, UserUncheckedCreateWithoutThreatEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutThreatEventsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutThreatEventsInput = {
+    create?: XOR<CompanyCreateWithoutThreatEventsInput, CompanyUncheckedCreateWithoutThreatEventsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutThreatEventsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type EnumThreatTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ThreatType
+  }
+
+  export type EnumThreatSeverityFieldUpdateOperationsInput = {
+    set?: $Enums.ThreatSeverity
+  }
+
+  export type UserUpdateOneWithoutThreatEventsNestedInput = {
+    create?: XOR<UserCreateWithoutThreatEventsInput, UserUncheckedCreateWithoutThreatEventsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutThreatEventsInput
+    upsert?: UserUpsertWithoutThreatEventsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutThreatEventsInput, UserUpdateWithoutThreatEventsInput>, UserUncheckedUpdateWithoutThreatEventsInput>
+  }
+
+  export type CompanyUpdateOneWithoutThreatEventsNestedInput = {
+    create?: XOR<CompanyCreateWithoutThreatEventsInput, CompanyUncheckedCreateWithoutThreatEventsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutThreatEventsInput
+    upsert?: CompanyUpsertWithoutThreatEventsInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutThreatEventsInput, CompanyUpdateWithoutThreatEventsInput>, CompanyUncheckedUpdateWithoutThreatEventsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutRateLimitsInput = {
+    create?: XOR<CompanyCreateWithoutRateLimitsInput, CompanyUncheckedCreateWithoutRateLimitsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutRateLimitsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type EnumRateLimitTypeFieldUpdateOperationsInput = {
+    set?: $Enums.RateLimitType
+  }
+
+  export type CompanyUpdateOneWithoutRateLimitsNestedInput = {
+    create?: XOR<CompanyCreateWithoutRateLimitsInput, CompanyUncheckedCreateWithoutRateLimitsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutRateLimitsInput
+    upsert?: CompanyUpsertWithoutRateLimitsInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutRateLimitsInput, CompanyUpdateWithoutRateLimitsInput>, CompanyUncheckedUpdateWithoutRateLimitsInput>
+  }
+
   export type UserCreateNestedOneWithoutCreatedRolesInput = {
     create?: XOR<UserCreateWithoutCreatedRolesInput, UserUncheckedCreateWithoutCreatedRolesInput>
     connectOrCreate?: UserCreateOrConnectWithoutCreatedRolesInput
@@ -49687,6 +53209,57 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedEnumThreatTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ThreatType | EnumThreatTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ThreatType[] | ListEnumThreatTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ThreatType[] | ListEnumThreatTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumThreatTypeFilter<$PrismaModel> | $Enums.ThreatType
+  }
+
+  export type NestedEnumThreatSeverityFilter<$PrismaModel = never> = {
+    equals?: $Enums.ThreatSeverity | EnumThreatSeverityFieldRefInput<$PrismaModel>
+    in?: $Enums.ThreatSeverity[] | ListEnumThreatSeverityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ThreatSeverity[] | ListEnumThreatSeverityFieldRefInput<$PrismaModel>
+    not?: NestedEnumThreatSeverityFilter<$PrismaModel> | $Enums.ThreatSeverity
+  }
+
+  export type NestedEnumThreatTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ThreatType | EnumThreatTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ThreatType[] | ListEnumThreatTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ThreatType[] | ListEnumThreatTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumThreatTypeWithAggregatesFilter<$PrismaModel> | $Enums.ThreatType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumThreatTypeFilter<$PrismaModel>
+    _max?: NestedEnumThreatTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumThreatSeverityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ThreatSeverity | EnumThreatSeverityFieldRefInput<$PrismaModel>
+    in?: $Enums.ThreatSeverity[] | ListEnumThreatSeverityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ThreatSeverity[] | ListEnumThreatSeverityFieldRefInput<$PrismaModel>
+    not?: NestedEnumThreatSeverityWithAggregatesFilter<$PrismaModel> | $Enums.ThreatSeverity
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumThreatSeverityFilter<$PrismaModel>
+    _max?: NestedEnumThreatSeverityFilter<$PrismaModel>
+  }
+
+  export type NestedEnumRateLimitTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.RateLimitType | EnumRateLimitTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RateLimitType[] | ListEnumRateLimitTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RateLimitType[] | ListEnumRateLimitTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRateLimitTypeFilter<$PrismaModel> | $Enums.RateLimitType
+  }
+
+  export type NestedEnumRateLimitTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.RateLimitType | EnumRateLimitTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.RateLimitType[] | ListEnumRateLimitTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.RateLimitType[] | ListEnumRateLimitTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumRateLimitTypeWithAggregatesFilter<$PrismaModel> | $Enums.RateLimitType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRateLimitTypeFilter<$PrismaModel>
+    _max?: NestedEnumRateLimitTypeFilter<$PrismaModel>
+  }
+
   export type NestedBigIntFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
@@ -49738,6 +53311,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -49787,6 +53361,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -49923,6 +53498,78 @@ export namespace Prisma {
 
   export type GeographicRestrictionCreateManyCompanyInputEnvelope = {
     data: GeographicRestrictionCreateManyCompanyInput | GeographicRestrictionCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ThreatEventCreateWithoutCompanyInput = {
+    id?: string
+    threatType: $Enums.ThreatType
+    severity?: $Enums.ThreatSeverity
+    ipAddress?: string | null
+    userAgent?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: boolean
+    resolvedAt?: Date | string | null
+    resolvedBy?: string | null
+    createdAt?: Date | string
+    user?: UserCreateNestedOneWithoutThreatEventsInput
+  }
+
+  export type ThreatEventUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    userId?: string | null
+    threatType: $Enums.ThreatType
+    severity?: $Enums.ThreatSeverity
+    ipAddress?: string | null
+    userAgent?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: boolean
+    resolvedAt?: Date | string | null
+    resolvedBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ThreatEventCreateOrConnectWithoutCompanyInput = {
+    where: ThreatEventWhereUniqueInput
+    create: XOR<ThreatEventCreateWithoutCompanyInput, ThreatEventUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type ThreatEventCreateManyCompanyInputEnvelope = {
+    data: ThreatEventCreateManyCompanyInput | ThreatEventCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RateLimitCreateWithoutCompanyInput = {
+    id?: string
+    identifier: string
+    identifierType: $Enums.RateLimitType
+    action: string
+    count?: number
+    windowStart?: Date | string
+    windowEnd: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RateLimitUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    identifier: string
+    identifierType: $Enums.RateLimitType
+    action: string
+    count?: number
+    windowStart?: Date | string
+    windowEnd: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RateLimitCreateOrConnectWithoutCompanyInput = {
+    where: RateLimitWhereUniqueInput
+    create: XOR<RateLimitCreateWithoutCompanyInput, RateLimitUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type RateLimitCreateManyCompanyInputEnvelope = {
+    data: RateLimitCreateManyCompanyInput | RateLimitCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -50067,6 +53714,72 @@ export namespace Prisma {
     createdById?: StringNullableFilter<"GeographicRestriction"> | string | null
   }
 
+  export type ThreatEventUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: ThreatEventWhereUniqueInput
+    update: XOR<ThreatEventUpdateWithoutCompanyInput, ThreatEventUncheckedUpdateWithoutCompanyInput>
+    create: XOR<ThreatEventCreateWithoutCompanyInput, ThreatEventUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type ThreatEventUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: ThreatEventWhereUniqueInput
+    data: XOR<ThreatEventUpdateWithoutCompanyInput, ThreatEventUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type ThreatEventUpdateManyWithWhereWithoutCompanyInput = {
+    where: ThreatEventScalarWhereInput
+    data: XOR<ThreatEventUpdateManyMutationInput, ThreatEventUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type ThreatEventScalarWhereInput = {
+    AND?: ThreatEventScalarWhereInput | ThreatEventScalarWhereInput[]
+    OR?: ThreatEventScalarWhereInput[]
+    NOT?: ThreatEventScalarWhereInput | ThreatEventScalarWhereInput[]
+    id?: StringFilter<"ThreatEvent"> | string
+    userId?: StringNullableFilter<"ThreatEvent"> | string | null
+    companyId?: StringNullableFilter<"ThreatEvent"> | string | null
+    threatType?: EnumThreatTypeFilter<"ThreatEvent"> | $Enums.ThreatType
+    severity?: EnumThreatSeverityFilter<"ThreatEvent"> | $Enums.ThreatSeverity
+    ipAddress?: StringNullableFilter<"ThreatEvent"> | string | null
+    userAgent?: StringNullableFilter<"ThreatEvent"> | string | null
+    details?: JsonNullableFilter<"ThreatEvent">
+    isResolved?: BoolFilter<"ThreatEvent"> | boolean
+    resolvedAt?: DateTimeNullableFilter<"ThreatEvent"> | Date | string | null
+    resolvedBy?: StringNullableFilter<"ThreatEvent"> | string | null
+    createdAt?: DateTimeFilter<"ThreatEvent"> | Date | string
+  }
+
+  export type RateLimitUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: RateLimitWhereUniqueInput
+    update: XOR<RateLimitUpdateWithoutCompanyInput, RateLimitUncheckedUpdateWithoutCompanyInput>
+    create: XOR<RateLimitCreateWithoutCompanyInput, RateLimitUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type RateLimitUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: RateLimitWhereUniqueInput
+    data: XOR<RateLimitUpdateWithoutCompanyInput, RateLimitUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type RateLimitUpdateManyWithWhereWithoutCompanyInput = {
+    where: RateLimitScalarWhereInput
+    data: XOR<RateLimitUpdateManyMutationInput, RateLimitUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type RateLimitScalarWhereInput = {
+    AND?: RateLimitScalarWhereInput | RateLimitScalarWhereInput[]
+    OR?: RateLimitScalarWhereInput[]
+    NOT?: RateLimitScalarWhereInput | RateLimitScalarWhereInput[]
+    id?: StringFilter<"RateLimit"> | string
+    identifier?: StringFilter<"RateLimit"> | string
+    identifierType?: EnumRateLimitTypeFilter<"RateLimit"> | $Enums.RateLimitType
+    action?: StringFilter<"RateLimit"> | string
+    count?: IntFilter<"RateLimit"> | number
+    windowStart?: DateTimeFilter<"RateLimit"> | Date | string
+    windowEnd?: DateTimeFilter<"RateLimit"> | Date | string
+    companyId?: StringNullableFilter<"RateLimit"> | string | null
+    createdAt?: DateTimeFilter<"RateLimit"> | Date | string
+    updatedAt?: DateTimeFilter<"RateLimit"> | Date | string
+  }
+
   export type CompanyCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -50076,6 +53789,8 @@ export namespace Prisma {
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -50087,6 +53802,8 @@ export namespace Prisma {
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -50233,6 +53950,44 @@ export namespace Prisma {
 
   export type AuditLogCreateManyUserInputEnvelope = {
     data: AuditLogCreateManyUserInput | AuditLogCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ThreatEventCreateWithoutUserInput = {
+    id?: string
+    threatType: $Enums.ThreatType
+    severity?: $Enums.ThreatSeverity
+    ipAddress?: string | null
+    userAgent?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: boolean
+    resolvedAt?: Date | string | null
+    resolvedBy?: string | null
+    createdAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutThreatEventsInput
+  }
+
+  export type ThreatEventUncheckedCreateWithoutUserInput = {
+    id?: string
+    companyId?: string | null
+    threatType: $Enums.ThreatType
+    severity?: $Enums.ThreatSeverity
+    ipAddress?: string | null
+    userAgent?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: boolean
+    resolvedAt?: Date | string | null
+    resolvedBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ThreatEventCreateOrConnectWithoutUserInput = {
+    where: ThreatEventWhereUniqueInput
+    create: XOR<ThreatEventCreateWithoutUserInput, ThreatEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type ThreatEventCreateManyUserInputEnvelope = {
+    data: ThreatEventCreateManyUserInput | ThreatEventCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -50699,6 +54454,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -50748,6 +54504,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -50800,6 +54557,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -50848,6 +54606,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -51141,6 +54900,8 @@ export namespace Prisma {
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -51152,6 +54913,8 @@ export namespace Prisma {
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type PasswordUpsertWithWhereUniqueWithoutOwnerInput = {
@@ -51278,6 +55041,22 @@ export namespace Prisma {
     userAgent?: StringNullableFilter<"AuditLog"> | string | null
     status?: EnumAuditStatusFilter<"AuditLog"> | $Enums.AuditStatus
     createdAt?: DateTimeFilter<"AuditLog"> | Date | string
+  }
+
+  export type ThreatEventUpsertWithWhereUniqueWithoutUserInput = {
+    where: ThreatEventWhereUniqueInput
+    update: XOR<ThreatEventUpdateWithoutUserInput, ThreatEventUncheckedUpdateWithoutUserInput>
+    create: XOR<ThreatEventCreateWithoutUserInput, ThreatEventUncheckedCreateWithoutUserInput>
+  }
+
+  export type ThreatEventUpdateWithWhereUniqueWithoutUserInput = {
+    where: ThreatEventWhereUniqueInput
+    data: XOR<ThreatEventUpdateWithoutUserInput, ThreatEventUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ThreatEventUpdateManyWithWhereWithoutUserInput = {
+    where: ThreatEventScalarWhereInput
+    data: XOR<ThreatEventUpdateManyMutationInput, ThreatEventUncheckedUpdateManyWithoutUserInput>
   }
 
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -51677,6 +55456,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -51726,6 +55506,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -51968,6 +55749,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
@@ -52017,6 +55799,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
@@ -52080,6 +55863,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
@@ -52129,6 +55913,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
@@ -52176,6 +55961,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
@@ -52225,6 +56011,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
@@ -52288,6 +56075,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
@@ -52337,6 +56125,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
@@ -52383,6 +56172,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -52432,6 +56222,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -52725,6 +56516,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -52774,6 +56566,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -53039,6 +56832,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -53088,6 +56882,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -53208,6 +57003,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -53257,6 +57053,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -53355,6 +57152,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -53404,6 +57202,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -53456,6 +57255,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -53505,6 +57305,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -53625,6 +57426,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -53674,6 +57476,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -53732,6 +57535,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -53781,6 +57585,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -53828,6 +57633,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -53877,6 +57683,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -54034,6 +57841,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -54083,6 +57891,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -54248,6 +58057,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -54297,6 +58107,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -54458,6 +58269,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -54507,6 +58319,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -54804,6 +58617,7 @@ export namespace Prisma {
     ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -54853,6 +58667,7 @@ export namespace Prisma {
     ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -54996,6 +58811,7 @@ export namespace Prisma {
     ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -55045,6 +58861,7 @@ export namespace Prisma {
     ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -55228,6 +59045,7 @@ export namespace Prisma {
     ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -55277,6 +59095,7 @@ export namespace Prisma {
     ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -55369,6 +59188,7 @@ export namespace Prisma {
     ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -55418,6 +59238,7 @@ export namespace Prisma {
     ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -55659,6 +59480,7 @@ export namespace Prisma {
     ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -55708,6 +59530,7 @@ export namespace Prisma {
     ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -55771,6 +59594,7 @@ export namespace Prisma {
     ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -55820,6 +59644,7 @@ export namespace Prisma {
     ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -55841,6 +59666,354 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
     createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
     createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserCreateWithoutThreatEventsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutThreatEventsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutThreatEventsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutThreatEventsInput, UserUncheckedCreateWithoutThreatEventsInput>
+  }
+
+  export type CompanyCreateWithoutThreatEventsInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutThreatEventsInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutThreatEventsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutThreatEventsInput, CompanyUncheckedCreateWithoutThreatEventsInput>
+  }
+
+  export type UserUpsertWithoutThreatEventsInput = {
+    update: XOR<UserUpdateWithoutThreatEventsInput, UserUncheckedUpdateWithoutThreatEventsInput>
+    create: XOR<UserCreateWithoutThreatEventsInput, UserUncheckedCreateWithoutThreatEventsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutThreatEventsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutThreatEventsInput, UserUncheckedUpdateWithoutThreatEventsInput>
+  }
+
+  export type UserUpdateWithoutThreatEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutThreatEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type CompanyUpsertWithoutThreatEventsInput = {
+    update: XOR<CompanyUpdateWithoutThreatEventsInput, CompanyUncheckedUpdateWithoutThreatEventsInput>
+    create: XOR<CompanyCreateWithoutThreatEventsInput, CompanyUncheckedCreateWithoutThreatEventsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutThreatEventsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutThreatEventsInput, CompanyUncheckedUpdateWithoutThreatEventsInput>
+  }
+
+  export type CompanyUpdateWithoutThreatEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutThreatEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutRateLimitsInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutRateLimitsInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutRateLimitsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutRateLimitsInput, CompanyUncheckedCreateWithoutRateLimitsInput>
+  }
+
+  export type CompanyUpsertWithoutRateLimitsInput = {
+    update: XOR<CompanyUpdateWithoutRateLimitsInput, CompanyUncheckedUpdateWithoutRateLimitsInput>
+    create: XOR<CompanyCreateWithoutRateLimitsInput, CompanyUncheckedCreateWithoutRateLimitsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutRateLimitsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutRateLimitsInput, CompanyUncheckedUpdateWithoutRateLimitsInput>
+  }
+
+  export type CompanyUpdateWithoutRateLimitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutRateLimitsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutCreatedRolesInput = {
@@ -55868,6 +60041,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -55917,6 +60091,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -56002,6 +60177,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -56051,6 +60227,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -56274,6 +60451,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
@@ -56323,6 +60501,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
@@ -56386,6 +60565,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
@@ -56435,6 +60615,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
@@ -56482,6 +60663,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -56531,6 +60713,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -56594,6 +60777,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -56643,6 +60827,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -56690,6 +60875,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -56739,6 +60925,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -56802,6 +60989,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -56851,6 +61039,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -56898,6 +61087,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -56947,6 +61137,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -57010,6 +61201,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -57059,6 +61251,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -57106,6 +61299,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -57155,6 +61349,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -57191,6 +61386,8 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTemplatesInput = {
@@ -57202,6 +61399,8 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTemplatesInput = {
@@ -57245,6 +61444,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -57294,6 +61494,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -57336,6 +61537,8 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTemplatesInput = {
@@ -57347,6 +61550,8 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutEmailVerificationTokensInput = {
@@ -57374,6 +61579,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -57423,6 +61629,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -57486,6 +61693,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -57535,6 +61743,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -57582,6 +61791,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -57631,6 +61841,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -57694,6 +61905,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -57743,6 +61955,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -57790,6 +62003,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -57839,6 +62053,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -57902,6 +62117,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -57951,6 +62167,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -57998,6 +62215,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -58047,6 +62265,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -58083,6 +62302,8 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIpWhitelistsInput = {
@@ -58094,6 +62315,8 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIpWhitelistsInput = {
@@ -58126,6 +62349,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -58175,6 +62399,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -58238,6 +62463,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -58287,6 +62513,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -58329,6 +62556,8 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIpWhitelistsInput = {
@@ -58340,6 +62569,8 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCreatedIpWhitelistsInput = {
@@ -58378,6 +62609,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -58427,6 +62659,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -58474,6 +62707,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -58523,6 +62757,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -58559,6 +62794,8 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGeographicRestrictionsInput = {
@@ -58570,6 +62807,8 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGeographicRestrictionsInput = {
@@ -58602,6 +62841,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
@@ -58651,6 +62891,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
     teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
@@ -58714,6 +62955,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -58763,6 +63005,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -58805,6 +63048,8 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGeographicRestrictionsInput = {
@@ -58816,6 +63061,8 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCreatedGeographicRestrictionsInput = {
@@ -58854,6 +63101,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -58903,6 +63151,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -58986,6 +63235,32 @@ export namespace Prisma {
     createdById?: string | null
   }
 
+  export type ThreatEventCreateManyCompanyInput = {
+    id?: string
+    userId?: string | null
+    threatType: $Enums.ThreatType
+    severity?: $Enums.ThreatSeverity
+    ipAddress?: string | null
+    userAgent?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: boolean
+    resolvedAt?: Date | string | null
+    resolvedBy?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RateLimitCreateManyCompanyInput = {
+    id?: string
+    identifier: string
+    identifierType: $Enums.RateLimitType
+    action: string
+    count?: number
+    windowStart?: Date | string
+    windowEnd: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type UserUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -59010,6 +63285,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -59059,6 +63335,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
@@ -59219,6 +63496,84 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type ThreatEventUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    threatType?: EnumThreatTypeFieldUpdateOperationsInput | $Enums.ThreatType
+    severity?: EnumThreatSeverityFieldUpdateOperationsInput | $Enums.ThreatSeverity
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutThreatEventsNestedInput
+  }
+
+  export type ThreatEventUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    threatType?: EnumThreatTypeFieldUpdateOperationsInput | $Enums.ThreatType
+    severity?: EnumThreatSeverityFieldUpdateOperationsInput | $Enums.ThreatSeverity
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ThreatEventUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    threatType?: EnumThreatTypeFieldUpdateOperationsInput | $Enums.ThreatType
+    severity?: EnumThreatSeverityFieldUpdateOperationsInput | $Enums.ThreatSeverity
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateLimitUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identifier?: StringFieldUpdateOperationsInput | string
+    identifierType?: EnumRateLimitTypeFieldUpdateOperationsInput | $Enums.RateLimitType
+    action?: StringFieldUpdateOperationsInput | string
+    count?: IntFieldUpdateOperationsInput | number
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateLimitUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identifier?: StringFieldUpdateOperationsInput | string
+    identifierType?: EnumRateLimitTypeFieldUpdateOperationsInput | $Enums.RateLimitType
+    action?: StringFieldUpdateOperationsInput | string
+    count?: IntFieldUpdateOperationsInput | number
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RateLimitUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    identifier?: StringFieldUpdateOperationsInput | string
+    identifierType?: EnumRateLimitTypeFieldUpdateOperationsInput | $Enums.RateLimitType
+    action?: StringFieldUpdateOperationsInput | string
+    count?: IntFieldUpdateOperationsInput | number
+    windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PasswordCreateManyOwnerInput = {
     id?: string
     name: string
@@ -59262,6 +63617,20 @@ export namespace Prisma {
     ipAddress?: string | null
     userAgent?: string | null
     status?: $Enums.AuditStatus
+    createdAt?: Date | string
+  }
+
+  export type ThreatEventCreateManyUserInput = {
+    id?: string
+    companyId?: string | null
+    threatType: $Enums.ThreatType
+    severity?: $Enums.ThreatSeverity
+    ipAddress?: string | null
+    userAgent?: string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: boolean
+    resolvedAt?: Date | string | null
+    resolvedBy?: string | null
     createdAt?: Date | string
   }
 
@@ -59669,6 +64038,48 @@ export namespace Prisma {
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAuditStatusFieldUpdateOperationsInput | $Enums.AuditStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ThreatEventUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    threatType?: EnumThreatTypeFieldUpdateOperationsInput | $Enums.ThreatType
+    severity?: EnumThreatSeverityFieldUpdateOperationsInput | $Enums.ThreatSeverity
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutThreatEventsNestedInput
+  }
+
+  export type ThreatEventUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    threatType?: EnumThreatTypeFieldUpdateOperationsInput | $Enums.ThreatType
+    severity?: EnumThreatSeverityFieldUpdateOperationsInput | $Enums.ThreatSeverity
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ThreatEventUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    threatType?: EnumThreatTypeFieldUpdateOperationsInput | $Enums.ThreatType
+    severity?: EnumThreatSeverityFieldUpdateOperationsInput | $Enums.ThreatSeverity
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    details?: NullableJsonNullValueInput | InputJsonValue
+    isResolved?: BoolFieldUpdateOperationsInput | boolean
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -60172,6 +64583,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
@@ -60220,6 +64632,7 @@ export namespace Prisma {
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
     teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput

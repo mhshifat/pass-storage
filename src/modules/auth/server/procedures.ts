@@ -382,28 +382,14 @@ export const authRouter = createTRPCRouter({
             z.object({
                 email: z.string().email("Invalid email address"),
                 password: z.string().min(1, "Password is required"),
+                captchaToken: z.string().optional(),
+                captchaAnswer: z.number().optional(),
             })
         )
         .mutation(async ({ input, ctx }) => {
-            // Get login security settings
-            const securitySettings = await prisma.settings.findMany({
-                where: {
-                    key: {
-                        in: [
-                            "security.login.max_attempts",
-                            "security.login.lockout_duration_minutes",
-                        ],
-                    },
-                },
-            })
-
-            const config: Record<string, unknown> = {}
-            securitySettings.forEach((setting) => {
-                config[setting.key] = setting.value
-            })
-
-            const maxAttempts = (config["security.login.max_attempts"] as number) ?? 5
-            const lockoutDurationMinutes = (config["security.login.lockout_duration_minutes"] as number) ?? 15
+            // Get request metadata (IP and user agent) - needed for threat detection
+            const headersList = await headers();
+            const { ipAddress, userAgent } = getRequestMetadata(headersList);
 
             // Get subdomain from context (set by middleware)
             const subdomain = ctx.subdomain
@@ -428,6 +414,33 @@ export const authRouter = createTRPCRouter({
                 })
             }
 
+            // Get threat detection configuration
+            const {
+                getThreatDetectionConfig,
+                checkRateLimit,
+                checkBruteForce,
+                shouldRequireCaptcha,
+            } = await import("@/lib/threat-detection")
+            const threatConfig = await getThreatDetectionConfig(company.id)
+
+            // Check rate limiting (IP-based) if enabled
+            if (threatConfig.enabled && threatConfig.rateLimiting.enabled && ipAddress) {
+                const rateLimitCheck = await checkRateLimit(
+                    ipAddress,
+                    "IP",
+                    "LOGIN",
+                    threatConfig.rateLimiting.login,
+                    company.id
+                )
+
+                if (rateLimitCheck.exceeded) {
+                    throw new TRPCError({
+                        code: "TOO_MANY_REQUESTS",
+                        message: `Too many login attempts. Please try again after ${new Date(rateLimitCheck.resetAt).toLocaleTimeString()}.`,
+                    })
+                }
+            }
+
             // Find user in this company
             const user = await prisma.user.findFirst({
                 where: { 
@@ -437,29 +450,65 @@ export const authRouter = createTRPCRouter({
             })
 
             if (!user) {
+                // Don't reveal if user exists (security best practice)
                 throw new TRPCError({
                     code: "UNAUTHORIZED",
                     message: "Invalid email or password",
                 })
             }
 
-            // Check for account lockout
-            const lockoutThreshold = new Date(Date.now() - lockoutDurationMinutes * 60 * 1000)
-            const recentFailedAttempts = await prisma.auditLog.count({
-                where: {
-                    userId: user.id,
-                    action: "LOGIN_FAILED",
-                    createdAt: {
-                        gte: lockoutThreshold,
-                    },
-                },
-            })
+            // Check CAPTCHA requirement (for suspicious IPs) - after user is found
+            if (threatConfig.enabled && threatConfig.captcha.enabled && ipAddress) {
+                const requiresCaptcha = await shouldRequireCaptcha(
+                    ipAddress,
+                    "IP",
+                    "LOGIN",
+                    threatConfig.captcha,
+                    company.id
+                )
+                if (requiresCaptcha) {
+                    // Verify CAPTCHA if provided
+                    if (input.captchaToken && input.captchaAnswer !== undefined) {
+                        const { verifyCaptchaFromStore } = await import("@/lib/captcha")
+                        const isValid = verifyCaptchaFromStore(input.captchaToken, input.captchaAnswer)
+                        if (!isValid) {
+                            throw new TRPCError({
+                                code: "BAD_REQUEST",
+                                message: "Invalid CAPTCHA answer. Please try again.",
+                            })
+                        }
+                    } else {
+                        // Generate new CAPTCHA challenge
+                        const { generateCaptchaChallenge, storeCaptchaChallenge } = await import("@/lib/captcha")
+                        const challenge = generateCaptchaChallenge()
+                        storeCaptchaChallenge(challenge.token, challenge.answer)
+                        throw new TRPCError({
+                            code: "PRECONDITION_FAILED",
+                            message: "CAPTCHA verification required",
+                            cause: { 
+                                requiresCaptcha: true,
+                                captchaToken: challenge.token,
+                                captchaQuestion: challenge.question,
+                            },
+                        })
+                    }
+                }
+            }
 
-            if (recentFailedAttempts >= maxAttempts) {
-                throw new TRPCError({
-                    code: "FORBIDDEN",
-                    message: `Account locked due to too many failed login attempts. Please try again in ${lockoutDurationMinutes} minutes.`,
-                })
+            // Check brute force protection if enabled
+            if (threatConfig.enabled && threatConfig.bruteForceProtection.enabled) {
+                const bruteForceCheck = await checkBruteForce(
+                    user.id,
+                    threatConfig.bruteForceProtection,
+                    company.id
+                )
+
+                if (bruteForceCheck.locked) {
+                    throw new TRPCError({
+                        code: "FORBIDDEN",
+                        message: `Account locked due to too many failed login attempts. Please try again ${bruteForceCheck.unlockAt ? `after ${bruteForceCheck.unlockAt.toLocaleTimeString()}` : "later"}.`,
+                    })
+                }
             }
 
             // Check if user has a password (might be null for OAuth users)
@@ -520,10 +569,6 @@ export const authRouter = createTRPCRouter({
                     return { success: true, mfaRequired: true };
                 }
             }
-
-            // Get request metadata (IP and user agent)
-            const headersList = await headers();
-            const { ipAddress, userAgent } = getRequestMetadata(headersList);
 
             // Check IP whitelist if enabled
             if (ipAddress) {
@@ -726,6 +771,24 @@ export const authRouter = createTRPCRouter({
                 ipAddress,
                 userAgent,
             });
+
+            // Run anomaly detection if enabled (after successful login)
+            if (threatConfig.enabled && threatConfig.anomalyDetection.enabled) {
+                const { detectAnomalies } = await import("@/lib/threat-detection")
+                const anomalyCheck = await detectAnomalies(
+                    user.id,
+                    ipAddress,
+                    userAgent,
+                    threatConfig.anomalyDetection,
+                    company.id
+                )
+
+                // If anomaly detected, log it but don't block login
+                // The threat event has already been created by detectAnomalies
+                if (anomalyCheck.isAnomaly) {
+                    console.warn(`[Threat Detection] Anomaly detected for user ${user.id}:`, anomalyCheck.reasons)
+                }
+            }
 
             // Create session with device info
             await createSession(user.id, user.email, {

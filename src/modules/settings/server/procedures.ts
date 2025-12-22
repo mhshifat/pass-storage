@@ -1188,4 +1188,239 @@ export const settingsRouter = createTRPCRouter({
 
       return { success: true }
     }),
+
+  // Threat Detection Procedures
+  getThreatEvents: protectedProcedure("settings.view")
+    .input(
+      z.object({
+        page: z.number().min(1).default(1),
+        limit: z.number().min(1).max(100).default(20),
+        severity: z.enum(["LOW", "MEDIUM", "HIGH", "CRITICAL"]).optional(),
+        threatType: z.enum([
+          "BRUTE_FORCE",
+          "RATE_LIMIT_EXCEEDED",
+          "UNUSUAL_ACCESS_PATTERN",
+          "SUSPICIOUS_LOCATION",
+          "MULTIPLE_FAILED_LOGINS",
+          "ANOMALY_DETECTED",
+        ]).optional(),
+        isResolved: z.boolean().optional(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      // Get company ID from context
+      let companyId: string | undefined = undefined
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      const where: {
+        companyId?: string
+        severity?: string
+        threatType?: string
+        isResolved?: boolean
+      } = {}
+
+      if (companyId) {
+        where.companyId = companyId
+      }
+      if (input.severity) {
+        where.severity = input.severity
+      }
+      if (input.threatType) {
+        where.threatType = input.threatType
+      }
+      if (input.isResolved !== undefined) {
+        where.isResolved = input.isResolved
+      }
+
+      const [threats, total] = await Promise.all([
+        prisma.threatEvent.findMany({
+          where,
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              },
+            },
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+          skip: (input.page - 1) * input.limit,
+          take: input.limit,
+        }),
+        prisma.threatEvent.count({ where }),
+      ])
+
+      return {
+        threats,
+        pagination: {
+          page: input.page,
+          limit: input.limit,
+          total,
+          totalPages: Math.ceil(total / input.limit),
+        },
+      }
+    }),
+
+  resolveThreatEvent: protectedProcedure("settings.edit")
+    .input(
+      z.object({
+        threatEventId: z.string().min(1),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const threatEvent = await prisma.threatEvent.findUnique({
+        where: { id: input.threatEventId },
+      })
+
+      if (!threatEvent) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Threat event not found",
+        })
+      }
+
+      // Verify company access
+      let companyId: string | undefined = undefined
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      }
+
+      if (threatEvent.companyId && threatEvent.companyId !== companyId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You do not have permission to resolve this threat event",
+        })
+      }
+
+      await prisma.threatEvent.update({
+        where: { id: input.threatEventId },
+        data: {
+          isResolved: true,
+          resolvedAt: new Date(),
+          resolvedBy: ctx.userId || null,
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "THREAT_EVENT_RESOLVED",
+        resource: "ThreatEvent",
+        resourceId: input.threatEventId,
+        userId: ctx.userId || null,
+      })
+
+      return { success: true }
+    }),
+
+  getThreatDetectionSettings: protectedProcedure("settings.view").query(async () => {
+    const { getThreatDetectionConfig } = await import("@/lib/threat-detection")
+    return await getThreatDetectionConfig()
+  }),
+
+  updateThreatDetectionSettings: protectedProcedure("settings.edit")
+    .input(
+      z.object({
+        enabled: z.boolean(),
+        rateLimiting: z.object({
+          enabled: z.boolean(),
+          login: z.object({
+            maxRequests: z.number().min(1).max(100),
+            windowMinutes: z.number().min(1).max(1440),
+          }),
+          passwordReset: z.object({
+            maxRequests: z.number().min(1).max(100),
+            windowMinutes: z.number().min(1).max(1440),
+          }),
+          api: z.object({
+            maxRequests: z.number().min(1).max(1000),
+            windowMinutes: z.number().min(1).max(1440),
+          }),
+        }),
+        bruteForceProtection: z.object({
+          enabled: z.boolean(),
+          maxAttempts: z.number().min(1).max(20),
+          lockoutDurationMinutes: z.number().min(1).max(1440),
+          windowMinutes: z.number().min(1).max(1440),
+        }),
+        anomalyDetection: z.object({
+          enabled: z.boolean(),
+          checkUnusualLocation: z.boolean(),
+          checkUnusualTime: z.boolean(),
+          checkUnusualDevice: z.boolean(),
+        }),
+        captcha: z.object({
+          enabled: z.boolean(),
+          triggerAfterFailedAttempts: z.number().min(1).max(10),
+        }),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const settings = [
+        { key: "security.threat.enabled", value: input.enabled },
+        { key: "security.threat.rate_limiting.enabled", value: input.rateLimiting.enabled },
+        { key: "security.threat.rate_limiting.login.max_requests", value: input.rateLimiting.login.maxRequests },
+        { key: "security.threat.rate_limiting.login.window_minutes", value: input.rateLimiting.login.windowMinutes },
+        { key: "security.threat.rate_limiting.password_reset.max_requests", value: input.rateLimiting.passwordReset.maxRequests },
+        { key: "security.threat.rate_limiting.password_reset.window_minutes", value: input.rateLimiting.passwordReset.windowMinutes },
+        { key: "security.threat.rate_limiting.api.max_requests", value: input.rateLimiting.api.maxRequests },
+        { key: "security.threat.rate_limiting.api.window_minutes", value: input.rateLimiting.api.windowMinutes },
+        { key: "security.threat.brute_force.enabled", value: input.bruteForceProtection.enabled },
+        { key: "security.threat.brute_force.max_attempts", value: input.bruteForceProtection.maxAttempts },
+        { key: "security.threat.brute_force.lockout_duration_minutes", value: input.bruteForceProtection.lockoutDurationMinutes },
+        { key: "security.threat.brute_force.window_minutes", value: input.bruteForceProtection.windowMinutes },
+        { key: "security.threat.anomaly.enabled", value: input.anomalyDetection.enabled },
+        { key: "security.threat.anomaly.check_unusual_location", value: input.anomalyDetection.checkUnusualLocation },
+        { key: "security.threat.anomaly.check_unusual_time", value: input.anomalyDetection.checkUnusualTime },
+        { key: "security.threat.anomaly.check_unusual_device", value: input.anomalyDetection.checkUnusualDevice },
+        { key: "security.threat.captcha.enabled", value: input.captcha.enabled },
+        { key: "security.threat.captcha.trigger_after_failed_attempts", value: input.captcha.triggerAfterFailedAttempts },
+      ]
+
+      await Promise.all(
+        settings.map((setting) =>
+          prisma.settings.upsert({
+            where: { key: setting.key },
+            update: { value: setting.value },
+            create: { key: setting.key, value: setting.value },
+          })
+        )
+      )
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "SETTINGS_UPDATED",
+        resource: "Settings",
+        details: { category: "threat_detection" },
+        userId: ctx.userId || null,
+      })
+
+      return { success: true }
+    }),
 })

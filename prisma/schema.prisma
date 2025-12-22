@@ -23,6 +23,8 @@ model Company {
   templates   PasswordTemplate[]
   ipWhitelists IpWhitelist[]
   geographicRestrictions GeographicRestriction[]
+  threatEvents ThreatEvent[]
+  rateLimits  RateLimit[]
 
   @@index([subdomain])
 }
@@ -55,6 +57,7 @@ model User {
   sharedPasswords    PasswordShare[]
   teamMemberships    TeamMember[]
   auditLogs          AuditLog[]
+  threatEvents       ThreatEvent[]
   sessions           Session[]
   accounts           Account[]
   mfaCredentials     MfaCredential[]
@@ -386,6 +389,75 @@ model Settings {
   updatedAt              DateTime @updatedAt
 
   @@index([key])
+}
+
+model ThreatEvent {
+  id            String       @id @default(cuid())
+  userId        String?
+  companyId     String?
+  threatType    ThreatType
+  severity      ThreatSeverity @default(MEDIUM)
+  ipAddress     String?
+  userAgent     String?
+  details       Json?
+  isResolved    Boolean      @default(false)
+  resolvedAt    DateTime?
+  resolvedBy    String?
+  createdAt     DateTime     @default(now())
+
+  // Relations
+  user          User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  company       Company?     @relation(fields: [companyId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([companyId])
+  @@index([threatType])
+  @@index([severity])
+  @@index([isResolved])
+  @@index([createdAt])
+  @@index([ipAddress])
+}
+
+model RateLimit {
+  id            String   @id @default(cuid())
+  identifier    String   // IP address or userId
+  identifierType RateLimitType
+  action        String   // e.g., "LOGIN", "PASSWORD_RESET"
+  count         Int      @default(1)
+  windowStart   DateTime @default(now())
+  windowEnd     DateTime
+  companyId     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  company       Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+
+  @@unique([identifier, identifierType, action, windowStart])
+  @@index([identifier, identifierType, action])
+  @@index([windowEnd])
+  @@index([companyId])
+}
+
+enum ThreatType {
+  BRUTE_FORCE
+  RATE_LIMIT_EXCEEDED
+  UNUSUAL_ACCESS_PATTERN
+  SUSPICIOUS_LOCATION
+  MULTIPLE_FAILED_LOGINS
+  ANOMALY_DETECTED
+}
+
+enum ThreatSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum RateLimitType {
+  IP
+  USER
 }
 
 model Role {

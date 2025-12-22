@@ -117,7 +117,13 @@
       "resendError": "যাচাইকরণ ইমেইল পুনরায় পাঠাতে ব্যর্থ",
       "emailSent": "যাচাইকরণ ইমেইল সফলভাবে পাঠানো হয়েছে। অনুগ্রহ করে আপনার ইনবক্স পরীক্ষা করুন।",
       "verificationRequired": "সমস্ত বৈশিষ্ট্যে অ্যাক্সেস করতে অনুগ্রহ করে আপনার ইমেইল ঠিকানা যাচাই করুন।"
-    }
+    },
+    "captchaLabel": "নিরাপত্তা যাচাইকরণ",
+    "captchaPlaceholder": "উত্তর লিখুন",
+    "captchaDescription": "আপনি একটি রোবট নন তা যাচাই করতে গণিত সমস্যাটি সমাধান করুন",
+    "refreshCaptcha": "CAPTCHA রিফ্রেশ করুন",
+    "captchaAnswerRequired": "CAPTCHA উত্তর প্রয়োজন",
+    "captchaInvalid": "অবৈধ CAPTCHA উত্তর। অনুগ্রহ করে আবার চেষ্টা করুন।"
   },
   "dashboard": {
     "title": "ড্যাশবোর্ড",
@@ -1047,6 +1053,8 @@
       "saveDeviceManagement": "ডিভাইস ব্যবস্থাপনা সেটিংস সংরক্ষণ করুন",
       "securitySettingsSaved": "নিরাপত্তা সেটিংস সফলভাবে সংরক্ষণ করা হয়েছে",
       "securitySettingsFailed": "নিরাপত্তা সেটিংস সংরক্ষণ করতে ব্যর্থ",
+      "threatDetectionSettingsSaved": "হুমকি সনাক্তকরণ সেটিংস সফলভাবে সংরক্ষণ করা হয়েছে",
+      "threatDetectionSettingsFailed": "হুমকি সনাক্তকরণ সেটিংস সংরক্ষণ করতে ব্যর্থ",
       "loadFailed": "সেটিংস লোড করতে ব্যর্থ: {{error}}",
       "ipSecuritySettings": {
         "title": "IP নিরাপত্তা সেটিংস",
@@ -1108,6 +1116,63 @@
         "deleteTitle": "ভৌগোলিক সীমাবদ্ধতা সরান",
         "deleteDescription": "আপনি কি নিশ্চিত যে আপনি এই ভৌগোলিক সীমাবদ্ধতাটি সরাতে চান?",
         "empty": "কোন ভৌগোলিক সীমাবদ্ধতা কনফিগার করা নেই। অবস্থান দ্বারা অ্যাক্সেস নিয়ন্ত্রণ করতে সীমাবদ্ধতা যোগ করুন।"
+      },
+      "threatDetection": {
+        "title": "হুমকি সনাক্তকরণ",
+        "description": "হুমকি সনাক্ত করতে এবং প্রতিরোধ করতে উন্নত নিরাপত্তা বৈশিষ্ট্য",
+        "enabled": "হুমকি সনাক্তকরণ সক্ষম করুন",
+        "enabledDescription": "ব্যাপক হুমকি সনাক্তকরণ এবং সুরক্ষা সক্ষম করুন",
+        "rateLimiting": {
+          "title": "হার সীমাবদ্ধতা",
+          "enabled": "হার সীমাবদ্ধতা সক্ষম করুন",
+          "enabledDescription": "IP ঠিকানা এবং ব্যবহারকারীদের কাছ থেকে অনুরোধের সংখ্যা সীমাবদ্ধ করুন",
+          "login": {
+            "title": "লগইন হার সীমাবদ্ধতা",
+            "maxRequests": "সর্বোচ্চ অনুরোধ",
+            "maxRequestsDescription": "সময় উইন্ডো প্রতি সর্বোচ্চ লগইন প্রচেষ্টা",
+            "windowMinutes": "সময় উইন্ডো (মিনিট)",
+            "windowMinutesDescription": "হার সীমাবদ্ধতার জন্য সময় উইন্ডো"
+          },
+          "passwordReset": {
+            "title": "পাসওয়ার্ড রিসেট হার সীমাবদ্ধতা",
+            "maxRequests": "সর্বোচ্চ অনুরোধ",
+            "windowMinutes": "সময় উইন্ডো (মিনিট)"
+          },
+          "api": {
+            "title": "API হার সীমাবদ্ধতা",
+            "maxRequests": "সর্বোচ্চ অনুরোধ",
+            "windowMinutes": "সময় উইন্ডো (মিনিট)"
+          }
+        },
+        "bruteForceProtection": {
+          "title": "ব্রুট ফোর্স সুরক্ষা",
+          "enabled": "ব্রুট ফোর্স সুরক্ষা সক্ষম করুন",
+          "enabledDescription": "ব্রুট ফোর্স লগইন প্রচেষ্টা থেকে রক্ষা করুন",
+          "maxAttempts": "সর্বোচ্চ ব্যর্থ প্রচেষ্টা",
+          "maxAttemptsDescription": "লকআউটের আগে সর্বোচ্চ ব্যর্থ লগইন প্রচেষ্টা",
+          "lockoutDurationMinutes": "লকআউট সময়কাল (মিনিট)",
+          "lockoutDurationDescription": "সর্বোচ্চ প্রচেষ্টার পর অ্যাকাউন্ট কতক্ষণ লক করবেন",
+          "windowMinutes": "সময় উইন্ডো (মিনিট)",
+          "windowMinutesDescription": "ব্যর্থ প্রচেষ্টা গণনা করার সময় উইন্ডো"
+        },
+        "anomalyDetection": {
+          "title": "অস্বাভাবিকতা সনাক্তকরণ",
+          "enabled": "অস্বাভাবিকতা সনাক্তকরণ সক্ষম করুন",
+          "enabledDescription": "অস্বাভাবিক অ্যাক্সেস প্যাটার্ন এবং আচরণ সনাক্ত করুন",
+          "checkUnusualLocation": "অস্বাভাবিক অবস্থান পরীক্ষা করুন",
+          "checkUnusualLocationDescription": "নতুন অবস্থান থেকে লগইনে সতর্ক করুন",
+          "checkUnusualTime": "অস্বাভাবিক সময় পরীক্ষা করুন",
+          "checkUnusualTimeDescription": "অস্বাভাবিক সময়ে লগইনে সতর্ক করুন",
+          "checkUnusualDevice": "অস্বাভাবিক ডিভাইস পরীক্ষা করুন",
+          "checkUnusualDeviceDescription": "নতুন ডিভাইস থেকে লগইনে সতর্ক করুন"
+        },
+        "captcha": {
+          "title": "CAPTCHA সুরক্ষা",
+          "enabled": "CAPTCHA সক্ষম করুন",
+          "enabledDescription": "সন্দেহজনক কার্যকলাপের জন্য CAPTCHA যাচাইকরণ প্রয়োজন",
+          "triggerAfterFailedAttempts": "ব্যর্থ প্রচেষ্টার পর ট্রিগার করুন",
+          "triggerAfterFailedAttemptsDescription": "CAPTCHA প্রয়োজন করার আগে ব্যর্থ প্রচেষ্টার সংখ্যা"
+        }
       }
     },
     "mfa": {
@@ -1618,6 +1683,38 @@
         "title": "MFA পরিচয়পত্র",
         "description": "আপনার মাল্টি-ফ্যাক্টর প্রমাণীকরণ পরিচয়পত্র, ব্যাকআপ কোড এবং প্রমাণীকরণ ডিভাইস পরিচালনা করুন।"
       }
+    },
+    "threats": {
+      "title": "নিরাপত্তা হুমকি",
+      "description": "সনাক্তকৃত নিরাপত্তা হুমকি দেখুন এবং পরিচালনা করুন",
+      "noThreats": "কোন হুমকি সনাক্ত করা হয়নি",
+      "noThreatsDescription": "আপনার সিস্টেম নিরাপদ। কোন হুমকি সনাক্ত করা হয়নি।",
+      "resolve": "সমাধান করুন",
+      "resolved": "সমাধান করা হয়েছে",
+      "unresolved": "অসমাধিত",
+      "severity": {
+        "LOW": "নিম্ন",
+        "MEDIUM": "মাঝারি",
+        "HIGH": "উচ্চ",
+        "CRITICAL": "সমালোচনামূলক"
+      },
+      "types": {
+        "BRUTE_FORCE": "ব্রুট ফোর্স আক্রমণ",
+        "RATE_LIMIT_EXCEEDED": "হার সীমা অতিক্রম করেছে",
+        "UNUSUAL_ACCESS_PATTERN": "অস্বাভাবিক অ্যাক্সেস প্যাটার্ন",
+        "SUSPICIOUS_LOCATION": "সন্দেহজনক অবস্থান",
+        "MULTIPLE_FAILED_LOGINS": "একাধিক ব্যর্থ লগইন",
+        "ANOMALY_DETECTED": "অস্বাভাবিকতা সনাক্ত করা হয়েছে"
+      },
+      "filterBySeverity": "তীব্রতা অনুযায়ী ফিল্টার করুন",
+      "filterByType": "টাইপ অনুযায়ী ফিল্টার করুন",
+      "filterByStatus": "স্থিতি অনুযায়ী ফিল্টার করুন",
+      "allSeverities": "সমস্ত তীব্রতা",
+      "allTypes": "সমস্ত টাইপ",
+      "allStatuses": "সমস্ত স্থিতি",
+      "resolveConfirm": "আপনি কি এই হুমকিটিকে সমাধান হিসাবে চিহ্নিত করতে চান?",
+      "resolveSuccess": "হুমকি সমাধান হিসাবে চিহ্নিত করা হয়েছে",
+      "resolveError": "হুমকি সমাধান করতে ব্যর্থ"
     },
     "startTour": "ট্যুর শুরু করুন"
   }

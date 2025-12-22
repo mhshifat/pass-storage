@@ -334,6 +334,34 @@ exports.Prisma.SettingsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ThreatEventScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companyId: 'companyId',
+  threatType: 'threatType',
+  severity: 'severity',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  details: 'details',
+  isResolved: 'isResolved',
+  resolvedAt: 'resolvedAt',
+  resolvedBy: 'resolvedBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.RateLimitScalarFieldEnum = {
+  id: 'id',
+  identifier: 'identifier',
+  identifierType: 'identifierType',
+  action: 'action',
+  count: 'count',
+  windowStart: 'windowStart',
+  windowEnd: 'windowEnd',
+  companyId: 'companyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.RoleScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -539,6 +567,27 @@ exports.AuditStatus = exports.$Enums.AuditStatus = {
   BLOCKED: 'BLOCKED'
 };
 
+exports.ThreatType = exports.$Enums.ThreatType = {
+  BRUTE_FORCE: 'BRUTE_FORCE',
+  RATE_LIMIT_EXCEEDED: 'RATE_LIMIT_EXCEEDED',
+  UNUSUAL_ACCESS_PATTERN: 'UNUSUAL_ACCESS_PATTERN',
+  SUSPICIOUS_LOCATION: 'SUSPICIOUS_LOCATION',
+  MULTIPLE_FAILED_LOGINS: 'MULTIPLE_FAILED_LOGINS',
+  ANOMALY_DETECTED: 'ANOMALY_DETECTED'
+};
+
+exports.ThreatSeverity = exports.$Enums.ThreatSeverity = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL'
+};
+
+exports.RateLimitType = exports.$Enums.RateLimitType = {
+  IP: 'IP',
+  USER: 'USER'
+};
+
 exports.Prisma.ModelName = {
   Company: 'Company',
   User: 'User',
@@ -557,6 +606,8 @@ exports.Prisma.ModelName = {
   PasswordTag: 'PasswordTag',
   AuditLog: 'AuditLog',
   Settings: 'Settings',
+  ThreatEvent: 'ThreatEvent',
+  RateLimit: 'RateLimit',
   Role: 'Role',
   Permission: 'Permission',
   RolePermission: 'RolePermission',

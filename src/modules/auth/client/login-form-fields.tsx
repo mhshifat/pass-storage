@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -8,25 +8,37 @@ import * as z from "zod"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Lock, Mail, AlertCircle } from "lucide-react"
+import { Lock, Mail, AlertCircle, RefreshCw } from "lucide-react"
 import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
-export function createLoginSchema(t: (key: string) => string) {
+export function createLoginSchema(t: (key: string) => string, requiresCaptcha?: boolean) {
   return z.object({
     email: z.string().email(t("errors.invalidEmail")),
     password: z.string().min(1, t("errors.passwordRequired")),
+    captchaAnswer: requiresCaptcha ? z.number().min(0, t("auth.captchaAnswerRequired")) : z.number().optional(),
   })
 }
 
 interface LoginFormFieldsProps {
   formAction: (payload: FormData) => void
   isPending: boolean
-  state: { error?: string; fieldErrors?: { [key: string]: string } } | null
+  state: { 
+    error?: string
+    fieldErrors?: { [key: string]: string }
+    requiresCaptcha?: boolean
+    captchaToken?: string
+    captchaQuestion?: string
+  } | null
 }
 
 export function LoginFormFields({ formAction, isPending, state }: LoginFormFieldsProps) {
   const { t } = useTranslation()
-  const loginSchema = createLoginSchema(t)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(state?.captchaToken || null)
+  const [captchaQuestion, setCaptchaQuestion] = useState<string | null>(state?.captchaQuestion || null)
+  const requiresCaptcha = state?.requiresCaptcha || false
+  
+  const loginSchema = createLoginSchema(t, requiresCaptcha)
   type LoginFormValues = z.infer<typeof loginSchema>
   
   const form = useForm<LoginFormValues>({
@@ -34,10 +46,11 @@ export function LoginFormFields({ formAction, isPending, state }: LoginFormField
     defaultValues: {
       email: "",
       password: "",
+      captchaAnswer: undefined,
     },
   })
 
-  // Sync server errors to form state
+  // Sync server errors and CAPTCHA state to form
   useEffect(() => {
     if (state?.error) {
       form.setError("root", {
@@ -55,11 +68,38 @@ export function LoginFormFields({ formAction, isPending, state }: LoginFormField
         })
       })
     }
+    
+    // Update CAPTCHA state
+    if (state?.requiresCaptcha && state?.captchaToken && state?.captchaQuestion) {
+      setCaptchaToken(state.captchaToken)
+      setCaptchaQuestion(state.captchaQuestion)
+    }
   }, [state, form])
+  
+  const handleRefreshCaptcha = async () => {
+    // Trigger a new login attempt to get a new CAPTCHA
+    const formData = new FormData()
+    formData.append("email", form.getValues("email"))
+    formData.append("password", form.getValues("password"))
+    formAction(formData)
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    if (captchaToken) {
+      formData.append("captchaToken", captchaToken)
+    }
+    const captchaAnswer = form.getValues("captchaAnswer")
+    if (captchaAnswer !== undefined && captchaAnswer !== null) {
+      formData.append("captchaAnswer", captchaAnswer.toString())
+    }
+    formAction(formData)
+  }
 
   return (
     <Form {...form}>
-      <form action={formAction} id="login-form">
+      <form action={formAction} id="login-form" onSubmit={handleSubmit}>
         {form.formState.errors.root && (
           <Alert variant="destructive" className="mb-4">
             <AlertCircle className="h-4 w-4" />
@@ -121,6 +161,52 @@ export function LoginFormFields({ formAction, isPending, state }: LoginFormField
               </FormItem>
             )}
           />
+
+          {/* CAPTCHA Field */}
+          {requiresCaptcha && captchaQuestion && (
+            <FormField
+              control={form.control}
+              name="captchaAnswer"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("auth.captchaLabel")}</FormLabel>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 rounded-md border bg-muted px-4 py-2 text-center font-mono text-lg">
+                        {captchaQuestion} = ?
+                      </div>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        onClick={handleRefreshCaptcha}
+                        disabled={isPending}
+                        title={t("auth.refreshCaptcha")}
+                      >
+                        <RefreshCw className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder={t("auth.captchaPlaceholder")}
+                        disabled={isPending}
+                        {...field}
+                        onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value, 10) : undefined)}
+                      />
+                    </FormControl>
+                    <p className="text-xs text-muted-foreground">
+                      {t("auth.captchaDescription")}
+                    </p>
+                  </div>
+                  <FormMessage />
+                  {captchaToken && (
+                    <input type="hidden" name="captchaToken" value={captchaToken} />
+                  )}
+                </FormItem>
+              )}
+            />
+          )}
         </div>
 
         {/* Form submit is handled by the parent component */}

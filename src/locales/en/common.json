@@ -117,7 +117,13 @@
       "resendError": "Failed to resend verification email",
       "emailSent": "Verification email sent successfully. Please check your inbox.",
       "verificationRequired": "Please verify your email address to access all features."
-    }
+    },
+    "captchaLabel": "Security Verification",
+    "captchaPlaceholder": "Enter the answer",
+    "captchaDescription": "Please solve the math problem to verify you're not a robot",
+    "refreshCaptcha": "Refresh CAPTCHA",
+    "captchaAnswerRequired": "CAPTCHA answer is required",
+    "captchaInvalid": "Invalid CAPTCHA answer. Please try again."
   },
   "dashboard": {
     "title": "Dashboard",
@@ -1050,6 +1056,8 @@
       "saveDeviceManagement": "Save Device Management Settings",
       "securitySettingsSaved": "Security settings saved successfully",
       "securitySettingsFailed": "Failed to save security settings",
+      "threatDetectionSettingsSaved": "Threat detection settings saved successfully",
+      "threatDetectionSettingsFailed": "Failed to save threat detection settings",
       "loadFailed": "Failed to load settings: {{error}}",
       "ipSecuritySettings": {
         "title": "IP Security Settings",
@@ -1111,6 +1119,63 @@
         "deleteTitle": "Remove Geographic Restriction",
         "deleteDescription": "Are you sure you want to remove this geographic restriction?",
         "empty": "No geographic restrictions configured. Add restrictions to control access by location."
+      },
+      "threatDetection": {
+        "title": "Threat Detection",
+        "description": "Advanced security features to detect and prevent threats",
+        "enabled": "Enable Threat Detection",
+        "enabledDescription": "Enable comprehensive threat detection and protection",
+        "rateLimiting": {
+          "title": "Rate Limiting",
+          "enabled": "Enable Rate Limiting",
+          "enabledDescription": "Limit the number of requests from IP addresses and users",
+          "login": {
+            "title": "Login Rate Limiting",
+            "maxRequests": "Max Requests",
+            "maxRequestsDescription": "Maximum login attempts per time window",
+            "windowMinutes": "Time Window (minutes)",
+            "windowMinutesDescription": "Time window for rate limiting"
+          },
+          "passwordReset": {
+            "title": "Password Reset Rate Limiting",
+            "maxRequests": "Max Requests",
+            "windowMinutes": "Time Window (minutes)"
+          },
+          "api": {
+            "title": "API Rate Limiting",
+            "maxRequests": "Max Requests",
+            "windowMinutes": "Time Window (minutes)"
+          }
+        },
+        "bruteForceProtection": {
+          "title": "Brute Force Protection",
+          "enabled": "Enable Brute Force Protection",
+          "enabledDescription": "Protect against brute force login attempts",
+          "maxAttempts": "Max Failed Attempts",
+          "maxAttemptsDescription": "Maximum failed login attempts before lockout",
+          "lockoutDurationMinutes": "Lockout Duration (minutes)",
+          "lockoutDurationDescription": "How long to lock the account after max attempts",
+          "windowMinutes": "Time Window (minutes)",
+          "windowMinutesDescription": "Time window to count failed attempts"
+        },
+        "anomalyDetection": {
+          "title": "Anomaly Detection",
+          "enabled": "Enable Anomaly Detection",
+          "enabledDescription": "Detect unusual access patterns and behaviors",
+          "checkUnusualLocation": "Check Unusual Location",
+          "checkUnusualLocationDescription": "Alert on logins from new locations",
+          "checkUnusualTime": "Check Unusual Time",
+          "checkUnusualTimeDescription": "Alert on logins at unusual times",
+          "checkUnusualDevice": "Check Unusual Device",
+          "checkUnusualDeviceDescription": "Alert on logins from new devices"
+        },
+        "captcha": {
+          "title": "CAPTCHA Protection",
+          "enabled": "Enable CAPTCHA",
+          "enabledDescription": "Require CAPTCHA verification for suspicious activity",
+          "triggerAfterFailedAttempts": "Trigger After Failed Attempts",
+          "triggerAfterFailedAttemptsDescription": "Number of failed attempts before requiring CAPTCHA"
+        }
       }
     },
     "mfa": {
@@ -1621,6 +1686,38 @@
         "title": "MFA Credentials",
         "description": "Manage your multi-factor authentication credentials, backup codes, and authentication devices."
       }
+    },
+    "threats": {
+      "title": "Security Threats",
+      "description": "View and manage detected security threats",
+      "noThreats": "No threats detected",
+      "noThreatsDescription": "Your system is secure. No threats have been detected.",
+      "resolve": "Resolve",
+      "resolved": "Resolved",
+      "unresolved": "Unresolved",
+      "severity": {
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "HIGH": "High",
+        "CRITICAL": "Critical"
+      },
+      "types": {
+        "BRUTE_FORCE": "Brute Force Attack",
+        "RATE_LIMIT_EXCEEDED": "Rate Limit Exceeded",
+        "UNUSUAL_ACCESS_PATTERN": "Unusual Access Pattern",
+        "SUSPICIOUS_LOCATION": "Suspicious Location",
+        "MULTIPLE_FAILED_LOGINS": "Multiple Failed Logins",
+        "ANOMALY_DETECTED": "Anomaly Detected"
+      },
+      "filterBySeverity": "Filter by Severity",
+      "filterByType": "Filter by Type",
+      "filterByStatus": "Filter by Status",
+      "allSeverities": "All Severities",
+      "allTypes": "All Types",
+      "allStatuses": "All Statuses",
+      "resolveConfirm": "Are you sure you want to mark this threat as resolved?",
+      "resolveSuccess": "Threat marked as resolved",
+      "resolveError": "Failed to resolve threat"
     },
     "startTour": "Start Tour"
   }
