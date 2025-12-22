@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma"
-import { createTRPCRouter, protectedProcedure } from "@/trpc/init"
+import { createTRPCRouter, protectedProcedure, baseProcedure } from "@/trpc/init"
 import z from "zod"
 import { hashPassword } from "@/lib/auth"
 import { TRPCError } from "@trpc/server"
@@ -673,6 +673,244 @@ export const usersRouter = createTRPCRouter({
         active,
         mfa,
         admins,
+      }
+    }),
+
+  // ========== Profile Management ==========
+
+  getProfile: baseProcedure
+    .use(async ({ ctx, next }) => {
+      // Check if user is authenticated
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to view your profile",
+        })
+      }
+      return next({ ctx })
+    })
+    .query(async ({ ctx }) => {
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+          phoneNumber: true,
+          bio: true,
+          preferences: true,
+          role: true,
+          mfaEnabled: true,
+          mfaMethod: true,
+          createdAt: true,
+          lastLoginAt: true,
+          company: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      })
+
+      if (!user) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found",
+        })
+      }
+
+      return { user }
+    }),
+
+  updateProfile: baseProcedure
+    .use(async ({ ctx, next }) => {
+      // Check if user is authenticated
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to update your profile",
+        })
+      }
+      return next({ ctx })
+    })
+    .input(
+      z.object({
+        name: z.string().min(2, "Name must be at least 2 characters").optional(),
+        bio: z.string().max(500, "Bio must be less than 500 characters").optional().nullable(),
+        phoneNumber: z.string().optional().nullable(),
+        preferences: z.record(z.unknown()).optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { createAuditLog } = await import("@/lib/audit-log")
+
+      const user = await prisma.user.update({
+        where: { id: ctx.userId },
+        data: {
+          ...(input.name && { name: input.name }),
+          ...(input.bio !== undefined && { bio: input.bio }),
+          ...(input.phoneNumber !== undefined && { phoneNumber: input.phoneNumber }),
+          ...(input.preferences && { preferences: input.preferences }),
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+          phoneNumber: true,
+          bio: true,
+          preferences: true,
+        },
+      })
+
+      await createAuditLog({
+        action: "PROFILE_UPDATED",
+        resource: "User",
+        resourceId: ctx.userId,
+        userId: ctx.userId,
+        details: "User profile updated",
+      })
+
+      return { user }
+    }),
+
+  updateAvatar: baseProcedure
+    .use(async ({ ctx, next }) => {
+      // Check if user is authenticated
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to update your avatar",
+        })
+      }
+      return next({ ctx })
+    })
+    .input(
+      z.object({
+        imageUrl: z.string().url("Invalid image URL"),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { createAuditLog } = await import("@/lib/audit-log")
+
+      const user = await prisma.user.update({
+        where: { id: ctx.userId },
+        data: {
+          image: input.imageUrl,
+        },
+        select: {
+          id: true,
+          image: true,
+        },
+      })
+
+      await createAuditLog({
+        action: "AVATAR_UPDATED",
+        resource: "User",
+        resourceId: ctx.userId,
+        userId: ctx.userId,
+        details: "User avatar updated",
+      })
+
+      return { user }
+    }),
+
+  getUserActivity: baseProcedure
+    .use(async ({ ctx, next }) => {
+      // Check if user is authenticated
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to view your activity",
+        })
+      }
+      return next({ ctx })
+    })
+    .input(
+      z.object({
+        page: z.number().min(1).default(1),
+        pageSize: z.number().min(1).max(100).default(20),
+      }).optional()
+    )
+    .query(async ({ input = {}, ctx }) => {
+      const { page = 1, pageSize = 20 } = input
+
+      const where = {
+        userId: ctx.userId,
+      }
+
+      const [logs, total] = await Promise.all([
+        prisma.auditLog.findMany({
+          where,
+          take: pageSize,
+          skip: (page - 1) * pageSize,
+          orderBy: { createdAt: "desc" },
+          select: {
+            id: true,
+            action: true,
+            resource: true,
+            resourceId: true,
+            status: true,
+            ipAddress: true,
+            userAgent: true,
+            createdAt: true,
+            details: true,
+          },
+        }),
+        prisma.auditLog.count({ where }),
+      ])
+
+      return {
+        logs,
+        pagination: {
+          page,
+          pageSize,
+          total,
+          totalPages: Math.ceil(total / pageSize),
+        },
+      }
+    }),
+
+  getUserStatistics: baseProcedure
+    .use(async ({ ctx, next }) => {
+      // Check if user is authenticated
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to view your statistics",
+        })
+      }
+      return next({ ctx })
+    })
+    .query(async ({ ctx }) => {
+      const [passwords, sharedPasswords, teams, auditLogs, lastLogin] = await Promise.all([
+        prisma.password.count({
+          where: { ownerId: ctx.userId },
+        }),
+        prisma.passwordShare.count({
+          where: { userId: ctx.userId },
+        }),
+        prisma.teamMember.count({
+          where: { userId: ctx.userId },
+        }),
+        prisma.auditLog.count({
+          where: { userId: ctx.userId },
+        }),
+        prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { lastLoginAt: true, createdAt: true },
+        }),
+      ])
+
+      return {
+        passwords,
+        sharedPasswords,
+        teams,
+        auditLogs,
+        lastLoginAt: lastLogin?.lastLoginAt,
+        accountCreatedAt: lastLogin?.createdAt,
       }
     }),
 })

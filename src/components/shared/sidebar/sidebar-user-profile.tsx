@@ -25,6 +25,7 @@ interface User {
   id: string
   name: string
   email: string
+  image?: string | null
   role: string
 }
 
@@ -63,7 +64,7 @@ export function SidebarUserProfile({ user, isCollapsed }: SidebarUserProfileProp
           <DropdownMenuTrigger asChild>
             <button className="mx-auto flex items-center justify-center rounded-lg p-2 hover:bg-accent">
               <Avatar className="h-8 w-8">
-                <AvatarImage src="" alt={user.name} />
+                <AvatarImage src={user.image || undefined} alt={user.name} />
                 <AvatarFallback>{initials}</AvatarFallback>
               </Avatar>
             </button>
@@ -105,7 +106,7 @@ export function SidebarUserProfile({ user, isCollapsed }: SidebarUserProfileProp
         <DropdownMenuTrigger asChild>
           <button className="flex w-full items-center gap-3 rounded-lg p-2 hover:bg-accent">
             <Avatar className="h-8 w-8">
-              <AvatarImage src="" alt={user.name} />
+              <AvatarImage src={user.image || undefined} alt={user.name} />
               <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
             <div className="flex-1 text-left text-sm min-w-0">

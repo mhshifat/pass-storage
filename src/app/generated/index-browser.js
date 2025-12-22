@@ -136,6 +136,8 @@ exports.Prisma.UserScalarFieldEnum = {
   image: 'image',
   password: 'password',
   phoneNumber: 'phoneNumber',
+  bio: 'bio',
+  preferences: 'preferences',
   role: 'role',
   isActive: 'isActive',
   mfaEnabled: 'mfaEnabled',
@@ -435,15 +437,15 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 exports.MfaMethod = exports.$Enums.MfaMethod = {
   TOTP: 'TOTP',

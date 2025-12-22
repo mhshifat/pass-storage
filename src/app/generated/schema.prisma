@@ -33,6 +33,8 @@ model User {
   image         String?
   password      String? // Optional for OAuth users
   phoneNumber   String? // For SMS MFA
+  bio           String? // User bio/description
+  preferences   Json? // User preferences (theme, notifications, etc.)
   role          String     @default("USER")
   isActive      Boolean    @default(true)
   mfaEnabled    Boolean    @default(false)

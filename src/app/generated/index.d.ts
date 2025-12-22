@@ -4735,6 +4735,7 @@ export namespace Prisma {
     image: string | null
     password: string | null
     phoneNumber: string | null
+    bio: string | null
     role: string | null
     isActive: boolean | null
     mfaEnabled: boolean | null
@@ -4755,6 +4756,7 @@ export namespace Prisma {
     image: string | null
     password: string | null
     phoneNumber: string | null
+    bio: string | null
     role: string | null
     isActive: boolean | null
     mfaEnabled: boolean | null
@@ -4775,6 +4777,8 @@ export namespace Prisma {
     image: number
     password: number
     phoneNumber: number
+    bio: number
+    preferences: number
     role: number
     isActive: number
     mfaEnabled: number
@@ -4797,6 +4801,7 @@ export namespace Prisma {
     image?: true
     password?: true
     phoneNumber?: true
+    bio?: true
     role?: true
     isActive?: true
     mfaEnabled?: true
@@ -4817,6 +4822,7 @@ export namespace Prisma {
     image?: true
     password?: true
     phoneNumber?: true
+    bio?: true
     role?: true
     isActive?: true
     mfaEnabled?: true
@@ -4837,6 +4843,8 @@ export namespace Prisma {
     image?: true
     password?: true
     phoneNumber?: true
+    bio?: true
+    preferences?: true
     role?: true
     isActive?: true
     mfaEnabled?: true
@@ -4930,6 +4938,8 @@ export namespace Prisma {
     image: string | null
     password: string | null
     phoneNumber: string | null
+    bio: string | null
+    preferences: JsonValue | null
     role: string
     isActive: boolean
     mfaEnabled: boolean
@@ -4967,6 +4977,8 @@ export namespace Prisma {
     image?: boolean
     password?: boolean
     phoneNumber?: boolean
+    bio?: boolean
+    preferences?: boolean
     role?: boolean
     isActive?: boolean
     mfaEnabled?: boolean
@@ -5008,6 +5020,8 @@ export namespace Prisma {
     image?: boolean
     password?: boolean
     phoneNumber?: boolean
+    bio?: boolean
+    preferences?: boolean
     role?: boolean
     isActive?: boolean
     mfaEnabled?: boolean
@@ -5030,6 +5044,8 @@ export namespace Prisma {
     image?: boolean
     password?: boolean
     phoneNumber?: boolean
+    bio?: boolean
+    preferences?: boolean
     role?: boolean
     isActive?: boolean
     mfaEnabled?: boolean
@@ -5052,6 +5068,8 @@ export namespace Prisma {
     image?: boolean
     password?: boolean
     phoneNumber?: boolean
+    bio?: boolean
+    preferences?: boolean
     role?: boolean
     isActive?: boolean
     mfaEnabled?: boolean
@@ -5064,7 +5082,7 @@ export namespace Prisma {
     createdById?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "phoneNumber" | "role" | "isActive" | "mfaEnabled" | "mfaSecret" | "mfaMethod" | "companyId" | "createdAt" | "updatedAt" | "lastLoginAt" | "createdById", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "phoneNumber" | "bio" | "preferences" | "role" | "isActive" | "mfaEnabled" | "mfaSecret" | "mfaMethod" | "companyId" | "createdAt" | "updatedAt" | "lastLoginAt" | "createdById", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | User$companyArgs<ExtArgs>
     ownedPasswords?: boolean | User$ownedPasswordsArgs<ExtArgs>
@@ -5129,6 +5147,8 @@ export namespace Prisma {
       image: string | null
       password: string | null
       phoneNumber: string | null
+      bio: string | null
+      preferences: Prisma.JsonValue | null
       role: string
       isActive: boolean
       mfaEnabled: boolean
@@ -5589,6 +5609,8 @@ export namespace Prisma {
     readonly image: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly phoneNumber: FieldRef<"User", 'String'>
+    readonly bio: FieldRef<"User", 'String'>
+    readonly preferences: FieldRef<"User", 'Json'>
     readonly role: FieldRef<"User", 'String'>
     readonly isActive: FieldRef<"User", 'Boolean'>
     readonly mfaEnabled: FieldRef<"User", 'Boolean'>
@@ -32716,6 +32738,8 @@ export namespace Prisma {
     image: 'image',
     password: 'password',
     phoneNumber: 'phoneNumber',
+    bio: 'bio',
+    preferences: 'preferences',
     role: 'role',
     isActive: 'isActive',
     mfaEnabled: 'mfaEnabled',
@@ -33099,14 +33123,6 @@ export namespace Prisma {
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
-  export const NullsOrder: {
-    first: 'first',
-    last: 'last'
-  };
-
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
   export const JsonNullValueFilter: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull,
@@ -33114,6 +33130,14 @@ export namespace Prisma {
   };
 
   export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -33146,6 +33170,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -33223,20 +33261,6 @@ export namespace Prisma {
    * Reference to a field of type 'TeamRole[]'
    */
   export type ListEnumTeamRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TeamRole[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-  /**
-   * Reference to a field of type 'QueryMode'
-   */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -33354,6 +33378,8 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null
     password?: StringNullableFilter<"User"> | string | null
     phoneNumber?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
+    preferences?: JsonNullableFilter<"User">
     role?: StringFilter<"User"> | string
     isActive?: BoolFilter<"User"> | boolean
     mfaEnabled?: BoolFilter<"User"> | boolean
@@ -33394,6 +33420,8 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
     phoneNumber?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
+    preferences?: SortOrderInput | SortOrder
     role?: SortOrder
     isActive?: SortOrder
     mfaEnabled?: SortOrder
@@ -33437,6 +33465,8 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null
     password?: StringNullableFilter<"User"> | string | null
     phoneNumber?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
+    preferences?: JsonNullableFilter<"User">
     role?: StringFilter<"User"> | string
     isActive?: BoolFilter<"User"> | boolean
     mfaEnabled?: BoolFilter<"User"> | boolean
@@ -33477,6 +33507,8 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
     phoneNumber?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
+    preferences?: SortOrderInput | SortOrder
     role?: SortOrder
     isActive?: SortOrder
     mfaEnabled?: SortOrder
@@ -33503,6 +33535,8 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     password?: StringNullableWithAggregatesFilter<"User"> | string | null
     phoneNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bio?: StringNullableWithAggregatesFilter<"User"> | string | null
+    preferences?: JsonNullableWithAggregatesFilter<"User">
     role?: StringWithAggregatesFilter<"User"> | string
     isActive?: BoolWithAggregatesFilter<"User"> | boolean
     mfaEnabled?: BoolWithAggregatesFilter<"User"> | boolean
@@ -35357,6 +35391,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -35395,6 +35431,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -35433,6 +35471,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -35471,6 +35511,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -35509,6 +35551,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -35529,6 +35573,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -35547,6 +35593,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -37586,6 +37634,29 @@ export namespace Prisma {
     mode?: QueryMode
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
@@ -37772,6 +37843,8 @@ export namespace Prisma {
     image?: SortOrder
     password?: SortOrder
     phoneNumber?: SortOrder
+    bio?: SortOrder
+    preferences?: SortOrder
     role?: SortOrder
     isActive?: SortOrder
     mfaEnabled?: SortOrder
@@ -37792,6 +37865,7 @@ export namespace Prisma {
     image?: SortOrder
     password?: SortOrder
     phoneNumber?: SortOrder
+    bio?: SortOrder
     role?: SortOrder
     isActive?: SortOrder
     mfaEnabled?: SortOrder
@@ -37812,6 +37886,7 @@ export namespace Prisma {
     image?: SortOrder
     password?: SortOrder
     phoneNumber?: SortOrder
+    bio?: SortOrder
     role?: SortOrder
     isActive?: SortOrder
     mfaEnabled?: SortOrder
@@ -37854,6 +37929,32 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -38542,29 +38643,6 @@ export namespace Prisma {
     tagId?: SortOrder
     createdAt?: SortOrder
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type EnumAuditStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.AuditStatus | EnumAuditStatusFieldRefInput<$PrismaModel>
@@ -38608,32 +38686,6 @@ export namespace Prisma {
     userAgent?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type EnumAuditStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -41253,6 +41305,29 @@ export namespace Prisma {
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
@@ -41383,29 +41458,6 @@ export namespace Prisma {
     notIn?: $Enums.AuditStatus[] | ListEnumAuditStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumAuditStatusFilter<$PrismaModel> | $Enums.AuditStatus
   }
-  export type NestedJsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type NestedEnumAuditStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.AuditStatus | EnumAuditStatusFieldRefInput<$PrismaModel>
@@ -41475,6 +41527,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -41512,6 +41566,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -41620,6 +41676,8 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null
     password?: StringNullableFilter<"User"> | string | null
     phoneNumber?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
+    preferences?: JsonNullableFilter<"User">
     role?: StringFilter<"User"> | string
     isActive?: BoolFilter<"User"> | boolean
     mfaEnabled?: BoolFilter<"User"> | boolean
@@ -42267,6 +42325,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -42304,6 +42364,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -42346,6 +42408,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -42383,6 +42447,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -42981,6 +43047,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -43018,6 +43086,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -43100,6 +43170,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -43137,6 +43209,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -43190,6 +43264,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -43227,6 +43303,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -43264,6 +43342,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -43301,6 +43381,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -43354,6 +43436,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -43391,6 +43475,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -43428,6 +43514,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -43465,6 +43553,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -43748,6 +43838,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -43785,6 +43877,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -44039,6 +44133,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -44076,6 +44172,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -44186,6 +44284,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -44223,6 +44323,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -44311,6 +44413,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -44348,6 +44452,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -44390,6 +44496,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -44427,6 +44535,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -44537,6 +44647,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -44574,6 +44686,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -44622,6 +44736,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -44659,6 +44775,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -44696,6 +44814,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -44733,6 +44853,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -44880,6 +45002,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -44917,6 +45041,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -45072,6 +45198,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -45109,6 +45237,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -45260,6 +45390,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -45297,6 +45429,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -45585,6 +45719,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -45622,6 +45758,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -45755,6 +45893,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -45792,6 +45932,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -45965,6 +46107,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -46002,6 +46146,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -46084,6 +46230,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -46121,6 +46269,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -46352,6 +46502,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -46389,6 +46541,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -46442,6 +46596,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -46479,6 +46635,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -46516,6 +46674,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -46553,6 +46713,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -46628,6 +46790,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -46665,6 +46829,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -46878,6 +47044,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -46915,6 +47083,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -46968,6 +47138,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -47005,6 +47177,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -47042,6 +47216,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -47079,6 +47255,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -47132,6 +47310,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -47169,6 +47349,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -47206,6 +47388,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -47243,6 +47427,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -47296,6 +47482,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -47333,6 +47521,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -47370,6 +47560,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -47407,6 +47599,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -47460,6 +47654,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -47497,6 +47693,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -47534,6 +47732,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -47571,6 +47771,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -47647,6 +47849,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -47684,6 +47888,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -47750,6 +47956,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -47785,6 +47993,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -47822,6 +48032,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -47859,6 +48071,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -48123,6 +48337,8 @@ export namespace Prisma {
     image?: string | null
     password?: string | null
     phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: string
     isActive?: boolean
     mfaEnabled?: boolean
@@ -48756,6 +48972,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -48793,6 +49011,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
@@ -48830,6 +49050,8 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
     role?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     mfaEnabled?: BoolFieldUpdateOperationsInput | boolean

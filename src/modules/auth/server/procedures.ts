@@ -550,6 +550,7 @@ export const authRouter = createTRPCRouter({
                     id: true,
                     name: true,
                     email: true,
+                    image: true,
                     role: true,
                     mfaEnabled: true,
                     mfaSecret: true,

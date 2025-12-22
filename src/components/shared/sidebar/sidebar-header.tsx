@@ -15,7 +15,7 @@ interface SidebarHeaderProps {
 
 export function SidebarHeader({ isCollapsed, onToggleCollapse }: SidebarHeaderProps) {
   return (
-    <div className="relative flex h-16 items-center border-b px-4">
+    <div className="relative flex h-16 items-center border-b px-4 shrink-0">
       {isCollapsed ? (
         <TooltipProvider>
           <Tooltip>

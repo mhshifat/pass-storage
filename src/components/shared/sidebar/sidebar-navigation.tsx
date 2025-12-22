@@ -226,7 +226,7 @@ export function SidebarNavigation({ isCollapsed }: SidebarNavigationProps) {
   }
 
   return (
-    <ScrollArea className="flex-1 px-3 py-4">
+    <ScrollArea className="flex-1 px-3 py-4 min-h-0">
       <nav className="space-y-1">
         {filteredNavigation.map((item) => {
           const isActive = item.href === pathname
