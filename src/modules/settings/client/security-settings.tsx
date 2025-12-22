@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
 import { Separator } from "@/components/ui/separator"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { useForm } from "react-hook-form"
@@ -14,6 +13,7 @@ import z from "zod"
 import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
 import { Loader2 } from "lucide-react"
+import { Switch } from "@/components/ui/switch"
 import { SecuritySettingsSkeleton } from "./security-settings-skeleton"
 import { usePermissions } from "@/hooks/use-permissions"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -34,6 +34,8 @@ const securitySettingsSchema = z.object({
   // Login Security
   loginMaxAttempts: z.number().min(1).max(20),
   loginLockoutDurationMinutes: z.number().min(1).max(1440),
+  // Device Management
+  requireMfaForUntrustedDevices: z.boolean(),
 })
 
 type SecuritySettingsFormValues = z.infer<typeof securitySettingsSchema>
@@ -68,6 +70,7 @@ export function SecuritySettings() {
       sessionRequireReauth: true,
       loginMaxAttempts: 5,
       loginLockoutDurationMinutes: 15,
+      requireMfaForUntrustedDevices: false,
     },
   })
 
@@ -86,6 +89,7 @@ export function SecuritySettings() {
         sessionRequireReauth: settings.sessionRequireReauth,
         loginMaxAttempts: settings.loginMaxAttempts,
         loginLockoutDurationMinutes: settings.loginLockoutDurationMinutes,
+        requireMfaForUntrustedDevices: settings.requireMfaForUntrustedDevices,
       })
     }
   }, [settings, form])
@@ -445,6 +449,50 @@ export function SecuritySettings() {
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
                   {t("settings.security.saveLoginSecurity")}
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Device Management */}
+        <Card>
+          <CardHeader>
+            <CardTitle>{t("settings.security.deviceManagement")}</CardTitle>
+            <CardDescription>{t("settings.security.deviceManagementDescription")}</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <FormField
+              control={form.control}
+              name="requireMfaForUntrustedDevices"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">
+                      {t("settings.security.requireMfaForUntrustedDevices")}
+                    </FormLabel>
+                    <p className="text-sm text-muted-foreground">
+                      {t("settings.security.requireMfaForUntrustedDevicesDescription")}
+                    </p>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      disabled={!canEdit}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            {canEdit && (
+              <div className="pt-4">
+                <Button type="submit" disabled={updateSettings.isPending}>
+                  {updateSettings.isPending && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  {t("settings.security.saveDeviceManagement")}
                 </Button>
               </div>
             )}

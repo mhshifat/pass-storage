@@ -8521,7 +8521,9 @@ export namespace Prisma {
     userAgent: string | null
     deviceName: string | null
     deviceType: string | null
+    deviceFingerprint: string | null
     isTrusted: boolean | null
+    requireMfa: boolean | null
     lastActiveAt: Date | null
     createdAt: Date | null
   }
@@ -8535,7 +8537,9 @@ export namespace Prisma {
     userAgent: string | null
     deviceName: string | null
     deviceType: string | null
+    deviceFingerprint: string | null
     isTrusted: boolean | null
+    requireMfa: boolean | null
     lastActiveAt: Date | null
     createdAt: Date | null
   }
@@ -8549,7 +8553,9 @@ export namespace Prisma {
     userAgent: number
     deviceName: number
     deviceType: number
+    deviceFingerprint: number
     isTrusted: number
+    requireMfa: number
     lastActiveAt: number
     createdAt: number
     _all: number
@@ -8565,7 +8571,9 @@ export namespace Prisma {
     userAgent?: true
     deviceName?: true
     deviceType?: true
+    deviceFingerprint?: true
     isTrusted?: true
+    requireMfa?: true
     lastActiveAt?: true
     createdAt?: true
   }
@@ -8579,7 +8587,9 @@ export namespace Prisma {
     userAgent?: true
     deviceName?: true
     deviceType?: true
+    deviceFingerprint?: true
     isTrusted?: true
+    requireMfa?: true
     lastActiveAt?: true
     createdAt?: true
   }
@@ -8593,7 +8603,9 @@ export namespace Prisma {
     userAgent?: true
     deviceName?: true
     deviceType?: true
+    deviceFingerprint?: true
     isTrusted?: true
+    requireMfa?: true
     lastActiveAt?: true
     createdAt?: true
     _all?: true
@@ -8680,7 +8692,9 @@ export namespace Prisma {
     userAgent: string | null
     deviceName: string | null
     deviceType: string | null
+    deviceFingerprint: string | null
     isTrusted: boolean
+    requireMfa: boolean
     lastActiveAt: Date
     createdAt: Date
     _count: SessionCountAggregateOutputType | null
@@ -8711,7 +8725,9 @@ export namespace Prisma {
     userAgent?: boolean
     deviceName?: boolean
     deviceType?: boolean
+    deviceFingerprint?: boolean
     isTrusted?: boolean
+    requireMfa?: boolean
     lastActiveAt?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -8726,7 +8742,9 @@ export namespace Prisma {
     userAgent?: boolean
     deviceName?: boolean
     deviceType?: boolean
+    deviceFingerprint?: boolean
     isTrusted?: boolean
+    requireMfa?: boolean
     lastActiveAt?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -8741,7 +8759,9 @@ export namespace Prisma {
     userAgent?: boolean
     deviceName?: boolean
     deviceType?: boolean
+    deviceFingerprint?: boolean
     isTrusted?: boolean
+    requireMfa?: boolean
     lastActiveAt?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -8756,12 +8776,14 @@ export namespace Prisma {
     userAgent?: boolean
     deviceName?: boolean
     deviceType?: boolean
+    deviceFingerprint?: boolean
     isTrusted?: boolean
+    requireMfa?: boolean
     lastActiveAt?: boolean
     createdAt?: boolean
   }
 
-  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sessionToken" | "userId" | "expires" | "ipAddress" | "userAgent" | "deviceName" | "deviceType" | "isTrusted" | "lastActiveAt" | "createdAt", ExtArgs["result"]["session"]>
+  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sessionToken" | "userId" | "expires" | "ipAddress" | "userAgent" | "deviceName" | "deviceType" | "deviceFingerprint" | "isTrusted" | "requireMfa" | "lastActiveAt" | "createdAt", ExtArgs["result"]["session"]>
   export type SessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -8786,7 +8808,9 @@ export namespace Prisma {
       userAgent: string | null
       deviceName: string | null
       deviceType: string | null
+      deviceFingerprint: string | null
       isTrusted: boolean
+      requireMfa: boolean
       lastActiveAt: Date
       createdAt: Date
     }, ExtArgs["result"]["session"]>
@@ -9221,7 +9245,9 @@ export namespace Prisma {
     readonly userAgent: FieldRef<"Session", 'String'>
     readonly deviceName: FieldRef<"Session", 'String'>
     readonly deviceType: FieldRef<"Session", 'String'>
+    readonly deviceFingerprint: FieldRef<"Session", 'String'>
     readonly isTrusted: FieldRef<"Session", 'Boolean'>
+    readonly requireMfa: FieldRef<"Session", 'Boolean'>
     readonly lastActiveAt: FieldRef<"Session", 'DateTime'>
     readonly createdAt: FieldRef<"Session", 'DateTime'>
   }
@@ -39255,7 +39281,9 @@ export namespace Prisma {
     userAgent: 'userAgent',
     deviceName: 'deviceName',
     deviceType: 'deviceType',
+    deviceFingerprint: 'deviceFingerprint',
     isTrusted: 'isTrusted',
+    requireMfa: 'requireMfa',
     lastActiveAt: 'lastActiveAt',
     createdAt: 'createdAt'
   };
@@ -40236,7 +40264,9 @@ export namespace Prisma {
     userAgent?: StringNullableFilter<"Session"> | string | null
     deviceName?: StringNullableFilter<"Session"> | string | null
     deviceType?: StringNullableFilter<"Session"> | string | null
+    deviceFingerprint?: StringNullableFilter<"Session"> | string | null
     isTrusted?: BoolFilter<"Session"> | boolean
+    requireMfa?: BoolFilter<"Session"> | boolean
     lastActiveAt?: DateTimeFilter<"Session"> | Date | string
     createdAt?: DateTimeFilter<"Session"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -40251,7 +40281,9 @@ export namespace Prisma {
     userAgent?: SortOrderInput | SortOrder
     deviceName?: SortOrderInput | SortOrder
     deviceType?: SortOrderInput | SortOrder
+    deviceFingerprint?: SortOrderInput | SortOrder
     isTrusted?: SortOrder
+    requireMfa?: SortOrder
     lastActiveAt?: SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -40269,7 +40301,9 @@ export namespace Prisma {
     userAgent?: StringNullableFilter<"Session"> | string | null
     deviceName?: StringNullableFilter<"Session"> | string | null
     deviceType?: StringNullableFilter<"Session"> | string | null
+    deviceFingerprint?: StringNullableFilter<"Session"> | string | null
     isTrusted?: BoolFilter<"Session"> | boolean
+    requireMfa?: BoolFilter<"Session"> | boolean
     lastActiveAt?: DateTimeFilter<"Session"> | Date | string
     createdAt?: DateTimeFilter<"Session"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -40284,7 +40318,9 @@ export namespace Prisma {
     userAgent?: SortOrderInput | SortOrder
     deviceName?: SortOrderInput | SortOrder
     deviceType?: SortOrderInput | SortOrder
+    deviceFingerprint?: SortOrderInput | SortOrder
     isTrusted?: SortOrder
+    requireMfa?: SortOrder
     lastActiveAt?: SortOrder
     createdAt?: SortOrder
     _count?: SessionCountOrderByAggregateInput
@@ -40304,7 +40340,9 @@ export namespace Prisma {
     userAgent?: StringNullableWithAggregatesFilter<"Session"> | string | null
     deviceName?: StringNullableWithAggregatesFilter<"Session"> | string | null
     deviceType?: StringNullableWithAggregatesFilter<"Session"> | string | null
+    deviceFingerprint?: StringNullableWithAggregatesFilter<"Session"> | string | null
     isTrusted?: BoolWithAggregatesFilter<"Session"> | boolean
+    requireMfa?: BoolWithAggregatesFilter<"Session"> | boolean
     lastActiveAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
   }
@@ -42723,7 +42761,9 @@ export namespace Prisma {
     userAgent?: string | null
     deviceName?: string | null
     deviceType?: string | null
+    deviceFingerprint?: string | null
     isTrusted?: boolean
+    requireMfa?: boolean
     lastActiveAt?: Date | string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutSessionsInput
@@ -42738,7 +42778,9 @@ export namespace Prisma {
     userAgent?: string | null
     deviceName?: string | null
     deviceType?: string | null
+    deviceFingerprint?: string | null
     isTrusted?: boolean
+    requireMfa?: boolean
     lastActiveAt?: Date | string
     createdAt?: Date | string
   }
@@ -42751,7 +42793,9 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     deviceName?: NullableStringFieldUpdateOperationsInput | string | null
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceFingerprint?: NullableStringFieldUpdateOperationsInput | string | null
     isTrusted?: BoolFieldUpdateOperationsInput | boolean
+    requireMfa?: BoolFieldUpdateOperationsInput | boolean
     lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutSessionsNestedInput
@@ -42766,7 +42810,9 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     deviceName?: NullableStringFieldUpdateOperationsInput | string | null
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceFingerprint?: NullableStringFieldUpdateOperationsInput | string | null
     isTrusted?: BoolFieldUpdateOperationsInput | boolean
+    requireMfa?: BoolFieldUpdateOperationsInput | boolean
     lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -42780,7 +42826,9 @@ export namespace Prisma {
     userAgent?: string | null
     deviceName?: string | null
     deviceType?: string | null
+    deviceFingerprint?: string | null
     isTrusted?: boolean
+    requireMfa?: boolean
     lastActiveAt?: Date | string
     createdAt?: Date | string
   }
@@ -42793,7 +42841,9 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     deviceName?: NullableStringFieldUpdateOperationsInput | string | null
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceFingerprint?: NullableStringFieldUpdateOperationsInput | string | null
     isTrusted?: BoolFieldUpdateOperationsInput | boolean
+    requireMfa?: BoolFieldUpdateOperationsInput | boolean
     lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -42807,7 +42857,9 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     deviceName?: NullableStringFieldUpdateOperationsInput | string | null
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceFingerprint?: NullableStringFieldUpdateOperationsInput | string | null
     isTrusted?: BoolFieldUpdateOperationsInput | boolean
+    requireMfa?: BoolFieldUpdateOperationsInput | boolean
     lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45524,7 +45576,9 @@ export namespace Prisma {
     userAgent?: SortOrder
     deviceName?: SortOrder
     deviceType?: SortOrder
+    deviceFingerprint?: SortOrder
     isTrusted?: SortOrder
+    requireMfa?: SortOrder
     lastActiveAt?: SortOrder
     createdAt?: SortOrder
   }
@@ -45538,7 +45592,9 @@ export namespace Prisma {
     userAgent?: SortOrder
     deviceName?: SortOrder
     deviceType?: SortOrder
+    deviceFingerprint?: SortOrder
     isTrusted?: SortOrder
+    requireMfa?: SortOrder
     lastActiveAt?: SortOrder
     createdAt?: SortOrder
   }
@@ -45552,7 +45608,9 @@ export namespace Prisma {
     userAgent?: SortOrder
     deviceName?: SortOrder
     deviceType?: SortOrder
+    deviceFingerprint?: SortOrder
     isTrusted?: SortOrder
+    requireMfa?: SortOrder
     lastActiveAt?: SortOrder
     createdAt?: SortOrder
   }
@@ -50186,7 +50244,9 @@ export namespace Prisma {
     userAgent?: string | null
     deviceName?: string | null
     deviceType?: string | null
+    deviceFingerprint?: string | null
     isTrusted?: boolean
+    requireMfa?: boolean
     lastActiveAt?: Date | string
     createdAt?: Date | string
   }
@@ -50199,7 +50259,9 @@ export namespace Prisma {
     userAgent?: string | null
     deviceName?: string | null
     deviceType?: string | null
+    deviceFingerprint?: string | null
     isTrusted?: boolean
+    requireMfa?: boolean
     lastActiveAt?: Date | string
     createdAt?: Date | string
   }
@@ -51246,7 +51308,9 @@ export namespace Prisma {
     userAgent?: StringNullableFilter<"Session"> | string | null
     deviceName?: StringNullableFilter<"Session"> | string | null
     deviceType?: StringNullableFilter<"Session"> | string | null
+    deviceFingerprint?: StringNullableFilter<"Session"> | string | null
     isTrusted?: BoolFilter<"Session"> | boolean
+    requireMfa?: BoolFilter<"Session"> | boolean
     lastActiveAt?: DateTimeFilter<"Session"> | Date | string
     createdAt?: DateTimeFilter<"Session"> | Date | string
   }
@@ -59209,7 +59273,9 @@ export namespace Prisma {
     userAgent?: string | null
     deviceName?: string | null
     deviceType?: string | null
+    deviceFingerprint?: string | null
     isTrusted?: boolean
+    requireMfa?: boolean
     lastActiveAt?: Date | string
     createdAt?: Date | string
   }
@@ -59614,7 +59680,9 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     deviceName?: NullableStringFieldUpdateOperationsInput | string | null
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceFingerprint?: NullableStringFieldUpdateOperationsInput | string | null
     isTrusted?: BoolFieldUpdateOperationsInput | boolean
+    requireMfa?: BoolFieldUpdateOperationsInput | boolean
     lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -59627,7 +59695,9 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     deviceName?: NullableStringFieldUpdateOperationsInput | string | null
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceFingerprint?: NullableStringFieldUpdateOperationsInput | string | null
     isTrusted?: BoolFieldUpdateOperationsInput | boolean
+    requireMfa?: BoolFieldUpdateOperationsInput | boolean
     lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -59640,7 +59710,9 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     deviceName?: NullableStringFieldUpdateOperationsInput | string | null
     deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceFingerprint?: NullableStringFieldUpdateOperationsInput | string | null
     isTrusted?: BoolFieldUpdateOperationsInput | boolean
+    requireMfa?: BoolFieldUpdateOperationsInput | boolean
     lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

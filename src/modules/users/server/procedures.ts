@@ -961,7 +961,9 @@ export const usersRouter = createTRPCRouter({
           userAgent: true,
           deviceName: true,
           deviceType: true,
+          deviceFingerprint: true,
           isTrusted: true,
+          requireMfa: true,
           lastActiveAt: true,
           createdAt: true,
           expires: true,
@@ -1113,12 +1115,323 @@ export const usersRouter = createTRPCRouter({
         })
       }
 
-      await prisma.session.update({
-        where: { id: input.sessionId },
-        data: { isTrusted: input.isTrusted },
+      // If marking as trusted, also trust all sessions with the same device fingerprint
+      if (input.isTrusted && session.deviceFingerprint) {
+        await prisma.session.updateMany({
+          where: {
+            userId: ctx.userId,
+            deviceFingerprint: session.deviceFingerprint,
+          },
+          data: { isTrusted: true },
+        })
+      } else {
+        // If untrusting, only untrust this specific session
+        await prisma.session.update({
+          where: { id: input.sessionId },
+          data: { isTrusted: false },
+        })
+      }
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      const { getRequestMetadata } = await import("@/lib/audit-log")
+      const headersList = await import("next/headers").then((m) => m.headers())
+      const { ipAddress, userAgent } = getRequestMetadata(headersList)
+
+      await createAuditLog({
+        action: input.isTrusted ? "DEVICE_TRUSTED" : "DEVICE_UNTRUSTED",
+        resource: "Session",
+        resourceId: input.sessionId,
+        userId: ctx.userId,
+        ipAddress,
+        userAgent,
+        details: {
+          deviceName: session.deviceName,
+          deviceFingerprint: session.deviceFingerprint,
+        },
       })
 
       return { success: true }
+    }),
+
+  // Get trusted devices list
+  getTrustedDevices: baseProcedure
+    .use(async ({ ctx, next }) => {
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to view trusted devices",
+        })
+      }
+      return next({ ctx })
+    })
+    .query(async ({ ctx }) => {
+      // Get unique trusted devices by fingerprint
+      const trustedSessions = await prisma.session.findMany({
+        where: {
+          userId: ctx.userId,
+          isTrusted: true,
+          deviceFingerprint: { not: null },
+          expires: {
+            gt: new Date(), // Only active sessions
+          },
+        },
+        orderBy: {
+          lastActiveAt: "desc",
+        },
+        distinct: ["deviceFingerprint"],
+        select: {
+          id: true,
+          deviceFingerprint: true,
+          deviceName: true,
+          deviceType: true,
+          ipAddress: true,
+          userAgent: true,
+          lastActiveAt: true,
+          createdAt: true,
+        },
+      })
+
+      // Get count of sessions per device
+      const deviceCounts = await Promise.all(
+        trustedSessions.map(async (session) => {
+          if (!session.deviceFingerprint) return { fingerprint: null, count: 0 }
+          const count = await prisma.session.count({
+            where: {
+              userId: ctx.userId,
+              deviceFingerprint: session.deviceFingerprint,
+              isTrusted: true,
+            },
+          })
+          return { fingerprint: session.deviceFingerprint, count }
+        })
+      )
+
+      const devicesWithCounts = trustedSessions.map((session) => {
+        const count = deviceCounts.find(
+          (c) => c.fingerprint === session.deviceFingerprint
+        )?.count || 0
+        return {
+          ...session,
+          sessionCount: count,
+        }
+      })
+
+      return { devices: devicesWithCounts }
+    }),
+
+  // Trust all devices with the same fingerprint
+  trustDeviceByFingerprint: baseProcedure
+    .use(async ({ ctx, next }) => {
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to trust devices",
+        })
+      }
+      return next({ ctx })
+    })
+    .input(
+      z.object({
+        deviceFingerprint: z.string().min(1, "Device fingerprint is required"),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify at least one session with this fingerprint belongs to user
+      const session = await prisma.session.findFirst({
+        where: {
+          userId: ctx.userId,
+          deviceFingerprint: input.deviceFingerprint,
+        },
+      })
+
+      if (!session) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Device not found",
+        })
+      }
+
+      // Trust all sessions with this fingerprint
+      const result = await prisma.session.updateMany({
+        where: {
+          userId: ctx.userId,
+          deviceFingerprint: input.deviceFingerprint,
+        },
+        data: { isTrusted: true },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      const { getRequestMetadata } = await import("@/lib/audit-log")
+      const headersList = await import("next/headers").then((m) => m.headers())
+      const { ipAddress, userAgent } = getRequestMetadata(headersList)
+
+      await createAuditLog({
+        action: "DEVICE_TRUSTED",
+        resource: "Device",
+        resourceId: input.deviceFingerprint,
+        userId: ctx.userId,
+        ipAddress,
+        userAgent,
+        details: {
+          deviceFingerprint: input.deviceFingerprint,
+          deviceName: session.deviceName,
+          sessionsUpdated: result.count,
+        },
+      })
+
+      return { success: true, sessionsUpdated: result.count }
+    }),
+
+  // Untrust all devices with the same fingerprint
+  untrustDeviceByFingerprint: baseProcedure
+    .use(async ({ ctx, next }) => {
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to untrust devices",
+        })
+      }
+      return next({ ctx })
+    })
+    .input(
+      z.object({
+        deviceFingerprint: z.string().min(1, "Device fingerprint is required"),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify at least one session with this fingerprint belongs to user
+      const session = await prisma.session.findFirst({
+        where: {
+          userId: ctx.userId,
+          deviceFingerprint: input.deviceFingerprint,
+        },
+      })
+
+      if (!session) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Device not found",
+        })
+      }
+
+      // Untrust all sessions with this fingerprint
+      const result = await prisma.session.updateMany({
+        where: {
+          userId: ctx.userId,
+          deviceFingerprint: input.deviceFingerprint,
+        },
+        data: { isTrusted: false },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      const { getRequestMetadata } = await import("@/lib/audit-log")
+      const headersList = await import("next/headers").then((m) => m.headers())
+      const { ipAddress, userAgent } = getRequestMetadata(headersList)
+
+      await createAuditLog({
+        action: "DEVICE_UNTRUSTED",
+        resource: "Device",
+        resourceId: input.deviceFingerprint,
+        userId: ctx.userId,
+        ipAddress,
+        userAgent,
+        details: {
+          deviceFingerprint: input.deviceFingerprint,
+          deviceName: session.deviceName,
+          sessionsUpdated: result.count,
+        },
+      })
+
+      return { success: true, sessionsUpdated: result.count }
+    }),
+
+  // Revoke all sessions for a specific device fingerprint
+  revokeDeviceSessions: baseProcedure
+    .use(async ({ ctx, next }) => {
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to revoke device sessions",
+        })
+      }
+      return next({ ctx })
+    })
+    .input(
+      z.object({
+        deviceFingerprint: z.string().min(1, "Device fingerprint is required"),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Get current session token to prevent revoking current session
+      const { cookies } = await import("next/headers")
+      const cookieStore = await cookies()
+      const currentSessionToken = cookieStore.get("session")?.value
+
+      // Get sessions to revoke
+      const sessionsToRevoke = await prisma.session.findMany({
+        where: {
+          userId: ctx.userId,
+          deviceFingerprint: input.deviceFingerprint,
+        },
+        select: {
+          id: true,
+          sessionToken: true,
+          deviceName: true,
+        },
+      })
+
+      if (sessionsToRevoke.length === 0) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "No sessions found for this device",
+        })
+      }
+
+      // Delete all sessions with this fingerprint (except current session if it matches)
+      const sessionsToDelete = sessionsToRevoke.filter(
+        (s) => s.sessionToken !== currentSessionToken
+      )
+
+      if (sessionsToDelete.length > 0) {
+        await prisma.session.deleteMany({
+          where: {
+            id: {
+              in: sessionsToDelete.map((s) => s.id),
+            },
+          },
+        })
+      }
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      const { getRequestMetadata } = await import("@/lib/audit-log")
+      const headersList = await import("next/headers").then((m) => m.headers())
+      const { ipAddress, userAgent } = getRequestMetadata(headersList)
+
+      await createAuditLog({
+        action: "DEVICE_SESSIONS_REVOKED",
+        resource: "Device",
+        resourceId: input.deviceFingerprint,
+        userId: ctx.userId,
+        ipAddress,
+        userAgent,
+        details: {
+          deviceFingerprint: input.deviceFingerprint,
+          deviceName: sessionsToRevoke[0]?.deviceName,
+          sessionsRevoked: sessionsToDelete.length,
+        },
+      })
+
+      return {
+        success: true,
+        sessionsRevoked: sessionsToDelete.length,
+        currentSessionRevoked: sessionsToRevoke.some(
+          (s) => s.sessionToken === currentSessionToken
+        ),
+      }
     }),
 
   getLoginHistory: baseProcedure

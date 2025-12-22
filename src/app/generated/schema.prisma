@@ -107,22 +107,25 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  ipAddress    String?
-  userAgent    String?
-  deviceName   String? // Device name/identifier
-  deviceType   String? // mobile, desktop, tablet
-  isTrusted    Boolean  @default(false) // Trusted device flag
-  lastActiveAt DateTime @default(now()) // Last activity timestamp
-  createdAt    DateTime @default(now())
+  id                String   @id @default(cuid())
+  sessionToken      String   @unique
+  userId            String
+  expires           DateTime
+  ipAddress         String?
+  userAgent         String?
+  deviceName        String? // Device name/identifier
+  deviceType        String? // mobile, desktop, tablet
+  deviceFingerprint String? // Unique device fingerprint for identification
+  isTrusted         Boolean  @default(false) // Trusted device flag
+  requireMfa        Boolean  @default(false) // Device-specific MFA requirement
+  lastActiveAt      DateTime @default(now()) // Last activity timestamp
+  createdAt         DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([userId, isTrusted])
+  @@index([userId, deviceFingerprint])
   @@index([expires])
 }
 

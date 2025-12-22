@@ -29,11 +29,14 @@ export function ActiveSessions() {
   const [sessionToRevoke, setSessionToRevoke] = useState<string | null>(null)
 
   const { data, isLoading, error, refetch } = trpc.users.listSessions.useQuery()
+  const utils = trpc.useUtils()
 
   const revokeSessionMutation = trpc.users.revokeSession.useMutation({
     onSuccess: () => {
       toast.success(t("sessions.revoked"))
       refetch()
+      // Also invalidate trusted devices query to refresh Device Management component
+      utils.users.getTrustedDevices.invalidate()
       setRevokeDialogOpen(false)
       setSessionToRevoke(null)
     },
@@ -46,6 +49,8 @@ export function ActiveSessions() {
     onSuccess: (result) => {
       toast.success(t("sessions.allRevoked", { count: result.revokedCount }))
       refetch()
+      // Also invalidate trusted devices query to refresh Device Management component
+      utils.users.getTrustedDevices.invalidate()
       setRevokeAllDialogOpen(false)
     },
     onError: (error) => {
@@ -57,6 +62,8 @@ export function ActiveSessions() {
     onSuccess: () => {
       toast.success(t("sessions.trustedUpdated"))
       refetch()
+      // Also invalidate trusted devices query to refresh Device Management component
+      utils.users.getTrustedDevices.invalidate()
     },
     onError: (error) => {
       toast.error(error.message || t("sessions.trustedUpdateError"))
@@ -192,10 +199,20 @@ export function ActiveSessions() {
                           {t("sessions.trusted")}
                         </Badge>
                       )}
+                      {session.requireMfa && (
+                        <Badge variant="outline" className="text-xs">
+                          {t("sessions.requiresMfa")}
+                        </Badge>
+                      )}
                     </div>
                     {session.ipAddress && (
                       <p className="text-sm text-muted-foreground">
                         {t("sessions.ipAddress")}: {session.ipAddress}
+                      </p>
+                    )}
+                    {session.deviceFingerprint && (
+                      <p className="text-xs text-muted-foreground font-mono">
+                        {t("sessions.fingerprint")}: {session.deviceFingerprint.substring(0, 16)}...
                       </p>
                     )}
                     <div className="flex items-center gap-4 text-xs text-muted-foreground">

@@ -41,7 +41,30 @@ export async function createSession(
   const expirationTime = `${timeoutMinutes}m`
   const maxAge = timeoutMinutes * 60 // Convert to seconds
 
-  const payload = { userId, email, isLoggedIn: true, mfaVerified, mfaSetupRequired, mfaRequired };
+  // Parse device info from user agent
+  const { parseUserAgent } = await import("@/lib/device-parser")
+  const deviceInfo = parseUserAgent(userAgent)
+
+  // Generate device fingerprint
+  const { generateClientDeviceFingerprint, isDeviceTrusted } = await import("@/lib/device-fingerprint")
+  const deviceFingerprint = generateClientDeviceFingerprint(userAgent, ipAddress)
+
+  // Check if this device is already trusted
+  const deviceIsTrusted = await isDeviceTrusted(deviceFingerprint, userId)
+
+  // Check if device-specific MFA is required for untrusted devices
+  // If mfaRequired was explicitly passed as true, use it; otherwise calculate based on device trust
+  let finalMfaRequired = mfaRequired
+  if (mfaRequired === false && mfaSetupRequired === false) {
+    // Only recalculate if mfaRequired was not explicitly set to true
+    // (mfaSetupRequired being true means we're in setup flow, so don't override)
+    const requireMfaForUntrustedDevices = await prisma.settings.findUnique({
+      where: { key: "security.device.require_mfa_untrusted" },
+    })
+    finalMfaRequired = requireMfaForUntrustedDevices?.value === true && !deviceIsTrusted
+  }
+
+  const payload = { userId, email, isLoggedIn: true, mfaVerified, mfaSetupRequired, mfaRequired: finalMfaRequired };
   const token = await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime(expirationTime)
@@ -55,10 +78,6 @@ export async function createSession(
     maxAge,
     path: "/",
   })
-
-  // Parse device info from user agent
-  const { parseUserAgent } = await import("@/lib/device-parser")
-  const deviceInfo = parseUserAgent(userAgent)
 
   // Calculate expiration date
   const expires = new Date(Date.now() + maxAge * 1000)
@@ -74,7 +93,9 @@ export async function createSession(
         userAgent: userAgent || null,
         deviceName: deviceInfo.deviceName,
         deviceType: deviceInfo.deviceType,
-        isTrusted: false, // Default to not trusted
+        deviceFingerprint,
+        isTrusted: deviceIsTrusted,
+        requireMfa: finalMfaRequired || false,
         lastActiveAt: new Date(),
       },
     })

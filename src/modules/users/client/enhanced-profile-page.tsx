@@ -12,6 +12,7 @@ import { ActivityTimeline } from "./activity-timeline"
 import { UserStatistics } from "./user-statistics"
 import { ActiveSessions } from "./active-sessions"
 import { LoginHistory } from "./login-history"
+import { DeviceManagement } from "./device-management"
 import { Monitor } from "lucide-react"
 import { AccountRecovery } from "./account-recovery"
 
@@ -114,6 +115,7 @@ export function EnhancedProfilePage() {
 
         <TabsContent value="sessions" className="space-y-6">
           <ActiveSessions />
+          <DeviceManagement />
         </TabsContent>
 
         <TabsContent value="loginHistory" className="space-y-6">

@@ -10,17 +10,22 @@ export default async function MfaSetupPage() {
   const trpc = await serverTrpc();
   const userData = await trpc.auth.getCurrentUser(); 
   
-  // If user needs to verify MFA (has MFA enabled and configured), redirect to verify
-  if (userData?.shouldVerifyMfa === true) {
-    return redirect("/mfa-verify");
-  }
-
-  // If MFA setup is not required (user doesn't have MFA enabled or already configured), redirect to admin
-  if (!userData?.mfaSetupRequired) {
+  // If MFA is already verified, redirect to admin
+  if (userData?.session?.mfaVerified === true) {
     return redirect("/admin");
   }
 
-  // User has MFA enabled but not configured - allow setup
+  // Priority check: If session says MFA is required (not setup), redirect to verify
+  if (userData?.session?.mfaRequired === true && userData?.session?.mfaSetupRequired !== true) {
+    return redirect("/mfa-verify");
+  }
+
+  // If MFA setup is not required (check session flag first, then calculated value), redirect to admin
+  if (userData?.session?.mfaSetupRequired !== true && !userData?.mfaSetupRequired) {
+    return redirect("/admin");
+  }
+
+  // User needs MFA setup (either from session flag or user settings) - allow setup
   const { qr } = await trpc.auth.generateMfaQr();
 
   return (

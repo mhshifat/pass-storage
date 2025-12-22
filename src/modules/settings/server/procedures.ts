@@ -244,6 +244,7 @@ export const settingsRouter = createTRPCRouter({
             "security.session.require_reauth",
             "security.login.max_attempts",
             "security.login.lockout_duration_minutes",
+            "security.device.require_mfa_untrusted",
           ],
         },
       },
@@ -269,6 +270,8 @@ export const settingsRouter = createTRPCRouter({
       // Login Security
       loginMaxAttempts: (config["security.login.max_attempts"] as number) ?? 5,
       loginLockoutDurationMinutes: (config["security.login.lockout_duration_minutes"] as number) ?? 15,
+      // Device Management
+      requireMfaForUntrustedDevices: (config["security.device.require_mfa_untrusted"] as boolean) ?? false,
     }
   }),
 
@@ -289,6 +292,8 @@ export const settingsRouter = createTRPCRouter({
         // Login Security
         loginMaxAttempts: z.number().min(1).max(20),
         loginLockoutDurationMinutes: z.number().min(1).max(1440), // 1 minute to 24 hours
+        // Device Management
+        requireMfaForUntrustedDevices: z.boolean().optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -352,6 +357,19 @@ export const settingsRouter = createTRPCRouter({
           update: { value: input.loginLockoutDurationMinutes },
           create: { key: "security.login.lockout_duration_minutes", value: input.loginLockoutDurationMinutes },
         }),
+        // Device Management
+        ...(input.requireMfaForUntrustedDevices !== undefined
+          ? [
+              prisma.settings.upsert({
+                where: { key: "security.device.require_mfa_untrusted" },
+                update: { value: input.requireMfaForUntrustedDevices },
+                create: {
+                  key: "security.device.require_mfa_untrusted",
+                  value: input.requireMfaForUntrustedDevices,
+                },
+              }),
+            ]
+          : []),
       ])
 
       // Create audit log

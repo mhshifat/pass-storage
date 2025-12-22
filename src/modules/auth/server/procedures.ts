@@ -656,6 +656,60 @@ export const authRouter = createTRPCRouter({
                 }
             }
 
+            // Generate device fingerprint to check if device-specific MFA is required
+            const { generateClientDeviceFingerprint, isDeviceTrusted } = await import("@/lib/device-fingerprint")
+            const deviceFingerprint = generateClientDeviceFingerprint(userAgent, ipAddress)
+            const deviceIsTrusted = await isDeviceTrusted(deviceFingerprint, user.id)
+
+            // Check if device-specific MFA is required for untrusted devices
+            const requireMfaForUntrustedDevices = await prisma.settings.findUnique({
+                where: { key: "security.device.require_mfa_untrusted" },
+            })
+            const deviceRequiresMfa = requireMfaForUntrustedDevices?.value === true && !deviceIsTrusted
+
+            // If device requires MFA (untrusted device), enforce MFA regardless of user's MFA setting
+            if (deviceRequiresMfa) {
+                // Check if user has MFA enabled and configured
+                if (user.mfaEnabled) {
+                    const hasMfaMethod = 
+                        (user.mfaMethod === "TOTP" && user.mfaSecret !== null) ||
+                        (user.mfaMethod === "SMS" && user.phoneNumber !== null) ||
+                        (user.mfaMethod === "EMAIL" && user.email !== null) ||
+                        (user.mfaMethod === "WEBAUTHN" && (await prisma.mfaCredential.count({ where: { userId: user.id } })) > 0);
+
+                    if (hasMfaMethod) {
+                        // Device requires MFA and user has MFA configured, require verification
+                        await createSession(user.id, user.email, {
+                            mfaVerified: false,
+                            mfaRequired: true,
+                            ipAddress,
+                            userAgent,
+                        });
+                        return { success: true, mfaRequired: true, deviceRequiresMfa: true };
+                    } else {
+                        // Device requires MFA but user has MFA enabled but not configured, require setup
+                        await createSession(user.id, user.email, {
+                            mfaVerified: false,
+                            mfaSetupRequired: true,
+                            mfaRequired: false,
+                            ipAddress,
+                            userAgent,
+                        });
+                        return { success: true, mfaSetupRequired: true, deviceRequiresMfa: true };
+                    }
+                } else {
+                    // Device requires MFA but user doesn't have MFA enabled, require setup
+                    await createSession(user.id, user.email, {
+                        mfaVerified: false,
+                        mfaSetupRequired: true,
+                        mfaRequired: false,
+                        ipAddress,
+                        userAgent,
+                    });
+                    return { success: true, mfaSetupRequired: true, deviceRequiresMfa: true };
+                }
+            }
+
             // Update last login time
             await prisma.user.update({
                 where: { id: user.id },
@@ -742,8 +796,9 @@ export const authRouter = createTRPCRouter({
                 (rest.mfaEnabled && rest.mfaMethod === "EMAIL" && rest.email !== null) ||
                 (rest.mfaEnabled && rest.mfaMethod === "WEBAUTHN" && _count.mfaCredentials > 0);
 
-            // Determine if MFA setup is required (MFA enabled but not configured)
-            const mfaSetupRequired = rest.mfaEnabled && !hasMfaMethod;
+            // Determine if MFA setup is required
+            // Priority: session flag > user settings (for device-specific MFA requirements)
+            const mfaSetupRequired = session.mfaSetupRequired === true || (rest.mfaEnabled && !hasMfaMethod);
 
             return {
                 user: rest,

@@ -10,13 +10,17 @@ export default async function MfaVerifyPage() {
   const userData = await trpc.auth.getCurrentUser();
   
   // Redirect to admin only if MFA is already verified (not required)
-  // Allow access if MFA verification is needed OR if MFA is enabled but not yet verified
   if (userData?.session?.mfaVerified === true) {
     return redirect("/admin");
   }
   
-  // If MFA is not enabled at all, redirect to admin
-  if (!userData?.user?.mfaEnabled) {
+  // Priority check: If session says setup is required, redirect to setup
+  if (userData?.session?.mfaSetupRequired === true) {
+    return redirect("/mfa-setup");
+  }
+  
+  // If MFA is not required in the session, redirect to admin
+  if (userData?.session?.mfaRequired !== true) {
     return redirect("/admin");
   }
 

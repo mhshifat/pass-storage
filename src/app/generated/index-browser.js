@@ -176,7 +176,9 @@ exports.Prisma.SessionScalarFieldEnum = {
   userAgent: 'userAgent',
   deviceName: 'deviceName',
   deviceType: 'deviceType',
+  deviceFingerprint: 'deviceFingerprint',
   isTrusted: 'isTrusted',
+  requireMfa: 'requireMfa',
   lastActiveAt: 'lastActiveAt',
   createdAt: 'createdAt'
 };
