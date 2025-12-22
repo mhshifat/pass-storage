@@ -37,7 +37,7 @@ import {
 import { QrCode, FolderPlus, AlertCircle } from "lucide-react"
 import { trpc } from "@/trpc/client"
 import { CreateFolderDialog } from "@/modules/folders/client"
-import { TagAutocomplete } from "@/modules/passwords/client"
+import { TagAutocomplete, TemplateSelector } from "@/modules/passwords/client"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
@@ -107,6 +107,21 @@ export function PasswordFormDialog({
   )
 
   const folders = foldersData?.folders || []
+
+  const handleTemplateSelect = (template: {
+    id: string
+    name: string
+    defaultFields: Record<string, any>
+  }) => {
+    const fields = template.defaultFields || {}
+    form.setValue("name", fields.name || "")
+    form.setValue("username", fields.username || "")
+    form.setValue("url", fields.url || "")
+    form.setValue("notes", fields.notes || "")
+    // Generate a strong password for the template
+    const generatedPassword = generateStrongPassword(20)
+    form.setValue("password", generatedPassword)
+  }
 
   const form = useForm<PasswordFormValues>({
     resolver: zodResolver(passwordSchema),
@@ -247,10 +262,17 @@ export function PasswordFormDialog({
       <Dialog open={open} onOpenChange={handleDialogOpenChange}>
         <DialogContent className="sm:max-w-[600px] max-h-[90vh]">
           <DialogHeader>
-            <DialogTitle>{mode === "create" ? t("passwords.addPassword") : t("passwords.editPassword")}</DialogTitle>
-            <DialogDescription>
-              {mode === "create" ? t("passwords.createPasswordDescription") : t("passwords.updatePasswordDescription")}
-            </DialogDescription>
+            <div className="flex items-start justify-between">
+              <div>
+                <DialogTitle>{mode === "create" ? t("passwords.addPassword") : t("passwords.editPassword")}</DialogTitle>
+                <DialogDescription>
+                  {mode === "create" ? t("passwords.createPasswordDescription") : t("passwords.updatePasswordDescription")}
+                </DialogDescription>
+              </div>
+              {mode === "create" && (
+                <TemplateSelector onSelectTemplate={handleTemplateSelect} />
+              )}
+            </div>
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={handleSubmit} className="space-y-4">

@@ -3719,6 +3719,291 @@ export const passwordsRouter = createTRPCRouter({
       return { success: true }
     }),
 
+  // ========== Password Templates ==========
+
+  listTemplates: protectedProcedure("password.view")
+    .input(
+      z.object({
+        category: z.string().optional(),
+        service: z.string().optional(),
+        includeSystem: z.boolean().default(true),
+        includePublic: z.boolean().default(true),
+        includeOwn: z.boolean().default(true),
+      }).optional()
+    )
+    .query(async ({ input = {}, ctx }) => {
+      const { category, service, includeSystem, includePublic, includeOwn } = input
+
+      // Get user's company ID
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: { companyId: true },
+      })
+
+      const where: any = {
+        OR: [],
+      }
+
+      // System templates
+      if (includeSystem) {
+        where.OR.push({ isSystem: true })
+      }
+
+      // Public templates
+      if (includePublic) {
+        where.OR.push({ isPublic: true })
+      }
+
+      // User's own templates
+      if (includeOwn) {
+        where.OR.push({ ownerId: ctx.userId })
+      }
+
+      // Company templates
+      if (user?.companyId) {
+        where.OR.push({ companyId: user.companyId })
+      }
+
+      // Filter by category
+      if (category) {
+        where.category = category
+      }
+
+      // Filter by service
+      if (service) {
+        where.service = service
+      }
+
+      const templates = await prisma.passwordTemplate.findMany({
+        where,
+        orderBy: [
+          { isSystem: "desc" }, // System templates first
+          { usageCount: "desc" }, // Most used first
+          { name: "asc" },
+        ],
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          service: true,
+          icon: true,
+          category: true,
+          isSystem: true,
+          isPublic: true,
+          ownerId: true,
+          defaultFields: true,
+          usageCount: true,
+          createdAt: true,
+        },
+      })
+
+      return { templates }
+    }),
+
+  getTemplate: protectedProcedure("password.view")
+    .input(
+      z.object({
+        id: z.string().min(1, "Template ID is required"),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const template = await prisma.passwordTemplate.findFirst({
+        where: {
+          id: input.id,
+          OR: [
+            { isSystem: true },
+            { isPublic: true },
+            { ownerId: ctx.userId },
+            {
+              companyId: {
+                in: await prisma.user
+                  .findUnique({
+                    where: { id: ctx.userId },
+                    select: { companyId: true },
+                  })
+                  .then((u) => (u?.companyId ? [u.companyId] : [])),
+              },
+            },
+          ],
+        },
+      })
+
+      if (!template) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Template not found",
+        })
+      }
+
+      return { template }
+    }),
+
+  createTemplate: protectedProcedure("password.create")
+    .input(
+      z.object({
+        name: z.string().min(1, "Name is required"),
+        description: z.string().optional(),
+        service: z.string().optional(),
+        icon: z.string().optional(),
+        category: z.string().optional(),
+        isPublic: z.boolean().default(false),
+        defaultFields: z.record(z.string(), z.unknown()).optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Get user's company ID
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: { companyId: true },
+      })
+
+      const template = await prisma.passwordTemplate.create({
+        data: {
+          name: input.name,
+          description: input.description || null,
+          service: input.service || null,
+          icon: input.icon || null,
+          category: input.category || null,
+          isPublic: input.isPublic,
+          ownerId: ctx.userId,
+          companyId: user?.companyId || null,
+          defaultFields: input.defaultFields || {},
+        },
+      })
+
+      return { template }
+    }),
+
+  updateTemplate: protectedProcedure("password.edit")
+    .input(
+      z.object({
+        id: z.string().min(1, "Template ID is required"),
+        name: z.string().min(1).optional(),
+        description: z.string().optional().nullable(),
+        service: z.string().optional().nullable(),
+        icon: z.string().optional().nullable(),
+        category: z.string().optional().nullable(),
+        isPublic: z.boolean().optional(),
+        defaultFields: z.record(z.string(), z.unknown()).optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { id, ...data } = input
+
+      // Verify ownership (user can't edit system templates)
+      const existing = await prisma.passwordTemplate.findFirst({
+        where: {
+          id,
+          ownerId: ctx.userId,
+          isSystem: false, // Can't edit system templates
+        },
+      })
+
+      if (!existing) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Template not found or you don't have permission to edit it",
+        })
+      }
+
+      const template = await prisma.passwordTemplate.update({
+        where: { id },
+        data: {
+          ...(data.name && { name: data.name }),
+          ...(data.description !== undefined && { description: data.description }),
+          ...(data.service !== undefined && { service: data.service }),
+          ...(data.icon !== undefined && { icon: data.icon }),
+          ...(data.category !== undefined && { category: data.category }),
+          ...(data.isPublic !== undefined && { isPublic: data.isPublic }),
+          ...(data.defaultFields && { defaultFields: data.defaultFields }),
+        },
+      })
+
+      return { template }
+    }),
+
+  deleteTemplate: protectedProcedure("password.delete")
+    .input(
+      z.object({
+        id: z.string().min(1, "Template ID is required"),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify ownership (user can't delete system templates)
+      const existing = await prisma.passwordTemplate.findFirst({
+        where: {
+          id: input.id,
+          ownerId: ctx.userId,
+          isSystem: false, // Can't delete system templates
+        },
+      })
+
+      if (!existing) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Template not found or you don't have permission to delete it",
+        })
+      }
+
+      await prisma.passwordTemplate.delete({
+        where: { id: input.id },
+      })
+
+      return { success: true }
+    }),
+
+  useTemplate: protectedProcedure("password.view")
+    .input(
+      z.object({
+        id: z.string().min(1, "Template ID is required"),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Increment usage count
+      await prisma.passwordTemplate.updateMany({
+        where: {
+          id: input.id,
+          OR: [
+            { isSystem: true },
+            { isPublic: true },
+            { ownerId: ctx.userId },
+          ],
+        },
+        data: {
+          usageCount: {
+            increment: 1,
+          },
+        },
+      })
+
+      // Get template
+      const template = await prisma.passwordTemplate.findFirst({
+        where: {
+          id: input.id,
+          OR: [
+            { isSystem: true },
+            { isPublic: true },
+            { ownerId: ctx.userId },
+          ],
+        },
+      })
+
+      if (!template) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Template not found",
+        })
+      }
+
+      return {
+        template: {
+          id: template.id,
+          name: template.name,
+          defaultFields: template.defaultFields,
+        },
+      }
+    }),
+
   deleteTag: protectedProcedure("password.edit")
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input, ctx }) => {

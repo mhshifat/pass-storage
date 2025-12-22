@@ -19,7 +19,8 @@ model Company {
   updatedAt DateTime @updatedAt
 
   // Relations
-  users User[]
+  users     User[]
+  templates PasswordTemplate[]
 
   @@index([subdomain])
 }
@@ -59,6 +60,7 @@ model User {
   passwordRotations        PasswordRotation[]       @relation("PasswordRotationRotatedBy")
   savedSearches            SavedSearch[]            @relation("SavedSearches")
   searchHistory            SearchHistory[]          @relation("SearchHistory")
+  passwordTemplates        PasswordTemplate[]       @relation("PasswordTemplateOwner")
 
   createdById  String?
   createdBy    User?   @relation("UserCreatedBy", fields: [createdById], references: [id])
@@ -521,4 +523,32 @@ model SearchHistory {
   @@index([userId])
   @@index([userId, createdAt])
   @@index([createdAt])
+}
+
+model PasswordTemplate {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  service       String? // Service name (e.g., "AWS", "GitHub", "Gmail")
+  icon          String? // Icon/emoji for the template
+  category      String? // Category (e.g., "Cloud", "Social", "Banking")
+  isSystem      Boolean  @default(false) // System templates vs user-created
+  isPublic      Boolean  @default(false) // Public templates can be shared
+  ownerId       String? // null for system templates, userId for user templates
+  companyId     String? // For company-specific templates
+  defaultFields Json // JSON object with default field values (name, username, url, notes, etc.)
+  usageCount    Int      @default(0) // Track how many times template is used
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  owner   User?    @relation("PasswordTemplateOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  company Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([ownerId])
+  @@index([companyId])
+  @@index([isSystem])
+  @@index([isPublic])
+  @@index([category])
+  @@index([service])
 }

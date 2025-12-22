@@ -399,6 +399,23 @@ exports.Prisma.SearchHistoryScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PasswordTemplateScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  service: 'service',
+  icon: 'icon',
+  category: 'category',
+  isSystem: 'isSystem',
+  isPublic: 'isPublic',
+  ownerId: 'ownerId',
+  companyId: 'companyId',
+  defaultFields: 'defaultFields',
+  usageCount: 'usageCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -483,7 +500,8 @@ exports.Prisma.ModelName = {
   MfaCredential: 'MfaCredential',
   RecoveryCode: 'RecoveryCode',
   SavedSearch: 'SavedSearch',
-  SearchHistory: 'SearchHistory'
+  SearchHistory: 'SearchHistory',
+  PasswordTemplate: 'PasswordTemplate'
 };
 
 /**
