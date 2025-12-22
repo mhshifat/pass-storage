@@ -37,6 +37,8 @@ import {
   RotateCw,
   AlertCircle,
   Star,
+  X,
+  Bookmark,
 } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -45,6 +47,14 @@ import { toast } from "sonner"
 import { usePermissions } from "@/hooks/use-permissions"
 import { toggleFavoriteAction } from "@/app/admin/passwords/favorite-actions"
 import { TagFilter } from "@/modules/passwords/client/tag-filter"
+import { AdvancedSearchDialog } from "./advanced-search-dialog"
+import { SearchHistory } from "./search-history"
+import { SavedSearches } from "./saved-searches"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 
 interface PasswordShare {
   shareId: string
@@ -192,6 +202,9 @@ export function PasswordsTable({
   const [copyingPasswordId, setCopyingPasswordId] = React.useState<string | null>(null)
   const [copyingTotpId, setCopyingTotpId] = React.useState<string | null>(null)
   const [togglingFavoriteId, setTogglingFavoriteId] = React.useState<string | null>(null)
+  const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = React.useState(false)
+  const [isSearchHistoryOpen, setIsSearchHistoryOpen] = React.useState(false)
+  const [isSavedSearchesOpen, setIsSavedSearchesOpen] = React.useState(false)
 
   // Fetch rotation reminders to show indicators
   const { data: reminders } = trpc.passwordRotation.getReminders.useQuery(
@@ -238,6 +251,23 @@ export function PasswordsTable({
     }
     router.push(`?${params.toString()}`)
   }
+
+  const handleClearSearch = () => {
+    setSearchQuery("")
+    const params = new URLSearchParams()
+    params.set("page", "1")
+    router.push(`?${params.toString()}`)
+  }
+
+  // Check if any filters are active
+  const hasActiveFilters = React.useMemo(() => {
+    return !!(
+      searchParams.get("search") ||
+      searchParams.get("tags") ||
+      searchParams.get("folders") ||
+      searchParams.get("filter")
+    )
+  }, [searchParams])
 
   const handleCopyPassword = async (passwordId: string) => {
     try {
@@ -319,17 +349,167 @@ export function PasswordsTable({
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center gap-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+        <div className="flex items-center gap-3">
+          <div className="relative flex-1 group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground transition-colors group-focus-within:text-foreground" />
             <Input
               placeholder={t("passwords.searchPasswords")}
-              className="pl-8"
+              className="pl-10 pr-28"
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && e.ctrlKey) {
+                  setIsAdvancedSearchOpen(true)
+                }
+              }}
             />
+            {hasActiveFilters && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute right-10 top-1/2 -translate-y-1/2 h-7 w-7 hover:bg-muted"
+                onClick={handleClearSearch}
+                title={t("passwords.search.clearAll")}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            )}
+            <Popover open={isSearchHistoryOpen} onOpenChange={setIsSearchHistoryOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-10 top-1/2 -translate-y-1/2 h-7 w-7"
+                  onClick={() => setIsSearchHistoryOpen(!isSearchHistoryOpen)}
+                  title={t("passwords.search.recentSearches")}
+                >
+                  <Clock className="h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 p-3" align="start">
+                <SearchHistory
+                  onSelect={() => setIsSearchHistoryOpen(false)}
+                  limit={10}
+                />
+              </PopoverContent>
+            </Popover>
+            <Popover open={isSavedSearchesOpen} onOpenChange={setIsSavedSearchesOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 h-7 w-7"
+                  onClick={() => setIsSavedSearchesOpen(!isSavedSearchesOpen)}
+                  title={t("passwords.search.savedSearches")}
+                >
+                  <Bookmark className="h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 p-3" align="start">
+                <SavedSearches
+                  onExecute={() => setIsSavedSearchesOpen(false)}
+                />
+              </PopoverContent>
+            </Popover>
           </div>
-          <TagFilter />
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsAdvancedSearchOpen(true)}
+              className="gap-2"
+            >
+              <Search className="h-4 w-4" />
+              {t("passwords.search.advanced")}
+            </Button>
+            <TagFilter />
+          </div>
+        </div>
+        {/* Active Filters Display */}
+        {hasActiveFilters && (
+          <div className="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t">
+            <span className="text-xs font-medium text-muted-foreground">{t("passwords.search.activeFilters")}:</span>
+            {searchParams.get("search") && (
+              <Badge variant="secondary" className="text-xs">
+                {t("passwords.search.searchQuery")}: {searchParams.get("search")}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const params = new URLSearchParams(searchParams)
+                    params.delete("search")
+                    params.set("page", "1")
+                    router.push(`?${params.toString()}`)
+                  }}
+                  className="ml-1.5 hover:bg-muted rounded-full p-0.5"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </Badge>
+            )}
+            {searchParams.get("tags") && (
+              <Badge variant="secondary" className="text-xs">
+                {t("passwords.tags.tags")}: {searchParams.get("tags")?.split(",").length}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const params = new URLSearchParams(searchParams)
+                    params.delete("tags")
+                    params.set("page", "1")
+                    router.push(`?${params.toString()}`)
+                  }}
+                  className="ml-1.5 hover:bg-muted rounded-full p-0.5"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </Badge>
+            )}
+            {searchParams.get("folders") && (
+              <Badge variant="secondary" className="text-xs">
+                {t("passwords.folder")}: {searchParams.get("folders")?.split(",").length}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const params = new URLSearchParams(searchParams)
+                    params.delete("folders")
+                    params.set("page", "1")
+                    router.push(`?${params.toString()}`)
+                  }}
+                  className="ml-1.5 hover:bg-muted rounded-full p-0.5"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </Badge>
+            )}
+            {searchParams.get("filter") && (
+              <Badge variant="secondary" className="text-xs">
+                {t(`passwords.filter.${searchParams.get("filter")}`)}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const params = new URLSearchParams(searchParams)
+                    params.delete("filter")
+                    params.set("page", "1")
+                    router.push(`?${params.toString()}`)
+                  }}
+                  className="ml-1.5 hover:bg-muted rounded-full p-0.5"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </Badge>
+            )}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleClearSearch}
+              className="h-6 text-xs ml-auto"
+            >
+              <X className="h-3 w-3 mr-1" />
+              {t("passwords.search.clearAll")}
+            </Button>
+          </div>
+        )}
+        <div className="text-xs text-muted-foreground mt-2">
+          {t("passwords.search.hint")}
         </div>
       </CardHeader>
       <CardContent>
@@ -558,6 +738,14 @@ export function PasswordsTable({
           </TableBody>
         </Table>
       </CardContent>
+
+      <AdvancedSearchDialog
+        open={isAdvancedSearchOpen}
+        onOpenChange={setIsAdvancedSearchOpen}
+        onSearch={(params) => {
+          // Search is handled by the dialog via router.push
+        }}
+      />
     </Card>
   )
 }

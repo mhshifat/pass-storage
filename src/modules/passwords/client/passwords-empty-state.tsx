@@ -1,8 +1,9 @@
 "use client";
 
 import { useTranslation } from "react-i18next"
-import { FolderKey, Plus } from "lucide-react"
+import { FolderKey, Plus, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useRouter, useSearchParams } from "next/navigation"
 
 interface PasswordsEmptyStateProps {
   onCreatePassword?: () => void
@@ -14,6 +15,21 @@ export function PasswordsEmptyState({
   isSearching = false,
 }: PasswordsEmptyStateProps) {
   const { t } = useTranslation()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  
+  const handleClearSearch = () => {
+    const params = new URLSearchParams()
+    params.set("page", "1")
+    router.push(`?${params.toString()}`)
+  }
+
+  const hasActiveFilters = !!(
+    searchParams.get("search") ||
+    searchParams.get("tags") ||
+    searchParams.get("folders") ||
+    searchParams.get("filter")
+  )
   
   if (isSearching) {
     return (
@@ -25,6 +41,16 @@ export function PasswordsEmptyState({
         <p className="text-sm text-muted-foreground text-center max-w-sm mb-6">
           {t("passwords.noPasswordsSearchDescription")}
         </p>
+        {hasActiveFilters && (
+          <Button
+            variant="outline"
+            onClick={handleClearSearch}
+            className="gap-2"
+          >
+            <X className="h-4 w-4" />
+            {t("passwords.search.clearAll")}
+          </Button>
+        )}
       </div>
     )
   }

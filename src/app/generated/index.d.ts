@@ -123,6 +123,16 @@ export type MfaCredential = $Result.DefaultSelection<Prisma.$MfaCredentialPayloa
  * 
  */
 export type RecoveryCode = $Result.DefaultSelection<Prisma.$RecoveryCodePayload>
+/**
+ * Model SavedSearch
+ * 
+ */
+export type SavedSearch = $Result.DefaultSelection<Prisma.$SavedSearchPayload>
+/**
+ * Model SearchHistory
+ * 
+ */
+export type SearchHistory = $Result.DefaultSelection<Prisma.$SearchHistoryPayload>
 
 /**
  * Enums
@@ -546,6 +556,26 @@ export class PrismaClient<
     * ```
     */
   get recoveryCode(): Prisma.RecoveryCodeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.savedSearch`: Exposes CRUD operations for the **SavedSearch** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SavedSearches
+    * const savedSearches = await prisma.savedSearch.findMany()
+    * ```
+    */
+  get savedSearch(): Prisma.SavedSearchDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.searchHistory`: Exposes CRUD operations for the **SearchHistory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SearchHistories
+    * const searchHistories = await prisma.searchHistory.findMany()
+    * ```
+    */
+  get searchHistory(): Prisma.SearchHistoryDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1001,7 +1031,9 @@ export namespace Prisma {
     Permission: 'Permission',
     RolePermission: 'RolePermission',
     MfaCredential: 'MfaCredential',
-    RecoveryCode: 'RecoveryCode'
+    RecoveryCode: 'RecoveryCode',
+    SavedSearch: 'SavedSearch',
+    SearchHistory: 'SearchHistory'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1017,7 +1049,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "passwordRotationPolicy" | "passwordRotation" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode"
+      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "passwordRotationPolicy" | "passwordRotation" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode" | "savedSearch" | "searchHistory"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2649,6 +2681,154 @@ export namespace Prisma {
           }
         }
       }
+      SavedSearch: {
+        payload: Prisma.$SavedSearchPayload<ExtArgs>
+        fields: Prisma.SavedSearchFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SavedSearchFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedSearchPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SavedSearchFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedSearchPayload>
+          }
+          findFirst: {
+            args: Prisma.SavedSearchFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedSearchPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SavedSearchFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedSearchPayload>
+          }
+          findMany: {
+            args: Prisma.SavedSearchFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedSearchPayload>[]
+          }
+          create: {
+            args: Prisma.SavedSearchCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedSearchPayload>
+          }
+          createMany: {
+            args: Prisma.SavedSearchCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SavedSearchCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedSearchPayload>[]
+          }
+          delete: {
+            args: Prisma.SavedSearchDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedSearchPayload>
+          }
+          update: {
+            args: Prisma.SavedSearchUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedSearchPayload>
+          }
+          deleteMany: {
+            args: Prisma.SavedSearchDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SavedSearchUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SavedSearchUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedSearchPayload>[]
+          }
+          upsert: {
+            args: Prisma.SavedSearchUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SavedSearchPayload>
+          }
+          aggregate: {
+            args: Prisma.SavedSearchAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSavedSearch>
+          }
+          groupBy: {
+            args: Prisma.SavedSearchGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SavedSearchGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SavedSearchCountArgs<ExtArgs>
+            result: $Utils.Optional<SavedSearchCountAggregateOutputType> | number
+          }
+        }
+      }
+      SearchHistory: {
+        payload: Prisma.$SearchHistoryPayload<ExtArgs>
+        fields: Prisma.SearchHistoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SearchHistoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchHistoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SearchHistoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchHistoryPayload>
+          }
+          findFirst: {
+            args: Prisma.SearchHistoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchHistoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SearchHistoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchHistoryPayload>
+          }
+          findMany: {
+            args: Prisma.SearchHistoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchHistoryPayload>[]
+          }
+          create: {
+            args: Prisma.SearchHistoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchHistoryPayload>
+          }
+          createMany: {
+            args: Prisma.SearchHistoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SearchHistoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchHistoryPayload>[]
+          }
+          delete: {
+            args: Prisma.SearchHistoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchHistoryPayload>
+          }
+          update: {
+            args: Prisma.SearchHistoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchHistoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.SearchHistoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SearchHistoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SearchHistoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchHistoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.SearchHistoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SearchHistoryPayload>
+          }
+          aggregate: {
+            args: Prisma.SearchHistoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSearchHistory>
+          }
+          groupBy: {
+            args: Prisma.SearchHistoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SearchHistoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SearchHistoryCountArgs<ExtArgs>
+            result: $Utils.Optional<SearchHistoryCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2763,6 +2943,8 @@ export namespace Prisma {
     rolePermission?: RolePermissionOmit
     mfaCredential?: MfaCredentialOmit
     recoveryCode?: RecoveryCodeOmit
+    savedSearch?: SavedSearchOmit
+    searchHistory?: SearchHistoryOmit
   }
 
   /* Types for Logging */
@@ -2887,6 +3069,8 @@ export namespace Prisma {
     passwordBreachesResolved: number
     rotationPolicies: number
     passwordRotations: number
+    savedSearches: number
+    searchHistory: number
     createdUsers: number
     createdRoles: number
   }
@@ -2905,6 +3089,8 @@ export namespace Prisma {
     passwordBreachesResolved?: boolean | UserCountOutputTypeCountPasswordBreachesResolvedArgs
     rotationPolicies?: boolean | UserCountOutputTypeCountRotationPoliciesArgs
     passwordRotations?: boolean | UserCountOutputTypeCountPasswordRotationsArgs
+    savedSearches?: boolean | UserCountOutputTypeCountSavedSearchesArgs
+    searchHistory?: boolean | UserCountOutputTypeCountSearchHistoryArgs
     createdUsers?: boolean | UserCountOutputTypeCountCreatedUsersArgs
     createdRoles?: boolean | UserCountOutputTypeCountCreatedRolesArgs
   }
@@ -3009,6 +3195,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountPasswordRotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PasswordRotationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSavedSearchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SavedSearchWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSearchHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SearchHistoryWhereInput
   }
 
   /**
@@ -4654,6 +4854,8 @@ export namespace Prisma {
     passwordBreachesResolved?: boolean | User$passwordBreachesResolvedArgs<ExtArgs>
     rotationPolicies?: boolean | User$rotationPoliciesArgs<ExtArgs>
     passwordRotations?: boolean | User$passwordRotationsArgs<ExtArgs>
+    savedSearches?: boolean | User$savedSearchesArgs<ExtArgs>
+    searchHistory?: boolean | User$searchHistoryArgs<ExtArgs>
     createdBy?: boolean | User$createdByArgs<ExtArgs>
     createdUsers?: boolean | User$createdUsersArgs<ExtArgs>
     createdRoles?: boolean | User$createdRolesArgs<ExtArgs>
@@ -4740,6 +4942,8 @@ export namespace Prisma {
     passwordBreachesResolved?: boolean | User$passwordBreachesResolvedArgs<ExtArgs>
     rotationPolicies?: boolean | User$rotationPoliciesArgs<ExtArgs>
     passwordRotations?: boolean | User$passwordRotationsArgs<ExtArgs>
+    savedSearches?: boolean | User$savedSearchesArgs<ExtArgs>
+    searchHistory?: boolean | User$searchHistoryArgs<ExtArgs>
     createdBy?: boolean | User$createdByArgs<ExtArgs>
     createdUsers?: boolean | User$createdUsersArgs<ExtArgs>
     createdRoles?: boolean | User$createdRolesArgs<ExtArgs>
@@ -4771,6 +4975,8 @@ export namespace Prisma {
       passwordBreachesResolved: Prisma.$PasswordBreachPayload<ExtArgs>[]
       rotationPolicies: Prisma.$PasswordRotationPolicyPayload<ExtArgs>[]
       passwordRotations: Prisma.$PasswordRotationPayload<ExtArgs>[]
+      savedSearches: Prisma.$SavedSearchPayload<ExtArgs>[]
+      searchHistory: Prisma.$SearchHistoryPayload<ExtArgs>[]
       createdBy: Prisma.$UserPayload<ExtArgs> | null
       createdUsers: Prisma.$UserPayload<ExtArgs>[]
       createdRoles: Prisma.$RolePayload<ExtArgs>[]
@@ -5201,6 +5407,8 @@ export namespace Prisma {
     passwordBreachesResolved<T extends User$passwordBreachesResolvedArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordBreachesResolvedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     rotationPolicies<T extends User$rotationPoliciesArgs<ExtArgs> = {}>(args?: Subset<T, User$rotationPoliciesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passwordRotations<T extends User$passwordRotationsArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordRotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    savedSearches<T extends User$savedSearchesArgs<ExtArgs> = {}>(args?: Subset<T, User$savedSearchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    searchHistory<T extends User$searchHistoryArgs<ExtArgs> = {}>(args?: Subset<T, User$searchHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SearchHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdBy<T extends User$createdByArgs<ExtArgs> = {}>(args?: Subset<T, User$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     createdUsers<T extends User$createdUsersArgs<ExtArgs> = {}>(args?: Subset<T, User$createdUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdRoles<T extends User$createdRolesArgs<ExtArgs> = {}>(args?: Subset<T, User$createdRolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5974,6 +6182,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PasswordRotationScalarFieldEnum | PasswordRotationScalarFieldEnum[]
+  }
+
+  /**
+   * User.savedSearches
+   */
+  export type User$savedSearchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedSearch
+     */
+    select?: SavedSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedSearch
+     */
+    omit?: SavedSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedSearchInclude<ExtArgs> | null
+    where?: SavedSearchWhereInput
+    orderBy?: SavedSearchOrderByWithRelationInput | SavedSearchOrderByWithRelationInput[]
+    cursor?: SavedSearchWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SavedSearchScalarFieldEnum | SavedSearchScalarFieldEnum[]
+  }
+
+  /**
+   * User.searchHistory
+   */
+  export type User$searchHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchHistory
+     */
+    select?: SearchHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SearchHistory
+     */
+    omit?: SearchHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchHistoryInclude<ExtArgs> | null
+    where?: SearchHistoryWhereInput
+    orderBy?: SearchHistoryOrderByWithRelationInput | SearchHistoryOrderByWithRelationInput[]
+    cursor?: SearchHistoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SearchHistoryScalarFieldEnum | SearchHistoryScalarFieldEnum[]
   }
 
   /**
@@ -28756,6 +29012,2262 @@ export namespace Prisma {
 
 
   /**
+   * Model SavedSearch
+   */
+
+  export type AggregateSavedSearch = {
+    _count: SavedSearchCountAggregateOutputType | null
+    _min: SavedSearchMinAggregateOutputType | null
+    _max: SavedSearchMaxAggregateOutputType | null
+  }
+
+  export type SavedSearchMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    query: string | null
+    filter: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    lastUsedAt: Date | null
+  }
+
+  export type SavedSearchMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    name: string | null
+    query: string | null
+    filter: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    lastUsedAt: Date | null
+  }
+
+  export type SavedSearchCountAggregateOutputType = {
+    id: number
+    userId: number
+    name: number
+    query: number
+    folderIds: number
+    tagIds: number
+    filter: number
+    searchFields: number
+    createdAt: number
+    updatedAt: number
+    lastUsedAt: number
+    _all: number
+  }
+
+
+  export type SavedSearchMinAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    query?: true
+    filter?: true
+    createdAt?: true
+    updatedAt?: true
+    lastUsedAt?: true
+  }
+
+  export type SavedSearchMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    query?: true
+    filter?: true
+    createdAt?: true
+    updatedAt?: true
+    lastUsedAt?: true
+  }
+
+  export type SavedSearchCountAggregateInputType = {
+    id?: true
+    userId?: true
+    name?: true
+    query?: true
+    folderIds?: true
+    tagIds?: true
+    filter?: true
+    searchFields?: true
+    createdAt?: true
+    updatedAt?: true
+    lastUsedAt?: true
+    _all?: true
+  }
+
+  export type SavedSearchAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SavedSearch to aggregate.
+     */
+    where?: SavedSearchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedSearches to fetch.
+     */
+    orderBy?: SavedSearchOrderByWithRelationInput | SavedSearchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SavedSearchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedSearches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedSearches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SavedSearches
+    **/
+    _count?: true | SavedSearchCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SavedSearchMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SavedSearchMaxAggregateInputType
+  }
+
+  export type GetSavedSearchAggregateType<T extends SavedSearchAggregateArgs> = {
+        [P in keyof T & keyof AggregateSavedSearch]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSavedSearch[P]>
+      : GetScalarType<T[P], AggregateSavedSearch[P]>
+  }
+
+
+
+
+  export type SavedSearchGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SavedSearchWhereInput
+    orderBy?: SavedSearchOrderByWithAggregationInput | SavedSearchOrderByWithAggregationInput[]
+    by: SavedSearchScalarFieldEnum[] | SavedSearchScalarFieldEnum
+    having?: SavedSearchScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SavedSearchCountAggregateInputType | true
+    _min?: SavedSearchMinAggregateInputType
+    _max?: SavedSearchMaxAggregateInputType
+  }
+
+  export type SavedSearchGroupByOutputType = {
+    id: string
+    userId: string
+    name: string
+    query: string | null
+    folderIds: string[]
+    tagIds: string[]
+    filter: string | null
+    searchFields: string[]
+    createdAt: Date
+    updatedAt: Date
+    lastUsedAt: Date | null
+    _count: SavedSearchCountAggregateOutputType | null
+    _min: SavedSearchMinAggregateOutputType | null
+    _max: SavedSearchMaxAggregateOutputType | null
+  }
+
+  type GetSavedSearchGroupByPayload<T extends SavedSearchGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SavedSearchGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SavedSearchGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SavedSearchGroupByOutputType[P]>
+            : GetScalarType<T[P], SavedSearchGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SavedSearchSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    query?: boolean
+    folderIds?: boolean
+    tagIds?: boolean
+    filter?: boolean
+    searchFields?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lastUsedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["savedSearch"]>
+
+  export type SavedSearchSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    query?: boolean
+    folderIds?: boolean
+    tagIds?: boolean
+    filter?: boolean
+    searchFields?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lastUsedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["savedSearch"]>
+
+  export type SavedSearchSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    query?: boolean
+    folderIds?: boolean
+    tagIds?: boolean
+    filter?: boolean
+    searchFields?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lastUsedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["savedSearch"]>
+
+  export type SavedSearchSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    name?: boolean
+    query?: boolean
+    folderIds?: boolean
+    tagIds?: boolean
+    filter?: boolean
+    searchFields?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    lastUsedAt?: boolean
+  }
+
+  export type SavedSearchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "query" | "folderIds" | "tagIds" | "filter" | "searchFields" | "createdAt" | "updatedAt" | "lastUsedAt", ExtArgs["result"]["savedSearch"]>
+  export type SavedSearchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SavedSearchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SavedSearchIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $SavedSearchPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SavedSearch"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      name: string
+      query: string | null
+      folderIds: string[]
+      tagIds: string[]
+      filter: string | null
+      searchFields: string[]
+      createdAt: Date
+      updatedAt: Date
+      lastUsedAt: Date | null
+    }, ExtArgs["result"]["savedSearch"]>
+    composites: {}
+  }
+
+  type SavedSearchGetPayload<S extends boolean | null | undefined | SavedSearchDefaultArgs> = $Result.GetResult<Prisma.$SavedSearchPayload, S>
+
+  type SavedSearchCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SavedSearchFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SavedSearchCountAggregateInputType | true
+    }
+
+  export interface SavedSearchDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SavedSearch'], meta: { name: 'SavedSearch' } }
+    /**
+     * Find zero or one SavedSearch that matches the filter.
+     * @param {SavedSearchFindUniqueArgs} args - Arguments to find a SavedSearch
+     * @example
+     * // Get one SavedSearch
+     * const savedSearch = await prisma.savedSearch.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SavedSearchFindUniqueArgs>(args: SelectSubset<T, SavedSearchFindUniqueArgs<ExtArgs>>): Prisma__SavedSearchClient<$Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SavedSearch that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SavedSearchFindUniqueOrThrowArgs} args - Arguments to find a SavedSearch
+     * @example
+     * // Get one SavedSearch
+     * const savedSearch = await prisma.savedSearch.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SavedSearchFindUniqueOrThrowArgs>(args: SelectSubset<T, SavedSearchFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SavedSearchClient<$Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SavedSearch that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedSearchFindFirstArgs} args - Arguments to find a SavedSearch
+     * @example
+     * // Get one SavedSearch
+     * const savedSearch = await prisma.savedSearch.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SavedSearchFindFirstArgs>(args?: SelectSubset<T, SavedSearchFindFirstArgs<ExtArgs>>): Prisma__SavedSearchClient<$Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SavedSearch that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedSearchFindFirstOrThrowArgs} args - Arguments to find a SavedSearch
+     * @example
+     * // Get one SavedSearch
+     * const savedSearch = await prisma.savedSearch.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SavedSearchFindFirstOrThrowArgs>(args?: SelectSubset<T, SavedSearchFindFirstOrThrowArgs<ExtArgs>>): Prisma__SavedSearchClient<$Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SavedSearches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedSearchFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SavedSearches
+     * const savedSearches = await prisma.savedSearch.findMany()
+     * 
+     * // Get first 10 SavedSearches
+     * const savedSearches = await prisma.savedSearch.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const savedSearchWithIdOnly = await prisma.savedSearch.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SavedSearchFindManyArgs>(args?: SelectSubset<T, SavedSearchFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SavedSearch.
+     * @param {SavedSearchCreateArgs} args - Arguments to create a SavedSearch.
+     * @example
+     * // Create one SavedSearch
+     * const SavedSearch = await prisma.savedSearch.create({
+     *   data: {
+     *     // ... data to create a SavedSearch
+     *   }
+     * })
+     * 
+     */
+    create<T extends SavedSearchCreateArgs>(args: SelectSubset<T, SavedSearchCreateArgs<ExtArgs>>): Prisma__SavedSearchClient<$Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SavedSearches.
+     * @param {SavedSearchCreateManyArgs} args - Arguments to create many SavedSearches.
+     * @example
+     * // Create many SavedSearches
+     * const savedSearch = await prisma.savedSearch.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SavedSearchCreateManyArgs>(args?: SelectSubset<T, SavedSearchCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SavedSearches and returns the data saved in the database.
+     * @param {SavedSearchCreateManyAndReturnArgs} args - Arguments to create many SavedSearches.
+     * @example
+     * // Create many SavedSearches
+     * const savedSearch = await prisma.savedSearch.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SavedSearches and only return the `id`
+     * const savedSearchWithIdOnly = await prisma.savedSearch.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SavedSearchCreateManyAndReturnArgs>(args?: SelectSubset<T, SavedSearchCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SavedSearch.
+     * @param {SavedSearchDeleteArgs} args - Arguments to delete one SavedSearch.
+     * @example
+     * // Delete one SavedSearch
+     * const SavedSearch = await prisma.savedSearch.delete({
+     *   where: {
+     *     // ... filter to delete one SavedSearch
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SavedSearchDeleteArgs>(args: SelectSubset<T, SavedSearchDeleteArgs<ExtArgs>>): Prisma__SavedSearchClient<$Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SavedSearch.
+     * @param {SavedSearchUpdateArgs} args - Arguments to update one SavedSearch.
+     * @example
+     * // Update one SavedSearch
+     * const savedSearch = await prisma.savedSearch.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SavedSearchUpdateArgs>(args: SelectSubset<T, SavedSearchUpdateArgs<ExtArgs>>): Prisma__SavedSearchClient<$Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SavedSearches.
+     * @param {SavedSearchDeleteManyArgs} args - Arguments to filter SavedSearches to delete.
+     * @example
+     * // Delete a few SavedSearches
+     * const { count } = await prisma.savedSearch.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SavedSearchDeleteManyArgs>(args?: SelectSubset<T, SavedSearchDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SavedSearches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedSearchUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SavedSearches
+     * const savedSearch = await prisma.savedSearch.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SavedSearchUpdateManyArgs>(args: SelectSubset<T, SavedSearchUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SavedSearches and returns the data updated in the database.
+     * @param {SavedSearchUpdateManyAndReturnArgs} args - Arguments to update many SavedSearches.
+     * @example
+     * // Update many SavedSearches
+     * const savedSearch = await prisma.savedSearch.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SavedSearches and only return the `id`
+     * const savedSearchWithIdOnly = await prisma.savedSearch.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SavedSearchUpdateManyAndReturnArgs>(args: SelectSubset<T, SavedSearchUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SavedSearch.
+     * @param {SavedSearchUpsertArgs} args - Arguments to update or create a SavedSearch.
+     * @example
+     * // Update or create a SavedSearch
+     * const savedSearch = await prisma.savedSearch.upsert({
+     *   create: {
+     *     // ... data to create a SavedSearch
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SavedSearch we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SavedSearchUpsertArgs>(args: SelectSubset<T, SavedSearchUpsertArgs<ExtArgs>>): Prisma__SavedSearchClient<$Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SavedSearches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedSearchCountArgs} args - Arguments to filter SavedSearches to count.
+     * @example
+     * // Count the number of SavedSearches
+     * const count = await prisma.savedSearch.count({
+     *   where: {
+     *     // ... the filter for the SavedSearches we want to count
+     *   }
+     * })
+    **/
+    count<T extends SavedSearchCountArgs>(
+      args?: Subset<T, SavedSearchCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SavedSearchCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SavedSearch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedSearchAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SavedSearchAggregateArgs>(args: Subset<T, SavedSearchAggregateArgs>): Prisma.PrismaPromise<GetSavedSearchAggregateType<T>>
+
+    /**
+     * Group by SavedSearch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SavedSearchGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SavedSearchGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SavedSearchGroupByArgs['orderBy'] }
+        : { orderBy?: SavedSearchGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SavedSearchGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSavedSearchGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SavedSearch model
+   */
+  readonly fields: SavedSearchFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SavedSearch.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SavedSearchClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SavedSearch model
+   */
+  interface SavedSearchFieldRefs {
+    readonly id: FieldRef<"SavedSearch", 'String'>
+    readonly userId: FieldRef<"SavedSearch", 'String'>
+    readonly name: FieldRef<"SavedSearch", 'String'>
+    readonly query: FieldRef<"SavedSearch", 'String'>
+    readonly folderIds: FieldRef<"SavedSearch", 'String[]'>
+    readonly tagIds: FieldRef<"SavedSearch", 'String[]'>
+    readonly filter: FieldRef<"SavedSearch", 'String'>
+    readonly searchFields: FieldRef<"SavedSearch", 'String[]'>
+    readonly createdAt: FieldRef<"SavedSearch", 'DateTime'>
+    readonly updatedAt: FieldRef<"SavedSearch", 'DateTime'>
+    readonly lastUsedAt: FieldRef<"SavedSearch", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SavedSearch findUnique
+   */
+  export type SavedSearchFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedSearch
+     */
+    select?: SavedSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedSearch
+     */
+    omit?: SavedSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedSearchInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedSearch to fetch.
+     */
+    where: SavedSearchWhereUniqueInput
+  }
+
+  /**
+   * SavedSearch findUniqueOrThrow
+   */
+  export type SavedSearchFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedSearch
+     */
+    select?: SavedSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedSearch
+     */
+    omit?: SavedSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedSearchInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedSearch to fetch.
+     */
+    where: SavedSearchWhereUniqueInput
+  }
+
+  /**
+   * SavedSearch findFirst
+   */
+  export type SavedSearchFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedSearch
+     */
+    select?: SavedSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedSearch
+     */
+    omit?: SavedSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedSearchInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedSearch to fetch.
+     */
+    where?: SavedSearchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedSearches to fetch.
+     */
+    orderBy?: SavedSearchOrderByWithRelationInput | SavedSearchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SavedSearches.
+     */
+    cursor?: SavedSearchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedSearches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedSearches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SavedSearches.
+     */
+    distinct?: SavedSearchScalarFieldEnum | SavedSearchScalarFieldEnum[]
+  }
+
+  /**
+   * SavedSearch findFirstOrThrow
+   */
+  export type SavedSearchFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedSearch
+     */
+    select?: SavedSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedSearch
+     */
+    omit?: SavedSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedSearchInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedSearch to fetch.
+     */
+    where?: SavedSearchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedSearches to fetch.
+     */
+    orderBy?: SavedSearchOrderByWithRelationInput | SavedSearchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SavedSearches.
+     */
+    cursor?: SavedSearchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedSearches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedSearches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SavedSearches.
+     */
+    distinct?: SavedSearchScalarFieldEnum | SavedSearchScalarFieldEnum[]
+  }
+
+  /**
+   * SavedSearch findMany
+   */
+  export type SavedSearchFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedSearch
+     */
+    select?: SavedSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedSearch
+     */
+    omit?: SavedSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedSearchInclude<ExtArgs> | null
+    /**
+     * Filter, which SavedSearches to fetch.
+     */
+    where?: SavedSearchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SavedSearches to fetch.
+     */
+    orderBy?: SavedSearchOrderByWithRelationInput | SavedSearchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SavedSearches.
+     */
+    cursor?: SavedSearchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SavedSearches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SavedSearches.
+     */
+    skip?: number
+    distinct?: SavedSearchScalarFieldEnum | SavedSearchScalarFieldEnum[]
+  }
+
+  /**
+   * SavedSearch create
+   */
+  export type SavedSearchCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedSearch
+     */
+    select?: SavedSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedSearch
+     */
+    omit?: SavedSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedSearchInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SavedSearch.
+     */
+    data: XOR<SavedSearchCreateInput, SavedSearchUncheckedCreateInput>
+  }
+
+  /**
+   * SavedSearch createMany
+   */
+  export type SavedSearchCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SavedSearches.
+     */
+    data: SavedSearchCreateManyInput | SavedSearchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SavedSearch createManyAndReturn
+   */
+  export type SavedSearchCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedSearch
+     */
+    select?: SavedSearchSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedSearch
+     */
+    omit?: SavedSearchOmit<ExtArgs> | null
+    /**
+     * The data used to create many SavedSearches.
+     */
+    data: SavedSearchCreateManyInput | SavedSearchCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedSearchIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SavedSearch update
+   */
+  export type SavedSearchUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedSearch
+     */
+    select?: SavedSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedSearch
+     */
+    omit?: SavedSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedSearchInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SavedSearch.
+     */
+    data: XOR<SavedSearchUpdateInput, SavedSearchUncheckedUpdateInput>
+    /**
+     * Choose, which SavedSearch to update.
+     */
+    where: SavedSearchWhereUniqueInput
+  }
+
+  /**
+   * SavedSearch updateMany
+   */
+  export type SavedSearchUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SavedSearches.
+     */
+    data: XOR<SavedSearchUpdateManyMutationInput, SavedSearchUncheckedUpdateManyInput>
+    /**
+     * Filter which SavedSearches to update
+     */
+    where?: SavedSearchWhereInput
+    /**
+     * Limit how many SavedSearches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SavedSearch updateManyAndReturn
+   */
+  export type SavedSearchUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedSearch
+     */
+    select?: SavedSearchSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedSearch
+     */
+    omit?: SavedSearchOmit<ExtArgs> | null
+    /**
+     * The data used to update SavedSearches.
+     */
+    data: XOR<SavedSearchUpdateManyMutationInput, SavedSearchUncheckedUpdateManyInput>
+    /**
+     * Filter which SavedSearches to update
+     */
+    where?: SavedSearchWhereInput
+    /**
+     * Limit how many SavedSearches to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedSearchIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SavedSearch upsert
+   */
+  export type SavedSearchUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedSearch
+     */
+    select?: SavedSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedSearch
+     */
+    omit?: SavedSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedSearchInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SavedSearch to update in case it exists.
+     */
+    where: SavedSearchWhereUniqueInput
+    /**
+     * In case the SavedSearch found by the `where` argument doesn't exist, create a new SavedSearch with this data.
+     */
+    create: XOR<SavedSearchCreateInput, SavedSearchUncheckedCreateInput>
+    /**
+     * In case the SavedSearch was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SavedSearchUpdateInput, SavedSearchUncheckedUpdateInput>
+  }
+
+  /**
+   * SavedSearch delete
+   */
+  export type SavedSearchDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedSearch
+     */
+    select?: SavedSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedSearch
+     */
+    omit?: SavedSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedSearchInclude<ExtArgs> | null
+    /**
+     * Filter which SavedSearch to delete.
+     */
+    where: SavedSearchWhereUniqueInput
+  }
+
+  /**
+   * SavedSearch deleteMany
+   */
+  export type SavedSearchDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SavedSearches to delete
+     */
+    where?: SavedSearchWhereInput
+    /**
+     * Limit how many SavedSearches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SavedSearch without action
+   */
+  export type SavedSearchDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SavedSearch
+     */
+    select?: SavedSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SavedSearch
+     */
+    omit?: SavedSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SavedSearchInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SearchHistory
+   */
+
+  export type AggregateSearchHistory = {
+    _count: SearchHistoryCountAggregateOutputType | null
+    _avg: SearchHistoryAvgAggregateOutputType | null
+    _sum: SearchHistorySumAggregateOutputType | null
+    _min: SearchHistoryMinAggregateOutputType | null
+    _max: SearchHistoryMaxAggregateOutputType | null
+  }
+
+  export type SearchHistoryAvgAggregateOutputType = {
+    resultCount: number | null
+  }
+
+  export type SearchHistorySumAggregateOutputType = {
+    resultCount: number | null
+  }
+
+  export type SearchHistoryMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    query: string | null
+    filter: string | null
+    resultCount: number | null
+    createdAt: Date | null
+  }
+
+  export type SearchHistoryMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    query: string | null
+    filter: string | null
+    resultCount: number | null
+    createdAt: Date | null
+  }
+
+  export type SearchHistoryCountAggregateOutputType = {
+    id: number
+    userId: number
+    query: number
+    folderIds: number
+    tagIds: number
+    filter: number
+    searchFields: number
+    resultCount: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SearchHistoryAvgAggregateInputType = {
+    resultCount?: true
+  }
+
+  export type SearchHistorySumAggregateInputType = {
+    resultCount?: true
+  }
+
+  export type SearchHistoryMinAggregateInputType = {
+    id?: true
+    userId?: true
+    query?: true
+    filter?: true
+    resultCount?: true
+    createdAt?: true
+  }
+
+  export type SearchHistoryMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    query?: true
+    filter?: true
+    resultCount?: true
+    createdAt?: true
+  }
+
+  export type SearchHistoryCountAggregateInputType = {
+    id?: true
+    userId?: true
+    query?: true
+    folderIds?: true
+    tagIds?: true
+    filter?: true
+    searchFields?: true
+    resultCount?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SearchHistoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SearchHistory to aggregate.
+     */
+    where?: SearchHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SearchHistories to fetch.
+     */
+    orderBy?: SearchHistoryOrderByWithRelationInput | SearchHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SearchHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SearchHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SearchHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SearchHistories
+    **/
+    _count?: true | SearchHistoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SearchHistoryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SearchHistorySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SearchHistoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SearchHistoryMaxAggregateInputType
+  }
+
+  export type GetSearchHistoryAggregateType<T extends SearchHistoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateSearchHistory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSearchHistory[P]>
+      : GetScalarType<T[P], AggregateSearchHistory[P]>
+  }
+
+
+
+
+  export type SearchHistoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SearchHistoryWhereInput
+    orderBy?: SearchHistoryOrderByWithAggregationInput | SearchHistoryOrderByWithAggregationInput[]
+    by: SearchHistoryScalarFieldEnum[] | SearchHistoryScalarFieldEnum
+    having?: SearchHistoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SearchHistoryCountAggregateInputType | true
+    _avg?: SearchHistoryAvgAggregateInputType
+    _sum?: SearchHistorySumAggregateInputType
+    _min?: SearchHistoryMinAggregateInputType
+    _max?: SearchHistoryMaxAggregateInputType
+  }
+
+  export type SearchHistoryGroupByOutputType = {
+    id: string
+    userId: string
+    query: string | null
+    folderIds: string[]
+    tagIds: string[]
+    filter: string | null
+    searchFields: string[]
+    resultCount: number | null
+    createdAt: Date
+    _count: SearchHistoryCountAggregateOutputType | null
+    _avg: SearchHistoryAvgAggregateOutputType | null
+    _sum: SearchHistorySumAggregateOutputType | null
+    _min: SearchHistoryMinAggregateOutputType | null
+    _max: SearchHistoryMaxAggregateOutputType | null
+  }
+
+  type GetSearchHistoryGroupByPayload<T extends SearchHistoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SearchHistoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SearchHistoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SearchHistoryGroupByOutputType[P]>
+            : GetScalarType<T[P], SearchHistoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SearchHistorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    query?: boolean
+    folderIds?: boolean
+    tagIds?: boolean
+    filter?: boolean
+    searchFields?: boolean
+    resultCount?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["searchHistory"]>
+
+  export type SearchHistorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    query?: boolean
+    folderIds?: boolean
+    tagIds?: boolean
+    filter?: boolean
+    searchFields?: boolean
+    resultCount?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["searchHistory"]>
+
+  export type SearchHistorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    query?: boolean
+    folderIds?: boolean
+    tagIds?: boolean
+    filter?: boolean
+    searchFields?: boolean
+    resultCount?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["searchHistory"]>
+
+  export type SearchHistorySelectScalar = {
+    id?: boolean
+    userId?: boolean
+    query?: boolean
+    folderIds?: boolean
+    tagIds?: boolean
+    filter?: boolean
+    searchFields?: boolean
+    resultCount?: boolean
+    createdAt?: boolean
+  }
+
+  export type SearchHistoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "query" | "folderIds" | "tagIds" | "filter" | "searchFields" | "resultCount" | "createdAt", ExtArgs["result"]["searchHistory"]>
+  export type SearchHistoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SearchHistoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SearchHistoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $SearchHistoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SearchHistory"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      query: string | null
+      folderIds: string[]
+      tagIds: string[]
+      filter: string | null
+      searchFields: string[]
+      resultCount: number | null
+      createdAt: Date
+    }, ExtArgs["result"]["searchHistory"]>
+    composites: {}
+  }
+
+  type SearchHistoryGetPayload<S extends boolean | null | undefined | SearchHistoryDefaultArgs> = $Result.GetResult<Prisma.$SearchHistoryPayload, S>
+
+  type SearchHistoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SearchHistoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SearchHistoryCountAggregateInputType | true
+    }
+
+  export interface SearchHistoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SearchHistory'], meta: { name: 'SearchHistory' } }
+    /**
+     * Find zero or one SearchHistory that matches the filter.
+     * @param {SearchHistoryFindUniqueArgs} args - Arguments to find a SearchHistory
+     * @example
+     * // Get one SearchHistory
+     * const searchHistory = await prisma.searchHistory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SearchHistoryFindUniqueArgs>(args: SelectSubset<T, SearchHistoryFindUniqueArgs<ExtArgs>>): Prisma__SearchHistoryClient<$Result.GetResult<Prisma.$SearchHistoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SearchHistory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SearchHistoryFindUniqueOrThrowArgs} args - Arguments to find a SearchHistory
+     * @example
+     * // Get one SearchHistory
+     * const searchHistory = await prisma.searchHistory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SearchHistoryFindUniqueOrThrowArgs>(args: SelectSubset<T, SearchHistoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SearchHistoryClient<$Result.GetResult<Prisma.$SearchHistoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SearchHistory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SearchHistoryFindFirstArgs} args - Arguments to find a SearchHistory
+     * @example
+     * // Get one SearchHistory
+     * const searchHistory = await prisma.searchHistory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SearchHistoryFindFirstArgs>(args?: SelectSubset<T, SearchHistoryFindFirstArgs<ExtArgs>>): Prisma__SearchHistoryClient<$Result.GetResult<Prisma.$SearchHistoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SearchHistory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SearchHistoryFindFirstOrThrowArgs} args - Arguments to find a SearchHistory
+     * @example
+     * // Get one SearchHistory
+     * const searchHistory = await prisma.searchHistory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SearchHistoryFindFirstOrThrowArgs>(args?: SelectSubset<T, SearchHistoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__SearchHistoryClient<$Result.GetResult<Prisma.$SearchHistoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SearchHistories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SearchHistoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SearchHistories
+     * const searchHistories = await prisma.searchHistory.findMany()
+     * 
+     * // Get first 10 SearchHistories
+     * const searchHistories = await prisma.searchHistory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const searchHistoryWithIdOnly = await prisma.searchHistory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SearchHistoryFindManyArgs>(args?: SelectSubset<T, SearchHistoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SearchHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SearchHistory.
+     * @param {SearchHistoryCreateArgs} args - Arguments to create a SearchHistory.
+     * @example
+     * // Create one SearchHistory
+     * const SearchHistory = await prisma.searchHistory.create({
+     *   data: {
+     *     // ... data to create a SearchHistory
+     *   }
+     * })
+     * 
+     */
+    create<T extends SearchHistoryCreateArgs>(args: SelectSubset<T, SearchHistoryCreateArgs<ExtArgs>>): Prisma__SearchHistoryClient<$Result.GetResult<Prisma.$SearchHistoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SearchHistories.
+     * @param {SearchHistoryCreateManyArgs} args - Arguments to create many SearchHistories.
+     * @example
+     * // Create many SearchHistories
+     * const searchHistory = await prisma.searchHistory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SearchHistoryCreateManyArgs>(args?: SelectSubset<T, SearchHistoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SearchHistories and returns the data saved in the database.
+     * @param {SearchHistoryCreateManyAndReturnArgs} args - Arguments to create many SearchHistories.
+     * @example
+     * // Create many SearchHistories
+     * const searchHistory = await prisma.searchHistory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SearchHistories and only return the `id`
+     * const searchHistoryWithIdOnly = await prisma.searchHistory.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SearchHistoryCreateManyAndReturnArgs>(args?: SelectSubset<T, SearchHistoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SearchHistoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SearchHistory.
+     * @param {SearchHistoryDeleteArgs} args - Arguments to delete one SearchHistory.
+     * @example
+     * // Delete one SearchHistory
+     * const SearchHistory = await prisma.searchHistory.delete({
+     *   where: {
+     *     // ... filter to delete one SearchHistory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SearchHistoryDeleteArgs>(args: SelectSubset<T, SearchHistoryDeleteArgs<ExtArgs>>): Prisma__SearchHistoryClient<$Result.GetResult<Prisma.$SearchHistoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SearchHistory.
+     * @param {SearchHistoryUpdateArgs} args - Arguments to update one SearchHistory.
+     * @example
+     * // Update one SearchHistory
+     * const searchHistory = await prisma.searchHistory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SearchHistoryUpdateArgs>(args: SelectSubset<T, SearchHistoryUpdateArgs<ExtArgs>>): Prisma__SearchHistoryClient<$Result.GetResult<Prisma.$SearchHistoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SearchHistories.
+     * @param {SearchHistoryDeleteManyArgs} args - Arguments to filter SearchHistories to delete.
+     * @example
+     * // Delete a few SearchHistories
+     * const { count } = await prisma.searchHistory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SearchHistoryDeleteManyArgs>(args?: SelectSubset<T, SearchHistoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SearchHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SearchHistoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SearchHistories
+     * const searchHistory = await prisma.searchHistory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SearchHistoryUpdateManyArgs>(args: SelectSubset<T, SearchHistoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SearchHistories and returns the data updated in the database.
+     * @param {SearchHistoryUpdateManyAndReturnArgs} args - Arguments to update many SearchHistories.
+     * @example
+     * // Update many SearchHistories
+     * const searchHistory = await prisma.searchHistory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SearchHistories and only return the `id`
+     * const searchHistoryWithIdOnly = await prisma.searchHistory.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SearchHistoryUpdateManyAndReturnArgs>(args: SelectSubset<T, SearchHistoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SearchHistoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SearchHistory.
+     * @param {SearchHistoryUpsertArgs} args - Arguments to update or create a SearchHistory.
+     * @example
+     * // Update or create a SearchHistory
+     * const searchHistory = await prisma.searchHistory.upsert({
+     *   create: {
+     *     // ... data to create a SearchHistory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SearchHistory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SearchHistoryUpsertArgs>(args: SelectSubset<T, SearchHistoryUpsertArgs<ExtArgs>>): Prisma__SearchHistoryClient<$Result.GetResult<Prisma.$SearchHistoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SearchHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SearchHistoryCountArgs} args - Arguments to filter SearchHistories to count.
+     * @example
+     * // Count the number of SearchHistories
+     * const count = await prisma.searchHistory.count({
+     *   where: {
+     *     // ... the filter for the SearchHistories we want to count
+     *   }
+     * })
+    **/
+    count<T extends SearchHistoryCountArgs>(
+      args?: Subset<T, SearchHistoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SearchHistoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SearchHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SearchHistoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SearchHistoryAggregateArgs>(args: Subset<T, SearchHistoryAggregateArgs>): Prisma.PrismaPromise<GetSearchHistoryAggregateType<T>>
+
+    /**
+     * Group by SearchHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SearchHistoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SearchHistoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SearchHistoryGroupByArgs['orderBy'] }
+        : { orderBy?: SearchHistoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SearchHistoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSearchHistoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SearchHistory model
+   */
+  readonly fields: SearchHistoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SearchHistory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SearchHistoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SearchHistory model
+   */
+  interface SearchHistoryFieldRefs {
+    readonly id: FieldRef<"SearchHistory", 'String'>
+    readonly userId: FieldRef<"SearchHistory", 'String'>
+    readonly query: FieldRef<"SearchHistory", 'String'>
+    readonly folderIds: FieldRef<"SearchHistory", 'String[]'>
+    readonly tagIds: FieldRef<"SearchHistory", 'String[]'>
+    readonly filter: FieldRef<"SearchHistory", 'String'>
+    readonly searchFields: FieldRef<"SearchHistory", 'String[]'>
+    readonly resultCount: FieldRef<"SearchHistory", 'Int'>
+    readonly createdAt: FieldRef<"SearchHistory", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SearchHistory findUnique
+   */
+  export type SearchHistoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchHistory
+     */
+    select?: SearchHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SearchHistory
+     */
+    omit?: SearchHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which SearchHistory to fetch.
+     */
+    where: SearchHistoryWhereUniqueInput
+  }
+
+  /**
+   * SearchHistory findUniqueOrThrow
+   */
+  export type SearchHistoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchHistory
+     */
+    select?: SearchHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SearchHistory
+     */
+    omit?: SearchHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which SearchHistory to fetch.
+     */
+    where: SearchHistoryWhereUniqueInput
+  }
+
+  /**
+   * SearchHistory findFirst
+   */
+  export type SearchHistoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchHistory
+     */
+    select?: SearchHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SearchHistory
+     */
+    omit?: SearchHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which SearchHistory to fetch.
+     */
+    where?: SearchHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SearchHistories to fetch.
+     */
+    orderBy?: SearchHistoryOrderByWithRelationInput | SearchHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SearchHistories.
+     */
+    cursor?: SearchHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SearchHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SearchHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SearchHistories.
+     */
+    distinct?: SearchHistoryScalarFieldEnum | SearchHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * SearchHistory findFirstOrThrow
+   */
+  export type SearchHistoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchHistory
+     */
+    select?: SearchHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SearchHistory
+     */
+    omit?: SearchHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which SearchHistory to fetch.
+     */
+    where?: SearchHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SearchHistories to fetch.
+     */
+    orderBy?: SearchHistoryOrderByWithRelationInput | SearchHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SearchHistories.
+     */
+    cursor?: SearchHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SearchHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SearchHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SearchHistories.
+     */
+    distinct?: SearchHistoryScalarFieldEnum | SearchHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * SearchHistory findMany
+   */
+  export type SearchHistoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchHistory
+     */
+    select?: SearchHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SearchHistory
+     */
+    omit?: SearchHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which SearchHistories to fetch.
+     */
+    where?: SearchHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SearchHistories to fetch.
+     */
+    orderBy?: SearchHistoryOrderByWithRelationInput | SearchHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SearchHistories.
+     */
+    cursor?: SearchHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SearchHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SearchHistories.
+     */
+    skip?: number
+    distinct?: SearchHistoryScalarFieldEnum | SearchHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * SearchHistory create
+   */
+  export type SearchHistoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchHistory
+     */
+    select?: SearchHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SearchHistory
+     */
+    omit?: SearchHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchHistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SearchHistory.
+     */
+    data: XOR<SearchHistoryCreateInput, SearchHistoryUncheckedCreateInput>
+  }
+
+  /**
+   * SearchHistory createMany
+   */
+  export type SearchHistoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SearchHistories.
+     */
+    data: SearchHistoryCreateManyInput | SearchHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SearchHistory createManyAndReturn
+   */
+  export type SearchHistoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchHistory
+     */
+    select?: SearchHistorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SearchHistory
+     */
+    omit?: SearchHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many SearchHistories.
+     */
+    data: SearchHistoryCreateManyInput | SearchHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchHistoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SearchHistory update
+   */
+  export type SearchHistoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchHistory
+     */
+    select?: SearchHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SearchHistory
+     */
+    omit?: SearchHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchHistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SearchHistory.
+     */
+    data: XOR<SearchHistoryUpdateInput, SearchHistoryUncheckedUpdateInput>
+    /**
+     * Choose, which SearchHistory to update.
+     */
+    where: SearchHistoryWhereUniqueInput
+  }
+
+  /**
+   * SearchHistory updateMany
+   */
+  export type SearchHistoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SearchHistories.
+     */
+    data: XOR<SearchHistoryUpdateManyMutationInput, SearchHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which SearchHistories to update
+     */
+    where?: SearchHistoryWhereInput
+    /**
+     * Limit how many SearchHistories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SearchHistory updateManyAndReturn
+   */
+  export type SearchHistoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchHistory
+     */
+    select?: SearchHistorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SearchHistory
+     */
+    omit?: SearchHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to update SearchHistories.
+     */
+    data: XOR<SearchHistoryUpdateManyMutationInput, SearchHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which SearchHistories to update
+     */
+    where?: SearchHistoryWhereInput
+    /**
+     * Limit how many SearchHistories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchHistoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SearchHistory upsert
+   */
+  export type SearchHistoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchHistory
+     */
+    select?: SearchHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SearchHistory
+     */
+    omit?: SearchHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchHistoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SearchHistory to update in case it exists.
+     */
+    where: SearchHistoryWhereUniqueInput
+    /**
+     * In case the SearchHistory found by the `where` argument doesn't exist, create a new SearchHistory with this data.
+     */
+    create: XOR<SearchHistoryCreateInput, SearchHistoryUncheckedCreateInput>
+    /**
+     * In case the SearchHistory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SearchHistoryUpdateInput, SearchHistoryUncheckedUpdateInput>
+  }
+
+  /**
+   * SearchHistory delete
+   */
+  export type SearchHistoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchHistory
+     */
+    select?: SearchHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SearchHistory
+     */
+    omit?: SearchHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchHistoryInclude<ExtArgs> | null
+    /**
+     * Filter which SearchHistory to delete.
+     */
+    where: SearchHistoryWhereUniqueInput
+  }
+
+  /**
+   * SearchHistory deleteMany
+   */
+  export type SearchHistoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SearchHistories to delete
+     */
+    where?: SearchHistoryWhereInput
+    /**
+     * Limit how many SearchHistories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SearchHistory without action
+   */
+  export type SearchHistoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SearchHistory
+     */
+    select?: SearchHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SearchHistory
+     */
+    omit?: SearchHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SearchHistoryInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -29088,6 +31600,38 @@ export namespace Prisma {
   export type RecoveryCodeScalarFieldEnum = (typeof RecoveryCodeScalarFieldEnum)[keyof typeof RecoveryCodeScalarFieldEnum]
 
 
+  export const SavedSearchScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    name: 'name',
+    query: 'query',
+    folderIds: 'folderIds',
+    tagIds: 'tagIds',
+    filter: 'filter',
+    searchFields: 'searchFields',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    lastUsedAt: 'lastUsedAt'
+  };
+
+  export type SavedSearchScalarFieldEnum = (typeof SavedSearchScalarFieldEnum)[keyof typeof SavedSearchScalarFieldEnum]
+
+
+  export const SearchHistoryScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    query: 'query',
+    folderIds: 'folderIds',
+    tagIds: 'tagIds',
+    filter: 'filter',
+    searchFields: 'searchFields',
+    resultCount: 'resultCount',
+    createdAt: 'createdAt'
+  };
+
+  export type SearchHistoryScalarFieldEnum = (typeof SearchHistoryScalarFieldEnum)[keyof typeof SearchHistoryScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -29395,6 +31939,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachListRelationFilter
     rotationPolicies?: PasswordRotationPolicyListRelationFilter
     passwordRotations?: PasswordRotationListRelationFilter
+    savedSearches?: SavedSearchListRelationFilter
+    searchHistory?: SearchHistoryListRelationFilter
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     createdUsers?: UserListRelationFilter
     createdRoles?: RoleListRelationFilter
@@ -29432,6 +31978,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachOrderByRelationAggregateInput
     rotationPolicies?: PasswordRotationPolicyOrderByRelationAggregateInput
     passwordRotations?: PasswordRotationOrderByRelationAggregateInput
+    savedSearches?: SavedSearchOrderByRelationAggregateInput
+    searchHistory?: SearchHistoryOrderByRelationAggregateInput
     createdBy?: UserOrderByWithRelationInput
     createdUsers?: UserOrderByRelationAggregateInput
     createdRoles?: RoleOrderByRelationAggregateInput
@@ -29472,6 +32020,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachListRelationFilter
     rotationPolicies?: PasswordRotationPolicyListRelationFilter
     passwordRotations?: PasswordRotationListRelationFilter
+    savedSearches?: SavedSearchListRelationFilter
+    searchHistory?: SearchHistoryListRelationFilter
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     createdUsers?: UserListRelationFilter
     createdRoles?: RoleListRelationFilter
@@ -31026,6 +33576,168 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"RecoveryCode"> | Date | string
   }
 
+  export type SavedSearchWhereInput = {
+    AND?: SavedSearchWhereInput | SavedSearchWhereInput[]
+    OR?: SavedSearchWhereInput[]
+    NOT?: SavedSearchWhereInput | SavedSearchWhereInput[]
+    id?: StringFilter<"SavedSearch"> | string
+    userId?: StringFilter<"SavedSearch"> | string
+    name?: StringFilter<"SavedSearch"> | string
+    query?: StringNullableFilter<"SavedSearch"> | string | null
+    folderIds?: StringNullableListFilter<"SavedSearch">
+    tagIds?: StringNullableListFilter<"SavedSearch">
+    filter?: StringNullableFilter<"SavedSearch"> | string | null
+    searchFields?: StringNullableListFilter<"SavedSearch">
+    createdAt?: DateTimeFilter<"SavedSearch"> | Date | string
+    updatedAt?: DateTimeFilter<"SavedSearch"> | Date | string
+    lastUsedAt?: DateTimeNullableFilter<"SavedSearch"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type SavedSearchOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    query?: SortOrderInput | SortOrder
+    folderIds?: SortOrder
+    tagIds?: SortOrder
+    filter?: SortOrderInput | SortOrder
+    searchFields?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    lastUsedAt?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type SavedSearchWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SavedSearchWhereInput | SavedSearchWhereInput[]
+    OR?: SavedSearchWhereInput[]
+    NOT?: SavedSearchWhereInput | SavedSearchWhereInput[]
+    userId?: StringFilter<"SavedSearch"> | string
+    name?: StringFilter<"SavedSearch"> | string
+    query?: StringNullableFilter<"SavedSearch"> | string | null
+    folderIds?: StringNullableListFilter<"SavedSearch">
+    tagIds?: StringNullableListFilter<"SavedSearch">
+    filter?: StringNullableFilter<"SavedSearch"> | string | null
+    searchFields?: StringNullableListFilter<"SavedSearch">
+    createdAt?: DateTimeFilter<"SavedSearch"> | Date | string
+    updatedAt?: DateTimeFilter<"SavedSearch"> | Date | string
+    lastUsedAt?: DateTimeNullableFilter<"SavedSearch"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type SavedSearchOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    query?: SortOrderInput | SortOrder
+    folderIds?: SortOrder
+    tagIds?: SortOrder
+    filter?: SortOrderInput | SortOrder
+    searchFields?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    lastUsedAt?: SortOrderInput | SortOrder
+    _count?: SavedSearchCountOrderByAggregateInput
+    _max?: SavedSearchMaxOrderByAggregateInput
+    _min?: SavedSearchMinOrderByAggregateInput
+  }
+
+  export type SavedSearchScalarWhereWithAggregatesInput = {
+    AND?: SavedSearchScalarWhereWithAggregatesInput | SavedSearchScalarWhereWithAggregatesInput[]
+    OR?: SavedSearchScalarWhereWithAggregatesInput[]
+    NOT?: SavedSearchScalarWhereWithAggregatesInput | SavedSearchScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SavedSearch"> | string
+    userId?: StringWithAggregatesFilter<"SavedSearch"> | string
+    name?: StringWithAggregatesFilter<"SavedSearch"> | string
+    query?: StringNullableWithAggregatesFilter<"SavedSearch"> | string | null
+    folderIds?: StringNullableListFilter<"SavedSearch">
+    tagIds?: StringNullableListFilter<"SavedSearch">
+    filter?: StringNullableWithAggregatesFilter<"SavedSearch"> | string | null
+    searchFields?: StringNullableListFilter<"SavedSearch">
+    createdAt?: DateTimeWithAggregatesFilter<"SavedSearch"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SavedSearch"> | Date | string
+    lastUsedAt?: DateTimeNullableWithAggregatesFilter<"SavedSearch"> | Date | string | null
+  }
+
+  export type SearchHistoryWhereInput = {
+    AND?: SearchHistoryWhereInput | SearchHistoryWhereInput[]
+    OR?: SearchHistoryWhereInput[]
+    NOT?: SearchHistoryWhereInput | SearchHistoryWhereInput[]
+    id?: StringFilter<"SearchHistory"> | string
+    userId?: StringFilter<"SearchHistory"> | string
+    query?: StringNullableFilter<"SearchHistory"> | string | null
+    folderIds?: StringNullableListFilter<"SearchHistory">
+    tagIds?: StringNullableListFilter<"SearchHistory">
+    filter?: StringNullableFilter<"SearchHistory"> | string | null
+    searchFields?: StringNullableListFilter<"SearchHistory">
+    resultCount?: IntNullableFilter<"SearchHistory"> | number | null
+    createdAt?: DateTimeFilter<"SearchHistory"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type SearchHistoryOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    query?: SortOrderInput | SortOrder
+    folderIds?: SortOrder
+    tagIds?: SortOrder
+    filter?: SortOrderInput | SortOrder
+    searchFields?: SortOrder
+    resultCount?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type SearchHistoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SearchHistoryWhereInput | SearchHistoryWhereInput[]
+    OR?: SearchHistoryWhereInput[]
+    NOT?: SearchHistoryWhereInput | SearchHistoryWhereInput[]
+    userId?: StringFilter<"SearchHistory"> | string
+    query?: StringNullableFilter<"SearchHistory"> | string | null
+    folderIds?: StringNullableListFilter<"SearchHistory">
+    tagIds?: StringNullableListFilter<"SearchHistory">
+    filter?: StringNullableFilter<"SearchHistory"> | string | null
+    searchFields?: StringNullableListFilter<"SearchHistory">
+    resultCount?: IntNullableFilter<"SearchHistory"> | number | null
+    createdAt?: DateTimeFilter<"SearchHistory"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type SearchHistoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    query?: SortOrderInput | SortOrder
+    folderIds?: SortOrder
+    tagIds?: SortOrder
+    filter?: SortOrderInput | SortOrder
+    searchFields?: SortOrder
+    resultCount?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: SearchHistoryCountOrderByAggregateInput
+    _avg?: SearchHistoryAvgOrderByAggregateInput
+    _max?: SearchHistoryMaxOrderByAggregateInput
+    _min?: SearchHistoryMinOrderByAggregateInput
+    _sum?: SearchHistorySumOrderByAggregateInput
+  }
+
+  export type SearchHistoryScalarWhereWithAggregatesInput = {
+    AND?: SearchHistoryScalarWhereWithAggregatesInput | SearchHistoryScalarWhereWithAggregatesInput[]
+    OR?: SearchHistoryScalarWhereWithAggregatesInput[]
+    NOT?: SearchHistoryScalarWhereWithAggregatesInput | SearchHistoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SearchHistory"> | string
+    userId?: StringWithAggregatesFilter<"SearchHistory"> | string
+    query?: StringNullableWithAggregatesFilter<"SearchHistory"> | string | null
+    folderIds?: StringNullableListFilter<"SearchHistory">
+    tagIds?: StringNullableListFilter<"SearchHistory">
+    filter?: StringNullableWithAggregatesFilter<"SearchHistory"> | string | null
+    searchFields?: StringNullableListFilter<"SearchHistory">
+    resultCount?: IntNullableWithAggregatesFilter<"SearchHistory"> | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"SearchHistory"> | Date | string
+  }
+
   export type CompanyCreateInput = {
     id?: string
     name: string
@@ -31116,6 +33828,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -31152,6 +33866,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -31186,6 +33902,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -31222,6 +33940,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -32887,6 +35607,186 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SavedSearchCreateInput = {
+    id?: string
+    name: string
+    query?: string | null
+    folderIds?: SavedSearchCreatefolderIdsInput | string[]
+    tagIds?: SavedSearchCreatetagIdsInput | string[]
+    filter?: string | null
+    searchFields?: SavedSearchCreatesearchFieldsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastUsedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutSavedSearchesInput
+  }
+
+  export type SavedSearchUncheckedCreateInput = {
+    id?: string
+    userId: string
+    name: string
+    query?: string | null
+    folderIds?: SavedSearchCreatefolderIdsInput | string[]
+    tagIds?: SavedSearchCreatetagIdsInput | string[]
+    filter?: string | null
+    searchFields?: SavedSearchCreatesearchFieldsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastUsedAt?: Date | string | null
+  }
+
+  export type SavedSearchUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    query?: NullableStringFieldUpdateOperationsInput | string | null
+    folderIds?: SavedSearchUpdatefolderIdsInput | string[]
+    tagIds?: SavedSearchUpdatetagIdsInput | string[]
+    filter?: NullableStringFieldUpdateOperationsInput | string | null
+    searchFields?: SavedSearchUpdatesearchFieldsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutSavedSearchesNestedInput
+  }
+
+  export type SavedSearchUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    query?: NullableStringFieldUpdateOperationsInput | string | null
+    folderIds?: SavedSearchUpdatefolderIdsInput | string[]
+    tagIds?: SavedSearchUpdatetagIdsInput | string[]
+    filter?: NullableStringFieldUpdateOperationsInput | string | null
+    searchFields?: SavedSearchUpdatesearchFieldsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SavedSearchCreateManyInput = {
+    id?: string
+    userId: string
+    name: string
+    query?: string | null
+    folderIds?: SavedSearchCreatefolderIdsInput | string[]
+    tagIds?: SavedSearchCreatetagIdsInput | string[]
+    filter?: string | null
+    searchFields?: SavedSearchCreatesearchFieldsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastUsedAt?: Date | string | null
+  }
+
+  export type SavedSearchUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    query?: NullableStringFieldUpdateOperationsInput | string | null
+    folderIds?: SavedSearchUpdatefolderIdsInput | string[]
+    tagIds?: SavedSearchUpdatetagIdsInput | string[]
+    filter?: NullableStringFieldUpdateOperationsInput | string | null
+    searchFields?: SavedSearchUpdatesearchFieldsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SavedSearchUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    query?: NullableStringFieldUpdateOperationsInput | string | null
+    folderIds?: SavedSearchUpdatefolderIdsInput | string[]
+    tagIds?: SavedSearchUpdatetagIdsInput | string[]
+    filter?: NullableStringFieldUpdateOperationsInput | string | null
+    searchFields?: SavedSearchUpdatesearchFieldsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SearchHistoryCreateInput = {
+    id?: string
+    query?: string | null
+    folderIds?: SearchHistoryCreatefolderIdsInput | string[]
+    tagIds?: SearchHistoryCreatetagIdsInput | string[]
+    filter?: string | null
+    searchFields?: SearchHistoryCreatesearchFieldsInput | string[]
+    resultCount?: number | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutSearchHistoryInput
+  }
+
+  export type SearchHistoryUncheckedCreateInput = {
+    id?: string
+    userId: string
+    query?: string | null
+    folderIds?: SearchHistoryCreatefolderIdsInput | string[]
+    tagIds?: SearchHistoryCreatetagIdsInput | string[]
+    filter?: string | null
+    searchFields?: SearchHistoryCreatesearchFieldsInput | string[]
+    resultCount?: number | null
+    createdAt?: Date | string
+  }
+
+  export type SearchHistoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    query?: NullableStringFieldUpdateOperationsInput | string | null
+    folderIds?: SearchHistoryUpdatefolderIdsInput | string[]
+    tagIds?: SearchHistoryUpdatetagIdsInput | string[]
+    filter?: NullableStringFieldUpdateOperationsInput | string | null
+    searchFields?: SearchHistoryUpdatesearchFieldsInput | string[]
+    resultCount?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutSearchHistoryNestedInput
+  }
+
+  export type SearchHistoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    query?: NullableStringFieldUpdateOperationsInput | string | null
+    folderIds?: SearchHistoryUpdatefolderIdsInput | string[]
+    tagIds?: SearchHistoryUpdatetagIdsInput | string[]
+    filter?: NullableStringFieldUpdateOperationsInput | string | null
+    searchFields?: SearchHistoryUpdatesearchFieldsInput | string[]
+    resultCount?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SearchHistoryCreateManyInput = {
+    id?: string
+    userId: string
+    query?: string | null
+    folderIds?: SearchHistoryCreatefolderIdsInput | string[]
+    tagIds?: SearchHistoryCreatetagIdsInput | string[]
+    filter?: string | null
+    searchFields?: SearchHistoryCreatesearchFieldsInput | string[]
+    resultCount?: number | null
+    createdAt?: Date | string
+  }
+
+  export type SearchHistoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    query?: NullableStringFieldUpdateOperationsInput | string | null
+    folderIds?: SearchHistoryUpdatefolderIdsInput | string[]
+    tagIds?: SearchHistoryUpdatetagIdsInput | string[]
+    filter?: NullableStringFieldUpdateOperationsInput | string | null
+    searchFields?: SearchHistoryUpdatesearchFieldsInput | string[]
+    resultCount?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SearchHistoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    query?: NullableStringFieldUpdateOperationsInput | string | null
+    folderIds?: SearchHistoryUpdatefolderIdsInput | string[]
+    tagIds?: SearchHistoryUpdatetagIdsInput | string[]
+    filter?: NullableStringFieldUpdateOperationsInput | string | null
+    searchFields?: SearchHistoryUpdatesearchFieldsInput | string[]
+    resultCount?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -33094,6 +35994,18 @@ export namespace Prisma {
     none?: PasswordRotationWhereInput
   }
 
+  export type SavedSearchListRelationFilter = {
+    every?: SavedSearchWhereInput
+    some?: SavedSearchWhereInput
+    none?: SavedSearchWhereInput
+  }
+
+  export type SearchHistoryListRelationFilter = {
+    every?: SearchHistoryWhereInput
+    some?: SearchHistoryWhereInput
+    none?: SearchHistoryWhereInput
+  }
+
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
@@ -33155,6 +36067,14 @@ export namespace Prisma {
   }
 
   export type PasswordRotationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SavedSearchOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SearchHistoryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -34319,6 +37239,88 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type SavedSearchCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    query?: SortOrder
+    folderIds?: SortOrder
+    tagIds?: SortOrder
+    filter?: SortOrder
+    searchFields?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    lastUsedAt?: SortOrder
+  }
+
+  export type SavedSearchMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    query?: SortOrder
+    filter?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    lastUsedAt?: SortOrder
+  }
+
+  export type SavedSearchMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    name?: SortOrder
+    query?: SortOrder
+    filter?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    lastUsedAt?: SortOrder
+  }
+
+  export type SearchHistoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    query?: SortOrder
+    folderIds?: SortOrder
+    tagIds?: SortOrder
+    filter?: SortOrder
+    searchFields?: SortOrder
+    resultCount?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SearchHistoryAvgOrderByAggregateInput = {
+    resultCount?: SortOrder
+  }
+
+  export type SearchHistoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    query?: SortOrder
+    filter?: SortOrder
+    resultCount?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SearchHistoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    query?: SortOrder
+    filter?: SortOrder
+    resultCount?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SearchHistorySumOrderByAggregateInput = {
+    resultCount?: SortOrder
+  }
+
   export type UserCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -34466,6 +37468,20 @@ export namespace Prisma {
     connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
   }
 
+  export type SavedSearchCreateNestedManyWithoutUserInput = {
+    create?: XOR<SavedSearchCreateWithoutUserInput, SavedSearchUncheckedCreateWithoutUserInput> | SavedSearchCreateWithoutUserInput[] | SavedSearchUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedSearchCreateOrConnectWithoutUserInput | SavedSearchCreateOrConnectWithoutUserInput[]
+    createMany?: SavedSearchCreateManyUserInputEnvelope
+    connect?: SavedSearchWhereUniqueInput | SavedSearchWhereUniqueInput[]
+  }
+
+  export type SearchHistoryCreateNestedManyWithoutUserInput = {
+    create?: XOR<SearchHistoryCreateWithoutUserInput, SearchHistoryUncheckedCreateWithoutUserInput> | SearchHistoryCreateWithoutUserInput[] | SearchHistoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SearchHistoryCreateOrConnectWithoutUserInput | SearchHistoryCreateOrConnectWithoutUserInput[]
+    createMany?: SearchHistoryCreateManyUserInputEnvelope
+    connect?: SearchHistoryWhereUniqueInput | SearchHistoryWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutCreatedUsersInput = {
     create?: XOR<UserCreateWithoutCreatedUsersInput, UserUncheckedCreateWithoutCreatedUsersInput>
     connectOrCreate?: UserCreateOrConnectWithoutCreatedUsersInput
@@ -34575,6 +37591,20 @@ export namespace Prisma {
     connectOrCreate?: PasswordRotationCreateOrConnectWithoutRotatedByUserInput | PasswordRotationCreateOrConnectWithoutRotatedByUserInput[]
     createMany?: PasswordRotationCreateManyRotatedByUserInputEnvelope
     connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+  }
+
+  export type SavedSearchUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SavedSearchCreateWithoutUserInput, SavedSearchUncheckedCreateWithoutUserInput> | SavedSearchCreateWithoutUserInput[] | SavedSearchUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedSearchCreateOrConnectWithoutUserInput | SavedSearchCreateOrConnectWithoutUserInput[]
+    createMany?: SavedSearchCreateManyUserInputEnvelope
+    connect?: SavedSearchWhereUniqueInput | SavedSearchWhereUniqueInput[]
+  }
+
+  export type SearchHistoryUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SearchHistoryCreateWithoutUserInput, SearchHistoryUncheckedCreateWithoutUserInput> | SearchHistoryCreateWithoutUserInput[] | SearchHistoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SearchHistoryCreateOrConnectWithoutUserInput | SearchHistoryCreateOrConnectWithoutUserInput[]
+    createMany?: SearchHistoryCreateManyUserInputEnvelope
+    connect?: SearchHistoryWhereUniqueInput | SearchHistoryWhereUniqueInput[]
   }
 
   export type UserUncheckedCreateNestedManyWithoutCreatedByInput = {
@@ -34799,6 +37829,34 @@ export namespace Prisma {
     deleteMany?: PasswordRotationScalarWhereInput | PasswordRotationScalarWhereInput[]
   }
 
+  export type SavedSearchUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SavedSearchCreateWithoutUserInput, SavedSearchUncheckedCreateWithoutUserInput> | SavedSearchCreateWithoutUserInput[] | SavedSearchUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedSearchCreateOrConnectWithoutUserInput | SavedSearchCreateOrConnectWithoutUserInput[]
+    upsert?: SavedSearchUpsertWithWhereUniqueWithoutUserInput | SavedSearchUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SavedSearchCreateManyUserInputEnvelope
+    set?: SavedSearchWhereUniqueInput | SavedSearchWhereUniqueInput[]
+    disconnect?: SavedSearchWhereUniqueInput | SavedSearchWhereUniqueInput[]
+    delete?: SavedSearchWhereUniqueInput | SavedSearchWhereUniqueInput[]
+    connect?: SavedSearchWhereUniqueInput | SavedSearchWhereUniqueInput[]
+    update?: SavedSearchUpdateWithWhereUniqueWithoutUserInput | SavedSearchUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SavedSearchUpdateManyWithWhereWithoutUserInput | SavedSearchUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SavedSearchScalarWhereInput | SavedSearchScalarWhereInput[]
+  }
+
+  export type SearchHistoryUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SearchHistoryCreateWithoutUserInput, SearchHistoryUncheckedCreateWithoutUserInput> | SearchHistoryCreateWithoutUserInput[] | SearchHistoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SearchHistoryCreateOrConnectWithoutUserInput | SearchHistoryCreateOrConnectWithoutUserInput[]
+    upsert?: SearchHistoryUpsertWithWhereUniqueWithoutUserInput | SearchHistoryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SearchHistoryCreateManyUserInputEnvelope
+    set?: SearchHistoryWhereUniqueInput | SearchHistoryWhereUniqueInput[]
+    disconnect?: SearchHistoryWhereUniqueInput | SearchHistoryWhereUniqueInput[]
+    delete?: SearchHistoryWhereUniqueInput | SearchHistoryWhereUniqueInput[]
+    connect?: SearchHistoryWhereUniqueInput | SearchHistoryWhereUniqueInput[]
+    update?: SearchHistoryUpdateWithWhereUniqueWithoutUserInput | SearchHistoryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SearchHistoryUpdateManyWithWhereWithoutUserInput | SearchHistoryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SearchHistoryScalarWhereInput | SearchHistoryScalarWhereInput[]
+  }
+
   export type UserUpdateOneWithoutCreatedUsersNestedInput = {
     create?: XOR<UserCreateWithoutCreatedUsersInput, UserUncheckedCreateWithoutCreatedUsersInput>
     connectOrCreate?: UserCreateOrConnectWithoutCreatedUsersInput
@@ -35017,6 +38075,34 @@ export namespace Prisma {
     update?: PasswordRotationUpdateWithWhereUniqueWithoutRotatedByUserInput | PasswordRotationUpdateWithWhereUniqueWithoutRotatedByUserInput[]
     updateMany?: PasswordRotationUpdateManyWithWhereWithoutRotatedByUserInput | PasswordRotationUpdateManyWithWhereWithoutRotatedByUserInput[]
     deleteMany?: PasswordRotationScalarWhereInput | PasswordRotationScalarWhereInput[]
+  }
+
+  export type SavedSearchUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SavedSearchCreateWithoutUserInput, SavedSearchUncheckedCreateWithoutUserInput> | SavedSearchCreateWithoutUserInput[] | SavedSearchUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SavedSearchCreateOrConnectWithoutUserInput | SavedSearchCreateOrConnectWithoutUserInput[]
+    upsert?: SavedSearchUpsertWithWhereUniqueWithoutUserInput | SavedSearchUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SavedSearchCreateManyUserInputEnvelope
+    set?: SavedSearchWhereUniqueInput | SavedSearchWhereUniqueInput[]
+    disconnect?: SavedSearchWhereUniqueInput | SavedSearchWhereUniqueInput[]
+    delete?: SavedSearchWhereUniqueInput | SavedSearchWhereUniqueInput[]
+    connect?: SavedSearchWhereUniqueInput | SavedSearchWhereUniqueInput[]
+    update?: SavedSearchUpdateWithWhereUniqueWithoutUserInput | SavedSearchUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SavedSearchUpdateManyWithWhereWithoutUserInput | SavedSearchUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SavedSearchScalarWhereInput | SavedSearchScalarWhereInput[]
+  }
+
+  export type SearchHistoryUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SearchHistoryCreateWithoutUserInput, SearchHistoryUncheckedCreateWithoutUserInput> | SearchHistoryCreateWithoutUserInput[] | SearchHistoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SearchHistoryCreateOrConnectWithoutUserInput | SearchHistoryCreateOrConnectWithoutUserInput[]
+    upsert?: SearchHistoryUpsertWithWhereUniqueWithoutUserInput | SearchHistoryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SearchHistoryCreateManyUserInputEnvelope
+    set?: SearchHistoryWhereUniqueInput | SearchHistoryWhereUniqueInput[]
+    disconnect?: SearchHistoryWhereUniqueInput | SearchHistoryWhereUniqueInput[]
+    delete?: SearchHistoryWhereUniqueInput | SearchHistoryWhereUniqueInput[]
+    connect?: SearchHistoryWhereUniqueInput | SearchHistoryWhereUniqueInput[]
+    update?: SearchHistoryUpdateWithWhereUniqueWithoutUserInput | SearchHistoryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SearchHistoryUpdateManyWithWhereWithoutUserInput | SearchHistoryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SearchHistoryScalarWhereInput | SearchHistoryScalarWhereInput[]
   }
 
   export type UserUncheckedUpdateManyWithoutCreatedByNestedInput = {
@@ -36085,6 +39171,88 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRecoveryCodesInput, UserUpdateWithoutRecoveryCodesInput>, UserUncheckedUpdateWithoutRecoveryCodesInput>
   }
 
+  export type SavedSearchCreatefolderIdsInput = {
+    set: string[]
+  }
+
+  export type SavedSearchCreatetagIdsInput = {
+    set: string[]
+  }
+
+  export type SavedSearchCreatesearchFieldsInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutSavedSearchesInput = {
+    create?: XOR<UserCreateWithoutSavedSearchesInput, UserUncheckedCreateWithoutSavedSearchesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSavedSearchesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type SavedSearchUpdatefolderIdsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type SavedSearchUpdatetagIdsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type SavedSearchUpdatesearchFieldsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateOneRequiredWithoutSavedSearchesNestedInput = {
+    create?: XOR<UserCreateWithoutSavedSearchesInput, UserUncheckedCreateWithoutSavedSearchesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSavedSearchesInput
+    upsert?: UserUpsertWithoutSavedSearchesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSavedSearchesInput, UserUpdateWithoutSavedSearchesInput>, UserUncheckedUpdateWithoutSavedSearchesInput>
+  }
+
+  export type SearchHistoryCreatefolderIdsInput = {
+    set: string[]
+  }
+
+  export type SearchHistoryCreatetagIdsInput = {
+    set: string[]
+  }
+
+  export type SearchHistoryCreatesearchFieldsInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutSearchHistoryInput = {
+    create?: XOR<UserCreateWithoutSearchHistoryInput, UserUncheckedCreateWithoutSearchHistoryInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSearchHistoryInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type SearchHistoryUpdatefolderIdsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type SearchHistoryUpdatetagIdsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type SearchHistoryUpdatesearchFieldsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateOneRequiredWithoutSearchHistoryNestedInput = {
+    create?: XOR<UserCreateWithoutSearchHistoryInput, UserUncheckedCreateWithoutSearchHistoryInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSearchHistoryInput
+    upsert?: UserUpsertWithoutSearchHistoryInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSearchHistoryInput, UserUpdateWithoutSearchHistoryInput>, UserUncheckedUpdateWithoutSearchHistoryInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -36473,6 +39641,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -36508,6 +39678,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -37040,6 +40212,74 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SavedSearchCreateWithoutUserInput = {
+    id?: string
+    name: string
+    query?: string | null
+    folderIds?: SavedSearchCreatefolderIdsInput | string[]
+    tagIds?: SavedSearchCreatetagIdsInput | string[]
+    filter?: string | null
+    searchFields?: SavedSearchCreatesearchFieldsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastUsedAt?: Date | string | null
+  }
+
+  export type SavedSearchUncheckedCreateWithoutUserInput = {
+    id?: string
+    name: string
+    query?: string | null
+    folderIds?: SavedSearchCreatefolderIdsInput | string[]
+    tagIds?: SavedSearchCreatetagIdsInput | string[]
+    filter?: string | null
+    searchFields?: SavedSearchCreatesearchFieldsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastUsedAt?: Date | string | null
+  }
+
+  export type SavedSearchCreateOrConnectWithoutUserInput = {
+    where: SavedSearchWhereUniqueInput
+    create: XOR<SavedSearchCreateWithoutUserInput, SavedSearchUncheckedCreateWithoutUserInput>
+  }
+
+  export type SavedSearchCreateManyUserInputEnvelope = {
+    data: SavedSearchCreateManyUserInput | SavedSearchCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SearchHistoryCreateWithoutUserInput = {
+    id?: string
+    query?: string | null
+    folderIds?: SearchHistoryCreatefolderIdsInput | string[]
+    tagIds?: SearchHistoryCreatetagIdsInput | string[]
+    filter?: string | null
+    searchFields?: SearchHistoryCreatesearchFieldsInput | string[]
+    resultCount?: number | null
+    createdAt?: Date | string
+  }
+
+  export type SearchHistoryUncheckedCreateWithoutUserInput = {
+    id?: string
+    query?: string | null
+    folderIds?: SearchHistoryCreatefolderIdsInput | string[]
+    tagIds?: SearchHistoryCreatetagIdsInput | string[]
+    filter?: string | null
+    searchFields?: SearchHistoryCreatesearchFieldsInput | string[]
+    resultCount?: number | null
+    createdAt?: Date | string
+  }
+
+  export type SearchHistoryCreateOrConnectWithoutUserInput = {
+    where: SearchHistoryWhereUniqueInput
+    create: XOR<SearchHistoryCreateWithoutUserInput, SearchHistoryUncheckedCreateWithoutUserInput>
+  }
+
+  export type SearchHistoryCreateManyUserInputEnvelope = {
+    data: SearchHistoryCreateManyUserInput | SearchHistoryCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserCreateWithoutCreatedUsersInput = {
     id?: string
     name: string
@@ -37070,6 +40310,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
   }
@@ -37105,6 +40347,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
@@ -37143,6 +40387,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
   }
@@ -37177,6 +40423,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -37649,6 +40897,70 @@ export namespace Prisma {
     notes?: StringNullableFilter<"PasswordRotation"> | string | null
   }
 
+  export type SavedSearchUpsertWithWhereUniqueWithoutUserInput = {
+    where: SavedSearchWhereUniqueInput
+    update: XOR<SavedSearchUpdateWithoutUserInput, SavedSearchUncheckedUpdateWithoutUserInput>
+    create: XOR<SavedSearchCreateWithoutUserInput, SavedSearchUncheckedCreateWithoutUserInput>
+  }
+
+  export type SavedSearchUpdateWithWhereUniqueWithoutUserInput = {
+    where: SavedSearchWhereUniqueInput
+    data: XOR<SavedSearchUpdateWithoutUserInput, SavedSearchUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SavedSearchUpdateManyWithWhereWithoutUserInput = {
+    where: SavedSearchScalarWhereInput
+    data: XOR<SavedSearchUpdateManyMutationInput, SavedSearchUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SavedSearchScalarWhereInput = {
+    AND?: SavedSearchScalarWhereInput | SavedSearchScalarWhereInput[]
+    OR?: SavedSearchScalarWhereInput[]
+    NOT?: SavedSearchScalarWhereInput | SavedSearchScalarWhereInput[]
+    id?: StringFilter<"SavedSearch"> | string
+    userId?: StringFilter<"SavedSearch"> | string
+    name?: StringFilter<"SavedSearch"> | string
+    query?: StringNullableFilter<"SavedSearch"> | string | null
+    folderIds?: StringNullableListFilter<"SavedSearch">
+    tagIds?: StringNullableListFilter<"SavedSearch">
+    filter?: StringNullableFilter<"SavedSearch"> | string | null
+    searchFields?: StringNullableListFilter<"SavedSearch">
+    createdAt?: DateTimeFilter<"SavedSearch"> | Date | string
+    updatedAt?: DateTimeFilter<"SavedSearch"> | Date | string
+    lastUsedAt?: DateTimeNullableFilter<"SavedSearch"> | Date | string | null
+  }
+
+  export type SearchHistoryUpsertWithWhereUniqueWithoutUserInput = {
+    where: SearchHistoryWhereUniqueInput
+    update: XOR<SearchHistoryUpdateWithoutUserInput, SearchHistoryUncheckedUpdateWithoutUserInput>
+    create: XOR<SearchHistoryCreateWithoutUserInput, SearchHistoryUncheckedCreateWithoutUserInput>
+  }
+
+  export type SearchHistoryUpdateWithWhereUniqueWithoutUserInput = {
+    where: SearchHistoryWhereUniqueInput
+    data: XOR<SearchHistoryUpdateWithoutUserInput, SearchHistoryUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SearchHistoryUpdateManyWithWhereWithoutUserInput = {
+    where: SearchHistoryScalarWhereInput
+    data: XOR<SearchHistoryUpdateManyMutationInput, SearchHistoryUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SearchHistoryScalarWhereInput = {
+    AND?: SearchHistoryScalarWhereInput | SearchHistoryScalarWhereInput[]
+    OR?: SearchHistoryScalarWhereInput[]
+    NOT?: SearchHistoryScalarWhereInput | SearchHistoryScalarWhereInput[]
+    id?: StringFilter<"SearchHistory"> | string
+    userId?: StringFilter<"SearchHistory"> | string
+    query?: StringNullableFilter<"SearchHistory"> | string | null
+    folderIds?: StringNullableListFilter<"SearchHistory">
+    tagIds?: StringNullableListFilter<"SearchHistory">
+    filter?: StringNullableFilter<"SearchHistory"> | string | null
+    searchFields?: StringNullableListFilter<"SearchHistory">
+    resultCount?: IntNullableFilter<"SearchHistory"> | number | null
+    createdAt?: DateTimeFilter<"SearchHistory"> | Date | string
+  }
+
   export type UserUpsertWithoutCreatedUsersInput = {
     update: XOR<UserUpdateWithoutCreatedUsersInput, UserUncheckedUpdateWithoutCreatedUsersInput>
     create: XOR<UserCreateWithoutCreatedUsersInput, UserUncheckedCreateWithoutCreatedUsersInput>
@@ -37690,6 +41002,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
   }
@@ -37725,6 +41039,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
@@ -37802,6 +41118,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -37837,6 +41155,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -37886,6 +41206,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -37921,6 +41243,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -37954,6 +41278,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -37989,6 +41315,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -38038,6 +41366,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -38073,6 +41403,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -38106,6 +41438,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -38141,6 +41475,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -38420,6 +41756,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -38455,6 +41793,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -38705,6 +42045,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -38740,6 +42082,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -38846,6 +42190,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -38881,6 +42227,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -38965,6 +42313,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -39000,6 +42350,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -39038,6 +42390,8 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -39073,6 +42427,8 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -39179,6 +42535,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -39214,6 +42572,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -39258,6 +42618,8 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -39293,6 +42655,8 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -39326,6 +42690,8 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -39361,6 +42727,8 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -39504,6 +42872,8 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -39539,6 +42909,8 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -39690,6 +43062,8 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -39725,6 +43099,8 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -39872,6 +43248,8 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -39907,6 +43285,8 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -40191,6 +43571,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -40226,6 +43608,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -40355,6 +43739,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -40390,6 +43776,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -40559,6 +43947,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -40594,6 +43984,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -40672,6 +44064,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -40707,6 +44101,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -40934,6 +44330,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -40969,6 +44367,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -41018,6 +44418,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -41053,6 +44455,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -41087,6 +44491,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
   }
@@ -41122,6 +44528,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
@@ -41193,6 +44601,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
   }
@@ -41228,6 +44638,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
@@ -41436,6 +44848,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -41471,6 +44885,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -41520,6 +44936,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -41555,6 +44973,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -41588,6 +45008,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
@@ -41623,6 +45045,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -41672,6 +45096,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -41707,6 +45133,328 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserCreateWithoutSavedSearchesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutSavedSearchesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutSavedSearchesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSavedSearchesInput, UserUncheckedCreateWithoutSavedSearchesInput>
+  }
+
+  export type UserUpsertWithoutSavedSearchesInput = {
+    update: XOR<UserUpdateWithoutSavedSearchesInput, UserUncheckedUpdateWithoutSavedSearchesInput>
+    create: XOR<UserCreateWithoutSavedSearchesInput, UserUncheckedCreateWithoutSavedSearchesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSavedSearchesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSavedSearchesInput, UserUncheckedUpdateWithoutSavedSearchesInput>
+  }
+
+  export type UserUpdateWithoutSavedSearchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSavedSearchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserCreateWithoutSearchHistoryInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserUncheckedCreateWithoutSearchHistoryInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+  }
+
+  export type UserCreateOrConnectWithoutSearchHistoryInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSearchHistoryInput, UserUncheckedCreateWithoutSearchHistoryInput>
+  }
+
+  export type UserUpsertWithoutSearchHistoryInput = {
+    update: XOR<UserUpdateWithoutSearchHistoryInput, UserUncheckedUpdateWithoutSearchHistoryInput>
+    create: XOR<UserCreateWithoutSearchHistoryInput, UserUncheckedCreateWithoutSearchHistoryInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSearchHistoryInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSearchHistoryInput, UserUncheckedUpdateWithoutSearchHistoryInput>
+  }
+
+  export type UserUpdateWithoutSearchHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSearchHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -41759,6 +45507,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
@@ -41794,6 +45544,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -41972,6 +45724,30 @@ export namespace Prisma {
     completedAt?: Date | string | null
     status?: string
     notes?: string | null
+  }
+
+  export type SavedSearchCreateManyUserInput = {
+    id?: string
+    name: string
+    query?: string | null
+    folderIds?: SavedSearchCreatefolderIdsInput | string[]
+    tagIds?: SavedSearchCreatetagIdsInput | string[]
+    filter?: string | null
+    searchFields?: SavedSearchCreatesearchFieldsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastUsedAt?: Date | string | null
+  }
+
+  export type SearchHistoryCreateManyUserInput = {
+    id?: string
+    query?: string | null
+    folderIds?: SearchHistoryCreatefolderIdsInput | string[]
+    tagIds?: SearchHistoryCreatetagIdsInput | string[]
+    filter?: string | null
+    searchFields?: SearchHistoryCreatesearchFieldsInput | string[]
+    resultCount?: number | null
+    createdAt?: Date | string
   }
 
   export type UserCreateManyCreatedByInput = {
@@ -42487,6 +46263,78 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type SavedSearchUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    query?: NullableStringFieldUpdateOperationsInput | string | null
+    folderIds?: SavedSearchUpdatefolderIdsInput | string[]
+    tagIds?: SavedSearchUpdatetagIdsInput | string[]
+    filter?: NullableStringFieldUpdateOperationsInput | string | null
+    searchFields?: SavedSearchUpdatesearchFieldsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SavedSearchUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    query?: NullableStringFieldUpdateOperationsInput | string | null
+    folderIds?: SavedSearchUpdatefolderIdsInput | string[]
+    tagIds?: SavedSearchUpdatetagIdsInput | string[]
+    filter?: NullableStringFieldUpdateOperationsInput | string | null
+    searchFields?: SavedSearchUpdatesearchFieldsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SavedSearchUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    query?: NullableStringFieldUpdateOperationsInput | string | null
+    folderIds?: SavedSearchUpdatefolderIdsInput | string[]
+    tagIds?: SavedSearchUpdatetagIdsInput | string[]
+    filter?: NullableStringFieldUpdateOperationsInput | string | null
+    searchFields?: SavedSearchUpdatesearchFieldsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SearchHistoryUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    query?: NullableStringFieldUpdateOperationsInput | string | null
+    folderIds?: SearchHistoryUpdatefolderIdsInput | string[]
+    tagIds?: SearchHistoryUpdatetagIdsInput | string[]
+    filter?: NullableStringFieldUpdateOperationsInput | string | null
+    searchFields?: SearchHistoryUpdatesearchFieldsInput | string[]
+    resultCount?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SearchHistoryUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    query?: NullableStringFieldUpdateOperationsInput | string | null
+    folderIds?: SearchHistoryUpdatefolderIdsInput | string[]
+    tagIds?: SearchHistoryUpdatetagIdsInput | string[]
+    filter?: NullableStringFieldUpdateOperationsInput | string | null
+    searchFields?: SearchHistoryUpdatesearchFieldsInput | string[]
+    resultCount?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SearchHistoryUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    query?: NullableStringFieldUpdateOperationsInput | string | null
+    folderIds?: SearchHistoryUpdatefolderIdsInput | string[]
+    tagIds?: SearchHistoryUpdatetagIdsInput | string[]
+    filter?: NullableStringFieldUpdateOperationsInput | string | null
+    searchFields?: SearchHistoryUpdatesearchFieldsInput | string[]
+    resultCount?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserUpdateWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -42517,6 +46365,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
   }
@@ -42551,6 +46401,8 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
   }

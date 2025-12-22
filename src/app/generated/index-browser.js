@@ -373,6 +373,32 @@ exports.Prisma.RecoveryCodeScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.SavedSearchScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  query: 'query',
+  folderIds: 'folderIds',
+  tagIds: 'tagIds',
+  filter: 'filter',
+  searchFields: 'searchFields',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  lastUsedAt: 'lastUsedAt'
+};
+
+exports.Prisma.SearchHistoryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  query: 'query',
+  folderIds: 'folderIds',
+  tagIds: 'tagIds',
+  filter: 'filter',
+  searchFields: 'searchFields',
+  resultCount: 'resultCount',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -455,7 +481,9 @@ exports.Prisma.ModelName = {
   Permission: 'Permission',
   RolePermission: 'RolePermission',
   MfaCredential: 'MfaCredential',
-  RecoveryCode: 'RecoveryCode'
+  RecoveryCode: 'RecoveryCode',
+  SavedSearch: 'SavedSearch',
+  SearchHistory: 'SearchHistory'
 };
 
 /**

@@ -11,7 +11,14 @@ import { PasswordsPageHeader } from "./passwords-page-header"
 import { PasswordsStatsClient } from "./passwords-stats-client"
 
 interface PasswordsPageProps {
-  searchParams: Promise<{ page?: string; search?: string; filter?: string; tags?: string }>
+  searchParams: Promise<{ 
+    page?: string
+    search?: string
+    filter?: string
+    tags?: string
+    folders?: string
+    searchFields?: string
+  }>
 }
 
 export default async function PasswordsPage({ searchParams }: PasswordsPageProps) {
@@ -20,6 +27,8 @@ export default async function PasswordsPage({ searchParams }: PasswordsPageProps
   const search = params.search || ""
   const filter = params.filter === "weak" || params.filter === "expiring" || params.filter === "favorites" ? params.filter : undefined
   const tagIds = params.tags ? params.tags.split(",").filter(Boolean) : undefined
+  const folderIds = params.folders ? params.folders.split(",").filter(Boolean) : undefined
+  const searchFields = params.searchFields ? params.searchFields.split(",").filter(Boolean) as ("name" | "username" | "url" | "notes")[] : undefined
 
   return (
     <div className="p-6 space-y-6">
@@ -32,8 +41,15 @@ export default async function PasswordsPage({ searchParams }: PasswordsPageProps
         <PasswordsStats />
       </Suspense>
 
-      <Suspense key={`${currentPage}-${search}-${filter}-${tagIds?.join(",")}`} fallback={<PasswordsTableSkeleton />}>
-        <PasswordsListContent page={currentPage} search={search} filter={filter} tagIds={tagIds} />
+      <Suspense key={`${currentPage}-${search}-${filter}-${tagIds?.join(",")}-${folderIds?.join(",")}-${searchFields?.join(",")}`} fallback={<PasswordsTableSkeleton />}>
+        <PasswordsListContent 
+          page={currentPage} 
+          search={search} 
+          filter={filter} 
+          tagIds={tagIds}
+          folderIds={folderIds}
+          searchFields={searchFields}
+        />
       </Suspense>
     </div>
   )
@@ -69,11 +85,15 @@ async function PasswordsListContent({
   search,
   filter,
   tagIds,
+  folderIds,
+  searchFields,
 }: {
   page: number
   search: string
   filter?: "weak" | "expiring" | "favorites"
   tagIds?: string[]
+  folderIds?: string[]
+  searchFields?: ("name" | "username" | "url" | "notes")[]
 }) {
   const { passwords, pagination } = await caller.passwords.list({
     page,
@@ -81,10 +101,12 @@ async function PasswordsListContent({
     search: search || undefined,
     filter: filter,
     tagIds: tagIds && tagIds.length > 0 ? tagIds : undefined,
+    folderIds: folderIds && folderIds.length > 0 ? folderIds : undefined,
+    searchFields: searchFields && searchFields.length > 0 ? searchFields : undefined,
   })
 
   if (passwords.length === 0) {
-    return <PasswordsEmptyState isSearching={!!search || !!filter} />
+    return <PasswordsEmptyState isSearching={!!search || !!filter || !!tagIds?.length || !!folderIds?.length} />
   }
 
   return <PasswordsListClient passwords={passwords} pagination={pagination} />

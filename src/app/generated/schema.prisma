@@ -57,6 +57,8 @@ model User {
   passwordBreachesResolved PasswordBreach[]         @relation("PasswordBreachResolvedBy")
   rotationPolicies         PasswordRotationPolicy[] @relation("PasswordRotationPolicyOwner")
   passwordRotations        PasswordRotation[]       @relation("PasswordRotationRotatedBy")
+  savedSearches            SavedSearch[]            @relation("SavedSearches")
+  searchHistory            SearchHistory[]          @relation("SearchHistory")
 
   createdById  String?
   createdBy    User?   @relation("UserCreatedBy", fields: [createdById], references: [id])
@@ -480,4 +482,43 @@ model RecoveryCode {
 
   @@index([userId])
   @@index([codeHash])
+}
+
+model SavedSearch {
+  id           String    @id @default(cuid())
+  userId       String
+  name         String
+  query        String? // Search query text
+  folderIds    String[]  @default([]) // Array of folder IDs for hierarchy search
+  tagIds       String[]  @default([]) // Array of tag IDs
+  filter       String? // weak, expiring, favorites
+  searchFields String[]  @default([]) // Fields to search in: name, username, url, notes
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  lastUsedAt   DateTime?
+
+  // Relations
+  user User @relation("SavedSearches", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, createdAt])
+}
+
+model SearchHistory {
+  id           String   @id @default(cuid())
+  userId       String
+  query        String? // Search query text
+  folderIds    String[] @default([]) // Array of folder IDs
+  tagIds       String[] @default([]) // Array of tag IDs
+  filter       String? // weak, expiring, favorites
+  searchFields String[] @default([]) // Fields searched
+  resultCount  Int? // Number of results found
+  createdAt    DateTime @default(now())
+
+  // Relations
+  user User @relation("SearchHistory", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, createdAt])
+  @@index([createdAt])
 }

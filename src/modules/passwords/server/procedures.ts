@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma"
-import { createTRPCRouter, protectedProcedure } from "@/trpc/init"
+import { createTRPCRouter, protectedProcedure, baseProcedure } from "@/trpc/init"
 import z from "zod"
 import { encrypt, decrypt } from "@/lib/crypto"
 import { TRPCError } from "@trpc/server"
@@ -13,10 +13,12 @@ export const passwordsRouter = createTRPCRouter({
         search: z.string().optional(),
         filter: z.enum(["weak", "expiring", "favorites"]).optional(),
         tagIds: z.array(z.string()).optional(),
+        folderIds: z.array(z.string()).optional(), // For folder hierarchy search
+        searchFields: z.array(z.enum(["name", "username", "url", "notes"])).optional(), // Fields to search in
       }).optional()
     )
     .query(async ({ input = {}, ctx }) => {
-      const { page = 1, pageSize = 10, search, filter, tagIds } = input
+      const { page = 1, pageSize = 10, search, filter, tagIds, folderIds, searchFields } = input
 
       // Get teams where the user is a member
       const userTeams = await prisma.teamMember.findMany({
@@ -30,15 +32,79 @@ export const passwordsRouter = createTRPCRouter({
 
       const teamIds = userTeams.map((tm) => tm.teamId)
 
-      // Build search conditions
+      // Helper function to get all descendant folder IDs for hierarchy search
+      const getDescendantFolderIds = async (folderIds: string[]): Promise<string[]> => {
+        if (!folderIds || folderIds.length === 0) return []
+        
+        const allFolderIds = new Set<string>(folderIds)
+        let currentLevel = folderIds
+        
+        // Recursively get all child folders
+        while (currentLevel.length > 0) {
+          const children = await prisma.folder.findMany({
+            where: {
+              parentId: { in: currentLevel },
+            },
+            select: { id: true },
+          })
+          
+          const childIds = children.map((f) => f.id)
+          if (childIds.length === 0) break
+          
+          childIds.forEach((id) => allFolderIds.add(id))
+          currentLevel = childIds
+        }
+        
+        return Array.from(allFolderIds)
+      }
+
+      // Get all folder IDs including descendants for hierarchy search
+      const allFolderIds = folderIds && folderIds.length > 0 
+        ? await getDescendantFolderIds(folderIds)
+        : []
+
+      // Build search conditions with configurable fields
       const searchConditions = search
-        ? {
-            OR: [
-              { name: { contains: search, mode: "insensitive" as const } },
-              { username: { contains: search, mode: "insensitive" as const } },
-              { url: { contains: search, mode: "insensitive" as const } },
-            ],
-          }
+        ? (() => {
+            const fields = searchFields && searchFields.length > 0 
+              ? searchFields 
+              : ["name", "username", "url", "notes"] // Default: search all fields
+            
+            const conditions: any[] = []
+            
+            if (fields.includes("name")) {
+              conditions.push({ name: { contains: search, mode: "insensitive" as const } })
+            }
+            if (fields.includes("username")) {
+              conditions.push({ username: { contains: search, mode: "insensitive" as const } })
+            }
+            if (fields.includes("url")) {
+              conditions.push({ url: { contains: search, mode: "insensitive" as const } })
+            }
+            if (fields.includes("notes")) {
+              conditions.push({ notes: { contains: search, mode: "insensitive" as const } })
+            }
+            
+            // Also search in tags
+            conditions.push({
+              tags: {
+                some: {
+                  tag: {
+                    name: { contains: search, mode: "insensitive" as const },
+                  },
+                },
+              },
+            })
+            
+            // Also search in folder names
+            conditions.push({
+              folder: {
+                name: { contains: search, mode: "insensitive" as const },
+              },
+            })
+            
+            return conditions.length > 0 ? { OR: conditions } : {}
+          })()
         : {}
 
       // Build filter conditions for password-level filters (strength, password expiration, favorites)
@@ -72,6 +138,13 @@ export const passwordsRouter = createTRPCRouter({
           }
         : {}
 
+      // Build folder filter conditions (including hierarchy)
+      const folderFilterConditions = allFolderIds.length > 0
+        ? {
+            folderId: { in: allFolderIds },
+          }
+        : {}
+
       // Build share filter conditions for expiring filter
       const now = new Date()
       const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
@@ -87,6 +160,7 @@ export const passwordsRouter = createTRPCRouter({
             ...searchConditions,
             ...passwordFilterConditions,
             ...tagFilterConditions,
+            ...folderFilterConditions,
           },
           // For owned passwords: also check if any share is expiring (when filter is "expiring")
           ...(filter === "expiring"
@@ -103,6 +177,7 @@ export const passwordsRouter = createTRPCRouter({
                     },
                   },
                   ...searchConditions,
+                  ...folderFilterConditions,
                 },
               ]
             : []),
@@ -124,6 +199,7 @@ export const passwordsRouter = createTRPCRouter({
                           },
                         },
                         ...searchConditions,
+                        ...folderFilterConditions,
                       },
                     ]
                   : [
@@ -138,6 +214,7 @@ export const passwordsRouter = createTRPCRouter({
                         },
                         ...searchConditions,
                         ...passwordFilterConditions,
+                        ...folderFilterConditions,
                       },
                       // Shared passwords that haven't expired
                       {
@@ -150,6 +227,7 @@ export const passwordsRouter = createTRPCRouter({
                         ...searchConditions,
                         ...passwordFilterConditions,
                         ...tagFilterConditions,
+                        ...folderFilterConditions,
                       },
                     ]),
               ]
@@ -3384,6 +3462,261 @@ export const passwordsRouter = createTRPCRouter({
       })
 
       return tag
+    }),
+
+  // ========== Advanced Search Features ==========
+
+  // Saved Searches
+  listSavedSearches: protectedProcedure("password.view")
+    .query(async ({ ctx }) => {
+      const savedSearches = await prisma.savedSearch.findMany({
+        where: {
+          userId: ctx.userId,
+        },
+        orderBy: {
+          lastUsedAt: { sort: "desc", nulls: "last" },
+        },
+      })
+
+      return { savedSearches }
+    }),
+
+  createSavedSearch: protectedProcedure("password.view")
+    .input(
+      z.object({
+        name: z.string().min(1, "Name is required"),
+        query: z.string().optional(),
+        folderIds: z.array(z.string()).optional(),
+        tagIds: z.array(z.string()).optional(),
+        filter: z.enum(["weak", "expiring", "favorites"]).optional(),
+        searchFields: z.array(z.enum(["name", "username", "url", "notes"])).optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const savedSearch = await prisma.savedSearch.create({
+        data: {
+          userId: ctx.userId,
+          name: input.name,
+          query: input.query || null,
+          folderIds: input.folderIds || [],
+          tagIds: input.tagIds || [],
+          filter: input.filter || null,
+          searchFields: input.searchFields || [],
+        },
+      })
+
+      return { savedSearch }
+    }),
+
+  updateSavedSearch: protectedProcedure("password.view")
+    .input(
+      z.object({
+        id: z.string().min(1, "ID is required"),
+        name: z.string().min(1, "Name is required").optional(),
+        query: z.string().optional().nullable(),
+        folderIds: z.array(z.string()).optional(),
+        tagIds: z.array(z.string()).optional(),
+        filter: z.enum(["weak", "expiring", "favorites"]).optional().nullable(),
+        searchFields: z.array(z.enum(["name", "username", "url", "notes"])).optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { id, ...data } = input
+
+      // Verify ownership
+      const existing = await prisma.savedSearch.findFirst({
+        where: {
+          id,
+          userId: ctx.userId,
+        },
+      })
+
+      if (!existing) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Saved search not found",
+        })
+      }
+
+      const savedSearch = await prisma.savedSearch.update({
+        where: { id },
+        data: {
+          ...(data.name && { name: data.name }),
+          ...(data.query !== undefined && { query: data.query }),
+          ...(data.folderIds !== undefined && { folderIds: data.folderIds }),
+          ...(data.tagIds !== undefined && { tagIds: data.tagIds }),
+          ...(data.filter !== undefined && { filter: data.filter }),
+          ...(data.searchFields !== undefined && { searchFields: data.searchFields }),
+        },
+      })
+
+      return { savedSearch }
+    }),
+
+  deleteSavedSearch: protectedProcedure("password.view")
+    .input(
+      z.object({
+        id: z.string().min(1, "ID is required"),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify ownership
+      const existing = await prisma.savedSearch.findFirst({
+        where: {
+          id: input.id,
+          userId: ctx.userId,
+        },
+      })
+
+      if (!existing) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Saved search not found",
+        })
+      }
+
+      await prisma.savedSearch.delete({
+        where: { id: input.id },
+      })
+
+      return { success: true }
+    }),
+
+  executeSavedSearch: baseProcedure
+    .use(async ({ ctx, next }) => {
+      // Check if user is authenticated
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to perform this action",
+        })
+      }
+      return next({ ctx })
+    })
+    .input(
+      z.object({
+        id: z.string().min(1, "ID is required"),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const savedSearch = await prisma.savedSearch.findFirst({
+        where: {
+          id: input.id,
+          userId: ctx.userId,
+        },
+      })
+
+      if (!savedSearch) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Saved search not found",
+        })
+      }
+
+      // Update lastUsedAt
+      await prisma.savedSearch.update({
+        where: { id: input.id },
+        data: { lastUsedAt: new Date() },
+      })
+
+      return {
+        searchParams: {
+          search: savedSearch.query || undefined,
+          folderIds: savedSearch.folderIds.length > 0 ? savedSearch.folderIds : undefined,
+          tagIds: savedSearch.tagIds.length > 0 ? savedSearch.tagIds : undefined,
+          filter: savedSearch.filter || undefined,
+          searchFields: savedSearch.searchFields.length > 0 ? savedSearch.searchFields : undefined,
+        },
+      }
+    }),
+
+  // Search History
+  listSearchHistory: protectedProcedure("password.view")
+    .input(
+      z.object({
+        limit: z.number().min(1).max(50).default(20),
+      }).optional()
+    )
+    .query(async ({ input = {}, ctx }) => {
+      const { limit = 20 } = input
+
+      const history = await prisma.searchHistory.findMany({
+        where: {
+          userId: ctx.userId,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: limit,
+      })
+
+      return { history }
+    }),
+
+  saveSearchHistory: protectedProcedure("password.view")
+    .input(
+      z.object({
+        query: z.string().optional(),
+        folderIds: z.array(z.string()).optional(),
+        tagIds: z.array(z.string()).optional(),
+        filter: z.enum(["weak", "expiring", "favorites"]).optional(),
+        searchFields: z.array(z.enum(["name", "username", "url", "notes"])).optional(),
+        resultCount: z.number().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Don't save empty searches
+      if (!input.query && (!input.folderIds || input.folderIds.length === 0) && 
+          (!input.tagIds || input.tagIds.length === 0) && !input.filter) {
+        return { success: true }
+      }
+
+      await prisma.searchHistory.create({
+        data: {
+          userId: ctx.userId,
+          query: input.query || null,
+          folderIds: input.folderIds || [],
+          tagIds: input.tagIds || [],
+          filter: input.filter || null,
+          searchFields: input.searchFields || [],
+          resultCount: input.resultCount || null,
+        },
+      })
+
+      // Keep only last 100 search history entries per user
+      const count = await prisma.searchHistory.count({
+        where: { userId: ctx.userId },
+      })
+
+      if (count > 100) {
+        const toDelete = await prisma.searchHistory.findMany({
+          where: { userId: ctx.userId },
+          orderBy: { createdAt: "asc" },
+          take: count - 100,
+          select: { id: true },
+        })
+
+        if (toDelete.length > 0) {
+          await prisma.searchHistory.deleteMany({
+            where: {
+              id: { in: toDelete.map((h) => h.id) },
+            },
+          })
+        }
+      }
+
+      return { success: true }
+    }),
+
+  clearSearchHistory: protectedProcedure("password.view")
+    .mutation(async ({ ctx }) => {
+      await prisma.searchHistory.deleteMany({
+        where: {
+          userId: ctx.userId,
+        },
+      })
+
+      return { success: true }
     }),
 
   deleteTag: protectedProcedure("password.edit")
