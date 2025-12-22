@@ -8,6 +8,7 @@ import { AppSidebar } from "@/components/shared/sidebar"
 import { Logo } from "@/components/shared/logo"
 import { cn } from "@/lib/utils"
 import { getUserData } from "./actions"
+import { OnboardingProvider } from "@/modules/onboarding/client"
 
 export function AdminLayoutClient({
   children,
@@ -79,7 +80,9 @@ export function AdminLayoutClient({
 
         {/* Page Content */}
         <main className="flex-1 overflow-y-auto overflow-x-hidden">
-          {children}
+          <OnboardingProvider>
+            {children}
+          </OnboardingProvider>
         </main>
       </div>
     </div>

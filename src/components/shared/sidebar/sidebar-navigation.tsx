@@ -239,6 +239,7 @@ export function SidebarNavigation({ isCollapsed }: SidebarNavigationProps) {
                 <div className="flex items-center">
                   <Link
                     href={item.href || "#"}
+                    id={item.href === "/admin" ? "tour-dashboard" : item.href === "/admin/users" ? "tour-users" : item.href === "/admin/teams" ? "tour-teams" : item.href === "/admin/roles" ? "tour-roles" : item.href === "/admin/audit-logs" ? "tour-audit-logs" : item.href?.startsWith("/admin/settings") ? "tour-settings" : item.href?.startsWith("/admin/passwords") ? "tour-passwords" : undefined}
                     className={cn(
                       "flex flex-1 items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
                       isParentActive
@@ -269,10 +270,23 @@ export function SidebarNavigation({ isCollapsed }: SidebarNavigationProps) {
                   <div className="ml-7 mt-1 space-y-1">
                     {item.children.map((child) => {
                       const isChildActive = child.href === pathname
+                      const tourId = child.href === "/admin/passwords/favorites" ? "tour-favorites" :
+                        child.href === "/admin/passwords/tags" ? "tour-tags" :
+                        child.href === "/admin/passwords/templates" ? "tour-templates" :
+                        child.href === "/admin/passwords/duplicates" ? "tour-duplicate-detection" :
+                        child.href === "/admin/passwords/breaches" ? "tour-breach-detection" :
+                        child.href === "/admin/passwords/rotation" ? "tour-rotation" :
+                        child.href === "/admin/settings/general" ? "tour-settings-general" :
+                        child.href === "/admin/settings/email" ? "tour-settings-email" :
+                        child.href === "/admin/settings/security" ? "tour-settings-security" :
+                        child.href === "/admin/settings/mfa" ? "tour-settings-mfa" :
+                        child.href === "/admin/settings/mfa-credentials" ? "tour-settings-mfa-credentials" :
+                        undefined
                       return (
                         <Link
                           key={child.href}
                           href={child.href}
+                          id={tourId}
                           className={cn(
                             "block rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
                             isChildActive
@@ -294,6 +308,7 @@ export function SidebarNavigation({ isCollapsed }: SidebarNavigationProps) {
             <Link
               key={item.name}
               href={item.href}
+              id={item.href === "/admin" ? "tour-dashboard" : item.href === "/admin/users" ? "tour-users" : item.href === "/admin/teams" ? "tour-teams" : item.href === "/admin/roles" ? "tour-roles" : item.href === "/admin/audit-logs" ? "tour-audit-logs" : item.href?.startsWith("/admin/settings") ? "tour-settings" : item.href?.startsWith("/admin/passwords") ? "tour-passwords" : undefined}
               className={cn(
                 "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
                 isActive

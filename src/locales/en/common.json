@@ -1278,36 +1278,174 @@
     "iveSavedThem": "I've Saved Them",
     "clickToGenerate": "Click the button below to generate recovery codes",
     "generateCodes": "Generate Codes"
-  }
-}
-
-
-
-    "codesCopyFailed": "Failed to copy codes",
-    "recoveryCodesDownloaded": "Recovery codes downloaded",
-    "saveCodesSecure": "Save these codes in a secure location. Each code can only be used once.",
-    "importantRecoveryCodes": "IMPORTANT: If you lose access to your MFA device, use one of these codes to access your account.",
-    "generated": "Generated",
-    "securityNotice": "Security Notice",
-    "securityNotice1": "- Store these codes in a secure, private location",
-    "securityNotice2": "- Do not share these codes with anyone",
-    "securityNotice3": "- Each code can only be used once",
-    "securityNotice4": "- Generate new codes if you suspect they have been compromised",
-    "recoveryCodesNotEnabled": "Recovery codes are not enabled by your administrator.",
-    "noRecoveryCodes": "You don't have any recovery codes. Generate them now to secure your account.",
-    "unusedCodes": "Unused codes: {{unused}} / {{total}}",
-    "allCodesUsed": "All codes used",
-    "allCodesUsedDescription": "All your recovery codes have been used. Generate new ones to maintain account access.",
-    "generating": "Generating...",
-    "generateRecoveryCodes": "Generate Recovery Codes",
-    "generateNewCodes": "Generate New Codes",
-    "saveCodesSafe": "Save these codes in a safe place. Each code can only be used once.",
-    "important": "Important",
-    "saveCodesNow": "Save these codes now. You won't be able to see them again after closing this dialog.",
-    "copyAll": "Copy All",
-    "iveSavedThem": "I've Saved Them",
-    "clickToGenerate": "Click the button below to generate recovery codes",
-    "generateCodes": "Generate Codes"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Welcome to PassStorage!",
+      "subtitle": "Let's get you started with a quick tour of the key features",
+      "description": "We're excited to have you here! This quick tour will help you get the most out of PassStorage."
+    },
+    "passwords": {
+      "title": "Secure Password Management",
+      "description": "Store, organize, and manage all your passwords in one secure place. Create folders, add tags, and keep your credentials safe."
+    },
+    "security": {
+      "title": "Enhanced Security Features",
+      "description": "Enable two-factor authentication, set up password rotation policies, and monitor security alerts to keep your account protected."
+    },
+    "teams": {
+      "title": "Team Collaboration",
+      "description": "Share passwords securely with your team, create groups, and manage permissions to collaborate effectively."
+    },
+    "step": "Step {{current}} of {{total}}",
+    "skip": "Skip Tour",
+    "complete": "Get Started",
+    "completed": "Welcome tour completed!",
+    "skipped": "You can always access the getting started checklist from your dashboard.",
+    "error": "An error occurred. Please try again.",
+    "checklist": {
+      "title": "Getting Started Checklist",
+      "description": "Complete these steps to get the most out of PassStorage",
+      "progress": "Progress",
+      "itemCompleted": "Step completed!",
+      "goTo": "Go",
+      "allCompleted": "All steps completed! 🎉",
+      "restore": "Show Checklist",
+      "createPassword": "Create Your First Password",
+      "createPasswordDesc": "Add your first password to start securing your credentials",
+      "setupMfa": "Set Up Two-Factor Authentication",
+      "setupMfaDesc": "Enable MFA to add an extra layer of security to your account",
+      "createTeam": "Create or Join a Team",
+      "createTeamDesc": "Collaborate with your team by creating or joining a team",
+      "exploreDashboard": "Explore Your Dashboard",
+      "exploreDashboardDesc": "Get familiar with your dashboard and view your security overview",
+      "organizeTags": "Organize Passwords with Tags",
+      "organizeTagsDesc": "Create tags to categorize and quickly find your passwords",
+      "useTemplates": "Use Password Templates",
+      "useTemplatesDesc": "Create reusable templates to speed up password entry",
+      "checkBreaches": "Check for Password Breaches",
+      "checkBreachesDesc": "Scan your passwords against known data breach databases",
+      "setupRotation": "Set Up Password Rotation",
+      "setupRotationDesc": "Configure automatic password rotation policies for better security"
+    },
+    "tooltip": {
+      "gotIt": "Got it!"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Welcome to PassStorage!",
+        "description": "Let's take a comprehensive tour of all features. We'll highlight each section as we go."
+      },
+      "dashboard": {
+        "title": "Dashboard Overview",
+        "description": "Your central command center. View statistics, recent activities, security alerts, and system health at a glance."
+      },
+      "passwords": {
+        "title": "Password Management",
+        "description": "Store, organize, and manage all your passwords. Create folders, add tags, and keep your credentials secure."
+      },
+      "passwordsFavorites": {
+        "title": "Favorite Passwords",
+        "description": "Quick access to your most-used passwords. Mark passwords as favorites for easy retrieval."
+      },
+      "passwordsTags": {
+        "title": "Password Tags",
+        "description": "Organize passwords with custom tags. Use tags to filter, search, and categorize your credentials."
+      },
+      "passwordsTemplates": {
+        "title": "Password Templates",
+        "description": "Create reusable password templates with predefined fields. Speed up password entry with templates."
+      },
+      "passwordsDuplicates": {
+        "title": "Duplicate Detection",
+        "description": "Find and manage duplicate passwords across your vault. Identify reused credentials for better security."
+      },
+      "passwordsBreaches": {
+        "title": "Breach Detection",
+        "description": "Monitor your passwords against known data breaches. Get alerts when your credentials appear in breach databases."
+      },
+      "passwordsRotation": {
+        "title": "Password Rotation",
+        "description": "Set up automatic password rotation policies. Schedule password changes and receive reminders."
+      },
+      "passwordsSearch": {
+        "title": "Advanced Search",
+        "description": "Powerful search capabilities with filters, tags, folders, and saved searches. Find passwords instantly."
+      },
+      "users": {
+        "title": "User Management",
+        "description": "Manage team members, assign roles, and control access. Create, edit, and manage user accounts."
+      },
+      "teams": {
+        "title": "Team Collaboration",
+        "description": "Create teams, share passwords securely, and collaborate with your organization. Manage team members and permissions."
+      },
+      "roles": {
+        "title": "Roles & Permissions",
+        "description": "Define custom roles with granular permissions. Control what users can access and modify."
+      },
+      "audit": {
+        "title": "Audit Logs",
+        "description": "Track all system activities and changes. Monitor user actions, password access, and security events."
+      },
+      "settings": {
+        "title": "Settings & Configuration",
+        "description": "Configure your account, security settings, MFA, email preferences, and system-wide options."
+      },
+      "search": {
+        "title": "Advanced Search",
+        "description": "Powerful search capabilities with filters, tags, folders, and saved searches. Find passwords instantly."
+      },
+      "tags": {
+        "title": "Password Tags",
+        "description": "Organize passwords with custom tags. Use tags to filter, search, and categorize your credentials."
+      },
+      "favorites": {
+        "title": "Favorite Passwords",
+        "description": "Quick access to your most-used passwords. Mark passwords as favorites for easy retrieval."
+      },
+      "templates": {
+        "title": "Password Templates",
+        "description": "Create reusable password templates with predefined fields. Speed up password entry with templates."
+      },
+      "rotation": {
+        "title": "Password Rotation",
+        "description": "Set up automatic password rotation policies. Schedule password changes and receive reminders."
+      },
+      "breachDetection": {
+        "title": "Breach Detection",
+        "description": "Monitor your passwords against known data breaches. Get alerts when your credentials appear in breach databases."
+      },
+      "duplicateDetection": {
+        "title": "Duplicate Detection",
+        "description": "Find and manage duplicate passwords across your vault. Identify reused credentials for better security."
+      },
+      "auditLogs": {
+        "title": "Audit Logs",
+        "description": "Track all system activities and changes. Monitor user actions, password access, and security events."
+      },
+      "settingsGeneral": {
+        "title": "General Settings",
+        "description": "Configure general application settings, theme preferences, language, and display options."
+      },
+      "settingsEmail": {
+        "title": "Email Settings",
+        "description": "Configure email notifications, SMTP settings, and email templates for system notifications."
+      },
+      "settingsSecurity": {
+        "title": "Security Settings",
+        "description": "Manage security policies, password requirements, session settings, and security preferences."
+      },
+      "settingsMfa": {
+        "title": "MFA Settings",
+        "description": "Configure multi-factor authentication settings, authentication methods, and MFA policies."
+      },
+      "settingsMfaCredentials": {
+        "title": "MFA Credentials",
+        "description": "Manage your multi-factor authentication credentials, backup codes, and authentication devices."
+      }
+    },
+    "startTour": "Start Tour"
   }
 }
 

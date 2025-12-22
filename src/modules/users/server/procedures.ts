@@ -1172,4 +1172,157 @@ export const usersRouter = createTRPCRouter({
         },
       }
     }),
+
+  // ========== Onboarding ==========
+
+  getOnboardingStatus: baseProcedure
+    .use(async ({ ctx, next }) => {
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to view onboarding status",
+        })
+      }
+      return next({ ctx })
+    })
+    .query(async ({ ctx }) => {
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: {
+          preferences: true,
+          createdAt: true,
+        },
+      })
+
+      if (!user) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found",
+        })
+      }
+
+      const preferences = (user.preferences as Record<string, unknown>) || {}
+      const onboarding = (preferences.onboarding as Record<string, unknown>) || {}
+
+      // Check if user is new (created within last 7 days and hasn't completed onboarding)
+      const isNewUser = user.createdAt > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+      const hasCompletedOnboarding = onboarding.completed === true
+
+      return {
+        isNewUser,
+        hasCompletedOnboarding,
+        completedSteps: (onboarding.completedSteps as string[]) || [],
+        skippedOnboarding: onboarding.skipped === true,
+        currentStep: onboarding.currentStep as string | undefined,
+      }
+    }),
+
+  updateOnboardingStatus: baseProcedure
+    .use(async ({ ctx, next }) => {
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to update onboarding status",
+        })
+      }
+      return next({ ctx })
+    })
+    .input(
+      z.object({
+        completedSteps: z.array(z.string()).optional(),
+        currentStep: z.string().optional(),
+        completed: z.boolean().optional(),
+        skipped: z.boolean().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: { preferences: true },
+      })
+
+      if (!user) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found",
+        })
+      }
+
+      const preferences = (user.preferences as Record<string, unknown>) || {}
+      const onboarding = (preferences.onboarding as Record<string, unknown>) || {}
+
+      // Update onboarding state
+      const updatedOnboarding = {
+        ...onboarding,
+        ...(input.completedSteps !== undefined && { completedSteps: input.completedSteps }),
+        ...(input.currentStep !== undefined && { currentStep: input.currentStep }),
+        ...(input.completed !== undefined && { completed: input.completed }),
+        ...(input.skipped !== undefined && { skipped: input.skipped }),
+      }
+
+      await prisma.user.update({
+        where: { id: ctx.userId },
+        data: {
+          preferences: {
+            ...preferences,
+            onboarding: updatedOnboarding,
+          } as Prisma.InputJsonValue,
+        },
+      })
+
+      return { success: true }
+    }),
+
+  completeOnboardingStep: baseProcedure
+    .use(async ({ ctx, next }) => {
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to complete onboarding steps",
+        })
+      }
+      return next({ ctx })
+    })
+    .input(
+      z.object({
+        step: z.string().min(1, "Step is required"),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: { preferences: true },
+      })
+
+      if (!user) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found",
+        })
+      }
+
+      const preferences = (user.preferences as Record<string, unknown>) || {}
+      const onboarding = (preferences.onboarding as Record<string, unknown>) || {}
+      const completedSteps = (onboarding.completedSteps as string[]) || []
+
+      // Add step if not already completed
+      if (!completedSteps.includes(input.step)) {
+        completedSteps.push(input.step)
+      }
+
+      await prisma.user.update({
+        where: { id: ctx.userId },
+        data: {
+          preferences: {
+            ...preferences,
+            onboarding: {
+              ...onboarding,
+              completedSteps,
+            },
+          } as Prisma.InputJsonValue,
+        },
+      })
+
+      return { success: true, completedSteps }
+    }),
 })
