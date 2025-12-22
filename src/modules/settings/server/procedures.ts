@@ -4,6 +4,7 @@ import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init
 import z from "zod"
 import { TRPCError } from "@trpc/server"
 import { encrypt, decrypt } from "@/lib/crypto"
+import { getPasswordPolicy } from "@/lib/password-policy"
 
 export const settingsRouter = createTRPCRouter({
   getEmailConfig: protectedProcedure("settings.view").query(async () => {
@@ -1298,7 +1299,7 @@ export const settingsRouter = createTRPCRouter({
         })
       }
 
-      // Verify company access
+      // Verify company access - get companyId from subdomain or user
       let companyId: string | undefined = undefined
       if (ctx.subdomain) {
         const company = await prisma.company.findUnique({
@@ -1308,9 +1309,19 @@ export const settingsRouter = createTRPCRouter({
         if (company) {
           companyId = company.id
         }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
       }
 
-      if (threatEvent.companyId && threatEvent.companyId !== companyId) {
+      // Only check company match if both threat event and user have companyId
+      // If threat event has no companyId, it's a global threat and can be resolved by anyone with permission
+      if (threatEvent.companyId && companyId && threatEvent.companyId !== companyId) {
         throw new TRPCError({
           code: "FORBIDDEN",
           message: "You do not have permission to resolve this threat event",
@@ -1418,6 +1429,157 @@ export const settingsRouter = createTRPCRouter({
         action: "SETTINGS_UPDATED",
         resource: "Settings",
         details: { category: "threat_detection" },
+        userId: ctx.userId || null,
+      })
+
+      return { success: true }
+    }),
+
+  // Password Policy
+  getPasswordPolicy: protectedProcedure("settings.view")
+    .query(async ({ ctx }) => {
+      // Get current user's companyId
+      let companyId: string | undefined = undefined
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      }
+
+      const user = ctx.userId
+        ? await prisma.user.findUnique({
+            where: { id: ctx.userId },
+            select: { companyId: true },
+          })
+        : null
+
+      const finalCompanyId = companyId || user?.companyId
+
+      if (!finalCompanyId) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Company ID is required",
+        })
+      }
+
+      const policy = await prisma.passwordPolicy.findUnique({
+        where: { companyId: finalCompanyId },
+      })
+
+      if (!policy) {
+        // Return default policy
+        return {
+          minLength: 12,
+          requireUppercase: true,
+          requireLowercase: true,
+          requireNumbers: true,
+          requireSpecial: true,
+          expirationDays: null,
+          preventReuseCount: 0,
+          requireChangeOnFirstLogin: false,
+          requireChangeAfterDays: null,
+          isActive: true,
+        }
+      }
+
+      return {
+        minLength: policy.minLength,
+        requireUppercase: policy.requireUppercase,
+        requireLowercase: policy.requireLowercase,
+        requireNumbers: policy.requireNumbers,
+        requireSpecial: policy.requireSpecial,
+        expirationDays: policy.expirationDays,
+        preventReuseCount: policy.preventReuseCount,
+        requireChangeOnFirstLogin: policy.requireChangeOnFirstLogin,
+        requireChangeAfterDays: policy.requireChangeAfterDays,
+        isActive: policy.isActive,
+      }
+    }),
+
+  updatePasswordPolicy: protectedProcedure("settings.edit")
+    .input(
+      z.object({
+        minLength: z.number().min(4).max(128),
+        requireUppercase: z.boolean(),
+        requireLowercase: z.boolean(),
+        requireNumbers: z.boolean(),
+        requireSpecial: z.boolean(),
+        expirationDays: z.number().min(0).max(3650).nullable(),
+        preventReuseCount: z.number().min(0).max(50),
+        requireChangeOnFirstLogin: z.boolean(),
+        requireChangeAfterDays: z.number().min(1).max(3650).nullable(),
+        isActive: z.boolean(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Get current user's companyId
+      let companyId: string | undefined = undefined
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      }
+
+      const user = ctx.userId
+        ? await prisma.user.findUnique({
+            where: { id: ctx.userId },
+            select: { companyId: true },
+          })
+        : null
+
+      const finalCompanyId = companyId || user?.companyId
+
+      if (!finalCompanyId) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Company ID is required",
+        })
+      }
+
+      // Upsert password policy
+      await prisma.passwordPolicy.upsert({
+        where: { companyId: finalCompanyId },
+        update: {
+          minLength: input.minLength,
+          requireUppercase: input.requireUppercase,
+          requireLowercase: input.requireLowercase,
+          requireNumbers: input.requireNumbers,
+          requireSpecial: input.requireSpecial,
+          expirationDays: input.expirationDays,
+          preventReuseCount: input.preventReuseCount,
+          requireChangeOnFirstLogin: input.requireChangeOnFirstLogin,
+          requireChangeAfterDays: input.requireChangeAfterDays,
+          isActive: input.isActive,
+        },
+        create: {
+          companyId: finalCompanyId,
+          minLength: input.minLength,
+          requireUppercase: input.requireUppercase,
+          requireLowercase: input.requireLowercase,
+          requireNumbers: input.requireNumbers,
+          requireSpecial: input.requireSpecial,
+          expirationDays: input.expirationDays,
+          preventReuseCount: input.preventReuseCount,
+          requireChangeOnFirstLogin: input.requireChangeOnFirstLogin,
+          requireChangeAfterDays: input.requireChangeAfterDays,
+          isActive: input.isActive,
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "SETTINGS_UPDATED",
+        resource: "Settings",
+        details: { category: "password_policy" },
         userId: ctx.userId || null,
       })
 

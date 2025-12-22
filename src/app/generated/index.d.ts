@@ -173,6 +173,11 @@ export type IpWhitelist = $Result.DefaultSelection<Prisma.$IpWhitelistPayload>
  * 
  */
 export type GeographicRestriction = $Result.DefaultSelection<Prisma.$GeographicRestrictionPayload>
+/**
+ * Model PasswordPolicy
+ * 
+ */
+export type PasswordPolicy = $Result.DefaultSelection<Prisma.$PasswordPolicyPayload>
 
 /**
  * Enums
@@ -738,6 +743,16 @@ export class PrismaClient<
     * ```
     */
   get geographicRestriction(): Prisma.GeographicRestrictionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.passwordPolicy`: Exposes CRUD operations for the **PasswordPolicy** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PasswordPolicies
+    * const passwordPolicies = await prisma.passwordPolicy.findMany()
+    * ```
+    */
+  get passwordPolicy(): Prisma.PasswordPolicyDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1203,7 +1218,8 @@ export namespace Prisma {
     PasswordResetToken: 'PasswordResetToken',
     SecurityQuestion: 'SecurityQuestion',
     IpWhitelist: 'IpWhitelist',
-    GeographicRestriction: 'GeographicRestriction'
+    GeographicRestriction: 'GeographicRestriction',
+    PasswordPolicy: 'PasswordPolicy'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1219,7 +1235,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "passwordRotationPolicy" | "passwordRotation" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "threatEvent" | "rateLimit" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode" | "savedSearch" | "searchHistory" | "passwordTemplate" | "emailVerificationToken" | "passwordResetToken" | "securityQuestion" | "ipWhitelist" | "geographicRestriction"
+      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "passwordRotationPolicy" | "passwordRotation" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "threatEvent" | "rateLimit" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode" | "savedSearch" | "searchHistory" | "passwordTemplate" | "emailVerificationToken" | "passwordResetToken" | "securityQuestion" | "ipWhitelist" | "geographicRestriction" | "passwordPolicy"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3591,6 +3607,80 @@ export namespace Prisma {
           }
         }
       }
+      PasswordPolicy: {
+        payload: Prisma.$PasswordPolicyPayload<ExtArgs>
+        fields: Prisma.PasswordPolicyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PasswordPolicyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordPolicyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PasswordPolicyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordPolicyPayload>
+          }
+          findFirst: {
+            args: Prisma.PasswordPolicyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordPolicyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PasswordPolicyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordPolicyPayload>
+          }
+          findMany: {
+            args: Prisma.PasswordPolicyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordPolicyPayload>[]
+          }
+          create: {
+            args: Prisma.PasswordPolicyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordPolicyPayload>
+          }
+          createMany: {
+            args: Prisma.PasswordPolicyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PasswordPolicyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordPolicyPayload>[]
+          }
+          delete: {
+            args: Prisma.PasswordPolicyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordPolicyPayload>
+          }
+          update: {
+            args: Prisma.PasswordPolicyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordPolicyPayload>
+          }
+          deleteMany: {
+            args: Prisma.PasswordPolicyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PasswordPolicyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PasswordPolicyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordPolicyPayload>[]
+          }
+          upsert: {
+            args: Prisma.PasswordPolicyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordPolicyPayload>
+          }
+          aggregate: {
+            args: Prisma.PasswordPolicyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePasswordPolicy>
+          }
+          groupBy: {
+            args: Prisma.PasswordPolicyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PasswordPolicyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PasswordPolicyCountArgs<ExtArgs>
+            result: $Utils.Optional<PasswordPolicyCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3715,6 +3805,7 @@ export namespace Prisma {
     securityQuestion?: SecurityQuestionOmit
     ipWhitelist?: IpWhitelistOmit
     geographicRestriction?: GeographicRestrictionOmit
+    passwordPolicy?: PasswordPolicyOmit
   }
 
   /* Types for Logging */
@@ -4576,6 +4667,7 @@ export namespace Prisma {
     geographicRestrictions?: boolean | Company$geographicRestrictionsArgs<ExtArgs>
     threatEvents?: boolean | Company$threatEventsArgs<ExtArgs>
     rateLimits?: boolean | Company$rateLimitsArgs<ExtArgs>
+    passwordPolicy?: boolean | Company$passwordPolicyArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -4611,6 +4703,7 @@ export namespace Prisma {
     geographicRestrictions?: boolean | Company$geographicRestrictionsArgs<ExtArgs>
     threatEvents?: boolean | Company$threatEventsArgs<ExtArgs>
     rateLimits?: boolean | Company$rateLimitsArgs<ExtArgs>
+    passwordPolicy?: boolean | Company$passwordPolicyArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4625,6 +4718,7 @@ export namespace Prisma {
       geographicRestrictions: Prisma.$GeographicRestrictionPayload<ExtArgs>[]
       threatEvents: Prisma.$ThreatEventPayload<ExtArgs>[]
       rateLimits: Prisma.$RateLimitPayload<ExtArgs>[]
+      passwordPolicy: Prisma.$PasswordPolicyPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5032,6 +5126,7 @@ export namespace Prisma {
     geographicRestrictions<T extends Company$geographicRestrictionsArgs<ExtArgs> = {}>(args?: Subset<T, Company$geographicRestrictionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     threatEvents<T extends Company$threatEventsArgs<ExtArgs> = {}>(args?: Subset<T, Company$threatEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     rateLimits<T extends Company$rateLimitsArgs<ExtArgs> = {}>(args?: Subset<T, Company$rateLimitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateLimitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    passwordPolicy<T extends Company$passwordPolicyArgs<ExtArgs> = {}>(args?: Subset<T, Company$passwordPolicyArgs<ExtArgs>>): Prisma__PasswordPolicyClient<$Result.GetResult<Prisma.$PasswordPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5595,6 +5690,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RateLimitScalarFieldEnum | RateLimitScalarFieldEnum[]
+  }
+
+  /**
+   * Company.passwordPolicy
+   */
+  export type Company$passwordPolicyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordPolicy
+     */
+    select?: PasswordPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordPolicy
+     */
+    omit?: PasswordPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordPolicyInclude<ExtArgs> | null
+    where?: PasswordPolicyWhereInput
   }
 
   /**
@@ -41905,6 +42019,1227 @@ export namespace Prisma {
 
 
   /**
+   * Model PasswordPolicy
+   */
+
+  export type AggregatePasswordPolicy = {
+    _count: PasswordPolicyCountAggregateOutputType | null
+    _avg: PasswordPolicyAvgAggregateOutputType | null
+    _sum: PasswordPolicySumAggregateOutputType | null
+    _min: PasswordPolicyMinAggregateOutputType | null
+    _max: PasswordPolicyMaxAggregateOutputType | null
+  }
+
+  export type PasswordPolicyAvgAggregateOutputType = {
+    minLength: number | null
+    expirationDays: number | null
+    preventReuseCount: number | null
+    requireChangeAfterDays: number | null
+  }
+
+  export type PasswordPolicySumAggregateOutputType = {
+    minLength: number | null
+    expirationDays: number | null
+    preventReuseCount: number | null
+    requireChangeAfterDays: number | null
+  }
+
+  export type PasswordPolicyMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    minLength: number | null
+    requireUppercase: boolean | null
+    requireLowercase: boolean | null
+    requireNumbers: boolean | null
+    requireSpecial: boolean | null
+    expirationDays: number | null
+    preventReuseCount: number | null
+    requireChangeOnFirstLogin: boolean | null
+    requireChangeAfterDays: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PasswordPolicyMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    minLength: number | null
+    requireUppercase: boolean | null
+    requireLowercase: boolean | null
+    requireNumbers: boolean | null
+    requireSpecial: boolean | null
+    expirationDays: number | null
+    preventReuseCount: number | null
+    requireChangeOnFirstLogin: boolean | null
+    requireChangeAfterDays: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PasswordPolicyCountAggregateOutputType = {
+    id: number
+    companyId: number
+    minLength: number
+    requireUppercase: number
+    requireLowercase: number
+    requireNumbers: number
+    requireSpecial: number
+    expirationDays: number
+    preventReuseCount: number
+    requireChangeOnFirstLogin: number
+    requireChangeAfterDays: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PasswordPolicyAvgAggregateInputType = {
+    minLength?: true
+    expirationDays?: true
+    preventReuseCount?: true
+    requireChangeAfterDays?: true
+  }
+
+  export type PasswordPolicySumAggregateInputType = {
+    minLength?: true
+    expirationDays?: true
+    preventReuseCount?: true
+    requireChangeAfterDays?: true
+  }
+
+  export type PasswordPolicyMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    minLength?: true
+    requireUppercase?: true
+    requireLowercase?: true
+    requireNumbers?: true
+    requireSpecial?: true
+    expirationDays?: true
+    preventReuseCount?: true
+    requireChangeOnFirstLogin?: true
+    requireChangeAfterDays?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PasswordPolicyMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    minLength?: true
+    requireUppercase?: true
+    requireLowercase?: true
+    requireNumbers?: true
+    requireSpecial?: true
+    expirationDays?: true
+    preventReuseCount?: true
+    requireChangeOnFirstLogin?: true
+    requireChangeAfterDays?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PasswordPolicyCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    minLength?: true
+    requireUppercase?: true
+    requireLowercase?: true
+    requireNumbers?: true
+    requireSpecial?: true
+    expirationDays?: true
+    preventReuseCount?: true
+    requireChangeOnFirstLogin?: true
+    requireChangeAfterDays?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PasswordPolicyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordPolicy to aggregate.
+     */
+    where?: PasswordPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordPolicies to fetch.
+     */
+    orderBy?: PasswordPolicyOrderByWithRelationInput | PasswordPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PasswordPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PasswordPolicies
+    **/
+    _count?: true | PasswordPolicyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PasswordPolicyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PasswordPolicySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PasswordPolicyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PasswordPolicyMaxAggregateInputType
+  }
+
+  export type GetPasswordPolicyAggregateType<T extends PasswordPolicyAggregateArgs> = {
+        [P in keyof T & keyof AggregatePasswordPolicy]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePasswordPolicy[P]>
+      : GetScalarType<T[P], AggregatePasswordPolicy[P]>
+  }
+
+
+
+
+  export type PasswordPolicyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordPolicyWhereInput
+    orderBy?: PasswordPolicyOrderByWithAggregationInput | PasswordPolicyOrderByWithAggregationInput[]
+    by: PasswordPolicyScalarFieldEnum[] | PasswordPolicyScalarFieldEnum
+    having?: PasswordPolicyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PasswordPolicyCountAggregateInputType | true
+    _avg?: PasswordPolicyAvgAggregateInputType
+    _sum?: PasswordPolicySumAggregateInputType
+    _min?: PasswordPolicyMinAggregateInputType
+    _max?: PasswordPolicyMaxAggregateInputType
+  }
+
+  export type PasswordPolicyGroupByOutputType = {
+    id: string
+    companyId: string
+    minLength: number
+    requireUppercase: boolean
+    requireLowercase: boolean
+    requireNumbers: boolean
+    requireSpecial: boolean
+    expirationDays: number | null
+    preventReuseCount: number
+    requireChangeOnFirstLogin: boolean
+    requireChangeAfterDays: number | null
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: PasswordPolicyCountAggregateOutputType | null
+    _avg: PasswordPolicyAvgAggregateOutputType | null
+    _sum: PasswordPolicySumAggregateOutputType | null
+    _min: PasswordPolicyMinAggregateOutputType | null
+    _max: PasswordPolicyMaxAggregateOutputType | null
+  }
+
+  type GetPasswordPolicyGroupByPayload<T extends PasswordPolicyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PasswordPolicyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PasswordPolicyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PasswordPolicyGroupByOutputType[P]>
+            : GetScalarType<T[P], PasswordPolicyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PasswordPolicySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    minLength?: boolean
+    requireUppercase?: boolean
+    requireLowercase?: boolean
+    requireNumbers?: boolean
+    requireSpecial?: boolean
+    expirationDays?: boolean
+    preventReuseCount?: boolean
+    requireChangeOnFirstLogin?: boolean
+    requireChangeAfterDays?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordPolicy"]>
+
+  export type PasswordPolicySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    minLength?: boolean
+    requireUppercase?: boolean
+    requireLowercase?: boolean
+    requireNumbers?: boolean
+    requireSpecial?: boolean
+    expirationDays?: boolean
+    preventReuseCount?: boolean
+    requireChangeOnFirstLogin?: boolean
+    requireChangeAfterDays?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordPolicy"]>
+
+  export type PasswordPolicySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    minLength?: boolean
+    requireUppercase?: boolean
+    requireLowercase?: boolean
+    requireNumbers?: boolean
+    requireSpecial?: boolean
+    expirationDays?: boolean
+    preventReuseCount?: boolean
+    requireChangeOnFirstLogin?: boolean
+    requireChangeAfterDays?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordPolicy"]>
+
+  export type PasswordPolicySelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    minLength?: boolean
+    requireUppercase?: boolean
+    requireLowercase?: boolean
+    requireNumbers?: boolean
+    requireSpecial?: boolean
+    expirationDays?: boolean
+    preventReuseCount?: boolean
+    requireChangeOnFirstLogin?: boolean
+    requireChangeAfterDays?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PasswordPolicyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "minLength" | "requireUppercase" | "requireLowercase" | "requireNumbers" | "requireSpecial" | "expirationDays" | "preventReuseCount" | "requireChangeOnFirstLogin" | "requireChangeAfterDays" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["passwordPolicy"]>
+  export type PasswordPolicyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type PasswordPolicyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type PasswordPolicyIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $PasswordPolicyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PasswordPolicy"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      minLength: number
+      requireUppercase: boolean
+      requireLowercase: boolean
+      requireNumbers: boolean
+      requireSpecial: boolean
+      expirationDays: number | null
+      preventReuseCount: number
+      requireChangeOnFirstLogin: boolean
+      requireChangeAfterDays: number | null
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["passwordPolicy"]>
+    composites: {}
+  }
+
+  type PasswordPolicyGetPayload<S extends boolean | null | undefined | PasswordPolicyDefaultArgs> = $Result.GetResult<Prisma.$PasswordPolicyPayload, S>
+
+  type PasswordPolicyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PasswordPolicyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PasswordPolicyCountAggregateInputType | true
+    }
+
+  export interface PasswordPolicyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PasswordPolicy'], meta: { name: 'PasswordPolicy' } }
+    /**
+     * Find zero or one PasswordPolicy that matches the filter.
+     * @param {PasswordPolicyFindUniqueArgs} args - Arguments to find a PasswordPolicy
+     * @example
+     * // Get one PasswordPolicy
+     * const passwordPolicy = await prisma.passwordPolicy.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PasswordPolicyFindUniqueArgs>(args: SelectSubset<T, PasswordPolicyFindUniqueArgs<ExtArgs>>): Prisma__PasswordPolicyClient<$Result.GetResult<Prisma.$PasswordPolicyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PasswordPolicy that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PasswordPolicyFindUniqueOrThrowArgs} args - Arguments to find a PasswordPolicy
+     * @example
+     * // Get one PasswordPolicy
+     * const passwordPolicy = await prisma.passwordPolicy.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PasswordPolicyFindUniqueOrThrowArgs>(args: SelectSubset<T, PasswordPolicyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PasswordPolicyClient<$Result.GetResult<Prisma.$PasswordPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordPolicy that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordPolicyFindFirstArgs} args - Arguments to find a PasswordPolicy
+     * @example
+     * // Get one PasswordPolicy
+     * const passwordPolicy = await prisma.passwordPolicy.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PasswordPolicyFindFirstArgs>(args?: SelectSubset<T, PasswordPolicyFindFirstArgs<ExtArgs>>): Prisma__PasswordPolicyClient<$Result.GetResult<Prisma.$PasswordPolicyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordPolicy that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordPolicyFindFirstOrThrowArgs} args - Arguments to find a PasswordPolicy
+     * @example
+     * // Get one PasswordPolicy
+     * const passwordPolicy = await prisma.passwordPolicy.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PasswordPolicyFindFirstOrThrowArgs>(args?: SelectSubset<T, PasswordPolicyFindFirstOrThrowArgs<ExtArgs>>): Prisma__PasswordPolicyClient<$Result.GetResult<Prisma.$PasswordPolicyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PasswordPolicies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordPolicyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PasswordPolicies
+     * const passwordPolicies = await prisma.passwordPolicy.findMany()
+     * 
+     * // Get first 10 PasswordPolicies
+     * const passwordPolicies = await prisma.passwordPolicy.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const passwordPolicyWithIdOnly = await prisma.passwordPolicy.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PasswordPolicyFindManyArgs>(args?: SelectSubset<T, PasswordPolicyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordPolicyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PasswordPolicy.
+     * @param {PasswordPolicyCreateArgs} args - Arguments to create a PasswordPolicy.
+     * @example
+     * // Create one PasswordPolicy
+     * const PasswordPolicy = await prisma.passwordPolicy.create({
+     *   data: {
+     *     // ... data to create a PasswordPolicy
+     *   }
+     * })
+     * 
+     */
+    create<T extends PasswordPolicyCreateArgs>(args: SelectSubset<T, PasswordPolicyCreateArgs<ExtArgs>>): Prisma__PasswordPolicyClient<$Result.GetResult<Prisma.$PasswordPolicyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PasswordPolicies.
+     * @param {PasswordPolicyCreateManyArgs} args - Arguments to create many PasswordPolicies.
+     * @example
+     * // Create many PasswordPolicies
+     * const passwordPolicy = await prisma.passwordPolicy.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PasswordPolicyCreateManyArgs>(args?: SelectSubset<T, PasswordPolicyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PasswordPolicies and returns the data saved in the database.
+     * @param {PasswordPolicyCreateManyAndReturnArgs} args - Arguments to create many PasswordPolicies.
+     * @example
+     * // Create many PasswordPolicies
+     * const passwordPolicy = await prisma.passwordPolicy.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PasswordPolicies and only return the `id`
+     * const passwordPolicyWithIdOnly = await prisma.passwordPolicy.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PasswordPolicyCreateManyAndReturnArgs>(args?: SelectSubset<T, PasswordPolicyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordPolicyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PasswordPolicy.
+     * @param {PasswordPolicyDeleteArgs} args - Arguments to delete one PasswordPolicy.
+     * @example
+     * // Delete one PasswordPolicy
+     * const PasswordPolicy = await prisma.passwordPolicy.delete({
+     *   where: {
+     *     // ... filter to delete one PasswordPolicy
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PasswordPolicyDeleteArgs>(args: SelectSubset<T, PasswordPolicyDeleteArgs<ExtArgs>>): Prisma__PasswordPolicyClient<$Result.GetResult<Prisma.$PasswordPolicyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PasswordPolicy.
+     * @param {PasswordPolicyUpdateArgs} args - Arguments to update one PasswordPolicy.
+     * @example
+     * // Update one PasswordPolicy
+     * const passwordPolicy = await prisma.passwordPolicy.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PasswordPolicyUpdateArgs>(args: SelectSubset<T, PasswordPolicyUpdateArgs<ExtArgs>>): Prisma__PasswordPolicyClient<$Result.GetResult<Prisma.$PasswordPolicyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PasswordPolicies.
+     * @param {PasswordPolicyDeleteManyArgs} args - Arguments to filter PasswordPolicies to delete.
+     * @example
+     * // Delete a few PasswordPolicies
+     * const { count } = await prisma.passwordPolicy.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PasswordPolicyDeleteManyArgs>(args?: SelectSubset<T, PasswordPolicyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordPolicies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordPolicyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PasswordPolicies
+     * const passwordPolicy = await prisma.passwordPolicy.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PasswordPolicyUpdateManyArgs>(args: SelectSubset<T, PasswordPolicyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordPolicies and returns the data updated in the database.
+     * @param {PasswordPolicyUpdateManyAndReturnArgs} args - Arguments to update many PasswordPolicies.
+     * @example
+     * // Update many PasswordPolicies
+     * const passwordPolicy = await prisma.passwordPolicy.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PasswordPolicies and only return the `id`
+     * const passwordPolicyWithIdOnly = await prisma.passwordPolicy.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PasswordPolicyUpdateManyAndReturnArgs>(args: SelectSubset<T, PasswordPolicyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordPolicyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PasswordPolicy.
+     * @param {PasswordPolicyUpsertArgs} args - Arguments to update or create a PasswordPolicy.
+     * @example
+     * // Update or create a PasswordPolicy
+     * const passwordPolicy = await prisma.passwordPolicy.upsert({
+     *   create: {
+     *     // ... data to create a PasswordPolicy
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PasswordPolicy we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PasswordPolicyUpsertArgs>(args: SelectSubset<T, PasswordPolicyUpsertArgs<ExtArgs>>): Prisma__PasswordPolicyClient<$Result.GetResult<Prisma.$PasswordPolicyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PasswordPolicies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordPolicyCountArgs} args - Arguments to filter PasswordPolicies to count.
+     * @example
+     * // Count the number of PasswordPolicies
+     * const count = await prisma.passwordPolicy.count({
+     *   where: {
+     *     // ... the filter for the PasswordPolicies we want to count
+     *   }
+     * })
+    **/
+    count<T extends PasswordPolicyCountArgs>(
+      args?: Subset<T, PasswordPolicyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PasswordPolicyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PasswordPolicy.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordPolicyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PasswordPolicyAggregateArgs>(args: Subset<T, PasswordPolicyAggregateArgs>): Prisma.PrismaPromise<GetPasswordPolicyAggregateType<T>>
+
+    /**
+     * Group by PasswordPolicy.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordPolicyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PasswordPolicyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PasswordPolicyGroupByArgs['orderBy'] }
+        : { orderBy?: PasswordPolicyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PasswordPolicyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPasswordPolicyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PasswordPolicy model
+   */
+  readonly fields: PasswordPolicyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PasswordPolicy.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PasswordPolicyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PasswordPolicy model
+   */
+  interface PasswordPolicyFieldRefs {
+    readonly id: FieldRef<"PasswordPolicy", 'String'>
+    readonly companyId: FieldRef<"PasswordPolicy", 'String'>
+    readonly minLength: FieldRef<"PasswordPolicy", 'Int'>
+    readonly requireUppercase: FieldRef<"PasswordPolicy", 'Boolean'>
+    readonly requireLowercase: FieldRef<"PasswordPolicy", 'Boolean'>
+    readonly requireNumbers: FieldRef<"PasswordPolicy", 'Boolean'>
+    readonly requireSpecial: FieldRef<"PasswordPolicy", 'Boolean'>
+    readonly expirationDays: FieldRef<"PasswordPolicy", 'Int'>
+    readonly preventReuseCount: FieldRef<"PasswordPolicy", 'Int'>
+    readonly requireChangeOnFirstLogin: FieldRef<"PasswordPolicy", 'Boolean'>
+    readonly requireChangeAfterDays: FieldRef<"PasswordPolicy", 'Int'>
+    readonly isActive: FieldRef<"PasswordPolicy", 'Boolean'>
+    readonly createdAt: FieldRef<"PasswordPolicy", 'DateTime'>
+    readonly updatedAt: FieldRef<"PasswordPolicy", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PasswordPolicy findUnique
+   */
+  export type PasswordPolicyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordPolicy
+     */
+    select?: PasswordPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordPolicy
+     */
+    omit?: PasswordPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordPolicy to fetch.
+     */
+    where: PasswordPolicyWhereUniqueInput
+  }
+
+  /**
+   * PasswordPolicy findUniqueOrThrow
+   */
+  export type PasswordPolicyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordPolicy
+     */
+    select?: PasswordPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordPolicy
+     */
+    omit?: PasswordPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordPolicy to fetch.
+     */
+    where: PasswordPolicyWhereUniqueInput
+  }
+
+  /**
+   * PasswordPolicy findFirst
+   */
+  export type PasswordPolicyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordPolicy
+     */
+    select?: PasswordPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordPolicy
+     */
+    omit?: PasswordPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordPolicy to fetch.
+     */
+    where?: PasswordPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordPolicies to fetch.
+     */
+    orderBy?: PasswordPolicyOrderByWithRelationInput | PasswordPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordPolicies.
+     */
+    cursor?: PasswordPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordPolicies.
+     */
+    distinct?: PasswordPolicyScalarFieldEnum | PasswordPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordPolicy findFirstOrThrow
+   */
+  export type PasswordPolicyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordPolicy
+     */
+    select?: PasswordPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordPolicy
+     */
+    omit?: PasswordPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordPolicy to fetch.
+     */
+    where?: PasswordPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordPolicies to fetch.
+     */
+    orderBy?: PasswordPolicyOrderByWithRelationInput | PasswordPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordPolicies.
+     */
+    cursor?: PasswordPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordPolicies.
+     */
+    distinct?: PasswordPolicyScalarFieldEnum | PasswordPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordPolicy findMany
+   */
+  export type PasswordPolicyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordPolicy
+     */
+    select?: PasswordPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordPolicy
+     */
+    omit?: PasswordPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordPolicies to fetch.
+     */
+    where?: PasswordPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordPolicies to fetch.
+     */
+    orderBy?: PasswordPolicyOrderByWithRelationInput | PasswordPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PasswordPolicies.
+     */
+    cursor?: PasswordPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordPolicies.
+     */
+    skip?: number
+    distinct?: PasswordPolicyScalarFieldEnum | PasswordPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordPolicy create
+   */
+  export type PasswordPolicyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordPolicy
+     */
+    select?: PasswordPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordPolicy
+     */
+    omit?: PasswordPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordPolicyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PasswordPolicy.
+     */
+    data: XOR<PasswordPolicyCreateInput, PasswordPolicyUncheckedCreateInput>
+  }
+
+  /**
+   * PasswordPolicy createMany
+   */
+  export type PasswordPolicyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PasswordPolicies.
+     */
+    data: PasswordPolicyCreateManyInput | PasswordPolicyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PasswordPolicy createManyAndReturn
+   */
+  export type PasswordPolicyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordPolicy
+     */
+    select?: PasswordPolicySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordPolicy
+     */
+    omit?: PasswordPolicyOmit<ExtArgs> | null
+    /**
+     * The data used to create many PasswordPolicies.
+     */
+    data: PasswordPolicyCreateManyInput | PasswordPolicyCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordPolicyIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PasswordPolicy update
+   */
+  export type PasswordPolicyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordPolicy
+     */
+    select?: PasswordPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordPolicy
+     */
+    omit?: PasswordPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordPolicyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PasswordPolicy.
+     */
+    data: XOR<PasswordPolicyUpdateInput, PasswordPolicyUncheckedUpdateInput>
+    /**
+     * Choose, which PasswordPolicy to update.
+     */
+    where: PasswordPolicyWhereUniqueInput
+  }
+
+  /**
+   * PasswordPolicy updateMany
+   */
+  export type PasswordPolicyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PasswordPolicies.
+     */
+    data: XOR<PasswordPolicyUpdateManyMutationInput, PasswordPolicyUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordPolicies to update
+     */
+    where?: PasswordPolicyWhereInput
+    /**
+     * Limit how many PasswordPolicies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordPolicy updateManyAndReturn
+   */
+  export type PasswordPolicyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordPolicy
+     */
+    select?: PasswordPolicySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordPolicy
+     */
+    omit?: PasswordPolicyOmit<ExtArgs> | null
+    /**
+     * The data used to update PasswordPolicies.
+     */
+    data: XOR<PasswordPolicyUpdateManyMutationInput, PasswordPolicyUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordPolicies to update
+     */
+    where?: PasswordPolicyWhereInput
+    /**
+     * Limit how many PasswordPolicies to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordPolicyIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PasswordPolicy upsert
+   */
+  export type PasswordPolicyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordPolicy
+     */
+    select?: PasswordPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordPolicy
+     */
+    omit?: PasswordPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordPolicyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PasswordPolicy to update in case it exists.
+     */
+    where: PasswordPolicyWhereUniqueInput
+    /**
+     * In case the PasswordPolicy found by the `where` argument doesn't exist, create a new PasswordPolicy with this data.
+     */
+    create: XOR<PasswordPolicyCreateInput, PasswordPolicyUncheckedCreateInput>
+    /**
+     * In case the PasswordPolicy was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PasswordPolicyUpdateInput, PasswordPolicyUncheckedUpdateInput>
+  }
+
+  /**
+   * PasswordPolicy delete
+   */
+  export type PasswordPolicyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordPolicy
+     */
+    select?: PasswordPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordPolicy
+     */
+    omit?: PasswordPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordPolicyInclude<ExtArgs> | null
+    /**
+     * Filter which PasswordPolicy to delete.
+     */
+    where: PasswordPolicyWhereUniqueInput
+  }
+
+  /**
+   * PasswordPolicy deleteMany
+   */
+  export type PasswordPolicyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordPolicies to delete
+     */
+    where?: PasswordPolicyWhereInput
+    /**
+     * Limit how many PasswordPolicies to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordPolicy without action
+   */
+  export type PasswordPolicyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordPolicy
+     */
+    select?: PasswordPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordPolicy
+     */
+    omit?: PasswordPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordPolicyInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -42401,6 +43736,26 @@ export namespace Prisma {
   export type GeographicRestrictionScalarFieldEnum = (typeof GeographicRestrictionScalarFieldEnum)[keyof typeof GeographicRestrictionScalarFieldEnum]
 
 
+  export const PasswordPolicyScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    minLength: 'minLength',
+    requireUppercase: 'requireUppercase',
+    requireLowercase: 'requireLowercase',
+    requireNumbers: 'requireNumbers',
+    requireSpecial: 'requireSpecial',
+    expirationDays: 'expirationDays',
+    preventReuseCount: 'preventReuseCount',
+    requireChangeOnFirstLogin: 'requireChangeOnFirstLogin',
+    requireChangeAfterDays: 'requireChangeAfterDays',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PasswordPolicyScalarFieldEnum = (typeof PasswordPolicyScalarFieldEnum)[keyof typeof PasswordPolicyScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -42675,6 +44030,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionListRelationFilter
     threatEvents?: ThreatEventListRelationFilter
     rateLimits?: RateLimitListRelationFilter
+    passwordPolicy?: XOR<PasswordPolicyNullableScalarRelationFilter, PasswordPolicyWhereInput> | null
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -42689,6 +44045,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionOrderByRelationAggregateInput
     threatEvents?: ThreatEventOrderByRelationAggregateInput
     rateLimits?: RateLimitOrderByRelationAggregateInput
+    passwordPolicy?: PasswordPolicyOrderByWithRelationInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -42706,6 +44063,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionListRelationFilter
     threatEvents?: ThreatEventListRelationFilter
     rateLimits?: RateLimitListRelationFilter
+    passwordPolicy?: XOR<PasswordPolicyNullableScalarRelationFilter, PasswordPolicyWhereInput> | null
   }, "id" | "subdomain">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -45274,6 +46632,108 @@ export namespace Prisma {
     createdById?: StringNullableWithAggregatesFilter<"GeographicRestriction"> | string | null
   }
 
+  export type PasswordPolicyWhereInput = {
+    AND?: PasswordPolicyWhereInput | PasswordPolicyWhereInput[]
+    OR?: PasswordPolicyWhereInput[]
+    NOT?: PasswordPolicyWhereInput | PasswordPolicyWhereInput[]
+    id?: StringFilter<"PasswordPolicy"> | string
+    companyId?: StringFilter<"PasswordPolicy"> | string
+    minLength?: IntFilter<"PasswordPolicy"> | number
+    requireUppercase?: BoolFilter<"PasswordPolicy"> | boolean
+    requireLowercase?: BoolFilter<"PasswordPolicy"> | boolean
+    requireNumbers?: BoolFilter<"PasswordPolicy"> | boolean
+    requireSpecial?: BoolFilter<"PasswordPolicy"> | boolean
+    expirationDays?: IntNullableFilter<"PasswordPolicy"> | number | null
+    preventReuseCount?: IntFilter<"PasswordPolicy"> | number
+    requireChangeOnFirstLogin?: BoolFilter<"PasswordPolicy"> | boolean
+    requireChangeAfterDays?: IntNullableFilter<"PasswordPolicy"> | number | null
+    isActive?: BoolFilter<"PasswordPolicy"> | boolean
+    createdAt?: DateTimeFilter<"PasswordPolicy"> | Date | string
+    updatedAt?: DateTimeFilter<"PasswordPolicy"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }
+
+  export type PasswordPolicyOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    minLength?: SortOrder
+    requireUppercase?: SortOrder
+    requireLowercase?: SortOrder
+    requireNumbers?: SortOrder
+    requireSpecial?: SortOrder
+    expirationDays?: SortOrderInput | SortOrder
+    preventReuseCount?: SortOrder
+    requireChangeOnFirstLogin?: SortOrder
+    requireChangeAfterDays?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type PasswordPolicyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId?: string
+    AND?: PasswordPolicyWhereInput | PasswordPolicyWhereInput[]
+    OR?: PasswordPolicyWhereInput[]
+    NOT?: PasswordPolicyWhereInput | PasswordPolicyWhereInput[]
+    minLength?: IntFilter<"PasswordPolicy"> | number
+    requireUppercase?: BoolFilter<"PasswordPolicy"> | boolean
+    requireLowercase?: BoolFilter<"PasswordPolicy"> | boolean
+    requireNumbers?: BoolFilter<"PasswordPolicy"> | boolean
+    requireSpecial?: BoolFilter<"PasswordPolicy"> | boolean
+    expirationDays?: IntNullableFilter<"PasswordPolicy"> | number | null
+    preventReuseCount?: IntFilter<"PasswordPolicy"> | number
+    requireChangeOnFirstLogin?: BoolFilter<"PasswordPolicy"> | boolean
+    requireChangeAfterDays?: IntNullableFilter<"PasswordPolicy"> | number | null
+    isActive?: BoolFilter<"PasswordPolicy"> | boolean
+    createdAt?: DateTimeFilter<"PasswordPolicy"> | Date | string
+    updatedAt?: DateTimeFilter<"PasswordPolicy"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId">
+
+  export type PasswordPolicyOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    minLength?: SortOrder
+    requireUppercase?: SortOrder
+    requireLowercase?: SortOrder
+    requireNumbers?: SortOrder
+    requireSpecial?: SortOrder
+    expirationDays?: SortOrderInput | SortOrder
+    preventReuseCount?: SortOrder
+    requireChangeOnFirstLogin?: SortOrder
+    requireChangeAfterDays?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PasswordPolicyCountOrderByAggregateInput
+    _avg?: PasswordPolicyAvgOrderByAggregateInput
+    _max?: PasswordPolicyMaxOrderByAggregateInput
+    _min?: PasswordPolicyMinOrderByAggregateInput
+    _sum?: PasswordPolicySumOrderByAggregateInput
+  }
+
+  export type PasswordPolicyScalarWhereWithAggregatesInput = {
+    AND?: PasswordPolicyScalarWhereWithAggregatesInput | PasswordPolicyScalarWhereWithAggregatesInput[]
+    OR?: PasswordPolicyScalarWhereWithAggregatesInput[]
+    NOT?: PasswordPolicyScalarWhereWithAggregatesInput | PasswordPolicyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PasswordPolicy"> | string
+    companyId?: StringWithAggregatesFilter<"PasswordPolicy"> | string
+    minLength?: IntWithAggregatesFilter<"PasswordPolicy"> | number
+    requireUppercase?: BoolWithAggregatesFilter<"PasswordPolicy"> | boolean
+    requireLowercase?: BoolWithAggregatesFilter<"PasswordPolicy"> | boolean
+    requireNumbers?: BoolWithAggregatesFilter<"PasswordPolicy"> | boolean
+    requireSpecial?: BoolWithAggregatesFilter<"PasswordPolicy"> | boolean
+    expirationDays?: IntNullableWithAggregatesFilter<"PasswordPolicy"> | number | null
+    preventReuseCount?: IntWithAggregatesFilter<"PasswordPolicy"> | number
+    requireChangeOnFirstLogin?: BoolWithAggregatesFilter<"PasswordPolicy"> | boolean
+    requireChangeAfterDays?: IntNullableWithAggregatesFilter<"PasswordPolicy"> | number | null
+    isActive?: BoolWithAggregatesFilter<"PasswordPolicy"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"PasswordPolicy"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PasswordPolicy"> | Date | string
+  }
+
   export type CompanyCreateInput = {
     id?: string
     name: string
@@ -45286,6 +46746,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -45300,6 +46761,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -45314,6 +46776,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -45328,6 +46791,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -48121,6 +49585,124 @@ export namespace Prisma {
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type PasswordPolicyCreateInput = {
+    id?: string
+    minLength?: number
+    requireUppercase?: boolean
+    requireLowercase?: boolean
+    requireNumbers?: boolean
+    requireSpecial?: boolean
+    expirationDays?: number | null
+    preventReuseCount?: number
+    requireChangeOnFirstLogin?: boolean
+    requireChangeAfterDays?: number | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutPasswordPolicyInput
+  }
+
+  export type PasswordPolicyUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    minLength?: number
+    requireUppercase?: boolean
+    requireLowercase?: boolean
+    requireNumbers?: boolean
+    requireSpecial?: boolean
+    expirationDays?: number | null
+    preventReuseCount?: number
+    requireChangeOnFirstLogin?: boolean
+    requireChangeAfterDays?: number | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PasswordPolicyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    minLength?: IntFieldUpdateOperationsInput | number
+    requireUppercase?: BoolFieldUpdateOperationsInput | boolean
+    requireLowercase?: BoolFieldUpdateOperationsInput | boolean
+    requireNumbers?: BoolFieldUpdateOperationsInput | boolean
+    requireSpecial?: BoolFieldUpdateOperationsInput | boolean
+    expirationDays?: NullableIntFieldUpdateOperationsInput | number | null
+    preventReuseCount?: IntFieldUpdateOperationsInput | number
+    requireChangeOnFirstLogin?: BoolFieldUpdateOperationsInput | boolean
+    requireChangeAfterDays?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutPasswordPolicyNestedInput
+  }
+
+  export type PasswordPolicyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    minLength?: IntFieldUpdateOperationsInput | number
+    requireUppercase?: BoolFieldUpdateOperationsInput | boolean
+    requireLowercase?: BoolFieldUpdateOperationsInput | boolean
+    requireNumbers?: BoolFieldUpdateOperationsInput | boolean
+    requireSpecial?: BoolFieldUpdateOperationsInput | boolean
+    expirationDays?: NullableIntFieldUpdateOperationsInput | number | null
+    preventReuseCount?: IntFieldUpdateOperationsInput | number
+    requireChangeOnFirstLogin?: BoolFieldUpdateOperationsInput | boolean
+    requireChangeAfterDays?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordPolicyCreateManyInput = {
+    id?: string
+    companyId: string
+    minLength?: number
+    requireUppercase?: boolean
+    requireLowercase?: boolean
+    requireNumbers?: boolean
+    requireSpecial?: boolean
+    expirationDays?: number | null
+    preventReuseCount?: number
+    requireChangeOnFirstLogin?: boolean
+    requireChangeAfterDays?: number | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PasswordPolicyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    minLength?: IntFieldUpdateOperationsInput | number
+    requireUppercase?: BoolFieldUpdateOperationsInput | boolean
+    requireLowercase?: BoolFieldUpdateOperationsInput | boolean
+    requireNumbers?: BoolFieldUpdateOperationsInput | boolean
+    requireSpecial?: BoolFieldUpdateOperationsInput | boolean
+    expirationDays?: NullableIntFieldUpdateOperationsInput | number | null
+    preventReuseCount?: IntFieldUpdateOperationsInput | number
+    requireChangeOnFirstLogin?: BoolFieldUpdateOperationsInput | boolean
+    requireChangeAfterDays?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordPolicyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    minLength?: IntFieldUpdateOperationsInput | number
+    requireUppercase?: BoolFieldUpdateOperationsInput | boolean
+    requireLowercase?: BoolFieldUpdateOperationsInput | boolean
+    requireNumbers?: BoolFieldUpdateOperationsInput | boolean
+    requireSpecial?: BoolFieldUpdateOperationsInput | boolean
+    expirationDays?: NullableIntFieldUpdateOperationsInput | number | null
+    preventReuseCount?: IntFieldUpdateOperationsInput | number
+    requireChangeOnFirstLogin?: BoolFieldUpdateOperationsInput | boolean
+    requireChangeAfterDays?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -48181,6 +49763,11 @@ export namespace Prisma {
     every?: RateLimitWhereInput
     some?: RateLimitWhereInput
     none?: RateLimitWhereInput
+  }
+
+  export type PasswordPolicyNullableScalarRelationFilter = {
+    is?: PasswordPolicyWhereInput | null
+    isNot?: PasswordPolicyWhereInput | null
   }
 
   export type UserOrderByRelationAggregateInput = {
@@ -50127,6 +51714,76 @@ export namespace Prisma {
     createdById?: SortOrder
   }
 
+  export type CompanyScalarRelationFilter = {
+    is?: CompanyWhereInput
+    isNot?: CompanyWhereInput
+  }
+
+  export type PasswordPolicyCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    minLength?: SortOrder
+    requireUppercase?: SortOrder
+    requireLowercase?: SortOrder
+    requireNumbers?: SortOrder
+    requireSpecial?: SortOrder
+    expirationDays?: SortOrder
+    preventReuseCount?: SortOrder
+    requireChangeOnFirstLogin?: SortOrder
+    requireChangeAfterDays?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PasswordPolicyAvgOrderByAggregateInput = {
+    minLength?: SortOrder
+    expirationDays?: SortOrder
+    preventReuseCount?: SortOrder
+    requireChangeAfterDays?: SortOrder
+  }
+
+  export type PasswordPolicyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    minLength?: SortOrder
+    requireUppercase?: SortOrder
+    requireLowercase?: SortOrder
+    requireNumbers?: SortOrder
+    requireSpecial?: SortOrder
+    expirationDays?: SortOrder
+    preventReuseCount?: SortOrder
+    requireChangeOnFirstLogin?: SortOrder
+    requireChangeAfterDays?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PasswordPolicyMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    minLength?: SortOrder
+    requireUppercase?: SortOrder
+    requireLowercase?: SortOrder
+    requireNumbers?: SortOrder
+    requireSpecial?: SortOrder
+    expirationDays?: SortOrder
+    preventReuseCount?: SortOrder
+    requireChangeOnFirstLogin?: SortOrder
+    requireChangeAfterDays?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PasswordPolicySumOrderByAggregateInput = {
+    minLength?: SortOrder
+    expirationDays?: SortOrder
+    preventReuseCount?: SortOrder
+    requireChangeAfterDays?: SortOrder
+  }
+
   export type UserCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -50169,6 +51826,12 @@ export namespace Prisma {
     connect?: RateLimitWhereUniqueInput | RateLimitWhereUniqueInput[]
   }
 
+  export type PasswordPolicyCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<PasswordPolicyCreateWithoutCompanyInput, PasswordPolicyUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: PasswordPolicyCreateOrConnectWithoutCompanyInput
+    connect?: PasswordPolicyWhereUniqueInput
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -50209,6 +51872,12 @@ export namespace Prisma {
     connectOrCreate?: RateLimitCreateOrConnectWithoutCompanyInput | RateLimitCreateOrConnectWithoutCompanyInput[]
     createMany?: RateLimitCreateManyCompanyInputEnvelope
     connect?: RateLimitWhereUniqueInput | RateLimitWhereUniqueInput[]
+  }
+
+  export type PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<PasswordPolicyCreateWithoutCompanyInput, PasswordPolicyUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: PasswordPolicyCreateOrConnectWithoutCompanyInput
+    connect?: PasswordPolicyWhereUniqueInput
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -50303,6 +51972,16 @@ export namespace Prisma {
     deleteMany?: RateLimitScalarWhereInput | RateLimitScalarWhereInput[]
   }
 
+  export type PasswordPolicyUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<PasswordPolicyCreateWithoutCompanyInput, PasswordPolicyUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: PasswordPolicyCreateOrConnectWithoutCompanyInput
+    upsert?: PasswordPolicyUpsertWithoutCompanyInput
+    disconnect?: PasswordPolicyWhereInput | boolean
+    delete?: PasswordPolicyWhereInput | boolean
+    connect?: PasswordPolicyWhereUniqueInput
+    update?: XOR<XOR<PasswordPolicyUpdateToOneWithWhereWithoutCompanyInput, PasswordPolicyUpdateWithoutCompanyInput>, PasswordPolicyUncheckedUpdateWithoutCompanyInput>
+  }
+
   export type UserUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -50385,6 +52064,16 @@ export namespace Prisma {
     update?: RateLimitUpdateWithWhereUniqueWithoutCompanyInput | RateLimitUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: RateLimitUpdateManyWithWhereWithoutCompanyInput | RateLimitUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: RateLimitScalarWhereInput | RateLimitScalarWhereInput[]
+  }
+
+  export type PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<PasswordPolicyCreateWithoutCompanyInput, PasswordPolicyUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: PasswordPolicyCreateOrConnectWithoutCompanyInput
+    upsert?: PasswordPolicyUpsertWithoutCompanyInput
+    disconnect?: PasswordPolicyWhereInput | boolean
+    delete?: PasswordPolicyWhereInput | boolean
+    connect?: PasswordPolicyWhereUniqueInput
+    update?: XOR<XOR<PasswordPolicyUpdateToOneWithWhereWithoutCompanyInput, PasswordPolicyUpdateWithoutCompanyInput>, PasswordPolicyUncheckedUpdateWithoutCompanyInput>
   }
 
   export type CompanyCreateNestedOneWithoutUsersInput = {
@@ -52877,6 +54566,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCreatedGeographicRestrictionsInput, UserUpdateWithoutCreatedGeographicRestrictionsInput>, UserUncheckedUpdateWithoutCreatedGeographicRestrictionsInput>
   }
 
+  export type CompanyCreateNestedOneWithoutPasswordPolicyInput = {
+    create?: XOR<CompanyCreateWithoutPasswordPolicyInput, CompanyUncheckedCreateWithoutPasswordPolicyInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutPasswordPolicyInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutPasswordPolicyNestedInput = {
+    create?: XOR<CompanyCreateWithoutPasswordPolicyInput, CompanyUncheckedCreateWithoutPasswordPolicyInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutPasswordPolicyInput
+    upsert?: CompanyUpsertWithoutPasswordPolicyInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutPasswordPolicyInput, CompanyUpdateWithoutPasswordPolicyInput>, CompanyUncheckedUpdateWithoutPasswordPolicyInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -53573,6 +55276,43 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PasswordPolicyCreateWithoutCompanyInput = {
+    id?: string
+    minLength?: number
+    requireUppercase?: boolean
+    requireLowercase?: boolean
+    requireNumbers?: boolean
+    requireSpecial?: boolean
+    expirationDays?: number | null
+    preventReuseCount?: number
+    requireChangeOnFirstLogin?: boolean
+    requireChangeAfterDays?: number | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PasswordPolicyUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    minLength?: number
+    requireUppercase?: boolean
+    requireLowercase?: boolean
+    requireNumbers?: boolean
+    requireSpecial?: boolean
+    expirationDays?: number | null
+    preventReuseCount?: number
+    requireChangeOnFirstLogin?: boolean
+    requireChangeAfterDays?: number | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PasswordPolicyCreateOrConnectWithoutCompanyInput = {
+    where: PasswordPolicyWhereUniqueInput
+    create: XOR<PasswordPolicyCreateWithoutCompanyInput, PasswordPolicyUncheckedCreateWithoutCompanyInput>
+  }
+
   export type UserUpsertWithWhereUniqueWithoutCompanyInput = {
     where: UserWhereUniqueInput
     update: XOR<UserUpdateWithoutCompanyInput, UserUncheckedUpdateWithoutCompanyInput>
@@ -53780,6 +55520,49 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"RateLimit"> | Date | string
   }
 
+  export type PasswordPolicyUpsertWithoutCompanyInput = {
+    update: XOR<PasswordPolicyUpdateWithoutCompanyInput, PasswordPolicyUncheckedUpdateWithoutCompanyInput>
+    create: XOR<PasswordPolicyCreateWithoutCompanyInput, PasswordPolicyUncheckedCreateWithoutCompanyInput>
+    where?: PasswordPolicyWhereInput
+  }
+
+  export type PasswordPolicyUpdateToOneWithWhereWithoutCompanyInput = {
+    where?: PasswordPolicyWhereInput
+    data: XOR<PasswordPolicyUpdateWithoutCompanyInput, PasswordPolicyUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type PasswordPolicyUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    minLength?: IntFieldUpdateOperationsInput | number
+    requireUppercase?: BoolFieldUpdateOperationsInput | boolean
+    requireLowercase?: BoolFieldUpdateOperationsInput | boolean
+    requireNumbers?: BoolFieldUpdateOperationsInput | boolean
+    requireSpecial?: BoolFieldUpdateOperationsInput | boolean
+    expirationDays?: NullableIntFieldUpdateOperationsInput | number | null
+    preventReuseCount?: IntFieldUpdateOperationsInput | number
+    requireChangeOnFirstLogin?: BoolFieldUpdateOperationsInput | boolean
+    requireChangeAfterDays?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordPolicyUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    minLength?: IntFieldUpdateOperationsInput | number
+    requireUppercase?: BoolFieldUpdateOperationsInput | boolean
+    requireLowercase?: BoolFieldUpdateOperationsInput | boolean
+    requireNumbers?: BoolFieldUpdateOperationsInput | boolean
+    requireSpecial?: BoolFieldUpdateOperationsInput | boolean
+    expirationDays?: NullableIntFieldUpdateOperationsInput | number | null
+    preventReuseCount?: IntFieldUpdateOperationsInput | number
+    requireChangeOnFirstLogin?: BoolFieldUpdateOperationsInput | boolean
+    requireChangeAfterDays?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CompanyCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -53791,6 +55574,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -53804,6 +55588,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -54902,6 +56687,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -54915,6 +56701,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type PasswordUpsertWithWhereUniqueWithoutOwnerInput = {
@@ -59782,6 +61569,7 @@ export namespace Prisma {
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutThreatEventsInput = {
@@ -59795,6 +61583,7 @@ export namespace Prisma {
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutThreatEventsInput = {
@@ -59933,6 +61722,7 @@ export namespace Prisma {
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutThreatEventsInput = {
@@ -59946,6 +61736,7 @@ export namespace Prisma {
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutRateLimitsInput = {
@@ -59959,6 +61750,7 @@ export namespace Prisma {
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRateLimitsInput = {
@@ -59972,6 +61764,7 @@ export namespace Prisma {
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRateLimitsInput = {
@@ -60001,6 +61794,7 @@ export namespace Prisma {
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRateLimitsInput = {
@@ -60014,6 +61808,7 @@ export namespace Prisma {
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutCreatedRolesInput = {
@@ -61388,6 +63183,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTemplatesInput = {
@@ -61401,6 +63197,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTemplatesInput = {
@@ -61539,6 +63336,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTemplatesInput = {
@@ -61552,6 +63350,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutEmailVerificationTokensInput = {
@@ -62304,6 +64103,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIpWhitelistsInput = {
@@ -62317,6 +64117,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIpWhitelistsInput = {
@@ -62558,6 +64359,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIpWhitelistsInput = {
@@ -62571,6 +64373,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCreatedIpWhitelistsInput = {
@@ -62796,6 +64599,7 @@ export namespace Prisma {
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGeographicRestrictionsInput = {
@@ -62809,6 +64613,7 @@ export namespace Prisma {
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGeographicRestrictionsInput = {
@@ -63050,6 +64855,7 @@ export namespace Prisma {
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGeographicRestrictionsInput = {
@@ -63063,6 +64869,7 @@ export namespace Prisma {
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCreatedGeographicRestrictionsInput = {
@@ -63172,6 +64979,78 @@ export namespace Prisma {
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
     createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type CompanyCreateWithoutPasswordPolicyInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutPasswordPolicyInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutPasswordPolicyInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutPasswordPolicyInput, CompanyUncheckedCreateWithoutPasswordPolicyInput>
+  }
+
+  export type CompanyUpsertWithoutPasswordPolicyInput = {
+    update: XOR<CompanyUpdateWithoutPasswordPolicyInput, CompanyUncheckedUpdateWithoutPasswordPolicyInput>
+    create: XOR<CompanyCreateWithoutPasswordPolicyInput, CompanyUncheckedCreateWithoutPasswordPolicyInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutPasswordPolicyInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutPasswordPolicyInput, CompanyUncheckedUpdateWithoutPasswordPolicyInput>
+  }
+
+  export type CompanyUpdateWithoutPasswordPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutPasswordPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateManyCompanyInput = {

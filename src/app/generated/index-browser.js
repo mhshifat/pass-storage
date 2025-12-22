@@ -507,6 +507,23 @@ exports.Prisma.GeographicRestrictionScalarFieldEnum = {
   createdById: 'createdById'
 };
 
+exports.Prisma.PasswordPolicyScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  minLength: 'minLength',
+  requireUppercase: 'requireUppercase',
+  requireLowercase: 'requireLowercase',
+  requireNumbers: 'requireNumbers',
+  requireSpecial: 'requireSpecial',
+  expirationDays: 'expirationDays',
+  preventReuseCount: 'preventReuseCount',
+  requireChangeOnFirstLogin: 'requireChangeOnFirstLogin',
+  requireChangeAfterDays: 'requireChangeAfterDays',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -620,7 +637,8 @@ exports.Prisma.ModelName = {
   PasswordResetToken: 'PasswordResetToken',
   SecurityQuestion: 'SecurityQuestion',
   IpWhitelist: 'IpWhitelist',
-  GeographicRestriction: 'GeographicRestriction'
+  GeographicRestriction: 'GeographicRestriction',
+  PasswordPolicy: 'PasswordPolicy'
 };
 
 /**

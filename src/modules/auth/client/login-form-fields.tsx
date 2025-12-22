@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useTransition } from "react"
 import { useTranslation } from "react-i18next"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -34,9 +34,11 @@ interface LoginFormFieldsProps {
 
 export function LoginFormFields({ formAction, isPending, state }: LoginFormFieldsProps) {
   const { t } = useTranslation()
-  const [captchaToken, setCaptchaToken] = useState<string | null>(state?.captchaToken || null)
-  const [captchaQuestion, setCaptchaQuestion] = useState<string | null>(state?.captchaQuestion || null)
+  const [isTransitionPending, startTransition] = useTransition()
   const requiresCaptcha = state?.requiresCaptcha || false
+  const captchaToken = state?.captchaToken || null
+  const captchaQuestion = state?.captchaQuestion || null
+  const pending = isPending || isTransitionPending
   
   const loginSchema = createLoginSchema(t, requiresCaptcha)
   type LoginFormValues = z.infer<typeof loginSchema>
@@ -50,7 +52,7 @@ export function LoginFormFields({ formAction, isPending, state }: LoginFormField
     },
   })
 
-  // Sync server errors and CAPTCHA state to form
+  // Sync server errors to form
   useEffect(() => {
     if (state?.error) {
       form.setError("root", {
@@ -68,20 +70,16 @@ export function LoginFormFields({ formAction, isPending, state }: LoginFormField
         })
       })
     }
-    
-    // Update CAPTCHA state
-    if (state?.requiresCaptcha && state?.captchaToken && state?.captchaQuestion) {
-      setCaptchaToken(state.captchaToken)
-      setCaptchaQuestion(state.captchaQuestion)
-    }
   }, [state, form])
   
-  const handleRefreshCaptcha = async () => {
+  const handleRefreshCaptcha = () => {
     // Trigger a new login attempt to get a new CAPTCHA
     const formData = new FormData()
     formData.append("email", form.getValues("email"))
     formData.append("password", form.getValues("password"))
-    formAction(formData)
+    startTransition(() => {
+      formAction(formData)
+    })
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -94,12 +92,14 @@ export function LoginFormFields({ formAction, isPending, state }: LoginFormField
     if (captchaAnswer !== undefined && captchaAnswer !== null) {
       formData.append("captchaAnswer", captchaAnswer.toString())
     }
-    formAction(formData)
+    startTransition(() => {
+      formAction(formData)
+    })
   }
 
   return (
     <Form {...form}>
-      <form action={formAction} id="login-form" onSubmit={handleSubmit}>
+      <form id="login-form" onSubmit={handleSubmit}>
         {form.formState.errors.root && (
           <Alert variant="destructive" className="mb-4">
             <AlertCircle className="h-4 w-4" />
@@ -121,7 +121,7 @@ export function LoginFormFields({ formAction, isPending, state }: LoginFormField
                       type="email"
                       placeholder={t("auth.emailPlaceholder")}
                       className="pl-10"
-                      disabled={isPending}
+                      disabled={pending}
                       {...field}
                     />
                   </div>
@@ -152,7 +152,7 @@ export function LoginFormFields({ formAction, isPending, state }: LoginFormField
                       type="password"
                       placeholder="••••••••"
                       className="pl-10"
-                      disabled={isPending}
+                      disabled={pending}
                       {...field}
                     />
                   </div>
@@ -180,7 +180,7 @@ export function LoginFormFields({ formAction, isPending, state }: LoginFormField
                         variant="outline"
                         size="icon"
                         onClick={handleRefreshCaptcha}
-                        disabled={isPending}
+                        disabled={pending}
                         title={t("auth.refreshCaptcha")}
                       >
                         <RefreshCw className="h-4 w-4" />
@@ -190,7 +190,7 @@ export function LoginFormFields({ formAction, isPending, state }: LoginFormField
                       <Input
                         type="number"
                         placeholder={t("auth.captchaPlaceholder")}
-                        disabled={isPending}
+                        disabled={pending}
                         {...field}
                         onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value, 10) : undefined)}
                       />

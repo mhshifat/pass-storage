@@ -3,6 +3,10 @@ import { createTRPCRouter, protectedProcedure, baseProcedure } from "@/trpc/init
 import z from "zod"
 import { encrypt, decrypt } from "@/lib/crypto"
 import { TRPCError } from "@trpc/server"
+import {
+  validatePasswordAgainstPolicy,
+  checkPasswordHistory,
+} from "@/lib/password-policy"
 
 export const passwordsRouter = createTRPCRouter({
   list: protectedProcedure("password.view")
@@ -354,6 +358,25 @@ export const passwordsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
+      // Get user's companyId for policy validation
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: { companyId: true },
+      })
+
+      // Validate password against policy
+      const validation = await validatePasswordAgainstPolicy(
+        input.password,
+        user?.companyId || null
+      )
+
+      if (!validation.isValid) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: validation.errors.join(". "),
+        })
+      }
+
       // Encrypt the password
       const encryptedPassword = await encrypt(input.password)
 

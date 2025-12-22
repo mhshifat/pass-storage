@@ -25,6 +25,7 @@ model Company {
   geographicRestrictions GeographicRestriction[]
   threatEvents           ThreatEvent[]
   rateLimits             RateLimit[]
+  passwordPolicy         PasswordPolicy?
 
   @@index([subdomain])
 }
@@ -737,4 +738,31 @@ model GeographicRestriction {
   @@index([companyId])
   @@index([countryCode])
   @@index([isActive])
+}
+
+model PasswordPolicy {
+  id                        String   @id @default(cuid())
+  companyId                 String   @unique
+  // Complexity Rules
+  minLength                 Int      @default(12)
+  requireUppercase          Boolean  @default(true)
+  requireLowercase          Boolean  @default(true)
+  requireNumbers            Boolean  @default(true)
+  requireSpecial            Boolean  @default(true)
+  // Expiration
+  expirationDays            Int? // null = no expiration
+  // History (prevent reuse)
+  preventReuseCount         Int      @default(0) // 0 = disabled, >0 = number of previous passwords to check
+  // Change Requirements
+  requireChangeOnFirstLogin Boolean  @default(false)
+  requireChangeAfterDays    Int? // null = disabled, >0 = days after which password change is required
+  // Status
+  isActive                  Boolean  @default(true)
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+
+  // Relations
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
 }
