@@ -3,7 +3,10 @@
  * These utilities make it easier to work with translations throughout the app
  */
 
-import { TFunction } from "react-i18next"
+import { useTranslation } from "react-i18next"
+
+// Extract TFunction type from useTranslation hook
+type TFunction = ReturnType<typeof useTranslation>["t"]
 
 /**
  * Get a translation with fallback

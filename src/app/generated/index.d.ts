@@ -7705,6 +7705,10 @@ export namespace Prisma {
     expires: Date | null
     ipAddress: string | null
     userAgent: string | null
+    deviceName: string | null
+    deviceType: string | null
+    isTrusted: boolean | null
+    lastActiveAt: Date | null
     createdAt: Date | null
   }
 
@@ -7715,6 +7719,10 @@ export namespace Prisma {
     expires: Date | null
     ipAddress: string | null
     userAgent: string | null
+    deviceName: string | null
+    deviceType: string | null
+    isTrusted: boolean | null
+    lastActiveAt: Date | null
     createdAt: Date | null
   }
 
@@ -7725,6 +7733,10 @@ export namespace Prisma {
     expires: number
     ipAddress: number
     userAgent: number
+    deviceName: number
+    deviceType: number
+    isTrusted: number
+    lastActiveAt: number
     createdAt: number
     _all: number
   }
@@ -7737,6 +7749,10 @@ export namespace Prisma {
     expires?: true
     ipAddress?: true
     userAgent?: true
+    deviceName?: true
+    deviceType?: true
+    isTrusted?: true
+    lastActiveAt?: true
     createdAt?: true
   }
 
@@ -7747,6 +7763,10 @@ export namespace Prisma {
     expires?: true
     ipAddress?: true
     userAgent?: true
+    deviceName?: true
+    deviceType?: true
+    isTrusted?: true
+    lastActiveAt?: true
     createdAt?: true
   }
 
@@ -7757,6 +7777,10 @@ export namespace Prisma {
     expires?: true
     ipAddress?: true
     userAgent?: true
+    deviceName?: true
+    deviceType?: true
+    isTrusted?: true
+    lastActiveAt?: true
     createdAt?: true
     _all?: true
   }
@@ -7840,6 +7864,10 @@ export namespace Prisma {
     expires: Date
     ipAddress: string | null
     userAgent: string | null
+    deviceName: string | null
+    deviceType: string | null
+    isTrusted: boolean
+    lastActiveAt: Date
     createdAt: Date
     _count: SessionCountAggregateOutputType | null
     _min: SessionMinAggregateOutputType | null
@@ -7867,6 +7895,10 @@ export namespace Prisma {
     expires?: boolean
     ipAddress?: boolean
     userAgent?: boolean
+    deviceName?: boolean
+    deviceType?: boolean
+    isTrusted?: boolean
+    lastActiveAt?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
@@ -7878,6 +7910,10 @@ export namespace Prisma {
     expires?: boolean
     ipAddress?: boolean
     userAgent?: boolean
+    deviceName?: boolean
+    deviceType?: boolean
+    isTrusted?: boolean
+    lastActiveAt?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
@@ -7889,6 +7925,10 @@ export namespace Prisma {
     expires?: boolean
     ipAddress?: boolean
     userAgent?: boolean
+    deviceName?: boolean
+    deviceType?: boolean
+    isTrusted?: boolean
+    lastActiveAt?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
@@ -7900,10 +7940,14 @@ export namespace Prisma {
     expires?: boolean
     ipAddress?: boolean
     userAgent?: boolean
+    deviceName?: boolean
+    deviceType?: boolean
+    isTrusted?: boolean
+    lastActiveAt?: boolean
     createdAt?: boolean
   }
 
-  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sessionToken" | "userId" | "expires" | "ipAddress" | "userAgent" | "createdAt", ExtArgs["result"]["session"]>
+  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sessionToken" | "userId" | "expires" | "ipAddress" | "userAgent" | "deviceName" | "deviceType" | "isTrusted" | "lastActiveAt" | "createdAt", ExtArgs["result"]["session"]>
   export type SessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -7926,6 +7970,10 @@ export namespace Prisma {
       expires: Date
       ipAddress: string | null
       userAgent: string | null
+      deviceName: string | null
+      deviceType: string | null
+      isTrusted: boolean
+      lastActiveAt: Date
       createdAt: Date
     }, ExtArgs["result"]["session"]>
     composites: {}
@@ -8357,6 +8405,10 @@ export namespace Prisma {
     readonly expires: FieldRef<"Session", 'DateTime'>
     readonly ipAddress: FieldRef<"Session", 'String'>
     readonly userAgent: FieldRef<"Session", 'String'>
+    readonly deviceName: FieldRef<"Session", 'String'>
+    readonly deviceType: FieldRef<"Session", 'String'>
+    readonly isTrusted: FieldRef<"Session", 'Boolean'>
+    readonly lastActiveAt: FieldRef<"Session", 'DateTime'>
     readonly createdAt: FieldRef<"Session", 'DateTime'>
   }
     
@@ -32780,6 +32832,10 @@ export namespace Prisma {
     expires: 'expires',
     ipAddress: 'ipAddress',
     userAgent: 'userAgent',
+    deviceName: 'deviceName',
+    deviceType: 'deviceType',
+    isTrusted: 'isTrusted',
+    lastActiveAt: 'lastActiveAt',
     createdAt: 'createdAt'
   };
 
@@ -33652,6 +33708,10 @@ export namespace Prisma {
     expires?: DateTimeFilter<"Session"> | Date | string
     ipAddress?: StringNullableFilter<"Session"> | string | null
     userAgent?: StringNullableFilter<"Session"> | string | null
+    deviceName?: StringNullableFilter<"Session"> | string | null
+    deviceType?: StringNullableFilter<"Session"> | string | null
+    isTrusted?: BoolFilter<"Session"> | boolean
+    lastActiveAt?: DateTimeFilter<"Session"> | Date | string
     createdAt?: DateTimeFilter<"Session"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -33663,6 +33723,10 @@ export namespace Prisma {
     expires?: SortOrder
     ipAddress?: SortOrderInput | SortOrder
     userAgent?: SortOrderInput | SortOrder
+    deviceName?: SortOrderInput | SortOrder
+    deviceType?: SortOrderInput | SortOrder
+    isTrusted?: SortOrder
+    lastActiveAt?: SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
   }
@@ -33677,6 +33741,10 @@ export namespace Prisma {
     expires?: DateTimeFilter<"Session"> | Date | string
     ipAddress?: StringNullableFilter<"Session"> | string | null
     userAgent?: StringNullableFilter<"Session"> | string | null
+    deviceName?: StringNullableFilter<"Session"> | string | null
+    deviceType?: StringNullableFilter<"Session"> | string | null
+    isTrusted?: BoolFilter<"Session"> | boolean
+    lastActiveAt?: DateTimeFilter<"Session"> | Date | string
     createdAt?: DateTimeFilter<"Session"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "sessionToken">
@@ -33688,6 +33756,10 @@ export namespace Prisma {
     expires?: SortOrder
     ipAddress?: SortOrderInput | SortOrder
     userAgent?: SortOrderInput | SortOrder
+    deviceName?: SortOrderInput | SortOrder
+    deviceType?: SortOrderInput | SortOrder
+    isTrusted?: SortOrder
+    lastActiveAt?: SortOrder
     createdAt?: SortOrder
     _count?: SessionCountOrderByAggregateInput
     _max?: SessionMaxOrderByAggregateInput
@@ -33704,6 +33776,10 @@ export namespace Prisma {
     expires?: DateTimeWithAggregatesFilter<"Session"> | Date | string
     ipAddress?: StringNullableWithAggregatesFilter<"Session"> | string | null
     userAgent?: StringNullableWithAggregatesFilter<"Session"> | string | null
+    deviceName?: StringNullableWithAggregatesFilter<"Session"> | string | null
+    deviceType?: StringNullableWithAggregatesFilter<"Session"> | string | null
+    isTrusted?: BoolWithAggregatesFilter<"Session"> | boolean
+    lastActiveAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
   }
 
@@ -35717,6 +35793,10 @@ export namespace Prisma {
     expires: Date | string
     ipAddress?: string | null
     userAgent?: string | null
+    deviceName?: string | null
+    deviceType?: string | null
+    isTrusted?: boolean
+    lastActiveAt?: Date | string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutSessionsInput
   }
@@ -35728,6 +35808,10 @@ export namespace Prisma {
     expires: Date | string
     ipAddress?: string | null
     userAgent?: string | null
+    deviceName?: string | null
+    deviceType?: string | null
+    isTrusted?: boolean
+    lastActiveAt?: Date | string
     createdAt?: Date | string
   }
 
@@ -35737,6 +35821,10 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceName?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    isTrusted?: BoolFieldUpdateOperationsInput | boolean
+    lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutSessionsNestedInput
   }
@@ -35748,6 +35836,10 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceName?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    isTrusted?: BoolFieldUpdateOperationsInput | boolean
+    lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -35758,6 +35850,10 @@ export namespace Prisma {
     expires: Date | string
     ipAddress?: string | null
     userAgent?: string | null
+    deviceName?: string | null
+    deviceType?: string | null
+    isTrusted?: boolean
+    lastActiveAt?: Date | string
     createdAt?: Date | string
   }
 
@@ -35767,6 +35863,10 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceName?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    isTrusted?: BoolFieldUpdateOperationsInput | boolean
+    lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -35777,6 +35877,10 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceName?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    isTrusted?: BoolFieldUpdateOperationsInput | boolean
+    lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -38072,6 +38176,10 @@ export namespace Prisma {
     expires?: SortOrder
     ipAddress?: SortOrder
     userAgent?: SortOrder
+    deviceName?: SortOrder
+    deviceType?: SortOrder
+    isTrusted?: SortOrder
+    lastActiveAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -38082,6 +38190,10 @@ export namespace Prisma {
     expires?: SortOrder
     ipAddress?: SortOrder
     userAgent?: SortOrder
+    deviceName?: SortOrder
+    deviceType?: SortOrder
+    isTrusted?: SortOrder
+    lastActiveAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -38092,6 +38204,10 @@ export namespace Prisma {
     expires?: SortOrder
     ipAddress?: SortOrder
     userAgent?: SortOrder
+    deviceName?: SortOrder
+    deviceType?: SortOrder
+    isTrusted?: SortOrder
+    lastActiveAt?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -41897,6 +42013,10 @@ export namespace Prisma {
     expires: Date | string
     ipAddress?: string | null
     userAgent?: string | null
+    deviceName?: string | null
+    deviceType?: string | null
+    isTrusted?: boolean
+    lastActiveAt?: Date | string
     createdAt?: Date | string
   }
 
@@ -41906,6 +42026,10 @@ export namespace Prisma {
     expires: Date | string
     ipAddress?: string | null
     userAgent?: string | null
+    deviceName?: string | null
+    deviceType?: string | null
+    isTrusted?: boolean
+    lastActiveAt?: Date | string
     createdAt?: Date | string
   }
 
@@ -42699,6 +42823,10 @@ export namespace Prisma {
     expires?: DateTimeFilter<"Session"> | Date | string
     ipAddress?: StringNullableFilter<"Session"> | string | null
     userAgent?: StringNullableFilter<"Session"> | string | null
+    deviceName?: StringNullableFilter<"Session"> | string | null
+    deviceType?: StringNullableFilter<"Session"> | string | null
+    isTrusted?: BoolFilter<"Session"> | boolean
+    lastActiveAt?: DateTimeFilter<"Session"> | Date | string
     createdAt?: DateTimeFilter<"Session"> | Date | string
   }
 
@@ -48184,6 +48312,10 @@ export namespace Prisma {
     expires: Date | string
     ipAddress?: string | null
     userAgent?: string | null
+    deviceName?: string | null
+    deviceType?: string | null
+    isTrusted?: boolean
+    lastActiveAt?: Date | string
     createdAt?: Date | string
   }
 
@@ -48513,6 +48645,10 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceName?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    isTrusted?: BoolFieldUpdateOperationsInput | boolean
+    lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -48522,6 +48658,10 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceName?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    isTrusted?: BoolFieldUpdateOperationsInput | boolean
+    lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -48531,6 +48671,10 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceName?: NullableStringFieldUpdateOperationsInput | string | null
+    deviceType?: NullableStringFieldUpdateOperationsInput | string | null
+    isTrusted?: BoolFieldUpdateOperationsInput | boolean
+    lastActiveAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

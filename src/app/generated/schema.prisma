@@ -100,11 +100,17 @@ model Session {
   expires      DateTime
   ipAddress    String?
   userAgent    String?
+  deviceName   String? // Device name/identifier
+  deviceType   String? // mobile, desktop, tablet
+  isTrusted    Boolean  @default(false) // Trusted device flag
+  lastActiveAt DateTime @default(now()) // Last activity timestamp
   createdAt    DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+  @@index([userId, isTrusted])
+  @@index([expires])
 }
 
 model Password {

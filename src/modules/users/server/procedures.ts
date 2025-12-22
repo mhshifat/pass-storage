@@ -3,7 +3,7 @@ import { createTRPCRouter, protectedProcedure, baseProcedure } from "@/trpc/init
 import z from "zod"
 import { hashPassword } from "@/lib/auth"
 import { TRPCError } from "@trpc/server"
-import { Prisma } from '@/app/generated';
+import { Prisma } from '@/app/generated'
 
 export const usersRouter = createTRPCRouter({
   create: protectedProcedure("user.create")
@@ -313,7 +313,17 @@ export const usersRouter = createTRPCRouter({
     }),
 
   // Change own password - requires current password
-  changeOwnPassword: protectedProcedure()
+  changeOwnPassword: baseProcedure
+    .use(async ({ ctx, next }) => {
+      // Check if user is authenticated
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to change your password",
+        })
+      }
+      return next({ ctx })
+    })
     .input(z.object({ 
       currentPassword: z.string().min(1, "Current password is required"),
       newPassword: z.string().min(8, "Password must be at least 8 characters")
@@ -740,7 +750,7 @@ export const usersRouter = createTRPCRouter({
         name: z.string().min(2, "Name must be at least 2 characters").optional(),
         bio: z.string().max(500, "Bio must be less than 500 characters").optional().nullable(),
         phoneNumber: z.string().optional().nullable(),
-        preferences: z.record(z.unknown()).optional(),
+        preferences: z.record(z.string(), z.unknown()).optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -752,7 +762,7 @@ export const usersRouter = createTRPCRouter({
           ...(input.name && { name: input.name }),
           ...(input.bio !== undefined && { bio: input.bio }),
           ...(input.phoneNumber !== undefined && { phoneNumber: input.phoneNumber }),
-          ...(input.preferences && { preferences: input.preferences }),
+          ...(input.preferences && { preferences: input.preferences as Prisma.InputJsonValue }),
         },
         select: {
           id: true,
@@ -911,6 +921,255 @@ export const usersRouter = createTRPCRouter({
         auditLogs,
         lastLoginAt: lastLogin?.lastLoginAt,
         accountCreatedAt: lastLogin?.createdAt,
+      }
+    }),
+
+  // ========== Session Management ==========
+
+  listSessions: baseProcedure
+    .use(async ({ ctx, next }) => {
+      // Check if user is authenticated
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to view your sessions",
+        })
+      }
+      return next({ ctx })
+    })
+    .query(async ({ ctx }) => {
+      // Get current session token from cookie
+      const { cookies } = await import("next/headers")
+      const cookieStore = await cookies()
+      const currentSessionToken = cookieStore.get("session")?.value
+
+      const sessions = await prisma.session.findMany({
+        where: {
+          userId: ctx.userId,
+          expires: {
+            gt: new Date(), // Only active sessions
+          },
+        },
+        orderBy: {
+          lastActiveAt: "desc",
+        },
+        select: {
+          id: true,
+          sessionToken: true,
+          ipAddress: true,
+          userAgent: true,
+          deviceName: true,
+          deviceType: true,
+          isTrusted: true,
+          lastActiveAt: true,
+          createdAt: true,
+          expires: true,
+        },
+      })
+
+      // Find current session ID by matching the session token
+      const currentSessionId = currentSessionToken
+        ? sessions.find((s) => s.sessionToken === currentSessionToken)?.id || null
+        : null
+
+      return { sessions, currentSessionId }
+    }),
+
+  revokeSession: baseProcedure
+    .use(async ({ ctx, next }) => {
+      // Check if user is authenticated
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to revoke sessions",
+        })
+      }
+      return next({ ctx })
+    })
+    .input(
+      z.object({
+        sessionId: z.string().min(1, "Session ID is required"),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { createAuditLog } = await import("@/lib/audit-log")
+
+      // Verify session belongs to user
+      const session = await prisma.session.findFirst({
+        where: {
+          id: input.sessionId,
+          userId: ctx.userId,
+        },
+      })
+
+      if (!session) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Session not found",
+        })
+      }
+
+      // Delete session
+      await prisma.session.delete({
+        where: { id: input.sessionId },
+      })
+
+      await createAuditLog({
+        action: "SESSION_REVOKED",
+        resource: "Session",
+        resourceId: input.sessionId,
+        userId: ctx.userId,
+        details: `Session revoked: ${session.deviceName || "Unknown Device"}`,
+      })
+
+      return { success: true }
+    }),
+
+  revokeAllSessions: baseProcedure
+    .use(async ({ ctx, next }) => {
+      // Check if user is authenticated
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to revoke sessions",
+        })
+      }
+      return next({ ctx })
+    })
+    .mutation(async ({ ctx }) => {
+      const { createAuditLog } = await import("@/lib/audit-log")
+
+      // Get current session token from cookie
+      const { cookies } = await import("next/headers")
+      const cookieStore = await cookies()
+      const currentSessionToken = cookieStore.get("session")?.value
+
+      // Get all active sessions for the user
+      const allSessions = await prisma.session.findMany({
+        where: {
+          userId: ctx.userId,
+          expires: { gt: new Date() },
+        },
+        select: { id: true, sessionToken: true },
+      })
+
+      // Find current session ID by matching the session token
+      const currentSessionId = currentSessionToken
+        ? allSessions.find((s) => s.sessionToken === currentSessionToken)?.id
+        : null
+
+      // Delete all sessions except the current one
+      const deleted = await prisma.session.deleteMany({
+        where: {
+          userId: ctx.userId,
+          ...(currentSessionId ? {
+            id: { not: currentSessionId },
+          } : {}),
+        },
+      })
+
+      await createAuditLog({
+        action: "ALL_SESSIONS_REVOKED",
+        resource: "Session",
+        resourceId: null,
+        userId: ctx.userId,
+        details: `All sessions revoked except current (${deleted.count} sessions deleted)`,
+      })
+
+      return { success: true, revokedCount: deleted.count }
+    }),
+
+  markSessionAsTrusted: baseProcedure
+    .use(async ({ ctx, next }) => {
+      // Check if user is authenticated
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to mark sessions as trusted",
+        })
+      }
+      return next({ ctx })
+    })
+    .input(
+      z.object({
+        sessionId: z.string().min(1, "Session ID is required"),
+        isTrusted: z.boolean(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Verify session belongs to user
+      const session = await prisma.session.findFirst({
+        where: {
+          id: input.sessionId,
+          userId: ctx.userId,
+        },
+      })
+
+      if (!session) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Session not found",
+        })
+      }
+
+      await prisma.session.update({
+        where: { id: input.sessionId },
+        data: { isTrusted: input.isTrusted },
+      })
+
+      return { success: true }
+    }),
+
+  getLoginHistory: baseProcedure
+    .use(async ({ ctx, next }) => {
+      // Check if user is authenticated
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You must be logged in to view login history",
+        })
+      }
+      return next({ ctx })
+    })
+    .input(
+      z.object({
+        page: z.number().min(1).default(1),
+        pageSize: z.number().min(1).max(100).default(20),
+      }).optional()
+    )
+    .query(async ({ input = {}, ctx }) => {
+      const { page = 1, pageSize = 20 } = input
+
+      const where = {
+        userId: ctx.userId,
+        action: "LOGIN_SUCCESS",
+      }
+
+      const [logs, total] = await Promise.all([
+        prisma.auditLog.findMany({
+          where,
+          take: pageSize,
+          skip: (page - 1) * pageSize,
+          orderBy: { createdAt: "desc" },
+          select: {
+            id: true,
+            ipAddress: true,
+            userAgent: true,
+            createdAt: true,
+            status: true,
+          },
+        }),
+        prisma.auditLog.count({ where }),
+      ])
+
+      return {
+        logs,
+        pagination: {
+          page,
+          pageSize,
+          total,
+          totalPages: Math.ceil(total / pageSize),
+        },
       }
     }),
 })

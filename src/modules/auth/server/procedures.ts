@@ -5,6 +5,8 @@ import { hashPassword, verifyPassword } from "@/lib/auth";
 import { createSession, destroySession, getSession } from "@/lib/session";
 import { TRPCError } from "@trpc/server";
 import { decrypt, encrypt } from "@/lib/crypto";
+import { getRequestMetadata } from "@/lib/audit-log";
+import { headers } from "next/headers";
 
 /**
  * Ensure system roles and permissions exist in the database
@@ -338,8 +340,15 @@ export const authRouter = createTRPCRouter({
                 },
             });
 
-            // Create session
-            await createSession(user.id, user.email);
+            // Get request metadata (IP and user agent)
+            const headersList = await headers();
+            const { ipAddress, userAgent } = getRequestMetadata(headersList);
+
+            // Create session with device info
+            await createSession(user.id, user.email, {
+                ipAddress,
+                userAgent,
+            });
 
             return {
                 success: true,
@@ -506,6 +515,10 @@ export const authRouter = createTRPCRouter({
                 data: { lastLoginAt: new Date() },
             });
 
+            // Get request metadata (IP and user agent)
+            const headersList = await headers();
+            const { ipAddress, userAgent } = getRequestMetadata(headersList);
+
             // Create audit log for successful login
             const { createAuditLog } = await import("@/lib/audit-log")
             await createAuditLog({
@@ -513,10 +526,15 @@ export const authRouter = createTRPCRouter({
                 resource: "User",
                 resourceId: user.id,
                 userId: user.id,
+                ipAddress,
+                userAgent,
             });
 
-            // Create session
-            await createSession(user.id, user.email);
+            // Create session with device info
+            await createSession(user.id, user.email, {
+                ipAddress,
+                userAgent,
+            });
 
             return {
                 success: true,

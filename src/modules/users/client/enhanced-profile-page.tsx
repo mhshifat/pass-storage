@@ -2,14 +2,17 @@
 
 import * as React from "react"
 import { useTranslation } from "react-i18next"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Loader2, User, Settings, Activity, BarChart3 } from "lucide-react"
+import { Loader2, User, Settings, Activity, BarChart3, History } from "lucide-react"
 import { trpc } from "@/trpc/client"
 import { ProfileInformation } from "./profile-information"
 import { UserPreferences } from "./user-preferences"
 import { ActivityTimeline } from "./activity-timeline"
 import { UserStatistics } from "./user-statistics"
+import { ActiveSessions } from "./active-sessions"
+import { LoginHistory } from "./login-history"
+import { Monitor } from "lucide-react"
 
 export function EnhancedProfilePage() {
   const { t } = useTranslation()
@@ -78,6 +81,14 @@ export function EnhancedProfilePage() {
             <BarChart3 className="h-4 w-4" />
             {t("profile.statistics")}
           </TabsTrigger>
+          <TabsTrigger value="sessions" className="gap-2">
+            <Monitor className="h-4 w-4" />
+            {t("sessions.activeSessions")}
+          </TabsTrigger>
+          <TabsTrigger value="loginHistory" className="gap-2">
+            <History className="h-4 w-4" />
+            {t("sessions.loginHistory")}
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="information" className="space-y-6">
@@ -94,6 +105,14 @@ export function EnhancedProfilePage() {
 
         <TabsContent value="statistics" className="space-y-6">
           <UserStatistics userId={data.user.id} />
+        </TabsContent>
+
+        <TabsContent value="sessions" className="space-y-6">
+          <ActiveSessions />
+        </TabsContent>
+
+        <TabsContent value="loginHistory" className="space-y-6">
+          <LoginHistory />
         </TabsContent>
       </Tabs>
     </div>

@@ -172,6 +172,10 @@ exports.Prisma.SessionScalarFieldEnum = {
   expires: 'expires',
   ipAddress: 'ipAddress',
   userAgent: 'userAgent',
+  deviceName: 'deviceName',
+  deviceType: 'deviceType',
+  isTrusted: 'isTrusted',
+  lastActiveAt: 'lastActiveAt',
   createdAt: 'createdAt'
 };
 
