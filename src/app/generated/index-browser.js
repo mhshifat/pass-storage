@@ -453,6 +453,30 @@ exports.Prisma.SecurityQuestionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.IpWhitelistScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companyId: 'companyId',
+  ipAddress: 'ipAddress',
+  description: 'description',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdById: 'createdById'
+};
+
+exports.Prisma.GeographicRestrictionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companyId: 'companyId',
+  countryCode: 'countryCode',
+  action: 'action',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createdById: 'createdById'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -541,7 +565,9 @@ exports.Prisma.ModelName = {
   PasswordTemplate: 'PasswordTemplate',
   EmailVerificationToken: 'EmailVerificationToken',
   PasswordResetToken: 'PasswordResetToken',
-  SecurityQuestion: 'SecurityQuestion'
+  SecurityQuestion: 'SecurityQuestion',
+  IpWhitelist: 'IpWhitelist',
+  GeographicRestriction: 'GeographicRestriction'
 };
 
 /**

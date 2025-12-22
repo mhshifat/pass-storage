@@ -1,6 +1,7 @@
 export { GeneralSettings } from "./general-settings"
 export { EmailSettings } from "./email-settings"
 export { SecuritySettings } from "./security-settings"
+export { IpWhitelistManagement } from "./ip-whitelist-management"
 export { SecuritySettingsSkeleton } from "./security-settings-skeleton"
 export { MfaSettings } from "./mfa-settings"
 export { MfaSettingsSkeleton } from "./mfa-settings-skeleton"

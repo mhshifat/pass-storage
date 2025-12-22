@@ -687,4 +687,487 @@ export const settingsRouter = createTRPCRouter({
       webauthnConfigured: !!webauthnConfigured,
     }
   }),
+
+  // IP Whitelisting
+  getIpWhitelists: protectedProcedure("settings.view")
+    .query(async ({ ctx }) => {
+      // Get current user's companyId
+      let companyId: string | undefined = undefined
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      }
+
+      // Get user's companyId if available
+      const user = ctx.userId
+        ? await prisma.user.findUnique({
+            where: { id: ctx.userId },
+            select: { companyId: true },
+          })
+        : null
+
+      const finalCompanyId = companyId || user?.companyId
+
+      // Get user-specific and company-wide whitelists
+      const whitelists = await prisma.ipWhitelist.findMany({
+        where: {
+          OR: [
+            { userId: ctx.userId || undefined },
+            { companyId: finalCompanyId || undefined, userId: null },
+          ],
+        },
+        orderBy: { createdAt: "desc" },
+        include: {
+          creator: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+      })
+
+      return { whitelists }
+    }),
+
+  addIpWhitelist: protectedProcedure("settings.edit")
+    .input(
+      z.object({
+        ipAddress: z.string().min(1, "IP address is required"),
+        description: z.string().optional(),
+        userId: z.string().optional(), // null for company-wide
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Validate IP address format
+      const { isValidIpAddress } = await import("@/lib/ip-whitelist")
+      if (!isValidIpAddress(input.ipAddress)) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Invalid IP address format. Use IPv4 address or CIDR notation (e.g., 192.168.1.1 or 192.168.1.0/24)",
+        })
+      }
+
+      // Get current user's companyId
+      let companyId: string | undefined = undefined
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      }
+
+      const user = ctx.userId
+        ? await prisma.user.findUnique({
+            where: { id: ctx.userId },
+            select: { companyId: true },
+          })
+        : null
+
+      const finalCompanyId = companyId || user?.companyId
+
+      // Check if IP already exists
+      const existing = await prisma.ipWhitelist.findFirst({
+        where: {
+          ipAddress: input.ipAddress,
+          userId: input.userId || null,
+          companyId: input.userId ? null : finalCompanyId || null,
+        },
+      })
+
+      if (existing) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "This IP address is already whitelisted",
+        })
+      }
+
+      const whitelist = await prisma.ipWhitelist.create({
+        data: {
+          ipAddress: input.ipAddress,
+          description: input.description || null,
+          userId: input.userId || null,
+          companyId: input.userId ? null : finalCompanyId || null,
+          createdById: ctx.userId || null,
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "IP_WHITELIST_ADDED",
+        resource: "IpWhitelist",
+        resourceId: whitelist.id,
+        userId: ctx.userId || undefined,
+        details: { ipAddress: input.ipAddress, userId: input.userId },
+      })
+
+      return { success: true, whitelist }
+    }),
+
+  updateIpWhitelist: protectedProcedure("settings.edit")
+    .input(
+      z.object({
+        id: z.string(),
+        description: z.string().optional(),
+        isActive: z.boolean().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const whitelist = await prisma.ipWhitelist.findUnique({
+        where: { id: input.id },
+      })
+
+      if (!whitelist) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "IP whitelist entry not found",
+        })
+      }
+
+      // Check permissions - user can only update their own or company-wide entries
+      if (whitelist.userId && whitelist.userId !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You can only update your own IP whitelist entries",
+        })
+      }
+
+      const updated = await prisma.ipWhitelist.update({
+        where: { id: input.id },
+        data: {
+          description: input.description !== undefined ? input.description : undefined,
+          isActive: input.isActive !== undefined ? input.isActive : undefined,
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "IP_WHITELIST_UPDATED",
+        resource: "IpWhitelist",
+        resourceId: updated.id,
+        userId: ctx.userId || undefined,
+      })
+
+      return { success: true, whitelist: updated }
+    }),
+
+  deleteIpWhitelist: protectedProcedure("settings.edit")
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const whitelist = await prisma.ipWhitelist.findUnique({
+        where: { id: input.id },
+      })
+
+      if (!whitelist) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "IP whitelist entry not found",
+        })
+      }
+
+      // Check permissions
+      if (whitelist.userId && whitelist.userId !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You can only delete your own IP whitelist entries",
+        })
+      }
+
+      await prisma.ipWhitelist.delete({
+        where: { id: input.id },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "IP_WHITELIST_DELETED",
+        resource: "IpWhitelist",
+        resourceId: input.id,
+        userId: ctx.userId || undefined,
+      })
+
+      return { success: true }
+    }),
+
+  // Geographic Restrictions
+  getGeographicRestrictions: protectedProcedure("settings.view")
+    .query(async ({ ctx }) => {
+      // Get current user's companyId
+      let companyId: string | undefined = undefined
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      }
+
+      const user = ctx.userId
+        ? await prisma.user.findUnique({
+            where: { id: ctx.userId },
+            select: { companyId: true },
+          })
+        : null
+
+      const finalCompanyId = companyId || user?.companyId
+
+      const restrictions = await prisma.geographicRestriction.findMany({
+        where: {
+          OR: [
+            { userId: ctx.userId || undefined },
+            { companyId: finalCompanyId || undefined, userId: null },
+          ],
+        },
+        orderBy: { createdAt: "desc" },
+        include: {
+          creator: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+      })
+
+      return { restrictions }
+    }),
+
+  addGeographicRestriction: protectedProcedure("settings.edit")
+    .input(
+      z.object({
+        countryCode: z.string().length(2, "Country code must be 2 characters (ISO 3166-1 alpha-2)"),
+        action: z.enum(["ALLOW", "BLOCK"]),
+        userId: z.string().optional(), // null for company-wide
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Get current user's companyId
+      let companyId: string | undefined = undefined
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      }
+
+      const user = ctx.userId
+        ? await prisma.user.findUnique({
+            where: { id: ctx.userId },
+            select: { companyId: true },
+          })
+        : null
+
+      const finalCompanyId = companyId || user?.companyId
+
+      // Check if restriction already exists
+      const existing = await prisma.geographicRestriction.findFirst({
+        where: {
+          countryCode: input.countryCode.toUpperCase(),
+          userId: input.userId || null,
+          companyId: input.userId ? null : finalCompanyId || null,
+        },
+      })
+
+      if (existing) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "A restriction for this country already exists",
+        })
+      }
+
+      const restriction = await prisma.geographicRestriction.create({
+        data: {
+          countryCode: input.countryCode.toUpperCase(),
+          action: input.action,
+          userId: input.userId || null,
+          companyId: input.userId ? null : finalCompanyId || null,
+          createdById: ctx.userId || null,
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "GEOGRAPHIC_RESTRICTION_ADDED",
+        resource: "GeographicRestriction",
+        resourceId: restriction.id,
+        userId: ctx.userId || undefined,
+        details: { countryCode: input.countryCode, action: input.action },
+      })
+
+      return { success: true, restriction }
+    }),
+
+  updateGeographicRestriction: protectedProcedure("settings.edit")
+    .input(
+      z.object({
+        id: z.string(),
+        action: z.enum(["ALLOW", "BLOCK"]).optional(),
+        isActive: z.boolean().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const restriction = await prisma.geographicRestriction.findUnique({
+        where: { id: input.id },
+      })
+
+      if (!restriction) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Geographic restriction not found",
+        })
+      }
+
+      // Check permissions
+      if (restriction.userId && restriction.userId !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You can only update your own geographic restrictions",
+        })
+      }
+
+      const updated = await prisma.geographicRestriction.update({
+        where: { id: input.id },
+        data: {
+          action: input.action !== undefined ? input.action : undefined,
+          isActive: input.isActive !== undefined ? input.isActive : undefined,
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "GEOGRAPHIC_RESTRICTION_UPDATED",
+        resource: "GeographicRestriction",
+        resourceId: updated.id,
+        userId: ctx.userId || undefined,
+      })
+
+      return { success: true, restriction: updated }
+    }),
+
+  deleteGeographicRestriction: protectedProcedure("settings.edit")
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const restriction = await prisma.geographicRestriction.findUnique({
+        where: { id: input.id },
+      })
+
+      if (!restriction) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Geographic restriction not found",
+        })
+      }
+
+      // Check permissions
+      if (restriction.userId && restriction.userId !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You can only delete your own geographic restrictions",
+        })
+      }
+
+      await prisma.geographicRestriction.delete({
+        where: { id: input.id },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "GEOGRAPHIC_RESTRICTION_DELETED",
+        resource: "GeographicRestriction",
+        resourceId: input.id,
+        userId: ctx.userId || undefined,
+      })
+
+      return { success: true }
+    }),
+
+  // IP Security Settings
+  getIpSecuritySettings: protectedProcedure("settings.view")
+    .query(async () => {
+      const settings = await prisma.settings.findMany({
+        where: {
+          key: {
+            in: [
+              "security.ip_whitelist_enabled",
+              "security.geographic_restriction_enabled",
+              "security.vpn_detection_enabled",
+              "security.suspicious_location_alerts_enabled",
+            ],
+          },
+        },
+      })
+
+      const config: Record<string, unknown> = {}
+      settings.forEach((setting) => {
+        config[setting.key] = setting.value
+      })
+
+      return {
+        ipWhitelistEnabled: (config["security.ip_whitelist_enabled"] as boolean) ?? false,
+        geographicRestrictionEnabled: (config["security.geographic_restriction_enabled"] as boolean) ?? false,
+        vpnDetectionEnabled: (config["security.vpn_detection_enabled"] as boolean) ?? false,
+        suspiciousLocationAlertsEnabled: (config["security.suspicious_location_alerts_enabled"] as boolean) ?? false,
+      }
+    }),
+
+  updateIpSecuritySettings: protectedProcedure("settings.edit")
+    .input(
+      z.object({
+        ipWhitelistEnabled: z.boolean().optional(),
+        geographicRestrictionEnabled: z.boolean().optional(),
+        vpnDetectionEnabled: z.boolean().optional(),
+        suspiciousLocationAlertsEnabled: z.boolean().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const settingsToUpdate = [
+        { key: "security.ip_whitelist_enabled", value: input.ipWhitelistEnabled },
+        { key: "security.geographic_restriction_enabled", value: input.geographicRestrictionEnabled },
+        { key: "security.vpn_detection_enabled", value: input.vpnDetectionEnabled },
+        { key: "security.suspicious_location_alerts_enabled", value: input.suspiciousLocationAlertsEnabled },
+      ]
+
+      await Promise.all(
+        settingsToUpdate
+          .filter((s) => s.value !== undefined)
+          .map((setting) =>
+            prisma.settings.upsert({
+              where: { key: setting.key },
+              update: { value: setting.value },
+              create: { key: setting.key, value: setting.value },
+            })
+          )
+      )
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "IP_SECURITY_SETTINGS_UPDATED",
+        resource: "Settings",
+        userId: ctx.userId || undefined,
+        details: input,
+      })
+
+      return { success: true }
+    }),
 })

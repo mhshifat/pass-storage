@@ -46,11 +46,11 @@ export function SecuritySettings() {
   const utils = trpc.useUtils()
   const updateSettings = trpc.settings.updateSecuritySettings.useMutation({
     onSuccess: () => {
-      toast.success(t("settings.securitySettingsSaved"))
+      toast.success(t("settings.security.securitySettingsSaved"))
       utils.settings.getSecuritySettings.invalidate()
     },
     onError: (error) => {
-      toast.error(error.message || t("settings.securitySettingsFailed"))
+      toast.error(error.message || t("settings.security.securitySettingsFailed"))
     },
   })
 

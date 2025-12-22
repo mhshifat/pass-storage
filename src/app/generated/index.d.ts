@@ -153,6 +153,16 @@ export type PasswordResetToken = $Result.DefaultSelection<Prisma.$PasswordResetT
  * 
  */
 export type SecurityQuestion = $Result.DefaultSelection<Prisma.$SecurityQuestionPayload>
+/**
+ * Model IpWhitelist
+ * 
+ */
+export type IpWhitelist = $Result.DefaultSelection<Prisma.$IpWhitelistPayload>
+/**
+ * Model GeographicRestriction
+ * 
+ */
+export type GeographicRestriction = $Result.DefaultSelection<Prisma.$GeographicRestrictionPayload>
 
 /**
  * Enums
@@ -636,6 +646,26 @@ export class PrismaClient<
     * ```
     */
   get securityQuestion(): Prisma.SecurityQuestionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ipWhitelist`: Exposes CRUD operations for the **IpWhitelist** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more IpWhitelists
+    * const ipWhitelists = await prisma.ipWhitelist.findMany()
+    * ```
+    */
+  get ipWhitelist(): Prisma.IpWhitelistDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.geographicRestriction`: Exposes CRUD operations for the **GeographicRestriction** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GeographicRestrictions
+    * const geographicRestrictions = await prisma.geographicRestriction.findMany()
+    * ```
+    */
+  get geographicRestriction(): Prisma.GeographicRestrictionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1097,7 +1127,9 @@ export namespace Prisma {
     PasswordTemplate: 'PasswordTemplate',
     EmailVerificationToken: 'EmailVerificationToken',
     PasswordResetToken: 'PasswordResetToken',
-    SecurityQuestion: 'SecurityQuestion'
+    SecurityQuestion: 'SecurityQuestion',
+    IpWhitelist: 'IpWhitelist',
+    GeographicRestriction: 'GeographicRestriction'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1113,7 +1145,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "passwordRotationPolicy" | "passwordRotation" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode" | "savedSearch" | "searchHistory" | "passwordTemplate" | "emailVerificationToken" | "passwordResetToken" | "securityQuestion"
+      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "passwordRotationPolicy" | "passwordRotation" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode" | "savedSearch" | "searchHistory" | "passwordTemplate" | "emailVerificationToken" | "passwordResetToken" | "securityQuestion" | "ipWhitelist" | "geographicRestriction"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3189,6 +3221,154 @@ export namespace Prisma {
           }
         }
       }
+      IpWhitelist: {
+        payload: Prisma.$IpWhitelistPayload<ExtArgs>
+        fields: Prisma.IpWhitelistFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.IpWhitelistFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IpWhitelistPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.IpWhitelistFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IpWhitelistPayload>
+          }
+          findFirst: {
+            args: Prisma.IpWhitelistFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IpWhitelistPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.IpWhitelistFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IpWhitelistPayload>
+          }
+          findMany: {
+            args: Prisma.IpWhitelistFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IpWhitelistPayload>[]
+          }
+          create: {
+            args: Prisma.IpWhitelistCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IpWhitelistPayload>
+          }
+          createMany: {
+            args: Prisma.IpWhitelistCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.IpWhitelistCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IpWhitelistPayload>[]
+          }
+          delete: {
+            args: Prisma.IpWhitelistDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IpWhitelistPayload>
+          }
+          update: {
+            args: Prisma.IpWhitelistUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IpWhitelistPayload>
+          }
+          deleteMany: {
+            args: Prisma.IpWhitelistDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.IpWhitelistUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.IpWhitelistUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IpWhitelistPayload>[]
+          }
+          upsert: {
+            args: Prisma.IpWhitelistUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IpWhitelistPayload>
+          }
+          aggregate: {
+            args: Prisma.IpWhitelistAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateIpWhitelist>
+          }
+          groupBy: {
+            args: Prisma.IpWhitelistGroupByArgs<ExtArgs>
+            result: $Utils.Optional<IpWhitelistGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.IpWhitelistCountArgs<ExtArgs>
+            result: $Utils.Optional<IpWhitelistCountAggregateOutputType> | number
+          }
+        }
+      }
+      GeographicRestriction: {
+        payload: Prisma.$GeographicRestrictionPayload<ExtArgs>
+        fields: Prisma.GeographicRestrictionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GeographicRestrictionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeographicRestrictionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GeographicRestrictionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeographicRestrictionPayload>
+          }
+          findFirst: {
+            args: Prisma.GeographicRestrictionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeographicRestrictionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GeographicRestrictionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeographicRestrictionPayload>
+          }
+          findMany: {
+            args: Prisma.GeographicRestrictionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeographicRestrictionPayload>[]
+          }
+          create: {
+            args: Prisma.GeographicRestrictionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeographicRestrictionPayload>
+          }
+          createMany: {
+            args: Prisma.GeographicRestrictionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GeographicRestrictionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeographicRestrictionPayload>[]
+          }
+          delete: {
+            args: Prisma.GeographicRestrictionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeographicRestrictionPayload>
+          }
+          update: {
+            args: Prisma.GeographicRestrictionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeographicRestrictionPayload>
+          }
+          deleteMany: {
+            args: Prisma.GeographicRestrictionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GeographicRestrictionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GeographicRestrictionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeographicRestrictionPayload>[]
+          }
+          upsert: {
+            args: Prisma.GeographicRestrictionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeographicRestrictionPayload>
+          }
+          aggregate: {
+            args: Prisma.GeographicRestrictionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGeographicRestriction>
+          }
+          groupBy: {
+            args: Prisma.GeographicRestrictionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GeographicRestrictionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GeographicRestrictionCountArgs<ExtArgs>
+            result: $Utils.Optional<GeographicRestrictionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3309,6 +3489,8 @@ export namespace Prisma {
     emailVerificationToken?: EmailVerificationTokenOmit
     passwordResetToken?: PasswordResetTokenOmit
     securityQuestion?: SecurityQuestionOmit
+    ipWhitelist?: IpWhitelistOmit
+    geographicRestriction?: GeographicRestrictionOmit
   }
 
   /* Types for Logging */
@@ -3391,11 +3573,15 @@ export namespace Prisma {
   export type CompanyCountOutputType = {
     users: number
     templates: number
+    ipWhitelists: number
+    geographicRestrictions: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | CompanyCountOutputTypeCountUsersArgs
     templates?: boolean | CompanyCountOutputTypeCountTemplatesArgs
+    ipWhitelists?: boolean | CompanyCountOutputTypeCountIpWhitelistsArgs
+    geographicRestrictions?: boolean | CompanyCountOutputTypeCountGeographicRestrictionsArgs
   }
 
   // Custom InputTypes
@@ -3421,6 +3607,20 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountTemplatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PasswordTemplateWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountIpWhitelistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IpWhitelistWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountGeographicRestrictionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GeographicRestrictionWhereInput
   }
 
 
@@ -3450,6 +3650,10 @@ export namespace Prisma {
     emailVerificationTokens: number
     passwordResetTokens: number
     securityQuestions: number
+    ipWhitelists: number
+    geographicRestrictions: number
+    createdIpWhitelists: number
+    createdGeographicRestrictions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3474,6 +3678,10 @@ export namespace Prisma {
     emailVerificationTokens?: boolean | UserCountOutputTypeCountEmailVerificationTokensArgs
     passwordResetTokens?: boolean | UserCountOutputTypeCountPasswordResetTokensArgs
     securityQuestions?: boolean | UserCountOutputTypeCountSecurityQuestionsArgs
+    ipWhitelists?: boolean | UserCountOutputTypeCountIpWhitelistsArgs
+    geographicRestrictions?: boolean | UserCountOutputTypeCountGeographicRestrictionsArgs
+    createdIpWhitelists?: boolean | UserCountOutputTypeCountCreatedIpWhitelistsArgs
+    createdGeographicRestrictions?: boolean | UserCountOutputTypeCountCreatedGeographicRestrictionsArgs
   }
 
   // Custom InputTypes
@@ -3632,6 +3840,34 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountSecurityQuestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SecurityQuestionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountIpWhitelistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IpWhitelistWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountGeographicRestrictionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GeographicRestrictionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCreatedIpWhitelistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IpWhitelistWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCreatedGeographicRestrictionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GeographicRestrictionWhereInput
   }
 
 
@@ -4085,6 +4321,8 @@ export namespace Prisma {
     updatedAt?: boolean
     users?: boolean | Company$usersArgs<ExtArgs>
     templates?: boolean | Company$templatesArgs<ExtArgs>
+    ipWhitelists?: boolean | Company$ipWhitelistsArgs<ExtArgs>
+    geographicRestrictions?: boolean | Company$geographicRestrictionsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -4116,6 +4354,8 @@ export namespace Prisma {
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Company$usersArgs<ExtArgs>
     templates?: boolean | Company$templatesArgs<ExtArgs>
+    ipWhitelists?: boolean | Company$ipWhitelistsArgs<ExtArgs>
+    geographicRestrictions?: boolean | Company$geographicRestrictionsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4126,6 +4366,8 @@ export namespace Prisma {
     objects: {
       users: Prisma.$UserPayload<ExtArgs>[]
       templates: Prisma.$PasswordTemplatePayload<ExtArgs>[]
+      ipWhitelists: Prisma.$IpWhitelistPayload<ExtArgs>[]
+      geographicRestrictions: Prisma.$GeographicRestrictionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4529,6 +4771,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     users<T extends Company$usersArgs<ExtArgs> = {}>(args?: Subset<T, Company$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     templates<T extends Company$templatesArgs<ExtArgs> = {}>(args?: Subset<T, Company$templatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ipWhitelists<T extends Company$ipWhitelistsArgs<ExtArgs> = {}>(args?: Subset<T, Company$ipWhitelistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    geographicRestrictions<T extends Company$geographicRestrictionsArgs<ExtArgs> = {}>(args?: Subset<T, Company$geographicRestrictionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4999,6 +5243,54 @@ export namespace Prisma {
   }
 
   /**
+   * Company.ipWhitelists
+   */
+  export type Company$ipWhitelistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IpWhitelist
+     */
+    select?: IpWhitelistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IpWhitelist
+     */
+    omit?: IpWhitelistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IpWhitelistInclude<ExtArgs> | null
+    where?: IpWhitelistWhereInput
+    orderBy?: IpWhitelistOrderByWithRelationInput | IpWhitelistOrderByWithRelationInput[]
+    cursor?: IpWhitelistWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: IpWhitelistScalarFieldEnum | IpWhitelistScalarFieldEnum[]
+  }
+
+  /**
+   * Company.geographicRestrictions
+   */
+  export type Company$geographicRestrictionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeographicRestriction
+     */
+    select?: GeographicRestrictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeographicRestriction
+     */
+    omit?: GeographicRestrictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeographicRestrictionInclude<ExtArgs> | null
+    where?: GeographicRestrictionWhereInput
+    orderBy?: GeographicRestrictionOrderByWithRelationInput | GeographicRestrictionOrderByWithRelationInput[]
+    cursor?: GeographicRestrictionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GeographicRestrictionScalarFieldEnum | GeographicRestrictionScalarFieldEnum[]
+  }
+
+  /**
    * Company without action
    */
   export type CompanyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5328,6 +5620,10 @@ export namespace Prisma {
     emailVerificationTokens?: boolean | User$emailVerificationTokensArgs<ExtArgs>
     passwordResetTokens?: boolean | User$passwordResetTokensArgs<ExtArgs>
     securityQuestions?: boolean | User$securityQuestionsArgs<ExtArgs>
+    ipWhitelists?: boolean | User$ipWhitelistsArgs<ExtArgs>
+    geographicRestrictions?: boolean | User$geographicRestrictionsArgs<ExtArgs>
+    createdIpWhitelists?: boolean | User$createdIpWhitelistsArgs<ExtArgs>
+    createdGeographicRestrictions?: boolean | User$createdGeographicRestrictionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -5432,6 +5728,10 @@ export namespace Prisma {
     emailVerificationTokens?: boolean | User$emailVerificationTokensArgs<ExtArgs>
     passwordResetTokens?: boolean | User$passwordResetTokensArgs<ExtArgs>
     securityQuestions?: boolean | User$securityQuestionsArgs<ExtArgs>
+    ipWhitelists?: boolean | User$ipWhitelistsArgs<ExtArgs>
+    geographicRestrictions?: boolean | User$geographicRestrictionsArgs<ExtArgs>
+    createdIpWhitelists?: boolean | User$createdIpWhitelistsArgs<ExtArgs>
+    createdGeographicRestrictions?: boolean | User$createdGeographicRestrictionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5469,6 +5769,10 @@ export namespace Prisma {
       emailVerificationTokens: Prisma.$EmailVerificationTokenPayload<ExtArgs>[]
       passwordResetTokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
       securityQuestions: Prisma.$SecurityQuestionPayload<ExtArgs>[]
+      ipWhitelists: Prisma.$IpWhitelistPayload<ExtArgs>[]
+      geographicRestrictions: Prisma.$GeographicRestrictionPayload<ExtArgs>[]
+      createdIpWhitelists: Prisma.$IpWhitelistPayload<ExtArgs>[]
+      createdGeographicRestrictions: Prisma.$GeographicRestrictionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5909,6 +6213,10 @@ export namespace Prisma {
     emailVerificationTokens<T extends User$emailVerificationTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$emailVerificationTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailVerificationTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passwordResetTokens<T extends User$passwordResetTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     securityQuestions<T extends User$securityQuestionsArgs<ExtArgs> = {}>(args?: Subset<T, User$securityQuestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SecurityQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ipWhitelists<T extends User$ipWhitelistsArgs<ExtArgs> = {}>(args?: Subset<T, User$ipWhitelistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    geographicRestrictions<T extends User$geographicRestrictionsArgs<ExtArgs> = {}>(args?: Subset<T, User$geographicRestrictionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    createdIpWhitelists<T extends User$createdIpWhitelistsArgs<ExtArgs> = {}>(args?: Subset<T, User$createdIpWhitelistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    createdGeographicRestrictions<T extends User$createdGeographicRestrictionsArgs<ExtArgs> = {}>(args?: Subset<T, User$createdGeographicRestrictionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6894,6 +7202,102 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SecurityQuestionScalarFieldEnum | SecurityQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * User.ipWhitelists
+   */
+  export type User$ipWhitelistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IpWhitelist
+     */
+    select?: IpWhitelistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IpWhitelist
+     */
+    omit?: IpWhitelistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IpWhitelistInclude<ExtArgs> | null
+    where?: IpWhitelistWhereInput
+    orderBy?: IpWhitelistOrderByWithRelationInput | IpWhitelistOrderByWithRelationInput[]
+    cursor?: IpWhitelistWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: IpWhitelistScalarFieldEnum | IpWhitelistScalarFieldEnum[]
+  }
+
+  /**
+   * User.geographicRestrictions
+   */
+  export type User$geographicRestrictionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeographicRestriction
+     */
+    select?: GeographicRestrictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeographicRestriction
+     */
+    omit?: GeographicRestrictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeographicRestrictionInclude<ExtArgs> | null
+    where?: GeographicRestrictionWhereInput
+    orderBy?: GeographicRestrictionOrderByWithRelationInput | GeographicRestrictionOrderByWithRelationInput[]
+    cursor?: GeographicRestrictionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GeographicRestrictionScalarFieldEnum | GeographicRestrictionScalarFieldEnum[]
+  }
+
+  /**
+   * User.createdIpWhitelists
+   */
+  export type User$createdIpWhitelistsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IpWhitelist
+     */
+    select?: IpWhitelistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IpWhitelist
+     */
+    omit?: IpWhitelistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IpWhitelistInclude<ExtArgs> | null
+    where?: IpWhitelistWhereInput
+    orderBy?: IpWhitelistOrderByWithRelationInput | IpWhitelistOrderByWithRelationInput[]
+    cursor?: IpWhitelistWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: IpWhitelistScalarFieldEnum | IpWhitelistScalarFieldEnum[]
+  }
+
+  /**
+   * User.createdGeographicRestrictions
+   */
+  export type User$createdGeographicRestrictionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeographicRestriction
+     */
+    select?: GeographicRestrictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeographicRestriction
+     */
+    omit?: GeographicRestrictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeographicRestrictionInclude<ExtArgs> | null
+    where?: GeographicRestrictionWhereInput
+    orderBy?: GeographicRestrictionOrderByWithRelationInput | GeographicRestrictionOrderByWithRelationInput[]
+    cursor?: GeographicRestrictionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GeographicRestrictionScalarFieldEnum | GeographicRestrictionScalarFieldEnum[]
   }
 
   /**
@@ -36407,6 +36811,2372 @@ export namespace Prisma {
 
 
   /**
+   * Model IpWhitelist
+   */
+
+  export type AggregateIpWhitelist = {
+    _count: IpWhitelistCountAggregateOutputType | null
+    _min: IpWhitelistMinAggregateOutputType | null
+    _max: IpWhitelistMaxAggregateOutputType | null
+  }
+
+  export type IpWhitelistMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    ipAddress: string | null
+    description: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type IpWhitelistMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    ipAddress: string | null
+    description: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type IpWhitelistCountAggregateOutputType = {
+    id: number
+    userId: number
+    companyId: number
+    ipAddress: number
+    description: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    createdById: number
+    _all: number
+  }
+
+
+  export type IpWhitelistMinAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    ipAddress?: true
+    description?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type IpWhitelistMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    ipAddress?: true
+    description?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type IpWhitelistCountAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    ipAddress?: true
+    description?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+    _all?: true
+  }
+
+  export type IpWhitelistAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which IpWhitelist to aggregate.
+     */
+    where?: IpWhitelistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IpWhitelists to fetch.
+     */
+    orderBy?: IpWhitelistOrderByWithRelationInput | IpWhitelistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: IpWhitelistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IpWhitelists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IpWhitelists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned IpWhitelists
+    **/
+    _count?: true | IpWhitelistCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: IpWhitelistMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: IpWhitelistMaxAggregateInputType
+  }
+
+  export type GetIpWhitelistAggregateType<T extends IpWhitelistAggregateArgs> = {
+        [P in keyof T & keyof AggregateIpWhitelist]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateIpWhitelist[P]>
+      : GetScalarType<T[P], AggregateIpWhitelist[P]>
+  }
+
+
+
+
+  export type IpWhitelistGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IpWhitelistWhereInput
+    orderBy?: IpWhitelistOrderByWithAggregationInput | IpWhitelistOrderByWithAggregationInput[]
+    by: IpWhitelistScalarFieldEnum[] | IpWhitelistScalarFieldEnum
+    having?: IpWhitelistScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: IpWhitelistCountAggregateInputType | true
+    _min?: IpWhitelistMinAggregateInputType
+    _max?: IpWhitelistMaxAggregateInputType
+  }
+
+  export type IpWhitelistGroupByOutputType = {
+    id: string
+    userId: string | null
+    companyId: string | null
+    ipAddress: string
+    description: string | null
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    createdById: string | null
+    _count: IpWhitelistCountAggregateOutputType | null
+    _min: IpWhitelistMinAggregateOutputType | null
+    _max: IpWhitelistMaxAggregateOutputType | null
+  }
+
+  type GetIpWhitelistGroupByPayload<T extends IpWhitelistGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<IpWhitelistGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof IpWhitelistGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], IpWhitelistGroupByOutputType[P]>
+            : GetScalarType<T[P], IpWhitelistGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type IpWhitelistSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    ipAddress?: boolean
+    description?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    user?: boolean | IpWhitelist$userArgs<ExtArgs>
+    company?: boolean | IpWhitelist$companyArgs<ExtArgs>
+    creator?: boolean | IpWhitelist$creatorArgs<ExtArgs>
+  }, ExtArgs["result"]["ipWhitelist"]>
+
+  export type IpWhitelistSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    ipAddress?: boolean
+    description?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    user?: boolean | IpWhitelist$userArgs<ExtArgs>
+    company?: boolean | IpWhitelist$companyArgs<ExtArgs>
+    creator?: boolean | IpWhitelist$creatorArgs<ExtArgs>
+  }, ExtArgs["result"]["ipWhitelist"]>
+
+  export type IpWhitelistSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    ipAddress?: boolean
+    description?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    user?: boolean | IpWhitelist$userArgs<ExtArgs>
+    company?: boolean | IpWhitelist$companyArgs<ExtArgs>
+    creator?: boolean | IpWhitelist$creatorArgs<ExtArgs>
+  }, ExtArgs["result"]["ipWhitelist"]>
+
+  export type IpWhitelistSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    ipAddress?: boolean
+    description?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+  }
+
+  export type IpWhitelistOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "companyId" | "ipAddress" | "description" | "isActive" | "createdAt" | "updatedAt" | "createdById", ExtArgs["result"]["ipWhitelist"]>
+  export type IpWhitelistInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | IpWhitelist$userArgs<ExtArgs>
+    company?: boolean | IpWhitelist$companyArgs<ExtArgs>
+    creator?: boolean | IpWhitelist$creatorArgs<ExtArgs>
+  }
+  export type IpWhitelistIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | IpWhitelist$userArgs<ExtArgs>
+    company?: boolean | IpWhitelist$companyArgs<ExtArgs>
+    creator?: boolean | IpWhitelist$creatorArgs<ExtArgs>
+  }
+  export type IpWhitelistIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | IpWhitelist$userArgs<ExtArgs>
+    company?: boolean | IpWhitelist$companyArgs<ExtArgs>
+    creator?: boolean | IpWhitelist$creatorArgs<ExtArgs>
+  }
+
+  export type $IpWhitelistPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "IpWhitelist"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs> | null
+      company: Prisma.$CompanyPayload<ExtArgs> | null
+      creator: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string | null
+      companyId: string | null
+      ipAddress: string
+      description: string | null
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+      createdById: string | null
+    }, ExtArgs["result"]["ipWhitelist"]>
+    composites: {}
+  }
+
+  type IpWhitelistGetPayload<S extends boolean | null | undefined | IpWhitelistDefaultArgs> = $Result.GetResult<Prisma.$IpWhitelistPayload, S>
+
+  type IpWhitelistCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<IpWhitelistFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: IpWhitelistCountAggregateInputType | true
+    }
+
+  export interface IpWhitelistDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['IpWhitelist'], meta: { name: 'IpWhitelist' } }
+    /**
+     * Find zero or one IpWhitelist that matches the filter.
+     * @param {IpWhitelistFindUniqueArgs} args - Arguments to find a IpWhitelist
+     * @example
+     * // Get one IpWhitelist
+     * const ipWhitelist = await prisma.ipWhitelist.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends IpWhitelistFindUniqueArgs>(args: SelectSubset<T, IpWhitelistFindUniqueArgs<ExtArgs>>): Prisma__IpWhitelistClient<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one IpWhitelist that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {IpWhitelistFindUniqueOrThrowArgs} args - Arguments to find a IpWhitelist
+     * @example
+     * // Get one IpWhitelist
+     * const ipWhitelist = await prisma.ipWhitelist.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends IpWhitelistFindUniqueOrThrowArgs>(args: SelectSubset<T, IpWhitelistFindUniqueOrThrowArgs<ExtArgs>>): Prisma__IpWhitelistClient<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first IpWhitelist that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IpWhitelistFindFirstArgs} args - Arguments to find a IpWhitelist
+     * @example
+     * // Get one IpWhitelist
+     * const ipWhitelist = await prisma.ipWhitelist.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends IpWhitelistFindFirstArgs>(args?: SelectSubset<T, IpWhitelistFindFirstArgs<ExtArgs>>): Prisma__IpWhitelistClient<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first IpWhitelist that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IpWhitelistFindFirstOrThrowArgs} args - Arguments to find a IpWhitelist
+     * @example
+     * // Get one IpWhitelist
+     * const ipWhitelist = await prisma.ipWhitelist.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends IpWhitelistFindFirstOrThrowArgs>(args?: SelectSubset<T, IpWhitelistFindFirstOrThrowArgs<ExtArgs>>): Prisma__IpWhitelistClient<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more IpWhitelists that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IpWhitelistFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all IpWhitelists
+     * const ipWhitelists = await prisma.ipWhitelist.findMany()
+     * 
+     * // Get first 10 IpWhitelists
+     * const ipWhitelists = await prisma.ipWhitelist.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ipWhitelistWithIdOnly = await prisma.ipWhitelist.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends IpWhitelistFindManyArgs>(args?: SelectSubset<T, IpWhitelistFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a IpWhitelist.
+     * @param {IpWhitelistCreateArgs} args - Arguments to create a IpWhitelist.
+     * @example
+     * // Create one IpWhitelist
+     * const IpWhitelist = await prisma.ipWhitelist.create({
+     *   data: {
+     *     // ... data to create a IpWhitelist
+     *   }
+     * })
+     * 
+     */
+    create<T extends IpWhitelistCreateArgs>(args: SelectSubset<T, IpWhitelistCreateArgs<ExtArgs>>): Prisma__IpWhitelistClient<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many IpWhitelists.
+     * @param {IpWhitelistCreateManyArgs} args - Arguments to create many IpWhitelists.
+     * @example
+     * // Create many IpWhitelists
+     * const ipWhitelist = await prisma.ipWhitelist.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends IpWhitelistCreateManyArgs>(args?: SelectSubset<T, IpWhitelistCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many IpWhitelists and returns the data saved in the database.
+     * @param {IpWhitelistCreateManyAndReturnArgs} args - Arguments to create many IpWhitelists.
+     * @example
+     * // Create many IpWhitelists
+     * const ipWhitelist = await prisma.ipWhitelist.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many IpWhitelists and only return the `id`
+     * const ipWhitelistWithIdOnly = await prisma.ipWhitelist.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends IpWhitelistCreateManyAndReturnArgs>(args?: SelectSubset<T, IpWhitelistCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a IpWhitelist.
+     * @param {IpWhitelistDeleteArgs} args - Arguments to delete one IpWhitelist.
+     * @example
+     * // Delete one IpWhitelist
+     * const IpWhitelist = await prisma.ipWhitelist.delete({
+     *   where: {
+     *     // ... filter to delete one IpWhitelist
+     *   }
+     * })
+     * 
+     */
+    delete<T extends IpWhitelistDeleteArgs>(args: SelectSubset<T, IpWhitelistDeleteArgs<ExtArgs>>): Prisma__IpWhitelistClient<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one IpWhitelist.
+     * @param {IpWhitelistUpdateArgs} args - Arguments to update one IpWhitelist.
+     * @example
+     * // Update one IpWhitelist
+     * const ipWhitelist = await prisma.ipWhitelist.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends IpWhitelistUpdateArgs>(args: SelectSubset<T, IpWhitelistUpdateArgs<ExtArgs>>): Prisma__IpWhitelistClient<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more IpWhitelists.
+     * @param {IpWhitelistDeleteManyArgs} args - Arguments to filter IpWhitelists to delete.
+     * @example
+     * // Delete a few IpWhitelists
+     * const { count } = await prisma.ipWhitelist.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends IpWhitelistDeleteManyArgs>(args?: SelectSubset<T, IpWhitelistDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more IpWhitelists.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IpWhitelistUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many IpWhitelists
+     * const ipWhitelist = await prisma.ipWhitelist.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends IpWhitelistUpdateManyArgs>(args: SelectSubset<T, IpWhitelistUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more IpWhitelists and returns the data updated in the database.
+     * @param {IpWhitelistUpdateManyAndReturnArgs} args - Arguments to update many IpWhitelists.
+     * @example
+     * // Update many IpWhitelists
+     * const ipWhitelist = await prisma.ipWhitelist.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more IpWhitelists and only return the `id`
+     * const ipWhitelistWithIdOnly = await prisma.ipWhitelist.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends IpWhitelistUpdateManyAndReturnArgs>(args: SelectSubset<T, IpWhitelistUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one IpWhitelist.
+     * @param {IpWhitelistUpsertArgs} args - Arguments to update or create a IpWhitelist.
+     * @example
+     * // Update or create a IpWhitelist
+     * const ipWhitelist = await prisma.ipWhitelist.upsert({
+     *   create: {
+     *     // ... data to create a IpWhitelist
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the IpWhitelist we want to update
+     *   }
+     * })
+     */
+    upsert<T extends IpWhitelistUpsertArgs>(args: SelectSubset<T, IpWhitelistUpsertArgs<ExtArgs>>): Prisma__IpWhitelistClient<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of IpWhitelists.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IpWhitelistCountArgs} args - Arguments to filter IpWhitelists to count.
+     * @example
+     * // Count the number of IpWhitelists
+     * const count = await prisma.ipWhitelist.count({
+     *   where: {
+     *     // ... the filter for the IpWhitelists we want to count
+     *   }
+     * })
+    **/
+    count<T extends IpWhitelistCountArgs>(
+      args?: Subset<T, IpWhitelistCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], IpWhitelistCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a IpWhitelist.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IpWhitelistAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends IpWhitelistAggregateArgs>(args: Subset<T, IpWhitelistAggregateArgs>): Prisma.PrismaPromise<GetIpWhitelistAggregateType<T>>
+
+    /**
+     * Group by IpWhitelist.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IpWhitelistGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends IpWhitelistGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: IpWhitelistGroupByArgs['orderBy'] }
+        : { orderBy?: IpWhitelistGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, IpWhitelistGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetIpWhitelistGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the IpWhitelist model
+   */
+  readonly fields: IpWhitelistFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for IpWhitelist.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__IpWhitelistClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends IpWhitelist$userArgs<ExtArgs> = {}>(args?: Subset<T, IpWhitelist$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    company<T extends IpWhitelist$companyArgs<ExtArgs> = {}>(args?: Subset<T, IpWhitelist$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    creator<T extends IpWhitelist$creatorArgs<ExtArgs> = {}>(args?: Subset<T, IpWhitelist$creatorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the IpWhitelist model
+   */
+  interface IpWhitelistFieldRefs {
+    readonly id: FieldRef<"IpWhitelist", 'String'>
+    readonly userId: FieldRef<"IpWhitelist", 'String'>
+    readonly companyId: FieldRef<"IpWhitelist", 'String'>
+    readonly ipAddress: FieldRef<"IpWhitelist", 'String'>
+    readonly description: FieldRef<"IpWhitelist", 'String'>
+    readonly isActive: FieldRef<"IpWhitelist", 'Boolean'>
+    readonly createdAt: FieldRef<"IpWhitelist", 'DateTime'>
+    readonly updatedAt: FieldRef<"IpWhitelist", 'DateTime'>
+    readonly createdById: FieldRef<"IpWhitelist", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * IpWhitelist findUnique
+   */
+  export type IpWhitelistFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IpWhitelist
+     */
+    select?: IpWhitelistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IpWhitelist
+     */
+    omit?: IpWhitelistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IpWhitelistInclude<ExtArgs> | null
+    /**
+     * Filter, which IpWhitelist to fetch.
+     */
+    where: IpWhitelistWhereUniqueInput
+  }
+
+  /**
+   * IpWhitelist findUniqueOrThrow
+   */
+  export type IpWhitelistFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IpWhitelist
+     */
+    select?: IpWhitelistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IpWhitelist
+     */
+    omit?: IpWhitelistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IpWhitelistInclude<ExtArgs> | null
+    /**
+     * Filter, which IpWhitelist to fetch.
+     */
+    where: IpWhitelistWhereUniqueInput
+  }
+
+  /**
+   * IpWhitelist findFirst
+   */
+  export type IpWhitelistFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IpWhitelist
+     */
+    select?: IpWhitelistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IpWhitelist
+     */
+    omit?: IpWhitelistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IpWhitelistInclude<ExtArgs> | null
+    /**
+     * Filter, which IpWhitelist to fetch.
+     */
+    where?: IpWhitelistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IpWhitelists to fetch.
+     */
+    orderBy?: IpWhitelistOrderByWithRelationInput | IpWhitelistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for IpWhitelists.
+     */
+    cursor?: IpWhitelistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IpWhitelists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IpWhitelists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of IpWhitelists.
+     */
+    distinct?: IpWhitelistScalarFieldEnum | IpWhitelistScalarFieldEnum[]
+  }
+
+  /**
+   * IpWhitelist findFirstOrThrow
+   */
+  export type IpWhitelistFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IpWhitelist
+     */
+    select?: IpWhitelistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IpWhitelist
+     */
+    omit?: IpWhitelistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IpWhitelistInclude<ExtArgs> | null
+    /**
+     * Filter, which IpWhitelist to fetch.
+     */
+    where?: IpWhitelistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IpWhitelists to fetch.
+     */
+    orderBy?: IpWhitelistOrderByWithRelationInput | IpWhitelistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for IpWhitelists.
+     */
+    cursor?: IpWhitelistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IpWhitelists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IpWhitelists.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of IpWhitelists.
+     */
+    distinct?: IpWhitelistScalarFieldEnum | IpWhitelistScalarFieldEnum[]
+  }
+
+  /**
+   * IpWhitelist findMany
+   */
+  export type IpWhitelistFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IpWhitelist
+     */
+    select?: IpWhitelistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IpWhitelist
+     */
+    omit?: IpWhitelistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IpWhitelistInclude<ExtArgs> | null
+    /**
+     * Filter, which IpWhitelists to fetch.
+     */
+    where?: IpWhitelistWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IpWhitelists to fetch.
+     */
+    orderBy?: IpWhitelistOrderByWithRelationInput | IpWhitelistOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing IpWhitelists.
+     */
+    cursor?: IpWhitelistWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IpWhitelists from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IpWhitelists.
+     */
+    skip?: number
+    distinct?: IpWhitelistScalarFieldEnum | IpWhitelistScalarFieldEnum[]
+  }
+
+  /**
+   * IpWhitelist create
+   */
+  export type IpWhitelistCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IpWhitelist
+     */
+    select?: IpWhitelistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IpWhitelist
+     */
+    omit?: IpWhitelistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IpWhitelistInclude<ExtArgs> | null
+    /**
+     * The data needed to create a IpWhitelist.
+     */
+    data: XOR<IpWhitelistCreateInput, IpWhitelistUncheckedCreateInput>
+  }
+
+  /**
+   * IpWhitelist createMany
+   */
+  export type IpWhitelistCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many IpWhitelists.
+     */
+    data: IpWhitelistCreateManyInput | IpWhitelistCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * IpWhitelist createManyAndReturn
+   */
+  export type IpWhitelistCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IpWhitelist
+     */
+    select?: IpWhitelistSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the IpWhitelist
+     */
+    omit?: IpWhitelistOmit<ExtArgs> | null
+    /**
+     * The data used to create many IpWhitelists.
+     */
+    data: IpWhitelistCreateManyInput | IpWhitelistCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IpWhitelistIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * IpWhitelist update
+   */
+  export type IpWhitelistUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IpWhitelist
+     */
+    select?: IpWhitelistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IpWhitelist
+     */
+    omit?: IpWhitelistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IpWhitelistInclude<ExtArgs> | null
+    /**
+     * The data needed to update a IpWhitelist.
+     */
+    data: XOR<IpWhitelistUpdateInput, IpWhitelistUncheckedUpdateInput>
+    /**
+     * Choose, which IpWhitelist to update.
+     */
+    where: IpWhitelistWhereUniqueInput
+  }
+
+  /**
+   * IpWhitelist updateMany
+   */
+  export type IpWhitelistUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update IpWhitelists.
+     */
+    data: XOR<IpWhitelistUpdateManyMutationInput, IpWhitelistUncheckedUpdateManyInput>
+    /**
+     * Filter which IpWhitelists to update
+     */
+    where?: IpWhitelistWhereInput
+    /**
+     * Limit how many IpWhitelists to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * IpWhitelist updateManyAndReturn
+   */
+  export type IpWhitelistUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IpWhitelist
+     */
+    select?: IpWhitelistSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the IpWhitelist
+     */
+    omit?: IpWhitelistOmit<ExtArgs> | null
+    /**
+     * The data used to update IpWhitelists.
+     */
+    data: XOR<IpWhitelistUpdateManyMutationInput, IpWhitelistUncheckedUpdateManyInput>
+    /**
+     * Filter which IpWhitelists to update
+     */
+    where?: IpWhitelistWhereInput
+    /**
+     * Limit how many IpWhitelists to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IpWhitelistIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * IpWhitelist upsert
+   */
+  export type IpWhitelistUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IpWhitelist
+     */
+    select?: IpWhitelistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IpWhitelist
+     */
+    omit?: IpWhitelistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IpWhitelistInclude<ExtArgs> | null
+    /**
+     * The filter to search for the IpWhitelist to update in case it exists.
+     */
+    where: IpWhitelistWhereUniqueInput
+    /**
+     * In case the IpWhitelist found by the `where` argument doesn't exist, create a new IpWhitelist with this data.
+     */
+    create: XOR<IpWhitelistCreateInput, IpWhitelistUncheckedCreateInput>
+    /**
+     * In case the IpWhitelist was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<IpWhitelistUpdateInput, IpWhitelistUncheckedUpdateInput>
+  }
+
+  /**
+   * IpWhitelist delete
+   */
+  export type IpWhitelistDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IpWhitelist
+     */
+    select?: IpWhitelistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IpWhitelist
+     */
+    omit?: IpWhitelistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IpWhitelistInclude<ExtArgs> | null
+    /**
+     * Filter which IpWhitelist to delete.
+     */
+    where: IpWhitelistWhereUniqueInput
+  }
+
+  /**
+   * IpWhitelist deleteMany
+   */
+  export type IpWhitelistDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which IpWhitelists to delete
+     */
+    where?: IpWhitelistWhereInput
+    /**
+     * Limit how many IpWhitelists to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * IpWhitelist.user
+   */
+  export type IpWhitelist$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * IpWhitelist.company
+   */
+  export type IpWhitelist$companyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Company
+     */
+    omit?: CompanyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+  }
+
+  /**
+   * IpWhitelist.creator
+   */
+  export type IpWhitelist$creatorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * IpWhitelist without action
+   */
+  export type IpWhitelistDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IpWhitelist
+     */
+    select?: IpWhitelistSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IpWhitelist
+     */
+    omit?: IpWhitelistOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IpWhitelistInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model GeographicRestriction
+   */
+
+  export type AggregateGeographicRestriction = {
+    _count: GeographicRestrictionCountAggregateOutputType | null
+    _min: GeographicRestrictionMinAggregateOutputType | null
+    _max: GeographicRestrictionMaxAggregateOutputType | null
+  }
+
+  export type GeographicRestrictionMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    countryCode: string | null
+    action: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type GeographicRestrictionMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    countryCode: string | null
+    action: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createdById: string | null
+  }
+
+  export type GeographicRestrictionCountAggregateOutputType = {
+    id: number
+    userId: number
+    companyId: number
+    countryCode: number
+    action: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    createdById: number
+    _all: number
+  }
+
+
+  export type GeographicRestrictionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    countryCode?: true
+    action?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type GeographicRestrictionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    countryCode?: true
+    action?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+  }
+
+  export type GeographicRestrictionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    countryCode?: true
+    action?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    createdById?: true
+    _all?: true
+  }
+
+  export type GeographicRestrictionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GeographicRestriction to aggregate.
+     */
+    where?: GeographicRestrictionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeographicRestrictions to fetch.
+     */
+    orderBy?: GeographicRestrictionOrderByWithRelationInput | GeographicRestrictionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GeographicRestrictionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeographicRestrictions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeographicRestrictions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GeographicRestrictions
+    **/
+    _count?: true | GeographicRestrictionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GeographicRestrictionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GeographicRestrictionMaxAggregateInputType
+  }
+
+  export type GetGeographicRestrictionAggregateType<T extends GeographicRestrictionAggregateArgs> = {
+        [P in keyof T & keyof AggregateGeographicRestriction]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGeographicRestriction[P]>
+      : GetScalarType<T[P], AggregateGeographicRestriction[P]>
+  }
+
+
+
+
+  export type GeographicRestrictionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GeographicRestrictionWhereInput
+    orderBy?: GeographicRestrictionOrderByWithAggregationInput | GeographicRestrictionOrderByWithAggregationInput[]
+    by: GeographicRestrictionScalarFieldEnum[] | GeographicRestrictionScalarFieldEnum
+    having?: GeographicRestrictionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GeographicRestrictionCountAggregateInputType | true
+    _min?: GeographicRestrictionMinAggregateInputType
+    _max?: GeographicRestrictionMaxAggregateInputType
+  }
+
+  export type GeographicRestrictionGroupByOutputType = {
+    id: string
+    userId: string | null
+    companyId: string | null
+    countryCode: string
+    action: string
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    createdById: string | null
+    _count: GeographicRestrictionCountAggregateOutputType | null
+    _min: GeographicRestrictionMinAggregateOutputType | null
+    _max: GeographicRestrictionMaxAggregateOutputType | null
+  }
+
+  type GetGeographicRestrictionGroupByPayload<T extends GeographicRestrictionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GeographicRestrictionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GeographicRestrictionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GeographicRestrictionGroupByOutputType[P]>
+            : GetScalarType<T[P], GeographicRestrictionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GeographicRestrictionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    countryCode?: boolean
+    action?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    user?: boolean | GeographicRestriction$userArgs<ExtArgs>
+    company?: boolean | GeographicRestriction$companyArgs<ExtArgs>
+    creator?: boolean | GeographicRestriction$creatorArgs<ExtArgs>
+  }, ExtArgs["result"]["geographicRestriction"]>
+
+  export type GeographicRestrictionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    countryCode?: boolean
+    action?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    user?: boolean | GeographicRestriction$userArgs<ExtArgs>
+    company?: boolean | GeographicRestriction$companyArgs<ExtArgs>
+    creator?: boolean | GeographicRestriction$creatorArgs<ExtArgs>
+  }, ExtArgs["result"]["geographicRestriction"]>
+
+  export type GeographicRestrictionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    countryCode?: boolean
+    action?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+    user?: boolean | GeographicRestriction$userArgs<ExtArgs>
+    company?: boolean | GeographicRestriction$companyArgs<ExtArgs>
+    creator?: boolean | GeographicRestriction$creatorArgs<ExtArgs>
+  }, ExtArgs["result"]["geographicRestriction"]>
+
+  export type GeographicRestrictionSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    countryCode?: boolean
+    action?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createdById?: boolean
+  }
+
+  export type GeographicRestrictionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "companyId" | "countryCode" | "action" | "isActive" | "createdAt" | "updatedAt" | "createdById", ExtArgs["result"]["geographicRestriction"]>
+  export type GeographicRestrictionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | GeographicRestriction$userArgs<ExtArgs>
+    company?: boolean | GeographicRestriction$companyArgs<ExtArgs>
+    creator?: boolean | GeographicRestriction$creatorArgs<ExtArgs>
+  }
+  export type GeographicRestrictionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | GeographicRestriction$userArgs<ExtArgs>
+    company?: boolean | GeographicRestriction$companyArgs<ExtArgs>
+    creator?: boolean | GeographicRestriction$creatorArgs<ExtArgs>
+  }
+  export type GeographicRestrictionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | GeographicRestriction$userArgs<ExtArgs>
+    company?: boolean | GeographicRestriction$companyArgs<ExtArgs>
+    creator?: boolean | GeographicRestriction$creatorArgs<ExtArgs>
+  }
+
+  export type $GeographicRestrictionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GeographicRestriction"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs> | null
+      company: Prisma.$CompanyPayload<ExtArgs> | null
+      creator: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string | null
+      companyId: string | null
+      countryCode: string
+      action: string
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+      createdById: string | null
+    }, ExtArgs["result"]["geographicRestriction"]>
+    composites: {}
+  }
+
+  type GeographicRestrictionGetPayload<S extends boolean | null | undefined | GeographicRestrictionDefaultArgs> = $Result.GetResult<Prisma.$GeographicRestrictionPayload, S>
+
+  type GeographicRestrictionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GeographicRestrictionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GeographicRestrictionCountAggregateInputType | true
+    }
+
+  export interface GeographicRestrictionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GeographicRestriction'], meta: { name: 'GeographicRestriction' } }
+    /**
+     * Find zero or one GeographicRestriction that matches the filter.
+     * @param {GeographicRestrictionFindUniqueArgs} args - Arguments to find a GeographicRestriction
+     * @example
+     * // Get one GeographicRestriction
+     * const geographicRestriction = await prisma.geographicRestriction.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GeographicRestrictionFindUniqueArgs>(args: SelectSubset<T, GeographicRestrictionFindUniqueArgs<ExtArgs>>): Prisma__GeographicRestrictionClient<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GeographicRestriction that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GeographicRestrictionFindUniqueOrThrowArgs} args - Arguments to find a GeographicRestriction
+     * @example
+     * // Get one GeographicRestriction
+     * const geographicRestriction = await prisma.geographicRestriction.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GeographicRestrictionFindUniqueOrThrowArgs>(args: SelectSubset<T, GeographicRestrictionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GeographicRestrictionClient<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GeographicRestriction that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeographicRestrictionFindFirstArgs} args - Arguments to find a GeographicRestriction
+     * @example
+     * // Get one GeographicRestriction
+     * const geographicRestriction = await prisma.geographicRestriction.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GeographicRestrictionFindFirstArgs>(args?: SelectSubset<T, GeographicRestrictionFindFirstArgs<ExtArgs>>): Prisma__GeographicRestrictionClient<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GeographicRestriction that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeographicRestrictionFindFirstOrThrowArgs} args - Arguments to find a GeographicRestriction
+     * @example
+     * // Get one GeographicRestriction
+     * const geographicRestriction = await prisma.geographicRestriction.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GeographicRestrictionFindFirstOrThrowArgs>(args?: SelectSubset<T, GeographicRestrictionFindFirstOrThrowArgs<ExtArgs>>): Prisma__GeographicRestrictionClient<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GeographicRestrictions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeographicRestrictionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GeographicRestrictions
+     * const geographicRestrictions = await prisma.geographicRestriction.findMany()
+     * 
+     * // Get first 10 GeographicRestrictions
+     * const geographicRestrictions = await prisma.geographicRestriction.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const geographicRestrictionWithIdOnly = await prisma.geographicRestriction.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GeographicRestrictionFindManyArgs>(args?: SelectSubset<T, GeographicRestrictionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GeographicRestriction.
+     * @param {GeographicRestrictionCreateArgs} args - Arguments to create a GeographicRestriction.
+     * @example
+     * // Create one GeographicRestriction
+     * const GeographicRestriction = await prisma.geographicRestriction.create({
+     *   data: {
+     *     // ... data to create a GeographicRestriction
+     *   }
+     * })
+     * 
+     */
+    create<T extends GeographicRestrictionCreateArgs>(args: SelectSubset<T, GeographicRestrictionCreateArgs<ExtArgs>>): Prisma__GeographicRestrictionClient<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GeographicRestrictions.
+     * @param {GeographicRestrictionCreateManyArgs} args - Arguments to create many GeographicRestrictions.
+     * @example
+     * // Create many GeographicRestrictions
+     * const geographicRestriction = await prisma.geographicRestriction.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GeographicRestrictionCreateManyArgs>(args?: SelectSubset<T, GeographicRestrictionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GeographicRestrictions and returns the data saved in the database.
+     * @param {GeographicRestrictionCreateManyAndReturnArgs} args - Arguments to create many GeographicRestrictions.
+     * @example
+     * // Create many GeographicRestrictions
+     * const geographicRestriction = await prisma.geographicRestriction.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GeographicRestrictions and only return the `id`
+     * const geographicRestrictionWithIdOnly = await prisma.geographicRestriction.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GeographicRestrictionCreateManyAndReturnArgs>(args?: SelectSubset<T, GeographicRestrictionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GeographicRestriction.
+     * @param {GeographicRestrictionDeleteArgs} args - Arguments to delete one GeographicRestriction.
+     * @example
+     * // Delete one GeographicRestriction
+     * const GeographicRestriction = await prisma.geographicRestriction.delete({
+     *   where: {
+     *     // ... filter to delete one GeographicRestriction
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GeographicRestrictionDeleteArgs>(args: SelectSubset<T, GeographicRestrictionDeleteArgs<ExtArgs>>): Prisma__GeographicRestrictionClient<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GeographicRestriction.
+     * @param {GeographicRestrictionUpdateArgs} args - Arguments to update one GeographicRestriction.
+     * @example
+     * // Update one GeographicRestriction
+     * const geographicRestriction = await prisma.geographicRestriction.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GeographicRestrictionUpdateArgs>(args: SelectSubset<T, GeographicRestrictionUpdateArgs<ExtArgs>>): Prisma__GeographicRestrictionClient<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GeographicRestrictions.
+     * @param {GeographicRestrictionDeleteManyArgs} args - Arguments to filter GeographicRestrictions to delete.
+     * @example
+     * // Delete a few GeographicRestrictions
+     * const { count } = await prisma.geographicRestriction.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GeographicRestrictionDeleteManyArgs>(args?: SelectSubset<T, GeographicRestrictionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GeographicRestrictions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeographicRestrictionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GeographicRestrictions
+     * const geographicRestriction = await prisma.geographicRestriction.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GeographicRestrictionUpdateManyArgs>(args: SelectSubset<T, GeographicRestrictionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GeographicRestrictions and returns the data updated in the database.
+     * @param {GeographicRestrictionUpdateManyAndReturnArgs} args - Arguments to update many GeographicRestrictions.
+     * @example
+     * // Update many GeographicRestrictions
+     * const geographicRestriction = await prisma.geographicRestriction.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GeographicRestrictions and only return the `id`
+     * const geographicRestrictionWithIdOnly = await prisma.geographicRestriction.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GeographicRestrictionUpdateManyAndReturnArgs>(args: SelectSubset<T, GeographicRestrictionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GeographicRestriction.
+     * @param {GeographicRestrictionUpsertArgs} args - Arguments to update or create a GeographicRestriction.
+     * @example
+     * // Update or create a GeographicRestriction
+     * const geographicRestriction = await prisma.geographicRestriction.upsert({
+     *   create: {
+     *     // ... data to create a GeographicRestriction
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GeographicRestriction we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GeographicRestrictionUpsertArgs>(args: SelectSubset<T, GeographicRestrictionUpsertArgs<ExtArgs>>): Prisma__GeographicRestrictionClient<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GeographicRestrictions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeographicRestrictionCountArgs} args - Arguments to filter GeographicRestrictions to count.
+     * @example
+     * // Count the number of GeographicRestrictions
+     * const count = await prisma.geographicRestriction.count({
+     *   where: {
+     *     // ... the filter for the GeographicRestrictions we want to count
+     *   }
+     * })
+    **/
+    count<T extends GeographicRestrictionCountArgs>(
+      args?: Subset<T, GeographicRestrictionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GeographicRestrictionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GeographicRestriction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeographicRestrictionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GeographicRestrictionAggregateArgs>(args: Subset<T, GeographicRestrictionAggregateArgs>): Prisma.PrismaPromise<GetGeographicRestrictionAggregateType<T>>
+
+    /**
+     * Group by GeographicRestriction.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeographicRestrictionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GeographicRestrictionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GeographicRestrictionGroupByArgs['orderBy'] }
+        : { orderBy?: GeographicRestrictionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GeographicRestrictionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGeographicRestrictionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GeographicRestriction model
+   */
+  readonly fields: GeographicRestrictionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GeographicRestriction.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GeographicRestrictionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends GeographicRestriction$userArgs<ExtArgs> = {}>(args?: Subset<T, GeographicRestriction$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    company<T extends GeographicRestriction$companyArgs<ExtArgs> = {}>(args?: Subset<T, GeographicRestriction$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    creator<T extends GeographicRestriction$creatorArgs<ExtArgs> = {}>(args?: Subset<T, GeographicRestriction$creatorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GeographicRestriction model
+   */
+  interface GeographicRestrictionFieldRefs {
+    readonly id: FieldRef<"GeographicRestriction", 'String'>
+    readonly userId: FieldRef<"GeographicRestriction", 'String'>
+    readonly companyId: FieldRef<"GeographicRestriction", 'String'>
+    readonly countryCode: FieldRef<"GeographicRestriction", 'String'>
+    readonly action: FieldRef<"GeographicRestriction", 'String'>
+    readonly isActive: FieldRef<"GeographicRestriction", 'Boolean'>
+    readonly createdAt: FieldRef<"GeographicRestriction", 'DateTime'>
+    readonly updatedAt: FieldRef<"GeographicRestriction", 'DateTime'>
+    readonly createdById: FieldRef<"GeographicRestriction", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GeographicRestriction findUnique
+   */
+  export type GeographicRestrictionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeographicRestriction
+     */
+    select?: GeographicRestrictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeographicRestriction
+     */
+    omit?: GeographicRestrictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeographicRestrictionInclude<ExtArgs> | null
+    /**
+     * Filter, which GeographicRestriction to fetch.
+     */
+    where: GeographicRestrictionWhereUniqueInput
+  }
+
+  /**
+   * GeographicRestriction findUniqueOrThrow
+   */
+  export type GeographicRestrictionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeographicRestriction
+     */
+    select?: GeographicRestrictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeographicRestriction
+     */
+    omit?: GeographicRestrictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeographicRestrictionInclude<ExtArgs> | null
+    /**
+     * Filter, which GeographicRestriction to fetch.
+     */
+    where: GeographicRestrictionWhereUniqueInput
+  }
+
+  /**
+   * GeographicRestriction findFirst
+   */
+  export type GeographicRestrictionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeographicRestriction
+     */
+    select?: GeographicRestrictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeographicRestriction
+     */
+    omit?: GeographicRestrictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeographicRestrictionInclude<ExtArgs> | null
+    /**
+     * Filter, which GeographicRestriction to fetch.
+     */
+    where?: GeographicRestrictionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeographicRestrictions to fetch.
+     */
+    orderBy?: GeographicRestrictionOrderByWithRelationInput | GeographicRestrictionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GeographicRestrictions.
+     */
+    cursor?: GeographicRestrictionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeographicRestrictions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeographicRestrictions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GeographicRestrictions.
+     */
+    distinct?: GeographicRestrictionScalarFieldEnum | GeographicRestrictionScalarFieldEnum[]
+  }
+
+  /**
+   * GeographicRestriction findFirstOrThrow
+   */
+  export type GeographicRestrictionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeographicRestriction
+     */
+    select?: GeographicRestrictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeographicRestriction
+     */
+    omit?: GeographicRestrictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeographicRestrictionInclude<ExtArgs> | null
+    /**
+     * Filter, which GeographicRestriction to fetch.
+     */
+    where?: GeographicRestrictionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeographicRestrictions to fetch.
+     */
+    orderBy?: GeographicRestrictionOrderByWithRelationInput | GeographicRestrictionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GeographicRestrictions.
+     */
+    cursor?: GeographicRestrictionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeographicRestrictions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeographicRestrictions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GeographicRestrictions.
+     */
+    distinct?: GeographicRestrictionScalarFieldEnum | GeographicRestrictionScalarFieldEnum[]
+  }
+
+  /**
+   * GeographicRestriction findMany
+   */
+  export type GeographicRestrictionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeographicRestriction
+     */
+    select?: GeographicRestrictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeographicRestriction
+     */
+    omit?: GeographicRestrictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeographicRestrictionInclude<ExtArgs> | null
+    /**
+     * Filter, which GeographicRestrictions to fetch.
+     */
+    where?: GeographicRestrictionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeographicRestrictions to fetch.
+     */
+    orderBy?: GeographicRestrictionOrderByWithRelationInput | GeographicRestrictionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GeographicRestrictions.
+     */
+    cursor?: GeographicRestrictionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeographicRestrictions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeographicRestrictions.
+     */
+    skip?: number
+    distinct?: GeographicRestrictionScalarFieldEnum | GeographicRestrictionScalarFieldEnum[]
+  }
+
+  /**
+   * GeographicRestriction create
+   */
+  export type GeographicRestrictionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeographicRestriction
+     */
+    select?: GeographicRestrictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeographicRestriction
+     */
+    omit?: GeographicRestrictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeographicRestrictionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GeographicRestriction.
+     */
+    data: XOR<GeographicRestrictionCreateInput, GeographicRestrictionUncheckedCreateInput>
+  }
+
+  /**
+   * GeographicRestriction createMany
+   */
+  export type GeographicRestrictionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GeographicRestrictions.
+     */
+    data: GeographicRestrictionCreateManyInput | GeographicRestrictionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GeographicRestriction createManyAndReturn
+   */
+  export type GeographicRestrictionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeographicRestriction
+     */
+    select?: GeographicRestrictionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeographicRestriction
+     */
+    omit?: GeographicRestrictionOmit<ExtArgs> | null
+    /**
+     * The data used to create many GeographicRestrictions.
+     */
+    data: GeographicRestrictionCreateManyInput | GeographicRestrictionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeographicRestrictionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GeographicRestriction update
+   */
+  export type GeographicRestrictionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeographicRestriction
+     */
+    select?: GeographicRestrictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeographicRestriction
+     */
+    omit?: GeographicRestrictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeographicRestrictionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GeographicRestriction.
+     */
+    data: XOR<GeographicRestrictionUpdateInput, GeographicRestrictionUncheckedUpdateInput>
+    /**
+     * Choose, which GeographicRestriction to update.
+     */
+    where: GeographicRestrictionWhereUniqueInput
+  }
+
+  /**
+   * GeographicRestriction updateMany
+   */
+  export type GeographicRestrictionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GeographicRestrictions.
+     */
+    data: XOR<GeographicRestrictionUpdateManyMutationInput, GeographicRestrictionUncheckedUpdateManyInput>
+    /**
+     * Filter which GeographicRestrictions to update
+     */
+    where?: GeographicRestrictionWhereInput
+    /**
+     * Limit how many GeographicRestrictions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GeographicRestriction updateManyAndReturn
+   */
+  export type GeographicRestrictionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeographicRestriction
+     */
+    select?: GeographicRestrictionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeographicRestriction
+     */
+    omit?: GeographicRestrictionOmit<ExtArgs> | null
+    /**
+     * The data used to update GeographicRestrictions.
+     */
+    data: XOR<GeographicRestrictionUpdateManyMutationInput, GeographicRestrictionUncheckedUpdateManyInput>
+    /**
+     * Filter which GeographicRestrictions to update
+     */
+    where?: GeographicRestrictionWhereInput
+    /**
+     * Limit how many GeographicRestrictions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeographicRestrictionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GeographicRestriction upsert
+   */
+  export type GeographicRestrictionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeographicRestriction
+     */
+    select?: GeographicRestrictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeographicRestriction
+     */
+    omit?: GeographicRestrictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeographicRestrictionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GeographicRestriction to update in case it exists.
+     */
+    where: GeographicRestrictionWhereUniqueInput
+    /**
+     * In case the GeographicRestriction found by the `where` argument doesn't exist, create a new GeographicRestriction with this data.
+     */
+    create: XOR<GeographicRestrictionCreateInput, GeographicRestrictionUncheckedCreateInput>
+    /**
+     * In case the GeographicRestriction was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GeographicRestrictionUpdateInput, GeographicRestrictionUncheckedUpdateInput>
+  }
+
+  /**
+   * GeographicRestriction delete
+   */
+  export type GeographicRestrictionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeographicRestriction
+     */
+    select?: GeographicRestrictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeographicRestriction
+     */
+    omit?: GeographicRestrictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeographicRestrictionInclude<ExtArgs> | null
+    /**
+     * Filter which GeographicRestriction to delete.
+     */
+    where: GeographicRestrictionWhereUniqueInput
+  }
+
+  /**
+   * GeographicRestriction deleteMany
+   */
+  export type GeographicRestrictionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GeographicRestrictions to delete
+     */
+    where?: GeographicRestrictionWhereInput
+    /**
+     * Limit how many GeographicRestrictions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GeographicRestriction.user
+   */
+  export type GeographicRestriction$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * GeographicRestriction.company
+   */
+  export type GeographicRestriction$companyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Company
+     */
+    omit?: CompanyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+  }
+
+  /**
+   * GeographicRestriction.creator
+   */
+  export type GeographicRestriction$creatorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * GeographicRestriction without action
+   */
+  export type GeographicRestrictionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeographicRestriction
+     */
+    select?: GeographicRestrictionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeographicRestriction
+     */
+    omit?: GeographicRestrictionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeographicRestrictionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -36837,6 +39607,36 @@ export namespace Prisma {
   export type SecurityQuestionScalarFieldEnum = (typeof SecurityQuestionScalarFieldEnum)[keyof typeof SecurityQuestionScalarFieldEnum]
 
 
+  export const IpWhitelistScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    companyId: 'companyId',
+    ipAddress: 'ipAddress',
+    description: 'description',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    createdById: 'createdById'
+  };
+
+  export type IpWhitelistScalarFieldEnum = (typeof IpWhitelistScalarFieldEnum)[keyof typeof IpWhitelistScalarFieldEnum]
+
+
+  export const GeographicRestrictionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    companyId: 'companyId',
+    countryCode: 'countryCode',
+    action: 'action',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    createdById: 'createdById'
+  };
+
+  export type GeographicRestrictionScalarFieldEnum = (typeof GeographicRestrictionScalarFieldEnum)[keyof typeof GeographicRestrictionScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -37065,6 +39865,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     users?: UserListRelationFilter
     templates?: PasswordTemplateListRelationFilter
+    ipWhitelists?: IpWhitelistListRelationFilter
+    geographicRestrictions?: GeographicRestrictionListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -37075,6 +39877,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     users?: UserOrderByRelationAggregateInput
     templates?: PasswordTemplateOrderByRelationAggregateInput
+    ipWhitelists?: IpWhitelistOrderByRelationAggregateInput
+    geographicRestrictions?: GeographicRestrictionOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -37088,6 +39892,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     users?: UserListRelationFilter
     templates?: PasswordTemplateListRelationFilter
+    ipWhitelists?: IpWhitelistListRelationFilter
+    geographicRestrictions?: GeographicRestrictionListRelationFilter
   }, "id" | "subdomain">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -37160,6 +39966,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenListRelationFilter
     passwordResetTokens?: PasswordResetTokenListRelationFilter
     securityQuestions?: SecurityQuestionListRelationFilter
+    ipWhitelists?: IpWhitelistListRelationFilter
+    geographicRestrictions?: GeographicRestrictionListRelationFilter
+    createdIpWhitelists?: IpWhitelistListRelationFilter
+    createdGeographicRestrictions?: GeographicRestrictionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -37207,6 +40017,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenOrderByRelationAggregateInput
     passwordResetTokens?: PasswordResetTokenOrderByRelationAggregateInput
     securityQuestions?: SecurityQuestionOrderByRelationAggregateInput
+    ipWhitelists?: IpWhitelistOrderByRelationAggregateInput
+    geographicRestrictions?: GeographicRestrictionOrderByRelationAggregateInput
+    createdIpWhitelists?: IpWhitelistOrderByRelationAggregateInput
+    createdGeographicRestrictions?: GeographicRestrictionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -37257,6 +40071,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenListRelationFilter
     passwordResetTokens?: PasswordResetTokenListRelationFilter
     securityQuestions?: SecurityQuestionListRelationFilter
+    ipWhitelists?: IpWhitelistListRelationFilter
+    geographicRestrictions?: GeographicRestrictionListRelationFilter
+    createdIpWhitelists?: IpWhitelistListRelationFilter
+    createdGeographicRestrictions?: GeographicRestrictionListRelationFilter
   }, "id">
 
   export type UserOrderByWithAggregationInput = {
@@ -39293,6 +42111,168 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"SecurityQuestion"> | Date | string
   }
 
+  export type IpWhitelistWhereInput = {
+    AND?: IpWhitelistWhereInput | IpWhitelistWhereInput[]
+    OR?: IpWhitelistWhereInput[]
+    NOT?: IpWhitelistWhereInput | IpWhitelistWhereInput[]
+    id?: StringFilter<"IpWhitelist"> | string
+    userId?: StringNullableFilter<"IpWhitelist"> | string | null
+    companyId?: StringNullableFilter<"IpWhitelist"> | string | null
+    ipAddress?: StringFilter<"IpWhitelist"> | string
+    description?: StringNullableFilter<"IpWhitelist"> | string | null
+    isActive?: BoolFilter<"IpWhitelist"> | boolean
+    createdAt?: DateTimeFilter<"IpWhitelist"> | Date | string
+    updatedAt?: DateTimeFilter<"IpWhitelist"> | Date | string
+    createdById?: StringNullableFilter<"IpWhitelist"> | string | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+    creator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type IpWhitelistOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    companyId?: SortOrderInput | SortOrder
+    ipAddress?: SortOrder
+    description?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+    creator?: UserOrderByWithRelationInput
+  }
+
+  export type IpWhitelistWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: IpWhitelistWhereInput | IpWhitelistWhereInput[]
+    OR?: IpWhitelistWhereInput[]
+    NOT?: IpWhitelistWhereInput | IpWhitelistWhereInput[]
+    userId?: StringNullableFilter<"IpWhitelist"> | string | null
+    companyId?: StringNullableFilter<"IpWhitelist"> | string | null
+    ipAddress?: StringFilter<"IpWhitelist"> | string
+    description?: StringNullableFilter<"IpWhitelist"> | string | null
+    isActive?: BoolFilter<"IpWhitelist"> | boolean
+    createdAt?: DateTimeFilter<"IpWhitelist"> | Date | string
+    updatedAt?: DateTimeFilter<"IpWhitelist"> | Date | string
+    createdById?: StringNullableFilter<"IpWhitelist"> | string | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+    creator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type IpWhitelistOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    companyId?: SortOrderInput | SortOrder
+    ipAddress?: SortOrder
+    description?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    _count?: IpWhitelistCountOrderByAggregateInput
+    _max?: IpWhitelistMaxOrderByAggregateInput
+    _min?: IpWhitelistMinOrderByAggregateInput
+  }
+
+  export type IpWhitelistScalarWhereWithAggregatesInput = {
+    AND?: IpWhitelistScalarWhereWithAggregatesInput | IpWhitelistScalarWhereWithAggregatesInput[]
+    OR?: IpWhitelistScalarWhereWithAggregatesInput[]
+    NOT?: IpWhitelistScalarWhereWithAggregatesInput | IpWhitelistScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"IpWhitelist"> | string
+    userId?: StringNullableWithAggregatesFilter<"IpWhitelist"> | string | null
+    companyId?: StringNullableWithAggregatesFilter<"IpWhitelist"> | string | null
+    ipAddress?: StringWithAggregatesFilter<"IpWhitelist"> | string
+    description?: StringNullableWithAggregatesFilter<"IpWhitelist"> | string | null
+    isActive?: BoolWithAggregatesFilter<"IpWhitelist"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"IpWhitelist"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"IpWhitelist"> | Date | string
+    createdById?: StringNullableWithAggregatesFilter<"IpWhitelist"> | string | null
+  }
+
+  export type GeographicRestrictionWhereInput = {
+    AND?: GeographicRestrictionWhereInput | GeographicRestrictionWhereInput[]
+    OR?: GeographicRestrictionWhereInput[]
+    NOT?: GeographicRestrictionWhereInput | GeographicRestrictionWhereInput[]
+    id?: StringFilter<"GeographicRestriction"> | string
+    userId?: StringNullableFilter<"GeographicRestriction"> | string | null
+    companyId?: StringNullableFilter<"GeographicRestriction"> | string | null
+    countryCode?: StringFilter<"GeographicRestriction"> | string
+    action?: StringFilter<"GeographicRestriction"> | string
+    isActive?: BoolFilter<"GeographicRestriction"> | boolean
+    createdAt?: DateTimeFilter<"GeographicRestriction"> | Date | string
+    updatedAt?: DateTimeFilter<"GeographicRestriction"> | Date | string
+    createdById?: StringNullableFilter<"GeographicRestriction"> | string | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+    creator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type GeographicRestrictionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    companyId?: SortOrderInput | SortOrder
+    countryCode?: SortOrder
+    action?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+    creator?: UserOrderByWithRelationInput
+  }
+
+  export type GeographicRestrictionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: GeographicRestrictionWhereInput | GeographicRestrictionWhereInput[]
+    OR?: GeographicRestrictionWhereInput[]
+    NOT?: GeographicRestrictionWhereInput | GeographicRestrictionWhereInput[]
+    userId?: StringNullableFilter<"GeographicRestriction"> | string | null
+    companyId?: StringNullableFilter<"GeographicRestriction"> | string | null
+    countryCode?: StringFilter<"GeographicRestriction"> | string
+    action?: StringFilter<"GeographicRestriction"> | string
+    isActive?: BoolFilter<"GeographicRestriction"> | boolean
+    createdAt?: DateTimeFilter<"GeographicRestriction"> | Date | string
+    updatedAt?: DateTimeFilter<"GeographicRestriction"> | Date | string
+    createdById?: StringNullableFilter<"GeographicRestriction"> | string | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+    creator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type GeographicRestrictionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    companyId?: SortOrderInput | SortOrder
+    countryCode?: SortOrder
+    action?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrderInput | SortOrder
+    _count?: GeographicRestrictionCountOrderByAggregateInput
+    _max?: GeographicRestrictionMaxOrderByAggregateInput
+    _min?: GeographicRestrictionMinOrderByAggregateInput
+  }
+
+  export type GeographicRestrictionScalarWhereWithAggregatesInput = {
+    AND?: GeographicRestrictionScalarWhereWithAggregatesInput | GeographicRestrictionScalarWhereWithAggregatesInput[]
+    OR?: GeographicRestrictionScalarWhereWithAggregatesInput[]
+    NOT?: GeographicRestrictionScalarWhereWithAggregatesInput | GeographicRestrictionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GeographicRestriction"> | string
+    userId?: StringNullableWithAggregatesFilter<"GeographicRestriction"> | string | null
+    companyId?: StringNullableWithAggregatesFilter<"GeographicRestriction"> | string | null
+    countryCode?: StringWithAggregatesFilter<"GeographicRestriction"> | string
+    action?: StringWithAggregatesFilter<"GeographicRestriction"> | string
+    isActive?: BoolWithAggregatesFilter<"GeographicRestriction"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"GeographicRestriction"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"GeographicRestriction"> | Date | string
+    createdById?: StringNullableWithAggregatesFilter<"GeographicRestriction"> | string | null
+  }
+
   export type CompanyCreateInput = {
     id?: string
     name: string
@@ -39301,6 +42281,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -39311,6 +42293,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -39321,6 +42305,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -39331,6 +42317,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -39400,6 +42388,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -39445,6 +42437,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUpdateInput = {
@@ -39490,6 +42486,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -39535,6 +42535,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -41735,6 +44739,168 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type IpWhitelistCreateInput = {
+    id?: string
+    ipAddress: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutIpWhitelistsInput
+    company?: CompanyCreateNestedOneWithoutIpWhitelistsInput
+    creator?: UserCreateNestedOneWithoutCreatedIpWhitelistsInput
+  }
+
+  export type IpWhitelistUncheckedCreateInput = {
+    id?: string
+    userId?: string | null
+    companyId?: string | null
+    ipAddress: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type IpWhitelistUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ipAddress?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutIpWhitelistsNestedInput
+    company?: CompanyUpdateOneWithoutIpWhitelistsNestedInput
+    creator?: UserUpdateOneWithoutCreatedIpWhitelistsNestedInput
+  }
+
+  export type IpWhitelistUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type IpWhitelistCreateManyInput = {
+    id?: string
+    userId?: string | null
+    companyId?: string | null
+    ipAddress: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type IpWhitelistUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ipAddress?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IpWhitelistUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type GeographicRestrictionCreateInput = {
+    id?: string
+    countryCode: string
+    action?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutGeographicRestrictionsInput
+    company?: CompanyCreateNestedOneWithoutGeographicRestrictionsInput
+    creator?: UserCreateNestedOneWithoutCreatedGeographicRestrictionsInput
+  }
+
+  export type GeographicRestrictionUncheckedCreateInput = {
+    id?: string
+    userId?: string | null
+    companyId?: string | null
+    countryCode: string
+    action?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type GeographicRestrictionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    countryCode?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutGeographicRestrictionsNestedInput
+    company?: CompanyUpdateOneWithoutGeographicRestrictionsNestedInput
+    creator?: UserUpdateOneWithoutCreatedGeographicRestrictionsNestedInput
+  }
+
+  export type GeographicRestrictionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    countryCode?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type GeographicRestrictionCreateManyInput = {
+    id?: string
+    userId?: string | null
+    companyId?: string | null
+    countryCode: string
+    action?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type GeographicRestrictionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    countryCode?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeographicRestrictionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    countryCode?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -41773,11 +44939,31 @@ export namespace Prisma {
     none?: PasswordTemplateWhereInput
   }
 
+  export type IpWhitelistListRelationFilter = {
+    every?: IpWhitelistWhereInput
+    some?: IpWhitelistWhereInput
+    none?: IpWhitelistWhereInput
+  }
+
+  export type GeographicRestrictionListRelationFilter = {
+    every?: GeographicRestrictionWhereInput
+    some?: GeographicRestrictionWhereInput
+    none?: GeographicRestrictionWhereInput
+  }
+
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type PasswordTemplateOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type IpWhitelistOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GeographicRestrictionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -43475,6 +46661,78 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type IpWhitelistCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    ipAddress?: SortOrder
+    description?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type IpWhitelistMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    ipAddress?: SortOrder
+    description?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type IpWhitelistMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    ipAddress?: SortOrder
+    description?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type GeographicRestrictionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    countryCode?: SortOrder
+    action?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type GeographicRestrictionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    countryCode?: SortOrder
+    action?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
+  export type GeographicRestrictionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    countryCode?: SortOrder
+    action?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createdById?: SortOrder
+  }
+
   export type UserCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -43489,6 +46747,20 @@ export namespace Prisma {
     connect?: PasswordTemplateWhereUniqueInput | PasswordTemplateWhereUniqueInput[]
   }
 
+  export type IpWhitelistCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<IpWhitelistCreateWithoutCompanyInput, IpWhitelistUncheckedCreateWithoutCompanyInput> | IpWhitelistCreateWithoutCompanyInput[] | IpWhitelistUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IpWhitelistCreateOrConnectWithoutCompanyInput | IpWhitelistCreateOrConnectWithoutCompanyInput[]
+    createMany?: IpWhitelistCreateManyCompanyInputEnvelope
+    connect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+  }
+
+  export type GeographicRestrictionCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<GeographicRestrictionCreateWithoutCompanyInput, GeographicRestrictionUncheckedCreateWithoutCompanyInput> | GeographicRestrictionCreateWithoutCompanyInput[] | GeographicRestrictionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GeographicRestrictionCreateOrConnectWithoutCompanyInput | GeographicRestrictionCreateOrConnectWithoutCompanyInput[]
+    createMany?: GeographicRestrictionCreateManyCompanyInputEnvelope
+    connect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -43501,6 +46773,20 @@ export namespace Prisma {
     connectOrCreate?: PasswordTemplateCreateOrConnectWithoutCompanyInput | PasswordTemplateCreateOrConnectWithoutCompanyInput[]
     createMany?: PasswordTemplateCreateManyCompanyInputEnvelope
     connect?: PasswordTemplateWhereUniqueInput | PasswordTemplateWhereUniqueInput[]
+  }
+
+  export type IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<IpWhitelistCreateWithoutCompanyInput, IpWhitelistUncheckedCreateWithoutCompanyInput> | IpWhitelistCreateWithoutCompanyInput[] | IpWhitelistUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IpWhitelistCreateOrConnectWithoutCompanyInput | IpWhitelistCreateOrConnectWithoutCompanyInput[]
+    createMany?: IpWhitelistCreateManyCompanyInputEnvelope
+    connect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+  }
+
+  export type GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<GeographicRestrictionCreateWithoutCompanyInput, GeographicRestrictionUncheckedCreateWithoutCompanyInput> | GeographicRestrictionCreateWithoutCompanyInput[] | GeographicRestrictionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GeographicRestrictionCreateOrConnectWithoutCompanyInput | GeographicRestrictionCreateOrConnectWithoutCompanyInput[]
+    createMany?: GeographicRestrictionCreateManyCompanyInputEnvelope
+    connect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -43539,6 +46825,34 @@ export namespace Prisma {
     deleteMany?: PasswordTemplateScalarWhereInput | PasswordTemplateScalarWhereInput[]
   }
 
+  export type IpWhitelistUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<IpWhitelistCreateWithoutCompanyInput, IpWhitelistUncheckedCreateWithoutCompanyInput> | IpWhitelistCreateWithoutCompanyInput[] | IpWhitelistUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IpWhitelistCreateOrConnectWithoutCompanyInput | IpWhitelistCreateOrConnectWithoutCompanyInput[]
+    upsert?: IpWhitelistUpsertWithWhereUniqueWithoutCompanyInput | IpWhitelistUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: IpWhitelistCreateManyCompanyInputEnvelope
+    set?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    disconnect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    delete?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    connect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    update?: IpWhitelistUpdateWithWhereUniqueWithoutCompanyInput | IpWhitelistUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: IpWhitelistUpdateManyWithWhereWithoutCompanyInput | IpWhitelistUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: IpWhitelistScalarWhereInput | IpWhitelistScalarWhereInput[]
+  }
+
+  export type GeographicRestrictionUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<GeographicRestrictionCreateWithoutCompanyInput, GeographicRestrictionUncheckedCreateWithoutCompanyInput> | GeographicRestrictionCreateWithoutCompanyInput[] | GeographicRestrictionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GeographicRestrictionCreateOrConnectWithoutCompanyInput | GeographicRestrictionCreateOrConnectWithoutCompanyInput[]
+    upsert?: GeographicRestrictionUpsertWithWhereUniqueWithoutCompanyInput | GeographicRestrictionUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: GeographicRestrictionCreateManyCompanyInputEnvelope
+    set?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    disconnect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    delete?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    connect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    update?: GeographicRestrictionUpdateWithWhereUniqueWithoutCompanyInput | GeographicRestrictionUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: GeographicRestrictionUpdateManyWithWhereWithoutCompanyInput | GeographicRestrictionUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: GeographicRestrictionScalarWhereInput | GeographicRestrictionScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -43565,6 +46879,34 @@ export namespace Prisma {
     update?: PasswordTemplateUpdateWithWhereUniqueWithoutCompanyInput | PasswordTemplateUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: PasswordTemplateUpdateManyWithWhereWithoutCompanyInput | PasswordTemplateUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: PasswordTemplateScalarWhereInput | PasswordTemplateScalarWhereInput[]
+  }
+
+  export type IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<IpWhitelistCreateWithoutCompanyInput, IpWhitelistUncheckedCreateWithoutCompanyInput> | IpWhitelistCreateWithoutCompanyInput[] | IpWhitelistUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: IpWhitelistCreateOrConnectWithoutCompanyInput | IpWhitelistCreateOrConnectWithoutCompanyInput[]
+    upsert?: IpWhitelistUpsertWithWhereUniqueWithoutCompanyInput | IpWhitelistUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: IpWhitelistCreateManyCompanyInputEnvelope
+    set?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    disconnect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    delete?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    connect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    update?: IpWhitelistUpdateWithWhereUniqueWithoutCompanyInput | IpWhitelistUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: IpWhitelistUpdateManyWithWhereWithoutCompanyInput | IpWhitelistUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: IpWhitelistScalarWhereInput | IpWhitelistScalarWhereInput[]
+  }
+
+  export type GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<GeographicRestrictionCreateWithoutCompanyInput, GeographicRestrictionUncheckedCreateWithoutCompanyInput> | GeographicRestrictionCreateWithoutCompanyInput[] | GeographicRestrictionUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: GeographicRestrictionCreateOrConnectWithoutCompanyInput | GeographicRestrictionCreateOrConnectWithoutCompanyInput[]
+    upsert?: GeographicRestrictionUpsertWithWhereUniqueWithoutCompanyInput | GeographicRestrictionUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: GeographicRestrictionCreateManyCompanyInputEnvelope
+    set?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    disconnect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    delete?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    connect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    update?: GeographicRestrictionUpdateWithWhereUniqueWithoutCompanyInput | GeographicRestrictionUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: GeographicRestrictionUpdateManyWithWhereWithoutCompanyInput | GeographicRestrictionUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: GeographicRestrictionScalarWhereInput | GeographicRestrictionScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutUsersInput = {
@@ -43726,6 +47068,34 @@ export namespace Prisma {
     connect?: SecurityQuestionWhereUniqueInput | SecurityQuestionWhereUniqueInput[]
   }
 
+  export type IpWhitelistCreateNestedManyWithoutUserInput = {
+    create?: XOR<IpWhitelistCreateWithoutUserInput, IpWhitelistUncheckedCreateWithoutUserInput> | IpWhitelistCreateWithoutUserInput[] | IpWhitelistUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: IpWhitelistCreateOrConnectWithoutUserInput | IpWhitelistCreateOrConnectWithoutUserInput[]
+    createMany?: IpWhitelistCreateManyUserInputEnvelope
+    connect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+  }
+
+  export type GeographicRestrictionCreateNestedManyWithoutUserInput = {
+    create?: XOR<GeographicRestrictionCreateWithoutUserInput, GeographicRestrictionUncheckedCreateWithoutUserInput> | GeographicRestrictionCreateWithoutUserInput[] | GeographicRestrictionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GeographicRestrictionCreateOrConnectWithoutUserInput | GeographicRestrictionCreateOrConnectWithoutUserInput[]
+    createMany?: GeographicRestrictionCreateManyUserInputEnvelope
+    connect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+  }
+
+  export type IpWhitelistCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<IpWhitelistCreateWithoutCreatorInput, IpWhitelistUncheckedCreateWithoutCreatorInput> | IpWhitelistCreateWithoutCreatorInput[] | IpWhitelistUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: IpWhitelistCreateOrConnectWithoutCreatorInput | IpWhitelistCreateOrConnectWithoutCreatorInput[]
+    createMany?: IpWhitelistCreateManyCreatorInputEnvelope
+    connect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+  }
+
+  export type GeographicRestrictionCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<GeographicRestrictionCreateWithoutCreatorInput, GeographicRestrictionUncheckedCreateWithoutCreatorInput> | GeographicRestrictionCreateWithoutCreatorInput[] | GeographicRestrictionUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: GeographicRestrictionCreateOrConnectWithoutCreatorInput | GeographicRestrictionCreateOrConnectWithoutCreatorInput[]
+    createMany?: GeographicRestrictionCreateManyCreatorInputEnvelope
+    connect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+  }
+
   export type PasswordUncheckedCreateNestedManyWithoutOwnerInput = {
     create?: XOR<PasswordCreateWithoutOwnerInput, PasswordUncheckedCreateWithoutOwnerInput> | PasswordCreateWithoutOwnerInput[] | PasswordUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PasswordCreateOrConnectWithoutOwnerInput | PasswordCreateOrConnectWithoutOwnerInput[]
@@ -43871,6 +47241,34 @@ export namespace Prisma {
     connectOrCreate?: SecurityQuestionCreateOrConnectWithoutUserInput | SecurityQuestionCreateOrConnectWithoutUserInput[]
     createMany?: SecurityQuestionCreateManyUserInputEnvelope
     connect?: SecurityQuestionWhereUniqueInput | SecurityQuestionWhereUniqueInput[]
+  }
+
+  export type IpWhitelistUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<IpWhitelistCreateWithoutUserInput, IpWhitelistUncheckedCreateWithoutUserInput> | IpWhitelistCreateWithoutUserInput[] | IpWhitelistUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: IpWhitelistCreateOrConnectWithoutUserInput | IpWhitelistCreateOrConnectWithoutUserInput[]
+    createMany?: IpWhitelistCreateManyUserInputEnvelope
+    connect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+  }
+
+  export type GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<GeographicRestrictionCreateWithoutUserInput, GeographicRestrictionUncheckedCreateWithoutUserInput> | GeographicRestrictionCreateWithoutUserInput[] | GeographicRestrictionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GeographicRestrictionCreateOrConnectWithoutUserInput | GeographicRestrictionCreateOrConnectWithoutUserInput[]
+    createMany?: GeographicRestrictionCreateManyUserInputEnvelope
+    connect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+  }
+
+  export type IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<IpWhitelistCreateWithoutCreatorInput, IpWhitelistUncheckedCreateWithoutCreatorInput> | IpWhitelistCreateWithoutCreatorInput[] | IpWhitelistUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: IpWhitelistCreateOrConnectWithoutCreatorInput | IpWhitelistCreateOrConnectWithoutCreatorInput[]
+    createMany?: IpWhitelistCreateManyCreatorInputEnvelope
+    connect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+  }
+
+  export type GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<GeographicRestrictionCreateWithoutCreatorInput, GeographicRestrictionUncheckedCreateWithoutCreatorInput> | GeographicRestrictionCreateWithoutCreatorInput[] | GeographicRestrictionUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: GeographicRestrictionCreateOrConnectWithoutCreatorInput | GeographicRestrictionCreateOrConnectWithoutCreatorInput[]
+    createMany?: GeographicRestrictionCreateManyCreatorInputEnvelope
+    connect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -44203,6 +47601,62 @@ export namespace Prisma {
     deleteMany?: SecurityQuestionScalarWhereInput | SecurityQuestionScalarWhereInput[]
   }
 
+  export type IpWhitelistUpdateManyWithoutUserNestedInput = {
+    create?: XOR<IpWhitelistCreateWithoutUserInput, IpWhitelistUncheckedCreateWithoutUserInput> | IpWhitelistCreateWithoutUserInput[] | IpWhitelistUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: IpWhitelistCreateOrConnectWithoutUserInput | IpWhitelistCreateOrConnectWithoutUserInput[]
+    upsert?: IpWhitelistUpsertWithWhereUniqueWithoutUserInput | IpWhitelistUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: IpWhitelistCreateManyUserInputEnvelope
+    set?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    disconnect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    delete?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    connect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    update?: IpWhitelistUpdateWithWhereUniqueWithoutUserInput | IpWhitelistUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: IpWhitelistUpdateManyWithWhereWithoutUserInput | IpWhitelistUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: IpWhitelistScalarWhereInput | IpWhitelistScalarWhereInput[]
+  }
+
+  export type GeographicRestrictionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<GeographicRestrictionCreateWithoutUserInput, GeographicRestrictionUncheckedCreateWithoutUserInput> | GeographicRestrictionCreateWithoutUserInput[] | GeographicRestrictionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GeographicRestrictionCreateOrConnectWithoutUserInput | GeographicRestrictionCreateOrConnectWithoutUserInput[]
+    upsert?: GeographicRestrictionUpsertWithWhereUniqueWithoutUserInput | GeographicRestrictionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: GeographicRestrictionCreateManyUserInputEnvelope
+    set?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    disconnect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    delete?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    connect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    update?: GeographicRestrictionUpdateWithWhereUniqueWithoutUserInput | GeographicRestrictionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: GeographicRestrictionUpdateManyWithWhereWithoutUserInput | GeographicRestrictionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: GeographicRestrictionScalarWhereInput | GeographicRestrictionScalarWhereInput[]
+  }
+
+  export type IpWhitelistUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<IpWhitelistCreateWithoutCreatorInput, IpWhitelistUncheckedCreateWithoutCreatorInput> | IpWhitelistCreateWithoutCreatorInput[] | IpWhitelistUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: IpWhitelistCreateOrConnectWithoutCreatorInput | IpWhitelistCreateOrConnectWithoutCreatorInput[]
+    upsert?: IpWhitelistUpsertWithWhereUniqueWithoutCreatorInput | IpWhitelistUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: IpWhitelistCreateManyCreatorInputEnvelope
+    set?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    disconnect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    delete?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    connect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    update?: IpWhitelistUpdateWithWhereUniqueWithoutCreatorInput | IpWhitelistUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: IpWhitelistUpdateManyWithWhereWithoutCreatorInput | IpWhitelistUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: IpWhitelistScalarWhereInput | IpWhitelistScalarWhereInput[]
+  }
+
+  export type GeographicRestrictionUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<GeographicRestrictionCreateWithoutCreatorInput, GeographicRestrictionUncheckedCreateWithoutCreatorInput> | GeographicRestrictionCreateWithoutCreatorInput[] | GeographicRestrictionUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: GeographicRestrictionCreateOrConnectWithoutCreatorInput | GeographicRestrictionCreateOrConnectWithoutCreatorInput[]
+    upsert?: GeographicRestrictionUpsertWithWhereUniqueWithoutCreatorInput | GeographicRestrictionUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: GeographicRestrictionCreateManyCreatorInputEnvelope
+    set?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    disconnect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    delete?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    connect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    update?: GeographicRestrictionUpdateWithWhereUniqueWithoutCreatorInput | GeographicRestrictionUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: GeographicRestrictionUpdateManyWithWhereWithoutCreatorInput | GeographicRestrictionUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: GeographicRestrictionScalarWhereInput | GeographicRestrictionScalarWhereInput[]
+  }
+
   export type PasswordUncheckedUpdateManyWithoutOwnerNestedInput = {
     create?: XOR<PasswordCreateWithoutOwnerInput, PasswordUncheckedCreateWithoutOwnerInput> | PasswordCreateWithoutOwnerInput[] | PasswordUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: PasswordCreateOrConnectWithoutOwnerInput | PasswordCreateOrConnectWithoutOwnerInput[]
@@ -44495,6 +47949,62 @@ export namespace Prisma {
     update?: SecurityQuestionUpdateWithWhereUniqueWithoutUserInput | SecurityQuestionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: SecurityQuestionUpdateManyWithWhereWithoutUserInput | SecurityQuestionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: SecurityQuestionScalarWhereInput | SecurityQuestionScalarWhereInput[]
+  }
+
+  export type IpWhitelistUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<IpWhitelistCreateWithoutUserInput, IpWhitelistUncheckedCreateWithoutUserInput> | IpWhitelistCreateWithoutUserInput[] | IpWhitelistUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: IpWhitelistCreateOrConnectWithoutUserInput | IpWhitelistCreateOrConnectWithoutUserInput[]
+    upsert?: IpWhitelistUpsertWithWhereUniqueWithoutUserInput | IpWhitelistUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: IpWhitelistCreateManyUserInputEnvelope
+    set?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    disconnect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    delete?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    connect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    update?: IpWhitelistUpdateWithWhereUniqueWithoutUserInput | IpWhitelistUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: IpWhitelistUpdateManyWithWhereWithoutUserInput | IpWhitelistUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: IpWhitelistScalarWhereInput | IpWhitelistScalarWhereInput[]
+  }
+
+  export type GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<GeographicRestrictionCreateWithoutUserInput, GeographicRestrictionUncheckedCreateWithoutUserInput> | GeographicRestrictionCreateWithoutUserInput[] | GeographicRestrictionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GeographicRestrictionCreateOrConnectWithoutUserInput | GeographicRestrictionCreateOrConnectWithoutUserInput[]
+    upsert?: GeographicRestrictionUpsertWithWhereUniqueWithoutUserInput | GeographicRestrictionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: GeographicRestrictionCreateManyUserInputEnvelope
+    set?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    disconnect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    delete?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    connect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    update?: GeographicRestrictionUpdateWithWhereUniqueWithoutUserInput | GeographicRestrictionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: GeographicRestrictionUpdateManyWithWhereWithoutUserInput | GeographicRestrictionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: GeographicRestrictionScalarWhereInput | GeographicRestrictionScalarWhereInput[]
+  }
+
+  export type IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<IpWhitelistCreateWithoutCreatorInput, IpWhitelistUncheckedCreateWithoutCreatorInput> | IpWhitelistCreateWithoutCreatorInput[] | IpWhitelistUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: IpWhitelistCreateOrConnectWithoutCreatorInput | IpWhitelistCreateOrConnectWithoutCreatorInput[]
+    upsert?: IpWhitelistUpsertWithWhereUniqueWithoutCreatorInput | IpWhitelistUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: IpWhitelistCreateManyCreatorInputEnvelope
+    set?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    disconnect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    delete?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    connect?: IpWhitelistWhereUniqueInput | IpWhitelistWhereUniqueInput[]
+    update?: IpWhitelistUpdateWithWhereUniqueWithoutCreatorInput | IpWhitelistUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: IpWhitelistUpdateManyWithWhereWithoutCreatorInput | IpWhitelistUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: IpWhitelistScalarWhereInput | IpWhitelistScalarWhereInput[]
+  }
+
+  export type GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<GeographicRestrictionCreateWithoutCreatorInput, GeographicRestrictionUncheckedCreateWithoutCreatorInput> | GeographicRestrictionCreateWithoutCreatorInput[] | GeographicRestrictionUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: GeographicRestrictionCreateOrConnectWithoutCreatorInput | GeographicRestrictionCreateOrConnectWithoutCreatorInput[]
+    upsert?: GeographicRestrictionUpsertWithWhereUniqueWithoutCreatorInput | GeographicRestrictionUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: GeographicRestrictionCreateManyCreatorInputEnvelope
+    set?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    disconnect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    delete?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    connect?: GeographicRestrictionWhereUniqueInput | GeographicRestrictionWhereUniqueInput[]
+    update?: GeographicRestrictionUpdateWithWhereUniqueWithoutCreatorInput | GeographicRestrictionUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: GeographicRestrictionUpdateManyWithWhereWithoutCreatorInput | GeographicRestrictionUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: GeographicRestrictionScalarWhereInput | GeographicRestrictionScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAccountsInput = {
@@ -45691,6 +49201,102 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSecurityQuestionsInput, UserUpdateWithoutSecurityQuestionsInput>, UserUncheckedUpdateWithoutSecurityQuestionsInput>
   }
 
+  export type UserCreateNestedOneWithoutIpWhitelistsInput = {
+    create?: XOR<UserCreateWithoutIpWhitelistsInput, UserUncheckedCreateWithoutIpWhitelistsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutIpWhitelistsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutIpWhitelistsInput = {
+    create?: XOR<CompanyCreateWithoutIpWhitelistsInput, CompanyUncheckedCreateWithoutIpWhitelistsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutIpWhitelistsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutCreatedIpWhitelistsInput = {
+    create?: XOR<UserCreateWithoutCreatedIpWhitelistsInput, UserUncheckedCreateWithoutCreatedIpWhitelistsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedIpWhitelistsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneWithoutIpWhitelistsNestedInput = {
+    create?: XOR<UserCreateWithoutIpWhitelistsInput, UserUncheckedCreateWithoutIpWhitelistsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutIpWhitelistsInput
+    upsert?: UserUpsertWithoutIpWhitelistsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutIpWhitelistsInput, UserUpdateWithoutIpWhitelistsInput>, UserUncheckedUpdateWithoutIpWhitelistsInput>
+  }
+
+  export type CompanyUpdateOneWithoutIpWhitelistsNestedInput = {
+    create?: XOR<CompanyCreateWithoutIpWhitelistsInput, CompanyUncheckedCreateWithoutIpWhitelistsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutIpWhitelistsInput
+    upsert?: CompanyUpsertWithoutIpWhitelistsInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutIpWhitelistsInput, CompanyUpdateWithoutIpWhitelistsInput>, CompanyUncheckedUpdateWithoutIpWhitelistsInput>
+  }
+
+  export type UserUpdateOneWithoutCreatedIpWhitelistsNestedInput = {
+    create?: XOR<UserCreateWithoutCreatedIpWhitelistsInput, UserUncheckedCreateWithoutCreatedIpWhitelistsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedIpWhitelistsInput
+    upsert?: UserUpsertWithoutCreatedIpWhitelistsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCreatedIpWhitelistsInput, UserUpdateWithoutCreatedIpWhitelistsInput>, UserUncheckedUpdateWithoutCreatedIpWhitelistsInput>
+  }
+
+  export type UserCreateNestedOneWithoutGeographicRestrictionsInput = {
+    create?: XOR<UserCreateWithoutGeographicRestrictionsInput, UserUncheckedCreateWithoutGeographicRestrictionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGeographicRestrictionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutGeographicRestrictionsInput = {
+    create?: XOR<CompanyCreateWithoutGeographicRestrictionsInput, CompanyUncheckedCreateWithoutGeographicRestrictionsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutGeographicRestrictionsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutCreatedGeographicRestrictionsInput = {
+    create?: XOR<UserCreateWithoutCreatedGeographicRestrictionsInput, UserUncheckedCreateWithoutCreatedGeographicRestrictionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedGeographicRestrictionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneWithoutGeographicRestrictionsNestedInput = {
+    create?: XOR<UserCreateWithoutGeographicRestrictionsInput, UserUncheckedCreateWithoutGeographicRestrictionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGeographicRestrictionsInput
+    upsert?: UserUpsertWithoutGeographicRestrictionsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGeographicRestrictionsInput, UserUpdateWithoutGeographicRestrictionsInput>, UserUncheckedUpdateWithoutGeographicRestrictionsInput>
+  }
+
+  export type CompanyUpdateOneWithoutGeographicRestrictionsNestedInput = {
+    create?: XOR<CompanyCreateWithoutGeographicRestrictionsInput, CompanyUncheckedCreateWithoutGeographicRestrictionsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutGeographicRestrictionsInput
+    upsert?: CompanyUpsertWithoutGeographicRestrictionsInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutGeographicRestrictionsInput, CompanyUpdateWithoutGeographicRestrictionsInput>, CompanyUncheckedUpdateWithoutGeographicRestrictionsInput>
+  }
+
+  export type UserUpdateOneWithoutCreatedGeographicRestrictionsNestedInput = {
+    create?: XOR<UserCreateWithoutCreatedGeographicRestrictionsInput, UserUncheckedCreateWithoutCreatedGeographicRestrictionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedGeographicRestrictionsInput
+    upsert?: UserUpsertWithoutCreatedGeographicRestrictionsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCreatedGeographicRestrictionsInput, UserUpdateWithoutCreatedGeographicRestrictionsInput>, UserUncheckedUpdateWithoutCreatedGeographicRestrictionsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -46092,6 +49698,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutCompanyInput = {
@@ -46136,6 +49746,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutCompanyInput = {
@@ -46187,6 +49801,70 @@ export namespace Prisma {
 
   export type PasswordTemplateCreateManyCompanyInputEnvelope = {
     data: PasswordTemplateCreateManyCompanyInput | PasswordTemplateCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type IpWhitelistCreateWithoutCompanyInput = {
+    id?: string
+    ipAddress: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutIpWhitelistsInput
+    creator?: UserCreateNestedOneWithoutCreatedIpWhitelistsInput
+  }
+
+  export type IpWhitelistUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    userId?: string | null
+    ipAddress: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type IpWhitelistCreateOrConnectWithoutCompanyInput = {
+    where: IpWhitelistWhereUniqueInput
+    create: XOR<IpWhitelistCreateWithoutCompanyInput, IpWhitelistUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type IpWhitelistCreateManyCompanyInputEnvelope = {
+    data: IpWhitelistCreateManyCompanyInput | IpWhitelistCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type GeographicRestrictionCreateWithoutCompanyInput = {
+    id?: string
+    countryCode: string
+    action?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutGeographicRestrictionsInput
+    creator?: UserCreateNestedOneWithoutCreatedGeographicRestrictionsInput
+  }
+
+  export type GeographicRestrictionUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    userId?: string | null
+    countryCode: string
+    action?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type GeographicRestrictionCreateOrConnectWithoutCompanyInput = {
+    where: GeographicRestrictionWhereUniqueInput
+    create: XOR<GeographicRestrictionCreateWithoutCompanyInput, GeographicRestrictionUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type GeographicRestrictionCreateManyCompanyInputEnvelope = {
+    data: GeographicRestrictionCreateManyCompanyInput | GeographicRestrictionCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -46269,6 +49947,68 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"PasswordTemplate"> | Date | string
   }
 
+  export type IpWhitelistUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: IpWhitelistWhereUniqueInput
+    update: XOR<IpWhitelistUpdateWithoutCompanyInput, IpWhitelistUncheckedUpdateWithoutCompanyInput>
+    create: XOR<IpWhitelistCreateWithoutCompanyInput, IpWhitelistUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type IpWhitelistUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: IpWhitelistWhereUniqueInput
+    data: XOR<IpWhitelistUpdateWithoutCompanyInput, IpWhitelistUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type IpWhitelistUpdateManyWithWhereWithoutCompanyInput = {
+    where: IpWhitelistScalarWhereInput
+    data: XOR<IpWhitelistUpdateManyMutationInput, IpWhitelistUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type IpWhitelistScalarWhereInput = {
+    AND?: IpWhitelistScalarWhereInput | IpWhitelistScalarWhereInput[]
+    OR?: IpWhitelistScalarWhereInput[]
+    NOT?: IpWhitelistScalarWhereInput | IpWhitelistScalarWhereInput[]
+    id?: StringFilter<"IpWhitelist"> | string
+    userId?: StringNullableFilter<"IpWhitelist"> | string | null
+    companyId?: StringNullableFilter<"IpWhitelist"> | string | null
+    ipAddress?: StringFilter<"IpWhitelist"> | string
+    description?: StringNullableFilter<"IpWhitelist"> | string | null
+    isActive?: BoolFilter<"IpWhitelist"> | boolean
+    createdAt?: DateTimeFilter<"IpWhitelist"> | Date | string
+    updatedAt?: DateTimeFilter<"IpWhitelist"> | Date | string
+    createdById?: StringNullableFilter<"IpWhitelist"> | string | null
+  }
+
+  export type GeographicRestrictionUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: GeographicRestrictionWhereUniqueInput
+    update: XOR<GeographicRestrictionUpdateWithoutCompanyInput, GeographicRestrictionUncheckedUpdateWithoutCompanyInput>
+    create: XOR<GeographicRestrictionCreateWithoutCompanyInput, GeographicRestrictionUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type GeographicRestrictionUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: GeographicRestrictionWhereUniqueInput
+    data: XOR<GeographicRestrictionUpdateWithoutCompanyInput, GeographicRestrictionUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type GeographicRestrictionUpdateManyWithWhereWithoutCompanyInput = {
+    where: GeographicRestrictionScalarWhereInput
+    data: XOR<GeographicRestrictionUpdateManyMutationInput, GeographicRestrictionUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type GeographicRestrictionScalarWhereInput = {
+    AND?: GeographicRestrictionScalarWhereInput | GeographicRestrictionScalarWhereInput[]
+    OR?: GeographicRestrictionScalarWhereInput[]
+    NOT?: GeographicRestrictionScalarWhereInput | GeographicRestrictionScalarWhereInput[]
+    id?: StringFilter<"GeographicRestriction"> | string
+    userId?: StringNullableFilter<"GeographicRestriction"> | string | null
+    companyId?: StringNullableFilter<"GeographicRestriction"> | string | null
+    countryCode?: StringFilter<"GeographicRestriction"> | string
+    action?: StringFilter<"GeographicRestriction"> | string
+    isActive?: BoolFilter<"GeographicRestriction"> | boolean
+    createdAt?: DateTimeFilter<"GeographicRestriction"> | Date | string
+    updatedAt?: DateTimeFilter<"GeographicRestriction"> | Date | string
+    createdById?: StringNullableFilter<"GeographicRestriction"> | string | null
+  }
+
   export type CompanyCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -46276,6 +50016,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -46285,6 +50027,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -46910,6 +50654,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutCreatedUsersInput = {
@@ -46954,6 +50702,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutCreatedUsersInput = {
@@ -47003,6 +50755,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutCreatedByInput = {
@@ -47047,6 +50803,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutCreatedByInput = {
@@ -47171,6 +50931,134 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type IpWhitelistCreateWithoutUserInput = {
+    id?: string
+    ipAddress: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutIpWhitelistsInput
+    creator?: UserCreateNestedOneWithoutCreatedIpWhitelistsInput
+  }
+
+  export type IpWhitelistUncheckedCreateWithoutUserInput = {
+    id?: string
+    companyId?: string | null
+    ipAddress: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type IpWhitelistCreateOrConnectWithoutUserInput = {
+    where: IpWhitelistWhereUniqueInput
+    create: XOR<IpWhitelistCreateWithoutUserInput, IpWhitelistUncheckedCreateWithoutUserInput>
+  }
+
+  export type IpWhitelistCreateManyUserInputEnvelope = {
+    data: IpWhitelistCreateManyUserInput | IpWhitelistCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type GeographicRestrictionCreateWithoutUserInput = {
+    id?: string
+    countryCode: string
+    action?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutGeographicRestrictionsInput
+    creator?: UserCreateNestedOneWithoutCreatedGeographicRestrictionsInput
+  }
+
+  export type GeographicRestrictionUncheckedCreateWithoutUserInput = {
+    id?: string
+    companyId?: string | null
+    countryCode: string
+    action?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type GeographicRestrictionCreateOrConnectWithoutUserInput = {
+    where: GeographicRestrictionWhereUniqueInput
+    create: XOR<GeographicRestrictionCreateWithoutUserInput, GeographicRestrictionUncheckedCreateWithoutUserInput>
+  }
+
+  export type GeographicRestrictionCreateManyUserInputEnvelope = {
+    data: GeographicRestrictionCreateManyUserInput | GeographicRestrictionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type IpWhitelistCreateWithoutCreatorInput = {
+    id?: string
+    ipAddress: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutIpWhitelistsInput
+    company?: CompanyCreateNestedOneWithoutIpWhitelistsInput
+  }
+
+  export type IpWhitelistUncheckedCreateWithoutCreatorInput = {
+    id?: string
+    userId?: string | null
+    companyId?: string | null
+    ipAddress: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IpWhitelistCreateOrConnectWithoutCreatorInput = {
+    where: IpWhitelistWhereUniqueInput
+    create: XOR<IpWhitelistCreateWithoutCreatorInput, IpWhitelistUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type IpWhitelistCreateManyCreatorInputEnvelope = {
+    data: IpWhitelistCreateManyCreatorInput | IpWhitelistCreateManyCreatorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type GeographicRestrictionCreateWithoutCreatorInput = {
+    id?: string
+    countryCode: string
+    action?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user?: UserCreateNestedOneWithoutGeographicRestrictionsInput
+    company?: CompanyCreateNestedOneWithoutGeographicRestrictionsInput
+  }
+
+  export type GeographicRestrictionUncheckedCreateWithoutCreatorInput = {
+    id?: string
+    userId?: string | null
+    companyId?: string | null
+    countryCode: string
+    action?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GeographicRestrictionCreateOrConnectWithoutCreatorInput = {
+    where: GeographicRestrictionWhereUniqueInput
+    create: XOR<GeographicRestrictionCreateWithoutCreatorInput, GeographicRestrictionUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type GeographicRestrictionCreateManyCreatorInputEnvelope = {
+    data: GeographicRestrictionCreateManyCreatorInput | GeographicRestrictionCreateManyCreatorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompanyUpsertWithoutUsersInput = {
     update: XOR<CompanyUpdateWithoutUsersInput, CompanyUncheckedUpdateWithoutUsersInput>
     create: XOR<CompanyCreateWithoutUsersInput, CompanyUncheckedCreateWithoutUsersInput>
@@ -47189,6 +51077,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -47198,6 +51088,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type PasswordUpsertWithWhereUniqueWithoutOwnerInput = {
@@ -47738,6 +51630,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedUsersInput = {
@@ -47782,6 +51678,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutCreatedByInput = {
@@ -47915,6 +51815,70 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"SecurityQuestion"> | Date | string
   }
 
+  export type IpWhitelistUpsertWithWhereUniqueWithoutUserInput = {
+    where: IpWhitelistWhereUniqueInput
+    update: XOR<IpWhitelistUpdateWithoutUserInput, IpWhitelistUncheckedUpdateWithoutUserInput>
+    create: XOR<IpWhitelistCreateWithoutUserInput, IpWhitelistUncheckedCreateWithoutUserInput>
+  }
+
+  export type IpWhitelistUpdateWithWhereUniqueWithoutUserInput = {
+    where: IpWhitelistWhereUniqueInput
+    data: XOR<IpWhitelistUpdateWithoutUserInput, IpWhitelistUncheckedUpdateWithoutUserInput>
+  }
+
+  export type IpWhitelistUpdateManyWithWhereWithoutUserInput = {
+    where: IpWhitelistScalarWhereInput
+    data: XOR<IpWhitelistUpdateManyMutationInput, IpWhitelistUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type GeographicRestrictionUpsertWithWhereUniqueWithoutUserInput = {
+    where: GeographicRestrictionWhereUniqueInput
+    update: XOR<GeographicRestrictionUpdateWithoutUserInput, GeographicRestrictionUncheckedUpdateWithoutUserInput>
+    create: XOR<GeographicRestrictionCreateWithoutUserInput, GeographicRestrictionUncheckedCreateWithoutUserInput>
+  }
+
+  export type GeographicRestrictionUpdateWithWhereUniqueWithoutUserInput = {
+    where: GeographicRestrictionWhereUniqueInput
+    data: XOR<GeographicRestrictionUpdateWithoutUserInput, GeographicRestrictionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type GeographicRestrictionUpdateManyWithWhereWithoutUserInput = {
+    where: GeographicRestrictionScalarWhereInput
+    data: XOR<GeographicRestrictionUpdateManyMutationInput, GeographicRestrictionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type IpWhitelistUpsertWithWhereUniqueWithoutCreatorInput = {
+    where: IpWhitelistWhereUniqueInput
+    update: XOR<IpWhitelistUpdateWithoutCreatorInput, IpWhitelistUncheckedUpdateWithoutCreatorInput>
+    create: XOR<IpWhitelistCreateWithoutCreatorInput, IpWhitelistUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type IpWhitelistUpdateWithWhereUniqueWithoutCreatorInput = {
+    where: IpWhitelistWhereUniqueInput
+    data: XOR<IpWhitelistUpdateWithoutCreatorInput, IpWhitelistUncheckedUpdateWithoutCreatorInput>
+  }
+
+  export type IpWhitelistUpdateManyWithWhereWithoutCreatorInput = {
+    where: IpWhitelistScalarWhereInput
+    data: XOR<IpWhitelistUpdateManyMutationInput, IpWhitelistUncheckedUpdateManyWithoutCreatorInput>
+  }
+
+  export type GeographicRestrictionUpsertWithWhereUniqueWithoutCreatorInput = {
+    where: GeographicRestrictionWhereUniqueInput
+    update: XOR<GeographicRestrictionUpdateWithoutCreatorInput, GeographicRestrictionUncheckedUpdateWithoutCreatorInput>
+    create: XOR<GeographicRestrictionCreateWithoutCreatorInput, GeographicRestrictionUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type GeographicRestrictionUpdateWithWhereUniqueWithoutCreatorInput = {
+    where: GeographicRestrictionWhereUniqueInput
+    data: XOR<GeographicRestrictionUpdateWithoutCreatorInput, GeographicRestrictionUncheckedUpdateWithoutCreatorInput>
+  }
+
+  export type GeographicRestrictionUpdateManyWithWhereWithoutCreatorInput = {
+    where: GeographicRestrictionScalarWhereInput
+    data: XOR<GeographicRestrictionUpdateManyMutationInput, GeographicRestrictionUncheckedUpdateManyWithoutCreatorInput>
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name: string
@@ -47957,6 +51921,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -48001,6 +51969,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -48061,6 +52033,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -48105,6 +52081,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -48149,6 +52129,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -48193,6 +52177,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -48253,6 +52241,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -48297,6 +52289,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateWithoutOwnedPasswordsInput = {
@@ -48341,6 +52337,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutOwnedPasswordsInput = {
@@ -48385,6 +52385,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutOwnedPasswordsInput = {
@@ -48675,6 +52679,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOwnedPasswordsInput = {
@@ -48719,6 +52727,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type FolderUpsertWithoutPasswordsInput = {
@@ -48980,6 +52992,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutPasswordHistoryInput = {
@@ -49024,6 +53040,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutPasswordHistoryInput = {
@@ -49141,6 +53161,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPasswordHistoryInput = {
@@ -49185,6 +53209,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type PasswordCreateWithoutBreachesInput = {
@@ -49280,6 +53308,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutPasswordBreachesCheckedInput = {
@@ -49324,6 +53356,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutPasswordBreachesCheckedInput = {
@@ -49373,6 +53409,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutPasswordBreachesResolvedInput = {
@@ -49417,6 +53457,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutPasswordBreachesResolvedInput = {
@@ -49534,6 +53578,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPasswordBreachesCheckedInput = {
@@ -49578,6 +53626,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUpsertWithoutPasswordBreachesResolvedInput = {
@@ -49633,6 +53685,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPasswordBreachesResolvedInput = {
@@ -49677,6 +53733,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateWithoutRotationPoliciesInput = {
@@ -49721,6 +53781,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutRotationPoliciesInput = {
@@ -49765,6 +53829,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutRotationPoliciesInput = {
@@ -49919,6 +53987,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRotationPoliciesInput = {
@@ -49963,6 +54035,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type PasswordUpsertWithWhereUniqueWithoutRotationPolicyInput = {
@@ -50125,6 +54201,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutPasswordRotationsInput = {
@@ -50169,6 +54249,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutPasswordRotationsInput = {
@@ -50327,6 +54411,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPasswordRotationsInput = {
@@ -50371,6 +54459,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type FolderCreateWithoutChildrenInput = {
@@ -50666,6 +54758,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutSharedPasswordsInput = {
@@ -50710,6 +54806,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutSharedPasswordsInput = {
@@ -50850,6 +54950,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSharedPasswordsInput = {
@@ -50894,6 +54998,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type TeamUpsertWithoutSharedPasswordsInput = {
@@ -51074,6 +55182,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutTeamMembershipsInput = {
@@ -51118,6 +55230,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutTeamMembershipsInput = {
@@ -51207,6 +55323,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTeamMembershipsInput = {
@@ -51251,6 +55371,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type PasswordTagCreateWithoutTagInput = {
@@ -51489,6 +55613,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -51533,6 +55661,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -51593,6 +55725,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -51637,6 +55773,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateWithoutCreatedRolesInput = {
@@ -51681,6 +55821,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutCreatedRolesInput = {
@@ -51725,6 +55869,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutCreatedRolesInput = {
@@ -51807,6 +55955,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedRolesInput = {
@@ -51851,6 +56003,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -52071,6 +56227,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutMfaCredentialsInput = {
@@ -52115,6 +56275,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutMfaCredentialsInput = {
@@ -52175,6 +56339,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMfaCredentialsInput = {
@@ -52219,6 +56387,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateWithoutRecoveryCodesInput = {
@@ -52263,6 +56435,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutRecoveryCodesInput = {
@@ -52307,6 +56483,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutRecoveryCodesInput = {
@@ -52367,6 +56547,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRecoveryCodesInput = {
@@ -52411,6 +56595,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateWithoutSavedSearchesInput = {
@@ -52455,6 +56643,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutSavedSearchesInput = {
@@ -52499,6 +56691,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutSavedSearchesInput = {
@@ -52559,6 +56755,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSavedSearchesInput = {
@@ -52603,6 +56803,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateWithoutSearchHistoryInput = {
@@ -52647,6 +56851,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutSearchHistoryInput = {
@@ -52691,6 +56899,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutSearchHistoryInput = {
@@ -52751,6 +56963,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSearchHistoryInput = {
@@ -52795,6 +57011,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateWithoutPasswordTemplatesInput = {
@@ -52839,6 +57059,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutPasswordTemplatesInput = {
@@ -52883,6 +57107,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutPasswordTemplatesInput = {
@@ -52897,6 +57125,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTemplatesInput = {
@@ -52906,6 +57136,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTemplatesInput = {
@@ -52966,6 +57198,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPasswordTemplatesInput = {
@@ -53010,6 +57246,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type CompanyUpsertWithoutTemplatesInput = {
@@ -53030,6 +57270,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTemplatesInput = {
@@ -53039,6 +57281,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutEmailVerificationTokensInput = {
@@ -53083,6 +57327,10 @@ export namespace Prisma {
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutEmailVerificationTokensInput = {
@@ -53127,6 +57375,10 @@ export namespace Prisma {
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutEmailVerificationTokensInput = {
@@ -53187,6 +57439,10 @@ export namespace Prisma {
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEmailVerificationTokensInput = {
@@ -53231,6 +57487,10 @@ export namespace Prisma {
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateWithoutPasswordResetTokensInput = {
@@ -53275,6 +57535,10 @@ export namespace Prisma {
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
@@ -53319,6 +57583,10 @@ export namespace Prisma {
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutPasswordResetTokensInput = {
@@ -53379,6 +57647,10 @@ export namespace Prisma {
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
@@ -53423,6 +57695,10 @@ export namespace Prisma {
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateWithoutSecurityQuestionsInput = {
@@ -53467,6 +57743,10 @@ export namespace Prisma {
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
   }
 
   export type UserUncheckedCreateWithoutSecurityQuestionsInput = {
@@ -53511,6 +57791,10 @@ export namespace Prisma {
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
   }
 
   export type UserCreateOrConnectWithoutSecurityQuestionsInput = {
@@ -53571,6 +57855,10 @@ export namespace Prisma {
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSecurityQuestionsInput = {
@@ -53615,6 +57903,962 @@ export namespace Prisma {
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserCreateWithoutIpWhitelistsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutIpWhitelistsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutIpWhitelistsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutIpWhitelistsInput, UserUncheckedCreateWithoutIpWhitelistsInput>
+  }
+
+  export type CompanyCreateWithoutIpWhitelistsInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutIpWhitelistsInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutIpWhitelistsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutIpWhitelistsInput, CompanyUncheckedCreateWithoutIpWhitelistsInput>
+  }
+
+  export type UserCreateWithoutCreatedIpWhitelistsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutCreatedIpWhitelistsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutCreatedIpWhitelistsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCreatedIpWhitelistsInput, UserUncheckedCreateWithoutCreatedIpWhitelistsInput>
+  }
+
+  export type UserUpsertWithoutIpWhitelistsInput = {
+    update: XOR<UserUpdateWithoutIpWhitelistsInput, UserUncheckedUpdateWithoutIpWhitelistsInput>
+    create: XOR<UserCreateWithoutIpWhitelistsInput, UserUncheckedCreateWithoutIpWhitelistsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutIpWhitelistsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutIpWhitelistsInput, UserUncheckedUpdateWithoutIpWhitelistsInput>
+  }
+
+  export type UserUpdateWithoutIpWhitelistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutIpWhitelistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type CompanyUpsertWithoutIpWhitelistsInput = {
+    update: XOR<CompanyUpdateWithoutIpWhitelistsInput, CompanyUncheckedUpdateWithoutIpWhitelistsInput>
+    create: XOR<CompanyCreateWithoutIpWhitelistsInput, CompanyUncheckedCreateWithoutIpWhitelistsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutIpWhitelistsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutIpWhitelistsInput, CompanyUncheckedUpdateWithoutIpWhitelistsInput>
+  }
+
+  export type CompanyUpdateWithoutIpWhitelistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutIpWhitelistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserUpsertWithoutCreatedIpWhitelistsInput = {
+    update: XOR<UserUpdateWithoutCreatedIpWhitelistsInput, UserUncheckedUpdateWithoutCreatedIpWhitelistsInput>
+    create: XOR<UserCreateWithoutCreatedIpWhitelistsInput, UserUncheckedCreateWithoutCreatedIpWhitelistsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCreatedIpWhitelistsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCreatedIpWhitelistsInput, UserUncheckedUpdateWithoutCreatedIpWhitelistsInput>
+  }
+
+  export type UserUpdateWithoutCreatedIpWhitelistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCreatedIpWhitelistsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserCreateWithoutGeographicRestrictionsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutGeographicRestrictionsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutGeographicRestrictionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutGeographicRestrictionsInput, UserUncheckedCreateWithoutGeographicRestrictionsInput>
+  }
+
+  export type CompanyCreateWithoutGeographicRestrictionsInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutGeographicRestrictionsInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutGeographicRestrictionsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutGeographicRestrictionsInput, CompanyUncheckedCreateWithoutGeographicRestrictionsInput>
+  }
+
+  export type UserCreateWithoutCreatedGeographicRestrictionsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutCreatedGeographicRestrictionsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutCreatedGeographicRestrictionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCreatedGeographicRestrictionsInput, UserUncheckedCreateWithoutCreatedGeographicRestrictionsInput>
+  }
+
+  export type UserUpsertWithoutGeographicRestrictionsInput = {
+    update: XOR<UserUpdateWithoutGeographicRestrictionsInput, UserUncheckedUpdateWithoutGeographicRestrictionsInput>
+    create: XOR<UserCreateWithoutGeographicRestrictionsInput, UserUncheckedCreateWithoutGeographicRestrictionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutGeographicRestrictionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutGeographicRestrictionsInput, UserUncheckedUpdateWithoutGeographicRestrictionsInput>
+  }
+
+  export type UserUpdateWithoutGeographicRestrictionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutGeographicRestrictionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type CompanyUpsertWithoutGeographicRestrictionsInput = {
+    update: XOR<CompanyUpdateWithoutGeographicRestrictionsInput, CompanyUncheckedUpdateWithoutGeographicRestrictionsInput>
+    create: XOR<CompanyCreateWithoutGeographicRestrictionsInput, CompanyUncheckedCreateWithoutGeographicRestrictionsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutGeographicRestrictionsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutGeographicRestrictionsInput, CompanyUncheckedUpdateWithoutGeographicRestrictionsInput>
+  }
+
+  export type CompanyUpdateWithoutGeographicRestrictionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutGeographicRestrictionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserUpsertWithoutCreatedGeographicRestrictionsInput = {
+    update: XOR<UserUpdateWithoutCreatedGeographicRestrictionsInput, UserUncheckedUpdateWithoutCreatedGeographicRestrictionsInput>
+    create: XOR<UserCreateWithoutCreatedGeographicRestrictionsInput, UserUncheckedCreateWithoutCreatedGeographicRestrictionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCreatedGeographicRestrictionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCreatedGeographicRestrictionsInput, UserUncheckedUpdateWithoutCreatedGeographicRestrictionsInput>
+  }
+
+  export type UserUpdateWithoutCreatedGeographicRestrictionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCreatedGeographicRestrictionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateManyCompanyInput = {
@@ -53654,6 +58898,28 @@ export namespace Prisma {
     usageCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type IpWhitelistCreateManyCompanyInput = {
+    id?: string
+    userId?: string | null
+    ipAddress: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type GeographicRestrictionCreateManyCompanyInput = {
+    id?: string
+    userId?: string | null
+    countryCode: string
+    action?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
   }
 
   export type UserUpdateWithoutCompanyInput = {
@@ -53698,6 +58964,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompanyInput = {
@@ -53742,6 +59012,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCompanyInput = {
@@ -53813,6 +59087,72 @@ export namespace Prisma {
     usageCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IpWhitelistUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ipAddress?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutIpWhitelistsNestedInput
+    creator?: UserUpdateOneWithoutCreatedIpWhitelistsNestedInput
+  }
+
+  export type IpWhitelistUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type IpWhitelistUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type GeographicRestrictionUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    countryCode?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutGeographicRestrictionsNestedInput
+    creator?: UserUpdateOneWithoutCreatedGeographicRestrictionsNestedInput
+  }
+
+  export type GeographicRestrictionUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    countryCode?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type GeographicRestrictionUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    countryCode?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PasswordCreateManyOwnerInput = {
@@ -54070,6 +59410,50 @@ export namespace Prisma {
     id?: string
     question: string
     answerHash: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IpWhitelistCreateManyUserInput = {
+    id?: string
+    companyId?: string | null
+    ipAddress: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type GeographicRestrictionCreateManyUserInput = {
+    id?: string
+    companyId?: string | null
+    countryCode: string
+    action?: string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById?: string | null
+  }
+
+  export type IpWhitelistCreateManyCreatorInput = {
+    id?: string
+    userId?: string | null
+    companyId?: string | null
+    ipAddress: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GeographicRestrictionCreateManyCreatorInput = {
+    id?: string
+    userId?: string | null
+    companyId?: string | null
+    countryCode: string
+    action?: string
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -54733,6 +60117,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedByInput = {
@@ -54777,6 +60165,10 @@ export namespace Prisma {
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCreatedByInput = {
@@ -54905,6 +60297,138 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     answerHash?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IpWhitelistUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ipAddress?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutIpWhitelistsNestedInput
+    creator?: UserUpdateOneWithoutCreatedIpWhitelistsNestedInput
+  }
+
+  export type IpWhitelistUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type IpWhitelistUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type GeographicRestrictionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    countryCode?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutGeographicRestrictionsNestedInput
+    creator?: UserUpdateOneWithoutCreatedGeographicRestrictionsNestedInput
+  }
+
+  export type GeographicRestrictionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    countryCode?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type GeographicRestrictionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    countryCode?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type IpWhitelistUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ipAddress?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutIpWhitelistsNestedInput
+    company?: CompanyUpdateOneWithoutIpWhitelistsNestedInput
+  }
+
+  export type IpWhitelistUncheckedUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IpWhitelistUncheckedUpdateManyWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    ipAddress?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeographicRestrictionUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    countryCode?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutGeographicRestrictionsNestedInput
+    company?: CompanyUpdateOneWithoutGeographicRestrictionsNestedInput
+  }
+
+  export type GeographicRestrictionUncheckedUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    countryCode?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeographicRestrictionUncheckedUpdateManyWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    countryCode?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

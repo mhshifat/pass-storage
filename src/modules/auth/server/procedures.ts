@@ -521,15 +521,146 @@ export const authRouter = createTRPCRouter({
                 }
             }
 
+            // Get request metadata (IP and user agent)
+            const headersList = await headers();
+            const { ipAddress, userAgent } = getRequestMetadata(headersList);
+
+            // Check IP whitelist if enabled
+            if (ipAddress) {
+                const { isIpWhitelisted } = await import("@/lib/ip-whitelist");
+                const ipCheck = await isIpWhitelisted(ipAddress, user.id, user.companyId || undefined);
+                
+                if (!ipCheck.allowed) {
+                    // Create audit log for blocked login attempt
+                    const { createAuditLog } = await import("@/lib/audit-log");
+                    await createAuditLog({
+                        action: "LOGIN_BLOCKED_IP",
+                        resource: "User",
+                        resourceId: user.id,
+                        userId: user.id,
+                        ipAddress,
+                        userAgent,
+                        status: "BLOCKED",
+                        details: { reason: ipCheck.reason },
+                    });
+
+                    throw new TRPCError({
+                        code: "FORBIDDEN",
+                        message: ipCheck.reason || "Access denied from this IP address",
+                    });
+                }
+            }
+
+            // Check geographic restrictions if enabled
+            if (ipAddress) {
+                const { checkGeographicRestriction } = await import("@/lib/ip-whitelist");
+                const geoCheck = await checkGeographicRestriction(ipAddress, user.id, user.companyId || undefined);
+                
+                if (!geoCheck.allowed) {
+                    // Create audit log for blocked login attempt
+                    const { createAuditLog } = await import("@/lib/audit-log");
+                    await createAuditLog({
+                        action: "LOGIN_BLOCKED_GEO",
+                        resource: "User",
+                        resourceId: user.id,
+                        userId: user.id,
+                        ipAddress,
+                        userAgent,
+                        status: "BLOCKED",
+                        details: { reason: geoCheck.reason, countryCode: geoCheck.countryCode },
+                    });
+
+                    throw new TRPCError({
+                        code: "FORBIDDEN",
+                        message: geoCheck.reason || "Access denied from this location",
+                    });
+                }
+            }
+
+            // Check for suspicious location and VPN detection
+            if (ipAddress) {
+                const { checkSuspiciousLocation } = await import("@/lib/ip-whitelist");
+                const suspiciousCheck = await checkSuspiciousLocation(ipAddress, user.id);
+                
+                // Check VPN detection setting
+                const vpnDetectionEnabled = await prisma.settings.findUnique({
+                    where: { key: "security.vpn_detection_enabled" },
+                });
+
+                if (vpnDetectionEnabled?.value === true && suspiciousCheck.geo) {
+                    // Type guard for geo object - check if it has the expected properties
+                    const geo = suspiciousCheck.geo as {
+                        isVpn?: boolean
+                        isProxy?: boolean
+                        country?: string
+                        countryCode?: string
+                    }
+                    if (geo && typeof geo === 'object' && ('isVpn' in geo || 'isProxy' in geo)) {
+                        const isVpn = 'isVpn' in geo ? geo.isVpn : false
+                        const isProxy = 'isProxy' in geo ? geo.isProxy : false
+                        if (isVpn || isProxy) {
+                            // Create audit log for VPN/proxy detection
+                            const { createAuditLog } = await import("@/lib/audit-log");
+                            await createAuditLog({
+                                action: "LOGIN_VPN_DETECTED",
+                                resource: "User",
+                                resourceId: user.id,
+                                userId: user.id,
+                                ipAddress,
+                                userAgent,
+                                status: "WARNING",
+                                details: { 
+                                    isVpn: isVpn || false,
+                                    isProxy: isProxy || false,
+                                    country: 'country' in geo ? geo.country || null : null,
+                                },
+                            });
+                        }
+                    }
+                }
+
+                // Check suspicious location alerts setting
+                const suspiciousAlertsEnabled = await prisma.settings.findUnique({
+                    where: { key: "security.suspicious_location_alerts_enabled" },
+                });
+
+                if (suspiciousAlertsEnabled?.value === true && suspiciousCheck.suspicious && suspiciousCheck.geo) {
+                    // Type guard for geo object - check if it has the expected properties
+                    const geo = suspiciousCheck.geo as {
+                        country?: string
+                        countryCode?: string
+                    }
+                    if (geo && typeof geo === 'object') {
+                        const country = 'country' in geo ? geo.country : null
+                        const countryCode = 'countryCode' in geo ? geo.countryCode : null
+                        // Create audit log for suspicious location
+                        const { createAuditLog } = await import("@/lib/audit-log");
+                        await createAuditLog({
+                            action: "LOGIN_SUSPICIOUS_LOCATION",
+                            resource: "User",
+                            resourceId: user.id,
+                            userId: user.id,
+                            ipAddress,
+                            userAgent,
+                            status: "WARNING",
+                            details: { 
+                                reason: suspiciousCheck.reason || null,
+                                country: country || null,
+                                countryCode: countryCode || null,
+                            },
+                        });
+
+                        // Note: We allow the login but log it as suspicious
+                        // You could also block it or require additional verification here
+                    }
+                }
+            }
+
             // Update last login time
             await prisma.user.update({
                 where: { id: user.id },
                 data: { lastLoginAt: new Date() },
             });
-
-            // Get request metadata (IP and user agent)
-            const headersList = await headers();
-            const { ipAddress, userAgent } = getRequestMetadata(headersList);
 
             // Create audit log for successful login
             const { createAuditLog } = await import("@/lib/audit-log")

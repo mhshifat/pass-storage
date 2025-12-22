@@ -21,6 +21,8 @@ model Company {
   // Relations
   users       User[]
   templates   PasswordTemplate[]
+  ipWhitelists IpWhitelist[]
+  geographicRestrictions GeographicRestriction[]
 
   @@index([subdomain])
 }
@@ -74,6 +76,10 @@ model User {
   emailVerificationTokens EmailVerificationToken[]
   passwordResetTokens PasswordResetToken[]
   securityQuestions SecurityQuestion[]
+  ipWhitelists IpWhitelist[]
+  geographicRestrictions GeographicRestriction[]
+  createdIpWhitelists IpWhitelist[] @relation("IpWhitelistCreator")
+  createdGeographicRestrictions GeographicRestriction[] @relation("GeographicRestrictionCreator")
 
   @@index([email])
   @@index([phoneNumber])
@@ -614,4 +620,46 @@ model SecurityQuestion {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+}
+
+model IpWhitelist {
+  id          String   @id @default(cuid())
+  userId      String?  // null for company-wide whitelist
+  companyId   String?  // null for user-specific whitelist
+  ipAddress   String   // IP address or CIDR range (e.g., "192.168.1.1" or "192.168.1.0/24")
+  description String?  // Optional description
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById String?  // Who created this whitelist entry
+
+  user    User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  creator User?    @relation("IpWhitelistCreator", fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([companyId])
+  @@index([ipAddress])
+  @@index([isActive])
+}
+
+model GeographicRestriction {
+  id          String   @id @default(cuid())
+  userId      String?  // null for company-wide restriction
+  companyId   String?  // null for user-specific restriction
+  countryCode String   // ISO 3166-1 alpha-2 country code (e.g., "US", "GB")
+  action      String   @default("BLOCK") // BLOCK or ALLOW
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById String?  // Who created this restriction
+
+  user    User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company Company? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  creator User?    @relation("GeographicRestrictionCreator", fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([companyId])
+  @@index([countryCode])
+  @@index([isActive])
 }
