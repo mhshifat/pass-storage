@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/form"
 import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
-import { Camera, Loader2 } from "lucide-react"
+import { AlertCircle, Camera, CheckCircle2, Loader2, MailIcon } from "lucide-react"
 import { ChangePasswordForm } from "./change-password-form"
 
 const profileSchema = z.object({
@@ -40,6 +40,7 @@ interface ProfileInformationProps {
     id: string
     name: string
     email: string
+    emailVerified?: Date | null
     image?: string | null
     phoneNumber?: string | null
     bio?: string | null
@@ -89,6 +90,16 @@ export function ProfileInformation({ user, onUpdate }: ProfileInformationProps) 
     onError: (error) => {
       toast.error(error.message || t("profile.avatarUpdateError"))
       setIsUploading(false)
+    },
+  })
+
+  const resendVerificationMutation = trpc.auth.resendVerificationEmail.useMutation({
+    onSuccess: () => {
+      toast.success(t("auth.emailVerification.emailSent"))
+      onUpdate?.()
+    },
+    onError: (error) => {
+      toast.error(error.message || t("auth.emailVerification.resendError"))
     },
   })
 
@@ -183,9 +194,39 @@ export function ProfileInformation({ user, onUpdate }: ProfileInformationProps) 
                 onChange={handleAvatarChange}
               />
             </div>
-            <div>
+            <div className="flex-1">
               <h2 className="text-2xl font-semibold">{user.name}</h2>
-              <p className="text-muted-foreground">{user.email}</p>
+              <div className="flex items-center gap-2 mt-1">
+                <p className="text-muted-foreground">{user.email}</p>
+                {user.emailVerified ? (
+                  <Badge variant="default" className="gap-1">
+                    <CheckCircle2 className="h-3 w-3" />
+                    {t("auth.emailVerification.verified")}
+                  </Badge>
+                ) : (
+                  <Badge variant="destructive" className="gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {t("auth.emailVerification.unverified")}
+                  </Badge>
+                )}
+                {!user?.emailVerified && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => resendVerificationMutation.mutate()}
+                    disabled={resendVerificationMutation.isPending}
+                    className="gap-2"
+                  >
+                    {resendVerificationMutation.isPending ? (
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                    ) : (
+                      <MailIcon className="h-3 w-3" />
+                    )}
+                    {t("auth.emailVerification.resend")}
+                  </Button>
+                )}
+              </div>
               <div className="mt-2">
                 <Badge variant="secondary">{user.role}</Badge>
               </div>
@@ -261,7 +302,27 @@ export function ProfileInformation({ user, onUpdate }: ProfileInformationProps) 
                   <label className="text-sm font-medium text-muted-foreground">
                     {t("common.email")}
                   </label>
-                  <p className="text-sm font-medium">{user.email}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-medium">{user.email}</p>
+                    {user.emailVerified ? (
+                      <Badge variant="default" className="gap-1">
+                        <CheckCircle2 className="h-3 w-3" />
+                        {t("auth.emailVerification.verified")}
+                      </Badge>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <Badge variant="destructive" className="gap-1">
+                          <AlertCircle className="h-3 w-3" />
+                          {t("auth.emailVerification.unverified")}
+                        </Badge>
+                      </div>
+                    )}
+                  </div>
+                  {!user.emailVerified && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {t("auth.emailVerification.verificationRequired")}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">

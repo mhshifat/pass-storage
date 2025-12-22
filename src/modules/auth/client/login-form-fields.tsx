@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Lock, Mail, AlertCircle } from "lucide-react"
+import Link from "next/link"
 
 export function createLoginSchema(t: (key: string) => string) {
   return z.object({
@@ -95,7 +96,15 @@ export function LoginFormFields({ formAction, isPending, state }: LoginFormField
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("auth.password")}</FormLabel>
+                <div className="flex items-center justify-between">
+                  <FormLabel>{t("auth.password")}</FormLabel>
+                  <Link
+                    href="/forgot-password"
+                    className="text-sm text-primary hover:underline"
+                  >
+                    {t("auth.forgotPasswordLink")}
+                  </Link>
+                </div>
                 <FormControl>
                   <div className="relative">
                     <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />

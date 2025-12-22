@@ -17,6 +17,7 @@ let cachedTransporter: Transporter | null = null
 
 async function getEmailConfig(): Promise<EmailConfig | null> {
   try {
+    // First, try to get from Settings table (user-configured)
     const settings = await prisma.settings.findMany({
       where: {
         key: {
@@ -37,27 +38,59 @@ async function getEmailConfig(): Promise<EmailConfig | null> {
       return acc
     }, {} as Record<string, unknown>)
 
-    // Check if required settings exist
+    // Check if Settings table has required config
     if (
-      !settingsMap.smtp_host ||
-      !settingsMap.smtp_port ||
-      !settingsMap.smtp_from_email
+      settingsMap.smtp_host &&
+      settingsMap.smtp_port &&
+      settingsMap.smtp_from_email
     ) {
-      return null
+      const { decrypt } = await import("@/lib/crypto")
+      const hasAuth = settingsMap.smtp_user && settingsMap.smtp_password
+
+      // Helper to safely decrypt (handles both encrypted and plain text)
+      const safeDecrypt = (value: string): string => {
+        try {
+          // Try to decrypt, if it fails, assume it's plain text
+          return decrypt(value)
+        } catch {
+          return value
+        }
+      }
+
+      return {
+        host: safeDecrypt(settingsMap.smtp_host as string),
+        port: parseInt(safeDecrypt(settingsMap.smtp_port as string)),
+        secure: settingsMap.smtp_secure === true || settingsMap.smtp_secure === "true",
+        auth: hasAuth ? {
+          user: safeDecrypt(settingsMap.smtp_user as string),
+          pass: safeDecrypt(settingsMap.smtp_password as string),
+        } : undefined,
+        from: safeDecrypt(settingsMap.smtp_from_email as string),
+      }
     }
 
-    const hasAuth = settingsMap.smtp_user && settingsMap.smtp_password
+    // Fallback to system mail credentials from .env
+    const systemHost = process.env.SYSTEM_SMTP_HOST
+    const systemPort = process.env.SYSTEM_SMTP_PORT
+    const systemUser = process.env.SYSTEM_SMTP_USER
+    const systemPassword = process.env.SYSTEM_SMTP_PASSWORD
+    const systemFromEmail = process.env.SYSTEM_SMTP_FROM_EMAIL
+    const systemSecure = process.env.SYSTEM_SMTP_SECURE === "true"
 
-    return {
-      host: settingsMap.smtp_host as string,
-      port: parseInt(settingsMap.smtp_port as string),
-      secure: settingsMap.smtp_secure === true || settingsMap.smtp_secure === "true",
-      auth: hasAuth ? {
-        user: settingsMap.smtp_user as string,
-        pass: settingsMap.smtp_password as string,
-      } : undefined,
-      from: settingsMap.smtp_from_email as string,
+    if (systemHost && systemPort && systemFromEmail) {
+      return {
+        host: systemHost,
+        port: parseInt(systemPort),
+        secure: systemSecure,
+        auth: systemUser && systemPassword ? {
+          user: systemUser,
+          pass: systemPassword,
+        } : undefined,
+        from: systemFromEmail,
+      }
     }
+
+    return null
   } catch (error) {
     console.error("Failed to get email config:", error)
     return null

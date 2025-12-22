@@ -133,6 +133,8 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   emailVerified: 'emailVerified',
+  recoveryEmail: 'recoveryEmail',
+  recoveryEmailVerified: 'recoveryEmailVerified',
   image: 'image',
   password: 'password',
   phoneNumber: 'phoneNumber',
@@ -422,6 +424,35 @@ exports.Prisma.PasswordTemplateScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.EmailVerificationTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  userId: 'userId',
+  email: 'email',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PasswordResetTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  userId: 'userId',
+  email: 'email',
+  expiresAt: 'expiresAt',
+  used: 'used',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SecurityQuestionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  question: 'question',
+  answerHash: 'answerHash',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -507,7 +538,10 @@ exports.Prisma.ModelName = {
   RecoveryCode: 'RecoveryCode',
   SavedSearch: 'SavedSearch',
   SearchHistory: 'SearchHistory',
-  PasswordTemplate: 'PasswordTemplate'
+  PasswordTemplate: 'PasswordTemplate',
+  EmailVerificationToken: 'EmailVerificationToken',
+  PasswordResetToken: 'PasswordResetToken',
+  SecurityQuestion: 'SecurityQuestion'
 };
 
 /**

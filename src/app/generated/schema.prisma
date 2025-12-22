@@ -26,24 +26,26 @@ model Company {
 }
 
 model User {
-  id            String     @id @default(cuid())
-  name          String
-  email         String
-  emailVerified DateTime?
-  image         String?
-  password      String? // Optional for OAuth users
-  phoneNumber   String? // For SMS MFA
-  bio           String? // User bio/description
-  preferences   Json? // User preferences (theme, notifications, etc.)
-  role          String     @default("USER")
-  isActive      Boolean    @default(true)
-  mfaEnabled    Boolean    @default(false)
-  mfaSecret     String? // For TOTP MFA
-  mfaMethod     MfaMethod? // Preferred MFA method
-  companyId     String?
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  lastLoginAt   DateTime?
+  id                    String     @id @default(cuid())
+  name                  String
+  email                 String
+  emailVerified         DateTime?
+  recoveryEmail         String? // Secondary email for account recovery
+  recoveryEmailVerified DateTime?
+  image                 String?
+  password              String? // Optional for OAuth users
+  phoneNumber           String? // For SMS MFA
+  bio                   String? // User bio/description
+  preferences           Json? // User preferences (theme, notifications, etc.)
+  role                  String     @default("USER")
+  isActive              Boolean    @default(true)
+  mfaEnabled            Boolean    @default(false)
+  mfaSecret             String? // For TOTP MFA
+  mfaMethod             MfaMethod? // Preferred MFA method
+  companyId             String?
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+  lastLoginAt           DateTime?
 
   // Relations
   company                  Company?                 @relation(fields: [companyId], references: [id], onDelete: SetNull)
@@ -69,9 +71,14 @@ model User {
   createdUsers User[]  @relation("UserCreatedBy")
   createdRoles Role[]  @relation("RoleCreatedBy")
 
+  emailVerificationTokens EmailVerificationToken[]
+  passwordResetTokens     PasswordResetToken[]
+  securityQuestions       SecurityQuestion[]
+
   @@index([email])
   @@index([phoneNumber])
   @@index([companyId])
+  @@index([recoveryEmail])
 }
 
 model Account {
@@ -559,4 +566,52 @@ model PasswordTemplate {
   @@index([isPublic])
   @@index([category])
   @@index([service])
+}
+
+model EmailVerificationToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  email     String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+  @@index([email])
+  @@index([expiresAt])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  token     String    @unique
+  userId    String
+  email     String
+  expiresAt DateTime
+  used      Boolean   @default(false)
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+  @@index([email])
+  @@index([expiresAt])
+  @@index([used])
+}
+
+model SecurityQuestion {
+  id         String   @id @default(cuid())
+  userId     String
+  question   String
+  answerHash String // Hashed answer
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }

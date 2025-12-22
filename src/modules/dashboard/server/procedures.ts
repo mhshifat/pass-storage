@@ -713,7 +713,7 @@ export const dashboardRouter = createTRPCRouter({
           statusKey: passwordStrengthStatus,
           percentage: passwordStrengthPercentage,
           descriptionKey: "dashboard.passwordStrengthDescription",
-          descriptionParams: { percentage: passwordStrengthPercentage },
+          descriptionParams: { percentage: passwordStrengthPercentage } as Record<string, number>,
           color: passwordStrengthPercentage >= 70 ? "bg-green-600" : passwordStrengthPercentage >= 50 ? "bg-yellow-600" : "bg-red-600",
         },
         {
@@ -721,7 +721,7 @@ export const dashboardRouter = createTRPCRouter({
           statusKey: mfaAdoptionStatus,
           percentage: mfaAdoptionPercentage,
           descriptionKey: "dashboard.mfaAdoptionDescription",
-          descriptionParams: { percentage: mfaAdoptionPercentage },
+          descriptionParams: { percentage: mfaAdoptionPercentage } as Record<string, number>,
           color: mfaAdoptionPercentage >= 90 ? "bg-green-600" : mfaAdoptionPercentage >= 70 ? "bg-blue-600" : "bg-yellow-600",
         },
         {
@@ -729,7 +729,7 @@ export const dashboardRouter = createTRPCRouter({
           statusKey: sessionStatusKey,
           percentage: sessionPercentage,
           descriptionKey: "dashboard.activeSessionsDescription",
-          descriptionParams: { count: activeSessions },
+          descriptionParams: { count: activeSessions } as Record<string, number>,
           color:
             sessionStatus === "High" || sessionStatus === "Elevated"
               ? "bg-orange-600"

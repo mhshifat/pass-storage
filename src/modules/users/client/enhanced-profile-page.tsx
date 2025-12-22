@@ -4,7 +4,7 @@ import * as React from "react"
 import { useTranslation } from "react-i18next"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Loader2, User, Settings, Activity, BarChart3, History } from "lucide-react"
+import { Loader2, User, Settings, Activity, BarChart3, History, Shield } from "lucide-react"
 import { trpc } from "@/trpc/client"
 import { ProfileInformation } from "./profile-information"
 import { UserPreferences } from "./user-preferences"
@@ -13,6 +13,7 @@ import { UserStatistics } from "./user-statistics"
 import { ActiveSessions } from "./active-sessions"
 import { LoginHistory } from "./login-history"
 import { Monitor } from "lucide-react"
+import { AccountRecovery } from "./account-recovery"
 
 export function EnhancedProfilePage() {
   const { t } = useTranslation()
@@ -89,6 +90,10 @@ export function EnhancedProfilePage() {
             <History className="h-4 w-4" />
             {t("sessions.loginHistory")}
           </TabsTrigger>
+          <TabsTrigger value="accountRecovery" className="gap-2">
+            <Shield className="h-4 w-4" />
+            {t("profile.accountRecovery")}
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="information" className="space-y-6">
@@ -113,6 +118,10 @@ export function EnhancedProfilePage() {
 
         <TabsContent value="loginHistory" className="space-y-6">
           <LoginHistory />
+        </TabsContent>
+
+        <TabsContent value="accountRecovery" className="space-y-6">
+          <AccountRecovery user={data.user} onUpdate={refetch} />
         </TabsContent>
       </Tabs>
     </div>

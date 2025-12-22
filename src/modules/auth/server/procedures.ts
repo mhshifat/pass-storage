@@ -4,7 +4,7 @@ import z from "zod";
 import { hashPassword, verifyPassword } from "@/lib/auth";
 import { createSession, destroySession, getSession } from "@/lib/session";
 import { TRPCError } from "@trpc/server";
-import { decrypt, encrypt } from "@/lib/crypto";
+import { decrypt } from "@/lib/crypto";
 import { getRequestMetadata } from "@/lib/audit-log";
 import { headers } from "next/headers";
 
@@ -329,7 +329,7 @@ export const authRouter = createTRPCRouter({
                 },
             });
 
-            // Create user associated with company
+            // Create user associated with company (email not verified initially)
             const user = await prisma.user.create({
                 data: {
                     name: input.name,
@@ -337,11 +337,23 @@ export const authRouter = createTRPCRouter({
                     password: hashedPassword,
                     role,
                     companyId: company.id,
+                    emailVerified: null, // Email not verified yet
                 },
             });
 
-            // Get request metadata (IP and user agent)
+            // Create and send verification email
+            const { createVerificationToken, sendVerificationEmail } = await import("@/lib/email-verification");
+            const token = await createVerificationToken(user.id, user.email);
+            
+            // Get base URL for verification link
             const headersList = await headers();
+            const protocol = headersList.get("x-forwarded-proto") || "http";
+            const host = headersList.get("host") || "localhost:3000";
+            const baseUrl = `${protocol}://${host}`;
+            
+            await sendVerificationEmail(user.id, user.email, token, baseUrl);
+
+            // Get request metadata (IP and user agent)
             const { ipAddress, userAgent } = getRequestMetadata(headersList);
 
             // Create session with device info
@@ -1643,5 +1655,568 @@ export const authRouter = createTRPCRouter({
                 name: company.name,
                 subdomain: company.subdomain,
             }
+        }),
+    
+    // Email Verification Procedures
+    sendVerificationEmail: baseProcedure
+        .use(async ({ ctx, next }) => {
+            if (!ctx.userId) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "You must be logged in to request email verification",
+                });
+            }
+            return next({ ctx });
+        })
+        .mutation(async ({ ctx }) => {
+            const user = await prisma.user.findUnique({
+                where: { id: ctx.userId },
+                select: { id: true, email: true, emailVerified: true },
+            });
+
+            if (!user) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "User not found",
+                });
+            }
+
+            if (user.emailVerified) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Email is already verified",
+                });
+            }
+
+            const { createVerificationToken, sendVerificationEmail } = await import("@/lib/email-verification");
+            const token = await createVerificationToken(user.id, user.email);
+            
+            // Get base URL for verification link
+            const headersList = await headers();
+            const protocol = headersList.get("x-forwarded-proto") || "http";
+            const host = headersList.get("host") || "localhost:3000";
+            const baseUrl = `${protocol}://${host}`;
+            
+            const result = await sendVerificationEmail(user.id, user.email, token, baseUrl);
+
+            if (!result.success) {
+                throw new TRPCError({
+                    code: "INTERNAL_SERVER_ERROR",
+                    message: result.error || "Failed to send verification email",
+                });
+            }
+
+            // Create audit log
+            const { createAuditLog } = await import("@/lib/audit-log");
+            await createAuditLog({
+                action: "EMAIL_VERIFICATION_SENT",
+                resource: "User",
+                resourceId: user.id,
+                userId: ctx.userId,
+            });
+
+            return { success: true };
+        }),
+
+    verifyEmail: baseProcedure
+        .input(
+            z.object({
+                token: z.string().min(1, "Verification token is required"),
+            })
+        )
+        .mutation(async ({ input }) => {
+            const { verifyToken } = await import("@/lib/email-verification");
+            const verification = await verifyToken(input.token);
+
+            if (!verification.valid || !verification.userId) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Invalid or expired verification token",
+                });
+            }
+
+            // Update user's email as verified
+            const user = await prisma.user.update({
+                where: { id: verification.userId },
+                data: {
+                    emailVerified: new Date(),
+                },
+                select: {
+                    id: true,
+                    email: true,
+                    emailVerified: true,
+                },
+            });
+
+            // Delete the used token
+            await prisma.emailVerificationToken.deleteMany({
+                where: { userId: verification.userId },
+            });
+
+            // Create audit log
+            const { createAuditLog } = await import("@/lib/audit-log");
+            await createAuditLog({
+                action: "EMAIL_VERIFIED",
+                resource: "User",
+                resourceId: user.id,
+                userId: user.id,
+            });
+
+            return {
+                success: true,
+                user: {
+                    id: user.id,
+                    email: user.email,
+                    emailVerified: user.emailVerified,
+                },
+            };
+        }),
+
+    resendVerificationEmail: baseProcedure
+        .use(async ({ ctx, next }) => {
+            if (!ctx.userId) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "You must be logged in to resend verification email",
+                });
+            }
+            return next({ ctx });
+        })
+        .mutation(async ({ ctx }) => {
+            const user = await prisma.user.findUnique({
+                where: { id: ctx.userId },
+                select: { id: true, email: true, emailVerified: true },
+            });
+
+            if (!user) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "User not found",
+                });
+            }
+
+            if (user.emailVerified) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Email is already verified",
+                });
+            }
+
+            const { createVerificationToken, sendVerificationEmail } = await import("@/lib/email-verification");
+            const token = await createVerificationToken(user.id, user.email);
+            
+            // Get base URL for verification link
+            const headersList = await headers();
+            const protocol = headersList.get("x-forwarded-proto") || "http";
+            const host = headersList.get("host") || "localhost:3000";
+            const baseUrl = `${protocol}://${host}`;
+            
+            const result = await sendVerificationEmail(user.id, user.email, token, baseUrl);
+
+            if (!result.success) {
+                throw new TRPCError({
+                    code: "INTERNAL_SERVER_ERROR",
+                    message: result.error || "Failed to send verification email",
+                });
+            }
+
+            // Create audit log
+            const { createAuditLog } = await import("@/lib/audit-log");
+            await createAuditLog({
+                action: "EMAIL_VERIFICATION_RESENT",
+                resource: "User",
+                resourceId: user.id,
+                userId: ctx.userId,
+            });
+
+            return { success: true };
+        }),
+
+    // Account Recovery - Forgot Password
+    forgotPassword: baseProcedure
+        .input(
+            z.object({
+                email: z.string().email("Invalid email address"),
+            })
+        )
+        .mutation(async ({ input, ctx }) => {
+            // Get companyId from subdomain if available (for multi-tenancy)
+            let companyId: string | undefined = undefined
+            if (ctx.subdomain) {
+                const company = await prisma.company.findUnique({
+                    where: { subdomain: ctx.subdomain },
+                    select: { id: true },
+                })
+                if (company) {
+                    companyId = company.id
+                }
+            }
+
+            // Find user by email or recovery email
+            const user = await prisma.user.findFirst({
+                where: {
+                    OR: [
+                        { email: input.email },
+                        { recoveryEmail: input.email },
+                    ],
+                    companyId: companyId || undefined, // Respect multi-tenancy
+                },
+                select: {
+                    id: true,
+                    email: true,
+                    recoveryEmail: true,
+                    name: true,
+                },
+            })
+
+            // Don't reveal if user exists (security best practice)
+            if (!user) {
+                // Still return success to prevent email enumeration
+                return { success: true }
+            }
+
+            // Determine which email to use (prefer recovery email if provided)
+            const emailToUse = user.recoveryEmail || user.email
+
+            // Create password reset token
+            const { createPasswordResetToken, sendPasswordResetEmail } = await import("@/lib/password-reset")
+            const token = await createPasswordResetToken(user.id, emailToUse)
+
+            // Get base URL for reset link
+            const headersList = await headers()
+            const protocol = headersList.get("x-forwarded-proto") || "http"
+            const host = headersList.get("host") || "localhost:3000"
+            const baseUrl = `${protocol}://${host}`
+
+            // Send password reset email
+            await sendPasswordResetEmail(user.id, emailToUse, token, baseUrl)
+
+            // Create audit log
+            const { createAuditLog } = await import("@/lib/audit-log")
+            await createAuditLog({
+                action: "PASSWORD_RESET_REQUESTED",
+                resource: "User",
+                resourceId: user.id,
+                userId: user.id,
+            })
+
+            return { success: true }
+        }),
+
+    resetPassword: baseProcedure
+        .input(
+            z.object({
+                token: z.string().min(1, "Token is required"),
+                newPassword: z.string().min(8, "Password must be at least 8 characters"),
+            })
+        )
+        .mutation(async ({ input }) => {
+            // Verify token
+            const { verifyPasswordResetToken, markPasswordResetTokenAsUsed } = await import("@/lib/password-reset")
+            const verification = await verifyPasswordResetToken(input.token)
+
+            if (!verification.valid || !verification.userId) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Invalid or expired reset token",
+                })
+            }
+
+            // Validate password
+            const { validatePassword } = await import("@/lib/password-validation")
+            const validation = await validatePassword(input.newPassword)
+            if (!validation.isValid) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: validation.errors.join(". "),
+                })
+            }
+
+            // Hash new password
+            const hashedPassword = await hashPassword(input.newPassword)
+
+            // Update user password
+            await prisma.user.update({
+                where: { id: verification.userId },
+                data: { password: hashedPassword },
+            })
+
+            // Mark token as used
+            await markPasswordResetTokenAsUsed(input.token)
+
+            // Invalidate all sessions for security
+            await prisma.session.deleteMany({
+                where: { userId: verification.userId },
+            })
+
+            // Create audit log
+            const { createAuditLog } = await import("@/lib/audit-log")
+            await createAuditLog({
+                action: "PASSWORD_RESET_COMPLETED",
+                resource: "User",
+                resourceId: verification.userId,
+                userId: verification.userId,
+            })
+
+            return { success: true }
+        }),
+
+    // Security Questions
+    setSecurityQuestions: baseProcedure
+        .use(async ({ ctx, next }) => {
+            if (!ctx.userId) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "You must be logged in to set security questions",
+                })
+            }
+            return next({ ctx })
+        })
+        .input(
+            z.object({
+                questions: z.array(
+                    z.object({
+                        question: z.string().min(1, "Question is required"),
+                        answer: z.string().min(1, "Answer is required"),
+                    })
+                ).min(2, "At least 2 security questions are required").max(5, "Maximum 5 security questions allowed"),
+            })
+        )
+        .mutation(async ({ input, ctx }) => {
+            const { setSecurityQuestions } = await import("@/lib/security-questions")
+            await setSecurityQuestions(ctx.userId!, input.questions)
+
+            // Create audit log
+            const { createAuditLog } = await import("@/lib/audit-log")
+            await createAuditLog({
+                action: "SECURITY_QUESTIONS_SET",
+                resource: "User",
+                resourceId: ctx.userId!,
+                userId: ctx.userId!,
+            })
+
+            return { success: true }
+        }),
+
+    getSecurityQuestions: baseProcedure
+        .use(async ({ ctx, next }) => {
+            if (!ctx.userId) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "You must be logged in to view security questions",
+                })
+            }
+            return next({ ctx })
+        })
+        .query(async ({ ctx }) => {
+            const { getUserSecurityQuestions } = await import("@/lib/security-questions")
+            const questions = await getUserSecurityQuestions(ctx.userId!)
+
+            return { questions }
+        }),
+
+    verifySecurityQuestions: baseProcedure
+        .input(
+            z.object({
+                email: z.string().email("Invalid email address"),
+                answers: z.array(
+                    z.object({
+                        question: z.string().min(1, "Question is required"),
+                        answer: z.string().min(1, "Answer is required"),
+                    })
+                ),
+            })
+        )
+        .mutation(async ({ input, ctx }) => {
+            // Get companyId from subdomain if available (for multi-tenancy)
+            let companyId: string | undefined = undefined
+            if (ctx.subdomain) {
+                const company = await prisma.company.findUnique({
+                    where: { subdomain: ctx.subdomain },
+                    select: { id: true },
+                })
+                if (company) {
+                    companyId = company.id
+                }
+            }
+
+            // Find user by email or recovery email
+            const user = await prisma.user.findFirst({
+                where: {
+                    OR: [
+                        { email: input.email },
+                        { recoveryEmail: input.email },
+                    ],
+                    companyId: companyId || undefined, // Respect multi-tenancy
+                },
+                select: { id: true },
+            })
+
+            if (!user) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "User not found",
+                })
+            }
+
+            const { verifySecurityQuestions } = await import("@/lib/security-questions")
+            const result = await verifySecurityQuestions(user.id, input.answers)
+
+            if (!result.valid) {
+                // Create audit log for failed attempt
+                const { createAuditLog } = await import("@/lib/audit-log")
+                await createAuditLog({
+                    action: "SECURITY_QUESTIONS_VERIFICATION_FAILED",
+                    resource: "User",
+                    resourceId: user.id,
+                    userId: user.id,
+                })
+
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: `Incorrect answers. You got ${result.correctCount} out of ${result.totalCount} questions correct.`,
+                })
+            }
+
+            // Create audit log for successful verification
+            const { createAuditLog } = await import("@/lib/audit-log")
+            await createAuditLog({
+                action: "SECURITY_QUESTIONS_VERIFIED",
+                resource: "User",
+                resourceId: user.id,
+                userId: user.id,
+            })
+
+            return { success: true, userId: user.id }
+        }),
+
+    // Recovery Email Management
+    setRecoveryEmail: baseProcedure
+        .use(async ({ ctx, next }) => {
+            if (!ctx.userId) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "You must be logged in to set recovery email",
+                })
+            }
+            return next({ ctx })
+        })
+        .input(
+            z.object({
+                email: z.string().email("Invalid email address"),
+            })
+        )
+        .mutation(async ({ input, ctx }) => {
+            // Get current user's companyId for multi-tenancy check
+            const currentUser = await prisma.user.findUnique({
+                where: { id: ctx.userId! },
+                select: { companyId: true },
+            })
+
+            // Check if email is already used by another user in the same company
+            const existingUser = await prisma.user.findFirst({
+                where: {
+                    OR: [
+                        { email: input.email },
+                        { recoveryEmail: input.email },
+                    ],
+                    companyId: currentUser?.companyId || undefined,
+                    NOT: { id: ctx.userId! },
+                },
+            })
+
+            if (existingUser) {
+                throw new TRPCError({
+                    code: "CONFLICT",
+                    message: "This email is already in use",
+                })
+            }
+
+            // Update recovery email (not verified initially)
+            await prisma.user.update({
+                where: { id: ctx.userId! },
+                data: {
+                    recoveryEmail: input.email,
+                    recoveryEmailVerified: null,
+                },
+            })
+
+            // Send verification email to recovery email
+            const { createVerificationToken, sendVerificationEmail } = await import("@/lib/email-verification")
+            const token = await createVerificationToken(ctx.userId!, input.email)
+
+            const headersList = await headers()
+            const protocol = headersList.get("x-forwarded-proto") || "http"
+            const host = headersList.get("host") || "localhost:3000"
+            const baseUrl = `${protocol}://${host}`
+
+            await sendVerificationEmail(ctx.userId!, input.email, token, baseUrl)
+
+            // Create audit log
+            const { createAuditLog } = await import("@/lib/audit-log")
+            await createAuditLog({
+                action: "RECOVERY_EMAIL_SET",
+                resource: "User",
+                resourceId: ctx.userId!,
+                userId: ctx.userId!,
+            })
+
+            return { success: true }
+        }),
+
+    getRecoveryEmail: baseProcedure
+        .use(async ({ ctx, next }) => {
+            if (!ctx.userId) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "You must be logged in to view recovery email",
+                })
+            }
+            return next({ ctx })
+        })
+        .query(async ({ ctx }) => {
+            const user = await prisma.user.findUnique({
+                where: { id: ctx.userId! },
+                select: {
+                    recoveryEmail: true,
+                    recoveryEmailVerified: true,
+                },
+            })
+
+            return {
+                recoveryEmail: user?.recoveryEmail || null,
+                verified: !!user?.recoveryEmailVerified,
+            }
+        }),
+
+    removeRecoveryEmail: baseProcedure
+        .use(async ({ ctx, next }) => {
+            if (!ctx.userId) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "You must be logged in to remove recovery email",
+                })
+            }
+            return next({ ctx })
+        })
+        .mutation(async ({ ctx }) => {
+            await prisma.user.update({
+                where: { id: ctx.userId! },
+                data: {
+                    recoveryEmail: null,
+                    recoveryEmailVerified: null,
+                },
+            })
+
+            // Create audit log
+            const { createAuditLog } = await import("@/lib/audit-log")
+            await createAuditLog({
+                action: "RECOVERY_EMAIL_REMOVED",
+                resource: "User",
+                resourceId: ctx.userId!,
+                userId: ctx.userId!,
+            })
+
+            return { success: true }
         }),
 });

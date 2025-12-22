@@ -2,7 +2,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
     return (
         <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
             {/* Modern gradient background - more defined for light theme */}
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20 dark:from-background dark:via-background dark:to-muted/20" />
+            <div className="absolute inset-0 bg-linear-to-br from-slate-50 via-blue-50/30 to-purple-50/20 dark:from-background dark:via-background dark:to-muted/20" />
             
             {/* Animated background pattern */}
             <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.05]">
