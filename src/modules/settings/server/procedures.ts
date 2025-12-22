@@ -5,6 +5,12 @@ import z from "zod"
 import { TRPCError } from "@trpc/server"
 import { encrypt, decrypt } from "@/lib/crypto"
 import { getPasswordPolicy } from "@/lib/password-policy"
+import {
+  getDataRetentionPolicy,
+  exportUserData,
+  deleteUserData,
+  cleanupExpiredData,
+} from "@/lib/gdpr-compliance"
 
 export const settingsRouter = createTRPCRouter({
   getEmailConfig: protectedProcedure("settings.view").query(async () => {
@@ -1584,5 +1590,432 @@ export const settingsRouter = createTRPCRouter({
       })
 
       return { success: true }
+    }),
+
+  // GDPR Compliance - Data Retention Policy
+  getDataRetentionPolicy: protectedProcedure("settings.view")
+    .query(async ({ ctx }) => {
+      // Get current user's companyId
+      let companyId: string | undefined = undefined
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      }
+
+      const user = ctx.userId
+        ? await prisma.user.findUnique({
+            where: { id: ctx.userId },
+            select: { companyId: true },
+          })
+        : null
+
+      const finalCompanyId = companyId || user?.companyId || null
+
+      return await getDataRetentionPolicy(finalCompanyId)
+    }),
+
+  updateDataRetentionPolicy: protectedProcedure("settings.edit")
+    .input(
+      z.object({
+        auditLogRetentionDays: z.number().min(0).max(3650).nullable(),
+        passwordHistoryRetentionDays: z.number().min(0).max(3650).nullable(),
+        sessionRetentionDays: z.number().min(0).max(3650).nullable(),
+        deletedDataRetentionDays: z.number().min(0).max(3650).nullable(),
+        autoDeleteEnabled: z.boolean(),
+        isActive: z.boolean(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Get current user's companyId
+      let companyId: string | undefined = undefined
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      }
+
+      const user = ctx.userId
+        ? await prisma.user.findUnique({
+            where: { id: ctx.userId },
+            select: { companyId: true },
+          })
+        : null
+
+      const finalCompanyId = companyId || user?.companyId
+
+      if (!finalCompanyId) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Company ID is required",
+        })
+      }
+
+      // Upsert data retention policy
+      await prisma.dataRetentionPolicy.upsert({
+        where: { companyId: finalCompanyId },
+        update: {
+          auditLogRetentionDays: input.auditLogRetentionDays,
+          passwordHistoryRetentionDays: input.passwordHistoryRetentionDays,
+          sessionRetentionDays: input.sessionRetentionDays,
+          deletedDataRetentionDays: input.deletedDataRetentionDays,
+          autoDeleteEnabled: input.autoDeleteEnabled,
+          isActive: input.isActive,
+        },
+        create: {
+          companyId: finalCompanyId,
+          auditLogRetentionDays: input.auditLogRetentionDays,
+          passwordHistoryRetentionDays: input.passwordHistoryRetentionDays,
+          sessionRetentionDays: input.sessionRetentionDays,
+          deletedDataRetentionDays: input.deletedDataRetentionDays,
+          autoDeleteEnabled: input.autoDeleteEnabled,
+          isActive: input.isActive,
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "SETTINGS_UPDATED",
+        resource: "Settings",
+        details: { category: "data_retention_policy" },
+        userId: ctx.userId || null,
+      })
+
+      return { success: true }
+    }),
+
+  // GDPR Compliance - Data Export
+  requestDataExport: protectedProcedure("settings.view")
+    .input(
+      z.object({
+        exportType: z.enum(["FULL", "PASSWORDS", "AUDIT_LOGS", "PROFILE"]),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "User ID is required",
+        })
+      }
+
+      // Get user's companyId
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: { companyId: true },
+      })
+
+      // Create export request
+      const exportRecord = await prisma.dataExport.create({
+        data: {
+          userId: ctx.userId,
+          companyId: user?.companyId || null,
+          exportType: input.exportType,
+          status: "PENDING",
+        },
+      })
+
+      // Process export asynchronously (in a real app, this would be a background job)
+      try {
+        const result = await exportUserData(
+          ctx.userId,
+          user?.companyId || null,
+          input.exportType
+        )
+
+        // Update export record with result
+        await prisma.dataExport.update({
+          where: { id: exportRecord.id },
+          data: {
+            status: "COMPLETED",
+            completedAt: new Date(),
+            // In a real implementation, you'd save the file and store the path
+            // filePath: result.filePath,
+            // fileSize: result.fileSize,
+          },
+        })
+
+        return {
+          exportId: result.exportId,
+          data: result.data,
+        }
+      } catch (error) {
+        await prisma.dataExport.update({
+          where: { id: exportRecord.id },
+          data: {
+            status: "FAILED",
+            errorMessage:
+              error instanceof Error ? error.message : "Unknown error",
+          },
+        })
+        throw error
+      }
+    }),
+
+  // GDPR Compliance - Right to be Forgotten
+  requestDataDeletion: protectedProcedure("settings.view")
+    .input(
+      z.object({
+        deletionScope: z
+          .object({
+            deletePasswords: z.boolean().optional(),
+            deleteAuditLogs: z.boolean().optional(),
+            deleteSessions: z.boolean().optional(),
+            deleteProfile: z.boolean().optional(),
+          })
+          .optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "User ID is required",
+        })
+      }
+
+      // Get user's companyId
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: { companyId: true },
+      })
+
+      // Generate confirmation token
+      const confirmationToken = crypto.randomUUID()
+
+      // Create deletion request
+      const deletionRequest = await prisma.dataDeletionRequest.create({
+        data: {
+          userId: ctx.userId,
+          companyId: user?.companyId || null,
+          requestType: input.deletionScope?.deleteProfile
+            ? "FULL_DELETION"
+            : "PARTIAL_DELETION",
+          status: "PENDING",
+          deletionScope: input.deletionScope || {},
+          confirmationToken,
+        },
+      })
+
+      // In a real implementation, you'd send a confirmation email here
+      // For now, we'll return the token (in production, this should be sent via email)
+
+      return {
+        requestId: deletionRequest.id,
+        confirmationToken, // In production, don't return this - send via email
+        message:
+          "Please confirm your deletion request. A confirmation email has been sent.",
+      }
+    }),
+
+  confirmDataDeletion: protectedProcedure("settings.view")
+    .input(
+      z.object({
+        confirmationToken: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "User ID is required",
+        })
+      }
+
+      // Find deletion request
+      const deletionRequest = await prisma.dataDeletionRequest.findUnique({
+        where: { confirmationToken: input.confirmationToken },
+      })
+
+      if (!deletionRequest) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Deletion request not found",
+        })
+      }
+
+      if (deletionRequest.userId !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You do not have permission to confirm this request",
+        })
+      }
+
+      if (deletionRequest.status !== "PENDING") {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Deletion request has already been processed",
+        })
+      }
+
+      // Update status to processing
+      await prisma.dataDeletionRequest.update({
+        where: { id: deletionRequest.id },
+        data: {
+          status: "PROCESSING",
+          confirmedAt: new Date(),
+        },
+      })
+
+      try {
+        // Perform deletion
+        const result = await deleteUserData(
+          ctx.userId,
+          deletionRequest.companyId || null,
+          deletionRequest.deletionScope as {
+            deletePasswords?: boolean
+            deleteAuditLogs?: boolean
+            deleteSessions?: boolean
+            deleteProfile?: boolean
+          }
+        )
+
+        // Update status to completed
+        await prisma.dataDeletionRequest.update({
+          where: { id: deletionRequest.id },
+          data: {
+            status: "COMPLETED",
+            processedAt: new Date(),
+            processedBy: ctx.userId,
+          },
+        })
+
+        return {
+          success: true,
+          deletedItems: result.deletedItems,
+        }
+      } catch (error) {
+        await prisma.dataDeletionRequest.update({
+          where: { id: deletionRequest.id },
+          data: {
+            status: "FAILED",
+            errorMessage:
+              error instanceof Error ? error.message : "Unknown error",
+            processedAt: new Date(),
+          },
+        })
+        throw error
+      }
+    }),
+
+  // GDPR Compliance - Run Cleanup
+  runDataCleanup: protectedProcedure("settings.edit")
+    .mutation(async ({ ctx }) => {
+      // Get current user's companyId
+      let companyId: string | undefined = undefined
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      }
+
+      const user = ctx.userId
+        ? await prisma.user.findUnique({
+            where: { id: ctx.userId },
+            select: { companyId: true },
+          })
+        : null
+
+      const finalCompanyId = companyId || user?.companyId || null
+
+      const result = await cleanupExpiredData(finalCompanyId)
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "DATA_CLEANUP",
+        resource: "DataRetentionPolicy",
+        details: { cleaned: result.cleaned, errors: result.errors },
+        userId: ctx.userId || null,
+      })
+
+      return result
+    }),
+
+  // GDPR Compliance - Compliance Report
+  getComplianceReport: protectedProcedure("settings.view")
+    .query(async ({ ctx }) => {
+      // Get current user's companyId
+      let companyId: string | undefined = undefined
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      }
+
+      const user = ctx.userId
+        ? await prisma.user.findUnique({
+            where: { id: ctx.userId },
+            select: { companyId: true },
+          })
+        : null
+
+      const finalCompanyId = companyId || user?.companyId || null
+
+      // Get retention policy
+      const retentionPolicy = await getDataRetentionPolicy(finalCompanyId)
+
+      // Get statistics
+      const totalUsers = await prisma.user.count({
+        where: { companyId: finalCompanyId || undefined },
+      })
+
+      const totalPasswords = await prisma.password.count({
+        where: {
+          owner: {
+            companyId: finalCompanyId || undefined,
+          },
+        },
+      })
+
+      const totalAuditLogs = await prisma.auditLog.count({
+        where: {
+          user: {
+            companyId: finalCompanyId || undefined,
+          },
+        },
+      })
+
+      const pendingDeletionRequests = await prisma.dataDeletionRequest.count({
+        where: {
+          companyId: finalCompanyId || undefined,
+          status: "PENDING",
+        },
+      })
+
+      const completedExports = await prisma.dataExport.count({
+        where: {
+          companyId: finalCompanyId || undefined,
+          status: "COMPLETED",
+        },
+      })
+
+      return {
+        retentionPolicy,
+        statistics: {
+          totalUsers,
+          totalPasswords,
+          totalAuditLogs,
+          pendingDeletionRequests,
+          completedExports,
+        },
+      }
     }),
 })

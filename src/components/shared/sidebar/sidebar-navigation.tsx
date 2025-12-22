@@ -88,6 +88,7 @@ const navigationStructure = [
       { nameKey: "settings.securityMenu", href: "/admin/settings/security", permission: "settings.view" },
       { nameKey: "settings.mfaMenu", href: "/admin/settings/mfa", permission: "settings.view" },
       { nameKey: "settings.mfaCredentials", href: "/admin/settings/mfa-credentials", permission: "settings.view" },
+      { nameKey: "settings.complianceMenu", href: "/admin/settings/compliance", permission: "settings.view" },
     ],
   },
 ]

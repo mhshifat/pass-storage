@@ -10,3 +10,4 @@ export { MfaCredentialsSettingsSkeleton } from "./mfa-credentials-settings-skele
 export { ThreatDetectionSettings } from "./threat-detection-settings"
 export { ThreatEventsViewer } from "./threat-events-viewer"
 export { PasswordPolicySettings } from "./password-policy-settings"
+export { ComplianceSettings } from "./compliance-settings"

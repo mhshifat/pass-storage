@@ -11,7 +11,6 @@ import {
   Calendar,
   Clock,
   CheckCircle2,
-  XCircle,
   AlertCircle
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -36,12 +35,13 @@ import {
 } from "@/components/ui/alert-dialog"
 import { deleteRotationPolicyAction, autoRotatePasswordAction } from "@/app/admin/passwords/rotation-actions"
 import { useTransition } from "react"
+import { PasswordRotationPolicy } from "@/app/generated"
 
 export function RotationPageClient() {
   const { t } = useTranslation()
   const [isPending, startTransition] = useTransition()
   const [isPolicyDialogOpen, setIsPolicyDialogOpen] = useState(false)
-  const [editingPolicy, setEditingPolicy] = useState<any>(null)
+  const [editingPolicy, setEditingPolicy] = useState<PasswordRotationPolicy | null>(null)
   const [deletingPolicyId, setDeletingPolicyId] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState("policies")
   const [rotatingPasswordId, setRotatingPasswordId] = useState<string | null>(null)
@@ -67,7 +67,7 @@ export function RotationPageClient() {
     setIsPolicyDialogOpen(true)
   }
 
-  const handleEditPolicy = (policy: any) => {
+  const handleEditPolicy = (policy: PasswordRotationPolicy) => {
     setEditingPolicy(policy)
     setIsPolicyDialogOpen(true)
   }

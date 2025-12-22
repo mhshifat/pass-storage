@@ -912,6 +912,7 @@
     "mfa": "MFA",
     "mfaMenu": "MFA",
     "mfaCredentials": "MFA Credentials",
+    "complianceMenu": "GDPR Compliance",
     "mfaCredentialsDescription": "Configure credentials for SMS and WebAuthn MFA methods",
     "mfaCredentialsSettings": {
       "title": "MFA Credentials",
@@ -1213,6 +1214,83 @@
         "requireChangeAfterDaysDescription": "Users must change their password after this many days (leave empty to disable)",
         "noChangeRequirement": "No change requirement"
       }
+    },
+    "compliance": {
+        "title": "GDPR Compliance",
+        "description": "Manage data retention policies, data export, and right to be forgotten",
+        "noPermission": "You do not have permission to view compliance settings",
+        "noEditPermission": "You do not have permission to edit compliance settings",
+        "dataRetentionPolicy": {
+          "title": "Data Retention Policy",
+          "description": "Configure how long to retain different types of data",
+          "saved": "Data retention policy saved successfully",
+          "saveFailed": "Failed to save data retention policy: {{error}}",
+          "isActive": "Enable Data Retention Policy",
+          "isActiveDescription": "Apply retention policies to automatically clean up old data",
+          "auditLogRetentionDays": "Audit Log Retention (days)",
+          "auditLogRetentionDaysDescription": "How long to keep audit logs (leave empty to keep forever)",
+          "passwordHistoryRetentionDays": "Password History Retention (days)",
+          "passwordHistoryRetentionDaysDescription": "How long to keep password history",
+          "sessionRetentionDays": "Session Retention (days)",
+          "sessionRetentionDaysDescription": "How long to keep inactive sessions",
+          "deletedDataRetentionDays": "Deleted Data Retention (days)",
+          "deletedDataRetentionDaysDescription": "How long to keep soft-deleted data before permanent deletion",
+          "autoDeleteEnabled": "Enable Automatic Cleanup",
+          "autoDeleteEnabledDescription": "Automatically delete expired data based on retention policies",
+          "forever": "Forever",
+          "saveButton": "Save Data Retention Policy"
+        },
+        "dataExport": {
+          "title": "Data Export",
+          "description": "Export your personal data in JSON format",
+          "exportType": "Export Type",
+          "exportButton": "Export Data",
+          "success": "Data exported successfully",
+          "failed": "Failed to export data: {{error}}",
+          "types": {
+            "FULL": "Full Export",
+            "FULLDescription": "Export all your data including profile, passwords, audit logs, and sessions",
+            "PASSWORDS": "Passwords Only",
+            "PASSWORDSDescription": "Export only your passwords",
+            "AUDIT_LOGS": "Audit Logs Only",
+            "AUDIT_LOGSDescription": "Export only your audit logs",
+            "PROFILE": "Profile Only",
+            "PROFILEDescription": "Export only your profile information"
+          }
+        },
+        "dataDeletion": {
+          "title": "Right to be Forgotten",
+          "description": "Request deletion of your personal data",
+          "warning": "This action cannot be undone. All selected data will be permanently deleted.",
+          "requestButton": "Request Data Deletion",
+          "requestTitle": "Request Data Deletion",
+          "requestDescription": "Are you sure you want to request deletion of your data? This will delete your passwords, audit logs, and sessions. Your profile will be anonymized.",
+          "requestConfirm": "Yes, Request Deletion",
+          "requested": "Data deletion request submitted. Please confirm via email.",
+          "requestFailed": "Failed to request data deletion: {{error}}",
+          "confirmTitle": "Confirm Data Deletion",
+          "confirmDescription": "This action is permanent and cannot be undone. Are you absolutely sure you want to proceed?",
+          "confirm": "Yes, Delete My Data",
+          "cancel": "Cancel",
+          "completed": "Your data has been deleted successfully",
+          "confirmFailed": "Failed to confirm deletion: {{error}}",
+          "noToken": "Confirmation token is required"
+        },
+        "cleanup": {
+          "runButton": "Run Cleanup Now",
+          "success": "Cleanup completed successfully. Cleaned: {{cleaned}}",
+          "failed": "Failed to run cleanup: {{error}}"
+        },
+        "report": {
+          "title": "Compliance Report",
+          "description": "View compliance statistics and retention policy status",
+          "totalUsers": "Total Users",
+          "totalPasswords": "Total Passwords",
+          "totalAuditLogs": "Total Audit Logs",
+          "pendingDeletionRequests": "Pending Deletion Requests",
+          "completedExports": "Completed Exports",
+          "retentionPolicy": "Current Retention Policy"
+        }
     },
     "mfa": {
       "title": "Multi-Factor Authentication",

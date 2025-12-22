@@ -178,6 +178,21 @@ export type GeographicRestriction = $Result.DefaultSelection<Prisma.$GeographicR
  * 
  */
 export type PasswordPolicy = $Result.DefaultSelection<Prisma.$PasswordPolicyPayload>
+/**
+ * Model DataRetentionPolicy
+ * 
+ */
+export type DataRetentionPolicy = $Result.DefaultSelection<Prisma.$DataRetentionPolicyPayload>
+/**
+ * Model DataExport
+ * 
+ */
+export type DataExport = $Result.DefaultSelection<Prisma.$DataExportPayload>
+/**
+ * Model DataDeletionRequest
+ * 
+ */
+export type DataDeletionRequest = $Result.DefaultSelection<Prisma.$DataDeletionRequestPayload>
 
 /**
  * Enums
@@ -753,6 +768,36 @@ export class PrismaClient<
     * ```
     */
   get passwordPolicy(): Prisma.PasswordPolicyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dataRetentionPolicy`: Exposes CRUD operations for the **DataRetentionPolicy** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DataRetentionPolicies
+    * const dataRetentionPolicies = await prisma.dataRetentionPolicy.findMany()
+    * ```
+    */
+  get dataRetentionPolicy(): Prisma.DataRetentionPolicyDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dataExport`: Exposes CRUD operations for the **DataExport** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DataExports
+    * const dataExports = await prisma.dataExport.findMany()
+    * ```
+    */
+  get dataExport(): Prisma.DataExportDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dataDeletionRequest`: Exposes CRUD operations for the **DataDeletionRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DataDeletionRequests
+    * const dataDeletionRequests = await prisma.dataDeletionRequest.findMany()
+    * ```
+    */
+  get dataDeletionRequest(): Prisma.DataDeletionRequestDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1219,7 +1264,10 @@ export namespace Prisma {
     SecurityQuestion: 'SecurityQuestion',
     IpWhitelist: 'IpWhitelist',
     GeographicRestriction: 'GeographicRestriction',
-    PasswordPolicy: 'PasswordPolicy'
+    PasswordPolicy: 'PasswordPolicy',
+    DataRetentionPolicy: 'DataRetentionPolicy',
+    DataExport: 'DataExport',
+    DataDeletionRequest: 'DataDeletionRequest'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1235,7 +1283,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "passwordRotationPolicy" | "passwordRotation" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "threatEvent" | "rateLimit" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode" | "savedSearch" | "searchHistory" | "passwordTemplate" | "emailVerificationToken" | "passwordResetToken" | "securityQuestion" | "ipWhitelist" | "geographicRestriction" | "passwordPolicy"
+      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "passwordRotationPolicy" | "passwordRotation" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "threatEvent" | "rateLimit" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode" | "savedSearch" | "searchHistory" | "passwordTemplate" | "emailVerificationToken" | "passwordResetToken" | "securityQuestion" | "ipWhitelist" | "geographicRestriction" | "passwordPolicy" | "dataRetentionPolicy" | "dataExport" | "dataDeletionRequest"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3681,6 +3729,228 @@ export namespace Prisma {
           }
         }
       }
+      DataRetentionPolicy: {
+        payload: Prisma.$DataRetentionPolicyPayload<ExtArgs>
+        fields: Prisma.DataRetentionPolicyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DataRetentionPolicyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataRetentionPolicyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DataRetentionPolicyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataRetentionPolicyPayload>
+          }
+          findFirst: {
+            args: Prisma.DataRetentionPolicyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataRetentionPolicyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DataRetentionPolicyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataRetentionPolicyPayload>
+          }
+          findMany: {
+            args: Prisma.DataRetentionPolicyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataRetentionPolicyPayload>[]
+          }
+          create: {
+            args: Prisma.DataRetentionPolicyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataRetentionPolicyPayload>
+          }
+          createMany: {
+            args: Prisma.DataRetentionPolicyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DataRetentionPolicyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataRetentionPolicyPayload>[]
+          }
+          delete: {
+            args: Prisma.DataRetentionPolicyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataRetentionPolicyPayload>
+          }
+          update: {
+            args: Prisma.DataRetentionPolicyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataRetentionPolicyPayload>
+          }
+          deleteMany: {
+            args: Prisma.DataRetentionPolicyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DataRetentionPolicyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DataRetentionPolicyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataRetentionPolicyPayload>[]
+          }
+          upsert: {
+            args: Prisma.DataRetentionPolicyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataRetentionPolicyPayload>
+          }
+          aggregate: {
+            args: Prisma.DataRetentionPolicyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDataRetentionPolicy>
+          }
+          groupBy: {
+            args: Prisma.DataRetentionPolicyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DataRetentionPolicyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DataRetentionPolicyCountArgs<ExtArgs>
+            result: $Utils.Optional<DataRetentionPolicyCountAggregateOutputType> | number
+          }
+        }
+      }
+      DataExport: {
+        payload: Prisma.$DataExportPayload<ExtArgs>
+        fields: Prisma.DataExportFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DataExportFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataExportPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DataExportFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataExportPayload>
+          }
+          findFirst: {
+            args: Prisma.DataExportFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataExportPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DataExportFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataExportPayload>
+          }
+          findMany: {
+            args: Prisma.DataExportFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataExportPayload>[]
+          }
+          create: {
+            args: Prisma.DataExportCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataExportPayload>
+          }
+          createMany: {
+            args: Prisma.DataExportCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DataExportCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataExportPayload>[]
+          }
+          delete: {
+            args: Prisma.DataExportDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataExportPayload>
+          }
+          update: {
+            args: Prisma.DataExportUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataExportPayload>
+          }
+          deleteMany: {
+            args: Prisma.DataExportDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DataExportUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DataExportUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataExportPayload>[]
+          }
+          upsert: {
+            args: Prisma.DataExportUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataExportPayload>
+          }
+          aggregate: {
+            args: Prisma.DataExportAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDataExport>
+          }
+          groupBy: {
+            args: Prisma.DataExportGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DataExportGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DataExportCountArgs<ExtArgs>
+            result: $Utils.Optional<DataExportCountAggregateOutputType> | number
+          }
+        }
+      }
+      DataDeletionRequest: {
+        payload: Prisma.$DataDeletionRequestPayload<ExtArgs>
+        fields: Prisma.DataDeletionRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DataDeletionRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataDeletionRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DataDeletionRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataDeletionRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.DataDeletionRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataDeletionRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DataDeletionRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataDeletionRequestPayload>
+          }
+          findMany: {
+            args: Prisma.DataDeletionRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataDeletionRequestPayload>[]
+          }
+          create: {
+            args: Prisma.DataDeletionRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataDeletionRequestPayload>
+          }
+          createMany: {
+            args: Prisma.DataDeletionRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DataDeletionRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataDeletionRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.DataDeletionRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataDeletionRequestPayload>
+          }
+          update: {
+            args: Prisma.DataDeletionRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataDeletionRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.DataDeletionRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DataDeletionRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DataDeletionRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataDeletionRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.DataDeletionRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DataDeletionRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.DataDeletionRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDataDeletionRequest>
+          }
+          groupBy: {
+            args: Prisma.DataDeletionRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DataDeletionRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DataDeletionRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<DataDeletionRequestCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3806,6 +4076,9 @@ export namespace Prisma {
     ipWhitelist?: IpWhitelistOmit
     geographicRestriction?: GeographicRestrictionOmit
     passwordPolicy?: PasswordPolicyOmit
+    dataRetentionPolicy?: DataRetentionPolicyOmit
+    dataExport?: DataExportOmit
+    dataDeletionRequest?: DataDeletionRequestOmit
   }
 
   /* Types for Logging */
@@ -3892,6 +4165,8 @@ export namespace Prisma {
     geographicRestrictions: number
     threatEvents: number
     rateLimits: number
+    dataExports: number
+    dataDeletionRequests: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3901,6 +4176,8 @@ export namespace Prisma {
     geographicRestrictions?: boolean | CompanyCountOutputTypeCountGeographicRestrictionsArgs
     threatEvents?: boolean | CompanyCountOutputTypeCountThreatEventsArgs
     rateLimits?: boolean | CompanyCountOutputTypeCountRateLimitsArgs
+    dataExports?: boolean | CompanyCountOutputTypeCountDataExportsArgs
+    dataDeletionRequests?: boolean | CompanyCountOutputTypeCountDataDeletionRequestsArgs
   }
 
   // Custom InputTypes
@@ -3956,6 +4233,20 @@ export namespace Prisma {
     where?: RateLimitWhereInput
   }
 
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountDataExportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DataExportWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountDataDeletionRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DataDeletionRequestWhereInput
+  }
+
 
   /**
    * Count Type UserCountOutputType
@@ -3981,6 +4272,9 @@ export namespace Prisma {
     passwordTemplates: number
     createdUsers: number
     createdRoles: number
+    dataExports: number
+    dataDeletionRequests: number
+    processedDeletions: number
     emailVerificationTokens: number
     passwordResetTokens: number
     securityQuestions: number
@@ -4010,6 +4304,9 @@ export namespace Prisma {
     passwordTemplates?: boolean | UserCountOutputTypeCountPasswordTemplatesArgs
     createdUsers?: boolean | UserCountOutputTypeCountCreatedUsersArgs
     createdRoles?: boolean | UserCountOutputTypeCountCreatedRolesArgs
+    dataExports?: boolean | UserCountOutputTypeCountDataExportsArgs
+    dataDeletionRequests?: boolean | UserCountOutputTypeCountDataDeletionRequestsArgs
+    processedDeletions?: boolean | UserCountOutputTypeCountProcessedDeletionsArgs
     emailVerificationTokens?: boolean | UserCountOutputTypeCountEmailVerificationTokensArgs
     passwordResetTokens?: boolean | UserCountOutputTypeCountPasswordResetTokensArgs
     securityQuestions?: boolean | UserCountOutputTypeCountSecurityQuestionsArgs
@@ -4161,6 +4458,27 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountCreatedRolesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RoleWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDataExportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DataExportWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDataDeletionRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DataDeletionRequestWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountProcessedDeletionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DataDeletionRequestWhereInput
   }
 
   /**
@@ -4668,6 +4986,9 @@ export namespace Prisma {
     threatEvents?: boolean | Company$threatEventsArgs<ExtArgs>
     rateLimits?: boolean | Company$rateLimitsArgs<ExtArgs>
     passwordPolicy?: boolean | Company$passwordPolicyArgs<ExtArgs>
+    dataRetentionPolicy?: boolean | Company$dataRetentionPolicyArgs<ExtArgs>
+    dataExports?: boolean | Company$dataExportsArgs<ExtArgs>
+    dataDeletionRequests?: boolean | Company$dataDeletionRequestsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -4704,6 +5025,9 @@ export namespace Prisma {
     threatEvents?: boolean | Company$threatEventsArgs<ExtArgs>
     rateLimits?: boolean | Company$rateLimitsArgs<ExtArgs>
     passwordPolicy?: boolean | Company$passwordPolicyArgs<ExtArgs>
+    dataRetentionPolicy?: boolean | Company$dataRetentionPolicyArgs<ExtArgs>
+    dataExports?: boolean | Company$dataExportsArgs<ExtArgs>
+    dataDeletionRequests?: boolean | Company$dataDeletionRequestsArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4719,6 +5043,9 @@ export namespace Prisma {
       threatEvents: Prisma.$ThreatEventPayload<ExtArgs>[]
       rateLimits: Prisma.$RateLimitPayload<ExtArgs>[]
       passwordPolicy: Prisma.$PasswordPolicyPayload<ExtArgs> | null
+      dataRetentionPolicy: Prisma.$DataRetentionPolicyPayload<ExtArgs> | null
+      dataExports: Prisma.$DataExportPayload<ExtArgs>[]
+      dataDeletionRequests: Prisma.$DataDeletionRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5127,6 +5454,9 @@ export namespace Prisma {
     threatEvents<T extends Company$threatEventsArgs<ExtArgs> = {}>(args?: Subset<T, Company$threatEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     rateLimits<T extends Company$rateLimitsArgs<ExtArgs> = {}>(args?: Subset<T, Company$rateLimitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateLimitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passwordPolicy<T extends Company$passwordPolicyArgs<ExtArgs> = {}>(args?: Subset<T, Company$passwordPolicyArgs<ExtArgs>>): Prisma__PasswordPolicyClient<$Result.GetResult<Prisma.$PasswordPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    dataRetentionPolicy<T extends Company$dataRetentionPolicyArgs<ExtArgs> = {}>(args?: Subset<T, Company$dataRetentionPolicyArgs<ExtArgs>>): Prisma__DataRetentionPolicyClient<$Result.GetResult<Prisma.$DataRetentionPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    dataExports<T extends Company$dataExportsArgs<ExtArgs> = {}>(args?: Subset<T, Company$dataExportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dataDeletionRequests<T extends Company$dataDeletionRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Company$dataDeletionRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5712,6 +6042,73 @@ export namespace Prisma {
   }
 
   /**
+   * Company.dataRetentionPolicy
+   */
+  export type Company$dataRetentionPolicyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataRetentionPolicy
+     */
+    select?: DataRetentionPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataRetentionPolicy
+     */
+    omit?: DataRetentionPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataRetentionPolicyInclude<ExtArgs> | null
+    where?: DataRetentionPolicyWhereInput
+  }
+
+  /**
+   * Company.dataExports
+   */
+  export type Company$dataExportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataExport
+     */
+    select?: DataExportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataExport
+     */
+    omit?: DataExportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataExportInclude<ExtArgs> | null
+    where?: DataExportWhereInput
+    orderBy?: DataExportOrderByWithRelationInput | DataExportOrderByWithRelationInput[]
+    cursor?: DataExportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DataExportScalarFieldEnum | DataExportScalarFieldEnum[]
+  }
+
+  /**
+   * Company.dataDeletionRequests
+   */
+  export type Company$dataDeletionRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataDeletionRequest
+     */
+    select?: DataDeletionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataDeletionRequest
+     */
+    omit?: DataDeletionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataDeletionRequestInclude<ExtArgs> | null
+    where?: DataDeletionRequestWhereInput
+    orderBy?: DataDeletionRequestOrderByWithRelationInput | DataDeletionRequestOrderByWithRelationInput[]
+    cursor?: DataDeletionRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DataDeletionRequestScalarFieldEnum | DataDeletionRequestScalarFieldEnum[]
+  }
+
+  /**
    * Company without action
    */
   export type CompanyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6039,6 +6436,9 @@ export namespace Prisma {
     createdBy?: boolean | User$createdByArgs<ExtArgs>
     createdUsers?: boolean | User$createdUsersArgs<ExtArgs>
     createdRoles?: boolean | User$createdRolesArgs<ExtArgs>
+    dataExports?: boolean | User$dataExportsArgs<ExtArgs>
+    dataDeletionRequests?: boolean | User$dataDeletionRequestsArgs<ExtArgs>
+    processedDeletions?: boolean | User$processedDeletionsArgs<ExtArgs>
     emailVerificationTokens?: boolean | User$emailVerificationTokensArgs<ExtArgs>
     passwordResetTokens?: boolean | User$passwordResetTokensArgs<ExtArgs>
     securityQuestions?: boolean | User$securityQuestionsArgs<ExtArgs>
@@ -6148,6 +6548,9 @@ export namespace Prisma {
     createdBy?: boolean | User$createdByArgs<ExtArgs>
     createdUsers?: boolean | User$createdUsersArgs<ExtArgs>
     createdRoles?: boolean | User$createdRolesArgs<ExtArgs>
+    dataExports?: boolean | User$dataExportsArgs<ExtArgs>
+    dataDeletionRequests?: boolean | User$dataDeletionRequestsArgs<ExtArgs>
+    processedDeletions?: boolean | User$processedDeletionsArgs<ExtArgs>
     emailVerificationTokens?: boolean | User$emailVerificationTokensArgs<ExtArgs>
     passwordResetTokens?: boolean | User$passwordResetTokensArgs<ExtArgs>
     securityQuestions?: boolean | User$securityQuestionsArgs<ExtArgs>
@@ -6190,6 +6593,9 @@ export namespace Prisma {
       createdBy: Prisma.$UserPayload<ExtArgs> | null
       createdUsers: Prisma.$UserPayload<ExtArgs>[]
       createdRoles: Prisma.$RolePayload<ExtArgs>[]
+      dataExports: Prisma.$DataExportPayload<ExtArgs>[]
+      dataDeletionRequests: Prisma.$DataDeletionRequestPayload<ExtArgs>[]
+      processedDeletions: Prisma.$DataDeletionRequestPayload<ExtArgs>[]
       emailVerificationTokens: Prisma.$EmailVerificationTokenPayload<ExtArgs>[]
       passwordResetTokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
       securityQuestions: Prisma.$SecurityQuestionPayload<ExtArgs>[]
@@ -6635,6 +7041,9 @@ export namespace Prisma {
     createdBy<T extends User$createdByArgs<ExtArgs> = {}>(args?: Subset<T, User$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     createdUsers<T extends User$createdUsersArgs<ExtArgs> = {}>(args?: Subset<T, User$createdUsersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdRoles<T extends User$createdRolesArgs<ExtArgs> = {}>(args?: Subset<T, User$createdRolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dataExports<T extends User$dataExportsArgs<ExtArgs> = {}>(args?: Subset<T, User$dataExportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dataDeletionRequests<T extends User$dataDeletionRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$dataDeletionRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    processedDeletions<T extends User$processedDeletionsArgs<ExtArgs> = {}>(args?: Subset<T, User$processedDeletionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     emailVerificationTokens<T extends User$emailVerificationTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$emailVerificationTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailVerificationTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passwordResetTokens<T extends User$passwordResetTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     securityQuestions<T extends User$securityQuestionsArgs<ExtArgs> = {}>(args?: Subset<T, User$securityQuestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SecurityQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -7579,6 +7988,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RoleScalarFieldEnum | RoleScalarFieldEnum[]
+  }
+
+  /**
+   * User.dataExports
+   */
+  export type User$dataExportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataExport
+     */
+    select?: DataExportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataExport
+     */
+    omit?: DataExportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataExportInclude<ExtArgs> | null
+    where?: DataExportWhereInput
+    orderBy?: DataExportOrderByWithRelationInput | DataExportOrderByWithRelationInput[]
+    cursor?: DataExportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DataExportScalarFieldEnum | DataExportScalarFieldEnum[]
+  }
+
+  /**
+   * User.dataDeletionRequests
+   */
+  export type User$dataDeletionRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataDeletionRequest
+     */
+    select?: DataDeletionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataDeletionRequest
+     */
+    omit?: DataDeletionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataDeletionRequestInclude<ExtArgs> | null
+    where?: DataDeletionRequestWhereInput
+    orderBy?: DataDeletionRequestOrderByWithRelationInput | DataDeletionRequestOrderByWithRelationInput[]
+    cursor?: DataDeletionRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DataDeletionRequestScalarFieldEnum | DataDeletionRequestScalarFieldEnum[]
+  }
+
+  /**
+   * User.processedDeletions
+   */
+  export type User$processedDeletionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataDeletionRequest
+     */
+    select?: DataDeletionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataDeletionRequest
+     */
+    omit?: DataDeletionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataDeletionRequestInclude<ExtArgs> | null
+    where?: DataDeletionRequestWhereInput
+    orderBy?: DataDeletionRequestOrderByWithRelationInput | DataDeletionRequestOrderByWithRelationInput[]
+    cursor?: DataDeletionRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DataDeletionRequestScalarFieldEnum | DataDeletionRequestScalarFieldEnum[]
   }
 
   /**
@@ -43240,6 +43721,3584 @@ export namespace Prisma {
 
 
   /**
+   * Model DataRetentionPolicy
+   */
+
+  export type AggregateDataRetentionPolicy = {
+    _count: DataRetentionPolicyCountAggregateOutputType | null
+    _avg: DataRetentionPolicyAvgAggregateOutputType | null
+    _sum: DataRetentionPolicySumAggregateOutputType | null
+    _min: DataRetentionPolicyMinAggregateOutputType | null
+    _max: DataRetentionPolicyMaxAggregateOutputType | null
+  }
+
+  export type DataRetentionPolicyAvgAggregateOutputType = {
+    auditLogRetentionDays: number | null
+    passwordHistoryRetentionDays: number | null
+    sessionRetentionDays: number | null
+    deletedDataRetentionDays: number | null
+  }
+
+  export type DataRetentionPolicySumAggregateOutputType = {
+    auditLogRetentionDays: number | null
+    passwordHistoryRetentionDays: number | null
+    sessionRetentionDays: number | null
+    deletedDataRetentionDays: number | null
+  }
+
+  export type DataRetentionPolicyMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    auditLogRetentionDays: number | null
+    passwordHistoryRetentionDays: number | null
+    sessionRetentionDays: number | null
+    deletedDataRetentionDays: number | null
+    autoDeleteEnabled: boolean | null
+    lastCleanupAt: Date | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DataRetentionPolicyMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    auditLogRetentionDays: number | null
+    passwordHistoryRetentionDays: number | null
+    sessionRetentionDays: number | null
+    deletedDataRetentionDays: number | null
+    autoDeleteEnabled: boolean | null
+    lastCleanupAt: Date | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DataRetentionPolicyCountAggregateOutputType = {
+    id: number
+    companyId: number
+    auditLogRetentionDays: number
+    passwordHistoryRetentionDays: number
+    sessionRetentionDays: number
+    deletedDataRetentionDays: number
+    autoDeleteEnabled: number
+    lastCleanupAt: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DataRetentionPolicyAvgAggregateInputType = {
+    auditLogRetentionDays?: true
+    passwordHistoryRetentionDays?: true
+    sessionRetentionDays?: true
+    deletedDataRetentionDays?: true
+  }
+
+  export type DataRetentionPolicySumAggregateInputType = {
+    auditLogRetentionDays?: true
+    passwordHistoryRetentionDays?: true
+    sessionRetentionDays?: true
+    deletedDataRetentionDays?: true
+  }
+
+  export type DataRetentionPolicyMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    auditLogRetentionDays?: true
+    passwordHistoryRetentionDays?: true
+    sessionRetentionDays?: true
+    deletedDataRetentionDays?: true
+    autoDeleteEnabled?: true
+    lastCleanupAt?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DataRetentionPolicyMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    auditLogRetentionDays?: true
+    passwordHistoryRetentionDays?: true
+    sessionRetentionDays?: true
+    deletedDataRetentionDays?: true
+    autoDeleteEnabled?: true
+    lastCleanupAt?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DataRetentionPolicyCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    auditLogRetentionDays?: true
+    passwordHistoryRetentionDays?: true
+    sessionRetentionDays?: true
+    deletedDataRetentionDays?: true
+    autoDeleteEnabled?: true
+    lastCleanupAt?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DataRetentionPolicyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DataRetentionPolicy to aggregate.
+     */
+    where?: DataRetentionPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DataRetentionPolicies to fetch.
+     */
+    orderBy?: DataRetentionPolicyOrderByWithRelationInput | DataRetentionPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DataRetentionPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DataRetentionPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DataRetentionPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DataRetentionPolicies
+    **/
+    _count?: true | DataRetentionPolicyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DataRetentionPolicyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DataRetentionPolicySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DataRetentionPolicyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DataRetentionPolicyMaxAggregateInputType
+  }
+
+  export type GetDataRetentionPolicyAggregateType<T extends DataRetentionPolicyAggregateArgs> = {
+        [P in keyof T & keyof AggregateDataRetentionPolicy]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDataRetentionPolicy[P]>
+      : GetScalarType<T[P], AggregateDataRetentionPolicy[P]>
+  }
+
+
+
+
+  export type DataRetentionPolicyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DataRetentionPolicyWhereInput
+    orderBy?: DataRetentionPolicyOrderByWithAggregationInput | DataRetentionPolicyOrderByWithAggregationInput[]
+    by: DataRetentionPolicyScalarFieldEnum[] | DataRetentionPolicyScalarFieldEnum
+    having?: DataRetentionPolicyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DataRetentionPolicyCountAggregateInputType | true
+    _avg?: DataRetentionPolicyAvgAggregateInputType
+    _sum?: DataRetentionPolicySumAggregateInputType
+    _min?: DataRetentionPolicyMinAggregateInputType
+    _max?: DataRetentionPolicyMaxAggregateInputType
+  }
+
+  export type DataRetentionPolicyGroupByOutputType = {
+    id: string
+    companyId: string
+    auditLogRetentionDays: number | null
+    passwordHistoryRetentionDays: number | null
+    sessionRetentionDays: number | null
+    deletedDataRetentionDays: number | null
+    autoDeleteEnabled: boolean
+    lastCleanupAt: Date | null
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: DataRetentionPolicyCountAggregateOutputType | null
+    _avg: DataRetentionPolicyAvgAggregateOutputType | null
+    _sum: DataRetentionPolicySumAggregateOutputType | null
+    _min: DataRetentionPolicyMinAggregateOutputType | null
+    _max: DataRetentionPolicyMaxAggregateOutputType | null
+  }
+
+  type GetDataRetentionPolicyGroupByPayload<T extends DataRetentionPolicyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DataRetentionPolicyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DataRetentionPolicyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DataRetentionPolicyGroupByOutputType[P]>
+            : GetScalarType<T[P], DataRetentionPolicyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DataRetentionPolicySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    auditLogRetentionDays?: boolean
+    passwordHistoryRetentionDays?: boolean
+    sessionRetentionDays?: boolean
+    deletedDataRetentionDays?: boolean
+    autoDeleteEnabled?: boolean
+    lastCleanupAt?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dataRetentionPolicy"]>
+
+  export type DataRetentionPolicySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    auditLogRetentionDays?: boolean
+    passwordHistoryRetentionDays?: boolean
+    sessionRetentionDays?: boolean
+    deletedDataRetentionDays?: boolean
+    autoDeleteEnabled?: boolean
+    lastCleanupAt?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dataRetentionPolicy"]>
+
+  export type DataRetentionPolicySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    auditLogRetentionDays?: boolean
+    passwordHistoryRetentionDays?: boolean
+    sessionRetentionDays?: boolean
+    deletedDataRetentionDays?: boolean
+    autoDeleteEnabled?: boolean
+    lastCleanupAt?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dataRetentionPolicy"]>
+
+  export type DataRetentionPolicySelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    auditLogRetentionDays?: boolean
+    passwordHistoryRetentionDays?: boolean
+    sessionRetentionDays?: boolean
+    deletedDataRetentionDays?: boolean
+    autoDeleteEnabled?: boolean
+    lastCleanupAt?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DataRetentionPolicyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "auditLogRetentionDays" | "passwordHistoryRetentionDays" | "sessionRetentionDays" | "deletedDataRetentionDays" | "autoDeleteEnabled" | "lastCleanupAt" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["dataRetentionPolicy"]>
+  export type DataRetentionPolicyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type DataRetentionPolicyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+  export type DataRetentionPolicyIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
+
+  export type $DataRetentionPolicyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DataRetentionPolicy"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string
+      auditLogRetentionDays: number | null
+      passwordHistoryRetentionDays: number | null
+      sessionRetentionDays: number | null
+      deletedDataRetentionDays: number | null
+      autoDeleteEnabled: boolean
+      lastCleanupAt: Date | null
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["dataRetentionPolicy"]>
+    composites: {}
+  }
+
+  type DataRetentionPolicyGetPayload<S extends boolean | null | undefined | DataRetentionPolicyDefaultArgs> = $Result.GetResult<Prisma.$DataRetentionPolicyPayload, S>
+
+  type DataRetentionPolicyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DataRetentionPolicyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DataRetentionPolicyCountAggregateInputType | true
+    }
+
+  export interface DataRetentionPolicyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DataRetentionPolicy'], meta: { name: 'DataRetentionPolicy' } }
+    /**
+     * Find zero or one DataRetentionPolicy that matches the filter.
+     * @param {DataRetentionPolicyFindUniqueArgs} args - Arguments to find a DataRetentionPolicy
+     * @example
+     * // Get one DataRetentionPolicy
+     * const dataRetentionPolicy = await prisma.dataRetentionPolicy.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DataRetentionPolicyFindUniqueArgs>(args: SelectSubset<T, DataRetentionPolicyFindUniqueArgs<ExtArgs>>): Prisma__DataRetentionPolicyClient<$Result.GetResult<Prisma.$DataRetentionPolicyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DataRetentionPolicy that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DataRetentionPolicyFindUniqueOrThrowArgs} args - Arguments to find a DataRetentionPolicy
+     * @example
+     * // Get one DataRetentionPolicy
+     * const dataRetentionPolicy = await prisma.dataRetentionPolicy.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DataRetentionPolicyFindUniqueOrThrowArgs>(args: SelectSubset<T, DataRetentionPolicyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DataRetentionPolicyClient<$Result.GetResult<Prisma.$DataRetentionPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DataRetentionPolicy that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataRetentionPolicyFindFirstArgs} args - Arguments to find a DataRetentionPolicy
+     * @example
+     * // Get one DataRetentionPolicy
+     * const dataRetentionPolicy = await prisma.dataRetentionPolicy.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DataRetentionPolicyFindFirstArgs>(args?: SelectSubset<T, DataRetentionPolicyFindFirstArgs<ExtArgs>>): Prisma__DataRetentionPolicyClient<$Result.GetResult<Prisma.$DataRetentionPolicyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DataRetentionPolicy that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataRetentionPolicyFindFirstOrThrowArgs} args - Arguments to find a DataRetentionPolicy
+     * @example
+     * // Get one DataRetentionPolicy
+     * const dataRetentionPolicy = await prisma.dataRetentionPolicy.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DataRetentionPolicyFindFirstOrThrowArgs>(args?: SelectSubset<T, DataRetentionPolicyFindFirstOrThrowArgs<ExtArgs>>): Prisma__DataRetentionPolicyClient<$Result.GetResult<Prisma.$DataRetentionPolicyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DataRetentionPolicies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataRetentionPolicyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DataRetentionPolicies
+     * const dataRetentionPolicies = await prisma.dataRetentionPolicy.findMany()
+     * 
+     * // Get first 10 DataRetentionPolicies
+     * const dataRetentionPolicies = await prisma.dataRetentionPolicy.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dataRetentionPolicyWithIdOnly = await prisma.dataRetentionPolicy.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DataRetentionPolicyFindManyArgs>(args?: SelectSubset<T, DataRetentionPolicyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataRetentionPolicyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DataRetentionPolicy.
+     * @param {DataRetentionPolicyCreateArgs} args - Arguments to create a DataRetentionPolicy.
+     * @example
+     * // Create one DataRetentionPolicy
+     * const DataRetentionPolicy = await prisma.dataRetentionPolicy.create({
+     *   data: {
+     *     // ... data to create a DataRetentionPolicy
+     *   }
+     * })
+     * 
+     */
+    create<T extends DataRetentionPolicyCreateArgs>(args: SelectSubset<T, DataRetentionPolicyCreateArgs<ExtArgs>>): Prisma__DataRetentionPolicyClient<$Result.GetResult<Prisma.$DataRetentionPolicyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DataRetentionPolicies.
+     * @param {DataRetentionPolicyCreateManyArgs} args - Arguments to create many DataRetentionPolicies.
+     * @example
+     * // Create many DataRetentionPolicies
+     * const dataRetentionPolicy = await prisma.dataRetentionPolicy.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DataRetentionPolicyCreateManyArgs>(args?: SelectSubset<T, DataRetentionPolicyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DataRetentionPolicies and returns the data saved in the database.
+     * @param {DataRetentionPolicyCreateManyAndReturnArgs} args - Arguments to create many DataRetentionPolicies.
+     * @example
+     * // Create many DataRetentionPolicies
+     * const dataRetentionPolicy = await prisma.dataRetentionPolicy.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DataRetentionPolicies and only return the `id`
+     * const dataRetentionPolicyWithIdOnly = await prisma.dataRetentionPolicy.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DataRetentionPolicyCreateManyAndReturnArgs>(args?: SelectSubset<T, DataRetentionPolicyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataRetentionPolicyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DataRetentionPolicy.
+     * @param {DataRetentionPolicyDeleteArgs} args - Arguments to delete one DataRetentionPolicy.
+     * @example
+     * // Delete one DataRetentionPolicy
+     * const DataRetentionPolicy = await prisma.dataRetentionPolicy.delete({
+     *   where: {
+     *     // ... filter to delete one DataRetentionPolicy
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DataRetentionPolicyDeleteArgs>(args: SelectSubset<T, DataRetentionPolicyDeleteArgs<ExtArgs>>): Prisma__DataRetentionPolicyClient<$Result.GetResult<Prisma.$DataRetentionPolicyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DataRetentionPolicy.
+     * @param {DataRetentionPolicyUpdateArgs} args - Arguments to update one DataRetentionPolicy.
+     * @example
+     * // Update one DataRetentionPolicy
+     * const dataRetentionPolicy = await prisma.dataRetentionPolicy.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DataRetentionPolicyUpdateArgs>(args: SelectSubset<T, DataRetentionPolicyUpdateArgs<ExtArgs>>): Prisma__DataRetentionPolicyClient<$Result.GetResult<Prisma.$DataRetentionPolicyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DataRetentionPolicies.
+     * @param {DataRetentionPolicyDeleteManyArgs} args - Arguments to filter DataRetentionPolicies to delete.
+     * @example
+     * // Delete a few DataRetentionPolicies
+     * const { count } = await prisma.dataRetentionPolicy.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DataRetentionPolicyDeleteManyArgs>(args?: SelectSubset<T, DataRetentionPolicyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DataRetentionPolicies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataRetentionPolicyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DataRetentionPolicies
+     * const dataRetentionPolicy = await prisma.dataRetentionPolicy.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DataRetentionPolicyUpdateManyArgs>(args: SelectSubset<T, DataRetentionPolicyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DataRetentionPolicies and returns the data updated in the database.
+     * @param {DataRetentionPolicyUpdateManyAndReturnArgs} args - Arguments to update many DataRetentionPolicies.
+     * @example
+     * // Update many DataRetentionPolicies
+     * const dataRetentionPolicy = await prisma.dataRetentionPolicy.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DataRetentionPolicies and only return the `id`
+     * const dataRetentionPolicyWithIdOnly = await prisma.dataRetentionPolicy.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DataRetentionPolicyUpdateManyAndReturnArgs>(args: SelectSubset<T, DataRetentionPolicyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataRetentionPolicyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DataRetentionPolicy.
+     * @param {DataRetentionPolicyUpsertArgs} args - Arguments to update or create a DataRetentionPolicy.
+     * @example
+     * // Update or create a DataRetentionPolicy
+     * const dataRetentionPolicy = await prisma.dataRetentionPolicy.upsert({
+     *   create: {
+     *     // ... data to create a DataRetentionPolicy
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DataRetentionPolicy we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DataRetentionPolicyUpsertArgs>(args: SelectSubset<T, DataRetentionPolicyUpsertArgs<ExtArgs>>): Prisma__DataRetentionPolicyClient<$Result.GetResult<Prisma.$DataRetentionPolicyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DataRetentionPolicies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataRetentionPolicyCountArgs} args - Arguments to filter DataRetentionPolicies to count.
+     * @example
+     * // Count the number of DataRetentionPolicies
+     * const count = await prisma.dataRetentionPolicy.count({
+     *   where: {
+     *     // ... the filter for the DataRetentionPolicies we want to count
+     *   }
+     * })
+    **/
+    count<T extends DataRetentionPolicyCountArgs>(
+      args?: Subset<T, DataRetentionPolicyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DataRetentionPolicyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DataRetentionPolicy.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataRetentionPolicyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DataRetentionPolicyAggregateArgs>(args: Subset<T, DataRetentionPolicyAggregateArgs>): Prisma.PrismaPromise<GetDataRetentionPolicyAggregateType<T>>
+
+    /**
+     * Group by DataRetentionPolicy.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataRetentionPolicyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DataRetentionPolicyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DataRetentionPolicyGroupByArgs['orderBy'] }
+        : { orderBy?: DataRetentionPolicyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DataRetentionPolicyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDataRetentionPolicyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DataRetentionPolicy model
+   */
+  readonly fields: DataRetentionPolicyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DataRetentionPolicy.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DataRetentionPolicyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DataRetentionPolicy model
+   */
+  interface DataRetentionPolicyFieldRefs {
+    readonly id: FieldRef<"DataRetentionPolicy", 'String'>
+    readonly companyId: FieldRef<"DataRetentionPolicy", 'String'>
+    readonly auditLogRetentionDays: FieldRef<"DataRetentionPolicy", 'Int'>
+    readonly passwordHistoryRetentionDays: FieldRef<"DataRetentionPolicy", 'Int'>
+    readonly sessionRetentionDays: FieldRef<"DataRetentionPolicy", 'Int'>
+    readonly deletedDataRetentionDays: FieldRef<"DataRetentionPolicy", 'Int'>
+    readonly autoDeleteEnabled: FieldRef<"DataRetentionPolicy", 'Boolean'>
+    readonly lastCleanupAt: FieldRef<"DataRetentionPolicy", 'DateTime'>
+    readonly isActive: FieldRef<"DataRetentionPolicy", 'Boolean'>
+    readonly createdAt: FieldRef<"DataRetentionPolicy", 'DateTime'>
+    readonly updatedAt: FieldRef<"DataRetentionPolicy", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DataRetentionPolicy findUnique
+   */
+  export type DataRetentionPolicyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataRetentionPolicy
+     */
+    select?: DataRetentionPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataRetentionPolicy
+     */
+    omit?: DataRetentionPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataRetentionPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which DataRetentionPolicy to fetch.
+     */
+    where: DataRetentionPolicyWhereUniqueInput
+  }
+
+  /**
+   * DataRetentionPolicy findUniqueOrThrow
+   */
+  export type DataRetentionPolicyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataRetentionPolicy
+     */
+    select?: DataRetentionPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataRetentionPolicy
+     */
+    omit?: DataRetentionPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataRetentionPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which DataRetentionPolicy to fetch.
+     */
+    where: DataRetentionPolicyWhereUniqueInput
+  }
+
+  /**
+   * DataRetentionPolicy findFirst
+   */
+  export type DataRetentionPolicyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataRetentionPolicy
+     */
+    select?: DataRetentionPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataRetentionPolicy
+     */
+    omit?: DataRetentionPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataRetentionPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which DataRetentionPolicy to fetch.
+     */
+    where?: DataRetentionPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DataRetentionPolicies to fetch.
+     */
+    orderBy?: DataRetentionPolicyOrderByWithRelationInput | DataRetentionPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DataRetentionPolicies.
+     */
+    cursor?: DataRetentionPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DataRetentionPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DataRetentionPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DataRetentionPolicies.
+     */
+    distinct?: DataRetentionPolicyScalarFieldEnum | DataRetentionPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * DataRetentionPolicy findFirstOrThrow
+   */
+  export type DataRetentionPolicyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataRetentionPolicy
+     */
+    select?: DataRetentionPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataRetentionPolicy
+     */
+    omit?: DataRetentionPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataRetentionPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which DataRetentionPolicy to fetch.
+     */
+    where?: DataRetentionPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DataRetentionPolicies to fetch.
+     */
+    orderBy?: DataRetentionPolicyOrderByWithRelationInput | DataRetentionPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DataRetentionPolicies.
+     */
+    cursor?: DataRetentionPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DataRetentionPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DataRetentionPolicies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DataRetentionPolicies.
+     */
+    distinct?: DataRetentionPolicyScalarFieldEnum | DataRetentionPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * DataRetentionPolicy findMany
+   */
+  export type DataRetentionPolicyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataRetentionPolicy
+     */
+    select?: DataRetentionPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataRetentionPolicy
+     */
+    omit?: DataRetentionPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataRetentionPolicyInclude<ExtArgs> | null
+    /**
+     * Filter, which DataRetentionPolicies to fetch.
+     */
+    where?: DataRetentionPolicyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DataRetentionPolicies to fetch.
+     */
+    orderBy?: DataRetentionPolicyOrderByWithRelationInput | DataRetentionPolicyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DataRetentionPolicies.
+     */
+    cursor?: DataRetentionPolicyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DataRetentionPolicies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DataRetentionPolicies.
+     */
+    skip?: number
+    distinct?: DataRetentionPolicyScalarFieldEnum | DataRetentionPolicyScalarFieldEnum[]
+  }
+
+  /**
+   * DataRetentionPolicy create
+   */
+  export type DataRetentionPolicyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataRetentionPolicy
+     */
+    select?: DataRetentionPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataRetentionPolicy
+     */
+    omit?: DataRetentionPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataRetentionPolicyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DataRetentionPolicy.
+     */
+    data: XOR<DataRetentionPolicyCreateInput, DataRetentionPolicyUncheckedCreateInput>
+  }
+
+  /**
+   * DataRetentionPolicy createMany
+   */
+  export type DataRetentionPolicyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DataRetentionPolicies.
+     */
+    data: DataRetentionPolicyCreateManyInput | DataRetentionPolicyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DataRetentionPolicy createManyAndReturn
+   */
+  export type DataRetentionPolicyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataRetentionPolicy
+     */
+    select?: DataRetentionPolicySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataRetentionPolicy
+     */
+    omit?: DataRetentionPolicyOmit<ExtArgs> | null
+    /**
+     * The data used to create many DataRetentionPolicies.
+     */
+    data: DataRetentionPolicyCreateManyInput | DataRetentionPolicyCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataRetentionPolicyIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DataRetentionPolicy update
+   */
+  export type DataRetentionPolicyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataRetentionPolicy
+     */
+    select?: DataRetentionPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataRetentionPolicy
+     */
+    omit?: DataRetentionPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataRetentionPolicyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DataRetentionPolicy.
+     */
+    data: XOR<DataRetentionPolicyUpdateInput, DataRetentionPolicyUncheckedUpdateInput>
+    /**
+     * Choose, which DataRetentionPolicy to update.
+     */
+    where: DataRetentionPolicyWhereUniqueInput
+  }
+
+  /**
+   * DataRetentionPolicy updateMany
+   */
+  export type DataRetentionPolicyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DataRetentionPolicies.
+     */
+    data: XOR<DataRetentionPolicyUpdateManyMutationInput, DataRetentionPolicyUncheckedUpdateManyInput>
+    /**
+     * Filter which DataRetentionPolicies to update
+     */
+    where?: DataRetentionPolicyWhereInput
+    /**
+     * Limit how many DataRetentionPolicies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DataRetentionPolicy updateManyAndReturn
+   */
+  export type DataRetentionPolicyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataRetentionPolicy
+     */
+    select?: DataRetentionPolicySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataRetentionPolicy
+     */
+    omit?: DataRetentionPolicyOmit<ExtArgs> | null
+    /**
+     * The data used to update DataRetentionPolicies.
+     */
+    data: XOR<DataRetentionPolicyUpdateManyMutationInput, DataRetentionPolicyUncheckedUpdateManyInput>
+    /**
+     * Filter which DataRetentionPolicies to update
+     */
+    where?: DataRetentionPolicyWhereInput
+    /**
+     * Limit how many DataRetentionPolicies to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataRetentionPolicyIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DataRetentionPolicy upsert
+   */
+  export type DataRetentionPolicyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataRetentionPolicy
+     */
+    select?: DataRetentionPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataRetentionPolicy
+     */
+    omit?: DataRetentionPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataRetentionPolicyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DataRetentionPolicy to update in case it exists.
+     */
+    where: DataRetentionPolicyWhereUniqueInput
+    /**
+     * In case the DataRetentionPolicy found by the `where` argument doesn't exist, create a new DataRetentionPolicy with this data.
+     */
+    create: XOR<DataRetentionPolicyCreateInput, DataRetentionPolicyUncheckedCreateInput>
+    /**
+     * In case the DataRetentionPolicy was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DataRetentionPolicyUpdateInput, DataRetentionPolicyUncheckedUpdateInput>
+  }
+
+  /**
+   * DataRetentionPolicy delete
+   */
+  export type DataRetentionPolicyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataRetentionPolicy
+     */
+    select?: DataRetentionPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataRetentionPolicy
+     */
+    omit?: DataRetentionPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataRetentionPolicyInclude<ExtArgs> | null
+    /**
+     * Filter which DataRetentionPolicy to delete.
+     */
+    where: DataRetentionPolicyWhereUniqueInput
+  }
+
+  /**
+   * DataRetentionPolicy deleteMany
+   */
+  export type DataRetentionPolicyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DataRetentionPolicies to delete
+     */
+    where?: DataRetentionPolicyWhereInput
+    /**
+     * Limit how many DataRetentionPolicies to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DataRetentionPolicy without action
+   */
+  export type DataRetentionPolicyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataRetentionPolicy
+     */
+    select?: DataRetentionPolicySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataRetentionPolicy
+     */
+    omit?: DataRetentionPolicyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataRetentionPolicyInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DataExport
+   */
+
+  export type AggregateDataExport = {
+    _count: DataExportCountAggregateOutputType | null
+    _avg: DataExportAvgAggregateOutputType | null
+    _sum: DataExportSumAggregateOutputType | null
+    _min: DataExportMinAggregateOutputType | null
+    _max: DataExportMaxAggregateOutputType | null
+  }
+
+  export type DataExportAvgAggregateOutputType = {
+    fileSize: number | null
+  }
+
+  export type DataExportSumAggregateOutputType = {
+    fileSize: number | null
+  }
+
+  export type DataExportMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    exportType: string | null
+    status: string | null
+    filePath: string | null
+    fileSize: number | null
+    expiresAt: Date | null
+    requestedAt: Date | null
+    completedAt: Date | null
+    errorMessage: string | null
+  }
+
+  export type DataExportMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    exportType: string | null
+    status: string | null
+    filePath: string | null
+    fileSize: number | null
+    expiresAt: Date | null
+    requestedAt: Date | null
+    completedAt: Date | null
+    errorMessage: string | null
+  }
+
+  export type DataExportCountAggregateOutputType = {
+    id: number
+    userId: number
+    companyId: number
+    exportType: number
+    status: number
+    filePath: number
+    fileSize: number
+    expiresAt: number
+    requestedAt: number
+    completedAt: number
+    errorMessage: number
+    _all: number
+  }
+
+
+  export type DataExportAvgAggregateInputType = {
+    fileSize?: true
+  }
+
+  export type DataExportSumAggregateInputType = {
+    fileSize?: true
+  }
+
+  export type DataExportMinAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    exportType?: true
+    status?: true
+    filePath?: true
+    fileSize?: true
+    expiresAt?: true
+    requestedAt?: true
+    completedAt?: true
+    errorMessage?: true
+  }
+
+  export type DataExportMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    exportType?: true
+    status?: true
+    filePath?: true
+    fileSize?: true
+    expiresAt?: true
+    requestedAt?: true
+    completedAt?: true
+    errorMessage?: true
+  }
+
+  export type DataExportCountAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    exportType?: true
+    status?: true
+    filePath?: true
+    fileSize?: true
+    expiresAt?: true
+    requestedAt?: true
+    completedAt?: true
+    errorMessage?: true
+    _all?: true
+  }
+
+  export type DataExportAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DataExport to aggregate.
+     */
+    where?: DataExportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DataExports to fetch.
+     */
+    orderBy?: DataExportOrderByWithRelationInput | DataExportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DataExportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DataExports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DataExports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DataExports
+    **/
+    _count?: true | DataExportCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DataExportAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DataExportSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DataExportMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DataExportMaxAggregateInputType
+  }
+
+  export type GetDataExportAggregateType<T extends DataExportAggregateArgs> = {
+        [P in keyof T & keyof AggregateDataExport]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDataExport[P]>
+      : GetScalarType<T[P], AggregateDataExport[P]>
+  }
+
+
+
+
+  export type DataExportGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DataExportWhereInput
+    orderBy?: DataExportOrderByWithAggregationInput | DataExportOrderByWithAggregationInput[]
+    by: DataExportScalarFieldEnum[] | DataExportScalarFieldEnum
+    having?: DataExportScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DataExportCountAggregateInputType | true
+    _avg?: DataExportAvgAggregateInputType
+    _sum?: DataExportSumAggregateInputType
+    _min?: DataExportMinAggregateInputType
+    _max?: DataExportMaxAggregateInputType
+  }
+
+  export type DataExportGroupByOutputType = {
+    id: string
+    userId: string
+    companyId: string | null
+    exportType: string
+    status: string
+    filePath: string | null
+    fileSize: number | null
+    expiresAt: Date | null
+    requestedAt: Date
+    completedAt: Date | null
+    errorMessage: string | null
+    _count: DataExportCountAggregateOutputType | null
+    _avg: DataExportAvgAggregateOutputType | null
+    _sum: DataExportSumAggregateOutputType | null
+    _min: DataExportMinAggregateOutputType | null
+    _max: DataExportMaxAggregateOutputType | null
+  }
+
+  type GetDataExportGroupByPayload<T extends DataExportGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DataExportGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DataExportGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DataExportGroupByOutputType[P]>
+            : GetScalarType<T[P], DataExportGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DataExportSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    exportType?: boolean
+    status?: boolean
+    filePath?: boolean
+    fileSize?: boolean
+    expiresAt?: boolean
+    requestedAt?: boolean
+    completedAt?: boolean
+    errorMessage?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | DataExport$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["dataExport"]>
+
+  export type DataExportSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    exportType?: boolean
+    status?: boolean
+    filePath?: boolean
+    fileSize?: boolean
+    expiresAt?: boolean
+    requestedAt?: boolean
+    completedAt?: boolean
+    errorMessage?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | DataExport$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["dataExport"]>
+
+  export type DataExportSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    exportType?: boolean
+    status?: boolean
+    filePath?: boolean
+    fileSize?: boolean
+    expiresAt?: boolean
+    requestedAt?: boolean
+    completedAt?: boolean
+    errorMessage?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | DataExport$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["dataExport"]>
+
+  export type DataExportSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    exportType?: boolean
+    status?: boolean
+    filePath?: boolean
+    fileSize?: boolean
+    expiresAt?: boolean
+    requestedAt?: boolean
+    completedAt?: boolean
+    errorMessage?: boolean
+  }
+
+  export type DataExportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "companyId" | "exportType" | "status" | "filePath" | "fileSize" | "expiresAt" | "requestedAt" | "completedAt" | "errorMessage", ExtArgs["result"]["dataExport"]>
+  export type DataExportInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | DataExport$companyArgs<ExtArgs>
+  }
+  export type DataExportIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | DataExport$companyArgs<ExtArgs>
+  }
+  export type DataExportIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | DataExport$companyArgs<ExtArgs>
+  }
+
+  export type $DataExportPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DataExport"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      companyId: string | null
+      exportType: string
+      status: string
+      filePath: string | null
+      fileSize: number | null
+      expiresAt: Date | null
+      requestedAt: Date
+      completedAt: Date | null
+      errorMessage: string | null
+    }, ExtArgs["result"]["dataExport"]>
+    composites: {}
+  }
+
+  type DataExportGetPayload<S extends boolean | null | undefined | DataExportDefaultArgs> = $Result.GetResult<Prisma.$DataExportPayload, S>
+
+  type DataExportCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DataExportFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DataExportCountAggregateInputType | true
+    }
+
+  export interface DataExportDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DataExport'], meta: { name: 'DataExport' } }
+    /**
+     * Find zero or one DataExport that matches the filter.
+     * @param {DataExportFindUniqueArgs} args - Arguments to find a DataExport
+     * @example
+     * // Get one DataExport
+     * const dataExport = await prisma.dataExport.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DataExportFindUniqueArgs>(args: SelectSubset<T, DataExportFindUniqueArgs<ExtArgs>>): Prisma__DataExportClient<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DataExport that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DataExportFindUniqueOrThrowArgs} args - Arguments to find a DataExport
+     * @example
+     * // Get one DataExport
+     * const dataExport = await prisma.dataExport.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DataExportFindUniqueOrThrowArgs>(args: SelectSubset<T, DataExportFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DataExportClient<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DataExport that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataExportFindFirstArgs} args - Arguments to find a DataExport
+     * @example
+     * // Get one DataExport
+     * const dataExport = await prisma.dataExport.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DataExportFindFirstArgs>(args?: SelectSubset<T, DataExportFindFirstArgs<ExtArgs>>): Prisma__DataExportClient<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DataExport that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataExportFindFirstOrThrowArgs} args - Arguments to find a DataExport
+     * @example
+     * // Get one DataExport
+     * const dataExport = await prisma.dataExport.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DataExportFindFirstOrThrowArgs>(args?: SelectSubset<T, DataExportFindFirstOrThrowArgs<ExtArgs>>): Prisma__DataExportClient<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DataExports that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataExportFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DataExports
+     * const dataExports = await prisma.dataExport.findMany()
+     * 
+     * // Get first 10 DataExports
+     * const dataExports = await prisma.dataExport.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dataExportWithIdOnly = await prisma.dataExport.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DataExportFindManyArgs>(args?: SelectSubset<T, DataExportFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DataExport.
+     * @param {DataExportCreateArgs} args - Arguments to create a DataExport.
+     * @example
+     * // Create one DataExport
+     * const DataExport = await prisma.dataExport.create({
+     *   data: {
+     *     // ... data to create a DataExport
+     *   }
+     * })
+     * 
+     */
+    create<T extends DataExportCreateArgs>(args: SelectSubset<T, DataExportCreateArgs<ExtArgs>>): Prisma__DataExportClient<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DataExports.
+     * @param {DataExportCreateManyArgs} args - Arguments to create many DataExports.
+     * @example
+     * // Create many DataExports
+     * const dataExport = await prisma.dataExport.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DataExportCreateManyArgs>(args?: SelectSubset<T, DataExportCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DataExports and returns the data saved in the database.
+     * @param {DataExportCreateManyAndReturnArgs} args - Arguments to create many DataExports.
+     * @example
+     * // Create many DataExports
+     * const dataExport = await prisma.dataExport.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DataExports and only return the `id`
+     * const dataExportWithIdOnly = await prisma.dataExport.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DataExportCreateManyAndReturnArgs>(args?: SelectSubset<T, DataExportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DataExport.
+     * @param {DataExportDeleteArgs} args - Arguments to delete one DataExport.
+     * @example
+     * // Delete one DataExport
+     * const DataExport = await prisma.dataExport.delete({
+     *   where: {
+     *     // ... filter to delete one DataExport
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DataExportDeleteArgs>(args: SelectSubset<T, DataExportDeleteArgs<ExtArgs>>): Prisma__DataExportClient<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DataExport.
+     * @param {DataExportUpdateArgs} args - Arguments to update one DataExport.
+     * @example
+     * // Update one DataExport
+     * const dataExport = await prisma.dataExport.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DataExportUpdateArgs>(args: SelectSubset<T, DataExportUpdateArgs<ExtArgs>>): Prisma__DataExportClient<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DataExports.
+     * @param {DataExportDeleteManyArgs} args - Arguments to filter DataExports to delete.
+     * @example
+     * // Delete a few DataExports
+     * const { count } = await prisma.dataExport.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DataExportDeleteManyArgs>(args?: SelectSubset<T, DataExportDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DataExports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataExportUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DataExports
+     * const dataExport = await prisma.dataExport.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DataExportUpdateManyArgs>(args: SelectSubset<T, DataExportUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DataExports and returns the data updated in the database.
+     * @param {DataExportUpdateManyAndReturnArgs} args - Arguments to update many DataExports.
+     * @example
+     * // Update many DataExports
+     * const dataExport = await prisma.dataExport.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DataExports and only return the `id`
+     * const dataExportWithIdOnly = await prisma.dataExport.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DataExportUpdateManyAndReturnArgs>(args: SelectSubset<T, DataExportUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DataExport.
+     * @param {DataExportUpsertArgs} args - Arguments to update or create a DataExport.
+     * @example
+     * // Update or create a DataExport
+     * const dataExport = await prisma.dataExport.upsert({
+     *   create: {
+     *     // ... data to create a DataExport
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DataExport we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DataExportUpsertArgs>(args: SelectSubset<T, DataExportUpsertArgs<ExtArgs>>): Prisma__DataExportClient<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DataExports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataExportCountArgs} args - Arguments to filter DataExports to count.
+     * @example
+     * // Count the number of DataExports
+     * const count = await prisma.dataExport.count({
+     *   where: {
+     *     // ... the filter for the DataExports we want to count
+     *   }
+     * })
+    **/
+    count<T extends DataExportCountArgs>(
+      args?: Subset<T, DataExportCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DataExportCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DataExport.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataExportAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DataExportAggregateArgs>(args: Subset<T, DataExportAggregateArgs>): Prisma.PrismaPromise<GetDataExportAggregateType<T>>
+
+    /**
+     * Group by DataExport.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataExportGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DataExportGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DataExportGroupByArgs['orderBy'] }
+        : { orderBy?: DataExportGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DataExportGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDataExportGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DataExport model
+   */
+  readonly fields: DataExportFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DataExport.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DataExportClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    company<T extends DataExport$companyArgs<ExtArgs> = {}>(args?: Subset<T, DataExport$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DataExport model
+   */
+  interface DataExportFieldRefs {
+    readonly id: FieldRef<"DataExport", 'String'>
+    readonly userId: FieldRef<"DataExport", 'String'>
+    readonly companyId: FieldRef<"DataExport", 'String'>
+    readonly exportType: FieldRef<"DataExport", 'String'>
+    readonly status: FieldRef<"DataExport", 'String'>
+    readonly filePath: FieldRef<"DataExport", 'String'>
+    readonly fileSize: FieldRef<"DataExport", 'Int'>
+    readonly expiresAt: FieldRef<"DataExport", 'DateTime'>
+    readonly requestedAt: FieldRef<"DataExport", 'DateTime'>
+    readonly completedAt: FieldRef<"DataExport", 'DateTime'>
+    readonly errorMessage: FieldRef<"DataExport", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DataExport findUnique
+   */
+  export type DataExportFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataExport
+     */
+    select?: DataExportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataExport
+     */
+    omit?: DataExportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataExportInclude<ExtArgs> | null
+    /**
+     * Filter, which DataExport to fetch.
+     */
+    where: DataExportWhereUniqueInput
+  }
+
+  /**
+   * DataExport findUniqueOrThrow
+   */
+  export type DataExportFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataExport
+     */
+    select?: DataExportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataExport
+     */
+    omit?: DataExportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataExportInclude<ExtArgs> | null
+    /**
+     * Filter, which DataExport to fetch.
+     */
+    where: DataExportWhereUniqueInput
+  }
+
+  /**
+   * DataExport findFirst
+   */
+  export type DataExportFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataExport
+     */
+    select?: DataExportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataExport
+     */
+    omit?: DataExportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataExportInclude<ExtArgs> | null
+    /**
+     * Filter, which DataExport to fetch.
+     */
+    where?: DataExportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DataExports to fetch.
+     */
+    orderBy?: DataExportOrderByWithRelationInput | DataExportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DataExports.
+     */
+    cursor?: DataExportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DataExports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DataExports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DataExports.
+     */
+    distinct?: DataExportScalarFieldEnum | DataExportScalarFieldEnum[]
+  }
+
+  /**
+   * DataExport findFirstOrThrow
+   */
+  export type DataExportFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataExport
+     */
+    select?: DataExportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataExport
+     */
+    omit?: DataExportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataExportInclude<ExtArgs> | null
+    /**
+     * Filter, which DataExport to fetch.
+     */
+    where?: DataExportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DataExports to fetch.
+     */
+    orderBy?: DataExportOrderByWithRelationInput | DataExportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DataExports.
+     */
+    cursor?: DataExportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DataExports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DataExports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DataExports.
+     */
+    distinct?: DataExportScalarFieldEnum | DataExportScalarFieldEnum[]
+  }
+
+  /**
+   * DataExport findMany
+   */
+  export type DataExportFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataExport
+     */
+    select?: DataExportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataExport
+     */
+    omit?: DataExportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataExportInclude<ExtArgs> | null
+    /**
+     * Filter, which DataExports to fetch.
+     */
+    where?: DataExportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DataExports to fetch.
+     */
+    orderBy?: DataExportOrderByWithRelationInput | DataExportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DataExports.
+     */
+    cursor?: DataExportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DataExports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DataExports.
+     */
+    skip?: number
+    distinct?: DataExportScalarFieldEnum | DataExportScalarFieldEnum[]
+  }
+
+  /**
+   * DataExport create
+   */
+  export type DataExportCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataExport
+     */
+    select?: DataExportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataExport
+     */
+    omit?: DataExportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataExportInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DataExport.
+     */
+    data: XOR<DataExportCreateInput, DataExportUncheckedCreateInput>
+  }
+
+  /**
+   * DataExport createMany
+   */
+  export type DataExportCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DataExports.
+     */
+    data: DataExportCreateManyInput | DataExportCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DataExport createManyAndReturn
+   */
+  export type DataExportCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataExport
+     */
+    select?: DataExportSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataExport
+     */
+    omit?: DataExportOmit<ExtArgs> | null
+    /**
+     * The data used to create many DataExports.
+     */
+    data: DataExportCreateManyInput | DataExportCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataExportIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DataExport update
+   */
+  export type DataExportUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataExport
+     */
+    select?: DataExportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataExport
+     */
+    omit?: DataExportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataExportInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DataExport.
+     */
+    data: XOR<DataExportUpdateInput, DataExportUncheckedUpdateInput>
+    /**
+     * Choose, which DataExport to update.
+     */
+    where: DataExportWhereUniqueInput
+  }
+
+  /**
+   * DataExport updateMany
+   */
+  export type DataExportUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DataExports.
+     */
+    data: XOR<DataExportUpdateManyMutationInput, DataExportUncheckedUpdateManyInput>
+    /**
+     * Filter which DataExports to update
+     */
+    where?: DataExportWhereInput
+    /**
+     * Limit how many DataExports to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DataExport updateManyAndReturn
+   */
+  export type DataExportUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataExport
+     */
+    select?: DataExportSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataExport
+     */
+    omit?: DataExportOmit<ExtArgs> | null
+    /**
+     * The data used to update DataExports.
+     */
+    data: XOR<DataExportUpdateManyMutationInput, DataExportUncheckedUpdateManyInput>
+    /**
+     * Filter which DataExports to update
+     */
+    where?: DataExportWhereInput
+    /**
+     * Limit how many DataExports to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataExportIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DataExport upsert
+   */
+  export type DataExportUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataExport
+     */
+    select?: DataExportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataExport
+     */
+    omit?: DataExportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataExportInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DataExport to update in case it exists.
+     */
+    where: DataExportWhereUniqueInput
+    /**
+     * In case the DataExport found by the `where` argument doesn't exist, create a new DataExport with this data.
+     */
+    create: XOR<DataExportCreateInput, DataExportUncheckedCreateInput>
+    /**
+     * In case the DataExport was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DataExportUpdateInput, DataExportUncheckedUpdateInput>
+  }
+
+  /**
+   * DataExport delete
+   */
+  export type DataExportDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataExport
+     */
+    select?: DataExportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataExport
+     */
+    omit?: DataExportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataExportInclude<ExtArgs> | null
+    /**
+     * Filter which DataExport to delete.
+     */
+    where: DataExportWhereUniqueInput
+  }
+
+  /**
+   * DataExport deleteMany
+   */
+  export type DataExportDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DataExports to delete
+     */
+    where?: DataExportWhereInput
+    /**
+     * Limit how many DataExports to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DataExport.company
+   */
+  export type DataExport$companyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Company
+     */
+    omit?: CompanyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+  }
+
+  /**
+   * DataExport without action
+   */
+  export type DataExportDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataExport
+     */
+    select?: DataExportSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataExport
+     */
+    omit?: DataExportOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataExportInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DataDeletionRequest
+   */
+
+  export type AggregateDataDeletionRequest = {
+    _count: DataDeletionRequestCountAggregateOutputType | null
+    _min: DataDeletionRequestMinAggregateOutputType | null
+    _max: DataDeletionRequestMaxAggregateOutputType | null
+  }
+
+  export type DataDeletionRequestMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    requestType: string | null
+    status: string | null
+    requestedAt: Date | null
+    processedAt: Date | null
+    processedBy: string | null
+    confirmationToken: string | null
+    confirmedAt: Date | null
+    errorMessage: string | null
+  }
+
+  export type DataDeletionRequestMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    requestType: string | null
+    status: string | null
+    requestedAt: Date | null
+    processedAt: Date | null
+    processedBy: string | null
+    confirmationToken: string | null
+    confirmedAt: Date | null
+    errorMessage: string | null
+  }
+
+  export type DataDeletionRequestCountAggregateOutputType = {
+    id: number
+    userId: number
+    companyId: number
+    requestType: number
+    status: number
+    requestedAt: number
+    processedAt: number
+    processedBy: number
+    deletionScope: number
+    confirmationToken: number
+    confirmedAt: number
+    errorMessage: number
+    _all: number
+  }
+
+
+  export type DataDeletionRequestMinAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    requestType?: true
+    status?: true
+    requestedAt?: true
+    processedAt?: true
+    processedBy?: true
+    confirmationToken?: true
+    confirmedAt?: true
+    errorMessage?: true
+  }
+
+  export type DataDeletionRequestMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    requestType?: true
+    status?: true
+    requestedAt?: true
+    processedAt?: true
+    processedBy?: true
+    confirmationToken?: true
+    confirmedAt?: true
+    errorMessage?: true
+  }
+
+  export type DataDeletionRequestCountAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    requestType?: true
+    status?: true
+    requestedAt?: true
+    processedAt?: true
+    processedBy?: true
+    deletionScope?: true
+    confirmationToken?: true
+    confirmedAt?: true
+    errorMessage?: true
+    _all?: true
+  }
+
+  export type DataDeletionRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DataDeletionRequest to aggregate.
+     */
+    where?: DataDeletionRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DataDeletionRequests to fetch.
+     */
+    orderBy?: DataDeletionRequestOrderByWithRelationInput | DataDeletionRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DataDeletionRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DataDeletionRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DataDeletionRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DataDeletionRequests
+    **/
+    _count?: true | DataDeletionRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DataDeletionRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DataDeletionRequestMaxAggregateInputType
+  }
+
+  export type GetDataDeletionRequestAggregateType<T extends DataDeletionRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateDataDeletionRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDataDeletionRequest[P]>
+      : GetScalarType<T[P], AggregateDataDeletionRequest[P]>
+  }
+
+
+
+
+  export type DataDeletionRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DataDeletionRequestWhereInput
+    orderBy?: DataDeletionRequestOrderByWithAggregationInput | DataDeletionRequestOrderByWithAggregationInput[]
+    by: DataDeletionRequestScalarFieldEnum[] | DataDeletionRequestScalarFieldEnum
+    having?: DataDeletionRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DataDeletionRequestCountAggregateInputType | true
+    _min?: DataDeletionRequestMinAggregateInputType
+    _max?: DataDeletionRequestMaxAggregateInputType
+  }
+
+  export type DataDeletionRequestGroupByOutputType = {
+    id: string
+    userId: string
+    companyId: string | null
+    requestType: string
+    status: string
+    requestedAt: Date
+    processedAt: Date | null
+    processedBy: string | null
+    deletionScope: JsonValue | null
+    confirmationToken: string
+    confirmedAt: Date | null
+    errorMessage: string | null
+    _count: DataDeletionRequestCountAggregateOutputType | null
+    _min: DataDeletionRequestMinAggregateOutputType | null
+    _max: DataDeletionRequestMaxAggregateOutputType | null
+  }
+
+  type GetDataDeletionRequestGroupByPayload<T extends DataDeletionRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DataDeletionRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DataDeletionRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DataDeletionRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], DataDeletionRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DataDeletionRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    requestType?: boolean
+    status?: boolean
+    requestedAt?: boolean
+    processedAt?: boolean
+    processedBy?: boolean
+    deletionScope?: boolean
+    confirmationToken?: boolean
+    confirmedAt?: boolean
+    errorMessage?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | DataDeletionRequest$companyArgs<ExtArgs>
+    processor?: boolean | DataDeletionRequest$processorArgs<ExtArgs>
+  }, ExtArgs["result"]["dataDeletionRequest"]>
+
+  export type DataDeletionRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    requestType?: boolean
+    status?: boolean
+    requestedAt?: boolean
+    processedAt?: boolean
+    processedBy?: boolean
+    deletionScope?: boolean
+    confirmationToken?: boolean
+    confirmedAt?: boolean
+    errorMessage?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | DataDeletionRequest$companyArgs<ExtArgs>
+    processor?: boolean | DataDeletionRequest$processorArgs<ExtArgs>
+  }, ExtArgs["result"]["dataDeletionRequest"]>
+
+  export type DataDeletionRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    requestType?: boolean
+    status?: boolean
+    requestedAt?: boolean
+    processedAt?: boolean
+    processedBy?: boolean
+    deletionScope?: boolean
+    confirmationToken?: boolean
+    confirmedAt?: boolean
+    errorMessage?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | DataDeletionRequest$companyArgs<ExtArgs>
+    processor?: boolean | DataDeletionRequest$processorArgs<ExtArgs>
+  }, ExtArgs["result"]["dataDeletionRequest"]>
+
+  export type DataDeletionRequestSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    requestType?: boolean
+    status?: boolean
+    requestedAt?: boolean
+    processedAt?: boolean
+    processedBy?: boolean
+    deletionScope?: boolean
+    confirmationToken?: boolean
+    confirmedAt?: boolean
+    errorMessage?: boolean
+  }
+
+  export type DataDeletionRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "companyId" | "requestType" | "status" | "requestedAt" | "processedAt" | "processedBy" | "deletionScope" | "confirmationToken" | "confirmedAt" | "errorMessage", ExtArgs["result"]["dataDeletionRequest"]>
+  export type DataDeletionRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | DataDeletionRequest$companyArgs<ExtArgs>
+    processor?: boolean | DataDeletionRequest$processorArgs<ExtArgs>
+  }
+  export type DataDeletionRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | DataDeletionRequest$companyArgs<ExtArgs>
+    processor?: boolean | DataDeletionRequest$processorArgs<ExtArgs>
+  }
+  export type DataDeletionRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | DataDeletionRequest$companyArgs<ExtArgs>
+    processor?: boolean | DataDeletionRequest$processorArgs<ExtArgs>
+  }
+
+  export type $DataDeletionRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DataDeletionRequest"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs> | null
+      processor: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      companyId: string | null
+      requestType: string
+      status: string
+      requestedAt: Date
+      processedAt: Date | null
+      processedBy: string | null
+      deletionScope: Prisma.JsonValue | null
+      confirmationToken: string
+      confirmedAt: Date | null
+      errorMessage: string | null
+    }, ExtArgs["result"]["dataDeletionRequest"]>
+    composites: {}
+  }
+
+  type DataDeletionRequestGetPayload<S extends boolean | null | undefined | DataDeletionRequestDefaultArgs> = $Result.GetResult<Prisma.$DataDeletionRequestPayload, S>
+
+  type DataDeletionRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DataDeletionRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DataDeletionRequestCountAggregateInputType | true
+    }
+
+  export interface DataDeletionRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DataDeletionRequest'], meta: { name: 'DataDeletionRequest' } }
+    /**
+     * Find zero or one DataDeletionRequest that matches the filter.
+     * @param {DataDeletionRequestFindUniqueArgs} args - Arguments to find a DataDeletionRequest
+     * @example
+     * // Get one DataDeletionRequest
+     * const dataDeletionRequest = await prisma.dataDeletionRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DataDeletionRequestFindUniqueArgs>(args: SelectSubset<T, DataDeletionRequestFindUniqueArgs<ExtArgs>>): Prisma__DataDeletionRequestClient<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DataDeletionRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DataDeletionRequestFindUniqueOrThrowArgs} args - Arguments to find a DataDeletionRequest
+     * @example
+     * // Get one DataDeletionRequest
+     * const dataDeletionRequest = await prisma.dataDeletionRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DataDeletionRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, DataDeletionRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DataDeletionRequestClient<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DataDeletionRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataDeletionRequestFindFirstArgs} args - Arguments to find a DataDeletionRequest
+     * @example
+     * // Get one DataDeletionRequest
+     * const dataDeletionRequest = await prisma.dataDeletionRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DataDeletionRequestFindFirstArgs>(args?: SelectSubset<T, DataDeletionRequestFindFirstArgs<ExtArgs>>): Prisma__DataDeletionRequestClient<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DataDeletionRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataDeletionRequestFindFirstOrThrowArgs} args - Arguments to find a DataDeletionRequest
+     * @example
+     * // Get one DataDeletionRequest
+     * const dataDeletionRequest = await prisma.dataDeletionRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DataDeletionRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, DataDeletionRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__DataDeletionRequestClient<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DataDeletionRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataDeletionRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DataDeletionRequests
+     * const dataDeletionRequests = await prisma.dataDeletionRequest.findMany()
+     * 
+     * // Get first 10 DataDeletionRequests
+     * const dataDeletionRequests = await prisma.dataDeletionRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dataDeletionRequestWithIdOnly = await prisma.dataDeletionRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DataDeletionRequestFindManyArgs>(args?: SelectSubset<T, DataDeletionRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DataDeletionRequest.
+     * @param {DataDeletionRequestCreateArgs} args - Arguments to create a DataDeletionRequest.
+     * @example
+     * // Create one DataDeletionRequest
+     * const DataDeletionRequest = await prisma.dataDeletionRequest.create({
+     *   data: {
+     *     // ... data to create a DataDeletionRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends DataDeletionRequestCreateArgs>(args: SelectSubset<T, DataDeletionRequestCreateArgs<ExtArgs>>): Prisma__DataDeletionRequestClient<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DataDeletionRequests.
+     * @param {DataDeletionRequestCreateManyArgs} args - Arguments to create many DataDeletionRequests.
+     * @example
+     * // Create many DataDeletionRequests
+     * const dataDeletionRequest = await prisma.dataDeletionRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DataDeletionRequestCreateManyArgs>(args?: SelectSubset<T, DataDeletionRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DataDeletionRequests and returns the data saved in the database.
+     * @param {DataDeletionRequestCreateManyAndReturnArgs} args - Arguments to create many DataDeletionRequests.
+     * @example
+     * // Create many DataDeletionRequests
+     * const dataDeletionRequest = await prisma.dataDeletionRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DataDeletionRequests and only return the `id`
+     * const dataDeletionRequestWithIdOnly = await prisma.dataDeletionRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DataDeletionRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, DataDeletionRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DataDeletionRequest.
+     * @param {DataDeletionRequestDeleteArgs} args - Arguments to delete one DataDeletionRequest.
+     * @example
+     * // Delete one DataDeletionRequest
+     * const DataDeletionRequest = await prisma.dataDeletionRequest.delete({
+     *   where: {
+     *     // ... filter to delete one DataDeletionRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DataDeletionRequestDeleteArgs>(args: SelectSubset<T, DataDeletionRequestDeleteArgs<ExtArgs>>): Prisma__DataDeletionRequestClient<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DataDeletionRequest.
+     * @param {DataDeletionRequestUpdateArgs} args - Arguments to update one DataDeletionRequest.
+     * @example
+     * // Update one DataDeletionRequest
+     * const dataDeletionRequest = await prisma.dataDeletionRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DataDeletionRequestUpdateArgs>(args: SelectSubset<T, DataDeletionRequestUpdateArgs<ExtArgs>>): Prisma__DataDeletionRequestClient<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DataDeletionRequests.
+     * @param {DataDeletionRequestDeleteManyArgs} args - Arguments to filter DataDeletionRequests to delete.
+     * @example
+     * // Delete a few DataDeletionRequests
+     * const { count } = await prisma.dataDeletionRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DataDeletionRequestDeleteManyArgs>(args?: SelectSubset<T, DataDeletionRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DataDeletionRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataDeletionRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DataDeletionRequests
+     * const dataDeletionRequest = await prisma.dataDeletionRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DataDeletionRequestUpdateManyArgs>(args: SelectSubset<T, DataDeletionRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DataDeletionRequests and returns the data updated in the database.
+     * @param {DataDeletionRequestUpdateManyAndReturnArgs} args - Arguments to update many DataDeletionRequests.
+     * @example
+     * // Update many DataDeletionRequests
+     * const dataDeletionRequest = await prisma.dataDeletionRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DataDeletionRequests and only return the `id`
+     * const dataDeletionRequestWithIdOnly = await prisma.dataDeletionRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DataDeletionRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, DataDeletionRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DataDeletionRequest.
+     * @param {DataDeletionRequestUpsertArgs} args - Arguments to update or create a DataDeletionRequest.
+     * @example
+     * // Update or create a DataDeletionRequest
+     * const dataDeletionRequest = await prisma.dataDeletionRequest.upsert({
+     *   create: {
+     *     // ... data to create a DataDeletionRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DataDeletionRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DataDeletionRequestUpsertArgs>(args: SelectSubset<T, DataDeletionRequestUpsertArgs<ExtArgs>>): Prisma__DataDeletionRequestClient<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DataDeletionRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataDeletionRequestCountArgs} args - Arguments to filter DataDeletionRequests to count.
+     * @example
+     * // Count the number of DataDeletionRequests
+     * const count = await prisma.dataDeletionRequest.count({
+     *   where: {
+     *     // ... the filter for the DataDeletionRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends DataDeletionRequestCountArgs>(
+      args?: Subset<T, DataDeletionRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DataDeletionRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DataDeletionRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataDeletionRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DataDeletionRequestAggregateArgs>(args: Subset<T, DataDeletionRequestAggregateArgs>): Prisma.PrismaPromise<GetDataDeletionRequestAggregateType<T>>
+
+    /**
+     * Group by DataDeletionRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DataDeletionRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DataDeletionRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DataDeletionRequestGroupByArgs['orderBy'] }
+        : { orderBy?: DataDeletionRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DataDeletionRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDataDeletionRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DataDeletionRequest model
+   */
+  readonly fields: DataDeletionRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DataDeletionRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DataDeletionRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    company<T extends DataDeletionRequest$companyArgs<ExtArgs> = {}>(args?: Subset<T, DataDeletionRequest$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    processor<T extends DataDeletionRequest$processorArgs<ExtArgs> = {}>(args?: Subset<T, DataDeletionRequest$processorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DataDeletionRequest model
+   */
+  interface DataDeletionRequestFieldRefs {
+    readonly id: FieldRef<"DataDeletionRequest", 'String'>
+    readonly userId: FieldRef<"DataDeletionRequest", 'String'>
+    readonly companyId: FieldRef<"DataDeletionRequest", 'String'>
+    readonly requestType: FieldRef<"DataDeletionRequest", 'String'>
+    readonly status: FieldRef<"DataDeletionRequest", 'String'>
+    readonly requestedAt: FieldRef<"DataDeletionRequest", 'DateTime'>
+    readonly processedAt: FieldRef<"DataDeletionRequest", 'DateTime'>
+    readonly processedBy: FieldRef<"DataDeletionRequest", 'String'>
+    readonly deletionScope: FieldRef<"DataDeletionRequest", 'Json'>
+    readonly confirmationToken: FieldRef<"DataDeletionRequest", 'String'>
+    readonly confirmedAt: FieldRef<"DataDeletionRequest", 'DateTime'>
+    readonly errorMessage: FieldRef<"DataDeletionRequest", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DataDeletionRequest findUnique
+   */
+  export type DataDeletionRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataDeletionRequest
+     */
+    select?: DataDeletionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataDeletionRequest
+     */
+    omit?: DataDeletionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataDeletionRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which DataDeletionRequest to fetch.
+     */
+    where: DataDeletionRequestWhereUniqueInput
+  }
+
+  /**
+   * DataDeletionRequest findUniqueOrThrow
+   */
+  export type DataDeletionRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataDeletionRequest
+     */
+    select?: DataDeletionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataDeletionRequest
+     */
+    omit?: DataDeletionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataDeletionRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which DataDeletionRequest to fetch.
+     */
+    where: DataDeletionRequestWhereUniqueInput
+  }
+
+  /**
+   * DataDeletionRequest findFirst
+   */
+  export type DataDeletionRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataDeletionRequest
+     */
+    select?: DataDeletionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataDeletionRequest
+     */
+    omit?: DataDeletionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataDeletionRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which DataDeletionRequest to fetch.
+     */
+    where?: DataDeletionRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DataDeletionRequests to fetch.
+     */
+    orderBy?: DataDeletionRequestOrderByWithRelationInput | DataDeletionRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DataDeletionRequests.
+     */
+    cursor?: DataDeletionRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DataDeletionRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DataDeletionRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DataDeletionRequests.
+     */
+    distinct?: DataDeletionRequestScalarFieldEnum | DataDeletionRequestScalarFieldEnum[]
+  }
+
+  /**
+   * DataDeletionRequest findFirstOrThrow
+   */
+  export type DataDeletionRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataDeletionRequest
+     */
+    select?: DataDeletionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataDeletionRequest
+     */
+    omit?: DataDeletionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataDeletionRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which DataDeletionRequest to fetch.
+     */
+    where?: DataDeletionRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DataDeletionRequests to fetch.
+     */
+    orderBy?: DataDeletionRequestOrderByWithRelationInput | DataDeletionRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DataDeletionRequests.
+     */
+    cursor?: DataDeletionRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DataDeletionRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DataDeletionRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DataDeletionRequests.
+     */
+    distinct?: DataDeletionRequestScalarFieldEnum | DataDeletionRequestScalarFieldEnum[]
+  }
+
+  /**
+   * DataDeletionRequest findMany
+   */
+  export type DataDeletionRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataDeletionRequest
+     */
+    select?: DataDeletionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataDeletionRequest
+     */
+    omit?: DataDeletionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataDeletionRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which DataDeletionRequests to fetch.
+     */
+    where?: DataDeletionRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DataDeletionRequests to fetch.
+     */
+    orderBy?: DataDeletionRequestOrderByWithRelationInput | DataDeletionRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DataDeletionRequests.
+     */
+    cursor?: DataDeletionRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DataDeletionRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DataDeletionRequests.
+     */
+    skip?: number
+    distinct?: DataDeletionRequestScalarFieldEnum | DataDeletionRequestScalarFieldEnum[]
+  }
+
+  /**
+   * DataDeletionRequest create
+   */
+  export type DataDeletionRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataDeletionRequest
+     */
+    select?: DataDeletionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataDeletionRequest
+     */
+    omit?: DataDeletionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataDeletionRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DataDeletionRequest.
+     */
+    data: XOR<DataDeletionRequestCreateInput, DataDeletionRequestUncheckedCreateInput>
+  }
+
+  /**
+   * DataDeletionRequest createMany
+   */
+  export type DataDeletionRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DataDeletionRequests.
+     */
+    data: DataDeletionRequestCreateManyInput | DataDeletionRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DataDeletionRequest createManyAndReturn
+   */
+  export type DataDeletionRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataDeletionRequest
+     */
+    select?: DataDeletionRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataDeletionRequest
+     */
+    omit?: DataDeletionRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many DataDeletionRequests.
+     */
+    data: DataDeletionRequestCreateManyInput | DataDeletionRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataDeletionRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DataDeletionRequest update
+   */
+  export type DataDeletionRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataDeletionRequest
+     */
+    select?: DataDeletionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataDeletionRequest
+     */
+    omit?: DataDeletionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataDeletionRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DataDeletionRequest.
+     */
+    data: XOR<DataDeletionRequestUpdateInput, DataDeletionRequestUncheckedUpdateInput>
+    /**
+     * Choose, which DataDeletionRequest to update.
+     */
+    where: DataDeletionRequestWhereUniqueInput
+  }
+
+  /**
+   * DataDeletionRequest updateMany
+   */
+  export type DataDeletionRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DataDeletionRequests.
+     */
+    data: XOR<DataDeletionRequestUpdateManyMutationInput, DataDeletionRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which DataDeletionRequests to update
+     */
+    where?: DataDeletionRequestWhereInput
+    /**
+     * Limit how many DataDeletionRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DataDeletionRequest updateManyAndReturn
+   */
+  export type DataDeletionRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataDeletionRequest
+     */
+    select?: DataDeletionRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataDeletionRequest
+     */
+    omit?: DataDeletionRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update DataDeletionRequests.
+     */
+    data: XOR<DataDeletionRequestUpdateManyMutationInput, DataDeletionRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which DataDeletionRequests to update
+     */
+    where?: DataDeletionRequestWhereInput
+    /**
+     * Limit how many DataDeletionRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataDeletionRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DataDeletionRequest upsert
+   */
+  export type DataDeletionRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataDeletionRequest
+     */
+    select?: DataDeletionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataDeletionRequest
+     */
+    omit?: DataDeletionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataDeletionRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DataDeletionRequest to update in case it exists.
+     */
+    where: DataDeletionRequestWhereUniqueInput
+    /**
+     * In case the DataDeletionRequest found by the `where` argument doesn't exist, create a new DataDeletionRequest with this data.
+     */
+    create: XOR<DataDeletionRequestCreateInput, DataDeletionRequestUncheckedCreateInput>
+    /**
+     * In case the DataDeletionRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DataDeletionRequestUpdateInput, DataDeletionRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * DataDeletionRequest delete
+   */
+  export type DataDeletionRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataDeletionRequest
+     */
+    select?: DataDeletionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataDeletionRequest
+     */
+    omit?: DataDeletionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataDeletionRequestInclude<ExtArgs> | null
+    /**
+     * Filter which DataDeletionRequest to delete.
+     */
+    where: DataDeletionRequestWhereUniqueInput
+  }
+
+  /**
+   * DataDeletionRequest deleteMany
+   */
+  export type DataDeletionRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DataDeletionRequests to delete
+     */
+    where?: DataDeletionRequestWhereInput
+    /**
+     * Limit how many DataDeletionRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DataDeletionRequest.company
+   */
+  export type DataDeletionRequest$companyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Company
+     */
+    omit?: CompanyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+  }
+
+  /**
+   * DataDeletionRequest.processor
+   */
+  export type DataDeletionRequest$processorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * DataDeletionRequest without action
+   */
+  export type DataDeletionRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DataDeletionRequest
+     */
+    select?: DataDeletionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DataDeletionRequest
+     */
+    omit?: DataDeletionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DataDeletionRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -43756,6 +47815,58 @@ export namespace Prisma {
   export type PasswordPolicyScalarFieldEnum = (typeof PasswordPolicyScalarFieldEnum)[keyof typeof PasswordPolicyScalarFieldEnum]
 
 
+  export const DataRetentionPolicyScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    auditLogRetentionDays: 'auditLogRetentionDays',
+    passwordHistoryRetentionDays: 'passwordHistoryRetentionDays',
+    sessionRetentionDays: 'sessionRetentionDays',
+    deletedDataRetentionDays: 'deletedDataRetentionDays',
+    autoDeleteEnabled: 'autoDeleteEnabled',
+    lastCleanupAt: 'lastCleanupAt',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DataRetentionPolicyScalarFieldEnum = (typeof DataRetentionPolicyScalarFieldEnum)[keyof typeof DataRetentionPolicyScalarFieldEnum]
+
+
+  export const DataExportScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    companyId: 'companyId',
+    exportType: 'exportType',
+    status: 'status',
+    filePath: 'filePath',
+    fileSize: 'fileSize',
+    expiresAt: 'expiresAt',
+    requestedAt: 'requestedAt',
+    completedAt: 'completedAt',
+    errorMessage: 'errorMessage'
+  };
+
+  export type DataExportScalarFieldEnum = (typeof DataExportScalarFieldEnum)[keyof typeof DataExportScalarFieldEnum]
+
+
+  export const DataDeletionRequestScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    companyId: 'companyId',
+    requestType: 'requestType',
+    status: 'status',
+    requestedAt: 'requestedAt',
+    processedAt: 'processedAt',
+    processedBy: 'processedBy',
+    deletionScope: 'deletionScope',
+    confirmationToken: 'confirmationToken',
+    confirmedAt: 'confirmedAt',
+    errorMessage: 'errorMessage'
+  };
+
+  export type DataDeletionRequestScalarFieldEnum = (typeof DataDeletionRequestScalarFieldEnum)[keyof typeof DataDeletionRequestScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -44031,6 +48142,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventListRelationFilter
     rateLimits?: RateLimitListRelationFilter
     passwordPolicy?: XOR<PasswordPolicyNullableScalarRelationFilter, PasswordPolicyWhereInput> | null
+    dataRetentionPolicy?: XOR<DataRetentionPolicyNullableScalarRelationFilter, DataRetentionPolicyWhereInput> | null
+    dataExports?: DataExportListRelationFilter
+    dataDeletionRequests?: DataDeletionRequestListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -44046,6 +48160,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventOrderByRelationAggregateInput
     rateLimits?: RateLimitOrderByRelationAggregateInput
     passwordPolicy?: PasswordPolicyOrderByWithRelationInput
+    dataRetentionPolicy?: DataRetentionPolicyOrderByWithRelationInput
+    dataExports?: DataExportOrderByRelationAggregateInput
+    dataDeletionRequests?: DataDeletionRequestOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -44064,6 +48181,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventListRelationFilter
     rateLimits?: RateLimitListRelationFilter
     passwordPolicy?: XOR<PasswordPolicyNullableScalarRelationFilter, PasswordPolicyWhereInput> | null
+    dataRetentionPolicy?: XOR<DataRetentionPolicyNullableScalarRelationFilter, DataRetentionPolicyWhereInput> | null
+    dataExports?: DataExportListRelationFilter
+    dataDeletionRequests?: DataDeletionRequestListRelationFilter
   }, "id" | "subdomain">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -44134,6 +48254,9 @@ export namespace Prisma {
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     createdUsers?: UserListRelationFilter
     createdRoles?: RoleListRelationFilter
+    dataExports?: DataExportListRelationFilter
+    dataDeletionRequests?: DataDeletionRequestListRelationFilter
+    processedDeletions?: DataDeletionRequestListRelationFilter
     emailVerificationTokens?: EmailVerificationTokenListRelationFilter
     passwordResetTokens?: PasswordResetTokenListRelationFilter
     securityQuestions?: SecurityQuestionListRelationFilter
@@ -44186,6 +48309,9 @@ export namespace Prisma {
     createdBy?: UserOrderByWithRelationInput
     createdUsers?: UserOrderByRelationAggregateInput
     createdRoles?: RoleOrderByRelationAggregateInput
+    dataExports?: DataExportOrderByRelationAggregateInput
+    dataDeletionRequests?: DataDeletionRequestOrderByRelationAggregateInput
+    processedDeletions?: DataDeletionRequestOrderByRelationAggregateInput
     emailVerificationTokens?: EmailVerificationTokenOrderByRelationAggregateInput
     passwordResetTokens?: PasswordResetTokenOrderByRelationAggregateInput
     securityQuestions?: SecurityQuestionOrderByRelationAggregateInput
@@ -44241,6 +48367,9 @@ export namespace Prisma {
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     createdUsers?: UserListRelationFilter
     createdRoles?: RoleListRelationFilter
+    dataExports?: DataExportListRelationFilter
+    dataDeletionRequests?: DataDeletionRequestListRelationFilter
+    processedDeletions?: DataDeletionRequestListRelationFilter
     emailVerificationTokens?: EmailVerificationTokenListRelationFilter
     passwordResetTokens?: PasswordResetTokenListRelationFilter
     securityQuestions?: SecurityQuestionListRelationFilter
@@ -46734,6 +50863,279 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"PasswordPolicy"> | Date | string
   }
 
+  export type DataRetentionPolicyWhereInput = {
+    AND?: DataRetentionPolicyWhereInput | DataRetentionPolicyWhereInput[]
+    OR?: DataRetentionPolicyWhereInput[]
+    NOT?: DataRetentionPolicyWhereInput | DataRetentionPolicyWhereInput[]
+    id?: StringFilter<"DataRetentionPolicy"> | string
+    companyId?: StringFilter<"DataRetentionPolicy"> | string
+    auditLogRetentionDays?: IntNullableFilter<"DataRetentionPolicy"> | number | null
+    passwordHistoryRetentionDays?: IntNullableFilter<"DataRetentionPolicy"> | number | null
+    sessionRetentionDays?: IntNullableFilter<"DataRetentionPolicy"> | number | null
+    deletedDataRetentionDays?: IntNullableFilter<"DataRetentionPolicy"> | number | null
+    autoDeleteEnabled?: BoolFilter<"DataRetentionPolicy"> | boolean
+    lastCleanupAt?: DateTimeNullableFilter<"DataRetentionPolicy"> | Date | string | null
+    isActive?: BoolFilter<"DataRetentionPolicy"> | boolean
+    createdAt?: DateTimeFilter<"DataRetentionPolicy"> | Date | string
+    updatedAt?: DateTimeFilter<"DataRetentionPolicy"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }
+
+  export type DataRetentionPolicyOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    auditLogRetentionDays?: SortOrderInput | SortOrder
+    passwordHistoryRetentionDays?: SortOrderInput | SortOrder
+    sessionRetentionDays?: SortOrderInput | SortOrder
+    deletedDataRetentionDays?: SortOrderInput | SortOrder
+    autoDeleteEnabled?: SortOrder
+    lastCleanupAt?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type DataRetentionPolicyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    companyId?: string
+    AND?: DataRetentionPolicyWhereInput | DataRetentionPolicyWhereInput[]
+    OR?: DataRetentionPolicyWhereInput[]
+    NOT?: DataRetentionPolicyWhereInput | DataRetentionPolicyWhereInput[]
+    auditLogRetentionDays?: IntNullableFilter<"DataRetentionPolicy"> | number | null
+    passwordHistoryRetentionDays?: IntNullableFilter<"DataRetentionPolicy"> | number | null
+    sessionRetentionDays?: IntNullableFilter<"DataRetentionPolicy"> | number | null
+    deletedDataRetentionDays?: IntNullableFilter<"DataRetentionPolicy"> | number | null
+    autoDeleteEnabled?: BoolFilter<"DataRetentionPolicy"> | boolean
+    lastCleanupAt?: DateTimeNullableFilter<"DataRetentionPolicy"> | Date | string | null
+    isActive?: BoolFilter<"DataRetentionPolicy"> | boolean
+    createdAt?: DateTimeFilter<"DataRetentionPolicy"> | Date | string
+    updatedAt?: DateTimeFilter<"DataRetentionPolicy"> | Date | string
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+  }, "id" | "companyId">
+
+  export type DataRetentionPolicyOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    auditLogRetentionDays?: SortOrderInput | SortOrder
+    passwordHistoryRetentionDays?: SortOrderInput | SortOrder
+    sessionRetentionDays?: SortOrderInput | SortOrder
+    deletedDataRetentionDays?: SortOrderInput | SortOrder
+    autoDeleteEnabled?: SortOrder
+    lastCleanupAt?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DataRetentionPolicyCountOrderByAggregateInput
+    _avg?: DataRetentionPolicyAvgOrderByAggregateInput
+    _max?: DataRetentionPolicyMaxOrderByAggregateInput
+    _min?: DataRetentionPolicyMinOrderByAggregateInput
+    _sum?: DataRetentionPolicySumOrderByAggregateInput
+  }
+
+  export type DataRetentionPolicyScalarWhereWithAggregatesInput = {
+    AND?: DataRetentionPolicyScalarWhereWithAggregatesInput | DataRetentionPolicyScalarWhereWithAggregatesInput[]
+    OR?: DataRetentionPolicyScalarWhereWithAggregatesInput[]
+    NOT?: DataRetentionPolicyScalarWhereWithAggregatesInput | DataRetentionPolicyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DataRetentionPolicy"> | string
+    companyId?: StringWithAggregatesFilter<"DataRetentionPolicy"> | string
+    auditLogRetentionDays?: IntNullableWithAggregatesFilter<"DataRetentionPolicy"> | number | null
+    passwordHistoryRetentionDays?: IntNullableWithAggregatesFilter<"DataRetentionPolicy"> | number | null
+    sessionRetentionDays?: IntNullableWithAggregatesFilter<"DataRetentionPolicy"> | number | null
+    deletedDataRetentionDays?: IntNullableWithAggregatesFilter<"DataRetentionPolicy"> | number | null
+    autoDeleteEnabled?: BoolWithAggregatesFilter<"DataRetentionPolicy"> | boolean
+    lastCleanupAt?: DateTimeNullableWithAggregatesFilter<"DataRetentionPolicy"> | Date | string | null
+    isActive?: BoolWithAggregatesFilter<"DataRetentionPolicy"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"DataRetentionPolicy"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DataRetentionPolicy"> | Date | string
+  }
+
+  export type DataExportWhereInput = {
+    AND?: DataExportWhereInput | DataExportWhereInput[]
+    OR?: DataExportWhereInput[]
+    NOT?: DataExportWhereInput | DataExportWhereInput[]
+    id?: StringFilter<"DataExport"> | string
+    userId?: StringFilter<"DataExport"> | string
+    companyId?: StringNullableFilter<"DataExport"> | string | null
+    exportType?: StringFilter<"DataExport"> | string
+    status?: StringFilter<"DataExport"> | string
+    filePath?: StringNullableFilter<"DataExport"> | string | null
+    fileSize?: IntNullableFilter<"DataExport"> | number | null
+    expiresAt?: DateTimeNullableFilter<"DataExport"> | Date | string | null
+    requestedAt?: DateTimeFilter<"DataExport"> | Date | string
+    completedAt?: DateTimeNullableFilter<"DataExport"> | Date | string | null
+    errorMessage?: StringNullableFilter<"DataExport"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+  }
+
+  export type DataExportOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    exportType?: SortOrder
+    status?: SortOrder
+    filePath?: SortOrderInput | SortOrder
+    fileSize?: SortOrderInput | SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    requestedAt?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type DataExportWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DataExportWhereInput | DataExportWhereInput[]
+    OR?: DataExportWhereInput[]
+    NOT?: DataExportWhereInput | DataExportWhereInput[]
+    userId?: StringFilter<"DataExport"> | string
+    companyId?: StringNullableFilter<"DataExport"> | string | null
+    exportType?: StringFilter<"DataExport"> | string
+    status?: StringFilter<"DataExport"> | string
+    filePath?: StringNullableFilter<"DataExport"> | string | null
+    fileSize?: IntNullableFilter<"DataExport"> | number | null
+    expiresAt?: DateTimeNullableFilter<"DataExport"> | Date | string | null
+    requestedAt?: DateTimeFilter<"DataExport"> | Date | string
+    completedAt?: DateTimeNullableFilter<"DataExport"> | Date | string | null
+    errorMessage?: StringNullableFilter<"DataExport"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+  }, "id">
+
+  export type DataExportOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    exportType?: SortOrder
+    status?: SortOrder
+    filePath?: SortOrderInput | SortOrder
+    fileSize?: SortOrderInput | SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    requestedAt?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    _count?: DataExportCountOrderByAggregateInput
+    _avg?: DataExportAvgOrderByAggregateInput
+    _max?: DataExportMaxOrderByAggregateInput
+    _min?: DataExportMinOrderByAggregateInput
+    _sum?: DataExportSumOrderByAggregateInput
+  }
+
+  export type DataExportScalarWhereWithAggregatesInput = {
+    AND?: DataExportScalarWhereWithAggregatesInput | DataExportScalarWhereWithAggregatesInput[]
+    OR?: DataExportScalarWhereWithAggregatesInput[]
+    NOT?: DataExportScalarWhereWithAggregatesInput | DataExportScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DataExport"> | string
+    userId?: StringWithAggregatesFilter<"DataExport"> | string
+    companyId?: StringNullableWithAggregatesFilter<"DataExport"> | string | null
+    exportType?: StringWithAggregatesFilter<"DataExport"> | string
+    status?: StringWithAggregatesFilter<"DataExport"> | string
+    filePath?: StringNullableWithAggregatesFilter<"DataExport"> | string | null
+    fileSize?: IntNullableWithAggregatesFilter<"DataExport"> | number | null
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"DataExport"> | Date | string | null
+    requestedAt?: DateTimeWithAggregatesFilter<"DataExport"> | Date | string
+    completedAt?: DateTimeNullableWithAggregatesFilter<"DataExport"> | Date | string | null
+    errorMessage?: StringNullableWithAggregatesFilter<"DataExport"> | string | null
+  }
+
+  export type DataDeletionRequestWhereInput = {
+    AND?: DataDeletionRequestWhereInput | DataDeletionRequestWhereInput[]
+    OR?: DataDeletionRequestWhereInput[]
+    NOT?: DataDeletionRequestWhereInput | DataDeletionRequestWhereInput[]
+    id?: StringFilter<"DataDeletionRequest"> | string
+    userId?: StringFilter<"DataDeletionRequest"> | string
+    companyId?: StringNullableFilter<"DataDeletionRequest"> | string | null
+    requestType?: StringFilter<"DataDeletionRequest"> | string
+    status?: StringFilter<"DataDeletionRequest"> | string
+    requestedAt?: DateTimeFilter<"DataDeletionRequest"> | Date | string
+    processedAt?: DateTimeNullableFilter<"DataDeletionRequest"> | Date | string | null
+    processedBy?: StringNullableFilter<"DataDeletionRequest"> | string | null
+    deletionScope?: JsonNullableFilter<"DataDeletionRequest">
+    confirmationToken?: StringFilter<"DataDeletionRequest"> | string
+    confirmedAt?: DateTimeNullableFilter<"DataDeletionRequest"> | Date | string | null
+    errorMessage?: StringNullableFilter<"DataDeletionRequest"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+    processor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type DataDeletionRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    requestType?: SortOrder
+    status?: SortOrder
+    requestedAt?: SortOrder
+    processedAt?: SortOrderInput | SortOrder
+    processedBy?: SortOrderInput | SortOrder
+    deletionScope?: SortOrderInput | SortOrder
+    confirmationToken?: SortOrder
+    confirmedAt?: SortOrderInput | SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+    processor?: UserOrderByWithRelationInput
+  }
+
+  export type DataDeletionRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    confirmationToken?: string
+    AND?: DataDeletionRequestWhereInput | DataDeletionRequestWhereInput[]
+    OR?: DataDeletionRequestWhereInput[]
+    NOT?: DataDeletionRequestWhereInput | DataDeletionRequestWhereInput[]
+    userId?: StringFilter<"DataDeletionRequest"> | string
+    companyId?: StringNullableFilter<"DataDeletionRequest"> | string | null
+    requestType?: StringFilter<"DataDeletionRequest"> | string
+    status?: StringFilter<"DataDeletionRequest"> | string
+    requestedAt?: DateTimeFilter<"DataDeletionRequest"> | Date | string
+    processedAt?: DateTimeNullableFilter<"DataDeletionRequest"> | Date | string | null
+    processedBy?: StringNullableFilter<"DataDeletionRequest"> | string | null
+    deletionScope?: JsonNullableFilter<"DataDeletionRequest">
+    confirmedAt?: DateTimeNullableFilter<"DataDeletionRequest"> | Date | string | null
+    errorMessage?: StringNullableFilter<"DataDeletionRequest"> | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+    processor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id" | "confirmationToken">
+
+  export type DataDeletionRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    requestType?: SortOrder
+    status?: SortOrder
+    requestedAt?: SortOrder
+    processedAt?: SortOrderInput | SortOrder
+    processedBy?: SortOrderInput | SortOrder
+    deletionScope?: SortOrderInput | SortOrder
+    confirmationToken?: SortOrder
+    confirmedAt?: SortOrderInput | SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    _count?: DataDeletionRequestCountOrderByAggregateInput
+    _max?: DataDeletionRequestMaxOrderByAggregateInput
+    _min?: DataDeletionRequestMinOrderByAggregateInput
+  }
+
+  export type DataDeletionRequestScalarWhereWithAggregatesInput = {
+    AND?: DataDeletionRequestScalarWhereWithAggregatesInput | DataDeletionRequestScalarWhereWithAggregatesInput[]
+    OR?: DataDeletionRequestScalarWhereWithAggregatesInput[]
+    NOT?: DataDeletionRequestScalarWhereWithAggregatesInput | DataDeletionRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DataDeletionRequest"> | string
+    userId?: StringWithAggregatesFilter<"DataDeletionRequest"> | string
+    companyId?: StringNullableWithAggregatesFilter<"DataDeletionRequest"> | string | null
+    requestType?: StringWithAggregatesFilter<"DataDeletionRequest"> | string
+    status?: StringWithAggregatesFilter<"DataDeletionRequest"> | string
+    requestedAt?: DateTimeWithAggregatesFilter<"DataDeletionRequest"> | Date | string
+    processedAt?: DateTimeNullableWithAggregatesFilter<"DataDeletionRequest"> | Date | string | null
+    processedBy?: StringNullableWithAggregatesFilter<"DataDeletionRequest"> | string | null
+    deletionScope?: JsonNullableWithAggregatesFilter<"DataDeletionRequest">
+    confirmationToken?: StringWithAggregatesFilter<"DataDeletionRequest"> | string
+    confirmedAt?: DateTimeNullableWithAggregatesFilter<"DataDeletionRequest"> | Date | string | null
+    errorMessage?: StringNullableWithAggregatesFilter<"DataDeletionRequest"> | string | null
+  }
+
   export type CompanyCreateInput = {
     id?: string
     name: string
@@ -46747,6 +51149,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -46762,6 +51167,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -46777,6 +51185,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -46792,6 +51203,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -46859,6 +51273,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -46909,6 +51326,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -46959,6 +51379,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -47009,6 +51432,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -49703,6 +54129,301 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DataRetentionPolicyCreateInput = {
+    id?: string
+    auditLogRetentionDays?: number | null
+    passwordHistoryRetentionDays?: number | null
+    sessionRetentionDays?: number | null
+    deletedDataRetentionDays?: number | null
+    autoDeleteEnabled?: boolean
+    lastCleanupAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    company: CompanyCreateNestedOneWithoutDataRetentionPolicyInput
+  }
+
+  export type DataRetentionPolicyUncheckedCreateInput = {
+    id?: string
+    companyId: string
+    auditLogRetentionDays?: number | null
+    passwordHistoryRetentionDays?: number | null
+    sessionRetentionDays?: number | null
+    deletedDataRetentionDays?: number | null
+    autoDeleteEnabled?: boolean
+    lastCleanupAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DataRetentionPolicyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    auditLogRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    passwordHistoryRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    sessionRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    deletedDataRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    autoDeleteEnabled?: BoolFieldUpdateOperationsInput | boolean
+    lastCleanupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneRequiredWithoutDataRetentionPolicyNestedInput
+  }
+
+  export type DataRetentionPolicyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    auditLogRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    passwordHistoryRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    sessionRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    deletedDataRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    autoDeleteEnabled?: BoolFieldUpdateOperationsInput | boolean
+    lastCleanupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DataRetentionPolicyCreateManyInput = {
+    id?: string
+    companyId: string
+    auditLogRetentionDays?: number | null
+    passwordHistoryRetentionDays?: number | null
+    sessionRetentionDays?: number | null
+    deletedDataRetentionDays?: number | null
+    autoDeleteEnabled?: boolean
+    lastCleanupAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DataRetentionPolicyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    auditLogRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    passwordHistoryRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    sessionRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    deletedDataRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    autoDeleteEnabled?: BoolFieldUpdateOperationsInput | boolean
+    lastCleanupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DataRetentionPolicyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    auditLogRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    passwordHistoryRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    sessionRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    deletedDataRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    autoDeleteEnabled?: BoolFieldUpdateOperationsInput | boolean
+    lastCleanupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DataExportCreateInput = {
+    id?: string
+    exportType: string
+    status?: string
+    filePath?: string | null
+    fileSize?: number | null
+    expiresAt?: Date | string | null
+    requestedAt?: Date | string
+    completedAt?: Date | string | null
+    errorMessage?: string | null
+    user: UserCreateNestedOneWithoutDataExportsInput
+    company?: CompanyCreateNestedOneWithoutDataExportsInput
+  }
+
+  export type DataExportUncheckedCreateInput = {
+    id?: string
+    userId: string
+    companyId?: string | null
+    exportType: string
+    status?: string
+    filePath?: string | null
+    fileSize?: number | null
+    expiresAt?: Date | string | null
+    requestedAt?: Date | string
+    completedAt?: Date | string | null
+    errorMessage?: string | null
+  }
+
+  export type DataExportUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    exportType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutDataExportsNestedInput
+    company?: CompanyUpdateOneWithoutDataExportsNestedInput
+  }
+
+  export type DataExportUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    exportType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DataExportCreateManyInput = {
+    id?: string
+    userId: string
+    companyId?: string | null
+    exportType: string
+    status?: string
+    filePath?: string | null
+    fileSize?: number | null
+    expiresAt?: Date | string | null
+    requestedAt?: Date | string
+    completedAt?: Date | string | null
+    errorMessage?: string | null
+  }
+
+  export type DataExportUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    exportType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DataExportUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    exportType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DataDeletionRequestCreateInput = {
+    id?: string
+    requestType: string
+    status?: string
+    requestedAt?: Date | string
+    processedAt?: Date | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken: string
+    confirmedAt?: Date | string | null
+    errorMessage?: string | null
+    user: UserCreateNestedOneWithoutDataDeletionRequestsInput
+    company?: CompanyCreateNestedOneWithoutDataDeletionRequestsInput
+    processor?: UserCreateNestedOneWithoutProcessedDeletionsInput
+  }
+
+  export type DataDeletionRequestUncheckedCreateInput = {
+    id?: string
+    userId: string
+    companyId?: string | null
+    requestType: string
+    status?: string
+    requestedAt?: Date | string
+    processedAt?: Date | string | null
+    processedBy?: string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken: string
+    confirmedAt?: Date | string | null
+    errorMessage?: string | null
+  }
+
+  export type DataDeletionRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutDataDeletionRequestsNestedInput
+    company?: CompanyUpdateOneWithoutDataDeletionRequestsNestedInput
+    processor?: UserUpdateOneWithoutProcessedDeletionsNestedInput
+  }
+
+  export type DataDeletionRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DataDeletionRequestCreateManyInput = {
+    id?: string
+    userId: string
+    companyId?: string | null
+    requestType: string
+    status?: string
+    requestedAt?: Date | string
+    processedAt?: Date | string | null
+    processedBy?: string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken: string
+    confirmedAt?: Date | string | null
+    errorMessage?: string | null
+  }
+
+  export type DataDeletionRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DataDeletionRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -49770,6 +54491,23 @@ export namespace Prisma {
     isNot?: PasswordPolicyWhereInput | null
   }
 
+  export type DataRetentionPolicyNullableScalarRelationFilter = {
+    is?: DataRetentionPolicyWhereInput | null
+    isNot?: DataRetentionPolicyWhereInput | null
+  }
+
+  export type DataExportListRelationFilter = {
+    every?: DataExportWhereInput
+    some?: DataExportWhereInput
+    none?: DataExportWhereInput
+  }
+
+  export type DataDeletionRequestListRelationFilter = {
+    every?: DataDeletionRequestWhereInput
+    some?: DataDeletionRequestWhereInput
+    none?: DataDeletionRequestWhereInput
+  }
+
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -49791,6 +54529,14 @@ export namespace Prisma {
   }
 
   export type RateLimitOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DataExportOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DataDeletionRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -51784,6 +56530,155 @@ export namespace Prisma {
     requireChangeAfterDays?: SortOrder
   }
 
+  export type DataRetentionPolicyCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    auditLogRetentionDays?: SortOrder
+    passwordHistoryRetentionDays?: SortOrder
+    sessionRetentionDays?: SortOrder
+    deletedDataRetentionDays?: SortOrder
+    autoDeleteEnabled?: SortOrder
+    lastCleanupAt?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DataRetentionPolicyAvgOrderByAggregateInput = {
+    auditLogRetentionDays?: SortOrder
+    passwordHistoryRetentionDays?: SortOrder
+    sessionRetentionDays?: SortOrder
+    deletedDataRetentionDays?: SortOrder
+  }
+
+  export type DataRetentionPolicyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    auditLogRetentionDays?: SortOrder
+    passwordHistoryRetentionDays?: SortOrder
+    sessionRetentionDays?: SortOrder
+    deletedDataRetentionDays?: SortOrder
+    autoDeleteEnabled?: SortOrder
+    lastCleanupAt?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DataRetentionPolicyMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    auditLogRetentionDays?: SortOrder
+    passwordHistoryRetentionDays?: SortOrder
+    sessionRetentionDays?: SortOrder
+    deletedDataRetentionDays?: SortOrder
+    autoDeleteEnabled?: SortOrder
+    lastCleanupAt?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DataRetentionPolicySumOrderByAggregateInput = {
+    auditLogRetentionDays?: SortOrder
+    passwordHistoryRetentionDays?: SortOrder
+    sessionRetentionDays?: SortOrder
+    deletedDataRetentionDays?: SortOrder
+  }
+
+  export type DataExportCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    exportType?: SortOrder
+    status?: SortOrder
+    filePath?: SortOrder
+    fileSize?: SortOrder
+    expiresAt?: SortOrder
+    requestedAt?: SortOrder
+    completedAt?: SortOrder
+    errorMessage?: SortOrder
+  }
+
+  export type DataExportAvgOrderByAggregateInput = {
+    fileSize?: SortOrder
+  }
+
+  export type DataExportMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    exportType?: SortOrder
+    status?: SortOrder
+    filePath?: SortOrder
+    fileSize?: SortOrder
+    expiresAt?: SortOrder
+    requestedAt?: SortOrder
+    completedAt?: SortOrder
+    errorMessage?: SortOrder
+  }
+
+  export type DataExportMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    exportType?: SortOrder
+    status?: SortOrder
+    filePath?: SortOrder
+    fileSize?: SortOrder
+    expiresAt?: SortOrder
+    requestedAt?: SortOrder
+    completedAt?: SortOrder
+    errorMessage?: SortOrder
+  }
+
+  export type DataExportSumOrderByAggregateInput = {
+    fileSize?: SortOrder
+  }
+
+  export type DataDeletionRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    requestType?: SortOrder
+    status?: SortOrder
+    requestedAt?: SortOrder
+    processedAt?: SortOrder
+    processedBy?: SortOrder
+    deletionScope?: SortOrder
+    confirmationToken?: SortOrder
+    confirmedAt?: SortOrder
+    errorMessage?: SortOrder
+  }
+
+  export type DataDeletionRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    requestType?: SortOrder
+    status?: SortOrder
+    requestedAt?: SortOrder
+    processedAt?: SortOrder
+    processedBy?: SortOrder
+    confirmationToken?: SortOrder
+    confirmedAt?: SortOrder
+    errorMessage?: SortOrder
+  }
+
+  export type DataDeletionRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    requestType?: SortOrder
+    status?: SortOrder
+    requestedAt?: SortOrder
+    processedAt?: SortOrder
+    processedBy?: SortOrder
+    confirmationToken?: SortOrder
+    confirmedAt?: SortOrder
+    errorMessage?: SortOrder
+  }
+
   export type UserCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -51832,6 +56727,26 @@ export namespace Prisma {
     connect?: PasswordPolicyWhereUniqueInput
   }
 
+  export type DataRetentionPolicyCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<DataRetentionPolicyCreateWithoutCompanyInput, DataRetentionPolicyUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: DataRetentionPolicyCreateOrConnectWithoutCompanyInput
+    connect?: DataRetentionPolicyWhereUniqueInput
+  }
+
+  export type DataExportCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<DataExportCreateWithoutCompanyInput, DataExportUncheckedCreateWithoutCompanyInput> | DataExportCreateWithoutCompanyInput[] | DataExportUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DataExportCreateOrConnectWithoutCompanyInput | DataExportCreateOrConnectWithoutCompanyInput[]
+    createMany?: DataExportCreateManyCompanyInputEnvelope
+    connect?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+  }
+
+  export type DataDeletionRequestCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<DataDeletionRequestCreateWithoutCompanyInput, DataDeletionRequestUncheckedCreateWithoutCompanyInput> | DataDeletionRequestCreateWithoutCompanyInput[] | DataDeletionRequestUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DataDeletionRequestCreateOrConnectWithoutCompanyInput | DataDeletionRequestCreateOrConnectWithoutCompanyInput[]
+    createMany?: DataDeletionRequestCreateManyCompanyInputEnvelope
+    connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -51878,6 +56793,26 @@ export namespace Prisma {
     create?: XOR<PasswordPolicyCreateWithoutCompanyInput, PasswordPolicyUncheckedCreateWithoutCompanyInput>
     connectOrCreate?: PasswordPolicyCreateOrConnectWithoutCompanyInput
     connect?: PasswordPolicyWhereUniqueInput
+  }
+
+  export type DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput = {
+    create?: XOR<DataRetentionPolicyCreateWithoutCompanyInput, DataRetentionPolicyUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: DataRetentionPolicyCreateOrConnectWithoutCompanyInput
+    connect?: DataRetentionPolicyWhereUniqueInput
+  }
+
+  export type DataExportUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<DataExportCreateWithoutCompanyInput, DataExportUncheckedCreateWithoutCompanyInput> | DataExportCreateWithoutCompanyInput[] | DataExportUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DataExportCreateOrConnectWithoutCompanyInput | DataExportCreateOrConnectWithoutCompanyInput[]
+    createMany?: DataExportCreateManyCompanyInputEnvelope
+    connect?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+  }
+
+  export type DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<DataDeletionRequestCreateWithoutCompanyInput, DataDeletionRequestUncheckedCreateWithoutCompanyInput> | DataDeletionRequestCreateWithoutCompanyInput[] | DataDeletionRequestUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DataDeletionRequestCreateOrConnectWithoutCompanyInput | DataDeletionRequestCreateOrConnectWithoutCompanyInput[]
+    createMany?: DataDeletionRequestCreateManyCompanyInputEnvelope
+    connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -51982,6 +56917,44 @@ export namespace Prisma {
     update?: XOR<XOR<PasswordPolicyUpdateToOneWithWhereWithoutCompanyInput, PasswordPolicyUpdateWithoutCompanyInput>, PasswordPolicyUncheckedUpdateWithoutCompanyInput>
   }
 
+  export type DataRetentionPolicyUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<DataRetentionPolicyCreateWithoutCompanyInput, DataRetentionPolicyUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: DataRetentionPolicyCreateOrConnectWithoutCompanyInput
+    upsert?: DataRetentionPolicyUpsertWithoutCompanyInput
+    disconnect?: DataRetentionPolicyWhereInput | boolean
+    delete?: DataRetentionPolicyWhereInput | boolean
+    connect?: DataRetentionPolicyWhereUniqueInput
+    update?: XOR<XOR<DataRetentionPolicyUpdateToOneWithWhereWithoutCompanyInput, DataRetentionPolicyUpdateWithoutCompanyInput>, DataRetentionPolicyUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type DataExportUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<DataExportCreateWithoutCompanyInput, DataExportUncheckedCreateWithoutCompanyInput> | DataExportCreateWithoutCompanyInput[] | DataExportUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DataExportCreateOrConnectWithoutCompanyInput | DataExportCreateOrConnectWithoutCompanyInput[]
+    upsert?: DataExportUpsertWithWhereUniqueWithoutCompanyInput | DataExportUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: DataExportCreateManyCompanyInputEnvelope
+    set?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    disconnect?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    delete?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    connect?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    update?: DataExportUpdateWithWhereUniqueWithoutCompanyInput | DataExportUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: DataExportUpdateManyWithWhereWithoutCompanyInput | DataExportUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: DataExportScalarWhereInput | DataExportScalarWhereInput[]
+  }
+
+  export type DataDeletionRequestUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<DataDeletionRequestCreateWithoutCompanyInput, DataDeletionRequestUncheckedCreateWithoutCompanyInput> | DataDeletionRequestCreateWithoutCompanyInput[] | DataDeletionRequestUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DataDeletionRequestCreateOrConnectWithoutCompanyInput | DataDeletionRequestCreateOrConnectWithoutCompanyInput[]
+    upsert?: DataDeletionRequestUpsertWithWhereUniqueWithoutCompanyInput | DataDeletionRequestUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: DataDeletionRequestCreateManyCompanyInputEnvelope
+    set?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    disconnect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    delete?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    update?: DataDeletionRequestUpdateWithWhereUniqueWithoutCompanyInput | DataDeletionRequestUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: DataDeletionRequestUpdateManyWithWhereWithoutCompanyInput | DataDeletionRequestUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: DataDeletionRequestScalarWhereInput | DataDeletionRequestScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -52074,6 +57047,44 @@ export namespace Prisma {
     delete?: PasswordPolicyWhereInput | boolean
     connect?: PasswordPolicyWhereUniqueInput
     update?: XOR<XOR<PasswordPolicyUpdateToOneWithWhereWithoutCompanyInput, PasswordPolicyUpdateWithoutCompanyInput>, PasswordPolicyUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput = {
+    create?: XOR<DataRetentionPolicyCreateWithoutCompanyInput, DataRetentionPolicyUncheckedCreateWithoutCompanyInput>
+    connectOrCreate?: DataRetentionPolicyCreateOrConnectWithoutCompanyInput
+    upsert?: DataRetentionPolicyUpsertWithoutCompanyInput
+    disconnect?: DataRetentionPolicyWhereInput | boolean
+    delete?: DataRetentionPolicyWhereInput | boolean
+    connect?: DataRetentionPolicyWhereUniqueInput
+    update?: XOR<XOR<DataRetentionPolicyUpdateToOneWithWhereWithoutCompanyInput, DataRetentionPolicyUpdateWithoutCompanyInput>, DataRetentionPolicyUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type DataExportUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<DataExportCreateWithoutCompanyInput, DataExportUncheckedCreateWithoutCompanyInput> | DataExportCreateWithoutCompanyInput[] | DataExportUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DataExportCreateOrConnectWithoutCompanyInput | DataExportCreateOrConnectWithoutCompanyInput[]
+    upsert?: DataExportUpsertWithWhereUniqueWithoutCompanyInput | DataExportUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: DataExportCreateManyCompanyInputEnvelope
+    set?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    disconnect?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    delete?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    connect?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    update?: DataExportUpdateWithWhereUniqueWithoutCompanyInput | DataExportUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: DataExportUpdateManyWithWhereWithoutCompanyInput | DataExportUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: DataExportScalarWhereInput | DataExportScalarWhereInput[]
+  }
+
+  export type DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<DataDeletionRequestCreateWithoutCompanyInput, DataDeletionRequestUncheckedCreateWithoutCompanyInput> | DataDeletionRequestCreateWithoutCompanyInput[] | DataDeletionRequestUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: DataDeletionRequestCreateOrConnectWithoutCompanyInput | DataDeletionRequestCreateOrConnectWithoutCompanyInput[]
+    upsert?: DataDeletionRequestUpsertWithWhereUniqueWithoutCompanyInput | DataDeletionRequestUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: DataDeletionRequestCreateManyCompanyInputEnvelope
+    set?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    disconnect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    delete?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    update?: DataDeletionRequestUpdateWithWhereUniqueWithoutCompanyInput | DataDeletionRequestUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: DataDeletionRequestUpdateManyWithWhereWithoutCompanyInput | DataDeletionRequestUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: DataDeletionRequestScalarWhereInput | DataDeletionRequestScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutUsersInput = {
@@ -52219,6 +57230,27 @@ export namespace Prisma {
     connectOrCreate?: RoleCreateOrConnectWithoutCreatedByInput | RoleCreateOrConnectWithoutCreatedByInput[]
     createMany?: RoleCreateManyCreatedByInputEnvelope
     connect?: RoleWhereUniqueInput | RoleWhereUniqueInput[]
+  }
+
+  export type DataExportCreateNestedManyWithoutUserInput = {
+    create?: XOR<DataExportCreateWithoutUserInput, DataExportUncheckedCreateWithoutUserInput> | DataExportCreateWithoutUserInput[] | DataExportUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DataExportCreateOrConnectWithoutUserInput | DataExportCreateOrConnectWithoutUserInput[]
+    createMany?: DataExportCreateManyUserInputEnvelope
+    connect?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+  }
+
+  export type DataDeletionRequestCreateNestedManyWithoutUserInput = {
+    create?: XOR<DataDeletionRequestCreateWithoutUserInput, DataDeletionRequestUncheckedCreateWithoutUserInput> | DataDeletionRequestCreateWithoutUserInput[] | DataDeletionRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DataDeletionRequestCreateOrConnectWithoutUserInput | DataDeletionRequestCreateOrConnectWithoutUserInput[]
+    createMany?: DataDeletionRequestCreateManyUserInputEnvelope
+    connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+  }
+
+  export type DataDeletionRequestCreateNestedManyWithoutProcessorInput = {
+    create?: XOR<DataDeletionRequestCreateWithoutProcessorInput, DataDeletionRequestUncheckedCreateWithoutProcessorInput> | DataDeletionRequestCreateWithoutProcessorInput[] | DataDeletionRequestUncheckedCreateWithoutProcessorInput[]
+    connectOrCreate?: DataDeletionRequestCreateOrConnectWithoutProcessorInput | DataDeletionRequestCreateOrConnectWithoutProcessorInput[]
+    createMany?: DataDeletionRequestCreateManyProcessorInputEnvelope
+    connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
   }
 
   export type EmailVerificationTokenCreateNestedManyWithoutUserInput = {
@@ -52401,6 +57433,27 @@ export namespace Prisma {
     connectOrCreate?: RoleCreateOrConnectWithoutCreatedByInput | RoleCreateOrConnectWithoutCreatedByInput[]
     createMany?: RoleCreateManyCreatedByInputEnvelope
     connect?: RoleWhereUniqueInput | RoleWhereUniqueInput[]
+  }
+
+  export type DataExportUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DataExportCreateWithoutUserInput, DataExportUncheckedCreateWithoutUserInput> | DataExportCreateWithoutUserInput[] | DataExportUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DataExportCreateOrConnectWithoutUserInput | DataExportCreateOrConnectWithoutUserInput[]
+    createMany?: DataExportCreateManyUserInputEnvelope
+    connect?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+  }
+
+  export type DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DataDeletionRequestCreateWithoutUserInput, DataDeletionRequestUncheckedCreateWithoutUserInput> | DataDeletionRequestCreateWithoutUserInput[] | DataDeletionRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DataDeletionRequestCreateOrConnectWithoutUserInput | DataDeletionRequestCreateOrConnectWithoutUserInput[]
+    createMany?: DataDeletionRequestCreateManyUserInputEnvelope
+    connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+  }
+
+  export type DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput = {
+    create?: XOR<DataDeletionRequestCreateWithoutProcessorInput, DataDeletionRequestUncheckedCreateWithoutProcessorInput> | DataDeletionRequestCreateWithoutProcessorInput[] | DataDeletionRequestUncheckedCreateWithoutProcessorInput[]
+    connectOrCreate?: DataDeletionRequestCreateOrConnectWithoutProcessorInput | DataDeletionRequestCreateOrConnectWithoutProcessorInput[]
+    createMany?: DataDeletionRequestCreateManyProcessorInputEnvelope
+    connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
   }
 
   export type EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput = {
@@ -52752,6 +57805,48 @@ export namespace Prisma {
     update?: RoleUpdateWithWhereUniqueWithoutCreatedByInput | RoleUpdateWithWhereUniqueWithoutCreatedByInput[]
     updateMany?: RoleUpdateManyWithWhereWithoutCreatedByInput | RoleUpdateManyWithWhereWithoutCreatedByInput[]
     deleteMany?: RoleScalarWhereInput | RoleScalarWhereInput[]
+  }
+
+  export type DataExportUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DataExportCreateWithoutUserInput, DataExportUncheckedCreateWithoutUserInput> | DataExportCreateWithoutUserInput[] | DataExportUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DataExportCreateOrConnectWithoutUserInput | DataExportCreateOrConnectWithoutUserInput[]
+    upsert?: DataExportUpsertWithWhereUniqueWithoutUserInput | DataExportUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DataExportCreateManyUserInputEnvelope
+    set?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    disconnect?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    delete?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    connect?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    update?: DataExportUpdateWithWhereUniqueWithoutUserInput | DataExportUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DataExportUpdateManyWithWhereWithoutUserInput | DataExportUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DataExportScalarWhereInput | DataExportScalarWhereInput[]
+  }
+
+  export type DataDeletionRequestUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DataDeletionRequestCreateWithoutUserInput, DataDeletionRequestUncheckedCreateWithoutUserInput> | DataDeletionRequestCreateWithoutUserInput[] | DataDeletionRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DataDeletionRequestCreateOrConnectWithoutUserInput | DataDeletionRequestCreateOrConnectWithoutUserInput[]
+    upsert?: DataDeletionRequestUpsertWithWhereUniqueWithoutUserInput | DataDeletionRequestUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DataDeletionRequestCreateManyUserInputEnvelope
+    set?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    disconnect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    delete?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    update?: DataDeletionRequestUpdateWithWhereUniqueWithoutUserInput | DataDeletionRequestUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DataDeletionRequestUpdateManyWithWhereWithoutUserInput | DataDeletionRequestUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DataDeletionRequestScalarWhereInput | DataDeletionRequestScalarWhereInput[]
+  }
+
+  export type DataDeletionRequestUpdateManyWithoutProcessorNestedInput = {
+    create?: XOR<DataDeletionRequestCreateWithoutProcessorInput, DataDeletionRequestUncheckedCreateWithoutProcessorInput> | DataDeletionRequestCreateWithoutProcessorInput[] | DataDeletionRequestUncheckedCreateWithoutProcessorInput[]
+    connectOrCreate?: DataDeletionRequestCreateOrConnectWithoutProcessorInput | DataDeletionRequestCreateOrConnectWithoutProcessorInput[]
+    upsert?: DataDeletionRequestUpsertWithWhereUniqueWithoutProcessorInput | DataDeletionRequestUpsertWithWhereUniqueWithoutProcessorInput[]
+    createMany?: DataDeletionRequestCreateManyProcessorInputEnvelope
+    set?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    disconnect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    delete?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    update?: DataDeletionRequestUpdateWithWhereUniqueWithoutProcessorInput | DataDeletionRequestUpdateWithWhereUniqueWithoutProcessorInput[]
+    updateMany?: DataDeletionRequestUpdateManyWithWhereWithoutProcessorInput | DataDeletionRequestUpdateManyWithWhereWithoutProcessorInput[]
+    deleteMany?: DataDeletionRequestScalarWhereInput | DataDeletionRequestScalarWhereInput[]
   }
 
   export type EmailVerificationTokenUpdateManyWithoutUserNestedInput = {
@@ -53116,6 +58211,48 @@ export namespace Prisma {
     update?: RoleUpdateWithWhereUniqueWithoutCreatedByInput | RoleUpdateWithWhereUniqueWithoutCreatedByInput[]
     updateMany?: RoleUpdateManyWithWhereWithoutCreatedByInput | RoleUpdateManyWithWhereWithoutCreatedByInput[]
     deleteMany?: RoleScalarWhereInput | RoleScalarWhereInput[]
+  }
+
+  export type DataExportUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DataExportCreateWithoutUserInput, DataExportUncheckedCreateWithoutUserInput> | DataExportCreateWithoutUserInput[] | DataExportUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DataExportCreateOrConnectWithoutUserInput | DataExportCreateOrConnectWithoutUserInput[]
+    upsert?: DataExportUpsertWithWhereUniqueWithoutUserInput | DataExportUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DataExportCreateManyUserInputEnvelope
+    set?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    disconnect?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    delete?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    connect?: DataExportWhereUniqueInput | DataExportWhereUniqueInput[]
+    update?: DataExportUpdateWithWhereUniqueWithoutUserInput | DataExportUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DataExportUpdateManyWithWhereWithoutUserInput | DataExportUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DataExportScalarWhereInput | DataExportScalarWhereInput[]
+  }
+
+  export type DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DataDeletionRequestCreateWithoutUserInput, DataDeletionRequestUncheckedCreateWithoutUserInput> | DataDeletionRequestCreateWithoutUserInput[] | DataDeletionRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DataDeletionRequestCreateOrConnectWithoutUserInput | DataDeletionRequestCreateOrConnectWithoutUserInput[]
+    upsert?: DataDeletionRequestUpsertWithWhereUniqueWithoutUserInput | DataDeletionRequestUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DataDeletionRequestCreateManyUserInputEnvelope
+    set?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    disconnect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    delete?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    update?: DataDeletionRequestUpdateWithWhereUniqueWithoutUserInput | DataDeletionRequestUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DataDeletionRequestUpdateManyWithWhereWithoutUserInput | DataDeletionRequestUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DataDeletionRequestScalarWhereInput | DataDeletionRequestScalarWhereInput[]
+  }
+
+  export type DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput = {
+    create?: XOR<DataDeletionRequestCreateWithoutProcessorInput, DataDeletionRequestUncheckedCreateWithoutProcessorInput> | DataDeletionRequestCreateWithoutProcessorInput[] | DataDeletionRequestUncheckedCreateWithoutProcessorInput[]
+    connectOrCreate?: DataDeletionRequestCreateOrConnectWithoutProcessorInput | DataDeletionRequestCreateOrConnectWithoutProcessorInput[]
+    upsert?: DataDeletionRequestUpsertWithWhereUniqueWithoutProcessorInput | DataDeletionRequestUpsertWithWhereUniqueWithoutProcessorInput[]
+    createMany?: DataDeletionRequestCreateManyProcessorInputEnvelope
+    set?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    disconnect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    delete?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+    update?: DataDeletionRequestUpdateWithWhereUniqueWithoutProcessorInput | DataDeletionRequestUpdateWithWhereUniqueWithoutProcessorInput[]
+    updateMany?: DataDeletionRequestUpdateManyWithWhereWithoutProcessorInput | DataDeletionRequestUpdateManyWithWhereWithoutProcessorInput[]
+    deleteMany?: DataDeletionRequestScalarWhereInput | DataDeletionRequestScalarWhereInput[]
   }
 
   export type EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput = {
@@ -54580,6 +59717,96 @@ export namespace Prisma {
     update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutPasswordPolicyInput, CompanyUpdateWithoutPasswordPolicyInput>, CompanyUncheckedUpdateWithoutPasswordPolicyInput>
   }
 
+  export type CompanyCreateNestedOneWithoutDataRetentionPolicyInput = {
+    create?: XOR<CompanyCreateWithoutDataRetentionPolicyInput, CompanyUncheckedCreateWithoutDataRetentionPolicyInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutDataRetentionPolicyInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneRequiredWithoutDataRetentionPolicyNestedInput = {
+    create?: XOR<CompanyCreateWithoutDataRetentionPolicyInput, CompanyUncheckedCreateWithoutDataRetentionPolicyInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutDataRetentionPolicyInput
+    upsert?: CompanyUpsertWithoutDataRetentionPolicyInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutDataRetentionPolicyInput, CompanyUpdateWithoutDataRetentionPolicyInput>, CompanyUncheckedUpdateWithoutDataRetentionPolicyInput>
+  }
+
+  export type UserCreateNestedOneWithoutDataExportsInput = {
+    create?: XOR<UserCreateWithoutDataExportsInput, UserUncheckedCreateWithoutDataExportsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDataExportsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutDataExportsInput = {
+    create?: XOR<CompanyCreateWithoutDataExportsInput, CompanyUncheckedCreateWithoutDataExportsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutDataExportsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutDataExportsNestedInput = {
+    create?: XOR<UserCreateWithoutDataExportsInput, UserUncheckedCreateWithoutDataExportsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDataExportsInput
+    upsert?: UserUpsertWithoutDataExportsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDataExportsInput, UserUpdateWithoutDataExportsInput>, UserUncheckedUpdateWithoutDataExportsInput>
+  }
+
+  export type CompanyUpdateOneWithoutDataExportsNestedInput = {
+    create?: XOR<CompanyCreateWithoutDataExportsInput, CompanyUncheckedCreateWithoutDataExportsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutDataExportsInput
+    upsert?: CompanyUpsertWithoutDataExportsInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutDataExportsInput, CompanyUpdateWithoutDataExportsInput>, CompanyUncheckedUpdateWithoutDataExportsInput>
+  }
+
+  export type UserCreateNestedOneWithoutDataDeletionRequestsInput = {
+    create?: XOR<UserCreateWithoutDataDeletionRequestsInput, UserUncheckedCreateWithoutDataDeletionRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDataDeletionRequestsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutDataDeletionRequestsInput = {
+    create?: XOR<CompanyCreateWithoutDataDeletionRequestsInput, CompanyUncheckedCreateWithoutDataDeletionRequestsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutDataDeletionRequestsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutProcessedDeletionsInput = {
+    create?: XOR<UserCreateWithoutProcessedDeletionsInput, UserUncheckedCreateWithoutProcessedDeletionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProcessedDeletionsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutDataDeletionRequestsNestedInput = {
+    create?: XOR<UserCreateWithoutDataDeletionRequestsInput, UserUncheckedCreateWithoutDataDeletionRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDataDeletionRequestsInput
+    upsert?: UserUpsertWithoutDataDeletionRequestsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDataDeletionRequestsInput, UserUpdateWithoutDataDeletionRequestsInput>, UserUncheckedUpdateWithoutDataDeletionRequestsInput>
+  }
+
+  export type CompanyUpdateOneWithoutDataDeletionRequestsNestedInput = {
+    create?: XOR<CompanyCreateWithoutDataDeletionRequestsInput, CompanyUncheckedCreateWithoutDataDeletionRequestsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutDataDeletionRequestsInput
+    upsert?: CompanyUpsertWithoutDataDeletionRequestsInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutDataDeletionRequestsInput, CompanyUpdateWithoutDataDeletionRequestsInput>, CompanyUncheckedUpdateWithoutDataDeletionRequestsInput>
+  }
+
+  export type UserUpdateOneWithoutProcessedDeletionsNestedInput = {
+    create?: XOR<UserCreateWithoutProcessedDeletionsInput, UserUncheckedCreateWithoutProcessedDeletionsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProcessedDeletionsInput
+    upsert?: UserUpsertWithoutProcessedDeletionsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProcessedDeletionsInput, UserUpdateWithoutProcessedDeletionsInput>, UserUncheckedUpdateWithoutProcessedDeletionsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -55030,6 +60257,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -55079,6 +60309,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -55311,6 +60544,111 @@ export namespace Prisma {
   export type PasswordPolicyCreateOrConnectWithoutCompanyInput = {
     where: PasswordPolicyWhereUniqueInput
     create: XOR<PasswordPolicyCreateWithoutCompanyInput, PasswordPolicyUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type DataRetentionPolicyCreateWithoutCompanyInput = {
+    id?: string
+    auditLogRetentionDays?: number | null
+    passwordHistoryRetentionDays?: number | null
+    sessionRetentionDays?: number | null
+    deletedDataRetentionDays?: number | null
+    autoDeleteEnabled?: boolean
+    lastCleanupAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DataRetentionPolicyUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    auditLogRetentionDays?: number | null
+    passwordHistoryRetentionDays?: number | null
+    sessionRetentionDays?: number | null
+    deletedDataRetentionDays?: number | null
+    autoDeleteEnabled?: boolean
+    lastCleanupAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DataRetentionPolicyCreateOrConnectWithoutCompanyInput = {
+    where: DataRetentionPolicyWhereUniqueInput
+    create: XOR<DataRetentionPolicyCreateWithoutCompanyInput, DataRetentionPolicyUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type DataExportCreateWithoutCompanyInput = {
+    id?: string
+    exportType: string
+    status?: string
+    filePath?: string | null
+    fileSize?: number | null
+    expiresAt?: Date | string | null
+    requestedAt?: Date | string
+    completedAt?: Date | string | null
+    errorMessage?: string | null
+    user: UserCreateNestedOneWithoutDataExportsInput
+  }
+
+  export type DataExportUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    userId: string
+    exportType: string
+    status?: string
+    filePath?: string | null
+    fileSize?: number | null
+    expiresAt?: Date | string | null
+    requestedAt?: Date | string
+    completedAt?: Date | string | null
+    errorMessage?: string | null
+  }
+
+  export type DataExportCreateOrConnectWithoutCompanyInput = {
+    where: DataExportWhereUniqueInput
+    create: XOR<DataExportCreateWithoutCompanyInput, DataExportUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type DataExportCreateManyCompanyInputEnvelope = {
+    data: DataExportCreateManyCompanyInput | DataExportCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DataDeletionRequestCreateWithoutCompanyInput = {
+    id?: string
+    requestType: string
+    status?: string
+    requestedAt?: Date | string
+    processedAt?: Date | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken: string
+    confirmedAt?: Date | string | null
+    errorMessage?: string | null
+    user: UserCreateNestedOneWithoutDataDeletionRequestsInput
+    processor?: UserCreateNestedOneWithoutProcessedDeletionsInput
+  }
+
+  export type DataDeletionRequestUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    userId: string
+    requestType: string
+    status?: string
+    requestedAt?: Date | string
+    processedAt?: Date | string | null
+    processedBy?: string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken: string
+    confirmedAt?: Date | string | null
+    errorMessage?: string | null
+  }
+
+  export type DataDeletionRequestCreateOrConnectWithoutCompanyInput = {
+    where: DataDeletionRequestWhereUniqueInput
+    create: XOR<DataDeletionRequestCreateWithoutCompanyInput, DataDeletionRequestUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type DataDeletionRequestCreateManyCompanyInputEnvelope = {
+    data: DataDeletionRequestCreateManyCompanyInput | DataDeletionRequestCreateManyCompanyInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithWhereUniqueWithoutCompanyInput = {
@@ -55563,6 +60901,110 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DataRetentionPolicyUpsertWithoutCompanyInput = {
+    update: XOR<DataRetentionPolicyUpdateWithoutCompanyInput, DataRetentionPolicyUncheckedUpdateWithoutCompanyInput>
+    create: XOR<DataRetentionPolicyCreateWithoutCompanyInput, DataRetentionPolicyUncheckedCreateWithoutCompanyInput>
+    where?: DataRetentionPolicyWhereInput
+  }
+
+  export type DataRetentionPolicyUpdateToOneWithWhereWithoutCompanyInput = {
+    where?: DataRetentionPolicyWhereInput
+    data: XOR<DataRetentionPolicyUpdateWithoutCompanyInput, DataRetentionPolicyUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type DataRetentionPolicyUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    auditLogRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    passwordHistoryRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    sessionRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    deletedDataRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    autoDeleteEnabled?: BoolFieldUpdateOperationsInput | boolean
+    lastCleanupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DataRetentionPolicyUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    auditLogRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    passwordHistoryRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    sessionRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    deletedDataRetentionDays?: NullableIntFieldUpdateOperationsInput | number | null
+    autoDeleteEnabled?: BoolFieldUpdateOperationsInput | boolean
+    lastCleanupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DataExportUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: DataExportWhereUniqueInput
+    update: XOR<DataExportUpdateWithoutCompanyInput, DataExportUncheckedUpdateWithoutCompanyInput>
+    create: XOR<DataExportCreateWithoutCompanyInput, DataExportUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type DataExportUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: DataExportWhereUniqueInput
+    data: XOR<DataExportUpdateWithoutCompanyInput, DataExportUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type DataExportUpdateManyWithWhereWithoutCompanyInput = {
+    where: DataExportScalarWhereInput
+    data: XOR<DataExportUpdateManyMutationInput, DataExportUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type DataExportScalarWhereInput = {
+    AND?: DataExportScalarWhereInput | DataExportScalarWhereInput[]
+    OR?: DataExportScalarWhereInput[]
+    NOT?: DataExportScalarWhereInput | DataExportScalarWhereInput[]
+    id?: StringFilter<"DataExport"> | string
+    userId?: StringFilter<"DataExport"> | string
+    companyId?: StringNullableFilter<"DataExport"> | string | null
+    exportType?: StringFilter<"DataExport"> | string
+    status?: StringFilter<"DataExport"> | string
+    filePath?: StringNullableFilter<"DataExport"> | string | null
+    fileSize?: IntNullableFilter<"DataExport"> | number | null
+    expiresAt?: DateTimeNullableFilter<"DataExport"> | Date | string | null
+    requestedAt?: DateTimeFilter<"DataExport"> | Date | string
+    completedAt?: DateTimeNullableFilter<"DataExport"> | Date | string | null
+    errorMessage?: StringNullableFilter<"DataExport"> | string | null
+  }
+
+  export type DataDeletionRequestUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: DataDeletionRequestWhereUniqueInput
+    update: XOR<DataDeletionRequestUpdateWithoutCompanyInput, DataDeletionRequestUncheckedUpdateWithoutCompanyInput>
+    create: XOR<DataDeletionRequestCreateWithoutCompanyInput, DataDeletionRequestUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type DataDeletionRequestUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: DataDeletionRequestWhereUniqueInput
+    data: XOR<DataDeletionRequestUpdateWithoutCompanyInput, DataDeletionRequestUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type DataDeletionRequestUpdateManyWithWhereWithoutCompanyInput = {
+    where: DataDeletionRequestScalarWhereInput
+    data: XOR<DataDeletionRequestUpdateManyMutationInput, DataDeletionRequestUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type DataDeletionRequestScalarWhereInput = {
+    AND?: DataDeletionRequestScalarWhereInput | DataDeletionRequestScalarWhereInput[]
+    OR?: DataDeletionRequestScalarWhereInput[]
+    NOT?: DataDeletionRequestScalarWhereInput | DataDeletionRequestScalarWhereInput[]
+    id?: StringFilter<"DataDeletionRequest"> | string
+    userId?: StringFilter<"DataDeletionRequest"> | string
+    companyId?: StringNullableFilter<"DataDeletionRequest"> | string | null
+    requestType?: StringFilter<"DataDeletionRequest"> | string
+    status?: StringFilter<"DataDeletionRequest"> | string
+    requestedAt?: DateTimeFilter<"DataDeletionRequest"> | Date | string
+    processedAt?: DateTimeNullableFilter<"DataDeletionRequest"> | Date | string | null
+    processedBy?: StringNullableFilter<"DataDeletionRequest"> | string | null
+    deletionScope?: JsonNullableFilter<"DataDeletionRequest">
+    confirmationToken?: StringFilter<"DataDeletionRequest"> | string
+    confirmedAt?: DateTimeNullableFilter<"DataDeletionRequest"> | Date | string | null
+    errorMessage?: StringNullableFilter<"DataDeletionRequest"> | string | null
+  }
+
   export type CompanyCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -55575,6 +61017,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -55589,6 +61034,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -56254,6 +61702,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -56303,6 +61754,9 @@ export namespace Prisma {
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -56357,6 +61811,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -56406,6 +61863,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -56452,6 +61912,118 @@ export namespace Prisma {
 
   export type RoleCreateManyCreatedByInputEnvelope = {
     data: RoleCreateManyCreatedByInput | RoleCreateManyCreatedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DataExportCreateWithoutUserInput = {
+    id?: string
+    exportType: string
+    status?: string
+    filePath?: string | null
+    fileSize?: number | null
+    expiresAt?: Date | string | null
+    requestedAt?: Date | string
+    completedAt?: Date | string | null
+    errorMessage?: string | null
+    company?: CompanyCreateNestedOneWithoutDataExportsInput
+  }
+
+  export type DataExportUncheckedCreateWithoutUserInput = {
+    id?: string
+    companyId?: string | null
+    exportType: string
+    status?: string
+    filePath?: string | null
+    fileSize?: number | null
+    expiresAt?: Date | string | null
+    requestedAt?: Date | string
+    completedAt?: Date | string | null
+    errorMessage?: string | null
+  }
+
+  export type DataExportCreateOrConnectWithoutUserInput = {
+    where: DataExportWhereUniqueInput
+    create: XOR<DataExportCreateWithoutUserInput, DataExportUncheckedCreateWithoutUserInput>
+  }
+
+  export type DataExportCreateManyUserInputEnvelope = {
+    data: DataExportCreateManyUserInput | DataExportCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DataDeletionRequestCreateWithoutUserInput = {
+    id?: string
+    requestType: string
+    status?: string
+    requestedAt?: Date | string
+    processedAt?: Date | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken: string
+    confirmedAt?: Date | string | null
+    errorMessage?: string | null
+    company?: CompanyCreateNestedOneWithoutDataDeletionRequestsInput
+    processor?: UserCreateNestedOneWithoutProcessedDeletionsInput
+  }
+
+  export type DataDeletionRequestUncheckedCreateWithoutUserInput = {
+    id?: string
+    companyId?: string | null
+    requestType: string
+    status?: string
+    requestedAt?: Date | string
+    processedAt?: Date | string | null
+    processedBy?: string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken: string
+    confirmedAt?: Date | string | null
+    errorMessage?: string | null
+  }
+
+  export type DataDeletionRequestCreateOrConnectWithoutUserInput = {
+    where: DataDeletionRequestWhereUniqueInput
+    create: XOR<DataDeletionRequestCreateWithoutUserInput, DataDeletionRequestUncheckedCreateWithoutUserInput>
+  }
+
+  export type DataDeletionRequestCreateManyUserInputEnvelope = {
+    data: DataDeletionRequestCreateManyUserInput | DataDeletionRequestCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DataDeletionRequestCreateWithoutProcessorInput = {
+    id?: string
+    requestType: string
+    status?: string
+    requestedAt?: Date | string
+    processedAt?: Date | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken: string
+    confirmedAt?: Date | string | null
+    errorMessage?: string | null
+    user: UserCreateNestedOneWithoutDataDeletionRequestsInput
+    company?: CompanyCreateNestedOneWithoutDataDeletionRequestsInput
+  }
+
+  export type DataDeletionRequestUncheckedCreateWithoutProcessorInput = {
+    id?: string
+    userId: string
+    companyId?: string | null
+    requestType: string
+    status?: string
+    requestedAt?: Date | string
+    processedAt?: Date | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken: string
+    confirmedAt?: Date | string | null
+    errorMessage?: string | null
+  }
+
+  export type DataDeletionRequestCreateOrConnectWithoutProcessorInput = {
+    where: DataDeletionRequestWhereUniqueInput
+    create: XOR<DataDeletionRequestCreateWithoutProcessorInput, DataDeletionRequestUncheckedCreateWithoutProcessorInput>
+  }
+
+  export type DataDeletionRequestCreateManyProcessorInputEnvelope = {
+    data: DataDeletionRequestCreateManyProcessorInput | DataDeletionRequestCreateManyProcessorInput[]
     skipDuplicates?: boolean
   }
 
@@ -56688,6 +62260,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -56702,6 +62277,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type PasswordUpsertWithWhereUniqueWithoutOwnerInput = {
@@ -57258,6 +62836,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -57307,6 +62888,9 @@ export namespace Prisma {
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -57359,6 +62943,54 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Role"> | Date | string
     updatedAt?: DateTimeFilter<"Role"> | Date | string
     createdById?: StringNullableFilter<"Role"> | string | null
+  }
+
+  export type DataExportUpsertWithWhereUniqueWithoutUserInput = {
+    where: DataExportWhereUniqueInput
+    update: XOR<DataExportUpdateWithoutUserInput, DataExportUncheckedUpdateWithoutUserInput>
+    create: XOR<DataExportCreateWithoutUserInput, DataExportUncheckedCreateWithoutUserInput>
+  }
+
+  export type DataExportUpdateWithWhereUniqueWithoutUserInput = {
+    where: DataExportWhereUniqueInput
+    data: XOR<DataExportUpdateWithoutUserInput, DataExportUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DataExportUpdateManyWithWhereWithoutUserInput = {
+    where: DataExportScalarWhereInput
+    data: XOR<DataExportUpdateManyMutationInput, DataExportUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DataDeletionRequestUpsertWithWhereUniqueWithoutUserInput = {
+    where: DataDeletionRequestWhereUniqueInput
+    update: XOR<DataDeletionRequestUpdateWithoutUserInput, DataDeletionRequestUncheckedUpdateWithoutUserInput>
+    create: XOR<DataDeletionRequestCreateWithoutUserInput, DataDeletionRequestUncheckedCreateWithoutUserInput>
+  }
+
+  export type DataDeletionRequestUpdateWithWhereUniqueWithoutUserInput = {
+    where: DataDeletionRequestWhereUniqueInput
+    data: XOR<DataDeletionRequestUpdateWithoutUserInput, DataDeletionRequestUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DataDeletionRequestUpdateManyWithWhereWithoutUserInput = {
+    where: DataDeletionRequestScalarWhereInput
+    data: XOR<DataDeletionRequestUpdateManyMutationInput, DataDeletionRequestUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DataDeletionRequestUpsertWithWhereUniqueWithoutProcessorInput = {
+    where: DataDeletionRequestWhereUniqueInput
+    update: XOR<DataDeletionRequestUpdateWithoutProcessorInput, DataDeletionRequestUncheckedUpdateWithoutProcessorInput>
+    create: XOR<DataDeletionRequestCreateWithoutProcessorInput, DataDeletionRequestUncheckedCreateWithoutProcessorInput>
+  }
+
+  export type DataDeletionRequestUpdateWithWhereUniqueWithoutProcessorInput = {
+    where: DataDeletionRequestWhereUniqueInput
+    data: XOR<DataDeletionRequestUpdateWithoutProcessorInput, DataDeletionRequestUncheckedUpdateWithoutProcessorInput>
+  }
+
+  export type DataDeletionRequestUpdateManyWithWhereWithoutProcessorInput = {
+    where: DataDeletionRequestScalarWhereInput
+    data: XOR<DataDeletionRequestUpdateManyMutationInput, DataDeletionRequestUncheckedUpdateManyWithoutProcessorInput>
   }
 
   export type EmailVerificationTokenUpsertWithWhereUniqueWithoutUserInput = {
@@ -57551,6 +63183,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -57600,6 +63235,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -57665,6 +63303,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -57714,6 +63355,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -57763,6 +63407,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -57812,6 +63459,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -57877,6 +63527,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -57926,6 +63579,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -57975,6 +63631,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -58024,6 +63683,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -58319,6 +63981,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -58368,6 +64033,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -58634,6 +64302,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -58683,6 +64354,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -58805,6 +64479,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -58854,6 +64531,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -58954,6 +64634,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -59003,6 +64686,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -59057,6 +64743,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -59106,6 +64795,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -59228,6 +64920,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -59277,6 +64972,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -59337,6 +65035,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -59386,6 +65087,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -59435,6 +65139,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -59484,6 +65191,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -59643,6 +65353,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -59692,6 +65405,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -59859,6 +65575,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -59908,6 +65627,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -60071,6 +65793,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -60120,6 +65845,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -60420,6 +66148,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -60469,6 +66200,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -60614,6 +66348,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -60663,6 +66400,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -60848,6 +66588,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -60897,6 +66640,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -60991,6 +66737,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -61040,6 +66789,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -61283,6 +67035,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -61332,6 +67087,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -61397,6 +67155,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -61446,6 +67207,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -61495,6 +67259,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -61544,6 +67311,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -61570,6 +67340,9 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutThreatEventsInput = {
@@ -61584,6 +67357,9 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutThreatEventsInput = {
@@ -61642,6 +67418,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -61691,6 +67470,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -61723,6 +67505,9 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutThreatEventsInput = {
@@ -61737,6 +67522,9 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutRateLimitsInput = {
@@ -61751,6 +67539,9 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRateLimitsInput = {
@@ -61765,6 +67556,9 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRateLimitsInput = {
@@ -61795,6 +67589,9 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRateLimitsInput = {
@@ -61809,6 +67606,9 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutCreatedRolesInput = {
@@ -61851,6 +67651,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -61900,6 +67703,9 @@ export namespace Prisma {
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -61987,6 +67793,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -62036,6 +67845,9 @@ export namespace Prisma {
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -62261,6 +68073,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -62310,6 +68125,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -62375,6 +68193,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -62424,6 +68245,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -62473,6 +68297,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -62522,6 +68349,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -62587,6 +68417,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -62636,6 +68469,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -62685,6 +68521,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -62734,6 +68573,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -62799,6 +68641,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -62848,6 +68693,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -62897,6 +68745,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -62946,6 +68797,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -63011,6 +68865,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -63060,6 +68917,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -63109,6 +68969,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -63158,6 +69021,9 @@ export namespace Prisma {
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -63184,6 +69050,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTemplatesInput = {
@@ -63198,6 +69067,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTemplatesInput = {
@@ -63256,6 +69128,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -63305,6 +69180,9 @@ export namespace Prisma {
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -63337,6 +69215,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTemplatesInput = {
@@ -63351,6 +69232,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutEmailVerificationTokensInput = {
@@ -63394,6 +69278,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
@@ -63443,6 +69330,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
@@ -63508,6 +69398,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
@@ -63557,6 +69450,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
@@ -63606,6 +69502,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
@@ -63655,6 +69554,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
@@ -63720,6 +69622,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
@@ -63769,6 +69674,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
@@ -63818,6 +69726,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
@@ -63867,6 +69778,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
@@ -63932,6 +69846,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
@@ -63981,6 +69898,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
@@ -64030,6 +69950,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -64079,6 +70002,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -64104,6 +70030,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIpWhitelistsInput = {
@@ -64118,6 +70047,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIpWhitelistsInput = {
@@ -64166,6 +70098,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -64215,6 +70150,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -64280,6 +70218,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -64329,6 +70270,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -64360,6 +70304,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIpWhitelistsInput = {
@@ -64374,6 +70321,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCreatedIpWhitelistsInput = {
@@ -64428,6 +70378,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -64477,6 +70430,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -64526,6 +70482,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -64575,6 +70534,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -64600,6 +70562,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGeographicRestrictionsInput = {
@@ -64614,6 +70579,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGeographicRestrictionsInput = {
@@ -64662,6 +70630,9 @@ export namespace Prisma {
     createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
     createdUsers?: UserCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -64711,6 +70682,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -64776,6 +70750,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -64825,6 +70802,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -64856,6 +70836,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGeographicRestrictionsInput = {
@@ -64870,6 +70853,9 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCreatedGeographicRestrictionsInput = {
@@ -64924,6 +70910,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -64973,6 +70962,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -64993,6 +70985,9 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPasswordPolicyInput = {
@@ -65007,6 +71002,9 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPasswordPolicyInput = {
@@ -65037,6 +71035,9 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPasswordPolicyInput = {
@@ -65051,6 +71052,933 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyCreateWithoutDataRetentionPolicyInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutDataRetentionPolicyInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutDataRetentionPolicyInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutDataRetentionPolicyInput, CompanyUncheckedCreateWithoutDataRetentionPolicyInput>
+  }
+
+  export type CompanyUpsertWithoutDataRetentionPolicyInput = {
+    update: XOR<CompanyUpdateWithoutDataRetentionPolicyInput, CompanyUncheckedUpdateWithoutDataRetentionPolicyInput>
+    create: XOR<CompanyCreateWithoutDataRetentionPolicyInput, CompanyUncheckedCreateWithoutDataRetentionPolicyInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutDataRetentionPolicyInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutDataRetentionPolicyInput, CompanyUncheckedUpdateWithoutDataRetentionPolicyInput>
+  }
+
+  export type CompanyUpdateWithoutDataRetentionPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutDataRetentionPolicyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserCreateWithoutDataExportsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutDataExportsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutDataExportsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDataExportsInput, UserUncheckedCreateWithoutDataExportsInput>
+  }
+
+  export type CompanyCreateWithoutDataExportsInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutDataExportsInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutDataExportsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutDataExportsInput, CompanyUncheckedCreateWithoutDataExportsInput>
+  }
+
+  export type UserUpsertWithoutDataExportsInput = {
+    update: XOR<UserUpdateWithoutDataExportsInput, UserUncheckedUpdateWithoutDataExportsInput>
+    create: XOR<UserCreateWithoutDataExportsInput, UserUncheckedCreateWithoutDataExportsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDataExportsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDataExportsInput, UserUncheckedUpdateWithoutDataExportsInput>
+  }
+
+  export type UserUpdateWithoutDataExportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDataExportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type CompanyUpsertWithoutDataExportsInput = {
+    update: XOR<CompanyUpdateWithoutDataExportsInput, CompanyUncheckedUpdateWithoutDataExportsInput>
+    create: XOR<CompanyCreateWithoutDataExportsInput, CompanyUncheckedCreateWithoutDataExportsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutDataExportsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutDataExportsInput, CompanyUncheckedUpdateWithoutDataExportsInput>
+  }
+
+  export type CompanyUpdateWithoutDataExportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutDataExportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserCreateWithoutDataDeletionRequestsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutDataDeletionRequestsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutDataDeletionRequestsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDataDeletionRequestsInput, UserUncheckedCreateWithoutDataDeletionRequestsInput>
+  }
+
+  export type CompanyCreateWithoutDataDeletionRequestsInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutDataDeletionRequestsInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutDataDeletionRequestsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutDataDeletionRequestsInput, CompanyUncheckedCreateWithoutDataDeletionRequestsInput>
+  }
+
+  export type UserCreateWithoutProcessedDeletionsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutProcessedDeletionsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutProcessedDeletionsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutProcessedDeletionsInput, UserUncheckedCreateWithoutProcessedDeletionsInput>
+  }
+
+  export type UserUpsertWithoutDataDeletionRequestsInput = {
+    update: XOR<UserUpdateWithoutDataDeletionRequestsInput, UserUncheckedUpdateWithoutDataDeletionRequestsInput>
+    create: XOR<UserCreateWithoutDataDeletionRequestsInput, UserUncheckedCreateWithoutDataDeletionRequestsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDataDeletionRequestsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDataDeletionRequestsInput, UserUncheckedUpdateWithoutDataDeletionRequestsInput>
+  }
+
+  export type UserUpdateWithoutDataDeletionRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDataDeletionRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type CompanyUpsertWithoutDataDeletionRequestsInput = {
+    update: XOR<CompanyUpdateWithoutDataDeletionRequestsInput, CompanyUncheckedUpdateWithoutDataDeletionRequestsInput>
+    create: XOR<CompanyCreateWithoutDataDeletionRequestsInput, CompanyUncheckedCreateWithoutDataDeletionRequestsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutDataDeletionRequestsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutDataDeletionRequestsInput, CompanyUncheckedUpdateWithoutDataDeletionRequestsInput>
+  }
+
+  export type CompanyUpdateWithoutDataDeletionRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutDataDeletionRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserUpsertWithoutProcessedDeletionsInput = {
+    update: XOR<UserUpdateWithoutProcessedDeletionsInput, UserUncheckedUpdateWithoutProcessedDeletionsInput>
+    create: XOR<UserCreateWithoutProcessedDeletionsInput, UserUncheckedCreateWithoutProcessedDeletionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutProcessedDeletionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutProcessedDeletionsInput, UserUncheckedUpdateWithoutProcessedDeletionsInput>
+  }
+
+  export type UserUpdateWithoutProcessedDeletionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutProcessedDeletionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type UserCreateManyCompanyInput = {
@@ -65140,6 +72068,33 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type DataExportCreateManyCompanyInput = {
+    id?: string
+    userId: string
+    exportType: string
+    status?: string
+    filePath?: string | null
+    fileSize?: number | null
+    expiresAt?: Date | string | null
+    requestedAt?: Date | string
+    completedAt?: Date | string | null
+    errorMessage?: string | null
+  }
+
+  export type DataDeletionRequestCreateManyCompanyInput = {
+    id?: string
+    userId: string
+    requestType: string
+    status?: string
+    requestedAt?: Date | string
+    processedAt?: Date | string | null
+    processedBy?: string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken: string
+    confirmedAt?: Date | string | null
+    errorMessage?: string | null
+  }
+
   export type UserUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -65180,6 +72135,9 @@ export namespace Prisma {
     createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -65229,6 +72187,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -65451,6 +72412,87 @@ export namespace Prisma {
     windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DataExportUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    exportType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutDataExportsNestedInput
+  }
+
+  export type DataExportUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    exportType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DataExportUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    exportType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DataDeletionRequestUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutDataDeletionRequestsNestedInput
+    processor?: UserUpdateOneWithoutProcessedDeletionsNestedInput
+  }
+
+  export type DataDeletionRequestUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DataDeletionRequestUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PasswordCreateManyOwnerInput = {
@@ -65700,6 +72742,47 @@ export namespace Prisma {
     isSystem?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type DataExportCreateManyUserInput = {
+    id?: string
+    companyId?: string | null
+    exportType: string
+    status?: string
+    filePath?: string | null
+    fileSize?: number | null
+    expiresAt?: Date | string | null
+    requestedAt?: Date | string
+    completedAt?: Date | string | null
+    errorMessage?: string | null
+  }
+
+  export type DataDeletionRequestCreateManyUserInput = {
+    id?: string
+    companyId?: string | null
+    requestType: string
+    status?: string
+    requestedAt?: Date | string
+    processedAt?: Date | string | null
+    processedBy?: string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken: string
+    confirmedAt?: Date | string | null
+    errorMessage?: string | null
+  }
+
+  export type DataDeletionRequestCreateManyProcessorInput = {
+    id?: string
+    userId: string
+    companyId?: string | null
+    requestType: string
+    status?: string
+    requestedAt?: Date | string
+    processedAt?: Date | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken: string
+    confirmedAt?: Date | string | null
+    errorMessage?: string | null
   }
 
   export type EmailVerificationTokenCreateManyUserInput = {
@@ -66477,6 +73560,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -66526,6 +73612,9 @@ export namespace Prisma {
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -66585,6 +73674,129 @@ export namespace Prisma {
     isSystem?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DataExportUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    exportType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneWithoutDataExportsNestedInput
+  }
+
+  export type DataExportUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    exportType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DataExportUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    exportType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DataDeletionRequestUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompanyUpdateOneWithoutDataDeletionRequestsNestedInput
+    processor?: UserUpdateOneWithoutProcessedDeletionsNestedInput
+  }
+
+  export type DataDeletionRequestUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DataDeletionRequestUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DataDeletionRequestUpdateWithoutProcessorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutDataDeletionRequestsNestedInput
+    company?: CompanyUpdateOneWithoutDataDeletionRequestsNestedInput
+  }
+
+  export type DataDeletionRequestUncheckedUpdateWithoutProcessorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DataDeletionRequestUncheckedUpdateManyWithoutProcessorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    requestType?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    requestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletionScope?: NullableJsonNullValueInput | InputJsonValue
+    confirmationToken?: StringFieldUpdateOperationsInput | string
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EmailVerificationTokenUpdateWithoutUserInput = {

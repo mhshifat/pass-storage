@@ -149,7 +149,7 @@ export function GettingStartedChecklist() {
   // Show restore button if hidden
   if (isHidden) {
     return (
-      <Card className="mb-6 border-primary/20 bg-primary/5">
+      <Card className="mb-6 border-primary/20 bg-primary/5 py-0">
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">

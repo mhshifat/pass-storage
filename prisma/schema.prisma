@@ -26,6 +26,9 @@ model Company {
   threatEvents ThreatEvent[]
   rateLimits  RateLimit[]
   passwordPolicy PasswordPolicy?
+  dataRetentionPolicy DataRetentionPolicy?
+  dataExports DataExport[]
+  dataDeletionRequests DataDeletionRequest[]
 
   @@index([subdomain])
 }
@@ -76,6 +79,10 @@ model User {
   createdBy          User?           @relation("UserCreatedBy", fields: [createdById], references: [id])
   createdUsers       User[]          @relation("UserCreatedBy")
   createdRoles      Role[]          @relation("RoleCreatedBy")
+  
+  dataExports        DataExport[]
+  dataDeletionRequests DataDeletionRequest[]
+  processedDeletions DataDeletionRequest[] @relation("DataDeletionProcessor")
 
   emailVerificationTokens EmailVerificationToken[]
   passwordResetTokens PasswordResetToken[]
@@ -765,4 +772,75 @@ model PasswordPolicy {
   company                Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
   @@index([companyId])
+}
+
+model DataRetentionPolicy {
+  id                    String   @id @default(cuid())
+  companyId             String   @unique
+  // Retention periods (in days, null = keep forever)
+  auditLogRetentionDays Int?     // How long to keep audit logs
+  passwordHistoryRetentionDays Int? // How long to keep password history
+  sessionRetentionDays  Int?     // How long to keep inactive sessions
+  deletedDataRetentionDays Int?  // How long to keep soft-deleted data before permanent deletion
+  // Auto-deletion settings
+  autoDeleteEnabled     Boolean  @default(false) // Enable automatic data deletion
+  lastCleanupAt         DateTime? // Last time cleanup ran
+  // Status
+  isActive              Boolean  @default(true)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relations
+  company                Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+}
+
+model DataExport {
+  id                    String   @id @default(cuid())
+  userId                String
+  companyId             String?
+  exportType            String   // "FULL", "PASSWORDS", "AUDIT_LOGS", "PROFILE"
+  status                String   @default("PENDING") // PENDING, PROCESSING, COMPLETED, FAILED
+  filePath              String?  // Path to exported file
+  fileSize              Int?     // File size in bytes
+  expiresAt             DateTime? // When the export file expires
+  requestedAt           DateTime @default(now())
+  completedAt           DateTime?
+  errorMessage          String?
+
+  // Relations
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company               Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([companyId])
+  @@index([status])
+  @@index([requestedAt])
+}
+
+model DataDeletionRequest {
+  id                    String   @id @default(cuid())
+  userId                String
+  companyId             String?
+  requestType           String   // "FULL_DELETION", "PARTIAL_DELETION"
+  status                String   @default("PENDING") // PENDING, PROCESSING, COMPLETED, FAILED, CANCELLED
+  requestedAt           DateTime @default(now())
+  processedAt           DateTime?
+  processedBy           String?  // User ID who processed the request
+  deletionScope         Json?    // What data to delete (for partial deletion)
+  confirmationToken    String   @unique // Token to confirm deletion
+  confirmedAt           DateTime?
+  errorMessage          String?
+
+  // Relations
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company               Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  processor             User?    @relation("DataDeletionProcessor", fields: [processedBy], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([companyId])
+  @@index([status])
+  @@index([requestedAt])
+  @@index([confirmationToken])
 }

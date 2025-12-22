@@ -524,6 +524,49 @@ exports.Prisma.PasswordPolicyScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.DataRetentionPolicyScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  auditLogRetentionDays: 'auditLogRetentionDays',
+  passwordHistoryRetentionDays: 'passwordHistoryRetentionDays',
+  sessionRetentionDays: 'sessionRetentionDays',
+  deletedDataRetentionDays: 'deletedDataRetentionDays',
+  autoDeleteEnabled: 'autoDeleteEnabled',
+  lastCleanupAt: 'lastCleanupAt',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DataExportScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companyId: 'companyId',
+  exportType: 'exportType',
+  status: 'status',
+  filePath: 'filePath',
+  fileSize: 'fileSize',
+  expiresAt: 'expiresAt',
+  requestedAt: 'requestedAt',
+  completedAt: 'completedAt',
+  errorMessage: 'errorMessage'
+};
+
+exports.Prisma.DataDeletionRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companyId: 'companyId',
+  requestType: 'requestType',
+  status: 'status',
+  requestedAt: 'requestedAt',
+  processedAt: 'processedAt',
+  processedBy: 'processedBy',
+  deletionScope: 'deletionScope',
+  confirmationToken: 'confirmationToken',
+  confirmedAt: 'confirmedAt',
+  errorMessage: 'errorMessage'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -638,7 +681,10 @@ exports.Prisma.ModelName = {
   SecurityQuestion: 'SecurityQuestion',
   IpWhitelist: 'IpWhitelist',
   GeographicRestriction: 'GeographicRestriction',
-  PasswordPolicy: 'PasswordPolicy'
+  PasswordPolicy: 'PasswordPolicy',
+  DataRetentionPolicy: 'DataRetentionPolicy',
+  DataExport: 'DataExport',
+  DataDeletionRequest: 'DataDeletionRequest'
 };
 
 /**
