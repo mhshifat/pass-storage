@@ -390,6 +390,31 @@ export const auditLogsRouter = createTRPCRouter({
       }
     }),
 
+  // Log clipboard copy action
+  logClipboardCopy: protectedProcedure("password.view")
+    .input(
+      z.object({
+        resourceId: z.string(),
+        resourceType: z.string().default("password"),
+        actionType: z.string().default("copy"),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { resourceId, resourceType, actionType } = input
+
+      await createAuditLog({
+        action: actionType,
+        resource: resourceType,
+        resourceId,
+        details: {
+          action: "clipboard_copy",
+          resourceType,
+        },
+        status: "SUCCESS",
+        userId: ctx.userId || null,
+      })
+    }),
+
   // Advanced Audit Logs - Analytics
   getAnalytics: protectedProcedure("audit.view")
     .input(

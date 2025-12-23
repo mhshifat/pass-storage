@@ -2163,6 +2163,19 @@
         "navigation": "Navigation"
       }
     }
+  },
+  "clipboard": {
+    "copied": "Copied to clipboard",
+    "copyFailed": "Failed to copy to clipboard",
+    "emptyText": "Nothing to copy",
+    "cleared": "Clipboard cleared after {{timeout}} seconds",
+    "passwordCopied": "Password copied to clipboard",
+    "usernameCopied": "Username copied to clipboard",
+    "urlCopied": "URL copied to clipboard",
+    "totpCopied": "TOTP code copied to clipboard",
+    "copyPassword": "Copy Password",
+    "copyUsername": "Copy Username",
+    "copyUrl": "Copy URL"
   }
 }
 

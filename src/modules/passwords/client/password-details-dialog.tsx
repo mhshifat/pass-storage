@@ -43,6 +43,7 @@ import { toggleFavoriteAction } from "@/app/admin/passwords/favorite-actions"
 import { removePasswordShareAction } from "@/app/admin/passwords/unshare-actions"
 import { useRouter } from "next/navigation"
 import { useTranslation } from "react-i18next"
+import { useClipboard } from "@/hooks/use-clipboard"
 
 interface PasswordShare {
   shareId: string
@@ -83,6 +84,7 @@ export function PasswordDetailsDialog({
   const { t } = useTranslation()
   const router = useRouter()
   const { hasPermission } = usePermissions()
+  const { copy: copyToClipboard, isCopying } = useClipboard()
   const [showPassword, setShowPassword] = React.useState(false)
   const [totpCode, setTotpCode] = React.useState("123456")
   const [totpTimeLeft, setTotpTimeLeft] = React.useState(30)
@@ -373,7 +375,27 @@ export function PasswordDetailsDialog({
 
             <div className="grid grid-cols-3 items-center gap-4">
               <span className="text-sm font-medium">Username:</span>
-              <span className="col-span-2 text-sm font-mono">{displayPassword.username}</span>
+              <div className="col-span-2 flex items-center gap-2">
+                <span className="flex-1 text-sm font-mono">{displayPassword.username}</span>
+                {hasPermission("password.view") && (
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() =>
+                      copyToClipboard(displayPassword.username, {
+                        resourceId: password?.id || "",
+                        resourceType: "password",
+                        actionType: "copy_username",
+                        successMessage: t("clipboard.usernameCopied"),
+                      })
+                    }
+                    disabled={isCopying}
+                    title={t("clipboard.copyUsername")}
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
             </div>
 
             <div className="grid grid-cols-3 items-center gap-4">
@@ -400,11 +422,16 @@ export function PasswordDetailsDialog({
                       size="icon"
                       onClick={() => {
                         if (decryptedPassword) {
-                          navigator.clipboard.writeText(decryptedPassword)
-                          toast.success("Password copied to clipboard")
+                          copyToClipboard(decryptedPassword, {
+                            resourceId: password?.id || "",
+                            resourceType: "password",
+                            actionType: "copy_password",
+                            successMessage: t("clipboard.passwordCopied"),
+                          })
                         }
                       }}
-                      disabled={isLoading || !decryptedPassword}
+                      disabled={isLoading || !decryptedPassword || isCopying}
+                      title={t("clipboard.copyPassword")}
                     >
                       <Copy className="h-4 w-4" />
                     </Button>
@@ -416,14 +443,34 @@ export function PasswordDetailsDialog({
             {displayPassword.url && (
               <div className="grid grid-cols-3 items-center gap-4">
                 <span className="text-sm font-medium">URL:</span>
-                <a
-                  href={displayPassword.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="col-span-2 text-sm text-blue-600 hover:underline truncate"
-                >
-                  {displayPassword.url}
-                </a>
+                <div className="col-span-2 flex items-center gap-2">
+                  <a
+                    href={displayPassword.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 text-sm text-blue-600 hover:underline truncate"
+                  >
+                    {displayPassword.url}
+                  </a>
+                  {hasPermission("password.view") && (
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() =>
+                        copyToClipboard(displayPassword.url || "", {
+                          resourceId: password?.id || "",
+                          resourceType: "password",
+                          actionType: "copy_url",
+                          successMessage: t("clipboard.urlCopied"),
+                        })
+                      }
+                      disabled={isCopying}
+                      title={t("clipboard.copyUrl")}
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
               </div>
             )}
 

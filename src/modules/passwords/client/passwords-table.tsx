@@ -45,6 +45,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
 import { usePermissions } from "@/hooks/use-permissions"
+import { useClipboard } from "@/hooks/use-clipboard"
 import { toggleFavoriteAction } from "@/app/admin/passwords/favorite-actions"
 import { TagFilter } from "@/modules/passwords/client/tag-filter"
 import { AdvancedSearchDialog } from "./advanced-search-dialog"
@@ -98,7 +99,7 @@ interface PasswordsTableProps {
 // Component to handle password copy functionality
 function PasswordCell({ passwordId }: { passwordId: string }) {
   const { t } = useTranslation()
-  const [isCopying, setIsCopying] = React.useState(false)
+  const { copy: copyToClipboard, isCopying } = useClipboard()
   const { refetch } = trpc.passwords.getPassword.useQuery(
     { id: passwordId },
     {
@@ -108,31 +109,32 @@ function PasswordCell({ passwordId }: { passwordId: string }) {
 
   const handleCopyPassword = async () => {
     try {
-      setIsCopying(true)
       const result = await refetch()
       if (result.data?.password) {
-        await navigator.clipboard.writeText(result.data.password)
-        toast.success(t("passwords.passwordCopied"))
+        await copyToClipboard(result.data.password, {
+          resourceId: passwordId,
+          resourceType: "password",
+          actionType: "copy_password",
+          successMessage: t("clipboard.passwordCopied"),
+        })
       }
     } catch (error) {
-      toast.error(t("passwords.passwordCopyFailed"))
-    } finally {
-      setIsCopying(false)
+      toast.error(t("clipboard.copyFailed"))
     }
   }
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-sm font-mono text-muted-foreground">••••••••</span>
+      <span className="text-sm font-mono text-muted-foreground tracking-wider">••••••••</span>
       <Button
         variant="ghost"
         size="icon"
-        className="h-6 w-6"
+        className="h-7 w-7 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
         onClick={handleCopyPassword}
         disabled={isCopying}
-        title={t("passwords.copyPassword")}
+        title={t("clipboard.copyPassword")}
       >
-        <Copy className="h-3 w-3" />
+        <Copy className="h-3.5 w-3.5" />
       </Button>
     </div>
   )
@@ -141,7 +143,7 @@ function PasswordCell({ passwordId }: { passwordId: string }) {
 // Component to handle TOTP copy functionality
 function TotpCell({ passwordId }: { passwordId: string }) {
   const { t } = useTranslation()
-  const [isCopying, setIsCopying] = React.useState(false)
+  const { copy: copyToClipboard, isCopying } = useClipboard()
   const { refetch } = trpc.passwords.generateTotp.useQuery(
     { id: passwordId },
     {
@@ -151,16 +153,17 @@ function TotpCell({ passwordId }: { passwordId: string }) {
 
   const handleCopyTotp = async () => {
     try {
-      setIsCopying(true)
       const result = await refetch()
       if (result.data?.totpCode) {
-        await navigator.clipboard.writeText(result.data.totpCode)
-        toast.success(t("passwords.totpCodeCopied"))
+        await copyToClipboard(result.data.totpCode, {
+          resourceId: passwordId,
+          resourceType: "password",
+          actionType: "copy_totp",
+          successMessage: t("clipboard.totpCopied"),
+        })
       }
     } catch (error) {
-      toast.error(t("passwords.totpCodeFailed"))
-    } finally {
-      setIsCopying(false)
+      toast.error(t("clipboard.copyFailed"))
     }
   }
 
@@ -173,7 +176,7 @@ function TotpCell({ passwordId }: { passwordId: string }) {
       <Button
         variant="ghost"
         size="icon"
-        className="h-6 w-6"
+        className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
         onClick={handleCopyTotp}
         disabled={isCopying}
         title={t("passwords.copyTotpCode")}
@@ -199,6 +202,7 @@ export function PasswordsTable({
   const utils = trpc.useUtils()
   const { hasPermission } = usePermissions()
   const [searchQuery, setSearchQuery] = React.useState(searchParams.get("search") || "")
+  const { copy: copyToClipboard, isCopying: isCopyingClipboard } = useClipboard()
   const [copyingPasswordId, setCopyingPasswordId] = React.useState<string | null>(null)
   const [copyingTotpId, setCopyingTotpId] = React.useState<string | null>(null)
   const [togglingFavoriteId, setTogglingFavoriteId] = React.useState<string | null>(null)
@@ -274,11 +278,15 @@ export function PasswordsTable({
       setCopyingPasswordId(passwordId)
       const result = await utils.passwords.getPassword.fetch({ id: passwordId })
       if (result?.password) {
-        await navigator.clipboard.writeText(result.password)
-        toast.success(t("passwords.passwordCopied"))
+        await copyToClipboard(result.password, {
+          resourceId: passwordId,
+          resourceType: "password",
+          actionType: "copy_password",
+          successMessage: t("clipboard.passwordCopied"),
+        })
       }
     } catch (error) {
-      toast.error(t("passwords.passwordCopyFailed"))
+      toast.error(t("clipboard.copyFailed"))
     } finally {
       setCopyingPasswordId(null)
     }
@@ -289,11 +297,15 @@ export function PasswordsTable({
       setCopyingTotpId(passwordId)
       const result = await utils.passwords.generateTotp.fetch({ id: passwordId })
       if (result?.totpCode) {
-        await navigator.clipboard.writeText(result.totpCode)
-        toast.success(t("passwords.totpCodeCopied"))
+        await copyToClipboard(result.totpCode, {
+          resourceId: passwordId,
+          resourceType: "password",
+          actionType: "copy_totp",
+          successMessage: t("clipboard.totpCopied"),
+        })
       }
     } catch (error) {
-      toast.error(t("passwords.totpCodeFailed"))
+      toast.error(t("clipboard.copyFailed"))
     } finally {
       setCopyingTotpId(null)
     }
@@ -418,7 +430,7 @@ export function PasswordsTable({
               variant="outline"
               size="sm"
               onClick={() => setIsAdvancedSearchOpen(true)}
-              className="gap-2"
+              className="gap-2 h-9"
             >
               <Search className="h-4 w-4" />
               {t("passwords.search.advanced")}
@@ -509,14 +521,12 @@ export function PasswordsTable({
             </Button>
           </div>
         )}
-        <div className="text-xs text-muted-foreground mt-2">
-          {t("passwords.search.hint")}
-        </div>
       </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
+      <CardContent className="px-6">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-b">
               {onSelectionChange && (
                 <TableHead className="w-12">
                   <Checkbox
@@ -526,20 +536,22 @@ export function PasswordsTable({
                   />
                 </TableHead>
               )}
-              <TableHead>{t("common.name")}</TableHead>
-              <TableHead>{t("passwords.username")}</TableHead>
-              <TableHead>{t("common.password")}</TableHead>
-              <TableHead>{t("passwords.folder")}</TableHead>
-              <TableHead>{t("passwords.strength")}</TableHead>
-              <TableHead>TOTP</TableHead>
-              <TableHead>{t("passwords.shared")}</TableHead>
-              <TableHead>{t("passwords.expiresAt")}</TableHead>
-              <TableHead className="text-right">{t("common.actions")}</TableHead>
+              <TableHead className="min-w-[280px] font-semibold">{t("common.name")}</TableHead>
+              <TableHead className="min-w-[180px] font-semibold">{t("passwords.username")}</TableHead>
+              <TableHead className="min-w-[140px] font-semibold">{t("common.password")}</TableHead>
+              <TableHead className="min-w-[100px] font-semibold">{t("passwords.strength")}</TableHead>
+              <TableHead className="min-w-[100px] font-semibold">TOTP</TableHead>
+              <TableHead className="w-[100px] text-right font-semibold">{t("common.actions")}</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {passwords.map((pwd) => (
-              <TableRow key={pwd.id} className={selectedIds.includes(pwd.id) ? "bg-muted/50" : ""}>
+            <TableBody>
+              {passwords.map((pwd) => (
+                <TableRow
+                  key={pwd.id}
+                  className={`group hover:bg-muted/50 transition-colors ${
+                    selectedIds.includes(pwd.id) ? "bg-muted/50" : ""
+                  }`}
+                >
                 {onSelectionChange && (
                   <TableCell>
                     <Checkbox
@@ -550,46 +562,84 @@ export function PasswordsTable({
                   </TableCell>
                 )}
                 <TableCell>
-                  <div className="flex items-center gap-2">
-                    <FolderKey className="h-4 w-4 text-muted-foreground" />
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
+                  <div className="flex items-start gap-3">
+                    <FolderKey className="h-4 w-4 text-muted-foreground mt-0.5 shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
                         {pwd.isFavorite && (
                           <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 shrink-0" />
                         )}
-                        <div className="font-medium">{pwd.name}</div>
+                        <span className="font-medium text-sm">{pwd.name}</span>
+                        {pwd.shared && (
+                          <Badge variant="outline" className="text-xs flex items-center gap-1">
+                            <Share2 className="h-3 w-3 text-blue-600" />
+                            {Array.isArray(pwd.sharedWith) ? pwd.sharedWith.length : 0}
+                          </Badge>
+                        )}
                         {(() => {
                           const reminder = getPasswordReminder(pwd.id)
                           if (reminder) {
                             if (reminder.daysUntilRotation <= 0) {
                               return (
-                                <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 flex items-center gap-1">
+                                <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 text-xs flex items-center gap-1">
                                   <RotateCw className="h-3 w-3" />
                                   {t("passwords.rotation.rotationDue")}
                                 </Badge>
                               )
                             } else if (reminder.daysUntilRotation <= 30) {
                               return (
-                                <Badge variant="outline" className="text-yellow-600 flex items-center gap-1">
+                                <Badge variant="outline" className="text-yellow-600 text-xs flex items-center gap-1">
                                   <AlertCircle className="h-3 w-3" />
-                                  {reminder.daysUntilRotation} {t("passwords.rotation.days")}
+                                  {reminder.daysUntilRotation}d
                                 </Badge>
                               )
                             }
+                          }
+                          if (pwd.expiresIn !== null && pwd.expiresIn <= 30) {
+                            return getExpiryBadge(pwd.expiresIn)
                           }
                           return null
                         })()}
                       </div>
                       {pwd.url && (
-                        <div className="text-xs text-muted-foreground truncate max-w-[200px]">
+                        <a
+                          href={pwd.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-blue-600 hover:text-blue-700 hover:underline truncate mt-1 max-w-full inline-block dark:text-blue-400"
+                          onClick={(e) => e.stopPropagation()}
+                        >
                           {pwd.url}
-                        </div>
+                        </a>
                       )}
                     </div>
                   </div>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm">{pwd.username}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-mono text-muted-foreground flex-1 min-w-0 truncate">
+                      {pwd.username}
+                    </span>
+                    {hasPermission("password.view") && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() =>
+                          copyToClipboard(pwd.username, {
+                            resourceId: pwd.id,
+                            resourceType: "password",
+                            actionType: "copy_username",
+                            successMessage: t("clipboard.usernameCopied"),
+                          })
+                        }
+                        disabled={isCopyingClipboard}
+                        title={t("clipboard.copyUsername")}
+                      >
+                        <Copy className="h-3.5 w-3.5" />
+                      </Button>
+                    )}
+                  </div>
                 </TableCell>
                 <TableCell>
                   {hasPermission("password.view") ? (
@@ -599,40 +649,8 @@ export function PasswordsTable({
                   )}
                 </TableCell>
                 <TableCell>
-                  <div className="flex flex-col gap-1">
-                    {pwd.folder ? (
-                      <Badge variant="outline">{pwd.folder}</Badge>
-                    ) : (
-                      <span className="text-xs text-muted-foreground">-</span>
-                    )}
-                    {pwd.tags && pwd.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mt-1">
-                        {pwd.tags.slice(0, 3).map((tag) => (
-                          <Badge
-                            key={tag.id}
-                            variant="secondary"
-                            className="text-xs flex items-center gap-1"
-                          >
-                            {tag.color && (
-                              <span
-                                className="w-2 h-2 rounded-full"
-                                style={{ backgroundColor: tag.color }}
-                              />
-                            )}
-                            {tag.icon && <span className="text-xs">{tag.icon}</span>}
-                            <span>{tag.name}</span>
-                          </Badge>
-                        ))}
-                        {pwd.tags.length > 3 && (
-                          <Badge variant="secondary" className="text-xs">
-                            +{pwd.tags.length - 3}
-                          </Badge>
-                        )}
-                      </div>
-                    )}
-                  </div>
+                  {getStrengthBadge(pwd.strength)}
                 </TableCell>
-                <TableCell>{getStrengthBadge(pwd.strength)}</TableCell>
                 <TableCell>
                   {hasPermission("password.view") ? (
                     pwd.hasTotp ? (
@@ -644,25 +662,14 @@ export function PasswordsTable({
                     <span className="text-xs text-muted-foreground">-</span>
                   )}
                 </TableCell>
-                <TableCell>
-                  {pwd.shared ? (
-                    <div className="flex items-center gap-1">
-                      <Share2 className="h-4 w-4 text-blue-600" />
-                      <span className="text-xs text-muted-foreground">
-                        {t("passwords.sharedWithTeams", { count: pwd.sharedWith.length })}
-                      </span>
-                    </div>
-                  ) : (
-                    <span className="text-xs text-muted-foreground">{t("passwords.private")}</span>
-                  )}
-                </TableCell>
-                <TableCell>
-                  {pwd.expiresIn !== null ? getExpiryBadge(pwd.expiresIn) : <span className="text-xs text-muted-foreground">-</span>}
-                </TableCell>
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
@@ -735,9 +742,10 @@ export function PasswordsTable({
                   </DropdownMenu>
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </CardContent>
 
       <AdvancedSearchDialog
