@@ -9,6 +9,7 @@ import { Logo } from "@/components/shared/logo"
 import { cn } from "@/lib/utils"
 import { getUserData } from "./actions"
 import { OnboardingProvider } from "@/modules/onboarding/client"
+import { CommandPaletteProvider } from "@/modules/quick-actions/client"
 
 export function AdminLayoutClient({
   children,
@@ -47,44 +48,46 @@ export function AdminLayoutClient({
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
-      {/* Desktop Sidebar */}
-      <aside
-        className={cn(
-          "hidden border-r bg-card lg:block transition-all duration-300 ease-in-out",
-          isCollapsed ? "w-16" : "w-64"
-        )}
-      >
-        <AppSidebar user={user} isCollapsed={isCollapsed} onToggleCollapse={toggleCollapse} />
-      </aside>
+    <CommandPaletteProvider>
+      <div className="flex h-screen overflow-hidden bg-background">
+        {/* Desktop Sidebar */}
+        <aside
+          className={cn(
+            "hidden border-r bg-card lg:block transition-all duration-300 ease-in-out",
+            isCollapsed ? "w-16" : "w-64"
+          )}
+        >
+          <AppSidebar user={user} isCollapsed={isCollapsed} onToggleCollapse={toggleCollapse} />
+        </aside>
 
-      {/* Main Content */}
-      <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Mobile Header */}
-        <header className="flex h-16 items-center justify-between border-b px-4 lg:hidden">
-          <div className="flex items-center gap-2">
-            <Logo className="h-8 w-8" />
-            <span className="text-xl font-bold">PassStorage</span>
-          </div>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-64 p-0">
-              <AppSidebar user={user} isCollapsed={false} onToggleCollapse={() => {}} />
-            </SheetContent>
-          </Sheet>
-        </header>
+        {/* Main Content */}
+        <div className="flex flex-1 flex-col overflow-hidden">
+          {/* Mobile Header */}
+          <header className="flex h-16 items-center justify-between border-b px-4 lg:hidden">
+            <div className="flex items-center gap-2">
+              <Logo className="h-8 w-8" />
+              <span className="text-xl font-bold">PassStorage</span>
+            </div>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-64 p-0">
+                <AppSidebar user={user} isCollapsed={false} onToggleCollapse={() => {}} />
+              </SheetContent>
+            </Sheet>
+          </header>
 
-        {/* Page Content */}
-        <main className="flex-1 overflow-y-auto overflow-x-hidden">
-          <OnboardingProvider>
-            {children}
-          </OnboardingProvider>
-        </main>
+          {/* Page Content */}
+          <main className="flex-1 overflow-y-auto overflow-x-hidden">
+            <OnboardingProvider>
+              {children}
+            </OnboardingProvider>
+          </main>
+        </div>
       </div>
-    </div>
+    </CommandPaletteProvider>
   )
 }

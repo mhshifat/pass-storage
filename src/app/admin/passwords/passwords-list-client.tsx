@@ -138,6 +138,22 @@ export function PasswordsListClient({ passwords, pagination }: PasswordsListClie
   // Use a key to reset the dialog component when needed
   const [editKey, setEditKey] = useState(0)
 
+  // Listen for command palette events to open password details
+  useEffect(() => {
+    const handleOpenPasswordDetails = (event: CustomEvent<{ passwordId: string }>) => {
+      const password = passwords.find((p) => p.id === event.detail.passwordId)
+      if (password) {
+        setSelectedPassword(password)
+        setIsViewDialogOpen(true)
+      }
+    }
+
+    window.addEventListener("openPasswordDetails", handleOpenPasswordDetails as EventListener)
+    return () => {
+      window.removeEventListener("openPasswordDetails", handleOpenPasswordDetails as EventListener)
+    }
+  }, [passwords])
+
   // Fetch password details for editing
   const { data: passwordData, isLoading: isLoadingPasswordData } = trpc.passwords.getById.useQuery(
     { id: passwordToEdit?.id || "" },

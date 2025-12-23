@@ -11,6 +11,7 @@ import { dashboardRouter } from "@/modules/dashboard/server/procedures"
 import { auditLogsRouter } from "@/modules/audit-logs/server/procedures"
 import { reportsRouter } from "@/modules/reports/server/procedures"
 import { insightsRouter } from "@/modules/insights/server/procedures"
+import { quickActionsRouter } from "@/modules/quick-actions/server/procedures"
 
 export const appRouter = createTRPCRouter({
   auth: authRouter,
@@ -25,6 +26,7 @@ export const appRouter = createTRPCRouter({
   auditLogs: auditLogsRouter,
   reports: reportsRouter,
   insights: insightsRouter,
+  quickActions: quickActionsRouter,
 });
 // export type definition of API
 export type AppRouter = typeof appRouter;

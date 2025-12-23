@@ -5,6 +5,8 @@ import { SidebarHeader } from "./sidebar-header"
 import { SidebarNavigation } from "./sidebar-navigation"
 import { SidebarUserProfile } from "./sidebar-user-profile"
 import { SidebarLanguageSelector } from "./sidebar-language-selector"
+import { CommandPaletteTrigger } from "@/modules/quick-actions/client"
+import { cn } from "@/lib/utils"
 
 interface User {
   id: string
@@ -24,6 +26,24 @@ export function AppSidebar({ user, isCollapsed, onToggleCollapse }: AppSidebarPr
   return (
     <div className="flex h-full flex-col">
       <SidebarHeader isCollapsed={isCollapsed} onToggleCollapse={onToggleCollapse} />
+      {/* Command Search Indicator */}
+      <div className={cn(
+        "border-b shrink-0",
+        isCollapsed ? "px-2 py-3" : "px-3 py-3"
+      )}>
+        {isCollapsed ? (
+          <CommandPaletteTrigger 
+            size="icon" 
+            variant="ghost"
+            className="w-full"
+          />
+        ) : (
+          <CommandPaletteTrigger 
+            size="sm" 
+            variant="outline"
+          />
+        )}
+      </div>
       <SidebarNavigation isCollapsed={isCollapsed} />
       <div className="mt-auto">
         <SidebarLanguageSelector isCollapsed={isCollapsed} />

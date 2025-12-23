@@ -2128,6 +2128,41 @@
       },
       "noData": "No data available for the selected period"
     }
+  },
+  "quickActions": {
+    "title": "Command Palette",
+    "description": "Quickly navigate, search, and perform actions",
+    "searchPlaceholder": "Search...",
+    "noResults": "No results found",
+    "searchResults": "Search Results",
+    "recentPasswords": "Recent Passwords",
+    "actions": {
+      "title": "Actions",
+      "createPassword": "Create Password"
+    },
+    "navigate": {
+      "title": "Navigation",
+      "dashboard": "Dashboard",
+      "passwords": "Passwords",
+      "users": "Users",
+      "teams": "Teams",
+      "roles": "Roles",
+      "auditLogs": "Audit Logs",
+      "reports": "Reports",
+      "insights": "Insights & Analytics",
+      "settings": "Settings"
+    },
+    "shortcuts": {
+      "title": "Keyboard Shortcuts",
+      "description": "Available keyboard shortcuts for quick actions",
+      "keys": "Keys",
+      "description": "Description",
+      "categories": {
+        "general": "General",
+        "actions": "Actions",
+        "navigation": "Navigation"
+      }
+    }
   }
 }
 
