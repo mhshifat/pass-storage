@@ -10,7 +10,17 @@ import { useTranslation } from "react-i18next"
 
 export function LoginForm() {
   const { t } = useTranslation()
-  const [state, formAction, isPending] = useActionState(loginAction, null)
+  const [state, formAction, isPending] = useActionState(loginAction, null);
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const url = new URL(origin);
+  const parts = url.hostname.split(".");
+  if (parts.length > 2) {
+    url.hostname = parts.slice(-2).join(".");
+  }
+  if ((origin.includes("localhost") && parts.length > 1)) {
+    url.hostname = parts.slice(-1).join(".");
+  }
+  const domain = url.toString();
 
   return (
     <>
@@ -23,7 +33,7 @@ export function LoginForm() {
         </Button>
         <div className="text-sm text-center text-muted-foreground">
           {t("auth.dontHaveAccount")}{" "}
-          <Link href="/register" className="text-primary hover:underline font-medium">
+          <Link href={`${domain}register`} className="text-primary hover:underline font-medium">
             {t("auth.register")}
           </Link>
         </div>
