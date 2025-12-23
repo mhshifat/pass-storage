@@ -13,6 +13,7 @@ import {
   ChevronRight,
   BoxesIcon,
   FileText,
+  BarChart3,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -83,6 +84,12 @@ const navigationStructure = [
     href: "/admin/reports",
     icon: FileText,
     permission: "report.view",
+  },
+  {
+    nameKey: "insights.title",
+    href: "/admin/insights",
+    icon: BarChart3,
+    permission: "password.view", // Basic permission to view insights
   },
   {
     nameKey: "settings.title",

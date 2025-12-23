@@ -2014,6 +2014,120 @@
         "actions": "Actions"
       }
     }
+  },
+  "insights": {
+    "title": "Insights & Analytics",
+    "description": "Comprehensive analytics and insights into your password management system",
+    "tabs": {
+      "overview": "Overview",
+      "health": "Password Health",
+      "security": "Security Posture",
+      "engagement": "User Engagement",
+      "collaboration": "Team Collaboration",
+      "trends": "Trend Analysis"
+    },
+    "passwordHealth": {
+      "title": "Password Health Score",
+      "description": "Overall health assessment of your password vault",
+      "overallScore": "Overall Health Score",
+      "totalPasswords": "Total Passwords",
+      "weakPasswords": "Weak Passwords",
+      "breachedPasswords": "Breached Passwords",
+      "breached": "Breached",
+      "expiredPasswords": "Expired Passwords",
+      "strengthDistribution": "Password Strength Distribution",
+      "securityFeatures": "Security Features",
+      "strong": "Strong",
+      "medium": "Medium",
+      "weak": "Weak",
+      "withMFA": "With MFA",
+      "withoutRotation": "Without Rotation",
+      "status": {
+        "excellent": "Excellent - Your passwords are in great shape!",
+        "good": "Good - Minor improvements recommended",
+        "fair": "Fair - Some security improvements needed",
+        "poor": "Poor - Immediate action required"
+      }
+    },
+    "securityPosture": {
+      "title": "Security Posture",
+      "description": "Overall security health of your organization",
+      "overallScore": "Security Score",
+      "userSecurity": "User Security",
+      "authentication": "Authentication",
+      "threats": "Threat Management",
+      "breaches": "Password Breaches",
+      "totalUsers": "Total Users",
+      "usersWithMFA": "Users with MFA",
+      "activeUsers": "Active Users",
+      "successfulLogins": "Successful Logins",
+      "failedLogins": "Failed Logins",
+      "failureRate": "Failure Rate: {{rate}}%",
+      "totalThreats": "Total Threats",
+      "resolvedThreats": "Resolved Threats",
+      "unresolvedThreats": "Unresolved Threats",
+      "resolutionRate": "Resolution Rate: {{rate}}%",
+      "totalBreaches": "Total Breaches",
+      "resolvedBreaches": "Resolved Breaches",
+      "suspiciousIPs": "Suspicious IPs",
+      "status": {
+        "excellent": "Excellent - Strong security posture",
+        "good": "Good - Security is well maintained",
+        "fair": "Fair - Some security improvements needed",
+        "poor": "Poor - Immediate security review required"
+      }
+    },
+    "userEngagement": {
+      "title": "User Engagement Analytics",
+      "description": "Track user activity and engagement patterns",
+      "totalUsers": "Total Users",
+      "activeUsers": "Active Users",
+      "dailyActiveUsers": "Daily Active Users",
+      "weeklyActiveUsers": "Weekly Active Users",
+      "engagementRate": "Engagement Rate",
+      "logins": "Logins",
+      "passwordActions": "Password Actions",
+      "reportActions": "Report Actions",
+      "teamActions": "Team Actions",
+      "activityByDay": "Activity by Day",
+      "activityByHour": "Activity by Hour",
+      "mostActiveUsers": "Most Active Users",
+      "actions": "actions"
+    },
+    "teamCollaboration": {
+      "title": "Team Collaboration Insights",
+      "description": "Track team sharing and collaboration patterns",
+      "totalTeams": "Total Teams",
+      "activeTeams": "Active Teams",
+      "totalShares": "Total Shares",
+      "sharedPasswords": "Shared Passwords",
+      "teamMembers": "Team Members",
+      "collaborationRate": "Collaboration Rate",
+      "avgMembersPerTeam": "Avg Members/Team",
+      "sharesByTeam": "Shares by Team",
+      "topCollaborators": "Top Collaborators",
+      "shares": "shares"
+    },
+    "trends": {
+      "title": "Trend Analysis",
+      "description": "Analyze trends over time for key metrics",
+      "metric": "Metric",
+      "period": "Period",
+      "metrics": {
+        "passwords": "Passwords",
+        "users": "Users",
+        "logins": "Logins",
+        "securityEvents": "Security Events",
+        "collaboration": "Collaboration"
+      },
+      "periods": {
+        "7d": "Last 7 Days",
+        "30d": "Last 30 Days",
+        "90d": "Last 90 Days",
+        "1y": "Last Year"
+      },
+      "noData": "No data available for the selected period"
+    }
   }
 }
 

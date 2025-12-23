@@ -10,6 +10,7 @@ import { passwordRotationRouter } from "@/modules/passwords/server/rotation-proc
 import { dashboardRouter } from "@/modules/dashboard/server/procedures"
 import { auditLogsRouter } from "@/modules/audit-logs/server/procedures"
 import { reportsRouter } from "@/modules/reports/server/procedures"
+import { insightsRouter } from "@/modules/insights/server/procedures"
 
 export const appRouter = createTRPCRouter({
   auth: authRouter,
@@ -23,6 +24,7 @@ export const appRouter = createTRPCRouter({
   dashboard: dashboardRouter,
   auditLogs: auditLogsRouter,
   reports: reportsRouter,
+  insights: insightsRouter,
 });
 // export type definition of API
 export type AppRouter = typeof appRouter;
