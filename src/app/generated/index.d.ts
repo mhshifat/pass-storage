@@ -94,6 +94,16 @@ export type PasswordTag = $Result.DefaultSelection<Prisma.$PasswordTagPayload>
  */
 export type AuditLog = $Result.DefaultSelection<Prisma.$AuditLogPayload>
 /**
+ * Model AuditLogArchive
+ * 
+ */
+export type AuditLogArchive = $Result.DefaultSelection<Prisma.$AuditLogArchivePayload>
+/**
+ * Model AuditLogSearch
+ * 
+ */
+export type AuditLogSearch = $Result.DefaultSelection<Prisma.$AuditLogSearchPayload>
+/**
  * Model Settings
  * 
  */
@@ -598,6 +608,26 @@ export class PrismaClient<
     * ```
     */
   get auditLog(): Prisma.AuditLogDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.auditLogArchive`: Exposes CRUD operations for the **AuditLogArchive** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AuditLogArchives
+    * const auditLogArchives = await prisma.auditLogArchive.findMany()
+    * ```
+    */
+  get auditLogArchive(): Prisma.AuditLogArchiveDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.auditLogSearch`: Exposes CRUD operations for the **AuditLogSearch** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AuditLogSearches
+    * const auditLogSearches = await prisma.auditLogSearch.findMany()
+    * ```
+    */
+  get auditLogSearch(): Prisma.AuditLogSearchDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.settings`: Exposes CRUD operations for the **Settings** model.
@@ -1248,6 +1278,8 @@ export namespace Prisma {
     Tag: 'Tag',
     PasswordTag: 'PasswordTag',
     AuditLog: 'AuditLog',
+    AuditLogArchive: 'AuditLogArchive',
+    AuditLogSearch: 'AuditLogSearch',
     Settings: 'Settings',
     ThreatEvent: 'ThreatEvent',
     RateLimit: 'RateLimit',
@@ -1283,7 +1315,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "passwordRotationPolicy" | "passwordRotation" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "settings" | "threatEvent" | "rateLimit" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode" | "savedSearch" | "searchHistory" | "passwordTemplate" | "emailVerificationToken" | "passwordResetToken" | "securityQuestion" | "ipWhitelist" | "geographicRestriction" | "passwordPolicy" | "dataRetentionPolicy" | "dataExport" | "dataDeletionRequest"
+      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "passwordRotationPolicy" | "passwordRotation" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "auditLogArchive" | "auditLogSearch" | "settings" | "threatEvent" | "rateLimit" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode" | "savedSearch" | "searchHistory" | "passwordTemplate" | "emailVerificationToken" | "passwordResetToken" | "securityQuestion" | "ipWhitelist" | "geographicRestriction" | "passwordPolicy" | "dataRetentionPolicy" | "dataExport" | "dataDeletionRequest"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2468,6 +2500,154 @@ export namespace Prisma {
           count: {
             args: Prisma.AuditLogCountArgs<ExtArgs>
             result: $Utils.Optional<AuditLogCountAggregateOutputType> | number
+          }
+        }
+      }
+      AuditLogArchive: {
+        payload: Prisma.$AuditLogArchivePayload<ExtArgs>
+        fields: Prisma.AuditLogArchiveFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AuditLogArchiveFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogArchivePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AuditLogArchiveFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogArchivePayload>
+          }
+          findFirst: {
+            args: Prisma.AuditLogArchiveFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogArchivePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AuditLogArchiveFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogArchivePayload>
+          }
+          findMany: {
+            args: Prisma.AuditLogArchiveFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogArchivePayload>[]
+          }
+          create: {
+            args: Prisma.AuditLogArchiveCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogArchivePayload>
+          }
+          createMany: {
+            args: Prisma.AuditLogArchiveCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AuditLogArchiveCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogArchivePayload>[]
+          }
+          delete: {
+            args: Prisma.AuditLogArchiveDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogArchivePayload>
+          }
+          update: {
+            args: Prisma.AuditLogArchiveUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogArchivePayload>
+          }
+          deleteMany: {
+            args: Prisma.AuditLogArchiveDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AuditLogArchiveUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AuditLogArchiveUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogArchivePayload>[]
+          }
+          upsert: {
+            args: Prisma.AuditLogArchiveUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogArchivePayload>
+          }
+          aggregate: {
+            args: Prisma.AuditLogArchiveAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAuditLogArchive>
+          }
+          groupBy: {
+            args: Prisma.AuditLogArchiveGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AuditLogArchiveGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AuditLogArchiveCountArgs<ExtArgs>
+            result: $Utils.Optional<AuditLogArchiveCountAggregateOutputType> | number
+          }
+        }
+      }
+      AuditLogSearch: {
+        payload: Prisma.$AuditLogSearchPayload<ExtArgs>
+        fields: Prisma.AuditLogSearchFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AuditLogSearchFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogSearchPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AuditLogSearchFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogSearchPayload>
+          }
+          findFirst: {
+            args: Prisma.AuditLogSearchFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogSearchPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AuditLogSearchFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogSearchPayload>
+          }
+          findMany: {
+            args: Prisma.AuditLogSearchFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogSearchPayload>[]
+          }
+          create: {
+            args: Prisma.AuditLogSearchCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogSearchPayload>
+          }
+          createMany: {
+            args: Prisma.AuditLogSearchCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AuditLogSearchCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogSearchPayload>[]
+          }
+          delete: {
+            args: Prisma.AuditLogSearchDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogSearchPayload>
+          }
+          update: {
+            args: Prisma.AuditLogSearchUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogSearchPayload>
+          }
+          deleteMany: {
+            args: Prisma.AuditLogSearchDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AuditLogSearchUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AuditLogSearchUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogSearchPayload>[]
+          }
+          upsert: {
+            args: Prisma.AuditLogSearchUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AuditLogSearchPayload>
+          }
+          aggregate: {
+            args: Prisma.AuditLogSearchAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAuditLogSearch>
+          }
+          groupBy: {
+            args: Prisma.AuditLogSearchGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AuditLogSearchGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AuditLogSearchCountArgs<ExtArgs>
+            result: $Utils.Optional<AuditLogSearchCountAggregateOutputType> | number
           }
         }
       }
@@ -4059,6 +4239,8 @@ export namespace Prisma {
     tag?: TagOmit
     passwordTag?: PasswordTagOmit
     auditLog?: AuditLogOmit
+    auditLogArchive?: AuditLogArchiveOmit
+    auditLogSearch?: AuditLogSearchOmit
     settings?: SettingsOmit
     threatEvent?: ThreatEventOmit
     rateLimit?: RateLimitOmit
@@ -4167,6 +4349,8 @@ export namespace Prisma {
     rateLimits: number
     dataExports: number
     dataDeletionRequests: number
+    auditLogArchives: number
+    auditLogSearches: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4178,6 +4362,8 @@ export namespace Prisma {
     rateLimits?: boolean | CompanyCountOutputTypeCountRateLimitsArgs
     dataExports?: boolean | CompanyCountOutputTypeCountDataExportsArgs
     dataDeletionRequests?: boolean | CompanyCountOutputTypeCountDataDeletionRequestsArgs
+    auditLogArchives?: boolean | CompanyCountOutputTypeCountAuditLogArchivesArgs
+    auditLogSearches?: boolean | CompanyCountOutputTypeCountAuditLogSearchesArgs
   }
 
   // Custom InputTypes
@@ -4247,6 +4433,20 @@ export namespace Prisma {
     where?: DataDeletionRequestWhereInput
   }
 
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountAuditLogArchivesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuditLogArchiveWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountAuditLogSearchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuditLogSearchWhereInput
+  }
+
 
   /**
    * Count Type UserCountOutputType
@@ -4275,6 +4475,8 @@ export namespace Prisma {
     dataExports: number
     dataDeletionRequests: number
     processedDeletions: number
+    auditLogArchives: number
+    auditLogSearches: number
     emailVerificationTokens: number
     passwordResetTokens: number
     securityQuestions: number
@@ -4307,6 +4509,8 @@ export namespace Prisma {
     dataExports?: boolean | UserCountOutputTypeCountDataExportsArgs
     dataDeletionRequests?: boolean | UserCountOutputTypeCountDataDeletionRequestsArgs
     processedDeletions?: boolean | UserCountOutputTypeCountProcessedDeletionsArgs
+    auditLogArchives?: boolean | UserCountOutputTypeCountAuditLogArchivesArgs
+    auditLogSearches?: boolean | UserCountOutputTypeCountAuditLogSearchesArgs
     emailVerificationTokens?: boolean | UserCountOutputTypeCountEmailVerificationTokensArgs
     passwordResetTokens?: boolean | UserCountOutputTypeCountPasswordResetTokensArgs
     securityQuestions?: boolean | UserCountOutputTypeCountSecurityQuestionsArgs
@@ -4479,6 +4683,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountProcessedDeletionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DataDeletionRequestWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAuditLogArchivesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuditLogArchiveWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAuditLogSearchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuditLogSearchWhereInput
   }
 
   /**
@@ -4989,6 +5207,8 @@ export namespace Prisma {
     dataRetentionPolicy?: boolean | Company$dataRetentionPolicyArgs<ExtArgs>
     dataExports?: boolean | Company$dataExportsArgs<ExtArgs>
     dataDeletionRequests?: boolean | Company$dataDeletionRequestsArgs<ExtArgs>
+    auditLogArchives?: boolean | Company$auditLogArchivesArgs<ExtArgs>
+    auditLogSearches?: boolean | Company$auditLogSearchesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -5028,6 +5248,8 @@ export namespace Prisma {
     dataRetentionPolicy?: boolean | Company$dataRetentionPolicyArgs<ExtArgs>
     dataExports?: boolean | Company$dataExportsArgs<ExtArgs>
     dataDeletionRequests?: boolean | Company$dataDeletionRequestsArgs<ExtArgs>
+    auditLogArchives?: boolean | Company$auditLogArchivesArgs<ExtArgs>
+    auditLogSearches?: boolean | Company$auditLogSearchesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5046,6 +5268,8 @@ export namespace Prisma {
       dataRetentionPolicy: Prisma.$DataRetentionPolicyPayload<ExtArgs> | null
       dataExports: Prisma.$DataExportPayload<ExtArgs>[]
       dataDeletionRequests: Prisma.$DataDeletionRequestPayload<ExtArgs>[]
+      auditLogArchives: Prisma.$AuditLogArchivePayload<ExtArgs>[]
+      auditLogSearches: Prisma.$AuditLogSearchPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5457,6 +5681,8 @@ export namespace Prisma {
     dataRetentionPolicy<T extends Company$dataRetentionPolicyArgs<ExtArgs> = {}>(args?: Subset<T, Company$dataRetentionPolicyArgs<ExtArgs>>): Prisma__DataRetentionPolicyClient<$Result.GetResult<Prisma.$DataRetentionPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     dataExports<T extends Company$dataExportsArgs<ExtArgs> = {}>(args?: Subset<T, Company$dataExportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     dataDeletionRequests<T extends Company$dataDeletionRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Company$dataDeletionRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    auditLogArchives<T extends Company$auditLogArchivesArgs<ExtArgs> = {}>(args?: Subset<T, Company$auditLogArchivesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogArchivePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    auditLogSearches<T extends Company$auditLogSearchesArgs<ExtArgs> = {}>(args?: Subset<T, Company$auditLogSearchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogSearchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6109,6 +6335,54 @@ export namespace Prisma {
   }
 
   /**
+   * Company.auditLogArchives
+   */
+  export type Company$auditLogArchivesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogArchive
+     */
+    select?: AuditLogArchiveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogArchive
+     */
+    omit?: AuditLogArchiveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogArchiveInclude<ExtArgs> | null
+    where?: AuditLogArchiveWhereInput
+    orderBy?: AuditLogArchiveOrderByWithRelationInput | AuditLogArchiveOrderByWithRelationInput[]
+    cursor?: AuditLogArchiveWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AuditLogArchiveScalarFieldEnum | AuditLogArchiveScalarFieldEnum[]
+  }
+
+  /**
+   * Company.auditLogSearches
+   */
+  export type Company$auditLogSearchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogSearch
+     */
+    select?: AuditLogSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogSearch
+     */
+    omit?: AuditLogSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogSearchInclude<ExtArgs> | null
+    where?: AuditLogSearchWhereInput
+    orderBy?: AuditLogSearchOrderByWithRelationInput | AuditLogSearchOrderByWithRelationInput[]
+    cursor?: AuditLogSearchWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AuditLogSearchScalarFieldEnum | AuditLogSearchScalarFieldEnum[]
+  }
+
+  /**
    * Company without action
    */
   export type CompanyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6439,6 +6713,8 @@ export namespace Prisma {
     dataExports?: boolean | User$dataExportsArgs<ExtArgs>
     dataDeletionRequests?: boolean | User$dataDeletionRequestsArgs<ExtArgs>
     processedDeletions?: boolean | User$processedDeletionsArgs<ExtArgs>
+    auditLogArchives?: boolean | User$auditLogArchivesArgs<ExtArgs>
+    auditLogSearches?: boolean | User$auditLogSearchesArgs<ExtArgs>
     emailVerificationTokens?: boolean | User$emailVerificationTokensArgs<ExtArgs>
     passwordResetTokens?: boolean | User$passwordResetTokensArgs<ExtArgs>
     securityQuestions?: boolean | User$securityQuestionsArgs<ExtArgs>
@@ -6551,6 +6827,8 @@ export namespace Prisma {
     dataExports?: boolean | User$dataExportsArgs<ExtArgs>
     dataDeletionRequests?: boolean | User$dataDeletionRequestsArgs<ExtArgs>
     processedDeletions?: boolean | User$processedDeletionsArgs<ExtArgs>
+    auditLogArchives?: boolean | User$auditLogArchivesArgs<ExtArgs>
+    auditLogSearches?: boolean | User$auditLogSearchesArgs<ExtArgs>
     emailVerificationTokens?: boolean | User$emailVerificationTokensArgs<ExtArgs>
     passwordResetTokens?: boolean | User$passwordResetTokensArgs<ExtArgs>
     securityQuestions?: boolean | User$securityQuestionsArgs<ExtArgs>
@@ -6596,6 +6874,8 @@ export namespace Prisma {
       dataExports: Prisma.$DataExportPayload<ExtArgs>[]
       dataDeletionRequests: Prisma.$DataDeletionRequestPayload<ExtArgs>[]
       processedDeletions: Prisma.$DataDeletionRequestPayload<ExtArgs>[]
+      auditLogArchives: Prisma.$AuditLogArchivePayload<ExtArgs>[]
+      auditLogSearches: Prisma.$AuditLogSearchPayload<ExtArgs>[]
       emailVerificationTokens: Prisma.$EmailVerificationTokenPayload<ExtArgs>[]
       passwordResetTokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
       securityQuestions: Prisma.$SecurityQuestionPayload<ExtArgs>[]
@@ -7044,6 +7324,8 @@ export namespace Prisma {
     dataExports<T extends User$dataExportsArgs<ExtArgs> = {}>(args?: Subset<T, User$dataExportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     dataDeletionRequests<T extends User$dataDeletionRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$dataDeletionRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     processedDeletions<T extends User$processedDeletionsArgs<ExtArgs> = {}>(args?: Subset<T, User$processedDeletionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    auditLogArchives<T extends User$auditLogArchivesArgs<ExtArgs> = {}>(args?: Subset<T, User$auditLogArchivesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogArchivePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    auditLogSearches<T extends User$auditLogSearchesArgs<ExtArgs> = {}>(args?: Subset<T, User$auditLogSearchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogSearchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     emailVerificationTokens<T extends User$emailVerificationTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$emailVerificationTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailVerificationTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passwordResetTokens<T extends User$passwordResetTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     securityQuestions<T extends User$securityQuestionsArgs<ExtArgs> = {}>(args?: Subset<T, User$securityQuestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SecurityQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -8060,6 +8342,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DataDeletionRequestScalarFieldEnum | DataDeletionRequestScalarFieldEnum[]
+  }
+
+  /**
+   * User.auditLogArchives
+   */
+  export type User$auditLogArchivesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogArchive
+     */
+    select?: AuditLogArchiveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogArchive
+     */
+    omit?: AuditLogArchiveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogArchiveInclude<ExtArgs> | null
+    where?: AuditLogArchiveWhereInput
+    orderBy?: AuditLogArchiveOrderByWithRelationInput | AuditLogArchiveOrderByWithRelationInput[]
+    cursor?: AuditLogArchiveWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AuditLogArchiveScalarFieldEnum | AuditLogArchiveScalarFieldEnum[]
+  }
+
+  /**
+   * User.auditLogSearches
+   */
+  export type User$auditLogSearchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogSearch
+     */
+    select?: AuditLogSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogSearch
+     */
+    omit?: AuditLogSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogSearchInclude<ExtArgs> | null
+    where?: AuditLogSearchWhereInput
+    orderBy?: AuditLogSearchOrderByWithRelationInput | AuditLogSearchOrderByWithRelationInput[]
+    cursor?: AuditLogSearchWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AuditLogSearchScalarFieldEnum | AuditLogSearchScalarFieldEnum[]
   }
 
   /**
@@ -24529,6 +24859,2346 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AuditLogInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AuditLogArchive
+   */
+
+  export type AggregateAuditLogArchive = {
+    _count: AuditLogArchiveCountAggregateOutputType | null
+    _avg: AuditLogArchiveAvgAggregateOutputType | null
+    _sum: AuditLogArchiveSumAggregateOutputType | null
+    _min: AuditLogArchiveMinAggregateOutputType | null
+    _max: AuditLogArchiveMaxAggregateOutputType | null
+  }
+
+  export type AuditLogArchiveAvgAggregateOutputType = {
+    logCount: number | null
+    fileSize: number | null
+  }
+
+  export type AuditLogArchiveSumAggregateOutputType = {
+    logCount: number | null
+    fileSize: number | null
+  }
+
+  export type AuditLogArchiveMinAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    archiveDate: Date | null
+    startDate: Date | null
+    endDate: Date | null
+    logCount: number | null
+    filePath: string | null
+    fileSize: number | null
+    archivedBy: string | null
+    status: string | null
+    createdAt: Date | null
+  }
+
+  export type AuditLogArchiveMaxAggregateOutputType = {
+    id: string | null
+    companyId: string | null
+    archiveDate: Date | null
+    startDate: Date | null
+    endDate: Date | null
+    logCount: number | null
+    filePath: string | null
+    fileSize: number | null
+    archivedBy: string | null
+    status: string | null
+    createdAt: Date | null
+  }
+
+  export type AuditLogArchiveCountAggregateOutputType = {
+    id: number
+    companyId: number
+    archiveDate: number
+    startDate: number
+    endDate: number
+    logCount: number
+    filePath: number
+    fileSize: number
+    archivedBy: number
+    status: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AuditLogArchiveAvgAggregateInputType = {
+    logCount?: true
+    fileSize?: true
+  }
+
+  export type AuditLogArchiveSumAggregateInputType = {
+    logCount?: true
+    fileSize?: true
+  }
+
+  export type AuditLogArchiveMinAggregateInputType = {
+    id?: true
+    companyId?: true
+    archiveDate?: true
+    startDate?: true
+    endDate?: true
+    logCount?: true
+    filePath?: true
+    fileSize?: true
+    archivedBy?: true
+    status?: true
+    createdAt?: true
+  }
+
+  export type AuditLogArchiveMaxAggregateInputType = {
+    id?: true
+    companyId?: true
+    archiveDate?: true
+    startDate?: true
+    endDate?: true
+    logCount?: true
+    filePath?: true
+    fileSize?: true
+    archivedBy?: true
+    status?: true
+    createdAt?: true
+  }
+
+  export type AuditLogArchiveCountAggregateInputType = {
+    id?: true
+    companyId?: true
+    archiveDate?: true
+    startDate?: true
+    endDate?: true
+    logCount?: true
+    filePath?: true
+    fileSize?: true
+    archivedBy?: true
+    status?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AuditLogArchiveAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AuditLogArchive to aggregate.
+     */
+    where?: AuditLogArchiveWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuditLogArchives to fetch.
+     */
+    orderBy?: AuditLogArchiveOrderByWithRelationInput | AuditLogArchiveOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AuditLogArchiveWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuditLogArchives from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuditLogArchives.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AuditLogArchives
+    **/
+    _count?: true | AuditLogArchiveCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AuditLogArchiveAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AuditLogArchiveSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AuditLogArchiveMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AuditLogArchiveMaxAggregateInputType
+  }
+
+  export type GetAuditLogArchiveAggregateType<T extends AuditLogArchiveAggregateArgs> = {
+        [P in keyof T & keyof AggregateAuditLogArchive]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAuditLogArchive[P]>
+      : GetScalarType<T[P], AggregateAuditLogArchive[P]>
+  }
+
+
+
+
+  export type AuditLogArchiveGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuditLogArchiveWhereInput
+    orderBy?: AuditLogArchiveOrderByWithAggregationInput | AuditLogArchiveOrderByWithAggregationInput[]
+    by: AuditLogArchiveScalarFieldEnum[] | AuditLogArchiveScalarFieldEnum
+    having?: AuditLogArchiveScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AuditLogArchiveCountAggregateInputType | true
+    _avg?: AuditLogArchiveAvgAggregateInputType
+    _sum?: AuditLogArchiveSumAggregateInputType
+    _min?: AuditLogArchiveMinAggregateInputType
+    _max?: AuditLogArchiveMaxAggregateInputType
+  }
+
+  export type AuditLogArchiveGroupByOutputType = {
+    id: string
+    companyId: string | null
+    archiveDate: Date
+    startDate: Date
+    endDate: Date
+    logCount: number
+    filePath: string | null
+    fileSize: number | null
+    archivedBy: string | null
+    status: string
+    createdAt: Date
+    _count: AuditLogArchiveCountAggregateOutputType | null
+    _avg: AuditLogArchiveAvgAggregateOutputType | null
+    _sum: AuditLogArchiveSumAggregateOutputType | null
+    _min: AuditLogArchiveMinAggregateOutputType | null
+    _max: AuditLogArchiveMaxAggregateOutputType | null
+  }
+
+  type GetAuditLogArchiveGroupByPayload<T extends AuditLogArchiveGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AuditLogArchiveGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AuditLogArchiveGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AuditLogArchiveGroupByOutputType[P]>
+            : GetScalarType<T[P], AuditLogArchiveGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AuditLogArchiveSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    archiveDate?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    logCount?: boolean
+    filePath?: boolean
+    fileSize?: boolean
+    archivedBy?: boolean
+    status?: boolean
+    createdAt?: boolean
+    company?: boolean | AuditLogArchive$companyArgs<ExtArgs>
+    archiver?: boolean | AuditLogArchive$archiverArgs<ExtArgs>
+  }, ExtArgs["result"]["auditLogArchive"]>
+
+  export type AuditLogArchiveSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    archiveDate?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    logCount?: boolean
+    filePath?: boolean
+    fileSize?: boolean
+    archivedBy?: boolean
+    status?: boolean
+    createdAt?: boolean
+    company?: boolean | AuditLogArchive$companyArgs<ExtArgs>
+    archiver?: boolean | AuditLogArchive$archiverArgs<ExtArgs>
+  }, ExtArgs["result"]["auditLogArchive"]>
+
+  export type AuditLogArchiveSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    companyId?: boolean
+    archiveDate?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    logCount?: boolean
+    filePath?: boolean
+    fileSize?: boolean
+    archivedBy?: boolean
+    status?: boolean
+    createdAt?: boolean
+    company?: boolean | AuditLogArchive$companyArgs<ExtArgs>
+    archiver?: boolean | AuditLogArchive$archiverArgs<ExtArgs>
+  }, ExtArgs["result"]["auditLogArchive"]>
+
+  export type AuditLogArchiveSelectScalar = {
+    id?: boolean
+    companyId?: boolean
+    archiveDate?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    logCount?: boolean
+    filePath?: boolean
+    fileSize?: boolean
+    archivedBy?: boolean
+    status?: boolean
+    createdAt?: boolean
+  }
+
+  export type AuditLogArchiveOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "companyId" | "archiveDate" | "startDate" | "endDate" | "logCount" | "filePath" | "fileSize" | "archivedBy" | "status" | "createdAt", ExtArgs["result"]["auditLogArchive"]>
+  export type AuditLogArchiveInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | AuditLogArchive$companyArgs<ExtArgs>
+    archiver?: boolean | AuditLogArchive$archiverArgs<ExtArgs>
+  }
+  export type AuditLogArchiveIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | AuditLogArchive$companyArgs<ExtArgs>
+    archiver?: boolean | AuditLogArchive$archiverArgs<ExtArgs>
+  }
+  export type AuditLogArchiveIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | AuditLogArchive$companyArgs<ExtArgs>
+    archiver?: boolean | AuditLogArchive$archiverArgs<ExtArgs>
+  }
+
+  export type $AuditLogArchivePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AuditLogArchive"
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs> | null
+      archiver: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      companyId: string | null
+      archiveDate: Date
+      startDate: Date
+      endDate: Date
+      logCount: number
+      filePath: string | null
+      fileSize: number | null
+      archivedBy: string | null
+      status: string
+      createdAt: Date
+    }, ExtArgs["result"]["auditLogArchive"]>
+    composites: {}
+  }
+
+  type AuditLogArchiveGetPayload<S extends boolean | null | undefined | AuditLogArchiveDefaultArgs> = $Result.GetResult<Prisma.$AuditLogArchivePayload, S>
+
+  type AuditLogArchiveCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AuditLogArchiveFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AuditLogArchiveCountAggregateInputType | true
+    }
+
+  export interface AuditLogArchiveDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AuditLogArchive'], meta: { name: 'AuditLogArchive' } }
+    /**
+     * Find zero or one AuditLogArchive that matches the filter.
+     * @param {AuditLogArchiveFindUniqueArgs} args - Arguments to find a AuditLogArchive
+     * @example
+     * // Get one AuditLogArchive
+     * const auditLogArchive = await prisma.auditLogArchive.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AuditLogArchiveFindUniqueArgs>(args: SelectSubset<T, AuditLogArchiveFindUniqueArgs<ExtArgs>>): Prisma__AuditLogArchiveClient<$Result.GetResult<Prisma.$AuditLogArchivePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AuditLogArchive that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AuditLogArchiveFindUniqueOrThrowArgs} args - Arguments to find a AuditLogArchive
+     * @example
+     * // Get one AuditLogArchive
+     * const auditLogArchive = await prisma.auditLogArchive.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AuditLogArchiveFindUniqueOrThrowArgs>(args: SelectSubset<T, AuditLogArchiveFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AuditLogArchiveClient<$Result.GetResult<Prisma.$AuditLogArchivePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AuditLogArchive that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuditLogArchiveFindFirstArgs} args - Arguments to find a AuditLogArchive
+     * @example
+     * // Get one AuditLogArchive
+     * const auditLogArchive = await prisma.auditLogArchive.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AuditLogArchiveFindFirstArgs>(args?: SelectSubset<T, AuditLogArchiveFindFirstArgs<ExtArgs>>): Prisma__AuditLogArchiveClient<$Result.GetResult<Prisma.$AuditLogArchivePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AuditLogArchive that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuditLogArchiveFindFirstOrThrowArgs} args - Arguments to find a AuditLogArchive
+     * @example
+     * // Get one AuditLogArchive
+     * const auditLogArchive = await prisma.auditLogArchive.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AuditLogArchiveFindFirstOrThrowArgs>(args?: SelectSubset<T, AuditLogArchiveFindFirstOrThrowArgs<ExtArgs>>): Prisma__AuditLogArchiveClient<$Result.GetResult<Prisma.$AuditLogArchivePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AuditLogArchives that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuditLogArchiveFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AuditLogArchives
+     * const auditLogArchives = await prisma.auditLogArchive.findMany()
+     * 
+     * // Get first 10 AuditLogArchives
+     * const auditLogArchives = await prisma.auditLogArchive.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const auditLogArchiveWithIdOnly = await prisma.auditLogArchive.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AuditLogArchiveFindManyArgs>(args?: SelectSubset<T, AuditLogArchiveFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogArchivePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AuditLogArchive.
+     * @param {AuditLogArchiveCreateArgs} args - Arguments to create a AuditLogArchive.
+     * @example
+     * // Create one AuditLogArchive
+     * const AuditLogArchive = await prisma.auditLogArchive.create({
+     *   data: {
+     *     // ... data to create a AuditLogArchive
+     *   }
+     * })
+     * 
+     */
+    create<T extends AuditLogArchiveCreateArgs>(args: SelectSubset<T, AuditLogArchiveCreateArgs<ExtArgs>>): Prisma__AuditLogArchiveClient<$Result.GetResult<Prisma.$AuditLogArchivePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AuditLogArchives.
+     * @param {AuditLogArchiveCreateManyArgs} args - Arguments to create many AuditLogArchives.
+     * @example
+     * // Create many AuditLogArchives
+     * const auditLogArchive = await prisma.auditLogArchive.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AuditLogArchiveCreateManyArgs>(args?: SelectSubset<T, AuditLogArchiveCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AuditLogArchives and returns the data saved in the database.
+     * @param {AuditLogArchiveCreateManyAndReturnArgs} args - Arguments to create many AuditLogArchives.
+     * @example
+     * // Create many AuditLogArchives
+     * const auditLogArchive = await prisma.auditLogArchive.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AuditLogArchives and only return the `id`
+     * const auditLogArchiveWithIdOnly = await prisma.auditLogArchive.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AuditLogArchiveCreateManyAndReturnArgs>(args?: SelectSubset<T, AuditLogArchiveCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogArchivePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AuditLogArchive.
+     * @param {AuditLogArchiveDeleteArgs} args - Arguments to delete one AuditLogArchive.
+     * @example
+     * // Delete one AuditLogArchive
+     * const AuditLogArchive = await prisma.auditLogArchive.delete({
+     *   where: {
+     *     // ... filter to delete one AuditLogArchive
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AuditLogArchiveDeleteArgs>(args: SelectSubset<T, AuditLogArchiveDeleteArgs<ExtArgs>>): Prisma__AuditLogArchiveClient<$Result.GetResult<Prisma.$AuditLogArchivePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AuditLogArchive.
+     * @param {AuditLogArchiveUpdateArgs} args - Arguments to update one AuditLogArchive.
+     * @example
+     * // Update one AuditLogArchive
+     * const auditLogArchive = await prisma.auditLogArchive.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AuditLogArchiveUpdateArgs>(args: SelectSubset<T, AuditLogArchiveUpdateArgs<ExtArgs>>): Prisma__AuditLogArchiveClient<$Result.GetResult<Prisma.$AuditLogArchivePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AuditLogArchives.
+     * @param {AuditLogArchiveDeleteManyArgs} args - Arguments to filter AuditLogArchives to delete.
+     * @example
+     * // Delete a few AuditLogArchives
+     * const { count } = await prisma.auditLogArchive.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AuditLogArchiveDeleteManyArgs>(args?: SelectSubset<T, AuditLogArchiveDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AuditLogArchives.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuditLogArchiveUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AuditLogArchives
+     * const auditLogArchive = await prisma.auditLogArchive.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AuditLogArchiveUpdateManyArgs>(args: SelectSubset<T, AuditLogArchiveUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AuditLogArchives and returns the data updated in the database.
+     * @param {AuditLogArchiveUpdateManyAndReturnArgs} args - Arguments to update many AuditLogArchives.
+     * @example
+     * // Update many AuditLogArchives
+     * const auditLogArchive = await prisma.auditLogArchive.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AuditLogArchives and only return the `id`
+     * const auditLogArchiveWithIdOnly = await prisma.auditLogArchive.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AuditLogArchiveUpdateManyAndReturnArgs>(args: SelectSubset<T, AuditLogArchiveUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogArchivePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AuditLogArchive.
+     * @param {AuditLogArchiveUpsertArgs} args - Arguments to update or create a AuditLogArchive.
+     * @example
+     * // Update or create a AuditLogArchive
+     * const auditLogArchive = await prisma.auditLogArchive.upsert({
+     *   create: {
+     *     // ... data to create a AuditLogArchive
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AuditLogArchive we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AuditLogArchiveUpsertArgs>(args: SelectSubset<T, AuditLogArchiveUpsertArgs<ExtArgs>>): Prisma__AuditLogArchiveClient<$Result.GetResult<Prisma.$AuditLogArchivePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AuditLogArchives.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuditLogArchiveCountArgs} args - Arguments to filter AuditLogArchives to count.
+     * @example
+     * // Count the number of AuditLogArchives
+     * const count = await prisma.auditLogArchive.count({
+     *   where: {
+     *     // ... the filter for the AuditLogArchives we want to count
+     *   }
+     * })
+    **/
+    count<T extends AuditLogArchiveCountArgs>(
+      args?: Subset<T, AuditLogArchiveCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AuditLogArchiveCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AuditLogArchive.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuditLogArchiveAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AuditLogArchiveAggregateArgs>(args: Subset<T, AuditLogArchiveAggregateArgs>): Prisma.PrismaPromise<GetAuditLogArchiveAggregateType<T>>
+
+    /**
+     * Group by AuditLogArchive.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuditLogArchiveGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AuditLogArchiveGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AuditLogArchiveGroupByArgs['orderBy'] }
+        : { orderBy?: AuditLogArchiveGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AuditLogArchiveGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAuditLogArchiveGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AuditLogArchive model
+   */
+  readonly fields: AuditLogArchiveFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AuditLogArchive.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AuditLogArchiveClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends AuditLogArchive$companyArgs<ExtArgs> = {}>(args?: Subset<T, AuditLogArchive$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    archiver<T extends AuditLogArchive$archiverArgs<ExtArgs> = {}>(args?: Subset<T, AuditLogArchive$archiverArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AuditLogArchive model
+   */
+  interface AuditLogArchiveFieldRefs {
+    readonly id: FieldRef<"AuditLogArchive", 'String'>
+    readonly companyId: FieldRef<"AuditLogArchive", 'String'>
+    readonly archiveDate: FieldRef<"AuditLogArchive", 'DateTime'>
+    readonly startDate: FieldRef<"AuditLogArchive", 'DateTime'>
+    readonly endDate: FieldRef<"AuditLogArchive", 'DateTime'>
+    readonly logCount: FieldRef<"AuditLogArchive", 'Int'>
+    readonly filePath: FieldRef<"AuditLogArchive", 'String'>
+    readonly fileSize: FieldRef<"AuditLogArchive", 'Int'>
+    readonly archivedBy: FieldRef<"AuditLogArchive", 'String'>
+    readonly status: FieldRef<"AuditLogArchive", 'String'>
+    readonly createdAt: FieldRef<"AuditLogArchive", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AuditLogArchive findUnique
+   */
+  export type AuditLogArchiveFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogArchive
+     */
+    select?: AuditLogArchiveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogArchive
+     */
+    omit?: AuditLogArchiveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogArchiveInclude<ExtArgs> | null
+    /**
+     * Filter, which AuditLogArchive to fetch.
+     */
+    where: AuditLogArchiveWhereUniqueInput
+  }
+
+  /**
+   * AuditLogArchive findUniqueOrThrow
+   */
+  export type AuditLogArchiveFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogArchive
+     */
+    select?: AuditLogArchiveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogArchive
+     */
+    omit?: AuditLogArchiveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogArchiveInclude<ExtArgs> | null
+    /**
+     * Filter, which AuditLogArchive to fetch.
+     */
+    where: AuditLogArchiveWhereUniqueInput
+  }
+
+  /**
+   * AuditLogArchive findFirst
+   */
+  export type AuditLogArchiveFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogArchive
+     */
+    select?: AuditLogArchiveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogArchive
+     */
+    omit?: AuditLogArchiveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogArchiveInclude<ExtArgs> | null
+    /**
+     * Filter, which AuditLogArchive to fetch.
+     */
+    where?: AuditLogArchiveWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuditLogArchives to fetch.
+     */
+    orderBy?: AuditLogArchiveOrderByWithRelationInput | AuditLogArchiveOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AuditLogArchives.
+     */
+    cursor?: AuditLogArchiveWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuditLogArchives from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuditLogArchives.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AuditLogArchives.
+     */
+    distinct?: AuditLogArchiveScalarFieldEnum | AuditLogArchiveScalarFieldEnum[]
+  }
+
+  /**
+   * AuditLogArchive findFirstOrThrow
+   */
+  export type AuditLogArchiveFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogArchive
+     */
+    select?: AuditLogArchiveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogArchive
+     */
+    omit?: AuditLogArchiveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogArchiveInclude<ExtArgs> | null
+    /**
+     * Filter, which AuditLogArchive to fetch.
+     */
+    where?: AuditLogArchiveWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuditLogArchives to fetch.
+     */
+    orderBy?: AuditLogArchiveOrderByWithRelationInput | AuditLogArchiveOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AuditLogArchives.
+     */
+    cursor?: AuditLogArchiveWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuditLogArchives from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuditLogArchives.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AuditLogArchives.
+     */
+    distinct?: AuditLogArchiveScalarFieldEnum | AuditLogArchiveScalarFieldEnum[]
+  }
+
+  /**
+   * AuditLogArchive findMany
+   */
+  export type AuditLogArchiveFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogArchive
+     */
+    select?: AuditLogArchiveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogArchive
+     */
+    omit?: AuditLogArchiveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogArchiveInclude<ExtArgs> | null
+    /**
+     * Filter, which AuditLogArchives to fetch.
+     */
+    where?: AuditLogArchiveWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuditLogArchives to fetch.
+     */
+    orderBy?: AuditLogArchiveOrderByWithRelationInput | AuditLogArchiveOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AuditLogArchives.
+     */
+    cursor?: AuditLogArchiveWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuditLogArchives from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuditLogArchives.
+     */
+    skip?: number
+    distinct?: AuditLogArchiveScalarFieldEnum | AuditLogArchiveScalarFieldEnum[]
+  }
+
+  /**
+   * AuditLogArchive create
+   */
+  export type AuditLogArchiveCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogArchive
+     */
+    select?: AuditLogArchiveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogArchive
+     */
+    omit?: AuditLogArchiveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogArchiveInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AuditLogArchive.
+     */
+    data: XOR<AuditLogArchiveCreateInput, AuditLogArchiveUncheckedCreateInput>
+  }
+
+  /**
+   * AuditLogArchive createMany
+   */
+  export type AuditLogArchiveCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AuditLogArchives.
+     */
+    data: AuditLogArchiveCreateManyInput | AuditLogArchiveCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AuditLogArchive createManyAndReturn
+   */
+  export type AuditLogArchiveCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogArchive
+     */
+    select?: AuditLogArchiveSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogArchive
+     */
+    omit?: AuditLogArchiveOmit<ExtArgs> | null
+    /**
+     * The data used to create many AuditLogArchives.
+     */
+    data: AuditLogArchiveCreateManyInput | AuditLogArchiveCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogArchiveIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AuditLogArchive update
+   */
+  export type AuditLogArchiveUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogArchive
+     */
+    select?: AuditLogArchiveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogArchive
+     */
+    omit?: AuditLogArchiveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogArchiveInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AuditLogArchive.
+     */
+    data: XOR<AuditLogArchiveUpdateInput, AuditLogArchiveUncheckedUpdateInput>
+    /**
+     * Choose, which AuditLogArchive to update.
+     */
+    where: AuditLogArchiveWhereUniqueInput
+  }
+
+  /**
+   * AuditLogArchive updateMany
+   */
+  export type AuditLogArchiveUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AuditLogArchives.
+     */
+    data: XOR<AuditLogArchiveUpdateManyMutationInput, AuditLogArchiveUncheckedUpdateManyInput>
+    /**
+     * Filter which AuditLogArchives to update
+     */
+    where?: AuditLogArchiveWhereInput
+    /**
+     * Limit how many AuditLogArchives to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AuditLogArchive updateManyAndReturn
+   */
+  export type AuditLogArchiveUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogArchive
+     */
+    select?: AuditLogArchiveSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogArchive
+     */
+    omit?: AuditLogArchiveOmit<ExtArgs> | null
+    /**
+     * The data used to update AuditLogArchives.
+     */
+    data: XOR<AuditLogArchiveUpdateManyMutationInput, AuditLogArchiveUncheckedUpdateManyInput>
+    /**
+     * Filter which AuditLogArchives to update
+     */
+    where?: AuditLogArchiveWhereInput
+    /**
+     * Limit how many AuditLogArchives to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogArchiveIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AuditLogArchive upsert
+   */
+  export type AuditLogArchiveUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogArchive
+     */
+    select?: AuditLogArchiveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogArchive
+     */
+    omit?: AuditLogArchiveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogArchiveInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AuditLogArchive to update in case it exists.
+     */
+    where: AuditLogArchiveWhereUniqueInput
+    /**
+     * In case the AuditLogArchive found by the `where` argument doesn't exist, create a new AuditLogArchive with this data.
+     */
+    create: XOR<AuditLogArchiveCreateInput, AuditLogArchiveUncheckedCreateInput>
+    /**
+     * In case the AuditLogArchive was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AuditLogArchiveUpdateInput, AuditLogArchiveUncheckedUpdateInput>
+  }
+
+  /**
+   * AuditLogArchive delete
+   */
+  export type AuditLogArchiveDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogArchive
+     */
+    select?: AuditLogArchiveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogArchive
+     */
+    omit?: AuditLogArchiveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogArchiveInclude<ExtArgs> | null
+    /**
+     * Filter which AuditLogArchive to delete.
+     */
+    where: AuditLogArchiveWhereUniqueInput
+  }
+
+  /**
+   * AuditLogArchive deleteMany
+   */
+  export type AuditLogArchiveDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AuditLogArchives to delete
+     */
+    where?: AuditLogArchiveWhereInput
+    /**
+     * Limit how many AuditLogArchives to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AuditLogArchive.company
+   */
+  export type AuditLogArchive$companyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Company
+     */
+    omit?: CompanyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+  }
+
+  /**
+   * AuditLogArchive.archiver
+   */
+  export type AuditLogArchive$archiverArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * AuditLogArchive without action
+   */
+  export type AuditLogArchiveDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogArchive
+     */
+    select?: AuditLogArchiveSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogArchive
+     */
+    omit?: AuditLogArchiveOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogArchiveInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AuditLogSearch
+   */
+
+  export type AggregateAuditLogSearch = {
+    _count: AuditLogSearchCountAggregateOutputType | null
+    _min: AuditLogSearchMinAggregateOutputType | null
+    _max: AuditLogSearchMaxAggregateOutputType | null
+  }
+
+  export type AuditLogSearchMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    name: string | null
+    searchQuery: string | null
+    createdAt: Date | null
+    lastUsedAt: Date | null
+  }
+
+  export type AuditLogSearchMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    companyId: string | null
+    name: string | null
+    searchQuery: string | null
+    createdAt: Date | null
+    lastUsedAt: Date | null
+  }
+
+  export type AuditLogSearchCountAggregateOutputType = {
+    id: number
+    userId: number
+    companyId: number
+    name: number
+    searchQuery: number
+    filters: number
+    createdAt: number
+    lastUsedAt: number
+    _all: number
+  }
+
+
+  export type AuditLogSearchMinAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    name?: true
+    searchQuery?: true
+    createdAt?: true
+    lastUsedAt?: true
+  }
+
+  export type AuditLogSearchMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    name?: true
+    searchQuery?: true
+    createdAt?: true
+    lastUsedAt?: true
+  }
+
+  export type AuditLogSearchCountAggregateInputType = {
+    id?: true
+    userId?: true
+    companyId?: true
+    name?: true
+    searchQuery?: true
+    filters?: true
+    createdAt?: true
+    lastUsedAt?: true
+    _all?: true
+  }
+
+  export type AuditLogSearchAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AuditLogSearch to aggregate.
+     */
+    where?: AuditLogSearchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuditLogSearches to fetch.
+     */
+    orderBy?: AuditLogSearchOrderByWithRelationInput | AuditLogSearchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AuditLogSearchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuditLogSearches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuditLogSearches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AuditLogSearches
+    **/
+    _count?: true | AuditLogSearchCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AuditLogSearchMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AuditLogSearchMaxAggregateInputType
+  }
+
+  export type GetAuditLogSearchAggregateType<T extends AuditLogSearchAggregateArgs> = {
+        [P in keyof T & keyof AggregateAuditLogSearch]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAuditLogSearch[P]>
+      : GetScalarType<T[P], AggregateAuditLogSearch[P]>
+  }
+
+
+
+
+  export type AuditLogSearchGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AuditLogSearchWhereInput
+    orderBy?: AuditLogSearchOrderByWithAggregationInput | AuditLogSearchOrderByWithAggregationInput[]
+    by: AuditLogSearchScalarFieldEnum[] | AuditLogSearchScalarFieldEnum
+    having?: AuditLogSearchScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AuditLogSearchCountAggregateInputType | true
+    _min?: AuditLogSearchMinAggregateInputType
+    _max?: AuditLogSearchMaxAggregateInputType
+  }
+
+  export type AuditLogSearchGroupByOutputType = {
+    id: string
+    userId: string
+    companyId: string | null
+    name: string | null
+    searchQuery: string
+    filters: JsonValue | null
+    createdAt: Date
+    lastUsedAt: Date
+    _count: AuditLogSearchCountAggregateOutputType | null
+    _min: AuditLogSearchMinAggregateOutputType | null
+    _max: AuditLogSearchMaxAggregateOutputType | null
+  }
+
+  type GetAuditLogSearchGroupByPayload<T extends AuditLogSearchGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AuditLogSearchGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AuditLogSearchGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AuditLogSearchGroupByOutputType[P]>
+            : GetScalarType<T[P], AuditLogSearchGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AuditLogSearchSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    name?: boolean
+    searchQuery?: boolean
+    filters?: boolean
+    createdAt?: boolean
+    lastUsedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | AuditLogSearch$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["auditLogSearch"]>
+
+  export type AuditLogSearchSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    name?: boolean
+    searchQuery?: boolean
+    filters?: boolean
+    createdAt?: boolean
+    lastUsedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | AuditLogSearch$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["auditLogSearch"]>
+
+  export type AuditLogSearchSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    name?: boolean
+    searchQuery?: boolean
+    filters?: boolean
+    createdAt?: boolean
+    lastUsedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | AuditLogSearch$companyArgs<ExtArgs>
+  }, ExtArgs["result"]["auditLogSearch"]>
+
+  export type AuditLogSearchSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    companyId?: boolean
+    name?: boolean
+    searchQuery?: boolean
+    filters?: boolean
+    createdAt?: boolean
+    lastUsedAt?: boolean
+  }
+
+  export type AuditLogSearchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "companyId" | "name" | "searchQuery" | "filters" | "createdAt" | "lastUsedAt", ExtArgs["result"]["auditLogSearch"]>
+  export type AuditLogSearchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | AuditLogSearch$companyArgs<ExtArgs>
+  }
+  export type AuditLogSearchIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | AuditLogSearch$companyArgs<ExtArgs>
+  }
+  export type AuditLogSearchIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    company?: boolean | AuditLogSearch$companyArgs<ExtArgs>
+  }
+
+  export type $AuditLogSearchPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AuditLogSearch"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      companyId: string | null
+      name: string | null
+      searchQuery: string
+      filters: Prisma.JsonValue | null
+      createdAt: Date
+      lastUsedAt: Date
+    }, ExtArgs["result"]["auditLogSearch"]>
+    composites: {}
+  }
+
+  type AuditLogSearchGetPayload<S extends boolean | null | undefined | AuditLogSearchDefaultArgs> = $Result.GetResult<Prisma.$AuditLogSearchPayload, S>
+
+  type AuditLogSearchCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AuditLogSearchFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AuditLogSearchCountAggregateInputType | true
+    }
+
+  export interface AuditLogSearchDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AuditLogSearch'], meta: { name: 'AuditLogSearch' } }
+    /**
+     * Find zero or one AuditLogSearch that matches the filter.
+     * @param {AuditLogSearchFindUniqueArgs} args - Arguments to find a AuditLogSearch
+     * @example
+     * // Get one AuditLogSearch
+     * const auditLogSearch = await prisma.auditLogSearch.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AuditLogSearchFindUniqueArgs>(args: SelectSubset<T, AuditLogSearchFindUniqueArgs<ExtArgs>>): Prisma__AuditLogSearchClient<$Result.GetResult<Prisma.$AuditLogSearchPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AuditLogSearch that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AuditLogSearchFindUniqueOrThrowArgs} args - Arguments to find a AuditLogSearch
+     * @example
+     * // Get one AuditLogSearch
+     * const auditLogSearch = await prisma.auditLogSearch.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AuditLogSearchFindUniqueOrThrowArgs>(args: SelectSubset<T, AuditLogSearchFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AuditLogSearchClient<$Result.GetResult<Prisma.$AuditLogSearchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AuditLogSearch that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuditLogSearchFindFirstArgs} args - Arguments to find a AuditLogSearch
+     * @example
+     * // Get one AuditLogSearch
+     * const auditLogSearch = await prisma.auditLogSearch.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AuditLogSearchFindFirstArgs>(args?: SelectSubset<T, AuditLogSearchFindFirstArgs<ExtArgs>>): Prisma__AuditLogSearchClient<$Result.GetResult<Prisma.$AuditLogSearchPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AuditLogSearch that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuditLogSearchFindFirstOrThrowArgs} args - Arguments to find a AuditLogSearch
+     * @example
+     * // Get one AuditLogSearch
+     * const auditLogSearch = await prisma.auditLogSearch.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AuditLogSearchFindFirstOrThrowArgs>(args?: SelectSubset<T, AuditLogSearchFindFirstOrThrowArgs<ExtArgs>>): Prisma__AuditLogSearchClient<$Result.GetResult<Prisma.$AuditLogSearchPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AuditLogSearches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuditLogSearchFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AuditLogSearches
+     * const auditLogSearches = await prisma.auditLogSearch.findMany()
+     * 
+     * // Get first 10 AuditLogSearches
+     * const auditLogSearches = await prisma.auditLogSearch.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const auditLogSearchWithIdOnly = await prisma.auditLogSearch.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AuditLogSearchFindManyArgs>(args?: SelectSubset<T, AuditLogSearchFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogSearchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AuditLogSearch.
+     * @param {AuditLogSearchCreateArgs} args - Arguments to create a AuditLogSearch.
+     * @example
+     * // Create one AuditLogSearch
+     * const AuditLogSearch = await prisma.auditLogSearch.create({
+     *   data: {
+     *     // ... data to create a AuditLogSearch
+     *   }
+     * })
+     * 
+     */
+    create<T extends AuditLogSearchCreateArgs>(args: SelectSubset<T, AuditLogSearchCreateArgs<ExtArgs>>): Prisma__AuditLogSearchClient<$Result.GetResult<Prisma.$AuditLogSearchPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AuditLogSearches.
+     * @param {AuditLogSearchCreateManyArgs} args - Arguments to create many AuditLogSearches.
+     * @example
+     * // Create many AuditLogSearches
+     * const auditLogSearch = await prisma.auditLogSearch.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AuditLogSearchCreateManyArgs>(args?: SelectSubset<T, AuditLogSearchCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AuditLogSearches and returns the data saved in the database.
+     * @param {AuditLogSearchCreateManyAndReturnArgs} args - Arguments to create many AuditLogSearches.
+     * @example
+     * // Create many AuditLogSearches
+     * const auditLogSearch = await prisma.auditLogSearch.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AuditLogSearches and only return the `id`
+     * const auditLogSearchWithIdOnly = await prisma.auditLogSearch.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AuditLogSearchCreateManyAndReturnArgs>(args?: SelectSubset<T, AuditLogSearchCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogSearchPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AuditLogSearch.
+     * @param {AuditLogSearchDeleteArgs} args - Arguments to delete one AuditLogSearch.
+     * @example
+     * // Delete one AuditLogSearch
+     * const AuditLogSearch = await prisma.auditLogSearch.delete({
+     *   where: {
+     *     // ... filter to delete one AuditLogSearch
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AuditLogSearchDeleteArgs>(args: SelectSubset<T, AuditLogSearchDeleteArgs<ExtArgs>>): Prisma__AuditLogSearchClient<$Result.GetResult<Prisma.$AuditLogSearchPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AuditLogSearch.
+     * @param {AuditLogSearchUpdateArgs} args - Arguments to update one AuditLogSearch.
+     * @example
+     * // Update one AuditLogSearch
+     * const auditLogSearch = await prisma.auditLogSearch.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AuditLogSearchUpdateArgs>(args: SelectSubset<T, AuditLogSearchUpdateArgs<ExtArgs>>): Prisma__AuditLogSearchClient<$Result.GetResult<Prisma.$AuditLogSearchPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AuditLogSearches.
+     * @param {AuditLogSearchDeleteManyArgs} args - Arguments to filter AuditLogSearches to delete.
+     * @example
+     * // Delete a few AuditLogSearches
+     * const { count } = await prisma.auditLogSearch.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AuditLogSearchDeleteManyArgs>(args?: SelectSubset<T, AuditLogSearchDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AuditLogSearches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuditLogSearchUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AuditLogSearches
+     * const auditLogSearch = await prisma.auditLogSearch.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AuditLogSearchUpdateManyArgs>(args: SelectSubset<T, AuditLogSearchUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AuditLogSearches and returns the data updated in the database.
+     * @param {AuditLogSearchUpdateManyAndReturnArgs} args - Arguments to update many AuditLogSearches.
+     * @example
+     * // Update many AuditLogSearches
+     * const auditLogSearch = await prisma.auditLogSearch.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AuditLogSearches and only return the `id`
+     * const auditLogSearchWithIdOnly = await prisma.auditLogSearch.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AuditLogSearchUpdateManyAndReturnArgs>(args: SelectSubset<T, AuditLogSearchUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogSearchPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AuditLogSearch.
+     * @param {AuditLogSearchUpsertArgs} args - Arguments to update or create a AuditLogSearch.
+     * @example
+     * // Update or create a AuditLogSearch
+     * const auditLogSearch = await prisma.auditLogSearch.upsert({
+     *   create: {
+     *     // ... data to create a AuditLogSearch
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AuditLogSearch we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AuditLogSearchUpsertArgs>(args: SelectSubset<T, AuditLogSearchUpsertArgs<ExtArgs>>): Prisma__AuditLogSearchClient<$Result.GetResult<Prisma.$AuditLogSearchPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AuditLogSearches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuditLogSearchCountArgs} args - Arguments to filter AuditLogSearches to count.
+     * @example
+     * // Count the number of AuditLogSearches
+     * const count = await prisma.auditLogSearch.count({
+     *   where: {
+     *     // ... the filter for the AuditLogSearches we want to count
+     *   }
+     * })
+    **/
+    count<T extends AuditLogSearchCountArgs>(
+      args?: Subset<T, AuditLogSearchCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AuditLogSearchCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AuditLogSearch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuditLogSearchAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AuditLogSearchAggregateArgs>(args: Subset<T, AuditLogSearchAggregateArgs>): Prisma.PrismaPromise<GetAuditLogSearchAggregateType<T>>
+
+    /**
+     * Group by AuditLogSearch.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AuditLogSearchGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AuditLogSearchGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AuditLogSearchGroupByArgs['orderBy'] }
+        : { orderBy?: AuditLogSearchGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AuditLogSearchGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAuditLogSearchGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AuditLogSearch model
+   */
+  readonly fields: AuditLogSearchFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AuditLogSearch.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AuditLogSearchClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    company<T extends AuditLogSearch$companyArgs<ExtArgs> = {}>(args?: Subset<T, AuditLogSearch$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AuditLogSearch model
+   */
+  interface AuditLogSearchFieldRefs {
+    readonly id: FieldRef<"AuditLogSearch", 'String'>
+    readonly userId: FieldRef<"AuditLogSearch", 'String'>
+    readonly companyId: FieldRef<"AuditLogSearch", 'String'>
+    readonly name: FieldRef<"AuditLogSearch", 'String'>
+    readonly searchQuery: FieldRef<"AuditLogSearch", 'String'>
+    readonly filters: FieldRef<"AuditLogSearch", 'Json'>
+    readonly createdAt: FieldRef<"AuditLogSearch", 'DateTime'>
+    readonly lastUsedAt: FieldRef<"AuditLogSearch", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AuditLogSearch findUnique
+   */
+  export type AuditLogSearchFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogSearch
+     */
+    select?: AuditLogSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogSearch
+     */
+    omit?: AuditLogSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogSearchInclude<ExtArgs> | null
+    /**
+     * Filter, which AuditLogSearch to fetch.
+     */
+    where: AuditLogSearchWhereUniqueInput
+  }
+
+  /**
+   * AuditLogSearch findUniqueOrThrow
+   */
+  export type AuditLogSearchFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogSearch
+     */
+    select?: AuditLogSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogSearch
+     */
+    omit?: AuditLogSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogSearchInclude<ExtArgs> | null
+    /**
+     * Filter, which AuditLogSearch to fetch.
+     */
+    where: AuditLogSearchWhereUniqueInput
+  }
+
+  /**
+   * AuditLogSearch findFirst
+   */
+  export type AuditLogSearchFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogSearch
+     */
+    select?: AuditLogSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogSearch
+     */
+    omit?: AuditLogSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogSearchInclude<ExtArgs> | null
+    /**
+     * Filter, which AuditLogSearch to fetch.
+     */
+    where?: AuditLogSearchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuditLogSearches to fetch.
+     */
+    orderBy?: AuditLogSearchOrderByWithRelationInput | AuditLogSearchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AuditLogSearches.
+     */
+    cursor?: AuditLogSearchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuditLogSearches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuditLogSearches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AuditLogSearches.
+     */
+    distinct?: AuditLogSearchScalarFieldEnum | AuditLogSearchScalarFieldEnum[]
+  }
+
+  /**
+   * AuditLogSearch findFirstOrThrow
+   */
+  export type AuditLogSearchFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogSearch
+     */
+    select?: AuditLogSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogSearch
+     */
+    omit?: AuditLogSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogSearchInclude<ExtArgs> | null
+    /**
+     * Filter, which AuditLogSearch to fetch.
+     */
+    where?: AuditLogSearchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuditLogSearches to fetch.
+     */
+    orderBy?: AuditLogSearchOrderByWithRelationInput | AuditLogSearchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AuditLogSearches.
+     */
+    cursor?: AuditLogSearchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuditLogSearches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuditLogSearches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AuditLogSearches.
+     */
+    distinct?: AuditLogSearchScalarFieldEnum | AuditLogSearchScalarFieldEnum[]
+  }
+
+  /**
+   * AuditLogSearch findMany
+   */
+  export type AuditLogSearchFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogSearch
+     */
+    select?: AuditLogSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogSearch
+     */
+    omit?: AuditLogSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogSearchInclude<ExtArgs> | null
+    /**
+     * Filter, which AuditLogSearches to fetch.
+     */
+    where?: AuditLogSearchWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AuditLogSearches to fetch.
+     */
+    orderBy?: AuditLogSearchOrderByWithRelationInput | AuditLogSearchOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AuditLogSearches.
+     */
+    cursor?: AuditLogSearchWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AuditLogSearches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AuditLogSearches.
+     */
+    skip?: number
+    distinct?: AuditLogSearchScalarFieldEnum | AuditLogSearchScalarFieldEnum[]
+  }
+
+  /**
+   * AuditLogSearch create
+   */
+  export type AuditLogSearchCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogSearch
+     */
+    select?: AuditLogSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogSearch
+     */
+    omit?: AuditLogSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogSearchInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AuditLogSearch.
+     */
+    data: XOR<AuditLogSearchCreateInput, AuditLogSearchUncheckedCreateInput>
+  }
+
+  /**
+   * AuditLogSearch createMany
+   */
+  export type AuditLogSearchCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AuditLogSearches.
+     */
+    data: AuditLogSearchCreateManyInput | AuditLogSearchCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AuditLogSearch createManyAndReturn
+   */
+  export type AuditLogSearchCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogSearch
+     */
+    select?: AuditLogSearchSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogSearch
+     */
+    omit?: AuditLogSearchOmit<ExtArgs> | null
+    /**
+     * The data used to create many AuditLogSearches.
+     */
+    data: AuditLogSearchCreateManyInput | AuditLogSearchCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogSearchIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AuditLogSearch update
+   */
+  export type AuditLogSearchUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogSearch
+     */
+    select?: AuditLogSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogSearch
+     */
+    omit?: AuditLogSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogSearchInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AuditLogSearch.
+     */
+    data: XOR<AuditLogSearchUpdateInput, AuditLogSearchUncheckedUpdateInput>
+    /**
+     * Choose, which AuditLogSearch to update.
+     */
+    where: AuditLogSearchWhereUniqueInput
+  }
+
+  /**
+   * AuditLogSearch updateMany
+   */
+  export type AuditLogSearchUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AuditLogSearches.
+     */
+    data: XOR<AuditLogSearchUpdateManyMutationInput, AuditLogSearchUncheckedUpdateManyInput>
+    /**
+     * Filter which AuditLogSearches to update
+     */
+    where?: AuditLogSearchWhereInput
+    /**
+     * Limit how many AuditLogSearches to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AuditLogSearch updateManyAndReturn
+   */
+  export type AuditLogSearchUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogSearch
+     */
+    select?: AuditLogSearchSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogSearch
+     */
+    omit?: AuditLogSearchOmit<ExtArgs> | null
+    /**
+     * The data used to update AuditLogSearches.
+     */
+    data: XOR<AuditLogSearchUpdateManyMutationInput, AuditLogSearchUncheckedUpdateManyInput>
+    /**
+     * Filter which AuditLogSearches to update
+     */
+    where?: AuditLogSearchWhereInput
+    /**
+     * Limit how many AuditLogSearches to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogSearchIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * AuditLogSearch upsert
+   */
+  export type AuditLogSearchUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogSearch
+     */
+    select?: AuditLogSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogSearch
+     */
+    omit?: AuditLogSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogSearchInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AuditLogSearch to update in case it exists.
+     */
+    where: AuditLogSearchWhereUniqueInput
+    /**
+     * In case the AuditLogSearch found by the `where` argument doesn't exist, create a new AuditLogSearch with this data.
+     */
+    create: XOR<AuditLogSearchCreateInput, AuditLogSearchUncheckedCreateInput>
+    /**
+     * In case the AuditLogSearch was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AuditLogSearchUpdateInput, AuditLogSearchUncheckedUpdateInput>
+  }
+
+  /**
+   * AuditLogSearch delete
+   */
+  export type AuditLogSearchDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogSearch
+     */
+    select?: AuditLogSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogSearch
+     */
+    omit?: AuditLogSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogSearchInclude<ExtArgs> | null
+    /**
+     * Filter which AuditLogSearch to delete.
+     */
+    where: AuditLogSearchWhereUniqueInput
+  }
+
+  /**
+   * AuditLogSearch deleteMany
+   */
+  export type AuditLogSearchDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AuditLogSearches to delete
+     */
+    where?: AuditLogSearchWhereInput
+    /**
+     * Limit how many AuditLogSearches to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AuditLogSearch.company
+   */
+  export type AuditLogSearch$companyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Company
+     */
+    omit?: CompanyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
+  }
+
+  /**
+   * AuditLogSearch without action
+   */
+  export type AuditLogSearchDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLogSearch
+     */
+    select?: AuditLogSearchSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLogSearch
+     */
+    omit?: AuditLogSearchOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogSearchInclude<ExtArgs> | null
   }
 
 
@@ -47567,6 +50237,37 @@ export namespace Prisma {
   export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
 
 
+  export const AuditLogArchiveScalarFieldEnum: {
+    id: 'id',
+    companyId: 'companyId',
+    archiveDate: 'archiveDate',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    logCount: 'logCount',
+    filePath: 'filePath',
+    fileSize: 'fileSize',
+    archivedBy: 'archivedBy',
+    status: 'status',
+    createdAt: 'createdAt'
+  };
+
+  export type AuditLogArchiveScalarFieldEnum = (typeof AuditLogArchiveScalarFieldEnum)[keyof typeof AuditLogArchiveScalarFieldEnum]
+
+
+  export const AuditLogSearchScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    companyId: 'companyId',
+    name: 'name',
+    searchQuery: 'searchQuery',
+    filters: 'filters',
+    createdAt: 'createdAt',
+    lastUsedAt: 'lastUsedAt'
+  };
+
+  export type AuditLogSearchScalarFieldEnum = (typeof AuditLogSearchScalarFieldEnum)[keyof typeof AuditLogSearchScalarFieldEnum]
+
+
   export const SettingsScalarFieldEnum: {
     id: 'id',
     key: 'key',
@@ -48145,6 +50846,8 @@ export namespace Prisma {
     dataRetentionPolicy?: XOR<DataRetentionPolicyNullableScalarRelationFilter, DataRetentionPolicyWhereInput> | null
     dataExports?: DataExportListRelationFilter
     dataDeletionRequests?: DataDeletionRequestListRelationFilter
+    auditLogArchives?: AuditLogArchiveListRelationFilter
+    auditLogSearches?: AuditLogSearchListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -48163,6 +50866,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyOrderByWithRelationInput
     dataExports?: DataExportOrderByRelationAggregateInput
     dataDeletionRequests?: DataDeletionRequestOrderByRelationAggregateInput
+    auditLogArchives?: AuditLogArchiveOrderByRelationAggregateInput
+    auditLogSearches?: AuditLogSearchOrderByRelationAggregateInput
   }
 
   export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -48184,6 +50889,8 @@ export namespace Prisma {
     dataRetentionPolicy?: XOR<DataRetentionPolicyNullableScalarRelationFilter, DataRetentionPolicyWhereInput> | null
     dataExports?: DataExportListRelationFilter
     dataDeletionRequests?: DataDeletionRequestListRelationFilter
+    auditLogArchives?: AuditLogArchiveListRelationFilter
+    auditLogSearches?: AuditLogSearchListRelationFilter
   }, "id" | "subdomain">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -48257,6 +50964,8 @@ export namespace Prisma {
     dataExports?: DataExportListRelationFilter
     dataDeletionRequests?: DataDeletionRequestListRelationFilter
     processedDeletions?: DataDeletionRequestListRelationFilter
+    auditLogArchives?: AuditLogArchiveListRelationFilter
+    auditLogSearches?: AuditLogSearchListRelationFilter
     emailVerificationTokens?: EmailVerificationTokenListRelationFilter
     passwordResetTokens?: PasswordResetTokenListRelationFilter
     securityQuestions?: SecurityQuestionListRelationFilter
@@ -48312,6 +51021,8 @@ export namespace Prisma {
     dataExports?: DataExportOrderByRelationAggregateInput
     dataDeletionRequests?: DataDeletionRequestOrderByRelationAggregateInput
     processedDeletions?: DataDeletionRequestOrderByRelationAggregateInput
+    auditLogArchives?: AuditLogArchiveOrderByRelationAggregateInput
+    auditLogSearches?: AuditLogSearchOrderByRelationAggregateInput
     emailVerificationTokens?: EmailVerificationTokenOrderByRelationAggregateInput
     passwordResetTokens?: PasswordResetTokenOrderByRelationAggregateInput
     securityQuestions?: SecurityQuestionOrderByRelationAggregateInput
@@ -48370,6 +51081,8 @@ export namespace Prisma {
     dataExports?: DataExportListRelationFilter
     dataDeletionRequests?: DataDeletionRequestListRelationFilter
     processedDeletions?: DataDeletionRequestListRelationFilter
+    auditLogArchives?: AuditLogArchiveListRelationFilter
+    auditLogSearches?: AuditLogSearchListRelationFilter
     emailVerificationTokens?: EmailVerificationTokenListRelationFilter
     passwordResetTokens?: PasswordResetTokenListRelationFilter
     securityQuestions?: SecurityQuestionListRelationFilter
@@ -49588,6 +52301,169 @@ export namespace Prisma {
     userAgent?: StringNullableWithAggregatesFilter<"AuditLog"> | string | null
     status?: EnumAuditStatusWithAggregatesFilter<"AuditLog"> | $Enums.AuditStatus
     createdAt?: DateTimeWithAggregatesFilter<"AuditLog"> | Date | string
+  }
+
+  export type AuditLogArchiveWhereInput = {
+    AND?: AuditLogArchiveWhereInput | AuditLogArchiveWhereInput[]
+    OR?: AuditLogArchiveWhereInput[]
+    NOT?: AuditLogArchiveWhereInput | AuditLogArchiveWhereInput[]
+    id?: StringFilter<"AuditLogArchive"> | string
+    companyId?: StringNullableFilter<"AuditLogArchive"> | string | null
+    archiveDate?: DateTimeFilter<"AuditLogArchive"> | Date | string
+    startDate?: DateTimeFilter<"AuditLogArchive"> | Date | string
+    endDate?: DateTimeFilter<"AuditLogArchive"> | Date | string
+    logCount?: IntFilter<"AuditLogArchive"> | number
+    filePath?: StringNullableFilter<"AuditLogArchive"> | string | null
+    fileSize?: IntNullableFilter<"AuditLogArchive"> | number | null
+    archivedBy?: StringNullableFilter<"AuditLogArchive"> | string | null
+    status?: StringFilter<"AuditLogArchive"> | string
+    createdAt?: DateTimeFilter<"AuditLogArchive"> | Date | string
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+    archiver?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type AuditLogArchiveOrderByWithRelationInput = {
+    id?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    archiveDate?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    logCount?: SortOrder
+    filePath?: SortOrderInput | SortOrder
+    fileSize?: SortOrderInput | SortOrder
+    archivedBy?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
+    archiver?: UserOrderByWithRelationInput
+  }
+
+  export type AuditLogArchiveWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AuditLogArchiveWhereInput | AuditLogArchiveWhereInput[]
+    OR?: AuditLogArchiveWhereInput[]
+    NOT?: AuditLogArchiveWhereInput | AuditLogArchiveWhereInput[]
+    companyId?: StringNullableFilter<"AuditLogArchive"> | string | null
+    archiveDate?: DateTimeFilter<"AuditLogArchive"> | Date | string
+    startDate?: DateTimeFilter<"AuditLogArchive"> | Date | string
+    endDate?: DateTimeFilter<"AuditLogArchive"> | Date | string
+    logCount?: IntFilter<"AuditLogArchive"> | number
+    filePath?: StringNullableFilter<"AuditLogArchive"> | string | null
+    fileSize?: IntNullableFilter<"AuditLogArchive"> | number | null
+    archivedBy?: StringNullableFilter<"AuditLogArchive"> | string | null
+    status?: StringFilter<"AuditLogArchive"> | string
+    createdAt?: DateTimeFilter<"AuditLogArchive"> | Date | string
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+    archiver?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id">
+
+  export type AuditLogArchiveOrderByWithAggregationInput = {
+    id?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    archiveDate?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    logCount?: SortOrder
+    filePath?: SortOrderInput | SortOrder
+    fileSize?: SortOrderInput | SortOrder
+    archivedBy?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    _count?: AuditLogArchiveCountOrderByAggregateInput
+    _avg?: AuditLogArchiveAvgOrderByAggregateInput
+    _max?: AuditLogArchiveMaxOrderByAggregateInput
+    _min?: AuditLogArchiveMinOrderByAggregateInput
+    _sum?: AuditLogArchiveSumOrderByAggregateInput
+  }
+
+  export type AuditLogArchiveScalarWhereWithAggregatesInput = {
+    AND?: AuditLogArchiveScalarWhereWithAggregatesInput | AuditLogArchiveScalarWhereWithAggregatesInput[]
+    OR?: AuditLogArchiveScalarWhereWithAggregatesInput[]
+    NOT?: AuditLogArchiveScalarWhereWithAggregatesInput | AuditLogArchiveScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AuditLogArchive"> | string
+    companyId?: StringNullableWithAggregatesFilter<"AuditLogArchive"> | string | null
+    archiveDate?: DateTimeWithAggregatesFilter<"AuditLogArchive"> | Date | string
+    startDate?: DateTimeWithAggregatesFilter<"AuditLogArchive"> | Date | string
+    endDate?: DateTimeWithAggregatesFilter<"AuditLogArchive"> | Date | string
+    logCount?: IntWithAggregatesFilter<"AuditLogArchive"> | number
+    filePath?: StringNullableWithAggregatesFilter<"AuditLogArchive"> | string | null
+    fileSize?: IntNullableWithAggregatesFilter<"AuditLogArchive"> | number | null
+    archivedBy?: StringNullableWithAggregatesFilter<"AuditLogArchive"> | string | null
+    status?: StringWithAggregatesFilter<"AuditLogArchive"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"AuditLogArchive"> | Date | string
+  }
+
+  export type AuditLogSearchWhereInput = {
+    AND?: AuditLogSearchWhereInput | AuditLogSearchWhereInput[]
+    OR?: AuditLogSearchWhereInput[]
+    NOT?: AuditLogSearchWhereInput | AuditLogSearchWhereInput[]
+    id?: StringFilter<"AuditLogSearch"> | string
+    userId?: StringFilter<"AuditLogSearch"> | string
+    companyId?: StringNullableFilter<"AuditLogSearch"> | string | null
+    name?: StringNullableFilter<"AuditLogSearch"> | string | null
+    searchQuery?: StringFilter<"AuditLogSearch"> | string
+    filters?: JsonNullableFilter<"AuditLogSearch">
+    createdAt?: DateTimeFilter<"AuditLogSearch"> | Date | string
+    lastUsedAt?: DateTimeFilter<"AuditLogSearch"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+  }
+
+  export type AuditLogSearchOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    searchQuery?: SortOrder
+    filters?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    lastUsedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
+  }
+
+  export type AuditLogSearchWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AuditLogSearchWhereInput | AuditLogSearchWhereInput[]
+    OR?: AuditLogSearchWhereInput[]
+    NOT?: AuditLogSearchWhereInput | AuditLogSearchWhereInput[]
+    userId?: StringFilter<"AuditLogSearch"> | string
+    companyId?: StringNullableFilter<"AuditLogSearch"> | string | null
+    name?: StringNullableFilter<"AuditLogSearch"> | string | null
+    searchQuery?: StringFilter<"AuditLogSearch"> | string
+    filters?: JsonNullableFilter<"AuditLogSearch">
+    createdAt?: DateTimeFilter<"AuditLogSearch"> | Date | string
+    lastUsedAt?: DateTimeFilter<"AuditLogSearch"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
+  }, "id">
+
+  export type AuditLogSearchOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    searchQuery?: SortOrder
+    filters?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    lastUsedAt?: SortOrder
+    _count?: AuditLogSearchCountOrderByAggregateInput
+    _max?: AuditLogSearchMaxOrderByAggregateInput
+    _min?: AuditLogSearchMinOrderByAggregateInput
+  }
+
+  export type AuditLogSearchScalarWhereWithAggregatesInput = {
+    AND?: AuditLogSearchScalarWhereWithAggregatesInput | AuditLogSearchScalarWhereWithAggregatesInput[]
+    OR?: AuditLogSearchScalarWhereWithAggregatesInput[]
+    NOT?: AuditLogSearchScalarWhereWithAggregatesInput | AuditLogSearchScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AuditLogSearch"> | string
+    userId?: StringWithAggregatesFilter<"AuditLogSearch"> | string
+    companyId?: StringNullableWithAggregatesFilter<"AuditLogSearch"> | string | null
+    name?: StringNullableWithAggregatesFilter<"AuditLogSearch"> | string | null
+    searchQuery?: StringWithAggregatesFilter<"AuditLogSearch"> | string
+    filters?: JsonNullableWithAggregatesFilter<"AuditLogSearch">
+    createdAt?: DateTimeWithAggregatesFilter<"AuditLogSearch"> | Date | string
+    lastUsedAt?: DateTimeWithAggregatesFilter<"AuditLogSearch"> | Date | string
   }
 
   export type SettingsWhereInput = {
@@ -51152,6 +54028,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -51170,6 +54048,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -51188,6 +54068,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -51206,6 +54088,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -51276,6 +54160,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -51329,6 +54215,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -51382,6 +54270,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -51435,6 +54325,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -52762,6 +55654,177 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAuditStatusFieldUpdateOperationsInput | $Enums.AuditStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogArchiveCreateInput = {
+    id?: string
+    archiveDate?: Date | string
+    startDate: Date | string
+    endDate: Date | string
+    logCount: number
+    filePath?: string | null
+    fileSize?: number | null
+    status?: string
+    createdAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutAuditLogArchivesInput
+    archiver?: UserCreateNestedOneWithoutAuditLogArchivesInput
+  }
+
+  export type AuditLogArchiveUncheckedCreateInput = {
+    id?: string
+    companyId?: string | null
+    archiveDate?: Date | string
+    startDate: Date | string
+    endDate: Date | string
+    logCount: number
+    filePath?: string | null
+    fileSize?: number | null
+    archivedBy?: string | null
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type AuditLogArchiveUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    archiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    logCount?: IntFieldUpdateOperationsInput | number
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutAuditLogArchivesNestedInput
+    archiver?: UserUpdateOneWithoutAuditLogArchivesNestedInput
+  }
+
+  export type AuditLogArchiveUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    archiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    logCount?: IntFieldUpdateOperationsInput | number
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    archivedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogArchiveCreateManyInput = {
+    id?: string
+    companyId?: string | null
+    archiveDate?: Date | string
+    startDate: Date | string
+    endDate: Date | string
+    logCount: number
+    filePath?: string | null
+    fileSize?: number | null
+    archivedBy?: string | null
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type AuditLogArchiveUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    archiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    logCount?: IntFieldUpdateOperationsInput | number
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogArchiveUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    archiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    logCount?: IntFieldUpdateOperationsInput | number
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    archivedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogSearchCreateInput = {
+    id?: string
+    name?: string | null
+    searchQuery: string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    lastUsedAt?: Date | string
+    user: UserCreateNestedOneWithoutAuditLogSearchesInput
+    company?: CompanyCreateNestedOneWithoutAuditLogSearchesInput
+  }
+
+  export type AuditLogSearchUncheckedCreateInput = {
+    id?: string
+    userId: string
+    companyId?: string | null
+    name?: string | null
+    searchQuery: string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    lastUsedAt?: Date | string
+  }
+
+  export type AuditLogSearchUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: StringFieldUpdateOperationsInput | string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAuditLogSearchesNestedInput
+    company?: CompanyUpdateOneWithoutAuditLogSearchesNestedInput
+  }
+
+  export type AuditLogSearchUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: StringFieldUpdateOperationsInput | string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogSearchCreateManyInput = {
+    id?: string
+    userId: string
+    companyId?: string | null
+    name?: string | null
+    searchQuery: string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    lastUsedAt?: Date | string
+  }
+
+  export type AuditLogSearchUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: StringFieldUpdateOperationsInput | string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogSearchUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: StringFieldUpdateOperationsInput | string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SettingsCreateInput = {
@@ -54508,6 +57571,18 @@ export namespace Prisma {
     none?: DataDeletionRequestWhereInput
   }
 
+  export type AuditLogArchiveListRelationFilter = {
+    every?: AuditLogArchiveWhereInput
+    some?: AuditLogArchiveWhereInput
+    none?: AuditLogArchiveWhereInput
+  }
+
+  export type AuditLogSearchListRelationFilter = {
+    every?: AuditLogSearchWhereInput
+    some?: AuditLogSearchWhereInput
+    none?: AuditLogSearchWhereInput
+  }
+
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -54537,6 +57612,14 @@ export namespace Prisma {
   }
 
   export type DataDeletionRequestOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AuditLogArchiveOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AuditLogSearchOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -55738,6 +58821,89 @@ export namespace Prisma {
     _min?: NestedEnumAuditStatusFilter<$PrismaModel>
     _max?: NestedEnumAuditStatusFilter<$PrismaModel>
   }
+
+  export type AuditLogArchiveCountOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    archiveDate?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    logCount?: SortOrder
+    filePath?: SortOrder
+    fileSize?: SortOrder
+    archivedBy?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AuditLogArchiveAvgOrderByAggregateInput = {
+    logCount?: SortOrder
+    fileSize?: SortOrder
+  }
+
+  export type AuditLogArchiveMaxOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    archiveDate?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    logCount?: SortOrder
+    filePath?: SortOrder
+    fileSize?: SortOrder
+    archivedBy?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AuditLogArchiveMinOrderByAggregateInput = {
+    id?: SortOrder
+    companyId?: SortOrder
+    archiveDate?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    logCount?: SortOrder
+    filePath?: SortOrder
+    fileSize?: SortOrder
+    archivedBy?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AuditLogArchiveSumOrderByAggregateInput = {
+    logCount?: SortOrder
+    fileSize?: SortOrder
+  }
+
+  export type AuditLogSearchCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    searchQuery?: SortOrder
+    filters?: SortOrder
+    createdAt?: SortOrder
+    lastUsedAt?: SortOrder
+  }
+
+  export type AuditLogSearchMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    searchQuery?: SortOrder
+    createdAt?: SortOrder
+    lastUsedAt?: SortOrder
+  }
+
+  export type AuditLogSearchMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    companyId?: SortOrder
+    name?: SortOrder
+    searchQuery?: SortOrder
+    createdAt?: SortOrder
+    lastUsedAt?: SortOrder
+  }
   export type JsonFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -56747,6 +59913,20 @@ export namespace Prisma {
     connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
   }
 
+  export type AuditLogArchiveCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AuditLogArchiveCreateWithoutCompanyInput, AuditLogArchiveUncheckedCreateWithoutCompanyInput> | AuditLogArchiveCreateWithoutCompanyInput[] | AuditLogArchiveUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AuditLogArchiveCreateOrConnectWithoutCompanyInput | AuditLogArchiveCreateOrConnectWithoutCompanyInput[]
+    createMany?: AuditLogArchiveCreateManyCompanyInputEnvelope
+    connect?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+  }
+
+  export type AuditLogSearchCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AuditLogSearchCreateWithoutCompanyInput, AuditLogSearchUncheckedCreateWithoutCompanyInput> | AuditLogSearchCreateWithoutCompanyInput[] | AuditLogSearchUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AuditLogSearchCreateOrConnectWithoutCompanyInput | AuditLogSearchCreateOrConnectWithoutCompanyInput[]
+    createMany?: AuditLogSearchCreateManyCompanyInputEnvelope
+    connect?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -56813,6 +59993,20 @@ export namespace Prisma {
     connectOrCreate?: DataDeletionRequestCreateOrConnectWithoutCompanyInput | DataDeletionRequestCreateOrConnectWithoutCompanyInput[]
     createMany?: DataDeletionRequestCreateManyCompanyInputEnvelope
     connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+  }
+
+  export type AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AuditLogArchiveCreateWithoutCompanyInput, AuditLogArchiveUncheckedCreateWithoutCompanyInput> | AuditLogArchiveCreateWithoutCompanyInput[] | AuditLogArchiveUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AuditLogArchiveCreateOrConnectWithoutCompanyInput | AuditLogArchiveCreateOrConnectWithoutCompanyInput[]
+    createMany?: AuditLogArchiveCreateManyCompanyInputEnvelope
+    connect?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+  }
+
+  export type AuditLogSearchUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<AuditLogSearchCreateWithoutCompanyInput, AuditLogSearchUncheckedCreateWithoutCompanyInput> | AuditLogSearchCreateWithoutCompanyInput[] | AuditLogSearchUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AuditLogSearchCreateOrConnectWithoutCompanyInput | AuditLogSearchCreateOrConnectWithoutCompanyInput[]
+    createMany?: AuditLogSearchCreateManyCompanyInputEnvelope
+    connect?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -56955,6 +60149,34 @@ export namespace Prisma {
     deleteMany?: DataDeletionRequestScalarWhereInput | DataDeletionRequestScalarWhereInput[]
   }
 
+  export type AuditLogArchiveUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AuditLogArchiveCreateWithoutCompanyInput, AuditLogArchiveUncheckedCreateWithoutCompanyInput> | AuditLogArchiveCreateWithoutCompanyInput[] | AuditLogArchiveUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AuditLogArchiveCreateOrConnectWithoutCompanyInput | AuditLogArchiveCreateOrConnectWithoutCompanyInput[]
+    upsert?: AuditLogArchiveUpsertWithWhereUniqueWithoutCompanyInput | AuditLogArchiveUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AuditLogArchiveCreateManyCompanyInputEnvelope
+    set?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    disconnect?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    delete?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    connect?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    update?: AuditLogArchiveUpdateWithWhereUniqueWithoutCompanyInput | AuditLogArchiveUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AuditLogArchiveUpdateManyWithWhereWithoutCompanyInput | AuditLogArchiveUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AuditLogArchiveScalarWhereInput | AuditLogArchiveScalarWhereInput[]
+  }
+
+  export type AuditLogSearchUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AuditLogSearchCreateWithoutCompanyInput, AuditLogSearchUncheckedCreateWithoutCompanyInput> | AuditLogSearchCreateWithoutCompanyInput[] | AuditLogSearchUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AuditLogSearchCreateOrConnectWithoutCompanyInput | AuditLogSearchCreateOrConnectWithoutCompanyInput[]
+    upsert?: AuditLogSearchUpsertWithWhereUniqueWithoutCompanyInput | AuditLogSearchUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AuditLogSearchCreateManyCompanyInputEnvelope
+    set?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    disconnect?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    delete?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    connect?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    update?: AuditLogSearchUpdateWithWhereUniqueWithoutCompanyInput | AuditLogSearchUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AuditLogSearchUpdateManyWithWhereWithoutCompanyInput | AuditLogSearchUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AuditLogSearchScalarWhereInput | AuditLogSearchScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -57085,6 +60307,34 @@ export namespace Prisma {
     update?: DataDeletionRequestUpdateWithWhereUniqueWithoutCompanyInput | DataDeletionRequestUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: DataDeletionRequestUpdateManyWithWhereWithoutCompanyInput | DataDeletionRequestUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: DataDeletionRequestScalarWhereInput | DataDeletionRequestScalarWhereInput[]
+  }
+
+  export type AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AuditLogArchiveCreateWithoutCompanyInput, AuditLogArchiveUncheckedCreateWithoutCompanyInput> | AuditLogArchiveCreateWithoutCompanyInput[] | AuditLogArchiveUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AuditLogArchiveCreateOrConnectWithoutCompanyInput | AuditLogArchiveCreateOrConnectWithoutCompanyInput[]
+    upsert?: AuditLogArchiveUpsertWithWhereUniqueWithoutCompanyInput | AuditLogArchiveUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AuditLogArchiveCreateManyCompanyInputEnvelope
+    set?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    disconnect?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    delete?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    connect?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    update?: AuditLogArchiveUpdateWithWhereUniqueWithoutCompanyInput | AuditLogArchiveUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AuditLogArchiveUpdateManyWithWhereWithoutCompanyInput | AuditLogArchiveUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AuditLogArchiveScalarWhereInput | AuditLogArchiveScalarWhereInput[]
+  }
+
+  export type AuditLogSearchUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<AuditLogSearchCreateWithoutCompanyInput, AuditLogSearchUncheckedCreateWithoutCompanyInput> | AuditLogSearchCreateWithoutCompanyInput[] | AuditLogSearchUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: AuditLogSearchCreateOrConnectWithoutCompanyInput | AuditLogSearchCreateOrConnectWithoutCompanyInput[]
+    upsert?: AuditLogSearchUpsertWithWhereUniqueWithoutCompanyInput | AuditLogSearchUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: AuditLogSearchCreateManyCompanyInputEnvelope
+    set?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    disconnect?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    delete?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    connect?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    update?: AuditLogSearchUpdateWithWhereUniqueWithoutCompanyInput | AuditLogSearchUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: AuditLogSearchUpdateManyWithWhereWithoutCompanyInput | AuditLogSearchUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: AuditLogSearchScalarWhereInput | AuditLogSearchScalarWhereInput[]
   }
 
   export type CompanyCreateNestedOneWithoutUsersInput = {
@@ -57251,6 +60501,20 @@ export namespace Prisma {
     connectOrCreate?: DataDeletionRequestCreateOrConnectWithoutProcessorInput | DataDeletionRequestCreateOrConnectWithoutProcessorInput[]
     createMany?: DataDeletionRequestCreateManyProcessorInputEnvelope
     connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+  }
+
+  export type AuditLogArchiveCreateNestedManyWithoutArchiverInput = {
+    create?: XOR<AuditLogArchiveCreateWithoutArchiverInput, AuditLogArchiveUncheckedCreateWithoutArchiverInput> | AuditLogArchiveCreateWithoutArchiverInput[] | AuditLogArchiveUncheckedCreateWithoutArchiverInput[]
+    connectOrCreate?: AuditLogArchiveCreateOrConnectWithoutArchiverInput | AuditLogArchiveCreateOrConnectWithoutArchiverInput[]
+    createMany?: AuditLogArchiveCreateManyArchiverInputEnvelope
+    connect?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+  }
+
+  export type AuditLogSearchCreateNestedManyWithoutUserInput = {
+    create?: XOR<AuditLogSearchCreateWithoutUserInput, AuditLogSearchUncheckedCreateWithoutUserInput> | AuditLogSearchCreateWithoutUserInput[] | AuditLogSearchUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AuditLogSearchCreateOrConnectWithoutUserInput | AuditLogSearchCreateOrConnectWithoutUserInput[]
+    createMany?: AuditLogSearchCreateManyUserInputEnvelope
+    connect?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
   }
 
   export type EmailVerificationTokenCreateNestedManyWithoutUserInput = {
@@ -57454,6 +60718,20 @@ export namespace Prisma {
     connectOrCreate?: DataDeletionRequestCreateOrConnectWithoutProcessorInput | DataDeletionRequestCreateOrConnectWithoutProcessorInput[]
     createMany?: DataDeletionRequestCreateManyProcessorInputEnvelope
     connect?: DataDeletionRequestWhereUniqueInput | DataDeletionRequestWhereUniqueInput[]
+  }
+
+  export type AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput = {
+    create?: XOR<AuditLogArchiveCreateWithoutArchiverInput, AuditLogArchiveUncheckedCreateWithoutArchiverInput> | AuditLogArchiveCreateWithoutArchiverInput[] | AuditLogArchiveUncheckedCreateWithoutArchiverInput[]
+    connectOrCreate?: AuditLogArchiveCreateOrConnectWithoutArchiverInput | AuditLogArchiveCreateOrConnectWithoutArchiverInput[]
+    createMany?: AuditLogArchiveCreateManyArchiverInputEnvelope
+    connect?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+  }
+
+  export type AuditLogSearchUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AuditLogSearchCreateWithoutUserInput, AuditLogSearchUncheckedCreateWithoutUserInput> | AuditLogSearchCreateWithoutUserInput[] | AuditLogSearchUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AuditLogSearchCreateOrConnectWithoutUserInput | AuditLogSearchCreateOrConnectWithoutUserInput[]
+    createMany?: AuditLogSearchCreateManyUserInputEnvelope
+    connect?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
   }
 
   export type EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput = {
@@ -57847,6 +61125,34 @@ export namespace Prisma {
     update?: DataDeletionRequestUpdateWithWhereUniqueWithoutProcessorInput | DataDeletionRequestUpdateWithWhereUniqueWithoutProcessorInput[]
     updateMany?: DataDeletionRequestUpdateManyWithWhereWithoutProcessorInput | DataDeletionRequestUpdateManyWithWhereWithoutProcessorInput[]
     deleteMany?: DataDeletionRequestScalarWhereInput | DataDeletionRequestScalarWhereInput[]
+  }
+
+  export type AuditLogArchiveUpdateManyWithoutArchiverNestedInput = {
+    create?: XOR<AuditLogArchiveCreateWithoutArchiverInput, AuditLogArchiveUncheckedCreateWithoutArchiverInput> | AuditLogArchiveCreateWithoutArchiverInput[] | AuditLogArchiveUncheckedCreateWithoutArchiverInput[]
+    connectOrCreate?: AuditLogArchiveCreateOrConnectWithoutArchiverInput | AuditLogArchiveCreateOrConnectWithoutArchiverInput[]
+    upsert?: AuditLogArchiveUpsertWithWhereUniqueWithoutArchiverInput | AuditLogArchiveUpsertWithWhereUniqueWithoutArchiverInput[]
+    createMany?: AuditLogArchiveCreateManyArchiverInputEnvelope
+    set?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    disconnect?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    delete?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    connect?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    update?: AuditLogArchiveUpdateWithWhereUniqueWithoutArchiverInput | AuditLogArchiveUpdateWithWhereUniqueWithoutArchiverInput[]
+    updateMany?: AuditLogArchiveUpdateManyWithWhereWithoutArchiverInput | AuditLogArchiveUpdateManyWithWhereWithoutArchiverInput[]
+    deleteMany?: AuditLogArchiveScalarWhereInput | AuditLogArchiveScalarWhereInput[]
+  }
+
+  export type AuditLogSearchUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AuditLogSearchCreateWithoutUserInput, AuditLogSearchUncheckedCreateWithoutUserInput> | AuditLogSearchCreateWithoutUserInput[] | AuditLogSearchUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AuditLogSearchCreateOrConnectWithoutUserInput | AuditLogSearchCreateOrConnectWithoutUserInput[]
+    upsert?: AuditLogSearchUpsertWithWhereUniqueWithoutUserInput | AuditLogSearchUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AuditLogSearchCreateManyUserInputEnvelope
+    set?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    disconnect?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    delete?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    connect?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    update?: AuditLogSearchUpdateWithWhereUniqueWithoutUserInput | AuditLogSearchUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AuditLogSearchUpdateManyWithWhereWithoutUserInput | AuditLogSearchUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AuditLogSearchScalarWhereInput | AuditLogSearchScalarWhereInput[]
   }
 
   export type EmailVerificationTokenUpdateManyWithoutUserNestedInput = {
@@ -58253,6 +61559,34 @@ export namespace Prisma {
     update?: DataDeletionRequestUpdateWithWhereUniqueWithoutProcessorInput | DataDeletionRequestUpdateWithWhereUniqueWithoutProcessorInput[]
     updateMany?: DataDeletionRequestUpdateManyWithWhereWithoutProcessorInput | DataDeletionRequestUpdateManyWithWhereWithoutProcessorInput[]
     deleteMany?: DataDeletionRequestScalarWhereInput | DataDeletionRequestScalarWhereInput[]
+  }
+
+  export type AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput = {
+    create?: XOR<AuditLogArchiveCreateWithoutArchiverInput, AuditLogArchiveUncheckedCreateWithoutArchiverInput> | AuditLogArchiveCreateWithoutArchiverInput[] | AuditLogArchiveUncheckedCreateWithoutArchiverInput[]
+    connectOrCreate?: AuditLogArchiveCreateOrConnectWithoutArchiverInput | AuditLogArchiveCreateOrConnectWithoutArchiverInput[]
+    upsert?: AuditLogArchiveUpsertWithWhereUniqueWithoutArchiverInput | AuditLogArchiveUpsertWithWhereUniqueWithoutArchiverInput[]
+    createMany?: AuditLogArchiveCreateManyArchiverInputEnvelope
+    set?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    disconnect?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    delete?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    connect?: AuditLogArchiveWhereUniqueInput | AuditLogArchiveWhereUniqueInput[]
+    update?: AuditLogArchiveUpdateWithWhereUniqueWithoutArchiverInput | AuditLogArchiveUpdateWithWhereUniqueWithoutArchiverInput[]
+    updateMany?: AuditLogArchiveUpdateManyWithWhereWithoutArchiverInput | AuditLogArchiveUpdateManyWithWhereWithoutArchiverInput[]
+    deleteMany?: AuditLogArchiveScalarWhereInput | AuditLogArchiveScalarWhereInput[]
+  }
+
+  export type AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AuditLogSearchCreateWithoutUserInput, AuditLogSearchUncheckedCreateWithoutUserInput> | AuditLogSearchCreateWithoutUserInput[] | AuditLogSearchUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AuditLogSearchCreateOrConnectWithoutUserInput | AuditLogSearchCreateOrConnectWithoutUserInput[]
+    upsert?: AuditLogSearchUpsertWithWhereUniqueWithoutUserInput | AuditLogSearchUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AuditLogSearchCreateManyUserInputEnvelope
+    set?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    disconnect?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    delete?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    connect?: AuditLogSearchWhereUniqueInput | AuditLogSearchWhereUniqueInput[]
+    update?: AuditLogSearchUpdateWithWhereUniqueWithoutUserInput | AuditLogSearchUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AuditLogSearchUpdateManyWithWhereWithoutUserInput | AuditLogSearchUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AuditLogSearchScalarWhereInput | AuditLogSearchScalarWhereInput[]
   }
 
   export type EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput = {
@@ -59225,6 +62559,68 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuditLogsInput, UserUpdateWithoutAuditLogsInput>, UserUncheckedUpdateWithoutAuditLogsInput>
+  }
+
+  export type CompanyCreateNestedOneWithoutAuditLogArchivesInput = {
+    create?: XOR<CompanyCreateWithoutAuditLogArchivesInput, CompanyUncheckedCreateWithoutAuditLogArchivesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAuditLogArchivesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutAuditLogArchivesInput = {
+    create?: XOR<UserCreateWithoutAuditLogArchivesInput, UserUncheckedCreateWithoutAuditLogArchivesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAuditLogArchivesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyUpdateOneWithoutAuditLogArchivesNestedInput = {
+    create?: XOR<CompanyCreateWithoutAuditLogArchivesInput, CompanyUncheckedCreateWithoutAuditLogArchivesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAuditLogArchivesInput
+    upsert?: CompanyUpsertWithoutAuditLogArchivesInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAuditLogArchivesInput, CompanyUpdateWithoutAuditLogArchivesInput>, CompanyUncheckedUpdateWithoutAuditLogArchivesInput>
+  }
+
+  export type UserUpdateOneWithoutAuditLogArchivesNestedInput = {
+    create?: XOR<UserCreateWithoutAuditLogArchivesInput, UserUncheckedCreateWithoutAuditLogArchivesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAuditLogArchivesInput
+    upsert?: UserUpsertWithoutAuditLogArchivesInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuditLogArchivesInput, UserUpdateWithoutAuditLogArchivesInput>, UserUncheckedUpdateWithoutAuditLogArchivesInput>
+  }
+
+  export type UserCreateNestedOneWithoutAuditLogSearchesInput = {
+    create?: XOR<UserCreateWithoutAuditLogSearchesInput, UserUncheckedCreateWithoutAuditLogSearchesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAuditLogSearchesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutAuditLogSearchesInput = {
+    create?: XOR<CompanyCreateWithoutAuditLogSearchesInput, CompanyUncheckedCreateWithoutAuditLogSearchesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAuditLogSearchesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutAuditLogSearchesNestedInput = {
+    create?: XOR<UserCreateWithoutAuditLogSearchesInput, UserUncheckedCreateWithoutAuditLogSearchesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAuditLogSearchesInput
+    upsert?: UserUpsertWithoutAuditLogSearchesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuditLogSearchesInput, UserUpdateWithoutAuditLogSearchesInput>, UserUncheckedUpdateWithoutAuditLogSearchesInput>
+  }
+
+  export type CompanyUpdateOneWithoutAuditLogSearchesNestedInput = {
+    create?: XOR<CompanyCreateWithoutAuditLogSearchesInput, CompanyUncheckedCreateWithoutAuditLogSearchesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutAuditLogSearchesInput
+    upsert?: CompanyUpsertWithoutAuditLogSearchesInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutAuditLogSearchesInput, CompanyUpdateWithoutAuditLogSearchesInput>, CompanyUncheckedUpdateWithoutAuditLogSearchesInput>
   }
 
   export type UserCreateNestedOneWithoutThreatEventsInput = {
@@ -60260,6 +63656,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -60312,6 +63710,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -60648,6 +64048,72 @@ export namespace Prisma {
 
   export type DataDeletionRequestCreateManyCompanyInputEnvelope = {
     data: DataDeletionRequestCreateManyCompanyInput | DataDeletionRequestCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AuditLogArchiveCreateWithoutCompanyInput = {
+    id?: string
+    archiveDate?: Date | string
+    startDate: Date | string
+    endDate: Date | string
+    logCount: number
+    filePath?: string | null
+    fileSize?: number | null
+    status?: string
+    createdAt?: Date | string
+    archiver?: UserCreateNestedOneWithoutAuditLogArchivesInput
+  }
+
+  export type AuditLogArchiveUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    archiveDate?: Date | string
+    startDate: Date | string
+    endDate: Date | string
+    logCount: number
+    filePath?: string | null
+    fileSize?: number | null
+    archivedBy?: string | null
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type AuditLogArchiveCreateOrConnectWithoutCompanyInput = {
+    where: AuditLogArchiveWhereUniqueInput
+    create: XOR<AuditLogArchiveCreateWithoutCompanyInput, AuditLogArchiveUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AuditLogArchiveCreateManyCompanyInputEnvelope = {
+    data: AuditLogArchiveCreateManyCompanyInput | AuditLogArchiveCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AuditLogSearchCreateWithoutCompanyInput = {
+    id?: string
+    name?: string | null
+    searchQuery: string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    lastUsedAt?: Date | string
+    user: UserCreateNestedOneWithoutAuditLogSearchesInput
+  }
+
+  export type AuditLogSearchUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    userId: string
+    name?: string | null
+    searchQuery: string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    lastUsedAt?: Date | string
+  }
+
+  export type AuditLogSearchCreateOrConnectWithoutCompanyInput = {
+    where: AuditLogSearchWhereUniqueInput
+    create: XOR<AuditLogSearchCreateWithoutCompanyInput, AuditLogSearchUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AuditLogSearchCreateManyCompanyInputEnvelope = {
+    data: AuditLogSearchCreateManyCompanyInput | AuditLogSearchCreateManyCompanyInput[]
     skipDuplicates?: boolean
   }
 
@@ -61005,6 +64471,69 @@ export namespace Prisma {
     errorMessage?: StringNullableFilter<"DataDeletionRequest"> | string | null
   }
 
+  export type AuditLogArchiveUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: AuditLogArchiveWhereUniqueInput
+    update: XOR<AuditLogArchiveUpdateWithoutCompanyInput, AuditLogArchiveUncheckedUpdateWithoutCompanyInput>
+    create: XOR<AuditLogArchiveCreateWithoutCompanyInput, AuditLogArchiveUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AuditLogArchiveUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: AuditLogArchiveWhereUniqueInput
+    data: XOR<AuditLogArchiveUpdateWithoutCompanyInput, AuditLogArchiveUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type AuditLogArchiveUpdateManyWithWhereWithoutCompanyInput = {
+    where: AuditLogArchiveScalarWhereInput
+    data: XOR<AuditLogArchiveUpdateManyMutationInput, AuditLogArchiveUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type AuditLogArchiveScalarWhereInput = {
+    AND?: AuditLogArchiveScalarWhereInput | AuditLogArchiveScalarWhereInput[]
+    OR?: AuditLogArchiveScalarWhereInput[]
+    NOT?: AuditLogArchiveScalarWhereInput | AuditLogArchiveScalarWhereInput[]
+    id?: StringFilter<"AuditLogArchive"> | string
+    companyId?: StringNullableFilter<"AuditLogArchive"> | string | null
+    archiveDate?: DateTimeFilter<"AuditLogArchive"> | Date | string
+    startDate?: DateTimeFilter<"AuditLogArchive"> | Date | string
+    endDate?: DateTimeFilter<"AuditLogArchive"> | Date | string
+    logCount?: IntFilter<"AuditLogArchive"> | number
+    filePath?: StringNullableFilter<"AuditLogArchive"> | string | null
+    fileSize?: IntNullableFilter<"AuditLogArchive"> | number | null
+    archivedBy?: StringNullableFilter<"AuditLogArchive"> | string | null
+    status?: StringFilter<"AuditLogArchive"> | string
+    createdAt?: DateTimeFilter<"AuditLogArchive"> | Date | string
+  }
+
+  export type AuditLogSearchUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: AuditLogSearchWhereUniqueInput
+    update: XOR<AuditLogSearchUpdateWithoutCompanyInput, AuditLogSearchUncheckedUpdateWithoutCompanyInput>
+    create: XOR<AuditLogSearchCreateWithoutCompanyInput, AuditLogSearchUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type AuditLogSearchUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: AuditLogSearchWhereUniqueInput
+    data: XOR<AuditLogSearchUpdateWithoutCompanyInput, AuditLogSearchUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type AuditLogSearchUpdateManyWithWhereWithoutCompanyInput = {
+    where: AuditLogSearchScalarWhereInput
+    data: XOR<AuditLogSearchUpdateManyMutationInput, AuditLogSearchUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type AuditLogSearchScalarWhereInput = {
+    AND?: AuditLogSearchScalarWhereInput | AuditLogSearchScalarWhereInput[]
+    OR?: AuditLogSearchScalarWhereInput[]
+    NOT?: AuditLogSearchScalarWhereInput | AuditLogSearchScalarWhereInput[]
+    id?: StringFilter<"AuditLogSearch"> | string
+    userId?: StringFilter<"AuditLogSearch"> | string
+    companyId?: StringNullableFilter<"AuditLogSearch"> | string | null
+    name?: StringNullableFilter<"AuditLogSearch"> | string | null
+    searchQuery?: StringFilter<"AuditLogSearch"> | string
+    filters?: JsonNullableFilter<"AuditLogSearch">
+    createdAt?: DateTimeFilter<"AuditLogSearch"> | Date | string
+    lastUsedAt?: DateTimeFilter<"AuditLogSearch"> | Date | string
+  }
+
   export type CompanyCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -61020,6 +64549,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -61037,6 +64568,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -61705,6 +65238,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -61757,6 +65292,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -61814,6 +65351,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -61866,6 +65405,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -62024,6 +65565,72 @@ export namespace Prisma {
 
   export type DataDeletionRequestCreateManyProcessorInputEnvelope = {
     data: DataDeletionRequestCreateManyProcessorInput | DataDeletionRequestCreateManyProcessorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AuditLogArchiveCreateWithoutArchiverInput = {
+    id?: string
+    archiveDate?: Date | string
+    startDate: Date | string
+    endDate: Date | string
+    logCount: number
+    filePath?: string | null
+    fileSize?: number | null
+    status?: string
+    createdAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutAuditLogArchivesInput
+  }
+
+  export type AuditLogArchiveUncheckedCreateWithoutArchiverInput = {
+    id?: string
+    companyId?: string | null
+    archiveDate?: Date | string
+    startDate: Date | string
+    endDate: Date | string
+    logCount: number
+    filePath?: string | null
+    fileSize?: number | null
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type AuditLogArchiveCreateOrConnectWithoutArchiverInput = {
+    where: AuditLogArchiveWhereUniqueInput
+    create: XOR<AuditLogArchiveCreateWithoutArchiverInput, AuditLogArchiveUncheckedCreateWithoutArchiverInput>
+  }
+
+  export type AuditLogArchiveCreateManyArchiverInputEnvelope = {
+    data: AuditLogArchiveCreateManyArchiverInput | AuditLogArchiveCreateManyArchiverInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AuditLogSearchCreateWithoutUserInput = {
+    id?: string
+    name?: string | null
+    searchQuery: string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    lastUsedAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutAuditLogSearchesInput
+  }
+
+  export type AuditLogSearchUncheckedCreateWithoutUserInput = {
+    id?: string
+    companyId?: string | null
+    name?: string | null
+    searchQuery: string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    lastUsedAt?: Date | string
+  }
+
+  export type AuditLogSearchCreateOrConnectWithoutUserInput = {
+    where: AuditLogSearchWhereUniqueInput
+    create: XOR<AuditLogSearchCreateWithoutUserInput, AuditLogSearchUncheckedCreateWithoutUserInput>
+  }
+
+  export type AuditLogSearchCreateManyUserInputEnvelope = {
+    data: AuditLogSearchCreateManyUserInput | AuditLogSearchCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -62263,6 +65870,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -62280,6 +65889,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type PasswordUpsertWithWhereUniqueWithoutOwnerInput = {
@@ -62839,6 +66450,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -62891,6 +66504,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -62991,6 +66606,38 @@ export namespace Prisma {
   export type DataDeletionRequestUpdateManyWithWhereWithoutProcessorInput = {
     where: DataDeletionRequestScalarWhereInput
     data: XOR<DataDeletionRequestUpdateManyMutationInput, DataDeletionRequestUncheckedUpdateManyWithoutProcessorInput>
+  }
+
+  export type AuditLogArchiveUpsertWithWhereUniqueWithoutArchiverInput = {
+    where: AuditLogArchiveWhereUniqueInput
+    update: XOR<AuditLogArchiveUpdateWithoutArchiverInput, AuditLogArchiveUncheckedUpdateWithoutArchiverInput>
+    create: XOR<AuditLogArchiveCreateWithoutArchiverInput, AuditLogArchiveUncheckedCreateWithoutArchiverInput>
+  }
+
+  export type AuditLogArchiveUpdateWithWhereUniqueWithoutArchiverInput = {
+    where: AuditLogArchiveWhereUniqueInput
+    data: XOR<AuditLogArchiveUpdateWithoutArchiverInput, AuditLogArchiveUncheckedUpdateWithoutArchiverInput>
+  }
+
+  export type AuditLogArchiveUpdateManyWithWhereWithoutArchiverInput = {
+    where: AuditLogArchiveScalarWhereInput
+    data: XOR<AuditLogArchiveUpdateManyMutationInput, AuditLogArchiveUncheckedUpdateManyWithoutArchiverInput>
+  }
+
+  export type AuditLogSearchUpsertWithWhereUniqueWithoutUserInput = {
+    where: AuditLogSearchWhereUniqueInput
+    update: XOR<AuditLogSearchUpdateWithoutUserInput, AuditLogSearchUncheckedUpdateWithoutUserInput>
+    create: XOR<AuditLogSearchCreateWithoutUserInput, AuditLogSearchUncheckedCreateWithoutUserInput>
+  }
+
+  export type AuditLogSearchUpdateWithWhereUniqueWithoutUserInput = {
+    where: AuditLogSearchWhereUniqueInput
+    data: XOR<AuditLogSearchUpdateWithoutUserInput, AuditLogSearchUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AuditLogSearchUpdateManyWithWhereWithoutUserInput = {
+    where: AuditLogSearchScalarWhereInput
+    data: XOR<AuditLogSearchUpdateManyMutationInput, AuditLogSearchUncheckedUpdateManyWithoutUserInput>
   }
 
   export type EmailVerificationTokenUpsertWithWhereUniqueWithoutUserInput = {
@@ -63186,6 +66833,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -63238,6 +66887,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -63306,6 +66957,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -63358,6 +67011,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -63410,6 +67065,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -63462,6 +67119,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -63530,6 +67189,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -63582,6 +67243,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -63634,6 +67297,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -63686,6 +67351,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -63984,6 +67651,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -64036,6 +67705,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -64305,6 +67976,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -64357,6 +68030,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -64482,6 +68157,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -64534,6 +68211,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -64637,6 +68316,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -64689,6 +68370,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -64746,6 +68429,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -64798,6 +68483,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -64923,6 +68610,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -64975,6 +68664,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -65038,6 +68729,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -65090,6 +68783,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -65142,6 +68837,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -65194,6 +68891,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -65356,6 +69055,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -65408,6 +69109,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -65578,6 +69281,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -65630,6 +69335,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -65796,6 +69503,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -65848,6 +69557,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -66151,6 +69862,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -66203,6 +69916,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -66351,6 +70066,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -66403,6 +70120,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -66591,6 +70310,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -66643,6 +70364,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -66740,6 +70463,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -66792,6 +70517,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -67038,6 +70765,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -67090,6 +70819,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -67158,6 +70889,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -67210,6 +70943,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -67217,6 +70952,654 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
     createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
     createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type CompanyCreateWithoutAuditLogArchivesInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutAuditLogArchivesInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutAuditLogArchivesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutAuditLogArchivesInput, CompanyUncheckedCreateWithoutAuditLogArchivesInput>
+  }
+
+  export type UserCreateWithoutAuditLogArchivesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
+    emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutAuditLogArchivesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutAuditLogArchivesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAuditLogArchivesInput, UserUncheckedCreateWithoutAuditLogArchivesInput>
+  }
+
+  export type CompanyUpsertWithoutAuditLogArchivesInput = {
+    update: XOR<CompanyUpdateWithoutAuditLogArchivesInput, CompanyUncheckedUpdateWithoutAuditLogArchivesInput>
+    create: XOR<CompanyCreateWithoutAuditLogArchivesInput, CompanyUncheckedCreateWithoutAuditLogArchivesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutAuditLogArchivesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutAuditLogArchivesInput, CompanyUncheckedUpdateWithoutAuditLogArchivesInput>
+  }
+
+  export type CompanyUpdateWithoutAuditLogArchivesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutAuditLogArchivesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type UserUpsertWithoutAuditLogArchivesInput = {
+    update: XOR<UserUpdateWithoutAuditLogArchivesInput, UserUncheckedUpdateWithoutAuditLogArchivesInput>
+    create: XOR<UserCreateWithoutAuditLogArchivesInput, UserUncheckedCreateWithoutAuditLogArchivesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAuditLogArchivesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAuditLogArchivesInput, UserUncheckedUpdateWithoutAuditLogArchivesInput>
+  }
+
+  export type UserUpdateWithoutAuditLogArchivesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAuditLogArchivesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserCreateWithoutAuditLogSearchesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutAuditLogSearchesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutAuditLogSearchesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAuditLogSearchesInput, UserUncheckedCreateWithoutAuditLogSearchesInput>
+  }
+
+  export type CompanyCreateWithoutAuditLogSearchesInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutAuditLogSearchesInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutAuditLogSearchesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutAuditLogSearchesInput, CompanyUncheckedCreateWithoutAuditLogSearchesInput>
+  }
+
+  export type UserUpsertWithoutAuditLogSearchesInput = {
+    update: XOR<UserUpdateWithoutAuditLogSearchesInput, UserUncheckedUpdateWithoutAuditLogSearchesInput>
+    create: XOR<UserCreateWithoutAuditLogSearchesInput, UserUncheckedCreateWithoutAuditLogSearchesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAuditLogSearchesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAuditLogSearchesInput, UserUncheckedUpdateWithoutAuditLogSearchesInput>
+  }
+
+  export type UserUpdateWithoutAuditLogSearchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAuditLogSearchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type CompanyUpsertWithoutAuditLogSearchesInput = {
+    update: XOR<CompanyUpdateWithoutAuditLogSearchesInput, CompanyUncheckedUpdateWithoutAuditLogSearchesInput>
+    create: XOR<CompanyCreateWithoutAuditLogSearchesInput, CompanyUncheckedCreateWithoutAuditLogSearchesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutAuditLogSearchesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutAuditLogSearchesInput, CompanyUncheckedUpdateWithoutAuditLogSearchesInput>
+  }
+
+  export type CompanyUpdateWithoutAuditLogSearchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutAuditLogSearchesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutThreatEventsInput = {
@@ -67262,6 +71645,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -67314,6 +71699,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -67343,6 +71730,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutThreatEventsInput = {
@@ -67360,6 +71749,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutThreatEventsInput = {
@@ -67421,6 +71812,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -67473,6 +71866,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -67508,6 +71903,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutThreatEventsInput = {
@@ -67525,6 +71922,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutRateLimitsInput = {
@@ -67542,6 +71941,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRateLimitsInput = {
@@ -67559,6 +71960,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRateLimitsInput = {
@@ -67592,6 +71995,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRateLimitsInput = {
@@ -67609,6 +72014,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutCreatedRolesInput = {
@@ -67654,6 +72061,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -67706,6 +72115,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -67796,6 +72207,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -67848,6 +72261,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -68076,6 +72491,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -68128,6 +72545,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -68196,6 +72615,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -68248,6 +72669,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -68300,6 +72723,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -68352,6 +72777,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -68420,6 +72847,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -68472,6 +72901,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -68524,6 +72955,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -68576,6 +73009,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -68644,6 +73079,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -68696,6 +73133,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -68748,6 +73187,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -68800,6 +73241,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -68868,6 +73311,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -68920,6 +73365,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -68972,6 +73419,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -69024,6 +73473,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -69053,6 +73504,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutTemplatesInput = {
@@ -69070,6 +73523,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutTemplatesInput = {
@@ -69131,6 +73586,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -69183,6 +73640,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -69218,6 +73677,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutTemplatesInput = {
@@ -69235,6 +73696,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutEmailVerificationTokensInput = {
@@ -69281,6 +73744,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
@@ -69333,6 +73798,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
@@ -69401,6 +73868,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
@@ -69453,6 +73922,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
@@ -69505,6 +73976,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
@@ -69557,6 +74030,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
@@ -69625,6 +74100,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
@@ -69677,6 +74154,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
@@ -69729,6 +74208,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
@@ -69781,6 +74262,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
@@ -69849,6 +74332,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
@@ -69901,6 +74386,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
@@ -69953,6 +74440,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -70005,6 +74494,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -70033,6 +74524,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutIpWhitelistsInput = {
@@ -70050,6 +74543,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutIpWhitelistsInput = {
@@ -70101,6 +74596,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -70153,6 +74650,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -70221,6 +74720,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -70273,6 +74774,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -70307,6 +74810,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutIpWhitelistsInput = {
@@ -70324,6 +74829,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCreatedIpWhitelistsInput = {
@@ -70381,6 +74888,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -70433,6 +74942,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -70485,6 +74996,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -70537,6 +75050,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -70565,6 +75080,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutGeographicRestrictionsInput = {
@@ -70582,6 +75099,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutGeographicRestrictionsInput = {
@@ -70633,6 +75152,8 @@ export namespace Prisma {
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -70685,6 +75206,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -70753,6 +75276,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -70805,6 +75330,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -70839,6 +75366,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutGeographicRestrictionsInput = {
@@ -70856,6 +75385,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutCreatedGeographicRestrictionsInput = {
@@ -70913,6 +75444,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -70965,6 +75498,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -70988,6 +75523,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutPasswordPolicyInput = {
@@ -71005,6 +75542,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutPasswordPolicyInput = {
@@ -71038,6 +75577,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutPasswordPolicyInput = {
@@ -71055,6 +75596,8 @@ export namespace Prisma {
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateWithoutDataRetentionPolicyInput = {
@@ -71072,6 +75615,8 @@ export namespace Prisma {
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutDataRetentionPolicyInput = {
@@ -71089,6 +75634,8 @@ export namespace Prisma {
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutDataRetentionPolicyInput = {
@@ -71122,6 +75669,8 @@ export namespace Prisma {
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutDataRetentionPolicyInput = {
@@ -71139,6 +75688,8 @@ export namespace Prisma {
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutDataExportsInput = {
@@ -71184,6 +75735,8 @@ export namespace Prisma {
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -71236,6 +75789,8 @@ export namespace Prisma {
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -71265,6 +75820,8 @@ export namespace Prisma {
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutDataExportsInput = {
@@ -71282,6 +75839,8 @@ export namespace Prisma {
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutDataExportsInput = {
@@ -71343,6 +75902,8 @@ export namespace Prisma {
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -71395,6 +75956,8 @@ export namespace Prisma {
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -71430,6 +75993,8 @@ export namespace Prisma {
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutDataExportsInput = {
@@ -71447,6 +76012,8 @@ export namespace Prisma {
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserCreateWithoutDataDeletionRequestsInput = {
@@ -71492,6 +76059,8 @@ export namespace Prisma {
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -71544,6 +76113,8 @@ export namespace Prisma {
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -71573,6 +76144,8 @@ export namespace Prisma {
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutDataDeletionRequestsInput = {
@@ -71590,6 +76163,8 @@ export namespace Prisma {
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutDataDeletionRequestsInput = {
@@ -71640,6 +76215,8 @@ export namespace Prisma {
     createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
     dataExports?: DataExportCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
@@ -71692,6 +76269,8 @@ export namespace Prisma {
     createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
     passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
     securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
@@ -71760,6 +76339,8 @@ export namespace Prisma {
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -71812,6 +76393,8 @@ export namespace Prisma {
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -71847,6 +76430,8 @@ export namespace Prisma {
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutDataDeletionRequestsInput = {
@@ -71864,6 +76449,8 @@ export namespace Prisma {
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type UserUpsertWithoutProcessedDeletionsInput = {
@@ -71920,6 +76507,8 @@ export namespace Prisma {
     createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -71972,6 +76561,8 @@ export namespace Prisma {
     createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -72095,6 +76686,29 @@ export namespace Prisma {
     errorMessage?: string | null
   }
 
+  export type AuditLogArchiveCreateManyCompanyInput = {
+    id?: string
+    archiveDate?: Date | string
+    startDate: Date | string
+    endDate: Date | string
+    logCount: number
+    filePath?: string | null
+    fileSize?: number | null
+    archivedBy?: string | null
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type AuditLogSearchCreateManyCompanyInput = {
+    id?: string
+    userId: string
+    name?: string | null
+    searchQuery: string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    lastUsedAt?: Date | string
+  }
+
   export type UserUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -72138,6 +76752,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -72190,6 +76806,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -72495,6 +77113,75 @@ export namespace Prisma {
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type AuditLogArchiveUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    archiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    logCount?: IntFieldUpdateOperationsInput | number
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archiver?: UserUpdateOneWithoutAuditLogArchivesNestedInput
+  }
+
+  export type AuditLogArchiveUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    archiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    logCount?: IntFieldUpdateOperationsInput | number
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    archivedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogArchiveUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    archiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    logCount?: IntFieldUpdateOperationsInput | number
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    archivedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogSearchUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: StringFieldUpdateOperationsInput | string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAuditLogSearchesNestedInput
+  }
+
+  export type AuditLogSearchUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: StringFieldUpdateOperationsInput | string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogSearchUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: StringFieldUpdateOperationsInput | string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PasswordCreateManyOwnerInput = {
     id?: string
     name: string
@@ -72783,6 +77470,29 @@ export namespace Prisma {
     confirmationToken: string
     confirmedAt?: Date | string | null
     errorMessage?: string | null
+  }
+
+  export type AuditLogArchiveCreateManyArchiverInput = {
+    id?: string
+    companyId?: string | null
+    archiveDate?: Date | string
+    startDate: Date | string
+    endDate: Date | string
+    logCount: number
+    filePath?: string | null
+    fileSize?: number | null
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type AuditLogSearchCreateManyUserInput = {
+    id?: string
+    companyId?: string | null
+    name?: string | null
+    searchQuery: string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    lastUsedAt?: Date | string
   }
 
   export type EmailVerificationTokenCreateManyUserInput = {
@@ -73563,6 +78273,8 @@ export namespace Prisma {
     dataExports?: DataExportUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
@@ -73615,6 +78327,8 @@ export namespace Prisma {
     dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
     processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
     passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
     securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
@@ -73797,6 +78511,75 @@ export namespace Prisma {
     confirmationToken?: StringFieldUpdateOperationsInput | string
     confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AuditLogArchiveUpdateWithoutArchiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    archiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    logCount?: IntFieldUpdateOperationsInput | number
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutAuditLogArchivesNestedInput
+  }
+
+  export type AuditLogArchiveUncheckedUpdateWithoutArchiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    archiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    logCount?: IntFieldUpdateOperationsInput | number
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogArchiveUncheckedUpdateManyWithoutArchiverInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    archiveDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    logCount?: IntFieldUpdateOperationsInput | number
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    fileSize?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogSearchUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: StringFieldUpdateOperationsInput | string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutAuditLogSearchesNestedInput
+  }
+
+  export type AuditLogSearchUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: StringFieldUpdateOperationsInput | string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AuditLogSearchUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    searchQuery?: StringFieldUpdateOperationsInput | string
+    filters?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUsedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type EmailVerificationTokenUpdateWithoutUserInput = {

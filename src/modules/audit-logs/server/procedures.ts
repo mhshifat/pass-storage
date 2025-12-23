@@ -2,6 +2,14 @@ import prisma from "@/lib/prisma"
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init"
 import z from "zod"
 import { TRPCError } from "@trpc/server"
+import {
+  archiveAuditLogs,
+  getAuditLogAnalytics,
+  searchAuditLogsAdvanced,
+  type AdvancedAuditLogFilters,
+} from "@/lib/audit-log-advanced"
+import { createAuditLog } from "@/lib/audit-log"
+import { Prisma } from "@/app/generated"
 
 export const auditLogsRouter = createTRPCRouter({
   list: protectedProcedure("audit.view")
@@ -21,7 +29,7 @@ export const auditLogsRouter = createTRPCRouter({
       const { page, pageSize, search, action, status, userId, startDate, endDate } = input
 
       // Build where clause
-      const where: any = {}
+      const where: Prisma.AuditLogWhereInput = {}
 
       if (search) {
         where.OR = [
@@ -281,4 +289,626 @@ export const auditLogsRouter = createTRPCRouter({
         })),
       }
     }),
+
+  // Advanced Audit Logs - Archive
+  archiveLogs: protectedProcedure("audit.view")
+    .input(
+      z.object({
+        olderThanDays: z.number().min(1).max(3650),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Get user's companyId
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      const result = await archiveAuditLogs(
+        companyId,
+        input.olderThanDays,
+        ctx.userId || undefined
+      )
+
+      return result
+    }),
+
+  // Advanced Audit Logs - Get Archives
+  getArchives: protectedProcedure("audit.view")
+    .input(
+      z.object({
+        page: z.number().min(1).default(1),
+        pageSize: z.number().min(1).max(100).default(20),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      // Get user's companyId
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      const where: Prisma.AuditLogArchiveWhereInput = {}
+      if (companyId) {
+        where.companyId = companyId
+      }
+
+      const total = await prisma.auditLogArchive.count({ where })
+
+      const archives = await prisma.auditLogArchive.findMany({
+        where,
+        take: input.pageSize,
+        skip: (input.page - 1) * input.pageSize,
+        orderBy: { archiveDate: "desc" },
+        include: {
+          archiver: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+      })
+
+      return {
+        archives,
+        pagination: {
+          page: input.page,
+          pageSize: input.pageSize,
+          total,
+          totalPages: Math.ceil(total / input.pageSize),
+        },
+      }
+    }),
+
+  // Advanced Audit Logs - Analytics
+  getAnalytics: protectedProcedure("audit.view")
+    .input(
+      z.object({
+        startDate: z.date(),
+        endDate: z.date(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      // Get user's companyId
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      return await getAuditLogAnalytics(
+        companyId,
+        input.startDate,
+        input.endDate
+      )
+    }),
+
+  // Advanced Audit Logs - Advanced Search
+  advancedSearch: protectedProcedure("audit.view")
+    .input(
+      z.object({
+        actions: z.array(z.string()).optional(),
+        resources: z.array(z.string()).optional(),
+        statuses: z.array(z.enum(["SUCCESS", "FAILED", "WARNING", "BLOCKED"])).optional(),
+        userIds: z.array(z.string()).optional(),
+        ipAddresses: z.array(z.string()).optional(),
+        dateRange: z
+          .object({
+            start: z.date(),
+            end: z.date(),
+          })
+          .optional(),
+        searchText: z.string().optional(),
+        hasDetails: z.boolean().optional(),
+        page: z.number().min(1).default(1),
+        pageSize: z.number().min(1).max(100).default(20),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      // Get user's companyId
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      const filters: AdvancedAuditLogFilters = {
+        actions: input.actions,
+        resources: input.resources,
+        statuses: input.statuses,
+        userIds: input.userIds,
+        ipAddresses: input.ipAddresses,
+        dateRange: input.dateRange,
+        searchText: input.searchText,
+        hasDetails: input.hasDetails,
+      }
+
+      return await searchAuditLogsAdvanced(
+        companyId,
+        filters,
+        input.page,
+        input.pageSize
+      )
+    }),
+
+  // Advanced Audit Logs - Save Search
+  saveSearch: protectedProcedure("audit.view")
+    .input(
+      z.object({
+        name: z.string().optional(),
+        searchQuery: z.string(),
+        filters: z.record(z.string(), z.unknown()).optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "User ID is required",
+        })
+      }
+
+      // Get user's companyId
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      const savedSearch = await prisma.auditLogSearch.create({
+        data: {
+          userId: ctx.userId,
+          companyId,
+          name: input.name || null,
+          searchQuery: input.searchQuery,
+          filters: input.filters as Prisma.InputJsonValue || undefined,
+        },
+      })
+
+      return { id: savedSearch.id }
+    }),
+
+  // Advanced Audit Logs - Get Saved Searches
+  getSavedSearches: protectedProcedure("audit.view")
+    .query(async ({ ctx }) => {
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "User ID is required",
+        })
+      }
+
+      const searches = await prisma.auditLogSearch.findMany({
+        where: { userId: ctx.userId },
+        orderBy: { lastUsedAt: "desc" },
+        take: 20,
+      })
+
+      return searches
+    }),
+
+  // Advanced Audit Logs - Delete Saved Search
+  deleteSavedSearch: protectedProcedure("audit.view")
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      if (!ctx.userId) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "User ID is required",
+        })
+      }
+
+      // Verify ownership
+      const search = await prisma.auditLogSearch.findUnique({
+        where: { id: input.id },
+      })
+
+      if (!search || search.userId !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You do not have permission to delete this search",
+        })
+      }
+
+      await prisma.auditLogSearch.delete({
+        where: { id: input.id },
+      })
+
+      return { success: true }
+    }),
+
+  // Advanced Audit Logs - Real-time streaming (polling-based)
+  getRecentLogs: protectedProcedure("audit.view")
+    .input(
+      z.object({
+        since: z.date().optional(), // Get logs since this date
+        limit: z.number().min(1).max(100).default(50),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      // Get user's companyId
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      const where: Prisma.AuditLogWhereInput = {}
+      if (companyId) {
+        where.user = {
+          companyId,
+        }
+      }
+      if (input.since) {
+        where.createdAt = {
+          gte: input.since,
+        }
+      }
+
+      const logs = await prisma.auditLog.findMany({
+        where,
+        take: input.limit,
+        orderBy: { createdAt: "desc" },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+      })
+
+      // Format logs
+      const formattedLogs = logs.map((log) => {
+        let status: "success" | "failed" | "warning" | "blocked" = "success"
+        switch (log.status) {
+          case "SUCCESS":
+            status = "success"
+            break
+          case "FAILED":
+            status = "failed"
+            break
+          case "WARNING":
+            status = "warning"
+            break
+          case "BLOCKED":
+            status = "blocked"
+            break
+        }
+
+        return {
+          id: log.id,
+          user: log.user?.name || "Unknown",
+          userEmail: log.user?.email || "N/A",
+          action: log.action,
+          resource: log.resource,
+          ipAddress: log.ipAddress || "N/A",
+          timestamp: log.createdAt.toISOString(),
+          status,
+          avatar: null as string | null,
+          details: log.details as Record<string, unknown> | undefined,
+        }
+      })
+
+      return {
+        logs: formattedLogs,
+        latestTimestamp: logs[0]?.createdAt || new Date(),
+      }
+    }),
+
+  // Export audit logs
+  exportLogs: protectedProcedure("audit.view")
+    .input(
+      z.object({
+        format: z.enum(["csv", "json"]).default("csv"),
+        search: z.string().optional(),
+        action: z.string().optional(),
+        status: z.enum(["SUCCESS", "FAILED", "WARNING", "BLOCKED"]).optional(),
+        startDate: z.date().optional(),
+        endDate: z.date().optional(),
+        actions: z.array(z.string()).optional(),
+        resources: z.array(z.string()).optional(),
+        statuses: z.array(z.enum(["SUCCESS", "FAILED", "WARNING", "BLOCKED"])).optional(),
+        userIds: z.array(z.string()).optional(),
+        ipAddresses: z.array(z.string()).optional(),
+        hasDetails: z.boolean().optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Get user's companyId
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      // Build where clause
+      const where: Prisma.AuditLogWhereInput = {}
+
+      if (companyId) {
+        where.user = {
+          companyId,
+        }
+      }
+
+      // Handle advanced filters
+      if (input.actions && input.actions.length > 0) {
+        where.action = { in: input.actions }
+      } else if (input.action) {
+        where.action = input.action
+      }
+
+      if (input.resources && input.resources.length > 0) {
+        where.resource = { in: input.resources }
+      }
+
+      if (input.statuses && input.statuses.length > 0) {
+        where.status = { in: input.statuses }
+      } else if (input.status) {
+        where.status = input.status
+      }
+
+      if (input.userIds && input.userIds.length > 0) {
+        where.userId = { in: input.userIds }
+      }
+
+      if (input.ipAddresses && input.ipAddresses.length > 0) {
+        where.ipAddress = { in: input.ipAddresses }
+      }
+
+      if (input.startDate || input.endDate) {
+        where.createdAt = {}
+        if (input.startDate) {
+          where.createdAt.gte = input.startDate
+        }
+        if (input.endDate) {
+          where.createdAt.lte = input.endDate
+        }
+      }
+
+      if (input.hasDetails !== undefined) {
+        if (input.hasDetails) {
+          where.details = { not: undefined }
+        } else {
+          where.details = undefined
+        }
+      }
+
+      if (input.search) {
+        where.OR = [
+          { action: { contains: input.search, mode: "insensitive" } },
+          { resource: { contains: input.search, mode: "insensitive" } },
+          { ipAddress: { contains: input.search, mode: "insensitive" } },
+          { user: { name: { contains: input.search, mode: "insensitive" } } },
+          { user: { email: { contains: input.search, mode: "insensitive" } } },
+        ]
+      }
+
+      // Fetch all logs (no pagination for export)
+      const logs = await prisma.auditLog.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+      })
+
+      // Format logs
+      const formattedLogs = logs.map((log) => {
+        let status: "success" | "failed" | "warning" | "blocked" = "success"
+        switch (log.status) {
+          case "SUCCESS":
+            status = "success"
+            break
+          case "FAILED":
+            status = "failed"
+            break
+          case "WARNING":
+            status = "warning"
+            break
+          case "BLOCKED":
+            status = "blocked"
+            break
+        }
+
+        return {
+          id: log.id,
+          user: log.user?.name || "Unknown",
+          userEmail: log.user?.email || "N/A",
+          action: log.action,
+          resource: log.resource,
+          resourceId: log.resourceId || "",
+          ipAddress: log.ipAddress || "N/A",
+          userAgent: log.userAgent || "",
+          timestamp: log.createdAt.toISOString(),
+          status,
+          details: log.details ? JSON.stringify(log.details) : "",
+        }
+      })
+
+      // Create export content based on format
+      let content: string
+      let mimeType: string
+      let fileExtension: string
+
+      if (input.format === "json") {
+        content = JSON.stringify(
+          {
+            version: "1.0",
+            exportDate: new Date().toISOString(),
+            count: formattedLogs.length,
+            logs: formattedLogs,
+          },
+          null,
+          2
+        )
+        mimeType = "application/json"
+        fileExtension = "json"
+      } else {
+        // CSV format
+        const headers = [
+          "ID",
+          "User",
+          "User Email",
+          "Action",
+          "Resource",
+          "Resource ID",
+          "IP Address",
+          "User Agent",
+          "Status",
+          "Timestamp",
+          "Details",
+        ]
+        const rows = formattedLogs.map((log) => [
+          log.id,
+          escapeCSVField(log.user),
+          escapeCSVField(log.userEmail),
+          escapeCSVField(log.action),
+          escapeCSVField(log.resource),
+          escapeCSVField(log.resourceId),
+          escapeCSVField(log.ipAddress),
+          escapeCSVField(log.userAgent),
+          log.status,
+          log.timestamp,
+          escapeCSVField(log.details),
+        ])
+
+        content = [headers.join(","), ...rows.map((row) => row.join(","))].join(
+          "\n"
+        )
+        mimeType = "text/csv"
+        fileExtension = "csv"
+      }
+
+      // Create audit log for export
+      await createAuditLog({
+        action: "AUDIT_LOG_EXPORTED",
+        resource: "AuditLog",
+        details: {
+          format: input.format,
+          count: formattedLogs.length,
+        },
+        userId: ctx.userId || null,
+      })
+
+      return {
+        content,
+        mimeType,
+        fileExtension,
+        count: formattedLogs.length,
+      }
+    }),
 })
+
+// Helper function to escape CSV fields
+function escapeCSVField(field: string): string {
+  if (!field) return ""
+  // If field contains comma, quote, or newline, wrap in quotes and escape quotes
+  if (field.includes(",") || field.includes('"') || field.includes("\n")) {
+    return `"${field.replace(/"/g, '""')}"`
+  }
+  return field
+}

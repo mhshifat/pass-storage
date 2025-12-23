@@ -327,6 +327,31 @@ exports.Prisma.AuditLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.AuditLogArchiveScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  archiveDate: 'archiveDate',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  logCount: 'logCount',
+  filePath: 'filePath',
+  fileSize: 'fileSize',
+  archivedBy: 'archivedBy',
+  status: 'status',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AuditLogSearchScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  companyId: 'companyId',
+  name: 'name',
+  searchQuery: 'searchQuery',
+  filters: 'filters',
+  createdAt: 'createdAt',
+  lastUsedAt: 'lastUsedAt'
+};
+
 exports.Prisma.SettingsScalarFieldEnum = {
   id: 'id',
   key: 'key',
@@ -665,6 +690,8 @@ exports.Prisma.ModelName = {
   Tag: 'Tag',
   PasswordTag: 'PasswordTag',
   AuditLog: 'AuditLog',
+  AuditLogArchive: 'AuditLogArchive',
+  AuditLogSearch: 'AuditLogSearch',
   Settings: 'Settings',
   ThreatEvent: 'ThreatEvent',
   RateLimit: 'RateLimit',

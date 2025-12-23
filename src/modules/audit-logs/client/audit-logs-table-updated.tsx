@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -79,6 +80,7 @@ export function AuditLogsTable({
   selectedStatus,
   onStatusChange,
 }: AuditLogsTableProps) {
+  const { t } = useTranslation()
   const [groupBy, setGroupBy] = React.useState<GroupByOption>("none")
   const [debouncedSearch, setDebouncedSearch] = React.useState(search)
 
@@ -134,24 +136,24 @@ export function AuditLogsTable({
     return sortedGroups
   }, [logs, groupBy])
 
-  const statusOptions = [
-    { label: "All Statuses", value: undefined },
-    { label: "Success", value: "SUCCESS" as const },
-    { label: "Failed", value: "FAILED" as const },
-    { label: "Warning", value: "WARNING" as const },
-    { label: "Blocked", value: "BLOCKED" as const },
-  ]
+  const statusOptions = React.useMemo(() => [
+    { label: t("audit.allStatuses"), value: undefined },
+    { label: t("audit.success"), value: "SUCCESS" as const },
+    { label: t("audit.failed"), value: "FAILED" as const },
+    { label: t("audit.warning"), value: "WARNING" as const },
+    { label: t("audit.blocked"), value: "BLOCKED" as const },
+  ], [t])
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "success":
-        return <Badge className="bg-green-100 text-green-800 border-green-200">Success</Badge>
+        return <Badge className="bg-green-100 text-green-800 border-green-200">{t("audit.success")}</Badge>
       case "failed":
-        return <Badge className="bg-red-100 text-red-800 border-red-200">Failed</Badge>
+        return <Badge className="bg-red-100 text-red-800 border-red-200">{t("audit.failed")}</Badge>
       case "warning":
-        return <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">Warning</Badge>
+        return <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">{t("audit.warning")}</Badge>
       case "blocked":
-        return <Badge className="bg-gray-100 text-gray-800 border-gray-200">Blocked</Badge>
+        return <Badge className="bg-gray-100 text-gray-800 border-gray-200">{t("audit.blocked")}</Badge>
       default:
         return <Badge variant="outline">{status}</Badge>
     }
@@ -159,7 +161,8 @@ export function AuditLogsTable({
 
   const formatTimestamp = (timestamp: string) => {
     const date = new Date(timestamp)
-    return date.toLocaleString("en-US", {
+    // Use browser's locale for date formatting
+    return date.toLocaleString(undefined, {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -168,7 +171,7 @@ export function AuditLogsTable({
     })
   }
 
-  const hasActiveFilters = selectedAction !== "All Actions" || selectedStatus !== undefined || search
+  const hasActiveFilters = selectedAction !== "" || selectedStatus !== undefined || search
 
   return (
     <Card>
@@ -177,7 +180,7 @@ export function AuditLogsTable({
           <div className="relative flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search by user, action, resource, or IP..."
+              placeholder={t("audit.searchPlaceholder")}
               className="pl-8"
               value={debouncedSearch}
               onChange={(e) => setDebouncedSearch(e.target.value)}
@@ -186,7 +189,7 @@ export function AuditLogsTable({
           <div className="flex gap-2">
             <Select value={selectedAction} onValueChange={onActionChange}>
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Filter by action" />
+                <SelectValue placeholder={t("audit.filterByAction")} />
               </SelectTrigger>
               <SelectContent>
                 {actionTypes.map((action) => (
@@ -197,18 +200,18 @@ export function AuditLogsTable({
               </SelectContent>
             </Select>
             <Select
-              value={selectedStatus || "All Statuses"}
+              value={selectedStatus || t("audit.allStatuses")}
               onValueChange={(value) => {
-                onStatusChange(value === "All Statuses" ? undefined : value as "SUCCESS" | "FAILED" | "WARNING" | "BLOCKED")
+                onStatusChange(value === t("audit.allStatuses") ? undefined : value as "SUCCESS" | "FAILED" | "WARNING" | "BLOCKED")
                 onPageChange(1)
               }}
             >
               <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder="Filter by status" />
+                <SelectValue placeholder={t("audit.filterByStatus")} />
               </SelectTrigger>
               <SelectContent>
                 {statusOptions.map((status) => (
-                  <SelectItem key={status.label} value={status.value || "All Statuses"}>
+                  <SelectItem key={status.label} value={status.value || t("audit.allStatuses")}>
                     {status.label}
                   </SelectItem>
                 ))}
@@ -218,26 +221,26 @@ export function AuditLogsTable({
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="gap-2">
                   <Group className="h-4 w-4" />
-                  Group By
+                  {t("audit.groupBy")}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Group By</DropdownMenuLabel>
+                <DropdownMenuLabel>{t("audit.groupBy")}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => setGroupBy("none")}>
-                  None {groupBy === "none" && "✓"}
+                  {t("audit.groupByNone")} {groupBy === "none" && "✓"}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setGroupBy("action")}>
-                  Action {groupBy === "action" && "✓"}
+                  {t("audit.groupByAction")} {groupBy === "action" && "✓"}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setGroupBy("user")}>
-                  User {groupBy === "user" && "✓"}
+                  {t("audit.groupByUser")} {groupBy === "user" && "✓"}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setGroupBy("status")}>
-                  Status {groupBy === "status" && "✓"}
+                  {t("audit.groupByStatus")} {groupBy === "status" && "✓"}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setGroupBy("date")}>
-                  Date {groupBy === "date" && "✓"}
+                  {t("audit.groupByDate")} {groupBy === "date" && "✓"}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -248,7 +251,7 @@ export function AuditLogsTable({
                 onClick={() => {
                   setDebouncedSearch("")
                   onSearchChange("")
-                  onActionChange("All Actions")
+                  onActionChange("")
                   onStatusChange(undefined)
                   onPageChange(1)
                 }}
@@ -262,7 +265,7 @@ export function AuditLogsTable({
       <CardContent>
         {Object.keys(groupedLogs).length === 0 ? (
           <div className="text-center py-8 text-muted-foreground">
-            No logs found matching your filters
+            {t("audit.noLogsMatchingFilters")}
           </div>
         ) : (
           <>
@@ -272,7 +275,7 @@ export function AuditLogsTable({
                   <div className="mb-3 pb-2 border-b">
                     <h3 className="font-semibold text-sm">
                       {groupBy === "date"
-                        ? new Date(groupKey).toLocaleDateString("en-US", {
+                        ? new Date(groupKey).toLocaleDateString(undefined, {
                             weekday: "long",
                             year: "numeric",
                             month: "long",
@@ -280,7 +283,7 @@ export function AuditLogsTable({
                           })
                         : groupKey}
                       <span className="ml-2 text-muted-foreground font-normal">
-                        ({groupLogs.length} {groupLogs.length === 1 ? "event" : "events"})
+                        ({t("audit.eventsCount", { count: groupLogs.length })})
                       </span>
                     </h3>
                   </div>
@@ -288,13 +291,13 @@ export function AuditLogsTable({
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>User</TableHead>
-                      <TableHead>Action</TableHead>
-                      <TableHead>Resource</TableHead>
-                      <TableHead>IP Address</TableHead>
-                      <TableHead>Timestamp</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="text-right">Details</TableHead>
+                      <TableHead>{t("audit.user")}</TableHead>
+                      <TableHead>{t("audit.action")}</TableHead>
+                      <TableHead>{t("audit.resource")}</TableHead>
+                      <TableHead>{t("audit.ipAddress")}</TableHead>
+                      <TableHead>{t("audit.time")}</TableHead>
+                      <TableHead>{t("audit.status")}</TableHead>
+                      <TableHead className="text-right">{t("audit.details")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -314,8 +317,12 @@ export function AuditLogsTable({
                               </AvatarFallback>
                             </Avatar>
                             <div>
-                              <div className="font-medium text-sm">{log.user}</div>
-                              <div className="text-xs text-muted-foreground">{log.userEmail}</div>
+                              <div className="font-medium text-sm">
+                                {log.user === "Unknown" ? t("audit.unknown") : log.user}
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                {log.userEmail === "N/A" ? t("audit.notAvailable") : log.userEmail}
+                              </div>
                             </div>
                           </div>
                         </TableCell>
@@ -329,7 +336,9 @@ export function AuditLogsTable({
                           <span className="text-sm">{log.resource}</span>
                         </TableCell>
                         <TableCell>
-                          <code className="text-xs bg-muted px-2 py-1 rounded">{log.ipAddress}</code>
+                          <code className="text-xs bg-muted px-2 py-1 rounded">
+                            {log.ipAddress === "N/A" ? t("audit.notAvailable") : log.ipAddress}
+                          </code>
                         </TableCell>
                         <TableCell className="text-sm text-muted-foreground">
                           {formatTimestamp(log.timestamp)}
@@ -337,7 +346,7 @@ export function AuditLogsTable({
                         <TableCell>{getStatusBadge(log.status)}</TableCell>
                         <TableCell className="text-right">
                           <Button variant="ghost" size="sm" onClick={() => onViewDetails(log)}>
-                            View
+                            {t("audit.view")}
                           </Button>
                         </TableCell>
                       </TableRow>
