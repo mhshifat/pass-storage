@@ -58,6 +58,7 @@ export function ReportsList() {
   })
 
   const canDelete = hasPermission("report.delete")
+  const canDownload = hasPermission("report.view")
 
   const downloadMutation = trpc.reports.download.useMutation({
     onSuccess: (data) => {
@@ -161,7 +162,7 @@ export function ReportsList() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 pt-2 border-t">
-                  {report.status === "COMPLETED" && (
+                  {report.status === "COMPLETED" && canDownload && (
                     <Button
                       variant="outline"
                       size="sm"
@@ -218,7 +219,7 @@ export function ReportsList() {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        {report.status === "COMPLETED" && (
+                        {report.status === "COMPLETED" && canDownload && (
                           <Button
                             variant="ghost"
                             size="sm"

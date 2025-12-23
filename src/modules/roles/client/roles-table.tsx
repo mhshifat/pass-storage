@@ -113,10 +113,12 @@ export function RolesTable({ roles, onViewPermissions, onEdit, onDelete, onCreat
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => onViewPermissions(role)}>
-                          <Shield className="mr-2 h-4 w-4" />
-                          {t("roles.viewPermissions")}
-                        </DropdownMenuItem>
+                        {hasPermission("role.manage") && (
+                          <DropdownMenuItem onClick={() => onViewPermissions(role)}>
+                            <Shield className="mr-2 h-4 w-4" />
+                            {t("roles.viewPermissions")}
+                          </DropdownMenuItem>
+                        )}
                         {hasPermission("role.manage") && (
                           <DropdownMenuItem
                             disabled={role.isSystem}

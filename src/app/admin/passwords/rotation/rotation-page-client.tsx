@@ -36,9 +36,11 @@ import {
 import { deleteRotationPolicyAction, autoRotatePasswordAction } from "@/app/admin/passwords/rotation-actions"
 import { useTransition } from "react"
 import { PasswordRotationPolicy } from "@/app/generated"
+import { usePermissions } from "@/hooks/use-permissions"
 
 export function RotationPageClient() {
   const { t } = useTranslation()
+  const { hasPermission } = usePermissions()
   const [isPending, startTransition] = useTransition()
   const [isPolicyDialogOpen, setIsPolicyDialogOpen] = useState(false)
   const [editingPolicy, setEditingPolicy] = useState<PasswordRotationPolicy | null>(null)
@@ -158,10 +160,12 @@ export function RotationPageClient() {
               {t("passwords.rotation.description")}
             </p>
           </div>
-          <Button onClick={handleCreatePolicy}>
-            <Plus className="h-4 w-4 mr-2" />
-            {t("passwords.rotation.createPolicy")}
-          </Button>
+          {hasPermission("password.edit") && (
+            <Button onClick={handleCreatePolicy}>
+              <Plus className="h-4 w-4 mr-2" />
+              {t("passwords.rotation.createPolicy")}
+            </Button>
+          )}
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>

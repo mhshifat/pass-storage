@@ -30,25 +30,35 @@ export function PasswordsContent() {
     }
   }, [state, router, t])
 
-  if (!hasPermission("password.create")) {
+  const canCreate = hasPermission("password.create")
+  const canImport = hasPermission("password.create")
+  const canExport = hasPermission("password.view")
+
+  if (!canCreate && !canImport && !canExport) {
     return null
   }
 
   return (
     <>
       <div className="flex gap-2 flex-wrap">
-        <Button onClick={() => setIsCreateDialogOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          {t("passwords.addPassword")}
-        </Button>
-        <Button variant="outline" onClick={() => setIsImportDialogOpen(true)}>
-          <Upload className="mr-2 h-4 w-4" />
-          {t("passwords.import.title")}
-        </Button>
-        <Button variant="outline" onClick={() => setIsExportDialogOpen(true)}>
-          <Download className="mr-2 h-4 w-4" />
-          {t("passwords.export.title")}
-        </Button>
+        {canCreate && (
+          <Button onClick={() => setIsCreateDialogOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            {t("passwords.addPassword")}
+          </Button>
+        )}
+        {canImport && (
+          <Button variant="outline" onClick={() => setIsImportDialogOpen(true)}>
+            <Upload className="mr-2 h-4 w-4" />
+            {t("passwords.import.title")}
+          </Button>
+        )}
+        {canExport && (
+          <Button variant="outline" onClick={() => setIsExportDialogOpen(true)}>
+            <Download className="mr-2 h-4 w-4" />
+            {t("passwords.export.title")}
+          </Button>
+        )}
       </div>
       <PasswordFormDialog
         open={isCreateDialogOpen}

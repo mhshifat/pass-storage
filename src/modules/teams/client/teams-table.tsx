@@ -109,10 +109,12 @@ export function TeamsTable({
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => onViewMembers(team)}>
-                          <Users className="mr-2 h-4 w-4" />
-                          {t("teams.viewMembers")}
-                        </DropdownMenuItem>
+                        {hasPermission("team.view") && (
+                          <DropdownMenuItem onClick={() => onViewMembers(team)}>
+                            <Users className="mr-2 h-4 w-4" />
+                            {t("teams.viewMembers")}
+                          </DropdownMenuItem>
+                        )}
                         {hasPermission("team.edit") && (
                           <DropdownMenuItem onClick={() => onEdit?.(team)}>
                             <Pencil className="mr-2 h-4 w-4" />
@@ -221,10 +223,12 @@ export function TeamsTable({
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => onViewMembers(team)}>
-                          <Users className="mr-2 h-4 w-4" />
-                          {t("teams.viewMembers")}
-                        </DropdownMenuItem>
+                        {hasPermission("team.view") && (
+                          <DropdownMenuItem onClick={() => onViewMembers(team)}>
+                            <Users className="mr-2 h-4 w-4" />
+                            {t("teams.viewMembers")}
+                          </DropdownMenuItem>
+                        )}
                         {hasPermission("team.edit") && (
                           <DropdownMenuItem onClick={() => onEdit?.(team)}>
                             <Pencil className="mr-2 h-4 w-4" />
