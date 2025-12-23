@@ -12,6 +12,8 @@ import {
   cleanupExpiredData,
 } from "@/lib/gdpr-compliance"
 
+import { syncPermissionsAndRoles } from "@/lib/sync-permissions"
+
 export const settingsRouter = createTRPCRouter({
   getEmailConfig: protectedProcedure("settings.view").query(async () => {
     const settings = await prisma.settings.findMany({
@@ -2017,5 +2019,12 @@ export const settingsRouter = createTRPCRouter({
           completedExports,
         },
       }
+    }),
+
+  // Sync permissions and update system roles
+  syncPermissions: protectedProcedure("role.manage")
+    .mutation(async () => {
+      const result = await syncPermissionsAndRoles()
+      return result
     }),
 })

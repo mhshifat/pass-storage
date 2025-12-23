@@ -12,35 +12,36 @@ import { headers } from "next/headers";
  * Ensure system roles and permissions exist in the database
  */
 async function ensureSystemRolesExist() {
-  // Check if permissions exist, if not create them
-  const permissionCount = await prisma.permission.count();
-  
-  if (permissionCount === 0) {
-    const defaultPermissions = [
-      { key: "user.create", name: "Create Users", description: "Create new user accounts", category: "User Management" },
-      { key: "user.edit", name: "Edit Users", description: "Modify user information", category: "User Management" },
-      { key: "user.delete", name: "Delete Users", description: "Remove user accounts", category: "User Management" },
-      { key: "user.view", name: "View Users", description: "View user information", category: "User Management" },
-      { key: "password.create", name: "Create Passwords", description: "Create new password entries", category: "Password Management" },
-      { key: "password.edit", name: "Edit Passwords", description: "Modify password entries", category: "Password Management" },
-      { key: "password.delete", name: "Delete Passwords", description: "Remove password entries", category: "Password Management" },
-      { key: "password.view", name: "View Passwords", description: "View password entries", category: "Password Management" },
-      { key: "password.share", name: "Share Passwords", description: "Share passwords with others", category: "Password Management" },
-      { key: "team.create", name: "Create Teams", description: "Create new teams", category: "Team Management" },
-      { key: "team.edit", name: "Edit Teams", description: "Modify team settings", category: "Team Management" },
-      { key: "team.delete", name: "Delete Teams", description: "Remove teams", category: "Team Management" },
-      { key: "team.view", name: "View Teams", description: "View team information", category: "Team Management" },
-      { key: "settings.view", name: "View Settings", description: "View system settings", category: "System Settings" },
-      { key: "settings.edit", name: "Edit Settings", description: "Modify system settings", category: "System Settings" },
-      { key: "audit.view", name: "View Audit Logs", description: "Access audit logs", category: "System Settings" },
-      { key: "role.manage", name: "Manage Roles", description: "Create and edit roles", category: "System Settings" },
-    ];
+  // Always ensure all default permissions exist (create missing ones)
+  const defaultPermissions = [
+    { key: "user.create", name: "Create Users", description: "Create new user accounts", category: "User Management" },
+    { key: "user.edit", name: "Edit Users", description: "Modify user information", category: "User Management" },
+    { key: "user.delete", name: "Delete Users", description: "Remove user accounts", category: "User Management" },
+    { key: "user.view", name: "View Users", description: "View user information", category: "User Management" },
+    { key: "password.create", name: "Create Passwords", description: "Create new password entries", category: "Password Management" },
+    { key: "password.edit", name: "Edit Passwords", description: "Modify password entries", category: "Password Management" },
+    { key: "password.delete", name: "Delete Passwords", description: "Remove password entries", category: "Password Management" },
+    { key: "password.view", name: "View Passwords", description: "View password entries", category: "Password Management" },
+    { key: "password.share", name: "Share Passwords", description: "Share passwords with others", category: "Password Management" },
+    { key: "team.create", name: "Create Teams", description: "Create new teams", category: "Team Management" },
+    { key: "team.edit", name: "Edit Teams", description: "Modify team settings", category: "Team Management" },
+    { key: "team.delete", name: "Delete Teams", description: "Remove teams", category: "Team Management" },
+    { key: "team.view", name: "View Teams", description: "View team information", category: "Team Management" },
+    { key: "settings.view", name: "View Settings", description: "View system settings", category: "System Settings" },
+    { key: "settings.edit", name: "Edit Settings", description: "Modify system settings", category: "System Settings" },
+    { key: "audit.view", name: "View Audit Logs", description: "Access audit logs", category: "System Settings" },
+    { key: "role.manage", name: "Manage Roles", description: "Create and edit roles", category: "System Settings" },
+    { key: "report.view", name: "View Reports", description: "View and access reports", category: "Reports" },
+    { key: "report.create", name: "Create Reports", description: "Create and generate reports", category: "Reports" },
+    { key: "report.update", name: "Update Reports", description: "Modify report configurations", category: "Reports" },
+    { key: "report.delete", name: "Delete Reports", description: "Remove reports", category: "Reports" },
+  ];
 
-    await prisma.permission.createMany({
-      data: defaultPermissions,
-      skipDuplicates: true,
-    });
-  }
+  // Create missing permissions (skipDuplicates ensures existing ones aren't recreated)
+  await prisma.permission.createMany({
+    data: defaultPermissions,
+    skipDuplicates: true,
+  });
 
   // Always ensure all system roles exist with their permissions
   // This ensures all 5 system roles are created, not just the one being assigned
@@ -65,6 +66,7 @@ async function ensureAllSystemRoles() {
         "password.create", "password.edit", "password.delete", "password.view", "password.share",
         "team.create", "team.edit", "team.delete", "team.view",
         "settings.view", "settings.edit", "audit.view", "role.manage",
+        "report.view", "report.create", "report.update", "report.delete",
       ],
     },
     {
@@ -75,6 +77,7 @@ async function ensureAllSystemRoles() {
         "password.create", "password.edit", "password.delete", "password.view", "password.share",
         "team.create", "team.edit", "team.delete", "team.view",
         "settings.view", "audit.view",
+        "report.view", "report.create",
       ],
     },
     {
@@ -85,6 +88,7 @@ async function ensureAllSystemRoles() {
         "password.create", "password.edit", "password.delete", "password.view", "password.share",
         "team.create", "team.edit", "team.delete", "team.view",
         "settings.view", "audit.view",
+        "report.view", "report.create",
       ],
     },
     {
@@ -105,6 +109,7 @@ async function ensureAllSystemRoles() {
         "team.view",
         "settings.view",
         "audit.view",
+        "report.view",
       ],
     },
   ];

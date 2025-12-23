@@ -31,6 +31,9 @@ model Company {
   dataDeletionRequests DataDeletionRequest[]
   auditLogArchives AuditLogArchive[]
   auditLogSearches AuditLogSearch[]
+  reports Report[]
+  reportTemplates ReportTemplate[]
+  scheduledReports ScheduledReport[]
 
   @@index([subdomain])
 }
@@ -76,6 +79,9 @@ model User {
   savedSearches      SavedSearch[] @relation("SavedSearches")
   searchHistory      SearchHistory[] @relation("SearchHistory")
   passwordTemplates  PasswordTemplate[] @relation("PasswordTemplateOwner")
+  reports            Report[] @relation("ReportCreatedBy")
+  reportTemplates    ReportTemplate[] @relation("ReportTemplateCreatedBy")
+  scheduledReports   ScheduledReport[] @relation("ScheduledReportCreatedBy")
 
   createdById        String?
   createdBy          User?           @relation("UserCreatedBy", fields: [createdById], references: [id])
@@ -891,4 +897,93 @@ model DataDeletionRequest {
   @@index([status])
   @@index([requestedAt])
   @@index([confirmationToken])
+}
+
+model Report {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  reportType    String   // "CUSTOM", "SOC2", "ISO27001", "AUDIT", "SECURITY", "COMPLIANCE"
+  format        String   @default("PDF") // PDF, CSV, Excel, JSON
+  config        Json     // Report configuration (filters, fields, date ranges, etc.)
+  status        String   @default("DRAFT") // DRAFT, GENERATING, COMPLETED, FAILED
+  filePath      String?  // Path to generated report file
+  fileSize      Int?     // File size in bytes
+  generatedAt   DateTime?
+  expiresAt     DateTime? // When the report file expires
+  userId        String   // User who created the report
+  companyId     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  createdBy     User     @relation("ReportCreatedBy", fields: [userId], references: [id], onDelete: Cascade)
+  company       Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  template      ReportTemplate? @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  templateId    String?
+
+  @@index([userId])
+  @@index([companyId])
+  @@index([reportType])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model ReportTemplate {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  reportType    String   // "CUSTOM", "SOC2", "ISO27001", "AUDIT", "SECURITY", "COMPLIANCE"
+  category      String?  // "COMPLIANCE", "SECURITY", "AUDIT", "CUSTOM"
+  config        Json     // Template configuration (default filters, fields, etc.)
+  isSystem      Boolean  @default(false) // System templates cannot be deleted
+  isPublic      Boolean  @default(false) // Public templates can be used by all companies
+  userId        String   // User who created the template
+  companyId     String?  // null for system/public templates
+  usageCount    Int      @default(0) // How many times this template has been used
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  createdBy     User     @relation("ReportTemplateCreatedBy", fields: [userId], references: [id], onDelete: Cascade)
+  company       Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  reports       Report[]
+  scheduledReports ScheduledReport[]
+
+  @@index([userId])
+  @@index([companyId])
+  @@index([reportType])
+  @@index([category])
+  @@index([isSystem])
+  @@index([isPublic])
+}
+
+model ScheduledReport {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  reportType    String   // "CUSTOM", "SOC2", "ISO27001", etc.
+  format        String   @default("PDF") // PDF, CSV, Excel, JSON
+  config        Json     // Report configuration
+  schedule      Json     // Schedule configuration (frequency, day, time, timezone)
+  recipients    Json?    // Array of email addresses to send report to
+  templateId    String?  // Optional template to use
+  isActive      Boolean  @default(true)
+  lastRunAt     DateTime?
+  nextRunAt     DateTime?
+  runCount      Int      @default(0)
+  userId        String   // User who created the schedule
+  companyId     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  createdBy     User     @relation("ScheduledReportCreatedBy", fields: [userId], references: [id], onDelete: Cascade)
+  company       Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  template      ReportTemplate? @relation(fields: [templateId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([companyId])
+  @@index([isActive])
+  @@index([nextRunAt])
 }

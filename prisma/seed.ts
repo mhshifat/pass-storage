@@ -40,6 +40,11 @@ async function main() {
     { key: "settings.edit", name: "Edit Settings", description: "Modify system settings", category: "System Settings" },
     { key: "audit.view", name: "View Audit Logs", description: "Access audit logs", category: "System Settings" },
     { key: "role.manage", name: "Manage Roles", description: "Create and edit roles", category: "System Settings" },
+    // Reports
+    { key: "report.view", name: "View Reports", description: "View and access reports", category: "Reports" },
+    { key: "report.create", name: "Create Reports", description: "Create and generate reports", category: "Reports" },
+    { key: "report.update", name: "Update Reports", description: "Modify report configurations", category: "Reports" },
+    { key: "report.delete", name: "Delete Reports", description: "Remove reports", category: "Reports" },
   ]
 
   // Create permissions if they don't exist
@@ -80,6 +85,10 @@ async function main() {
         "settings.edit",
         "audit.view",
         "role.manage",
+        "report.view",
+        "report.create",
+        "report.update",
+        "report.delete",
       ],
     },
     {
@@ -102,6 +111,8 @@ async function main() {
         "team.view",
         "settings.view",
         "audit.view",
+        "report.view",
+        "report.create",
         // Note: ADMIN cannot edit settings or manage roles (SUPER_ADMIN only)
       ],
     },
@@ -123,6 +134,8 @@ async function main() {
         "team.view",
         "settings.view",
         "audit.view",
+        "report.view",
+        "report.create",
       ],
     },
     {
@@ -149,6 +162,7 @@ async function main() {
         "team.view",
         "settings.view",
         "audit.view",
+        "report.view",
       ],
     },
   ]

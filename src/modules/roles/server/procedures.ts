@@ -395,75 +395,49 @@ export const rolesRouter = createTRPCRouter({
     }),
 
   getAllPermissions: protectedProcedure("role.manage").query(async () => {
+    // Always ensure all default permissions exist (create missing ones)
+    const defaultPermissions = [
+      // User Management
+      { key: "user.create", name: "Create Users", description: "Create new user accounts", category: "User Management" },
+      { key: "user.edit", name: "Edit Users", description: "Modify user information", category: "User Management" },
+      { key: "user.delete", name: "Delete Users", description: "Remove user accounts", category: "User Management" },
+      { key: "user.view", name: "View Users", description: "View user information", category: "User Management" },
+      // Password Management
+      { key: "password.create", name: "Create Passwords", description: "Create new password entries", category: "Password Management" },
+      { key: "password.edit", name: "Edit Passwords", description: "Modify password entries", category: "Password Management" },
+      { key: "password.delete", name: "Delete Passwords", description: "Remove password entries", category: "Password Management" },
+      { key: "password.view", name: "View Passwords", description: "View password entries", category: "Password Management" },
+      { key: "password.share", name: "Share Passwords", description: "Share passwords with others", category: "Password Management" },
+      // Team Management
+      { key: "team.create", name: "Create Teams", description: "Create new teams", category: "Team Management" },
+      { key: "team.edit", name: "Edit Teams", description: "Modify team settings", category: "Team Management" },
+      { key: "team.delete", name: "Delete Teams", description: "Remove teams", category: "Team Management" },
+      { key: "team.view", name: "View Teams", description: "View team information", category: "Team Management" },
+      // System Settings
+      { key: "settings.view", name: "View Settings", description: "View system settings", category: "System Settings" },
+      { key: "settings.edit", name: "Edit Settings", description: "Modify system settings", category: "System Settings" },
+      { key: "audit.view", name: "View Audit Logs", description: "Access audit logs", category: "System Settings" },
+      { key: "role.manage", name: "Manage Roles", description: "Create and edit roles", category: "System Settings" },
+      // Reports
+      { key: "report.view", name: "View Reports", description: "View and access reports", category: "Reports" },
+      { key: "report.create", name: "Create Reports", description: "Create and generate reports", category: "Reports" },
+      { key: "report.update", name: "Update Reports", description: "Modify report configurations", category: "Reports" },
+      { key: "report.delete", name: "Delete Reports", description: "Remove reports", category: "Reports" },
+    ]
+
+    // Create missing permissions in database (skipDuplicates ensures existing ones aren't recreated)
+    await prisma.permission.createMany({
+      data: defaultPermissions,
+      skipDuplicates: true,
+    })
+
+    // Fetch all permissions
     const permissions = await prisma.permission.findMany({
       orderBy: [
         { category: "asc" },
         { name: "asc" },
       ],
     })
-
-    // If no permissions exist, initialize them
-    if (permissions.length === 0) {
-      const defaultPermissions = [
-        // User Management
-        { key: "user.create", name: "Create Users", description: "Create new user accounts", category: "User Management" },
-        { key: "user.edit", name: "Edit Users", description: "Modify user information", category: "User Management" },
-        { key: "user.delete", name: "Delete Users", description: "Remove user accounts", category: "User Management" },
-        { key: "user.view", name: "View Users", description: "View user information", category: "User Management" },
-        // Password Management
-        { key: "password.create", name: "Create Passwords", description: "Create new password entries", category: "Password Management" },
-        { key: "password.edit", name: "Edit Passwords", description: "Modify password entries", category: "Password Management" },
-        { key: "password.delete", name: "Delete Passwords", description: "Remove password entries", category: "Password Management" },
-        { key: "password.view", name: "View Passwords", description: "View password entries", category: "Password Management" },
-        { key: "password.share", name: "Share Passwords", description: "Share passwords with others", category: "Password Management" },
-        // Team Management
-        { key: "team.create", name: "Create Teams", description: "Create new teams", category: "Team Management" },
-        { key: "team.edit", name: "Edit Teams", description: "Modify team settings", category: "Team Management" },
-        { key: "team.delete", name: "Delete Teams", description: "Remove teams", category: "Team Management" },
-        { key: "team.view", name: "View Teams", description: "View team information", category: "Team Management" },
-        // System Settings
-        { key: "settings.view", name: "View Settings", description: "View system settings", category: "System Settings" },
-        { key: "settings.edit", name: "Edit Settings", description: "Modify system settings", category: "System Settings" },
-        { key: "audit.view", name: "View Audit Logs", description: "Access audit logs", category: "System Settings" },
-        { key: "role.manage", name: "Manage Roles", description: "Create and edit roles", category: "System Settings" },
-      ]
-
-      // Create permissions in database (skip duplicates)
-      await prisma.permission.createMany({
-        data: defaultPermissions,
-        skipDuplicates: true,
-      })
-
-      // Fetch them again
-      const createdPermissions = await prisma.permission.findMany({
-        orderBy: [
-          { category: "asc" },
-          { name: "asc" },
-        ],
-      })
-
-      // Group by category
-      const grouped = createdPermissions.reduce(
-        (acc: Record<string, Array<{ id: string; key: string; name: string; description: string }>>, permission: { id: string; key: string; name: string; description: string | null; category: string }) => {
-          if (!acc[permission.category]) {
-            acc[permission.category] = []
-          }
-          acc[permission.category].push({
-            id: permission.id,
-            key: permission.key,
-            name: permission.name,
-            description: permission.description || "",
-          })
-          return acc
-        },
-        {} as Record<string, Array<{ id: string; key: string; name: string; description: string }>>
-      )
-
-      return Object.entries(grouped).map(([category, items]) => ({
-        category,
-        items,
-      }))
-    }
 
     // Group by category
     const grouped = permissions.reduce(

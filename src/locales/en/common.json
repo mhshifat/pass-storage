@@ -1846,6 +1846,10 @@
         "title": "Audit Logs",
         "description": "Track all system activities and changes. Monitor user actions, password access, and security events."
       },
+      "reports": {
+        "title": "Reports",
+        "description": "Create custom reports, templates, and scheduled reports for compliance and analysis."
+      },
       "settings": {
         "title": "Settings & Configuration",
         "description": "Configure your account, security settings, MFA, email preferences, and system-wide options."
@@ -1936,6 +1940,80 @@
     "resolveConfirm": "Are you sure you want to mark this threat as resolved?",
     "resolveSuccess": "Threat marked as resolved",
     "resolveError": "Failed to resolve threat"
+  },
+  "reports": {
+    "title": "Reports",
+    "description": "Create, manage, and schedule custom reports",
+    "createReport": "Create Report",
+    "generate": "Generate",
+    "generating": "Generating...",
+    "generateSuccess": "Report generated successfully",
+    "generateError": "Failed to generate report",
+    "deleteSuccess": "Report deleted successfully",
+    "deleteError": "Failed to delete report",
+    "confirmDelete": "Are you sure you want to delete this report?",
+    "notReady": "Report is not ready for download",
+    "downloadNotImplemented": "Download functionality will be available soon",
+    "download": "Download",
+    "downloadSuccess": "Report downloaded successfully",
+    "downloadError": "Failed to download report",
+    "noReports": "No reports found",
+    "paginationInfo": "Showing {{start}} to {{end}} of {{total}} reports",
+    "tabs": {
+      "reports": "Reports",
+      "templates": "Templates"
+    },
+    "types": {
+      "CUSTOM": "Custom",
+      "AUDIT": "Audit",
+      "SECURITY": "Security",
+      "COMPLIANCE": "Compliance",
+      "SOC2": "SOC2",
+      "ISO27001": "ISO27001"
+    },
+    "status": {
+      "draft": "Draft",
+      "generating": "Generating",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "table": {
+      "name": "Name",
+      "type": "Type",
+      "format": "Format",
+      "status": "Status",
+      "createdAt": "Created At",
+      "actions": "Actions"
+    },
+    "builder": {
+      "title": "Create Report",
+      "description": "Configure and generate a new report",
+      "name": "Report Name",
+      "namePlaceholder": "Enter report name",
+      "description": "Description",
+      "descriptionPlaceholder": "Enter report description (optional)",
+      "reportType": "Report Type",
+      "format": "Format",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "selectDate": "Select date"
+    },
+    "templates": {
+      "noTemplates": "No templates found",
+      "system": "System",
+      "public": "Public",
+      "deleteSuccess": "Template deleted successfully",
+      "deleteError": "Failed to delete template",
+      "confirmDelete": "Are you sure you want to delete this template?",
+      "table": {
+        "name": "Name",
+        "type": "Type",
+        "category": "Category",
+        "usage": "Usage Count",
+        "createdAt": "Created At",
+        "actions": "Actions"
+      }
+    }
   }
 }
 

@@ -12,6 +12,7 @@ import {
   Activity,
   ChevronRight,
   BoxesIcon,
+  FileText,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -76,6 +77,12 @@ const navigationStructure = [
     href: "/admin/audit-logs",
     icon: Activity,
     permission: "audit.view",
+  },
+  {
+    nameKey: "reports.title",
+    href: "/admin/reports",
+    icon: FileText,
+    permission: "report.view",
   },
   {
     nameKey: "settings.title",

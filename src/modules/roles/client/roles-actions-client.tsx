@@ -20,9 +20,11 @@ import { RoleFormDialog } from "./role-form-dialog"
 import { RolesTable } from "./roles-table"
 import { PermissionsDialog } from "./permissions-dialog"
 import { createRoleAction, updateRoleAction, deleteRoleAction } from "@/app/admin/roles/actions"
+import { syncPermissionsAction } from "@/app/admin/roles/sync-permissions-action"
 import { trpc } from "@/trpc/client"
 import { useTranslation } from "react-i18next"
 import { usePermissions } from "@/hooks/use-permissions"
+import { RefreshCw } from "lucide-react"
 
 interface Role {
   id: string
@@ -67,6 +69,7 @@ export function RolesActionsClient({ roles }: RolesActionsClientProps) {
   const [selectedRole, setSelectedRole] = React.useState<Role | null>(null)
   const [roleToEdit, setRoleToEdit] = React.useState<Role | null>(null)
   const [roleToDelete, setRoleToDelete] = React.useState<string | null>(null)
+  const [isSyncing, setIsSyncing] = React.useState(false)
 
   const [createState, createFormAction, createPending] = useActionState(createRoleAction, null)
   const [updateState, updateFormAction, updatePending] = useActionState(
@@ -124,14 +127,47 @@ export function RolesActionsClient({ roles }: RolesActionsClientProps) {
     }
   }
 
+  const utils = trpc.useUtils()
+
+  const handleSyncPermissions = async () => {
+    setIsSyncing(true)
+    try {
+      const result = await syncPermissionsAction()
+      if (result.error) {
+        toast.error(result.error)
+      } else {
+        toast.success("Permissions and roles synced successfully")
+        // Invalidate and refetch permissions
+        await utils.roles.getAllPermissions.invalidate()
+        router.refresh()
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to sync permissions")
+    } finally {
+      setIsSyncing(false)
+    }
+  }
+
   return (
     <>
-      {hasPermission("role.manage") && (
-        <Button onClick={() => setIsCreateDialogOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          {t("roles.createRole")}
-        </Button>
-      )}
+      <div className="flex items-center gap-2">
+        {hasPermission("role.manage") && (
+          <>
+            <Button onClick={() => setIsCreateDialogOpen(true)}>
+              <Plus className="mr-2 h-4 w-4" />
+              {t("roles.createRole")}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleSyncPermissions}
+              disabled={isSyncing}
+            >
+              <RefreshCw className={`mr-2 h-4 w-4 ${isSyncing ? "animate-spin" : ""}`} />
+              {isSyncing ? "Syncing..." : "Sync Permissions"}
+            </Button>
+          </>
+        )}
+      </div>
 
       <RolesTable 
         roles={roles} 

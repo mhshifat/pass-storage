@@ -592,6 +592,61 @@ exports.Prisma.DataDeletionRequestScalarFieldEnum = {
   errorMessage: 'errorMessage'
 };
 
+exports.Prisma.ReportScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  reportType: 'reportType',
+  format: 'format',
+  config: 'config',
+  status: 'status',
+  filePath: 'filePath',
+  fileSize: 'fileSize',
+  generatedAt: 'generatedAt',
+  expiresAt: 'expiresAt',
+  userId: 'userId',
+  companyId: 'companyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  templateId: 'templateId'
+};
+
+exports.Prisma.ReportTemplateScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  reportType: 'reportType',
+  category: 'category',
+  config: 'config',
+  isSystem: 'isSystem',
+  isPublic: 'isPublic',
+  userId: 'userId',
+  companyId: 'companyId',
+  usageCount: 'usageCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ScheduledReportScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  reportType: 'reportType',
+  format: 'format',
+  config: 'config',
+  schedule: 'schedule',
+  recipients: 'recipients',
+  templateId: 'templateId',
+  isActive: 'isActive',
+  lastRunAt: 'lastRunAt',
+  nextRunAt: 'nextRunAt',
+  runCount: 'runCount',
+  userId: 'userId',
+  companyId: 'companyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -711,7 +766,10 @@ exports.Prisma.ModelName = {
   PasswordPolicy: 'PasswordPolicy',
   DataRetentionPolicy: 'DataRetentionPolicy',
   DataExport: 'DataExport',
-  DataDeletionRequest: 'DataDeletionRequest'
+  DataDeletionRequest: 'DataDeletionRequest',
+  Report: 'Report',
+  ReportTemplate: 'ReportTemplate',
+  ScheduledReport: 'ScheduledReport'
 };
 
 /**
