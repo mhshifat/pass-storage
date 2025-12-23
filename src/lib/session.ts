@@ -1,9 +1,17 @@
 import { cookies } from "next/headers"
 import { SignJWT, jwtVerify } from "jose"
 
-const secret = new TextEncoder().encode(
-  process.env.SESSION_SECRET || "default-secret-change-in-production"
-)
+const SESSION_SECRET = process.env.SESSION_SECRET || "default-secret-change-in-production"
+
+// Security: Prevent use of default secret in production
+if (process.env.NODE_ENV === "production" && SESSION_SECRET === "default-secret-change-in-production") {
+  throw new Error(
+    "SECURITY ERROR: SESSION_SECRET must be set to a secure value in production. " +
+    "The default secret is only for development. Generate a strong random secret (at least 32 characters) and set it in your environment variables."
+  )
+}
+
+const secret = new TextEncoder().encode(SESSION_SECRET)
 
 export interface SessionData {
   userId: string
@@ -123,10 +131,11 @@ export async function getSession(): Promise<SessionData> {
       select: { id: true, expires: true },
     })
 
-    // If session doesn't exist in database or is expired, invalidate
+    // If session doesn't exist in database or is expired, return invalid session
+    // Note: We don't delete the cookie here because cookies can only be modified
+    // in Server Actions or Route Handlers. The cookie will be cleaned up on next
+    // login attempt or can be cleared by calling destroySession() from a Server Action.
     if (!dbSession || new Date(dbSession.expires) < new Date()) {
-      // Session was revoked or expired, delete cookie
-      cookieStore.delete("session")
       return { userId: "", email: "", isLoggedIn: false }
     }
 
@@ -134,8 +143,10 @@ export async function getSession(): Promise<SessionData> {
       ...payload as unknown as SessionData
     }
   } catch {
-    // Invalid token, delete cookie
-    cookieStore.delete("session")
+    // Invalid token - return invalid session
+    // Note: We don't delete the cookie here because cookies can only be modified
+    // in Server Actions or Route Handlers. The cookie will be cleaned up on next
+    // login attempt or can be cleared by calling destroySession() from a Server Action.
     return { userId: "", email: "", isLoggedIn: false }
   }
 }

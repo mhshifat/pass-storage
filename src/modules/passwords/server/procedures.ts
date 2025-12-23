@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma"
 import { createTRPCRouter, protectedProcedure, baseProcedure } from "@/trpc/init"
 import z from "zod"
-import { encrypt, decrypt } from "@/lib/crypto"
+import { encryptPassword, decryptPassword } from "@/lib/crypto"
 import { TRPCError } from "@trpc/server"
 import {
   validatePasswordAgainstPolicy,
@@ -377,13 +377,13 @@ export const passwordsRouter = createTRPCRouter({
         })
       }
 
-      // Encrypt the password
-      const encryptedPassword = await encrypt(input.password)
+      // Encrypt the password using password-specific encryption
+      const encryptedPassword = encryptPassword(input.password)
 
       // Encrypt TOTP secret if provided
       let encryptedTotpSecret: string | null = null
       if (input.totpSecret) {
-        encryptedTotpSecret = await encrypt(input.totpSecret)
+        encryptedTotpSecret = encryptPassword(input.totpSecret)
       }
 
       // Calculate password strength (simple implementation)
@@ -550,13 +550,13 @@ export const passwordsRouter = createTRPCRouter({
         "UPDATE"
       )
 
-      // Encrypt the password
-      const encryptedPassword = await encrypt(input.password)
+      // Encrypt the password using password-specific encryption
+      const encryptedPassword = encryptPassword(input.password)
 
       // Encrypt TOTP secret if provided
       let encryptedTotpSecret: string | null = null
       if (input.totpSecret) {
-        encryptedTotpSecret = await encrypt(input.totpSecret)
+        encryptedTotpSecret = encryptPassword(input.totpSecret)
       }
 
       // Calculate password strength
@@ -779,12 +779,12 @@ export const passwordsRouter = createTRPCRouter({
       }
 
       // Decrypt password
-      const decryptedPassword = decrypt(password.password)
+      const decryptedPassword = decryptPassword(password.password)
       
       // Decrypt TOTP secret if exists
       let decryptedTotpSecret: string | null = null
       if (password.totpSecret) {
-        decryptedTotpSecret = decrypt(password.totpSecret)
+        decryptedTotpSecret = decryptPassword(password.totpSecret)
       }
 
       // Check if user owns the password
@@ -959,7 +959,7 @@ export const passwordsRouter = createTRPCRouter({
       }
 
       // Decrypt TOTP secret
-      const decryptedTotpSecret = decrypt(password.totpSecret)
+      const decryptedTotpSecret = decryptPassword(password.totpSecret)
 
       // Generate TOTP code using otplib
       const { authenticator } = await import("otplib")
@@ -1042,7 +1042,7 @@ export const passwordsRouter = createTRPCRouter({
       })
 
       // Decrypt password
-      const decryptedPassword = decrypt(password.password)
+      const decryptedPassword = decryptPassword(password.password)
 
       return { password: decryptedPassword }
     }),
@@ -1297,12 +1297,12 @@ export const passwordsRouter = createTRPCRouter({
           }
 
           // Encrypt the password
-          const encryptedPassword = await encrypt(item.password)
+          const encryptedPassword = encryptPassword(item.password)
 
           // Encrypt TOTP secret if provided
           let encryptedTotpSecret: string | null = null
           if (item.totpSecret) {
-            encryptedTotpSecret = await encrypt(item.totpSecret)
+            encryptedTotpSecret = encryptPassword(item.totpSecret)
           }
 
           // Calculate password strength
@@ -1455,7 +1455,7 @@ export const passwordsRouter = createTRPCRouter({
       // Decrypt passwords and format for export
       const exportPasswords = await Promise.all(
         passwords.map(async (pwd) => {
-          const decryptedPassword = await decrypt(pwd.password)
+          const decryptedPassword = decryptPassword(pwd.password)
           
           return {
             name: pwd.name,
@@ -2386,7 +2386,7 @@ export const passwordsRouter = createTRPCRouter({
 
       for (const pwd of passwords) {
         try {
-          const decrypted = decrypt(pwd.password)
+          const decrypted = decryptPassword(pwd.password)
           // Normalize whitespace for comparison
           const normalized = decrypted.trim()
           if (!passwordGroups.has(normalized)) {
@@ -2467,7 +2467,7 @@ export const passwordsRouter = createTRPCRouter({
 
       for (const pwd of passwords) {
         try {
-          const decrypted = decrypt(pwd.password)
+          const decrypted = decryptPassword(pwd.password)
           if (!passwordMap.has(decrypted)) {
             passwordMap.set(decrypted, [])
           }
@@ -2553,7 +2553,7 @@ export const passwordsRouter = createTRPCRouter({
           try {
             return {
               ...pwd,
-              decryptedPassword: decrypt(pwd.password),
+              decryptedPassword: decryptPassword(pwd.password),
             }
           } catch (error) {
             return null
@@ -2755,7 +2755,7 @@ export const passwordsRouter = createTRPCRouter({
       }
 
       // Decrypt password
-      const decryptedPassword = decrypt(password.password)
+      const decryptedPassword = decryptPassword(password.password)
 
       // Check breach using Have I Been Pwned API
       const { checkPasswordBreach } = await import("@/lib/breach-detection")
@@ -2817,7 +2817,7 @@ export const passwordsRouter = createTRPCRouter({
       // Decrypt and check each password
       for (const pwd of passwords) {
         try {
-          const decryptedPassword = decrypt(pwd.password)
+          const decryptedPassword = decryptPassword(pwd.password)
           const breachResult = await checkMultiplePasswords([decryptedPassword])
           
           if (breachResult.length > 0) {
@@ -4240,7 +4240,7 @@ export const passwordsRouter = createTRPCRouter({
       }
 
       // Decrypt password
-      const decryptedPassword = decrypt(temporaryShare.password.password)
+      const decryptedPassword = decryptPassword(temporaryShare.password.password)
 
       return {
         password: {

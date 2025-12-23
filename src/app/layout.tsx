@@ -42,15 +42,15 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AccessibilityProvider>
-            <I18nProvider>
-              <TRPCReactProvider>
-                <ThemeInitializer />
+          <I18nProvider>
+            <TRPCReactProvider>
+              <ThemeInitializer />
                 <AccessibilityInitializer />
-                <NavigationProgress showFullPageLoader={false} />
-                {children}
-              </TRPCReactProvider>
-              <Toaster />
-            </I18nProvider>
+              <NavigationProgress showFullPageLoader={false} />
+              {children}
+            </TRPCReactProvider>
+            <Toaster />
+          </I18nProvider>
           </AccessibilityProvider>
         </ThemeProvider>
       </body>
