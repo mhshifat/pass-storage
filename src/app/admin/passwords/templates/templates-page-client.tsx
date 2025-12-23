@@ -36,6 +36,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { usePermissions } from "@/hooks/use-permissions"
+import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
 
 const CATEGORIES = [
@@ -51,12 +52,13 @@ const CATEGORIES = [
 export function TemplatesPageClient() {
   const { t } = useTranslation()
   const { hasPermission } = usePermissions()
+  const isMobile = useIsMobile()
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
   const [editingTemplate, setEditingTemplate] = useState<any>(null)
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [templateToDelete, setTemplateToDelete] = useState<string | null>(null)
+  const [templateToDelete, setTemplateToDelete] = useState<{ id: string; name: string } | null>(null)
 
   const { data, isLoading, refetch } = trpc.passwords.listTemplates.useQuery({
     includeSystem: true,
@@ -107,7 +109,7 @@ export function TemplatesPageClient() {
 
   const handleDelete = () => {
     if (!templateToDelete) return
-    deleteTemplateMutation.mutate({ id: templateToDelete })
+    deleteTemplateMutation.mutate({ id: templateToDelete.id })
   }
 
   const canCreate = hasPermission("password.create")
@@ -239,7 +241,10 @@ export function TemplatesPageClient() {
                                 <Button
                                   variant="ghost"
                                   size="icon"
-                                  className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                                  className={cn(
+                                    "h-8 w-8 transition-opacity",
+                                    isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                                  )}
                                   onClick={(e) => e.stopPropagation()}
                                 >
                                   <Edit2 className="h-4 w-4" />
@@ -261,8 +266,9 @@ export function TemplatesPageClient() {
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem
                                       className="text-red-600"
-                                      onClick={() => {
-                                        setTemplateToDelete(template.id)
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        setTemplateToDelete({ id: template.id, name: template.name })
                                         setDeleteDialogOpen(true)
                                       }}
                                     >
@@ -325,21 +331,38 @@ export function TemplatesPageClient() {
       />
 
       {/* Delete Confirmation */}
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+      <AlertDialog open={deleteDialogOpen} onOpenChange={(open) => {
+        setDeleteDialogOpen(open)
+        if (!open) {
+          setTemplateToDelete(null)
+        }
+      }}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>{t("passwords.templates.deleteConfirm")}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t("passwords.templates.deleteConfirmDescription")}
+              {templateToDelete ? (
+                <>
+                  {t("passwords.templates.deleteConfirmDescription")}
+                  <br />
+                  <br />
+                  <strong className="font-semibold">{templateToDelete.name}</strong>
+                </>
+              ) : (
+                t("passwords.templates.deleteConfirmDescription")
+              )}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setTemplateToDelete(null)}>
+              {t("common.cancel")}
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              className="bg-red-600 hover:bg-red-700"
+              disabled={deleteTemplateMutation.isPending}
+              className="bg-red-600 hover:bg-red-700 text-white"
             >
-              {t("common.delete")}
+              {deleteTemplateMutation.isPending ? t("common.loading") : t("common.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

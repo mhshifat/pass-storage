@@ -30,6 +30,7 @@ import {
 import { Search, MoreHorizontal, Pencil, Trash2, Shield } from "lucide-react"
 import { RolesEmptyState } from "./roles-empty-state"
 import { usePermissions } from "@/hooks/use-permissions"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface Role {
   id: string
@@ -51,6 +52,7 @@ interface RolesTableProps {
 export function RolesTable({ roles, onViewPermissions, onEdit, onDelete, onCreateRole }: RolesTableProps) {
   const { t } = useTranslation()
   const { hasPermission } = usePermissions()
+  const isMobile = useIsMobile()
   const [searchQuery, setSearchQuery] = React.useState("")
 
   const filteredRoles = roles.filter(
@@ -80,6 +82,88 @@ export function RolesTable({ roles, onViewPermissions, onEdit, onDelete, onCreat
             onCreateRole={onCreateRole}
             isSearching={searchQuery.length > 0}
           />
+        ) : isMobile ? (
+          // Mobile card layout
+          <div className="space-y-4 md:hidden">
+            {filteredRoles.map((role) => (
+              <Card key={role.id} className="p-4">
+                <div className="space-y-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <Shield className="h-4 w-4 text-muted-foreground" />
+                        <span className="font-medium">{role.name}</span>
+                      </div>
+                      {role.description ? (
+                        <div className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                          {role.description}
+                        </div>
+                      ) : (
+                        <div className="text-sm text-muted-foreground mt-1 italic">
+                          {t("roles.noDescription")}
+                        </div>
+                      )}
+                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem onClick={() => onViewPermissions(role)}>
+                          <Shield className="mr-2 h-4 w-4" />
+                          {t("roles.viewPermissions")}
+                        </DropdownMenuItem>
+                        {hasPermission("role.manage") && (
+                          <DropdownMenuItem
+                            disabled={role.isSystem}
+                            onClick={() => onEdit && onEdit(role)}
+                          >
+                            <Pencil className="mr-2 h-4 w-4" />
+                            {t("roles.editRole")}
+                          </DropdownMenuItem>
+                        )}
+                        {hasPermission("role.manage") && (
+                          <>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              disabled={role.isSystem}
+                              className="text-red-600"
+                              onClick={() => onDelete && onDelete(role)}
+                            >
+                              <Trash2 className="mr-2 h-4 w-4" />
+                              {t("roles.deleteRole")}
+                            </DropdownMenuItem>
+                          </>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center justify-between">
+                      <span className="text-muted-foreground">{t("roles.type")}:</span>
+                      <Badge variant={role.isSystem ? "secondary" : "default"}>
+                        {role.isSystem ? t("roles.system") : t("roles.custom")}
+                      </Badge>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-muted-foreground">{t("audit.user")}:</span>
+                      <span className="text-sm font-medium">{role.users} {t("roles.users")}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-muted-foreground">{t("roles.created")}:</span>
+                      <span className="text-sm text-muted-foreground">
+                        {new Date(role.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
         ) : (
           <Table>
             <TableHeader>

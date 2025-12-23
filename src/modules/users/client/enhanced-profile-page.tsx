@@ -67,7 +67,7 @@ export function EnhancedProfilePage() {
       </div>
 
       <Tabs defaultValue="information" className="space-y-6">
-        <TabsList>
+        <TabsList className='flex items-center justify-start flex-wrap h-auto space-y-1'>
           <TabsTrigger value="information" className="gap-2">
             <User className="h-4 w-4" />
             {t("profile.information")}

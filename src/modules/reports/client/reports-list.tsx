@@ -28,10 +28,13 @@ import { Download, Trash2, FileText } from "lucide-react"
 import { format } from "date-fns"
 import { toast } from "sonner"
 import { usePermissions } from "@/hooks/use-permissions"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { Card } from "@/components/ui/card"
 
 export function ReportsList() {
   const { t } = useTranslation()
   const { hasPermission } = usePermissions()
+  const isMobile = useIsMobile()
   const [page, setPage] = React.useState(1)
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false)
   const [reportToDelete, setReportToDelete] = React.useState<string | null>(null)
@@ -131,6 +134,61 @@ export function ReportsList() {
         <div className="text-center py-12 text-muted-foreground">
           <FileText className="mx-auto h-12 w-12 mb-4 opacity-50" />
           <p>{t("reports.noReports")}</p>
+        </div>
+      ) : isMobile ? (
+        // Mobile card layout
+        <div className="space-y-4 md:hidden">
+          {reports.map((report) => (
+            <Card key={report.id} className="p-4">
+              <div className="space-y-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <div className="font-medium">{report.name}</div>
+                    <div className="text-sm text-muted-foreground mt-1">
+                      {t(`reports.types.${report.reportType}`)} • {report.format}
+                    </div>
+                  </div>
+                  {getStatusBadge(report.status)}
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">{t("reports.table.createdAt")}:</span>
+                    <span className="text-sm">
+                      {report.createdAt
+                        ? format(new Date(report.createdAt), "PPp")
+                        : "N/A"}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 pt-2 border-t">
+                  {report.status === "COMPLETED" && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDownload(report)}
+                      disabled={downloadMutation.isPending}
+                      className="flex-1"
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      {t("reports.download", { defaultValue: "Download" })}
+                    </Button>
+                  )}
+                  {canDelete && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDeleteClick(report.id)}
+                      disabled={deleteMutation.isPending}
+                      className="flex-1"
+                    >
+                      <Trash2 className="h-4 w-4 mr-2" />
+                      {t("common.delete")}
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </Card>
+          ))}
         </div>
       ) : (
         <>

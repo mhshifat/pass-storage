@@ -165,7 +165,7 @@ export function RotationPageClient() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList>
+          <TabsList className='flex items-center justify-start flex-wrap h-auto space-y-1'>
             <TabsTrigger value="policies">{t("passwords.rotation.policies")}</TabsTrigger>
             <TabsTrigger value="reminders">{t("passwords.rotation.reminders")}</TabsTrigger>
             <TabsTrigger value="history">{t("passwords.rotation.history")}</TabsTrigger>

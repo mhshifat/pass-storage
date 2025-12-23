@@ -236,7 +236,7 @@ export function ComplianceSettings() {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="retention" className="w-full">
-        <TabsList>
+        <TabsList className='flex items-center justify-start flex-wrap h-auto space-y-1'>
           <TabsTrigger value="retention">
             {t("settings.compliance.dataRetentionPolicy.title")}
           </TabsTrigger>

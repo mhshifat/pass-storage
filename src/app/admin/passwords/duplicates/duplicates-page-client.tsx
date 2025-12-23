@@ -130,7 +130,7 @@ export function DuplicatesPageClient() {
 
         {/* Tabs */}
         <Tabs value={selectedTab} onValueChange={(v) => setSelectedTab(v as typeof selectedTab)}>
-          <TabsList>
+          <TabsList className='flex items-center justify-start flex-wrap h-auto space-y-1'>
             <TabsTrigger value="duplicates">
               {t("passwords.duplicates.duplicates")}
               {duplicatesData && duplicatesData.uniqueDuplicatedPasswords > 0 && (

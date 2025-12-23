@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Search, MoreHorizontal, Pencil, Trash2, Mail, Shield } from "lucide-react"
 import { UsersEmptyState } from "./users-empty-state"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface User {
   id: string
@@ -50,6 +51,7 @@ interface UsersTableProps {
 
 export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, onResetMfa, onAddUser }: UsersTableProps) {
   const { t } = useTranslation()
+  const isMobile = useIsMobile()
   const [searchQuery, setSearchQuery] = React.useState("")
 
   const filteredUsers = users.filter(
@@ -87,6 +89,129 @@ export function UsersTable({ users, onEdit, onDelete, onResetPassword, onEmail, 
             onAddUser={onAddUser}
             isSearching={searchQuery.length > 0}
           />
+        ) : isMobile ? (
+          // Mobile card layout
+          <div className="space-y-4 md:hidden">
+            {filteredUsers.map((user) => (
+              <Card key={user.id} className="p-4">
+                <div className="space-y-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src={user.avatar} alt={user.name} />
+                        <AvatarFallback>
+                          {user.name.split(' ').map(n => n[0]).join('')}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium">{user.name}</div>
+                        <div className="text-sm text-muted-foreground truncate">{user.email}</div>
+                      </div>
+                    </div>
+                    {(onEdit || onEmail || onResetPassword || onResetMfa || onDelete) && (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
+                          {user.isCreator ? (
+                            <DropdownMenuItem disabled className="text-muted-foreground">
+                              {t("users.cannotModifyCreator")}
+                            </DropdownMenuItem>
+                          ) : (
+                            <>
+                              <DropdownMenuSeparator />
+                              {onEdit && (
+                                <DropdownMenuItem onClick={() => onEdit(user)}>
+                                  <Pencil className="mr-2 h-4 w-4" />
+                                  {t("common.edit")}
+                                </DropdownMenuItem>
+                              )}
+                              {onEmail && (
+                                <DropdownMenuItem onClick={() => onEmail(user.id)}>
+                                  <Mail className="mr-2 h-4 w-4" />
+                                  {t("users.sendEmail")}
+                                </DropdownMenuItem>
+                              )}
+                              {onResetPassword && (
+                                <DropdownMenuItem onClick={() => onResetPassword(user.id)}>
+                                  <Shield className="mr-2 h-4 w-4" />
+                                  {t("users.resetPassword")}
+                                </DropdownMenuItem>
+                              )}
+                              {onResetMfa && user.mfa && (
+                                <DropdownMenuItem onClick={() => onResetMfa(user.id)}>
+                                  <Shield className="mr-2 h-4 w-4" />
+                                  {t("users.resetMfa")}
+                                </DropdownMenuItem>
+                              )}
+                              {onDelete && (
+                                <>
+                                  <DropdownMenuSeparator />
+                                  <DropdownMenuItem 
+                                    className="text-red-600"
+                                    onClick={() => onDelete(user.id)}
+                                  >
+                                    <Trash2 className="mr-2 h-4 w-4" />
+                                    {t("common.delete")}
+                                  </DropdownMenuItem>
+                                </>
+                              )}
+                            </>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )}
+                  </div>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center justify-between">
+                      <span className="text-muted-foreground">{t("common.role")}:</span>
+                      <Badge
+                        variant={
+                          user.role === "Admin"
+                            ? "default"
+                            : user.role === "Manager"
+                            ? "secondary"
+                            : "outline"
+                        }
+                      >
+                        {t(`users.roles.${user.role.toLowerCase()}`, { defaultValue: user.role })}
+                      </Badge>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-muted-foreground">{t("common.status")}:</span>
+                      <Badge variant={user.status === "active" ? "default" : "secondary"}>
+                        {user.status === "active" ? t("common.active") : t("common.inactive")}
+                      </Badge>
+                    </div>
+                    {shouldShowSensitiveInfo(user) && (
+                      <div className="flex items-center justify-between">
+                        <span className="text-muted-foreground">{t("users.mfaEnabled")}:</span>
+                        {user.mfa ? (
+                          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                            {t("mfa.enabled")}
+                          </Badge>
+                        ) : (
+                          <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">
+                            {t("mfa.disabled")}
+                          </Badge>
+                        )}
+                      </div>
+                    )}
+                    {user.lastLogin && (
+                      <div className="flex items-center justify-between">
+                        <span className="text-muted-foreground">{t("users.lastLogin")}:</span>
+                        <span className="text-sm">{user.lastLogin}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
         ) : (
         <Table>
           <TableHeader>

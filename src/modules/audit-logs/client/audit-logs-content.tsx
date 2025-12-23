@@ -173,7 +173,7 @@ export function AuditLogsContent() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList>
+        <TabsList className='flex items-center justify-start flex-wrap h-auto space-y-1'>
           <TabsTrigger value="logs">{t("audit.tabs.logs")}</TabsTrigger>
           <TabsTrigger value="analytics">{t("audit.tabs.analytics")}</TabsTrigger>
           <TabsTrigger value="streaming">{t("audit.tabs.streaming")}</TabsTrigger>

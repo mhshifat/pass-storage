@@ -10,6 +10,7 @@ import { trpc } from "@/trpc/client"
 import { Loader2, Monitor, Smartphone, Tablet, Shield, ShieldOff, LogOut, AlertCircle, Fingerprint } from "lucide-react"
 import { formatDistanceToNow } from "date-fns"
 import { parseUserAgent } from "@/lib/device-parser"
+import { useIsMobile } from "@/hooks/use-mobile"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,6 +33,7 @@ import {
 
 export function DeviceManagement() {
   const { t } = useTranslation()
+  const isMobile = useIsMobile()
   const [revokeDialogOpen, setRevokeDialogOpen] = useState(false)
   const [untrustDialogOpen, setUntrustDialogOpen] = useState(false)
   const [deviceToManage, setDeviceToManage] = useState<{
@@ -153,6 +155,89 @@ export function DeviceManagement() {
               <Shield className="h-12 w-12 mx-auto mb-4 opacity-50" />
               <p>{t("devices.noTrustedDevices")}</p>
               <p className="text-sm mt-2">{t("devices.noTrustedDevicesDescription")}</p>
+            </div>
+          ) : isMobile ? (
+            // Mobile card layout
+            <div className="space-y-4 md:hidden">
+              {devices.map((device) => {
+                const deviceInfo = parseUserAgent(device.userAgent)
+                return (
+                  <Card key={device.deviceFingerprint} className="p-4">
+                    <div className="space-y-3">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                          <div className="mt-1">
+                            {getDeviceIcon(device.deviceType || deviceInfo.deviceType)}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="font-medium">
+                              {device.deviceName || deviceInfo.deviceName}
+                            </div>
+                            {device.ipAddress && (
+                              <div className="text-sm text-muted-foreground">
+                                {device.ipAddress}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setDeviceToManage({
+                                fingerprint: device.deviceFingerprint!,
+                                deviceName: device.deviceName,
+                              })
+                              setUntrustDialogOpen(true)
+                            }}
+                            disabled={untrustDeviceMutation.isPending}
+                          >
+                            <ShieldOff className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setDeviceToManage({
+                                fingerprint: device.deviceFingerprint!,
+                                deviceName: device.deviceName,
+                              })
+                              setRevokeDialogOpen(true)
+                            }}
+                            disabled={revokeDeviceMutation.isPending}
+                          >
+                            <LogOut className="h-4 w-4 text-destructive" />
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex items-center justify-between">
+                          <span className="text-muted-foreground">{t("devices.sessions")}:</span>
+                          <Badge variant="secondary">
+                            {device.sessionCount} {t("devices.activeSessions")}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-muted-foreground">{t("devices.lastActive")}:</span>
+                          <span className="text-sm text-muted-foreground">
+                            {formatDistanceToNow(new Date(device.lastActiveAt), { addSuffix: true })}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-muted-foreground">{t("devices.fingerprint")}:</span>
+                          <div className="flex items-center gap-2">
+                            <Fingerprint className="h-4 w-4 text-muted-foreground" />
+                            <code className="text-xs font-mono bg-muted px-2 py-1 rounded">
+                              {device.deviceFingerprint?.substring(0, 8)}...
+                            </code>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                )
+              })}
             </div>
           ) : (
             <Table>

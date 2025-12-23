@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Search, Activity, Filter, Group, X } from "lucide-react"
+import { useIsMobile } from "@/hooks/use-mobile"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -80,6 +81,7 @@ export function AuditLogsTable({
   onStatusChange
 }: AuditLogsTableProps) {
   const { t } = useTranslation()
+  const isMobile = useIsMobile()
   const [searchQuery, setSearchQuery] = React.useState(search || "")
   const [localSelectedAction, setLocalSelectedAction] = React.useState(selectedAction || t("audit.allActions"))
   const [groupBy, setGroupBy] = React.useState<GroupByOption>("none")
@@ -316,6 +318,63 @@ export function AuditLogsTable({
                   </h3>
                 </div>
               )}
+              {isMobile ? (
+                // Mobile card layout
+                <div className="space-y-4 md:hidden">
+                  {groupLogs.map((log) => (
+                    <Card key={log.id} className="p-4">
+                      <div className="space-y-3">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex items-center gap-3 flex-1 min-w-0">
+                            <Avatar className="h-8 w-8">
+                              <AvatarImage src={log.avatar || undefined} alt={log.user} />
+                              <AvatarFallback>
+                                {log.user
+                                  .split(" ")
+                                  .map((n) => n[0])
+                                  .join("")}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1 min-w-0">
+                              <div className="font-medium text-sm">{log.user}</div>
+                              <div className="text-xs text-muted-foreground truncate">{log.userEmail}</div>
+                            </div>
+                          </div>
+                          {getStatusBadge(log.status)}
+                        </div>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex items-center justify-between">
+                            <span className="text-muted-foreground">{t("audit.action")}:</span>
+                            <div className="flex items-center gap-2">
+                              <Activity className="h-4 w-4 text-muted-foreground" />
+                              <span className="font-medium">
+                                {t(`audit.actions.${log.action.toLowerCase()}`, { defaultValue: log.action })}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-muted-foreground">{t("audit.resource")}:</span>
+                            <span className="text-sm">{log.resource}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-muted-foreground">{t("audit.ipAddress")}:</span>
+                            <code className="text-xs bg-muted px-2 py-1 rounded">{log.ipAddress}</code>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-muted-foreground">{t("audit.time")}:</span>
+                            <span className="text-sm text-muted-foreground">{log.timestamp}</span>
+                          </div>
+                        </div>
+                        <div className="pt-2 border-t">
+                          <Button variant="ghost" size="sm" onClick={() => onViewDetails(log)} className="w-full">
+                            {t("audit.view")}
+                          </Button>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -373,6 +432,7 @@ export function AuditLogsTable({
                   ))}
                 </TableBody>
               </Table>
+              )}
             </div>
           ))
         )}

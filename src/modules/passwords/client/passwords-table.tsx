@@ -56,6 +56,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { cn } from "@/lib/utils"
 
 interface PasswordShare {
   shareId: string
@@ -201,6 +203,7 @@ export function PasswordsTable({
   const searchParams = useSearchParams()
   const utils = trpc.useUtils()
   const { hasPermission } = usePermissions()
+  const isMobile = useIsMobile()
   const [searchQuery, setSearchQuery] = React.useState(searchParams.get("search") || "")
   const { copy: copyToClipboard, isCopying: isCopyingClipboard } = useClipboard()
   const [copyingPasswordId, setCopyingPasswordId] = React.useState<string | null>(null)
@@ -361,7 +364,9 @@ export function PasswordsTable({
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center gap-3">
+        <div className={cn("flex items-center gap-3", {
+          "flex-col": isMobile,
+        })}>
           <div className="relative flex-1 group">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground transition-colors group-focus-within:text-foreground" />
             <Input
@@ -523,8 +528,173 @@ export function PasswordsTable({
         )}
       </CardHeader>
       <CardContent className="px-6">
-        <div className="overflow-x-auto">
-          <Table>
+        {isMobile ? (
+              <div className="space-y-4 md:hidden">
+                {passwords.map((pwd) => (
+                  <Card key={pwd.id} className="p-4">
+                    <div className="space-y-3">
+                      {/* Header with name and actions */}
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex items-start gap-2 flex-1 min-w-0">
+                          {onSelectionChange && (
+                            <Checkbox
+                              checked={selectedIds.includes(pwd.id)}
+                              onCheckedChange={(checked) => handleSelectOne(pwd.id, checked as boolean)}
+                              className="mt-1"
+                            />
+                          )}
+                          <FolderKey className="h-4 w-4 text-muted-foreground mt-0.5 shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              {pwd.isFavorite && (
+                                <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 shrink-0" />
+                              )}
+                              <span className="font-medium text-sm">{pwd.name}</span>
+                              {pwd.shared && (
+                                <Badge variant="outline" className="text-xs flex items-center gap-1">
+                                  <Share2 className="h-3 w-3 text-blue-600" />
+                                  {Array.isArray(pwd.sharedWith) ? pwd.sharedWith.length : 0}
+                                </Badge>
+                              )}
+                            </div>
+                            {pwd.url && (
+                              <a
+                                href={pwd.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs text-blue-600 hover:text-blue-700 hover:underline truncate mt-1 block dark:text-blue-400"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                {pwd.url}
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>{t("common.actions")}</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            {pwd.isOwner && hasPermission("password.edit") && (
+                              <DropdownMenuItem
+                                onClick={() => handleToggleFavorite(pwd.id, pwd.isFavorite || false)}
+                                disabled={togglingFavoriteId === pwd.id}
+                              >
+                                <Star
+                                  className={`mr-2 h-4 w-4 ${
+                                    pwd.isFavorite ? "fill-yellow-400 text-yellow-400" : ""
+                                  }`}
+                                />
+                                {pwd.isFavorite ? t("passwords.favorites.remove") : t("passwords.favorites.add")}
+                              </DropdownMenuItem>
+                            )}
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => onViewDetails(pwd)}>
+                              <Eye className="mr-2 h-4 w-4" />
+                              {t("passwords.viewPassword")}
+                            </DropdownMenuItem>
+                            {hasPermission("password.view") && (
+                              <>
+                                <DropdownMenuItem
+                                  onClick={() => handleCopyPassword(pwd.id)}
+                                  disabled={copyingPasswordId === pwd.id}
+                                >
+                                  <Copy className="mr-2 h-4 w-4" />
+                                  {copyingPasswordId === pwd.id ? t("passwords.copying") : t("passwords.copyPassword")}
+                                </DropdownMenuItem>
+                                {pwd.hasTotp && (
+                                  <DropdownMenuItem
+                                    onClick={() => handleCopyTotp(pwd.id)}
+                                    disabled={copyingTotpId === pwd.id}
+                                  >
+                                    <Clock className="mr-2 h-4 w-4" />
+                                    {copyingTotpId === pwd.id ? t("passwords.generating") : t("passwords.copyTotpCode")}
+                                  </DropdownMenuItem>
+                                )}
+                              </>
+                            )}
+                            {hasPermission("password.edit") && (
+                              <DropdownMenuItem onClick={() => onEdit?.(pwd)}>
+                                <Pencil className="mr-2 h-4 w-4" />
+                                {t("common.edit")}
+                              </DropdownMenuItem>
+                            )}
+                            {hasPermission("password.share") && (
+                              <DropdownMenuItem onClick={() => onShare?.(pwd)}>
+                                <Share2 className="mr-2 h-4 w-4" />
+                                {t("passwords.sharePassword")}
+                              </DropdownMenuItem>
+                            )}
+                            {hasPermission("password.delete") && (
+                              <>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                  className="text-red-600"
+                                  onClick={() => onDelete?.(pwd)}
+                                >
+                                  <Trash2 className="mr-2 h-4 w-4" />
+                                  {t("common.delete")}
+                                </DropdownMenuItem>
+                              </>
+                            )}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+
+                      {/* Details */}
+                      <div className="space-y-2 text-sm">
+                        <div className="flex items-center justify-between">
+                          <span className="text-muted-foreground">{t("passwords.username")}:</span>
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono text-xs">{pwd.username}</span>
+                            {hasPermission("password.view") && (
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-6 w-6"
+                                onClick={() =>
+                                  copyToClipboard(pwd.username, {
+                                    resourceId: pwd.id,
+                                    resourceType: "password",
+                                    actionType: "copy_username",
+                                    successMessage: t("clipboard.usernameCopied"),
+                                  })
+                                }
+                                disabled={isCopyingClipboard}
+                              >
+                                <Copy className="h-3 w-3" />
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                        {hasPermission("password.view") && (
+                          <div className="flex items-center justify-between">
+                            <span className="text-muted-foreground">{t("common.password")}:</span>
+                            <PasswordCell passwordId={pwd.id} />
+                          </div>
+                        )}
+                        <div className="flex items-center justify-between">
+                          <span className="text-muted-foreground">{t("passwords.strength")}:</span>
+                          {getStrengthBadge(pwd.strength)}
+                        </div>
+                        {hasPermission("password.view") && pwd.hasTotp && (
+                          <div className="flex items-center justify-between">
+                            <span className="text-muted-foreground">TOTP:</span>
+                            <TotpCell passwordId={pwd.id} />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <Table>
             <TableHeader>
               <TableRow className="border-b">
               {onSelectionChange && (
@@ -745,7 +915,8 @@ export function PasswordsTable({
               ))}
             </TableBody>
           </Table>
-        </div>
+          </div>
+        )}
       </CardContent>
 
       <AdvancedSearchDialog

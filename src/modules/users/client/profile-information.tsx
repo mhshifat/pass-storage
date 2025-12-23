@@ -196,7 +196,7 @@ export function ProfileInformation({ user, onUpdate }: ProfileInformationProps) 
             </div>
             <div className="flex-1">
               <h2 className="text-2xl font-semibold">{user.name}</h2>
-              <div className="flex items-center gap-2 mt-1">
+              <div className="flex items-center gap-2 mt-1 flex-wrap">
                 <p className="text-muted-foreground">{user.email}</p>
                 {user.emailVerified ? (
                   <Badge variant="default" className="gap-1">

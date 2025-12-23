@@ -23,7 +23,6 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { trpc } from "@/trpc/client"
-import { cn } from "@/lib/utils"
 
 export function TagFilter() {
   const { t } = useTranslation()
@@ -139,34 +138,6 @@ export function TagFilter() {
           </Command>
         </PopoverContent>
       </Popover>
-
-      {selectedTags.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {selectedTags.map((tag) => (
-            <Badge
-              key={tag.id}
-              variant="secondary"
-              className="flex items-center gap-1.5"
-            >
-              {tag.color && (
-                <span
-                  className="w-2 h-2 rounded-full"
-                  style={{ backgroundColor: tag.color }}
-                />
-              )}
-              {tag.icon && <span className="text-xs">{tag.icon}</span>}
-              <span>{tag.name}</span>
-              <button
-                type="button"
-                onClick={() => handleTagToggle(tag.id)}
-                className="ml-1 hover:bg-muted rounded-full p-0.5"
-              >
-                <X className="h-3 w-3" />
-              </button>
-            </Badge>
-          ))}
-        </div>
-      )}
     </div>
   )
 }

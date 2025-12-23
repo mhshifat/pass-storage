@@ -186,7 +186,7 @@ export function AuditLogsTable({
               onChange={(e) => setDebouncedSearch(e.target.value)}
             />
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <Select value={selectedAction} onValueChange={onActionChange}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder={t("audit.filterByAction")} />

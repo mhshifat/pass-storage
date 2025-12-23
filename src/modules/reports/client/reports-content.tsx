@@ -35,7 +35,7 @@ export function ReportsContent() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-        <TabsList>
+        <TabsList className='flex items-center justify-start flex-wrap h-auto space-y-1'>
           <TabsTrigger value="reports">
             <FileText className="mr-2 h-4 w-4" />
             {t("reports.tabs.reports")}

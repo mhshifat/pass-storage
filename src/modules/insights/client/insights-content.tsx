@@ -27,7 +27,7 @@ export function InsightsContent() {
 
       {/* Tabs */}
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList>
+        <TabsList className='flex items-center justify-start flex-wrap h-auto space-y-1'>
           <TabsTrigger value="overview">
             {t("insights.tabs.overview")}
           </TabsTrigger>

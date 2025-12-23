@@ -11,7 +11,7 @@ export const teamsRouter = createTRPCRouter({
         description: z.string().optional(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       // Check if team already exists
       const existingTeam = await prisma.team.findFirst({
         where: { name: input.name },
@@ -155,7 +155,7 @@ export const teamsRouter = createTRPCRouter({
         description: z.string().optional(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       const { id, ...data } = input
 
       // Check if team exists
@@ -223,7 +223,7 @@ export const teamsRouter = createTRPCRouter({
         id: z.string(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       // Check if team exists
       const existingTeam = await prisma.team.findUnique({
         where: { id: input.id },
@@ -363,7 +363,7 @@ export const teamsRouter = createTRPCRouter({
         role: z.enum(["MANAGER", "MEMBER"]).default("MEMBER"),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       // Check if team exists
       const team = await prisma.team.findUnique({
         where: { id: input.teamId },
@@ -450,7 +450,7 @@ export const teamsRouter = createTRPCRouter({
         userId: z.string(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       // Check if member exists
       const member = await prisma.teamMember.findUnique({
         where: {
