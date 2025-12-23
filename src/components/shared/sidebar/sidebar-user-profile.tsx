@@ -62,7 +62,7 @@ export function SidebarUserProfile({ user, isCollapsed }: SidebarUserProfileProp
       <div className="border-t p-3">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="mx-auto flex items-center justify-center rounded-lg p-2 hover:bg-accent">
+            <button className="flex w-full items-center justify-center rounded-lg p-2 hover:bg-accent">
               <Avatar className="h-8 w-8">
                 <AvatarImage src={user.image || undefined} alt={user.name} />
                 <AvatarFallback>{initials}</AvatarFallback>
