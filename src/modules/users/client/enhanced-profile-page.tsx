@@ -13,7 +13,8 @@ import { UserStatistics } from "./user-statistics"
 import { ActiveSessions } from "./active-sessions"
 import { LoginHistory } from "./login-history"
 import { DeviceManagement } from "./device-management"
-import { Monitor } from "lucide-react"
+import { AccessibilitySettings } from "@/modules/accessibility/client/accessibility-settings"
+import { Monitor, Accessibility } from "lucide-react"
 import { AccountRecovery } from "./account-recovery"
 
 export function EnhancedProfilePage() {
@@ -95,6 +96,10 @@ export function EnhancedProfilePage() {
             <Shield className="h-4 w-4" />
             {t("profile.accountRecovery")}
           </TabsTrigger>
+          <TabsTrigger value="accessibility" className="gap-2">
+            <Accessibility className="h-4 w-4" />
+            {t("accessibility.title")}
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="information" className="space-y-6">
@@ -124,6 +129,10 @@ export function EnhancedProfilePage() {
 
         <TabsContent value="accountRecovery" className="space-y-6">
           <AccountRecovery user={data.user} onUpdate={refetch} />
+        </TabsContent>
+
+        <TabsContent value="accessibility" className="space-y-6">
+          <AccessibilitySettings user={data.user} onUpdate={refetch} />
         </TabsContent>
       </Tabs>
     </div>

@@ -2203,6 +2203,29 @@
     "copyPassword": "Copy Password",
     "copyUsername": "Copy Username",
     "copyUrl": "Copy URL"
+  },
+  "accessibility": {
+    "title": "Accessibility",
+    "description": "Customize accessibility settings to improve your experience",
+    "highContrast": "High Contrast Mode",
+    "highContrastDescription": "Increase contrast for better visibility",
+    "fontSize": "Font Size",
+    "fontSizeDescription": "Adjust the size of text throughout the application",
+    "fontSizeSmall": "Small",
+    "fontSizeMedium": "Medium",
+    "fontSizeLarge": "Large",
+    "fontSizeXLarge": "Extra Large",
+    "reducedMotion": "Reduce Motion",
+    "reducedMotionDescription": "Minimize animations and transitions for a calmer experience",
+    "settingsUpdated": "Accessibility settings updated successfully",
+    "settingsUpdateError": "Failed to update accessibility settings",
+    "keyboardNavigation": "Keyboard Navigation",
+    "keyboardNavigationDescription": "Use keyboard shortcuts to navigate efficiently",
+    "screenReader": "Screen Reader Support",
+    "screenReaderDescription": "Enhanced support for screen reading software",
+    "focusManagement": "Focus Management",
+    "focusManagementDescription": "Improved focus indicators and keyboard navigation",
+    "skipToContent": "Skip to main content"
   }
 }
 

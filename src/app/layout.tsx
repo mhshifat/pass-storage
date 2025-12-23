@@ -7,6 +7,8 @@ import { NavigationProgress } from "@/components/providers/navigation-progress";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ThemeInitializer } from "@/components/providers/theme-initializer";
 import { I18nProvider } from "@/components/providers/i18n-provider";
+import { AccessibilityProvider } from "@/components/providers/accessibility-provider";
+import { AccessibilityInitializer } from "@/components/providers/accessibility-initializer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,14 +41,17 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <I18nProvider>
-            <TRPCReactProvider>
-              <ThemeInitializer />
-              <NavigationProgress showFullPageLoader={false} />
-              {children}
-            </TRPCReactProvider>
-            <Toaster />
-          </I18nProvider>
+          <AccessibilityProvider>
+            <I18nProvider>
+              <TRPCReactProvider>
+                <ThemeInitializer />
+                <AccessibilityInitializer />
+                <NavigationProgress showFullPageLoader={false} />
+                {children}
+              </TRPCReactProvider>
+              <Toaster />
+            </I18nProvider>
+          </AccessibilityProvider>
         </ThemeProvider>
       </body>
     </html>
