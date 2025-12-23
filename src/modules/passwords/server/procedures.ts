@@ -4069,5 +4069,301 @@ export const passwordsRouter = createTRPCRouter({
 
       return { success: true }
     }),
+
+  // Temporary Password Sharing
+  createTemporaryShare: protectedProcedure("password.share")
+    .input(
+      z.object({
+        passwordId: z.string(),
+        expiresAt: z.date().optional(),
+        maxAccesses: z.number().min(1).max(100).optional(),
+        isOneTime: z.boolean().default(false),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      // Check if password exists and is owned by current user
+      const password = await prisma.password.findUnique({
+        where: { id: input.passwordId },
+        include: {
+          owner: {
+            select: {
+              id: true,
+              companyId: true,
+            },
+          },
+        },
+      })
+
+      if (!password) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Password not found",
+        })
+      }
+
+      // Check if user owns the password
+      if (password.ownerId !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You can only create temporary shares for passwords you own",
+        })
+      }
+
+      // Generate secure share token
+      const crypto = await import("crypto")
+      const shareToken = crypto.randomBytes(32).toString("hex")
+
+      // Create temporary share
+      const temporaryShare = await prisma.temporaryPasswordShare.create({
+        data: {
+          passwordId: input.passwordId,
+          shareToken,
+          createdBy: ctx.userId,
+          expiresAt: input.expiresAt || null,
+          maxAccesses: input.maxAccesses || null,
+          isOneTime: input.isOneTime,
+        },
+        select: {
+          id: true,
+          shareToken: true,
+          expiresAt: true,
+          maxAccesses: true,
+          isOneTime: true,
+          createdAt: true,
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "TEMPORARY_PASSWORD_SHARE_CREATED",
+        resource: "Password",
+        resourceId: input.passwordId,
+        details: {
+          passwordName: password.name,
+          expiresAt: input.expiresAt?.toISOString() || null,
+          maxAccesses: input.maxAccesses || null,
+          isOneTime: input.isOneTime,
+        },
+        userId: ctx.userId,
+      })
+
+      return {
+        success: true,
+        share: temporaryShare,
+        shareUrl: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/share/${temporaryShare.shareToken}`,
+      }
+    }),
+
+  accessTemporaryShare: baseProcedure
+    .input(
+      z.object({
+        shareToken: z.string(),
+      })
+    )
+    .query(async ({ input }) => {
+      const temporaryShare = await prisma.temporaryPasswordShare.findUnique({
+        where: { shareToken: input.shareToken },
+        include: {
+          password: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+              password: true, // Encrypted
+              url: true,
+              notes: true,
+              hasTotp: true,
+              totpSecret: true, // Encrypted
+              owner: {
+                select: {
+                  name: true,
+                  email: true,
+                },
+              },
+            },
+          },
+        },
+      })
+
+      if (!temporaryShare) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Share link not found or has been revoked",
+        })
+      }
+
+      // Check if share is revoked
+      if (temporaryShare.revokedAt) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "This share link has been revoked",
+        })
+      }
+
+      // Check if share is expired
+      if (temporaryShare.expiresAt && temporaryShare.expiresAt < new Date()) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "This share link has expired",
+        })
+      }
+
+      // Check if max accesses reached
+      if (
+        temporaryShare.maxAccesses &&
+        temporaryShare.accessCount >= temporaryShare.maxAccesses
+      ) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Maximum number of accesses reached for this share link",
+        })
+      }
+
+      // Increment access count and update accessedAt
+      await prisma.temporaryPasswordShare.update({
+        where: { id: temporaryShare.id },
+        data: {
+          accessCount: { increment: 1 },
+          accessedAt: new Date(),
+        },
+      })
+
+      // If one-time share, mark as revoked after access
+      if (temporaryShare.isOneTime) {
+        await prisma.temporaryPasswordShare.update({
+          where: { id: temporaryShare.id },
+          data: {
+            revokedAt: new Date(),
+          },
+        })
+      }
+
+      // Decrypt password
+      const decryptedPassword = decrypt(temporaryShare.password.password)
+
+      return {
+        password: {
+          ...temporaryShare.password,
+          password: decryptedPassword,
+        },
+        shareInfo: {
+          expiresAt: temporaryShare.expiresAt,
+          maxAccesses: temporaryShare.maxAccesses,
+          accessCount: temporaryShare.accessCount + 1,
+          isOneTime: temporaryShare.isOneTime,
+        },
+      }
+    }),
+
+  listTemporaryShares: protectedProcedure("password.view")
+    .input(
+      z.object({
+        passwordId: z.string().optional(),
+      }).optional()
+    )
+    .query(async ({ input, ctx }) => {
+      const where: any = {
+        createdBy: ctx.userId,
+      }
+
+      if (input?.passwordId) {
+        where.passwordId = input.passwordId
+      }
+
+      const shares = await prisma.temporaryPasswordShare.findMany({
+        where,
+        include: {
+          password: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+        orderBy: { createdAt: "desc" },
+      })
+
+      return shares.map((share) => ({
+        id: share.id,
+        shareToken: share.shareToken,
+        passwordId: share.passwordId,
+        passwordName: share.password.name,
+        expiresAt: share.expiresAt,
+        maxAccesses: share.maxAccesses,
+        accessCount: share.accessCount,
+        isOneTime: share.isOneTime,
+        revokedAt: share.revokedAt,
+        createdAt: share.createdAt,
+        accessedAt: share.accessedAt,
+        shareUrl: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/share/${share.shareToken}`,
+      }))
+    }),
+
+  revokeTemporaryShare: protectedProcedure("password.share")
+    .input(
+      z.object({
+        shareId: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const share = await prisma.temporaryPasswordShare.findUnique({
+        where: { id: input.shareId },
+        include: {
+          password: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      })
+
+      if (!share) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Share not found",
+        })
+      }
+
+      // Check if user created this share
+      if (share.createdBy !== ctx.userId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You can only revoke shares you created",
+        })
+      }
+
+      // Check if already revoked
+      if (share.revokedAt) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "This share has already been revoked",
+        })
+      }
+
+      // Revoke the share
+      await prisma.temporaryPasswordShare.update({
+        where: { id: input.shareId },
+        data: {
+          revokedAt: new Date(),
+        },
+      })
+
+      // Create audit log
+      const { createAuditLog } = await import("@/lib/audit-log")
+      await createAuditLog({
+        action: "TEMPORARY_PASSWORD_SHARE_REVOKED",
+        resource: "Password",
+        resourceId: share.passwordId,
+        details: {
+          passwordName: share.password.name,
+          shareId: input.shareId,
+        },
+        userId: ctx.userId,
+      })
+
+      return { success: true }
+    }),
 })
 

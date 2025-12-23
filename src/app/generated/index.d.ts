@@ -69,6 +69,11 @@ export type Folder = $Result.DefaultSelection<Prisma.$FolderPayload>
  */
 export type PasswordShare = $Result.DefaultSelection<Prisma.$PasswordSharePayload>
 /**
+ * Model TemporaryPasswordShare
+ * 
+ */
+export type TemporaryPasswordShare = $Result.DefaultSelection<Prisma.$TemporaryPasswordSharePayload>
+/**
  * Model Team
  * 
  */
@@ -573,6 +578,16 @@ export class PrismaClient<
     * ```
     */
   get passwordShare(): Prisma.PasswordShareDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.temporaryPasswordShare`: Exposes CRUD operations for the **TemporaryPasswordShare** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TemporaryPasswordShares
+    * const temporaryPasswordShares = await prisma.temporaryPasswordShare.findMany()
+    * ```
+    */
+  get temporaryPasswordShare(): Prisma.TemporaryPasswordShareDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.team`: Exposes CRUD operations for the **Team** model.
@@ -1318,6 +1333,7 @@ export namespace Prisma {
     PasswordRotation: 'PasswordRotation',
     Folder: 'Folder',
     PasswordShare: 'PasswordShare',
+    TemporaryPasswordShare: 'TemporaryPasswordShare',
     Team: 'Team',
     TeamMember: 'TeamMember',
     Tag: 'Tag',
@@ -1363,7 +1379,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "passwordRotationPolicy" | "passwordRotation" | "folder" | "passwordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "auditLogArchive" | "auditLogSearch" | "settings" | "threatEvent" | "rateLimit" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode" | "savedSearch" | "searchHistory" | "passwordTemplate" | "emailVerificationToken" | "passwordResetToken" | "securityQuestion" | "ipWhitelist" | "geographicRestriction" | "passwordPolicy" | "dataRetentionPolicy" | "dataExport" | "dataDeletionRequest" | "report" | "reportTemplate" | "scheduledReport"
+      modelProps: "company" | "user" | "account" | "session" | "password" | "passwordHistory" | "passwordBreach" | "passwordRotationPolicy" | "passwordRotation" | "folder" | "passwordShare" | "temporaryPasswordShare" | "team" | "teamMember" | "tag" | "passwordTag" | "auditLog" | "auditLogArchive" | "auditLogSearch" | "settings" | "threatEvent" | "rateLimit" | "role" | "permission" | "rolePermission" | "mfaCredential" | "recoveryCode" | "savedSearch" | "searchHistory" | "passwordTemplate" | "emailVerificationToken" | "passwordResetToken" | "securityQuestion" | "ipWhitelist" | "geographicRestriction" | "passwordPolicy" | "dataRetentionPolicy" | "dataExport" | "dataDeletionRequest" | "report" | "reportTemplate" | "scheduledReport"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2178,6 +2194,80 @@ export namespace Prisma {
           count: {
             args: Prisma.PasswordShareCountArgs<ExtArgs>
             result: $Utils.Optional<PasswordShareCountAggregateOutputType> | number
+          }
+        }
+      }
+      TemporaryPasswordShare: {
+        payload: Prisma.$TemporaryPasswordSharePayload<ExtArgs>
+        fields: Prisma.TemporaryPasswordShareFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TemporaryPasswordShareFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemporaryPasswordSharePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TemporaryPasswordShareFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemporaryPasswordSharePayload>
+          }
+          findFirst: {
+            args: Prisma.TemporaryPasswordShareFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemporaryPasswordSharePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TemporaryPasswordShareFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemporaryPasswordSharePayload>
+          }
+          findMany: {
+            args: Prisma.TemporaryPasswordShareFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemporaryPasswordSharePayload>[]
+          }
+          create: {
+            args: Prisma.TemporaryPasswordShareCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemporaryPasswordSharePayload>
+          }
+          createMany: {
+            args: Prisma.TemporaryPasswordShareCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TemporaryPasswordShareCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemporaryPasswordSharePayload>[]
+          }
+          delete: {
+            args: Prisma.TemporaryPasswordShareDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemporaryPasswordSharePayload>
+          }
+          update: {
+            args: Prisma.TemporaryPasswordShareUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemporaryPasswordSharePayload>
+          }
+          deleteMany: {
+            args: Prisma.TemporaryPasswordShareDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TemporaryPasswordShareUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TemporaryPasswordShareUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemporaryPasswordSharePayload>[]
+          }
+          upsert: {
+            args: Prisma.TemporaryPasswordShareUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TemporaryPasswordSharePayload>
+          }
+          aggregate: {
+            args: Prisma.TemporaryPasswordShareAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTemporaryPasswordShare>
+          }
+          groupBy: {
+            args: Prisma.TemporaryPasswordShareGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TemporaryPasswordShareGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TemporaryPasswordShareCountArgs<ExtArgs>
+            result: $Utils.Optional<TemporaryPasswordShareCountAggregateOutputType> | number
           }
         }
       }
@@ -4504,6 +4594,7 @@ export namespace Prisma {
     passwordRotation?: PasswordRotationOmit
     folder?: FolderOmit
     passwordShare?: PasswordShareOmit
+    temporaryPasswordShare?: TemporaryPasswordShareOmit
     team?: TeamOmit
     teamMember?: TeamMemberOmit
     tag?: TagOmit
@@ -4767,6 +4858,7 @@ export namespace Prisma {
     passwordBreachesResolved: number
     rotationPolicies: number
     passwordRotations: number
+    temporaryPasswordShares: number
     savedSearches: number
     searchHistory: number
     passwordTemplates: number
@@ -4804,6 +4896,7 @@ export namespace Prisma {
     passwordBreachesResolved?: boolean | UserCountOutputTypeCountPasswordBreachesResolvedArgs
     rotationPolicies?: boolean | UserCountOutputTypeCountRotationPoliciesArgs
     passwordRotations?: boolean | UserCountOutputTypeCountPasswordRotationsArgs
+    temporaryPasswordShares?: boolean | UserCountOutputTypeCountTemporaryPasswordSharesArgs
     savedSearches?: boolean | UserCountOutputTypeCountSavedSearchesArgs
     searchHistory?: boolean | UserCountOutputTypeCountSearchHistoryArgs
     passwordTemplates?: boolean | UserCountOutputTypeCountPasswordTemplatesArgs
@@ -4933,6 +5026,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountPasswordRotationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PasswordRotationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountTemporaryPasswordSharesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TemporaryPasswordShareWhereInput
   }
 
   /**
@@ -5082,6 +5182,7 @@ export namespace Prisma {
 
   export type PasswordCountOutputType = {
     sharedWith: number
+    temporaryShares: number
     tags: number
     history: number
     breaches: number
@@ -5090,6 +5191,7 @@ export namespace Prisma {
 
   export type PasswordCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sharedWith?: boolean | PasswordCountOutputTypeCountSharedWithArgs
+    temporaryShares?: boolean | PasswordCountOutputTypeCountTemporarySharesArgs
     tags?: boolean | PasswordCountOutputTypeCountTagsArgs
     history?: boolean | PasswordCountOutputTypeCountHistoryArgs
     breaches?: boolean | PasswordCountOutputTypeCountBreachesArgs
@@ -5112,6 +5214,13 @@ export namespace Prisma {
    */
   export type PasswordCountOutputTypeCountSharedWithArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PasswordShareWhereInput
+  }
+
+  /**
+   * PasswordCountOutputType without action
+   */
+  export type PasswordCountOutputTypeCountTemporarySharesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TemporaryPasswordShareWhereInput
   }
 
   /**
@@ -7155,6 +7264,7 @@ export namespace Prisma {
     passwordBreachesResolved?: boolean | User$passwordBreachesResolvedArgs<ExtArgs>
     rotationPolicies?: boolean | User$rotationPoliciesArgs<ExtArgs>
     passwordRotations?: boolean | User$passwordRotationsArgs<ExtArgs>
+    temporaryPasswordShares?: boolean | User$temporaryPasswordSharesArgs<ExtArgs>
     savedSearches?: boolean | User$savedSearchesArgs<ExtArgs>
     searchHistory?: boolean | User$searchHistoryArgs<ExtArgs>
     passwordTemplates?: boolean | User$passwordTemplatesArgs<ExtArgs>
@@ -7272,6 +7382,7 @@ export namespace Prisma {
     passwordBreachesResolved?: boolean | User$passwordBreachesResolvedArgs<ExtArgs>
     rotationPolicies?: boolean | User$rotationPoliciesArgs<ExtArgs>
     passwordRotations?: boolean | User$passwordRotationsArgs<ExtArgs>
+    temporaryPasswordShares?: boolean | User$temporaryPasswordSharesArgs<ExtArgs>
     savedSearches?: boolean | User$savedSearchesArgs<ExtArgs>
     searchHistory?: boolean | User$searchHistoryArgs<ExtArgs>
     passwordTemplates?: boolean | User$passwordTemplatesArgs<ExtArgs>
@@ -7322,6 +7433,7 @@ export namespace Prisma {
       passwordBreachesResolved: Prisma.$PasswordBreachPayload<ExtArgs>[]
       rotationPolicies: Prisma.$PasswordRotationPolicyPayload<ExtArgs>[]
       passwordRotations: Prisma.$PasswordRotationPayload<ExtArgs>[]
+      temporaryPasswordShares: Prisma.$TemporaryPasswordSharePayload<ExtArgs>[]
       savedSearches: Prisma.$SavedSearchPayload<ExtArgs>[]
       searchHistory: Prisma.$SearchHistoryPayload<ExtArgs>[]
       passwordTemplates: Prisma.$PasswordTemplatePayload<ExtArgs>[]
@@ -7775,6 +7887,7 @@ export namespace Prisma {
     passwordBreachesResolved<T extends User$passwordBreachesResolvedArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordBreachesResolvedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     rotationPolicies<T extends User$rotationPoliciesArgs<ExtArgs> = {}>(args?: Subset<T, User$rotationPoliciesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordRotationPolicyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passwordRotations<T extends User$passwordRotationsArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordRotationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordRotationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    temporaryPasswordShares<T extends User$temporaryPasswordSharesArgs<ExtArgs> = {}>(args?: Subset<T, User$temporaryPasswordSharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemporaryPasswordSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     savedSearches<T extends User$savedSearchesArgs<ExtArgs> = {}>(args?: Subset<T, User$savedSearchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SavedSearchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     searchHistory<T extends User$searchHistoryArgs<ExtArgs> = {}>(args?: Subset<T, User$searchHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SearchHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passwordTemplates<T extends User$passwordTemplatesArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordTemplatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -8594,6 +8707,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PasswordRotationScalarFieldEnum | PasswordRotationScalarFieldEnum[]
+  }
+
+  /**
+   * User.temporaryPasswordShares
+   */
+  export type User$temporaryPasswordSharesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryPasswordShare
+     */
+    select?: TemporaryPasswordShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemporaryPasswordShare
+     */
+    omit?: TemporaryPasswordShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemporaryPasswordShareInclude<ExtArgs> | null
+    where?: TemporaryPasswordShareWhereInput
+    orderBy?: TemporaryPasswordShareOrderByWithRelationInput | TemporaryPasswordShareOrderByWithRelationInput[]
+    cursor?: TemporaryPasswordShareWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TemporaryPasswordShareScalarFieldEnum | TemporaryPasswordShareScalarFieldEnum[]
   }
 
   /**
@@ -11714,6 +11851,7 @@ export namespace Prisma {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     folder?: boolean | Password$folderArgs<ExtArgs>
     sharedWith?: boolean | Password$sharedWithArgs<ExtArgs>
+    temporaryShares?: boolean | Password$temporarySharesArgs<ExtArgs>
     tags?: boolean | Password$tagsArgs<ExtArgs>
     history?: boolean | Password$historyArgs<ExtArgs>
     breaches?: boolean | Password$breachesArgs<ExtArgs>
@@ -11790,6 +11928,7 @@ export namespace Prisma {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     folder?: boolean | Password$folderArgs<ExtArgs>
     sharedWith?: boolean | Password$sharedWithArgs<ExtArgs>
+    temporaryShares?: boolean | Password$temporarySharesArgs<ExtArgs>
     tags?: boolean | Password$tagsArgs<ExtArgs>
     history?: boolean | Password$historyArgs<ExtArgs>
     breaches?: boolean | Password$breachesArgs<ExtArgs>
@@ -11814,6 +11953,7 @@ export namespace Prisma {
       owner: Prisma.$UserPayload<ExtArgs>
       folder: Prisma.$FolderPayload<ExtArgs> | null
       sharedWith: Prisma.$PasswordSharePayload<ExtArgs>[]
+      temporaryShares: Prisma.$TemporaryPasswordSharePayload<ExtArgs>[]
       tags: Prisma.$PasswordTagPayload<ExtArgs>[]
       history: Prisma.$PasswordHistoryPayload<ExtArgs>[]
       breaches: Prisma.$PasswordBreachPayload<ExtArgs>[]
@@ -12234,6 +12374,7 @@ export namespace Prisma {
     owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     folder<T extends Password$folderArgs<ExtArgs> = {}>(args?: Subset<T, Password$folderArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     sharedWith<T extends Password$sharedWithArgs<ExtArgs> = {}>(args?: Subset<T, Password$sharedWithArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    temporaryShares<T extends Password$temporarySharesArgs<ExtArgs> = {}>(args?: Subset<T, Password$temporarySharesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemporaryPasswordSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tags<T extends Password$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Password$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     history<T extends Password$historyArgs<ExtArgs> = {}>(args?: Subset<T, Password$historyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     breaches<T extends Password$breachesArgs<ExtArgs> = {}>(args?: Subset<T, Password$breachesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordBreachPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -12720,6 +12861,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PasswordShareScalarFieldEnum | PasswordShareScalarFieldEnum[]
+  }
+
+  /**
+   * Password.temporaryShares
+   */
+  export type Password$temporarySharesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryPasswordShare
+     */
+    select?: TemporaryPasswordShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemporaryPasswordShare
+     */
+    omit?: TemporaryPasswordShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemporaryPasswordShareInclude<ExtArgs> | null
+    where?: TemporaryPasswordShareWhereInput
+    orderBy?: TemporaryPasswordShareOrderByWithRelationInput | TemporaryPasswordShareOrderByWithRelationInput[]
+    cursor?: TemporaryPasswordShareWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TemporaryPasswordShareScalarFieldEnum | TemporaryPasswordShareScalarFieldEnum[]
   }
 
   /**
@@ -19969,6 +20134,1188 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PasswordShareInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TemporaryPasswordShare
+   */
+
+  export type AggregateTemporaryPasswordShare = {
+    _count: TemporaryPasswordShareCountAggregateOutputType | null
+    _avg: TemporaryPasswordShareAvgAggregateOutputType | null
+    _sum: TemporaryPasswordShareSumAggregateOutputType | null
+    _min: TemporaryPasswordShareMinAggregateOutputType | null
+    _max: TemporaryPasswordShareMaxAggregateOutputType | null
+  }
+
+  export type TemporaryPasswordShareAvgAggregateOutputType = {
+    accessCount: number | null
+    maxAccesses: number | null
+  }
+
+  export type TemporaryPasswordShareSumAggregateOutputType = {
+    accessCount: number | null
+    maxAccesses: number | null
+  }
+
+  export type TemporaryPasswordShareMinAggregateOutputType = {
+    id: string | null
+    passwordId: string | null
+    shareToken: string | null
+    createdBy: string | null
+    accessCount: number | null
+    maxAccesses: number | null
+    isOneTime: boolean | null
+    expiresAt: Date | null
+    accessedAt: Date | null
+    revokedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type TemporaryPasswordShareMaxAggregateOutputType = {
+    id: string | null
+    passwordId: string | null
+    shareToken: string | null
+    createdBy: string | null
+    accessCount: number | null
+    maxAccesses: number | null
+    isOneTime: boolean | null
+    expiresAt: Date | null
+    accessedAt: Date | null
+    revokedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type TemporaryPasswordShareCountAggregateOutputType = {
+    id: number
+    passwordId: number
+    shareToken: number
+    createdBy: number
+    accessCount: number
+    maxAccesses: number
+    isOneTime: number
+    expiresAt: number
+    accessedAt: number
+    revokedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TemporaryPasswordShareAvgAggregateInputType = {
+    accessCount?: true
+    maxAccesses?: true
+  }
+
+  export type TemporaryPasswordShareSumAggregateInputType = {
+    accessCount?: true
+    maxAccesses?: true
+  }
+
+  export type TemporaryPasswordShareMinAggregateInputType = {
+    id?: true
+    passwordId?: true
+    shareToken?: true
+    createdBy?: true
+    accessCount?: true
+    maxAccesses?: true
+    isOneTime?: true
+    expiresAt?: true
+    accessedAt?: true
+    revokedAt?: true
+    createdAt?: true
+  }
+
+  export type TemporaryPasswordShareMaxAggregateInputType = {
+    id?: true
+    passwordId?: true
+    shareToken?: true
+    createdBy?: true
+    accessCount?: true
+    maxAccesses?: true
+    isOneTime?: true
+    expiresAt?: true
+    accessedAt?: true
+    revokedAt?: true
+    createdAt?: true
+  }
+
+  export type TemporaryPasswordShareCountAggregateInputType = {
+    id?: true
+    passwordId?: true
+    shareToken?: true
+    createdBy?: true
+    accessCount?: true
+    maxAccesses?: true
+    isOneTime?: true
+    expiresAt?: true
+    accessedAt?: true
+    revokedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TemporaryPasswordShareAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TemporaryPasswordShare to aggregate.
+     */
+    where?: TemporaryPasswordShareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemporaryPasswordShares to fetch.
+     */
+    orderBy?: TemporaryPasswordShareOrderByWithRelationInput | TemporaryPasswordShareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TemporaryPasswordShareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemporaryPasswordShares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemporaryPasswordShares.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TemporaryPasswordShares
+    **/
+    _count?: true | TemporaryPasswordShareCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TemporaryPasswordShareAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TemporaryPasswordShareSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TemporaryPasswordShareMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TemporaryPasswordShareMaxAggregateInputType
+  }
+
+  export type GetTemporaryPasswordShareAggregateType<T extends TemporaryPasswordShareAggregateArgs> = {
+        [P in keyof T & keyof AggregateTemporaryPasswordShare]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTemporaryPasswordShare[P]>
+      : GetScalarType<T[P], AggregateTemporaryPasswordShare[P]>
+  }
+
+
+
+
+  export type TemporaryPasswordShareGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TemporaryPasswordShareWhereInput
+    orderBy?: TemporaryPasswordShareOrderByWithAggregationInput | TemporaryPasswordShareOrderByWithAggregationInput[]
+    by: TemporaryPasswordShareScalarFieldEnum[] | TemporaryPasswordShareScalarFieldEnum
+    having?: TemporaryPasswordShareScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TemporaryPasswordShareCountAggregateInputType | true
+    _avg?: TemporaryPasswordShareAvgAggregateInputType
+    _sum?: TemporaryPasswordShareSumAggregateInputType
+    _min?: TemporaryPasswordShareMinAggregateInputType
+    _max?: TemporaryPasswordShareMaxAggregateInputType
+  }
+
+  export type TemporaryPasswordShareGroupByOutputType = {
+    id: string
+    passwordId: string
+    shareToken: string
+    createdBy: string
+    accessCount: number
+    maxAccesses: number | null
+    isOneTime: boolean
+    expiresAt: Date | null
+    accessedAt: Date | null
+    revokedAt: Date | null
+    createdAt: Date
+    _count: TemporaryPasswordShareCountAggregateOutputType | null
+    _avg: TemporaryPasswordShareAvgAggregateOutputType | null
+    _sum: TemporaryPasswordShareSumAggregateOutputType | null
+    _min: TemporaryPasswordShareMinAggregateOutputType | null
+    _max: TemporaryPasswordShareMaxAggregateOutputType | null
+  }
+
+  type GetTemporaryPasswordShareGroupByPayload<T extends TemporaryPasswordShareGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TemporaryPasswordShareGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TemporaryPasswordShareGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TemporaryPasswordShareGroupByOutputType[P]>
+            : GetScalarType<T[P], TemporaryPasswordShareGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TemporaryPasswordShareSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    passwordId?: boolean
+    shareToken?: boolean
+    createdBy?: boolean
+    accessCount?: boolean
+    maxAccesses?: boolean
+    isOneTime?: boolean
+    expiresAt?: boolean
+    accessedAt?: boolean
+    revokedAt?: boolean
+    createdAt?: boolean
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["temporaryPasswordShare"]>
+
+  export type TemporaryPasswordShareSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    passwordId?: boolean
+    shareToken?: boolean
+    createdBy?: boolean
+    accessCount?: boolean
+    maxAccesses?: boolean
+    isOneTime?: boolean
+    expiresAt?: boolean
+    accessedAt?: boolean
+    revokedAt?: boolean
+    createdAt?: boolean
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["temporaryPasswordShare"]>
+
+  export type TemporaryPasswordShareSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    passwordId?: boolean
+    shareToken?: boolean
+    createdBy?: boolean
+    accessCount?: boolean
+    maxAccesses?: boolean
+    isOneTime?: boolean
+    expiresAt?: boolean
+    accessedAt?: boolean
+    revokedAt?: boolean
+    createdAt?: boolean
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["temporaryPasswordShare"]>
+
+  export type TemporaryPasswordShareSelectScalar = {
+    id?: boolean
+    passwordId?: boolean
+    shareToken?: boolean
+    createdBy?: boolean
+    accessCount?: boolean
+    maxAccesses?: boolean
+    isOneTime?: boolean
+    expiresAt?: boolean
+    accessedAt?: boolean
+    revokedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type TemporaryPasswordShareOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "passwordId" | "shareToken" | "createdBy" | "accessCount" | "maxAccesses" | "isOneTime" | "expiresAt" | "accessedAt" | "revokedAt" | "createdAt", ExtArgs["result"]["temporaryPasswordShare"]>
+  export type TemporaryPasswordShareInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TemporaryPasswordShareIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TemporaryPasswordShareIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    password?: boolean | PasswordDefaultArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $TemporaryPasswordSharePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TemporaryPasswordShare"
+    objects: {
+      password: Prisma.$PasswordPayload<ExtArgs>
+      creator: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      passwordId: string
+      shareToken: string
+      createdBy: string
+      accessCount: number
+      maxAccesses: number | null
+      isOneTime: boolean
+      expiresAt: Date | null
+      accessedAt: Date | null
+      revokedAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["temporaryPasswordShare"]>
+    composites: {}
+  }
+
+  type TemporaryPasswordShareGetPayload<S extends boolean | null | undefined | TemporaryPasswordShareDefaultArgs> = $Result.GetResult<Prisma.$TemporaryPasswordSharePayload, S>
+
+  type TemporaryPasswordShareCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TemporaryPasswordShareFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TemporaryPasswordShareCountAggregateInputType | true
+    }
+
+  export interface TemporaryPasswordShareDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TemporaryPasswordShare'], meta: { name: 'TemporaryPasswordShare' } }
+    /**
+     * Find zero or one TemporaryPasswordShare that matches the filter.
+     * @param {TemporaryPasswordShareFindUniqueArgs} args - Arguments to find a TemporaryPasswordShare
+     * @example
+     * // Get one TemporaryPasswordShare
+     * const temporaryPasswordShare = await prisma.temporaryPasswordShare.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TemporaryPasswordShareFindUniqueArgs>(args: SelectSubset<T, TemporaryPasswordShareFindUniqueArgs<ExtArgs>>): Prisma__TemporaryPasswordShareClient<$Result.GetResult<Prisma.$TemporaryPasswordSharePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TemporaryPasswordShare that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TemporaryPasswordShareFindUniqueOrThrowArgs} args - Arguments to find a TemporaryPasswordShare
+     * @example
+     * // Get one TemporaryPasswordShare
+     * const temporaryPasswordShare = await prisma.temporaryPasswordShare.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TemporaryPasswordShareFindUniqueOrThrowArgs>(args: SelectSubset<T, TemporaryPasswordShareFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TemporaryPasswordShareClient<$Result.GetResult<Prisma.$TemporaryPasswordSharePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TemporaryPasswordShare that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemporaryPasswordShareFindFirstArgs} args - Arguments to find a TemporaryPasswordShare
+     * @example
+     * // Get one TemporaryPasswordShare
+     * const temporaryPasswordShare = await prisma.temporaryPasswordShare.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TemporaryPasswordShareFindFirstArgs>(args?: SelectSubset<T, TemporaryPasswordShareFindFirstArgs<ExtArgs>>): Prisma__TemporaryPasswordShareClient<$Result.GetResult<Prisma.$TemporaryPasswordSharePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TemporaryPasswordShare that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemporaryPasswordShareFindFirstOrThrowArgs} args - Arguments to find a TemporaryPasswordShare
+     * @example
+     * // Get one TemporaryPasswordShare
+     * const temporaryPasswordShare = await prisma.temporaryPasswordShare.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TemporaryPasswordShareFindFirstOrThrowArgs>(args?: SelectSubset<T, TemporaryPasswordShareFindFirstOrThrowArgs<ExtArgs>>): Prisma__TemporaryPasswordShareClient<$Result.GetResult<Prisma.$TemporaryPasswordSharePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TemporaryPasswordShares that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemporaryPasswordShareFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TemporaryPasswordShares
+     * const temporaryPasswordShares = await prisma.temporaryPasswordShare.findMany()
+     * 
+     * // Get first 10 TemporaryPasswordShares
+     * const temporaryPasswordShares = await prisma.temporaryPasswordShare.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const temporaryPasswordShareWithIdOnly = await prisma.temporaryPasswordShare.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TemporaryPasswordShareFindManyArgs>(args?: SelectSubset<T, TemporaryPasswordShareFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemporaryPasswordSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TemporaryPasswordShare.
+     * @param {TemporaryPasswordShareCreateArgs} args - Arguments to create a TemporaryPasswordShare.
+     * @example
+     * // Create one TemporaryPasswordShare
+     * const TemporaryPasswordShare = await prisma.temporaryPasswordShare.create({
+     *   data: {
+     *     // ... data to create a TemporaryPasswordShare
+     *   }
+     * })
+     * 
+     */
+    create<T extends TemporaryPasswordShareCreateArgs>(args: SelectSubset<T, TemporaryPasswordShareCreateArgs<ExtArgs>>): Prisma__TemporaryPasswordShareClient<$Result.GetResult<Prisma.$TemporaryPasswordSharePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TemporaryPasswordShares.
+     * @param {TemporaryPasswordShareCreateManyArgs} args - Arguments to create many TemporaryPasswordShares.
+     * @example
+     * // Create many TemporaryPasswordShares
+     * const temporaryPasswordShare = await prisma.temporaryPasswordShare.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TemporaryPasswordShareCreateManyArgs>(args?: SelectSubset<T, TemporaryPasswordShareCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TemporaryPasswordShares and returns the data saved in the database.
+     * @param {TemporaryPasswordShareCreateManyAndReturnArgs} args - Arguments to create many TemporaryPasswordShares.
+     * @example
+     * // Create many TemporaryPasswordShares
+     * const temporaryPasswordShare = await prisma.temporaryPasswordShare.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TemporaryPasswordShares and only return the `id`
+     * const temporaryPasswordShareWithIdOnly = await prisma.temporaryPasswordShare.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TemporaryPasswordShareCreateManyAndReturnArgs>(args?: SelectSubset<T, TemporaryPasswordShareCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemporaryPasswordSharePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TemporaryPasswordShare.
+     * @param {TemporaryPasswordShareDeleteArgs} args - Arguments to delete one TemporaryPasswordShare.
+     * @example
+     * // Delete one TemporaryPasswordShare
+     * const TemporaryPasswordShare = await prisma.temporaryPasswordShare.delete({
+     *   where: {
+     *     // ... filter to delete one TemporaryPasswordShare
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TemporaryPasswordShareDeleteArgs>(args: SelectSubset<T, TemporaryPasswordShareDeleteArgs<ExtArgs>>): Prisma__TemporaryPasswordShareClient<$Result.GetResult<Prisma.$TemporaryPasswordSharePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TemporaryPasswordShare.
+     * @param {TemporaryPasswordShareUpdateArgs} args - Arguments to update one TemporaryPasswordShare.
+     * @example
+     * // Update one TemporaryPasswordShare
+     * const temporaryPasswordShare = await prisma.temporaryPasswordShare.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TemporaryPasswordShareUpdateArgs>(args: SelectSubset<T, TemporaryPasswordShareUpdateArgs<ExtArgs>>): Prisma__TemporaryPasswordShareClient<$Result.GetResult<Prisma.$TemporaryPasswordSharePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TemporaryPasswordShares.
+     * @param {TemporaryPasswordShareDeleteManyArgs} args - Arguments to filter TemporaryPasswordShares to delete.
+     * @example
+     * // Delete a few TemporaryPasswordShares
+     * const { count } = await prisma.temporaryPasswordShare.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TemporaryPasswordShareDeleteManyArgs>(args?: SelectSubset<T, TemporaryPasswordShareDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TemporaryPasswordShares.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemporaryPasswordShareUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TemporaryPasswordShares
+     * const temporaryPasswordShare = await prisma.temporaryPasswordShare.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TemporaryPasswordShareUpdateManyArgs>(args: SelectSubset<T, TemporaryPasswordShareUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TemporaryPasswordShares and returns the data updated in the database.
+     * @param {TemporaryPasswordShareUpdateManyAndReturnArgs} args - Arguments to update many TemporaryPasswordShares.
+     * @example
+     * // Update many TemporaryPasswordShares
+     * const temporaryPasswordShare = await prisma.temporaryPasswordShare.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TemporaryPasswordShares and only return the `id`
+     * const temporaryPasswordShareWithIdOnly = await prisma.temporaryPasswordShare.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TemporaryPasswordShareUpdateManyAndReturnArgs>(args: SelectSubset<T, TemporaryPasswordShareUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemporaryPasswordSharePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TemporaryPasswordShare.
+     * @param {TemporaryPasswordShareUpsertArgs} args - Arguments to update or create a TemporaryPasswordShare.
+     * @example
+     * // Update or create a TemporaryPasswordShare
+     * const temporaryPasswordShare = await prisma.temporaryPasswordShare.upsert({
+     *   create: {
+     *     // ... data to create a TemporaryPasswordShare
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TemporaryPasswordShare we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TemporaryPasswordShareUpsertArgs>(args: SelectSubset<T, TemporaryPasswordShareUpsertArgs<ExtArgs>>): Prisma__TemporaryPasswordShareClient<$Result.GetResult<Prisma.$TemporaryPasswordSharePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TemporaryPasswordShares.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemporaryPasswordShareCountArgs} args - Arguments to filter TemporaryPasswordShares to count.
+     * @example
+     * // Count the number of TemporaryPasswordShares
+     * const count = await prisma.temporaryPasswordShare.count({
+     *   where: {
+     *     // ... the filter for the TemporaryPasswordShares we want to count
+     *   }
+     * })
+    **/
+    count<T extends TemporaryPasswordShareCountArgs>(
+      args?: Subset<T, TemporaryPasswordShareCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TemporaryPasswordShareCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TemporaryPasswordShare.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemporaryPasswordShareAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TemporaryPasswordShareAggregateArgs>(args: Subset<T, TemporaryPasswordShareAggregateArgs>): Prisma.PrismaPromise<GetTemporaryPasswordShareAggregateType<T>>
+
+    /**
+     * Group by TemporaryPasswordShare.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TemporaryPasswordShareGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TemporaryPasswordShareGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TemporaryPasswordShareGroupByArgs['orderBy'] }
+        : { orderBy?: TemporaryPasswordShareGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TemporaryPasswordShareGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTemporaryPasswordShareGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TemporaryPasswordShare model
+   */
+  readonly fields: TemporaryPasswordShareFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TemporaryPasswordShare.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TemporaryPasswordShareClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    password<T extends PasswordDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PasswordDefaultArgs<ExtArgs>>): Prisma__PasswordClient<$Result.GetResult<Prisma.$PasswordPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TemporaryPasswordShare model
+   */
+  interface TemporaryPasswordShareFieldRefs {
+    readonly id: FieldRef<"TemporaryPasswordShare", 'String'>
+    readonly passwordId: FieldRef<"TemporaryPasswordShare", 'String'>
+    readonly shareToken: FieldRef<"TemporaryPasswordShare", 'String'>
+    readonly createdBy: FieldRef<"TemporaryPasswordShare", 'String'>
+    readonly accessCount: FieldRef<"TemporaryPasswordShare", 'Int'>
+    readonly maxAccesses: FieldRef<"TemporaryPasswordShare", 'Int'>
+    readonly isOneTime: FieldRef<"TemporaryPasswordShare", 'Boolean'>
+    readonly expiresAt: FieldRef<"TemporaryPasswordShare", 'DateTime'>
+    readonly accessedAt: FieldRef<"TemporaryPasswordShare", 'DateTime'>
+    readonly revokedAt: FieldRef<"TemporaryPasswordShare", 'DateTime'>
+    readonly createdAt: FieldRef<"TemporaryPasswordShare", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TemporaryPasswordShare findUnique
+   */
+  export type TemporaryPasswordShareFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryPasswordShare
+     */
+    select?: TemporaryPasswordShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemporaryPasswordShare
+     */
+    omit?: TemporaryPasswordShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemporaryPasswordShareInclude<ExtArgs> | null
+    /**
+     * Filter, which TemporaryPasswordShare to fetch.
+     */
+    where: TemporaryPasswordShareWhereUniqueInput
+  }
+
+  /**
+   * TemporaryPasswordShare findUniqueOrThrow
+   */
+  export type TemporaryPasswordShareFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryPasswordShare
+     */
+    select?: TemporaryPasswordShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemporaryPasswordShare
+     */
+    omit?: TemporaryPasswordShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemporaryPasswordShareInclude<ExtArgs> | null
+    /**
+     * Filter, which TemporaryPasswordShare to fetch.
+     */
+    where: TemporaryPasswordShareWhereUniqueInput
+  }
+
+  /**
+   * TemporaryPasswordShare findFirst
+   */
+  export type TemporaryPasswordShareFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryPasswordShare
+     */
+    select?: TemporaryPasswordShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemporaryPasswordShare
+     */
+    omit?: TemporaryPasswordShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemporaryPasswordShareInclude<ExtArgs> | null
+    /**
+     * Filter, which TemporaryPasswordShare to fetch.
+     */
+    where?: TemporaryPasswordShareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemporaryPasswordShares to fetch.
+     */
+    orderBy?: TemporaryPasswordShareOrderByWithRelationInput | TemporaryPasswordShareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TemporaryPasswordShares.
+     */
+    cursor?: TemporaryPasswordShareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemporaryPasswordShares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemporaryPasswordShares.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TemporaryPasswordShares.
+     */
+    distinct?: TemporaryPasswordShareScalarFieldEnum | TemporaryPasswordShareScalarFieldEnum[]
+  }
+
+  /**
+   * TemporaryPasswordShare findFirstOrThrow
+   */
+  export type TemporaryPasswordShareFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryPasswordShare
+     */
+    select?: TemporaryPasswordShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemporaryPasswordShare
+     */
+    omit?: TemporaryPasswordShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemporaryPasswordShareInclude<ExtArgs> | null
+    /**
+     * Filter, which TemporaryPasswordShare to fetch.
+     */
+    where?: TemporaryPasswordShareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemporaryPasswordShares to fetch.
+     */
+    orderBy?: TemporaryPasswordShareOrderByWithRelationInput | TemporaryPasswordShareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TemporaryPasswordShares.
+     */
+    cursor?: TemporaryPasswordShareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemporaryPasswordShares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemporaryPasswordShares.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TemporaryPasswordShares.
+     */
+    distinct?: TemporaryPasswordShareScalarFieldEnum | TemporaryPasswordShareScalarFieldEnum[]
+  }
+
+  /**
+   * TemporaryPasswordShare findMany
+   */
+  export type TemporaryPasswordShareFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryPasswordShare
+     */
+    select?: TemporaryPasswordShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemporaryPasswordShare
+     */
+    omit?: TemporaryPasswordShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemporaryPasswordShareInclude<ExtArgs> | null
+    /**
+     * Filter, which TemporaryPasswordShares to fetch.
+     */
+    where?: TemporaryPasswordShareWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TemporaryPasswordShares to fetch.
+     */
+    orderBy?: TemporaryPasswordShareOrderByWithRelationInput | TemporaryPasswordShareOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TemporaryPasswordShares.
+     */
+    cursor?: TemporaryPasswordShareWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TemporaryPasswordShares from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TemporaryPasswordShares.
+     */
+    skip?: number
+    distinct?: TemporaryPasswordShareScalarFieldEnum | TemporaryPasswordShareScalarFieldEnum[]
+  }
+
+  /**
+   * TemporaryPasswordShare create
+   */
+  export type TemporaryPasswordShareCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryPasswordShare
+     */
+    select?: TemporaryPasswordShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemporaryPasswordShare
+     */
+    omit?: TemporaryPasswordShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemporaryPasswordShareInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TemporaryPasswordShare.
+     */
+    data: XOR<TemporaryPasswordShareCreateInput, TemporaryPasswordShareUncheckedCreateInput>
+  }
+
+  /**
+   * TemporaryPasswordShare createMany
+   */
+  export type TemporaryPasswordShareCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TemporaryPasswordShares.
+     */
+    data: TemporaryPasswordShareCreateManyInput | TemporaryPasswordShareCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TemporaryPasswordShare createManyAndReturn
+   */
+  export type TemporaryPasswordShareCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryPasswordShare
+     */
+    select?: TemporaryPasswordShareSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemporaryPasswordShare
+     */
+    omit?: TemporaryPasswordShareOmit<ExtArgs> | null
+    /**
+     * The data used to create many TemporaryPasswordShares.
+     */
+    data: TemporaryPasswordShareCreateManyInput | TemporaryPasswordShareCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemporaryPasswordShareIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TemporaryPasswordShare update
+   */
+  export type TemporaryPasswordShareUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryPasswordShare
+     */
+    select?: TemporaryPasswordShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemporaryPasswordShare
+     */
+    omit?: TemporaryPasswordShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemporaryPasswordShareInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TemporaryPasswordShare.
+     */
+    data: XOR<TemporaryPasswordShareUpdateInput, TemporaryPasswordShareUncheckedUpdateInput>
+    /**
+     * Choose, which TemporaryPasswordShare to update.
+     */
+    where: TemporaryPasswordShareWhereUniqueInput
+  }
+
+  /**
+   * TemporaryPasswordShare updateMany
+   */
+  export type TemporaryPasswordShareUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TemporaryPasswordShares.
+     */
+    data: XOR<TemporaryPasswordShareUpdateManyMutationInput, TemporaryPasswordShareUncheckedUpdateManyInput>
+    /**
+     * Filter which TemporaryPasswordShares to update
+     */
+    where?: TemporaryPasswordShareWhereInput
+    /**
+     * Limit how many TemporaryPasswordShares to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TemporaryPasswordShare updateManyAndReturn
+   */
+  export type TemporaryPasswordShareUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryPasswordShare
+     */
+    select?: TemporaryPasswordShareSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemporaryPasswordShare
+     */
+    omit?: TemporaryPasswordShareOmit<ExtArgs> | null
+    /**
+     * The data used to update TemporaryPasswordShares.
+     */
+    data: XOR<TemporaryPasswordShareUpdateManyMutationInput, TemporaryPasswordShareUncheckedUpdateManyInput>
+    /**
+     * Filter which TemporaryPasswordShares to update
+     */
+    where?: TemporaryPasswordShareWhereInput
+    /**
+     * Limit how many TemporaryPasswordShares to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemporaryPasswordShareIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TemporaryPasswordShare upsert
+   */
+  export type TemporaryPasswordShareUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryPasswordShare
+     */
+    select?: TemporaryPasswordShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemporaryPasswordShare
+     */
+    omit?: TemporaryPasswordShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemporaryPasswordShareInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TemporaryPasswordShare to update in case it exists.
+     */
+    where: TemporaryPasswordShareWhereUniqueInput
+    /**
+     * In case the TemporaryPasswordShare found by the `where` argument doesn't exist, create a new TemporaryPasswordShare with this data.
+     */
+    create: XOR<TemporaryPasswordShareCreateInput, TemporaryPasswordShareUncheckedCreateInput>
+    /**
+     * In case the TemporaryPasswordShare was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TemporaryPasswordShareUpdateInput, TemporaryPasswordShareUncheckedUpdateInput>
+  }
+
+  /**
+   * TemporaryPasswordShare delete
+   */
+  export type TemporaryPasswordShareDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryPasswordShare
+     */
+    select?: TemporaryPasswordShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemporaryPasswordShare
+     */
+    omit?: TemporaryPasswordShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemporaryPasswordShareInclude<ExtArgs> | null
+    /**
+     * Filter which TemporaryPasswordShare to delete.
+     */
+    where: TemporaryPasswordShareWhereUniqueInput
+  }
+
+  /**
+   * TemporaryPasswordShare deleteMany
+   */
+  export type TemporaryPasswordShareDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TemporaryPasswordShares to delete
+     */
+    where?: TemporaryPasswordShareWhereInput
+    /**
+     * Limit how many TemporaryPasswordShares to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TemporaryPasswordShare without action
+   */
+  export type TemporaryPasswordShareDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TemporaryPasswordShare
+     */
+    select?: TemporaryPasswordShareSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TemporaryPasswordShare
+     */
+    omit?: TemporaryPasswordShareOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TemporaryPasswordShareInclude<ExtArgs> | null
   }
 
 
@@ -54565,6 +55912,23 @@ export namespace Prisma {
   export type PasswordShareScalarFieldEnum = (typeof PasswordShareScalarFieldEnum)[keyof typeof PasswordShareScalarFieldEnum]
 
 
+  export const TemporaryPasswordShareScalarFieldEnum: {
+    id: 'id',
+    passwordId: 'passwordId',
+    shareToken: 'shareToken',
+    createdBy: 'createdBy',
+    accessCount: 'accessCount',
+    maxAccesses: 'maxAccesses',
+    isOneTime: 'isOneTime',
+    expiresAt: 'expiresAt',
+    accessedAt: 'accessedAt',
+    revokedAt: 'revokedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type TemporaryPasswordShareScalarFieldEnum = (typeof TemporaryPasswordShareScalarFieldEnum)[keyof typeof TemporaryPasswordShareScalarFieldEnum]
+
+
   export const TeamScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -55415,6 +56779,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachListRelationFilter
     rotationPolicies?: PasswordRotationPolicyListRelationFilter
     passwordRotations?: PasswordRotationListRelationFilter
+    temporaryPasswordShares?: TemporaryPasswordShareListRelationFilter
     savedSearches?: SavedSearchListRelationFilter
     searchHistory?: SearchHistoryListRelationFilter
     passwordTemplates?: PasswordTemplateListRelationFilter
@@ -55475,6 +56840,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachOrderByRelationAggregateInput
     rotationPolicies?: PasswordRotationPolicyOrderByRelationAggregateInput
     passwordRotations?: PasswordRotationOrderByRelationAggregateInput
+    temporaryPasswordShares?: TemporaryPasswordShareOrderByRelationAggregateInput
     savedSearches?: SavedSearchOrderByRelationAggregateInput
     searchHistory?: SearchHistoryOrderByRelationAggregateInput
     passwordTemplates?: PasswordTemplateOrderByRelationAggregateInput
@@ -55538,6 +56904,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachListRelationFilter
     rotationPolicies?: PasswordRotationPolicyListRelationFilter
     passwordRotations?: PasswordRotationListRelationFilter
+    temporaryPasswordShares?: TemporaryPasswordShareListRelationFilter
     savedSearches?: SavedSearchListRelationFilter
     searchHistory?: SearchHistoryListRelationFilter
     passwordTemplates?: PasswordTemplateListRelationFilter
@@ -55826,6 +57193,7 @@ export namespace Prisma {
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     folder?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
     sharedWith?: PasswordShareListRelationFilter
+    temporaryShares?: TemporaryPasswordShareListRelationFilter
     tags?: PasswordTagListRelationFilter
     history?: PasswordHistoryListRelationFilter
     breaches?: PasswordBreachListRelationFilter
@@ -55853,6 +57221,7 @@ export namespace Prisma {
     owner?: UserOrderByWithRelationInput
     folder?: FolderOrderByWithRelationInput
     sharedWith?: PasswordShareOrderByRelationAggregateInput
+    temporaryShares?: TemporaryPasswordShareOrderByRelationAggregateInput
     tags?: PasswordTagOrderByRelationAggregateInput
     history?: PasswordHistoryOrderByRelationAggregateInput
     breaches?: PasswordBreachOrderByRelationAggregateInput
@@ -55883,6 +57252,7 @@ export namespace Prisma {
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     folder?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
     sharedWith?: PasswordShareListRelationFilter
+    temporaryShares?: TemporaryPasswordShareListRelationFilter
     tags?: PasswordTagListRelationFilter
     history?: PasswordHistoryListRelationFilter
     breaches?: PasswordBreachListRelationFilter
@@ -56464,6 +57834,96 @@ export namespace Prisma {
     permission?: EnumSharePermissionWithAggregatesFilter<"PasswordShare"> | $Enums.SharePermission
     createdAt?: DateTimeWithAggregatesFilter<"PasswordShare"> | Date | string
     expiresAt?: DateTimeNullableWithAggregatesFilter<"PasswordShare"> | Date | string | null
+  }
+
+  export type TemporaryPasswordShareWhereInput = {
+    AND?: TemporaryPasswordShareWhereInput | TemporaryPasswordShareWhereInput[]
+    OR?: TemporaryPasswordShareWhereInput[]
+    NOT?: TemporaryPasswordShareWhereInput | TemporaryPasswordShareWhereInput[]
+    id?: StringFilter<"TemporaryPasswordShare"> | string
+    passwordId?: StringFilter<"TemporaryPasswordShare"> | string
+    shareToken?: StringFilter<"TemporaryPasswordShare"> | string
+    createdBy?: StringFilter<"TemporaryPasswordShare"> | string
+    accessCount?: IntFilter<"TemporaryPasswordShare"> | number
+    maxAccesses?: IntNullableFilter<"TemporaryPasswordShare"> | number | null
+    isOneTime?: BoolFilter<"TemporaryPasswordShare"> | boolean
+    expiresAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
+    accessedAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
+    revokedAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
+    createdAt?: DateTimeFilter<"TemporaryPasswordShare"> | Date | string
+    password?: XOR<PasswordScalarRelationFilter, PasswordWhereInput>
+    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type TemporaryPasswordShareOrderByWithRelationInput = {
+    id?: SortOrder
+    passwordId?: SortOrder
+    shareToken?: SortOrder
+    createdBy?: SortOrder
+    accessCount?: SortOrder
+    maxAccesses?: SortOrderInput | SortOrder
+    isOneTime?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    accessedAt?: SortOrderInput | SortOrder
+    revokedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    password?: PasswordOrderByWithRelationInput
+    creator?: UserOrderByWithRelationInput
+  }
+
+  export type TemporaryPasswordShareWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    shareToken?: string
+    AND?: TemporaryPasswordShareWhereInput | TemporaryPasswordShareWhereInput[]
+    OR?: TemporaryPasswordShareWhereInput[]
+    NOT?: TemporaryPasswordShareWhereInput | TemporaryPasswordShareWhereInput[]
+    passwordId?: StringFilter<"TemporaryPasswordShare"> | string
+    createdBy?: StringFilter<"TemporaryPasswordShare"> | string
+    accessCount?: IntFilter<"TemporaryPasswordShare"> | number
+    maxAccesses?: IntNullableFilter<"TemporaryPasswordShare"> | number | null
+    isOneTime?: BoolFilter<"TemporaryPasswordShare"> | boolean
+    expiresAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
+    accessedAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
+    revokedAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
+    createdAt?: DateTimeFilter<"TemporaryPasswordShare"> | Date | string
+    password?: XOR<PasswordScalarRelationFilter, PasswordWhereInput>
+    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "shareToken">
+
+  export type TemporaryPasswordShareOrderByWithAggregationInput = {
+    id?: SortOrder
+    passwordId?: SortOrder
+    shareToken?: SortOrder
+    createdBy?: SortOrder
+    accessCount?: SortOrder
+    maxAccesses?: SortOrderInput | SortOrder
+    isOneTime?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    accessedAt?: SortOrderInput | SortOrder
+    revokedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: TemporaryPasswordShareCountOrderByAggregateInput
+    _avg?: TemporaryPasswordShareAvgOrderByAggregateInput
+    _max?: TemporaryPasswordShareMaxOrderByAggregateInput
+    _min?: TemporaryPasswordShareMinOrderByAggregateInput
+    _sum?: TemporaryPasswordShareSumOrderByAggregateInput
+  }
+
+  export type TemporaryPasswordShareScalarWhereWithAggregatesInput = {
+    AND?: TemporaryPasswordShareScalarWhereWithAggregatesInput | TemporaryPasswordShareScalarWhereWithAggregatesInput[]
+    OR?: TemporaryPasswordShareScalarWhereWithAggregatesInput[]
+    NOT?: TemporaryPasswordShareScalarWhereWithAggregatesInput | TemporaryPasswordShareScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TemporaryPasswordShare"> | string
+    passwordId?: StringWithAggregatesFilter<"TemporaryPasswordShare"> | string
+    shareToken?: StringWithAggregatesFilter<"TemporaryPasswordShare"> | string
+    createdBy?: StringWithAggregatesFilter<"TemporaryPasswordShare"> | string
+    accessCount?: IntWithAggregatesFilter<"TemporaryPasswordShare"> | number
+    maxAccesses?: IntNullableWithAggregatesFilter<"TemporaryPasswordShare"> | number | null
+    isOneTime?: BoolWithAggregatesFilter<"TemporaryPasswordShare"> | boolean
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"TemporaryPasswordShare"> | Date | string | null
+    accessedAt?: DateTimeNullableWithAggregatesFilter<"TemporaryPasswordShare"> | Date | string | null
+    revokedAt?: DateTimeNullableWithAggregatesFilter<"TemporaryPasswordShare"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"TemporaryPasswordShare"> | Date | string
   }
 
   export type TeamWhereInput = {
@@ -58979,6 +60439,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -59038,6 +60499,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -59095,6 +60557,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -59154,6 +60617,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -59478,6 +60942,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
     folder?: FolderCreateNestedOneWithoutPasswordsInput
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
@@ -59503,6 +60968,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     rotationPolicyId?: string | null
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
@@ -59526,6 +60992,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
     folder?: FolderUpdateOneWithoutPasswordsNestedInput
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
@@ -59551,6 +61018,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
@@ -60179,6 +61647,102 @@ export namespace Prisma {
     permission?: EnumSharePermissionFieldUpdateOperationsInput | $Enums.SharePermission
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TemporaryPasswordShareCreateInput = {
+    id?: string
+    shareToken: string
+    accessCount?: number
+    maxAccesses?: number | null
+    isOneTime?: boolean
+    expiresAt?: Date | string | null
+    accessedAt?: Date | string | null
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+    password: PasswordCreateNestedOneWithoutTemporarySharesInput
+    creator: UserCreateNestedOneWithoutTemporaryPasswordSharesInput
+  }
+
+  export type TemporaryPasswordShareUncheckedCreateInput = {
+    id?: string
+    passwordId: string
+    shareToken: string
+    createdBy: string
+    accessCount?: number
+    maxAccesses?: number | null
+    isOneTime?: boolean
+    expiresAt?: Date | string | null
+    accessedAt?: Date | string | null
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type TemporaryPasswordShareUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shareToken?: StringFieldUpdateOperationsInput | string
+    accessCount?: IntFieldUpdateOperationsInput | number
+    maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
+    isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    password?: PasswordUpdateOneRequiredWithoutTemporarySharesNestedInput
+    creator?: UserUpdateOneRequiredWithoutTemporaryPasswordSharesNestedInput
+  }
+
+  export type TemporaryPasswordShareUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    shareToken?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    accessCount?: IntFieldUpdateOperationsInput | number
+    maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
+    isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TemporaryPasswordShareCreateManyInput = {
+    id?: string
+    passwordId: string
+    shareToken: string
+    createdBy: string
+    accessCount?: number
+    maxAccesses?: number | null
+    isOneTime?: boolean
+    expiresAt?: Date | string | null
+    accessedAt?: Date | string | null
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type TemporaryPasswordShareUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shareToken?: StringFieldUpdateOperationsInput | string
+    accessCount?: IntFieldUpdateOperationsInput | number
+    maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
+    isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TemporaryPasswordShareUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    shareToken?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    accessCount?: IntFieldUpdateOperationsInput | number
+    maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
+    isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TeamCreateInput = {
@@ -63072,6 +64636,12 @@ export namespace Prisma {
     none?: PasswordRotationWhereInput
   }
 
+  export type TemporaryPasswordShareListRelationFilter = {
+    every?: TemporaryPasswordShareWhereInput
+    some?: TemporaryPasswordShareWhereInput
+    none?: TemporaryPasswordShareWhereInput
+  }
+
   export type SavedSearchListRelationFilter = {
     every?: SavedSearchWhereInput
     some?: SavedSearchWhereInput
@@ -63163,6 +64733,10 @@ export namespace Prisma {
   }
 
   export type PasswordRotationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TemporaryPasswordShareOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -63891,6 +65465,58 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumSharePermissionFilter<$PrismaModel>
     _max?: NestedEnumSharePermissionFilter<$PrismaModel>
+  }
+
+  export type TemporaryPasswordShareCountOrderByAggregateInput = {
+    id?: SortOrder
+    passwordId?: SortOrder
+    shareToken?: SortOrder
+    createdBy?: SortOrder
+    accessCount?: SortOrder
+    maxAccesses?: SortOrder
+    isOneTime?: SortOrder
+    expiresAt?: SortOrder
+    accessedAt?: SortOrder
+    revokedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TemporaryPasswordShareAvgOrderByAggregateInput = {
+    accessCount?: SortOrder
+    maxAccesses?: SortOrder
+  }
+
+  export type TemporaryPasswordShareMaxOrderByAggregateInput = {
+    id?: SortOrder
+    passwordId?: SortOrder
+    shareToken?: SortOrder
+    createdBy?: SortOrder
+    accessCount?: SortOrder
+    maxAccesses?: SortOrder
+    isOneTime?: SortOrder
+    expiresAt?: SortOrder
+    accessedAt?: SortOrder
+    revokedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TemporaryPasswordShareMinOrderByAggregateInput = {
+    id?: SortOrder
+    passwordId?: SortOrder
+    shareToken?: SortOrder
+    createdBy?: SortOrder
+    accessCount?: SortOrder
+    maxAccesses?: SortOrder
+    isOneTime?: SortOrder
+    expiresAt?: SortOrder
+    accessedAt?: SortOrder
+    revokedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TemporaryPasswordShareSumOrderByAggregateInput = {
+    accessCount?: SortOrder
+    maxAccesses?: SortOrder
   }
 
   export type TeamCountOrderByAggregateInput = {
@@ -66006,6 +67632,13 @@ export namespace Prisma {
     connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
   }
 
+  export type TemporaryPasswordShareCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<TemporaryPasswordShareCreateWithoutCreatorInput, TemporaryPasswordShareUncheckedCreateWithoutCreatorInput> | TemporaryPasswordShareCreateWithoutCreatorInput[] | TemporaryPasswordShareUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: TemporaryPasswordShareCreateOrConnectWithoutCreatorInput | TemporaryPasswordShareCreateOrConnectWithoutCreatorInput[]
+    createMany?: TemporaryPasswordShareCreateManyCreatorInputEnvelope
+    connect?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+  }
+
   export type SavedSearchCreateNestedManyWithoutUserInput = {
     create?: XOR<SavedSearchCreateWithoutUserInput, SavedSearchUncheckedCreateWithoutUserInput> | SavedSearchCreateWithoutUserInput[] | SavedSearchUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SavedSearchCreateOrConnectWithoutUserInput | SavedSearchCreateOrConnectWithoutUserInput[]
@@ -66248,6 +67881,13 @@ export namespace Prisma {
     connectOrCreate?: PasswordRotationCreateOrConnectWithoutRotatedByUserInput | PasswordRotationCreateOrConnectWithoutRotatedByUserInput[]
     createMany?: PasswordRotationCreateManyRotatedByUserInputEnvelope
     connect?: PasswordRotationWhereUniqueInput | PasswordRotationWhereUniqueInput[]
+  }
+
+  export type TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<TemporaryPasswordShareCreateWithoutCreatorInput, TemporaryPasswordShareUncheckedCreateWithoutCreatorInput> | TemporaryPasswordShareCreateWithoutCreatorInput[] | TemporaryPasswordShareUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: TemporaryPasswordShareCreateOrConnectWithoutCreatorInput | TemporaryPasswordShareCreateOrConnectWithoutCreatorInput[]
+    createMany?: TemporaryPasswordShareCreateManyCreatorInputEnvelope
+    connect?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
   }
 
   export type SavedSearchUncheckedCreateNestedManyWithoutUserInput = {
@@ -66610,6 +68250,20 @@ export namespace Prisma {
     update?: PasswordRotationUpdateWithWhereUniqueWithoutRotatedByUserInput | PasswordRotationUpdateWithWhereUniqueWithoutRotatedByUserInput[]
     updateMany?: PasswordRotationUpdateManyWithWhereWithoutRotatedByUserInput | PasswordRotationUpdateManyWithWhereWithoutRotatedByUserInput[]
     deleteMany?: PasswordRotationScalarWhereInput | PasswordRotationScalarWhereInput[]
+  }
+
+  export type TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<TemporaryPasswordShareCreateWithoutCreatorInput, TemporaryPasswordShareUncheckedCreateWithoutCreatorInput> | TemporaryPasswordShareCreateWithoutCreatorInput[] | TemporaryPasswordShareUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: TemporaryPasswordShareCreateOrConnectWithoutCreatorInput | TemporaryPasswordShareCreateOrConnectWithoutCreatorInput[]
+    upsert?: TemporaryPasswordShareUpsertWithWhereUniqueWithoutCreatorInput | TemporaryPasswordShareUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: TemporaryPasswordShareCreateManyCreatorInputEnvelope
+    set?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    disconnect?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    delete?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    connect?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    update?: TemporaryPasswordShareUpdateWithWhereUniqueWithoutCreatorInput | TemporaryPasswordShareUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: TemporaryPasswordShareUpdateManyWithWhereWithoutCreatorInput | TemporaryPasswordShareUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: TemporaryPasswordShareScalarWhereInput | TemporaryPasswordShareScalarWhereInput[]
   }
 
   export type SavedSearchUpdateManyWithoutUserNestedInput = {
@@ -67098,6 +68752,20 @@ export namespace Prisma {
     deleteMany?: PasswordRotationScalarWhereInput | PasswordRotationScalarWhereInput[]
   }
 
+  export type TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<TemporaryPasswordShareCreateWithoutCreatorInput, TemporaryPasswordShareUncheckedCreateWithoutCreatorInput> | TemporaryPasswordShareCreateWithoutCreatorInput[] | TemporaryPasswordShareUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: TemporaryPasswordShareCreateOrConnectWithoutCreatorInput | TemporaryPasswordShareCreateOrConnectWithoutCreatorInput[]
+    upsert?: TemporaryPasswordShareUpsertWithWhereUniqueWithoutCreatorInput | TemporaryPasswordShareUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: TemporaryPasswordShareCreateManyCreatorInputEnvelope
+    set?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    disconnect?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    delete?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    connect?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    update?: TemporaryPasswordShareUpdateWithWhereUniqueWithoutCreatorInput | TemporaryPasswordShareUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: TemporaryPasswordShareUpdateManyWithWhereWithoutCreatorInput | TemporaryPasswordShareUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: TemporaryPasswordShareScalarWhereInput | TemporaryPasswordShareScalarWhereInput[]
+  }
+
   export type SavedSearchUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SavedSearchCreateWithoutUserInput, SavedSearchUncheckedCreateWithoutUserInput> | SavedSearchCreateWithoutUserInput[] | SavedSearchUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SavedSearchCreateOrConnectWithoutUserInput | SavedSearchCreateOrConnectWithoutUserInput[]
@@ -67433,6 +69101,13 @@ export namespace Prisma {
     connect?: PasswordShareWhereUniqueInput | PasswordShareWhereUniqueInput[]
   }
 
+  export type TemporaryPasswordShareCreateNestedManyWithoutPasswordInput = {
+    create?: XOR<TemporaryPasswordShareCreateWithoutPasswordInput, TemporaryPasswordShareUncheckedCreateWithoutPasswordInput> | TemporaryPasswordShareCreateWithoutPasswordInput[] | TemporaryPasswordShareUncheckedCreateWithoutPasswordInput[]
+    connectOrCreate?: TemporaryPasswordShareCreateOrConnectWithoutPasswordInput | TemporaryPasswordShareCreateOrConnectWithoutPasswordInput[]
+    createMany?: TemporaryPasswordShareCreateManyPasswordInputEnvelope
+    connect?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+  }
+
   export type PasswordTagCreateNestedManyWithoutPasswordInput = {
     create?: XOR<PasswordTagCreateWithoutPasswordInput, PasswordTagUncheckedCreateWithoutPasswordInput> | PasswordTagCreateWithoutPasswordInput[] | PasswordTagUncheckedCreateWithoutPasswordInput[]
     connectOrCreate?: PasswordTagCreateOrConnectWithoutPasswordInput | PasswordTagCreateOrConnectWithoutPasswordInput[]
@@ -67472,6 +69147,13 @@ export namespace Prisma {
     connectOrCreate?: PasswordShareCreateOrConnectWithoutPasswordInput | PasswordShareCreateOrConnectWithoutPasswordInput[]
     createMany?: PasswordShareCreateManyPasswordInputEnvelope
     connect?: PasswordShareWhereUniqueInput | PasswordShareWhereUniqueInput[]
+  }
+
+  export type TemporaryPasswordShareUncheckedCreateNestedManyWithoutPasswordInput = {
+    create?: XOR<TemporaryPasswordShareCreateWithoutPasswordInput, TemporaryPasswordShareUncheckedCreateWithoutPasswordInput> | TemporaryPasswordShareCreateWithoutPasswordInput[] | TemporaryPasswordShareUncheckedCreateWithoutPasswordInput[]
+    connectOrCreate?: TemporaryPasswordShareCreateOrConnectWithoutPasswordInput | TemporaryPasswordShareCreateOrConnectWithoutPasswordInput[]
+    createMany?: TemporaryPasswordShareCreateManyPasswordInputEnvelope
+    connect?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
   }
 
   export type PasswordTagUncheckedCreateNestedManyWithoutPasswordInput = {
@@ -67536,6 +69218,20 @@ export namespace Prisma {
     update?: PasswordShareUpdateWithWhereUniqueWithoutPasswordInput | PasswordShareUpdateWithWhereUniqueWithoutPasswordInput[]
     updateMany?: PasswordShareUpdateManyWithWhereWithoutPasswordInput | PasswordShareUpdateManyWithWhereWithoutPasswordInput[]
     deleteMany?: PasswordShareScalarWhereInput | PasswordShareScalarWhereInput[]
+  }
+
+  export type TemporaryPasswordShareUpdateManyWithoutPasswordNestedInput = {
+    create?: XOR<TemporaryPasswordShareCreateWithoutPasswordInput, TemporaryPasswordShareUncheckedCreateWithoutPasswordInput> | TemporaryPasswordShareCreateWithoutPasswordInput[] | TemporaryPasswordShareUncheckedCreateWithoutPasswordInput[]
+    connectOrCreate?: TemporaryPasswordShareCreateOrConnectWithoutPasswordInput | TemporaryPasswordShareCreateOrConnectWithoutPasswordInput[]
+    upsert?: TemporaryPasswordShareUpsertWithWhereUniqueWithoutPasswordInput | TemporaryPasswordShareUpsertWithWhereUniqueWithoutPasswordInput[]
+    createMany?: TemporaryPasswordShareCreateManyPasswordInputEnvelope
+    set?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    disconnect?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    delete?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    connect?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    update?: TemporaryPasswordShareUpdateWithWhereUniqueWithoutPasswordInput | TemporaryPasswordShareUpdateWithWhereUniqueWithoutPasswordInput[]
+    updateMany?: TemporaryPasswordShareUpdateManyWithWhereWithoutPasswordInput | TemporaryPasswordShareUpdateManyWithWhereWithoutPasswordInput[]
+    deleteMany?: TemporaryPasswordShareScalarWhereInput | TemporaryPasswordShareScalarWhereInput[]
   }
 
   export type PasswordTagUpdateManyWithoutPasswordNestedInput = {
@@ -67616,6 +69312,20 @@ export namespace Prisma {
     update?: PasswordShareUpdateWithWhereUniqueWithoutPasswordInput | PasswordShareUpdateWithWhereUniqueWithoutPasswordInput[]
     updateMany?: PasswordShareUpdateManyWithWhereWithoutPasswordInput | PasswordShareUpdateManyWithWhereWithoutPasswordInput[]
     deleteMany?: PasswordShareScalarWhereInput | PasswordShareScalarWhereInput[]
+  }
+
+  export type TemporaryPasswordShareUncheckedUpdateManyWithoutPasswordNestedInput = {
+    create?: XOR<TemporaryPasswordShareCreateWithoutPasswordInput, TemporaryPasswordShareUncheckedCreateWithoutPasswordInput> | TemporaryPasswordShareCreateWithoutPasswordInput[] | TemporaryPasswordShareUncheckedCreateWithoutPasswordInput[]
+    connectOrCreate?: TemporaryPasswordShareCreateOrConnectWithoutPasswordInput | TemporaryPasswordShareCreateOrConnectWithoutPasswordInput[]
+    upsert?: TemporaryPasswordShareUpsertWithWhereUniqueWithoutPasswordInput | TemporaryPasswordShareUpsertWithWhereUniqueWithoutPasswordInput[]
+    createMany?: TemporaryPasswordShareCreateManyPasswordInputEnvelope
+    set?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    disconnect?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    delete?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    connect?: TemporaryPasswordShareWhereUniqueInput | TemporaryPasswordShareWhereUniqueInput[]
+    update?: TemporaryPasswordShareUpdateWithWhereUniqueWithoutPasswordInput | TemporaryPasswordShareUpdateWithWhereUniqueWithoutPasswordInput[]
+    updateMany?: TemporaryPasswordShareUpdateManyWithWhereWithoutPasswordInput | TemporaryPasswordShareUpdateManyWithWhereWithoutPasswordInput[]
+    deleteMany?: TemporaryPasswordShareScalarWhereInput | TemporaryPasswordShareScalarWhereInput[]
   }
 
   export type PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput = {
@@ -68044,6 +69754,34 @@ export namespace Prisma {
     delete?: TeamWhereInput | boolean
     connect?: TeamWhereUniqueInput
     update?: XOR<XOR<TeamUpdateToOneWithWhereWithoutSharedPasswordsInput, TeamUpdateWithoutSharedPasswordsInput>, TeamUncheckedUpdateWithoutSharedPasswordsInput>
+  }
+
+  export type PasswordCreateNestedOneWithoutTemporarySharesInput = {
+    create?: XOR<PasswordCreateWithoutTemporarySharesInput, PasswordUncheckedCreateWithoutTemporarySharesInput>
+    connectOrCreate?: PasswordCreateOrConnectWithoutTemporarySharesInput
+    connect?: PasswordWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutTemporaryPasswordSharesInput = {
+    create?: XOR<UserCreateWithoutTemporaryPasswordSharesInput, UserUncheckedCreateWithoutTemporaryPasswordSharesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTemporaryPasswordSharesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PasswordUpdateOneRequiredWithoutTemporarySharesNestedInput = {
+    create?: XOR<PasswordCreateWithoutTemporarySharesInput, PasswordUncheckedCreateWithoutTemporarySharesInput>
+    connectOrCreate?: PasswordCreateOrConnectWithoutTemporarySharesInput
+    upsert?: PasswordUpsertWithoutTemporarySharesInput
+    connect?: PasswordWhereUniqueInput
+    update?: XOR<XOR<PasswordUpdateToOneWithWhereWithoutTemporarySharesInput, PasswordUpdateWithoutTemporarySharesInput>, PasswordUncheckedUpdateWithoutTemporarySharesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutTemporaryPasswordSharesNestedInput = {
+    create?: XOR<UserCreateWithoutTemporaryPasswordSharesInput, UserUncheckedCreateWithoutTemporaryPasswordSharesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTemporaryPasswordSharesInput
+    upsert?: UserUpsertWithoutTemporaryPasswordSharesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTemporaryPasswordSharesInput, UserUpdateWithoutTemporaryPasswordSharesInput>, UserUncheckedUpdateWithoutTemporaryPasswordSharesInput>
   }
 
   export type TeamMemberCreateNestedManyWithoutTeamInput = {
@@ -69544,6 +71282,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -69602,6 +71341,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -70752,6 +72492,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     folder?: FolderCreateNestedOneWithoutPasswordsInput
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
@@ -70776,6 +72517,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     rotationPolicyId?: string | null
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
@@ -71244,6 +72986,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TemporaryPasswordShareCreateWithoutCreatorInput = {
+    id?: string
+    shareToken: string
+    accessCount?: number
+    maxAccesses?: number | null
+    isOneTime?: boolean
+    expiresAt?: Date | string | null
+    accessedAt?: Date | string | null
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+    password: PasswordCreateNestedOneWithoutTemporarySharesInput
+  }
+
+  export type TemporaryPasswordShareUncheckedCreateWithoutCreatorInput = {
+    id?: string
+    passwordId: string
+    shareToken: string
+    accessCount?: number
+    maxAccesses?: number | null
+    isOneTime?: boolean
+    expiresAt?: Date | string | null
+    accessedAt?: Date | string | null
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type TemporaryPasswordShareCreateOrConnectWithoutCreatorInput = {
+    where: TemporaryPasswordShareWhereUniqueInput
+    create: XOR<TemporaryPasswordShareCreateWithoutCreatorInput, TemporaryPasswordShareUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type TemporaryPasswordShareCreateManyCreatorInputEnvelope = {
+    data: TemporaryPasswordShareCreateManyCreatorInput | TemporaryPasswordShareCreateManyCreatorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SavedSearchCreateWithoutUserInput = {
     id?: string
     name: string
@@ -71527,6 +73305,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -71585,6 +73364,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -71646,6 +73426,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -71703,6 +73484,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -72631,6 +74413,39 @@ export namespace Prisma {
     notes?: StringNullableFilter<"PasswordRotation"> | string | null
   }
 
+  export type TemporaryPasswordShareUpsertWithWhereUniqueWithoutCreatorInput = {
+    where: TemporaryPasswordShareWhereUniqueInput
+    update: XOR<TemporaryPasswordShareUpdateWithoutCreatorInput, TemporaryPasswordShareUncheckedUpdateWithoutCreatorInput>
+    create: XOR<TemporaryPasswordShareCreateWithoutCreatorInput, TemporaryPasswordShareUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type TemporaryPasswordShareUpdateWithWhereUniqueWithoutCreatorInput = {
+    where: TemporaryPasswordShareWhereUniqueInput
+    data: XOR<TemporaryPasswordShareUpdateWithoutCreatorInput, TemporaryPasswordShareUncheckedUpdateWithoutCreatorInput>
+  }
+
+  export type TemporaryPasswordShareUpdateManyWithWhereWithoutCreatorInput = {
+    where: TemporaryPasswordShareScalarWhereInput
+    data: XOR<TemporaryPasswordShareUpdateManyMutationInput, TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorInput>
+  }
+
+  export type TemporaryPasswordShareScalarWhereInput = {
+    AND?: TemporaryPasswordShareScalarWhereInput | TemporaryPasswordShareScalarWhereInput[]
+    OR?: TemporaryPasswordShareScalarWhereInput[]
+    NOT?: TemporaryPasswordShareScalarWhereInput | TemporaryPasswordShareScalarWhereInput[]
+    id?: StringFilter<"TemporaryPasswordShare"> | string
+    passwordId?: StringFilter<"TemporaryPasswordShare"> | string
+    shareToken?: StringFilter<"TemporaryPasswordShare"> | string
+    createdBy?: StringFilter<"TemporaryPasswordShare"> | string
+    accessCount?: IntFilter<"TemporaryPasswordShare"> | number
+    maxAccesses?: IntNullableFilter<"TemporaryPasswordShare"> | number | null
+    isOneTime?: BoolFilter<"TemporaryPasswordShare"> | boolean
+    expiresAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
+    accessedAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
+    revokedAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
+    createdAt?: DateTimeFilter<"TemporaryPasswordShare"> | Date | string
+  }
+
   export type SavedSearchUpsertWithWhereUniqueWithoutUserInput = {
     where: SavedSearchWhereUniqueInput
     update: XOR<SavedSearchUpdateWithoutUserInput, SavedSearchUncheckedUpdateWithoutUserInput>
@@ -72805,6 +74620,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -72863,6 +74679,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -73193,6 +75010,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -73251,6 +75069,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -73323,6 +75142,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -73381,6 +75201,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -73437,6 +75258,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -73495,6 +75317,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -73567,6 +75390,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -73625,6 +75449,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -73681,6 +75506,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -73739,6 +75565,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -73820,6 +75647,42 @@ export namespace Prisma {
 
   export type PasswordShareCreateManyPasswordInputEnvelope = {
     data: PasswordShareCreateManyPasswordInput | PasswordShareCreateManyPasswordInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TemporaryPasswordShareCreateWithoutPasswordInput = {
+    id?: string
+    shareToken: string
+    accessCount?: number
+    maxAccesses?: number | null
+    isOneTime?: boolean
+    expiresAt?: Date | string | null
+    accessedAt?: Date | string | null
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+    creator: UserCreateNestedOneWithoutTemporaryPasswordSharesInput
+  }
+
+  export type TemporaryPasswordShareUncheckedCreateWithoutPasswordInput = {
+    id?: string
+    shareToken: string
+    createdBy: string
+    accessCount?: number
+    maxAccesses?: number | null
+    isOneTime?: boolean
+    expiresAt?: Date | string | null
+    accessedAt?: Date | string | null
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type TemporaryPasswordShareCreateOrConnectWithoutPasswordInput = {
+    where: TemporaryPasswordShareWhereUniqueInput
+    create: XOR<TemporaryPasswordShareCreateWithoutPasswordInput, TemporaryPasswordShareUncheckedCreateWithoutPasswordInput>
+  }
+
+  export type TemporaryPasswordShareCreateManyPasswordInputEnvelope = {
+    data: TemporaryPasswordShareCreateManyPasswordInput | TemporaryPasswordShareCreateManyPasswordInput[]
     skipDuplicates?: boolean
   }
 
@@ -74041,6 +75904,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -74099,6 +75963,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -74170,6 +76035,22 @@ export namespace Prisma {
   export type PasswordShareUpdateManyWithWhereWithoutPasswordInput = {
     where: PasswordShareScalarWhereInput
     data: XOR<PasswordShareUpdateManyMutationInput, PasswordShareUncheckedUpdateManyWithoutPasswordInput>
+  }
+
+  export type TemporaryPasswordShareUpsertWithWhereUniqueWithoutPasswordInput = {
+    where: TemporaryPasswordShareWhereUniqueInput
+    update: XOR<TemporaryPasswordShareUpdateWithoutPasswordInput, TemporaryPasswordShareUncheckedUpdateWithoutPasswordInput>
+    create: XOR<TemporaryPasswordShareCreateWithoutPasswordInput, TemporaryPasswordShareUncheckedCreateWithoutPasswordInput>
+  }
+
+  export type TemporaryPasswordShareUpdateWithWhereUniqueWithoutPasswordInput = {
+    where: TemporaryPasswordShareWhereUniqueInput
+    data: XOR<TemporaryPasswordShareUpdateWithoutPasswordInput, TemporaryPasswordShareUncheckedUpdateWithoutPasswordInput>
+  }
+
+  export type TemporaryPasswordShareUpdateManyWithWhereWithoutPasswordInput = {
+    where: TemporaryPasswordShareScalarWhereInput
+    data: XOR<TemporaryPasswordShareUpdateManyMutationInput, TemporaryPasswordShareUncheckedUpdateManyWithoutPasswordInput>
   }
 
   export type PasswordTagUpsertWithWhereUniqueWithoutPasswordInput = {
@@ -74304,6 +76185,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
     folder?: FolderCreateNestedOneWithoutPasswordsInput
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
     rotations?: PasswordRotationCreateNestedManyWithoutPasswordInput
@@ -74328,6 +76210,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     rotationPolicyId?: string | null
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
     rotations?: PasswordRotationUncheckedCreateNestedManyWithoutPasswordInput
@@ -74372,6 +76255,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -74430,6 +76314,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -74485,6 +76370,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
     folder?: FolderUpdateOneWithoutPasswordsNestedInput
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
     rotations?: PasswordRotationUpdateManyWithoutPasswordNestedInput
@@ -74509,6 +76395,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
     rotations?: PasswordRotationUncheckedUpdateManyWithoutPasswordNestedInput
@@ -74559,6 +76446,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -74617,6 +76505,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -74656,6 +76545,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
     folder?: FolderCreateNestedOneWithoutPasswordsInput
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
     rotations?: PasswordRotationCreateNestedManyWithoutPasswordInput
@@ -74680,6 +76570,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     rotationPolicyId?: string | null
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
     rotations?: PasswordRotationUncheckedCreateNestedManyWithoutPasswordInput
@@ -74724,6 +76615,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -74782,6 +76674,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -74843,6 +76736,7 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -74901,6 +76795,7 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -74956,6 +76851,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
     folder?: FolderUpdateOneWithoutPasswordsNestedInput
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
     rotations?: PasswordRotationUpdateManyWithoutPasswordNestedInput
@@ -74980,6 +76876,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
     rotations?: PasswordRotationUncheckedUpdateManyWithoutPasswordNestedInput
@@ -75030,6 +76927,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -75088,6 +76986,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -75155,6 +77054,7 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -75213,6 +77113,7 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -75269,6 +77170,7 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -75327,6 +77229,7 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -75371,6 +77274,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
     folder?: FolderCreateNestedOneWithoutPasswordsInput
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
@@ -75394,6 +77298,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
@@ -75493,6 +77398,7 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -75551,6 +77457,7 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -75622,6 +77529,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
     folder?: FolderCreateNestedOneWithoutPasswordsInput
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
@@ -75646,6 +77554,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     rotationPolicyId?: string | null
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
@@ -75725,6 +77634,7 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -75783,6 +77693,7 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -75838,6 +77749,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
     folder?: FolderUpdateOneWithoutPasswordsNestedInput
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
@@ -75862,6 +77774,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
@@ -75953,6 +77866,7 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -76011,6 +77925,7 @@ export namespace Prisma {
     passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -76112,6 +78027,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
@@ -76136,6 +78052,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     rotationPolicyId?: string | null
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
@@ -76249,6 +78166,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
     folder?: FolderCreateNestedOneWithoutPasswordsInput
+    temporaryShares?: TemporaryPasswordShareCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
@@ -76273,6 +78191,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     rotationPolicyId?: string | null
+    temporaryShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
@@ -76318,6 +78237,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -76376,6 +78296,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -76453,6 +78374,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
     folder?: FolderUpdateOneWithoutPasswordsNestedInput
+    temporaryShares?: TemporaryPasswordShareUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
@@ -76477,6 +78399,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
+    temporaryShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
@@ -76528,6 +78451,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -76586,6 +78510,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -76635,6 +78560,366 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type PasswordCreateWithoutTemporarySharesInput = {
+    id?: string
+    name: string
+    username: string
+    password: string
+    url?: string | null
+    notes?: string | null
+    strength?: $Enums.PasswordStrength
+    hasTotp?: boolean
+    totpSecret?: string | null
+    expiresAt?: Date | string | null
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutOwnedPasswordsInput
+    folder?: FolderCreateNestedOneWithoutPasswordsInput
+    sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
+    tags?: PasswordTagCreateNestedManyWithoutPasswordInput
+    history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationCreateNestedManyWithoutPasswordInput
+    rotationPolicy?: PasswordRotationPolicyCreateNestedOneWithoutPasswordsInput
+  }
+
+  export type PasswordUncheckedCreateWithoutTemporarySharesInput = {
+    id?: string
+    name: string
+    username: string
+    password: string
+    url?: string | null
+    notes?: string | null
+    folderId?: string | null
+    strength?: $Enums.PasswordStrength
+    hasTotp?: boolean
+    totpSecret?: string | null
+    expiresAt?: Date | string | null
+    isFavorite?: boolean
+    ownerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    rotationPolicyId?: string | null
+    sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
+    tags?: PasswordTagUncheckedCreateNestedManyWithoutPasswordInput
+    history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
+    breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
+    rotations?: PasswordRotationUncheckedCreateNestedManyWithoutPasswordInput
+  }
+
+  export type PasswordCreateOrConnectWithoutTemporarySharesInput = {
+    where: PasswordWhereUniqueInput
+    create: XOR<PasswordCreateWithoutTemporarySharesInput, PasswordUncheckedCreateWithoutTemporarySharesInput>
+  }
+
+  export type UserCreateWithoutTemporaryPasswordSharesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    company?: CompanyCreateNestedOneWithoutUsersInput
+    ownedPasswords?: PasswordCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
+    reports?: ReportCreateNestedManyWithoutCreatedByInput
+    reportTemplates?: ReportTemplateCreateNestedManyWithoutCreatedByInput
+    scheduledReports?: ScheduledReportCreateNestedManyWithoutCreatedByInput
+    createdBy?: UserCreateNestedOneWithoutCreatedUsersInput
+    createdUsers?: UserCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutUserInput
+    emailVerificationTokens?: EmailVerificationTokenCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserUncheckedCreateWithoutTemporaryPasswordSharesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    recoveryEmail?: string | null
+    recoveryEmailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    phoneNumber?: string | null
+    bio?: string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: string
+    isActive?: boolean
+    mfaEnabled?: boolean
+    mfaSecret?: string | null
+    mfaMethod?: $Enums.MfaMethod | null
+    companyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    createdById?: string | null
+    ownedPasswords?: PasswordUncheckedCreateNestedManyWithoutOwnerInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutUserInput
+    teamMemberships?: TeamMemberUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    mfaCredentials?: MfaCredentialUncheckedCreateNestedManyWithoutUserInput
+    recoveryCodes?: RecoveryCodeUncheckedCreateNestedManyWithoutUserInput
+    passwordHistory?: PasswordHistoryUncheckedCreateNestedManyWithoutChangedByUserInput
+    passwordBreachesChecked?: PasswordBreachUncheckedCreateNestedManyWithoutCheckedByUserInput
+    passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
+    passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
+    searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
+    passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
+    reports?: ReportUncheckedCreateNestedManyWithoutCreatedByInput
+    reportTemplates?: ReportTemplateUncheckedCreateNestedManyWithoutCreatedByInput
+    scheduledReports?: ScheduledReportUncheckedCreateNestedManyWithoutCreatedByInput
+    createdUsers?: UserUncheckedCreateNestedManyWithoutCreatedByInput
+    createdRoles?: RoleUncheckedCreateNestedManyWithoutCreatedByInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutUserInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutUserInput
+    processedDeletions?: DataDeletionRequestUncheckedCreateNestedManyWithoutProcessorInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutArchiverInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedCreateNestedManyWithoutUserInput
+    passwordResetTokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+    securityQuestions?: SecurityQuestionUncheckedCreateNestedManyWithoutUserInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutUserInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutUserInput
+    createdIpWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCreatorInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCreatorInput
+  }
+
+  export type UserCreateOrConnectWithoutTemporaryPasswordSharesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTemporaryPasswordSharesInput, UserUncheckedCreateWithoutTemporaryPasswordSharesInput>
+  }
+
+  export type PasswordUpsertWithoutTemporarySharesInput = {
+    update: XOR<PasswordUpdateWithoutTemporarySharesInput, PasswordUncheckedUpdateWithoutTemporarySharesInput>
+    create: XOR<PasswordCreateWithoutTemporarySharesInput, PasswordUncheckedCreateWithoutTemporarySharesInput>
+    where?: PasswordWhereInput
+  }
+
+  export type PasswordUpdateToOneWithWhereWithoutTemporarySharesInput = {
+    where?: PasswordWhereInput
+    data: XOR<PasswordUpdateWithoutTemporarySharesInput, PasswordUncheckedUpdateWithoutTemporarySharesInput>
+  }
+
+  export type PasswordUpdateWithoutTemporarySharesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    strength?: EnumPasswordStrengthFieldUpdateOperationsInput | $Enums.PasswordStrength
+    hasTotp?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
+    folder?: FolderUpdateOneWithoutPasswordsNestedInput
+    sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
+    tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
+    history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUpdateManyWithoutPasswordNestedInput
+    rotationPolicy?: PasswordRotationPolicyUpdateOneWithoutPasswordsNestedInput
+  }
+
+  export type PasswordUncheckedUpdateWithoutTemporarySharesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    strength?: EnumPasswordStrengthFieldUpdateOperationsInput | $Enums.PasswordStrength
+    hasTotp?: BoolFieldUpdateOperationsInput | boolean
+    totpSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
+    sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
+    tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
+    history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
+    breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
+    rotations?: PasswordRotationUncheckedUpdateManyWithoutPasswordNestedInput
+  }
+
+  export type UserUpsertWithoutTemporaryPasswordSharesInput = {
+    update: XOR<UserUpdateWithoutTemporaryPasswordSharesInput, UserUncheckedUpdateWithoutTemporaryPasswordSharesInput>
+    create: XOR<UserCreateWithoutTemporaryPasswordSharesInput, UserUncheckedCreateWithoutTemporaryPasswordSharesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTemporaryPasswordSharesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTemporaryPasswordSharesInput, UserUncheckedUpdateWithoutTemporaryPasswordSharesInput>
+  }
+
+  export type UserUpdateWithoutTemporaryPasswordSharesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneWithoutUsersNestedInput
+    ownedPasswords?: PasswordUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
+    reports?: ReportUpdateManyWithoutCreatedByNestedInput
+    reportTemplates?: ReportTemplateUpdateManyWithoutCreatedByNestedInput
+    scheduledReports?: ScheduledReportUpdateManyWithoutCreatedByNestedInput
+    createdBy?: UserUpdateOneWithoutCreatedUsersNestedInput
+    createdUsers?: UserUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutUserNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUpdateManyWithoutCreatorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTemporaryPasswordSharesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    recoveryEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    recoveryEmailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    preferences?: NullableJsonNullValueInput | InputJsonValue
+    role?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    mfaEnabled?: BoolFieldUpdateOperationsInput | boolean
+    mfaSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    mfaMethod?: NullableEnumMfaMethodFieldUpdateOperationsInput | $Enums.MfaMethod | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    ownedPasswords?: PasswordUncheckedUpdateManyWithoutOwnerNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutUserNestedInput
+    teamMemberships?: TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    mfaCredentials?: MfaCredentialUncheckedUpdateManyWithoutUserNestedInput
+    recoveryCodes?: RecoveryCodeUncheckedUpdateManyWithoutUserNestedInput
+    passwordHistory?: PasswordHistoryUncheckedUpdateManyWithoutChangedByUserNestedInput
+    passwordBreachesChecked?: PasswordBreachUncheckedUpdateManyWithoutCheckedByUserNestedInput
+    passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
+    rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
+    passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
+    searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
+    passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutCreatedByNestedInput
+    reportTemplates?: ReportTemplateUncheckedUpdateManyWithoutCreatedByNestedInput
+    scheduledReports?: ScheduledReportUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdUsers?: UserUncheckedUpdateManyWithoutCreatedByNestedInput
+    createdRoles?: RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutUserNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutUserNestedInput
+    processedDeletions?: DataDeletionRequestUncheckedUpdateManyWithoutProcessorNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutArchiverNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationTokens?: EmailVerificationTokenUncheckedUpdateManyWithoutUserNestedInput
+    passwordResetTokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+    securityQuestions?: SecurityQuestionUncheckedUpdateManyWithoutUserNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutUserNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutUserNestedInput
+    createdIpWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCreatorNestedInput
+    createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
   export type TeamMemberCreateWithoutTeamInput = {
@@ -76778,6 +79063,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -76836,6 +79122,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -76937,6 +79224,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -76995,6 +79283,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -77072,6 +79361,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutOwnedPasswordsInput
     folder?: FolderCreateNestedOneWithoutPasswordsInput
     sharedWith?: PasswordShareCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachCreateNestedManyWithoutPasswordInput
     rotations?: PasswordRotationCreateNestedManyWithoutPasswordInput
@@ -77096,6 +79386,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     rotationPolicyId?: string | null
     sharedWith?: PasswordShareUncheckedCreateNestedManyWithoutPasswordInput
+    temporaryShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutPasswordInput
     history?: PasswordHistoryUncheckedCreateNestedManyWithoutPasswordEntryInput
     breaches?: PasswordBreachUncheckedCreateNestedManyWithoutPasswordInput
     rotations?: PasswordRotationUncheckedCreateNestedManyWithoutPasswordInput
@@ -77155,6 +79446,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
     folder?: FolderUpdateOneWithoutPasswordsNestedInput
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
     rotations?: PasswordRotationUpdateManyWithoutPasswordNestedInput
@@ -77179,6 +79471,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
     rotations?: PasswordRotationUncheckedUpdateManyWithoutPasswordNestedInput
@@ -77245,6 +79538,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -77303,6 +79597,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -77375,6 +79670,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -77433,6 +79729,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -77539,6 +79836,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -77597,6 +79895,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -77724,6 +80023,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -77782,6 +80082,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -77838,6 +80139,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -77896,6 +80198,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -78017,6 +80320,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -78075,6 +80379,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -78185,6 +80490,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -78243,6 +80549,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -78364,6 +80671,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -78422,6 +80730,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -78638,6 +80947,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -78696,6 +81006,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -78790,6 +81101,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -78848,6 +81160,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -79079,6 +81392,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -79137,6 +81451,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -79209,6 +81524,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -79267,6 +81583,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -79323,6 +81640,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -79381,6 +81699,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -79453,6 +81772,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -79511,6 +81831,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -79568,6 +81889,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
     reports?: ReportCreateNestedManyWithoutCreatedByInput
@@ -79626,6 +81948,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     reports?: ReportUncheckedCreateNestedManyWithoutCreatedByInput
@@ -79698,6 +82021,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
     reports?: ReportUpdateManyWithoutCreatedByNestedInput
@@ -79756,6 +82080,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     reports?: ReportUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -79812,6 +82137,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
     reports?: ReportCreateNestedManyWithoutCreatedByInput
@@ -79870,6 +82196,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
     reports?: ReportUncheckedCreateNestedManyWithoutCreatedByInput
@@ -79942,6 +82269,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
     reports?: ReportUpdateManyWithoutCreatedByNestedInput
@@ -80000,6 +82328,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
     reports?: ReportUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -80056,6 +82385,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     reports?: ReportCreateNestedManyWithoutCreatedByInput
@@ -80114,6 +82444,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     reports?: ReportUncheckedCreateNestedManyWithoutCreatedByInput
@@ -80235,6 +82566,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     reports?: ReportUpdateManyWithoutCreatedByNestedInput
@@ -80293,6 +82625,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     reports?: ReportUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -80404,6 +82737,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -80462,6 +82796,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -80534,6 +82869,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -80592,6 +82928,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -80648,6 +82985,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -80706,6 +83044,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -80778,6 +83117,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -80836,6 +83176,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -80892,6 +83233,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -80950,6 +83292,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -81022,6 +83365,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -81080,6 +83424,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -81136,6 +83481,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -81194,6 +83540,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -81304,6 +83651,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -81362,6 +83710,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -81434,6 +83783,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -81492,6 +83842,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -81614,6 +83965,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -81672,6 +84024,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -81728,6 +84081,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -81786,6 +84140,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -81896,6 +84251,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -81954,6 +84310,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -82026,6 +84383,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -82084,6 +84442,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -82206,6 +84565,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -82264,6 +84624,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -82528,6 +84889,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -82586,6 +84948,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -82707,6 +85070,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -82765,6 +85129,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -82876,6 +85241,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -82934,6 +85300,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -83044,6 +85411,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -83102,6 +85470,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -83174,6 +85543,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -83232,6 +85602,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -83354,6 +85725,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -83412,6 +85784,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -83468,6 +85841,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -83526,6 +85900,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -83686,6 +86061,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -83744,6 +86120,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -83900,6 +86277,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -83958,6 +86336,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -84173,6 +86552,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -84231,6 +86611,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -84374,6 +86755,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateCreateNestedManyWithoutOwnerInput
@@ -84432,6 +86814,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedCreateNestedManyWithoutResolvedByUserInput
     rotationPolicies?: PasswordRotationPolicyUncheckedCreateNestedManyWithoutOwnerInput
     passwordRotations?: PasswordRotationUncheckedCreateNestedManyWithoutRotatedByUserInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedCreateNestedManyWithoutCreatorInput
     savedSearches?: SavedSearchUncheckedCreateNestedManyWithoutUserInput
     searchHistory?: SearchHistoryUncheckedCreateNestedManyWithoutUserInput
     passwordTemplates?: PasswordTemplateUncheckedCreateNestedManyWithoutOwnerInput
@@ -84592,6 +86975,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -84650,6 +87034,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -84994,6 +87379,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -85052,6 +87438,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -85776,6 +88163,19 @@ export namespace Prisma {
     notes?: string | null
   }
 
+  export type TemporaryPasswordShareCreateManyCreatorInput = {
+    id?: string
+    passwordId: string
+    shareToken: string
+    accessCount?: number
+    maxAccesses?: number | null
+    isOneTime?: boolean
+    expiresAt?: Date | string | null
+    accessedAt?: Date | string | null
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
   export type SavedSearchCreateManyUserInput = {
     id?: string
     name: string
@@ -86050,6 +88450,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     folder?: FolderUpdateOneWithoutPasswordsNestedInput
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
@@ -86074,6 +88475,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
@@ -86579,6 +88981,45 @@ export namespace Prisma {
     notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type TemporaryPasswordShareUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shareToken?: StringFieldUpdateOperationsInput | string
+    accessCount?: IntFieldUpdateOperationsInput | number
+    maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
+    isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    password?: PasswordUpdateOneRequiredWithoutTemporarySharesNestedInput
+  }
+
+  export type TemporaryPasswordShareUncheckedUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    shareToken?: StringFieldUpdateOperationsInput | string
+    accessCount?: IntFieldUpdateOperationsInput | number
+    maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
+    isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    passwordId?: StringFieldUpdateOperationsInput | string
+    shareToken?: StringFieldUpdateOperationsInput | string
+    accessCount?: IntFieldUpdateOperationsInput | number
+    maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
+    isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SavedSearchUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -86894,6 +89335,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUpdateManyWithoutOwnerNestedInput
@@ -86951,6 +89393,7 @@ export namespace Prisma {
     passwordBreachesResolved?: PasswordBreachUncheckedUpdateManyWithoutResolvedByUserNestedInput
     rotationPolicies?: PasswordRotationPolicyUncheckedUpdateManyWithoutOwnerNestedInput
     passwordRotations?: PasswordRotationUncheckedUpdateManyWithoutRotatedByUserNestedInput
+    temporaryPasswordShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutCreatorNestedInput
     savedSearches?: SavedSearchUncheckedUpdateManyWithoutUserNestedInput
     searchHistory?: SearchHistoryUncheckedUpdateManyWithoutUserNestedInput
     passwordTemplates?: PasswordTemplateUncheckedUpdateManyWithoutOwnerNestedInput
@@ -87436,6 +89879,19 @@ export namespace Prisma {
     expiresAt?: Date | string | null
   }
 
+  export type TemporaryPasswordShareCreateManyPasswordInput = {
+    id?: string
+    shareToken: string
+    createdBy: string
+    accessCount?: number
+    maxAccesses?: number | null
+    isOneTime?: boolean
+    expiresAt?: Date | string | null
+    accessedAt?: Date | string | null
+    revokedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
   export type PasswordTagCreateManyPasswordInput = {
     id?: string
     tagId: string
@@ -87510,6 +89966,45 @@ export namespace Prisma {
     permission?: EnumSharePermissionFieldUpdateOperationsInput | $Enums.SharePermission
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TemporaryPasswordShareUpdateWithoutPasswordInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shareToken?: StringFieldUpdateOperationsInput | string
+    accessCount?: IntFieldUpdateOperationsInput | number
+    maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
+    isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: UserUpdateOneRequiredWithoutTemporaryPasswordSharesNestedInput
+  }
+
+  export type TemporaryPasswordShareUncheckedUpdateWithoutPasswordInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shareToken?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    accessCount?: IntFieldUpdateOperationsInput | number
+    maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
+    isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TemporaryPasswordShareUncheckedUpdateManyWithoutPasswordInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shareToken?: StringFieldUpdateOperationsInput | string
+    createdBy?: StringFieldUpdateOperationsInput | string
+    accessCount?: IntFieldUpdateOperationsInput | number
+    maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
+    isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PasswordTagUpdateWithoutPasswordInput = {
@@ -87708,6 +90203,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
     folder?: FolderUpdateOneWithoutPasswordsNestedInput
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
@@ -87731,6 +90227,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput
@@ -87875,6 +90372,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutOwnedPasswordsNestedInput
     sharedWith?: PasswordShareUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUpdateManyWithoutPasswordNestedInput
@@ -87899,6 +90397,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rotationPolicyId?: NullableStringFieldUpdateOperationsInput | string | null
     sharedWith?: PasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
+    temporaryShares?: TemporaryPasswordShareUncheckedUpdateManyWithoutPasswordNestedInput
     tags?: PasswordTagUncheckedUpdateManyWithoutPasswordNestedInput
     history?: PasswordHistoryUncheckedUpdateManyWithoutPasswordEntryNestedInput
     breaches?: PasswordBreachUncheckedUpdateManyWithoutPasswordNestedInput

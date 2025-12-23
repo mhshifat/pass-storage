@@ -25,11 +25,13 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Search, AlertCircle, Users } from "lucide-react"
+import { Search, AlertCircle, Users, Link2 } from "lucide-react"
 import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { sharePasswordWithTeamAction } from "@/app/admin/passwords/share-actions"
+import { TemporaryShareDialog } from "./temporary-share-dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 type SharePasswordFormValues = {
   teamId: string
@@ -57,6 +59,7 @@ export function SharePasswordDialog({
   onSuccess,
 }: SharePasswordDialogProps) {
   const [teamSearch, setTeamSearch] = useState("")
+  const [isTemporaryShareOpen, setIsTemporaryShareOpen] = useState(false)
 
   const form = useForm<SharePasswordFormValues>({
     resolver: zodResolver(sharePasswordSchema),
@@ -128,16 +131,30 @@ export function SharePasswordDialog({
     : teams
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
-          <DialogTitle>Share Password with Team</DialogTitle>
-          <DialogDescription>
-            Share &quot;{passwordName}&quot; with a team. All team members will have access to this password.
-          </DialogDescription>
-        </DialogHeader>
+    <>
+      <Dialog open={open} onOpenChange={handleOpenChange}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Share Password</DialogTitle>
+            <DialogDescription>
+              Share &quot;{passwordName}&quot; with a team or create a temporary sharing link.
+            </DialogDescription>
+          </DialogHeader>
 
-        <Form {...form}>
+          <Tabs defaultValue="team" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="team" className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                Team Share
+              </TabsTrigger>
+              <TabsTrigger value="temporary" className="flex items-center gap-2">
+                <Link2 className="h-4 w-4" />
+                Temporary Link
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="team" className="mt-4">
+              <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
             {shareState?.error && (
               <Alert variant="destructive">
@@ -225,11 +242,42 @@ export function SharePasswordDialog({
               <Button type="submit" disabled={sharePending}>
                 {sharePending ? "Sharing..." : "Share Password"}
               </Button>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+              </DialogFooter>
+            </form>
+          </Form>
+            </TabsContent>
+
+            <TabsContent value="temporary" className="mt-4">
+              <div className="space-y-4">
+                <p className="text-sm text-muted-foreground">
+                  Create a secure, temporary sharing link that can be accessed without login.
+                  You can set expiration dates, access limits, and one-time use.
+                </p>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    handleOpenChange(false)
+                    setIsTemporaryShareOpen(true)
+                  }}
+                  className="w-full"
+                >
+                  <Link2 className="h-4 w-4 mr-2" />
+                  Create Temporary Share Link
+                </Button>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </DialogContent>
+      </Dialog>
+
+      <TemporaryShareDialog
+        open={isTemporaryShareOpen}
+        onOpenChange={setIsTemporaryShareOpen}
+        passwordId={passwordId}
+        passwordName={passwordName}
+        onSuccess={onSuccess}
+      />
+    </>
   )
 }
 

@@ -76,6 +76,7 @@ model User {
   passwordBreachesResolved PasswordBreach[]         @relation("PasswordBreachResolvedBy")
   rotationPolicies         PasswordRotationPolicy[] @relation("PasswordRotationPolicyOwner")
   passwordRotations        PasswordRotation[]       @relation("PasswordRotationRotatedBy")
+  temporaryPasswordShares  TemporaryPasswordShare[] @relation("TemporaryPasswordShareCreator")
   savedSearches            SavedSearch[]            @relation("SavedSearches")
   searchHistory            SearchHistory[]          @relation("SearchHistory")
   passwordTemplates        PasswordTemplate[]       @relation("PasswordTemplateOwner")
@@ -168,9 +169,10 @@ model Password {
   updatedAt  DateTime         @updatedAt
 
   // Relations
-  owner            User               @relation("PasswordOwner", fields: [ownerId], references: [id], onDelete: Cascade)
-  folder           Folder?            @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  owner            User                     @relation("PasswordOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  folder           Folder?                  @relation(fields: [folderId], references: [id], onDelete: SetNull)
   sharedWith       PasswordShare[]
+  temporaryShares  TemporaryPasswordShare[]
   tags             PasswordTag[]
   history          PasswordHistory[]
   breaches         PasswordBreach[]
@@ -320,6 +322,29 @@ model PasswordShare {
   @@index([passwordId])
   @@index([userId])
   @@index([teamId])
+}
+
+model TemporaryPasswordShare {
+  id          String    @id @default(cuid())
+  passwordId  String
+  shareToken  String    @unique // Secure random token for the share link
+  createdBy   String // User ID who created the share
+  accessCount Int       @default(0) // Number of times accessed
+  maxAccesses Int? // Maximum number of accesses (null = unlimited)
+  isOneTime   Boolean   @default(false) // If true, link expires after first access
+  expiresAt   DateTime? // Optional expiration date
+  accessedAt  DateTime? // Last access time
+  revokedAt   DateTime? // When the share was revoked
+  createdAt   DateTime  @default(now())
+
+  // Relations
+  password Password @relation(fields: [passwordId], references: [id], onDelete: Cascade)
+  creator  User     @relation("TemporaryPasswordShareCreator", fields: [createdBy], references: [id], onDelete: Cascade)
+
+  @@index([passwordId])
+  @@index([createdBy])
+  @@index([shareToken])
+  @@index([expiresAt])
 }
 
 model Team {
