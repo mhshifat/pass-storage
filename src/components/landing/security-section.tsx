@@ -1,0 +1,249 @@
+"use client"
+
+import { useEffect, useRef } from "react"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { Shield, Lock, Key, Eye, Server, CheckCircle2 } from "lucide-react"
+import { cn } from "@/lib/utils"
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger)
+}
+
+const securityFeatures = [
+  {
+    icon: Lock,
+    title: "AES-256-CBC Encryption",
+    description: "Military-grade encryption algorithm used by banks and governments worldwide.",
+  },
+  {
+    icon: Key,
+    title: "Client-Side Encryption",
+    description: "Passwords are encrypted on your device. We never see your plain text passwords.",
+  },
+  {
+    icon: Shield,
+    title: "PBKDF2 Key Derivation",
+    description: "100,000 iterations of PBKDF2 with SHA-256 for secure key generation.",
+  },
+  {
+    icon: Eye,
+    title: "Zero-Knowledge Architecture",
+    description: "Your encryption keys are derived from your user ID. Only you can decrypt your data.",
+  },
+  {
+    icon: Server,
+    title: "Encrypted at Rest",
+    description: "All passwords stored in database are encrypted. Even database admins can't read them.",
+  },
+  {
+    icon: CheckCircle2,
+    title: "HTTPS Everywhere",
+    description: "All data transmission is encrypted in transit using TLS 1.3.",
+  },
+]
+
+export function SecuritySection() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const leftRef = useRef<HTMLDivElement>(null)
+  const rightRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!sectionRef.current || !leftRef.current || !rightRef.current) return
+
+    const ctx = gsap.context(() => {
+      const leftItems = Array.from(leftRef.current!.children) as HTMLElement[]
+      const rightItems = Array.from(rightRef.current!.children) as HTMLElement[]
+      
+      // Animate left side - use fromTo to ensure visibility
+      leftItems.forEach((item, index) => {
+        gsap.fromTo(
+          item,
+          {
+            x: -50,
+            opacity: 0,
+          },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.8,
+            delay: index * 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        )
+      })
+
+      // Animate right side - use fromTo to ensure visibility
+      rightItems.forEach((item, index) => {
+        gsap.fromTo(
+          item,
+          {
+            x: 50,
+            opacity: 0,
+          },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.8,
+            delay: index * 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        )
+      })
+
+      // Animate center shield
+      const shield = sectionRef.current?.querySelector("[data-shield]") as HTMLElement
+      if (shield) {
+        gsap.fromTo(
+          shield,
+          {
+            scale: 0,
+            rotation: -180,
+            opacity: 0,
+          },
+          {
+            scale: 1,
+            rotation: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: "back.out(1.7)",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+            onComplete: () => {
+              // Continuous pulse after animation
+              gsap.to(shield, {
+                scale: 1.05,
+                duration: 2,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+              })
+            },
+          }
+        )
+      }
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section
+      ref={sectionRef}
+      id="security"
+      className="py-24 px-4 bg-background relative overflow-hidden"
+    >
+      {/* Background decoration */}
+      <div className="absolute inset-0 bg-linear-to-br from-blue-50/30 via-purple-50/20 to-pink-50/30 dark:from-background dark:via-background dark:to-muted/10" />
+      <div className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            Security You Can{" "}
+            <span className="bg-linear-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+              Trust
+            </span>
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Enterprise-grade security with client-side encryption. Your passwords are protected 
+            by the same encryption standards used by financial institutions.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-12 items-center">
+          {/* Left Column - Security Features */}
+          <div ref={leftRef} className="space-y-6">
+            {securityFeatures.slice(0, 3).map((feature, index) => {
+              const Icon = feature.icon
+              return (
+                <div
+                  key={index}
+                  className={cn(
+                    "security-card flex gap-4 p-5 rounded-xl bg-card border border-border hover:border-primary/50 transition-all opacity-100 h-[140px]",
+                    index === 0 ? "ml-0" : index === 1 ? "-ml-4" : "-ml-8"
+                  )}
+                  style={{ opacity: 1 }}
+                >
+                  <div className="p-3 rounded-lg bg-primary/10 text-primary shrink-0 h-fit">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <div className="flex-1 flex flex-col justify-center min-w-0">
+                    <h3 className="font-semibold mb-2 text-base leading-tight line-clamp-2">{feature.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Center - Shield Icon */}
+          <div className="flex justify-center">
+            <div
+              data-shield
+              className="relative p-8 rounded-full bg-linear-to-br from-primary/20 to-purple-600/20 border-2 border-primary/30"
+            >
+              <Shield className="h-24 w-24 md:h-32 md:w-32 text-primary" />
+              <div className="absolute inset-0 bg-primary/10 rounded-full blur-2xl -z-10" />
+            </div>
+          </div>
+
+          {/* Right Column - Security Features */}
+          <div ref={rightRef} className="space-y-6">
+            {securityFeatures.slice(3, 6).map((feature, index) => {
+              const Icon = feature.icon
+              return (
+                <div
+                  key={index}
+                  className={cn(
+                    "security-card flex gap-4 p-5 rounded-xl bg-card border border-border hover:border-primary/50 transition-all opacity-100 h-[140px]",
+                    index === 0 ? "-mr-8" : index === 1 ? "-mr-4" : "mr-0"
+                  )}
+                  style={{ opacity: 1 }}
+                >
+                  <div className="p-3 rounded-lg bg-primary/10 text-primary shrink-0 h-fit">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <div className="flex-1 flex flex-col justify-center min-w-0">
+                    <h3 className="font-semibold mb-2 text-base leading-tight line-clamp-2">{feature.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Security Badge */}
+        <div className="mt-16 text-center">
+          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-muted border border-border">
+            <CheckCircle2 className="h-5 w-5 text-green-600" />
+            <span className="text-sm font-medium">
+              SOC 2 Compliant • GDPR Ready • Zero-Knowledge Architecture
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
