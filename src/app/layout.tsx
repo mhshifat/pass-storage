@@ -12,6 +12,7 @@ import { AccessibilityProvider } from "@/components/providers/accessibility-prov
 import { AccessibilityInitializer } from "@/components/providers/accessibility-initializer";
 import { InstallPrompt } from "@/components/pwa/install-prompt";
 import { ServiceWorkerRegistration } from "@/components/pwa/service-worker-registration";
+import { OrganizationStructuredData, WebSiteStructuredData, SoftwareApplicationStructuredData } from "@/components/seo/structured-data";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,9 +24,73 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://passstorage.com";
+
 export const metadata: Metadata = {
-  title: "PassStorage - Secure Password Manager",
-  description: "Enterprise password management solution",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "PassStorage - Secure Password Manager",
+    template: "%s | PassStorage",
+  },
+  description: "Enterprise password management solution with client-side encryption. Secure, fast, and beautifully designed password manager for teams and individuals.",
+  keywords: [
+    "password manager",
+    "enterprise password management",
+    "secure password storage",
+    "client-side encryption",
+    "zero-knowledge architecture",
+    "team password sharing",
+    "password security",
+    "cybersecurity",
+    "password vault",
+    "secure credentials",
+  ],
+  authors: [{ name: "PassStorage Team" }],
+  creator: "PassStorage",
+  publisher: "PassStorage",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    siteName: "PassStorage",
+    title: "PassStorage - Secure Password Manager",
+    description: "Enterprise password management solution with client-side encryption. Secure, fast, and beautifully designed.",
+    images: [
+      {
+        url: `${siteUrl}/opengraph-image`,
+        width: 1200,
+        height: 630,
+        alt: "PassStorage - Secure Password Manager",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PassStorage - Secure Password Manager",
+    description: "Enterprise password management solution with client-side encryption.",
+    images: [`${siteUrl}/opengraph-image`],
+    creator: "@passstorage",
+  },
+  alternates: {
+    canonical: siteUrl,
+    languages: {
+      "en-US": `${siteUrl}/en`,
+      "bn-BD": `${siteUrl}/bn`,
+    },
+  },
+  category: "Security",
+  classification: "Password Management Software",
   manifest: "/manifest",
   appleWebApp: {
     capable: true,
@@ -35,12 +100,6 @@ export const metadata: Metadata = {
   formatDetection: {
     telephone: false,
   },
-  openGraph: {
-    type: "website",
-    siteName: "PassStorage",
-    title: "PassStorage - Secure Password Manager",
-    description: "Enterprise password management solution",
-  },
   icons: {
     icon: [
       { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
@@ -49,6 +108,12 @@ export const metadata: Metadata = {
     apple: [
       { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
     ],
+    shortcut: "/icon-192.png",
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
+    yahoo: process.env.NEXT_PUBLIC_YAHOO_VERIFICATION,
   },
 };
 
@@ -59,6 +124,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <OrganizationStructuredData />
+        <WebSiteStructuredData />
+        <SoftwareApplicationStructuredData />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
