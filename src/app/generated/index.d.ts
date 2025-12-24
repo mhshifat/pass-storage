@@ -20167,6 +20167,7 @@ export namespace Prisma {
     accessCount: number | null
     maxAccesses: number | null
     isOneTime: boolean | null
+    includeTotp: boolean | null
     expiresAt: Date | null
     accessedAt: Date | null
     revokedAt: Date | null
@@ -20181,6 +20182,7 @@ export namespace Prisma {
     accessCount: number | null
     maxAccesses: number | null
     isOneTime: boolean | null
+    includeTotp: boolean | null
     expiresAt: Date | null
     accessedAt: Date | null
     revokedAt: Date | null
@@ -20195,6 +20197,7 @@ export namespace Prisma {
     accessCount: number
     maxAccesses: number
     isOneTime: number
+    includeTotp: number
     expiresAt: number
     accessedAt: number
     revokedAt: number
@@ -20221,6 +20224,7 @@ export namespace Prisma {
     accessCount?: true
     maxAccesses?: true
     isOneTime?: true
+    includeTotp?: true
     expiresAt?: true
     accessedAt?: true
     revokedAt?: true
@@ -20235,6 +20239,7 @@ export namespace Prisma {
     accessCount?: true
     maxAccesses?: true
     isOneTime?: true
+    includeTotp?: true
     expiresAt?: true
     accessedAt?: true
     revokedAt?: true
@@ -20249,6 +20254,7 @@ export namespace Prisma {
     accessCount?: true
     maxAccesses?: true
     isOneTime?: true
+    includeTotp?: true
     expiresAt?: true
     accessedAt?: true
     revokedAt?: true
@@ -20350,6 +20356,7 @@ export namespace Prisma {
     accessCount: number
     maxAccesses: number | null
     isOneTime: boolean
+    includeTotp: boolean
     expiresAt: Date | null
     accessedAt: Date | null
     revokedAt: Date | null
@@ -20383,6 +20390,7 @@ export namespace Prisma {
     accessCount?: boolean
     maxAccesses?: boolean
     isOneTime?: boolean
+    includeTotp?: boolean
     expiresAt?: boolean
     accessedAt?: boolean
     revokedAt?: boolean
@@ -20399,6 +20407,7 @@ export namespace Prisma {
     accessCount?: boolean
     maxAccesses?: boolean
     isOneTime?: boolean
+    includeTotp?: boolean
     expiresAt?: boolean
     accessedAt?: boolean
     revokedAt?: boolean
@@ -20415,6 +20424,7 @@ export namespace Prisma {
     accessCount?: boolean
     maxAccesses?: boolean
     isOneTime?: boolean
+    includeTotp?: boolean
     expiresAt?: boolean
     accessedAt?: boolean
     revokedAt?: boolean
@@ -20431,13 +20441,14 @@ export namespace Prisma {
     accessCount?: boolean
     maxAccesses?: boolean
     isOneTime?: boolean
+    includeTotp?: boolean
     expiresAt?: boolean
     accessedAt?: boolean
     revokedAt?: boolean
     createdAt?: boolean
   }
 
-  export type TemporaryPasswordShareOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "passwordId" | "shareToken" | "createdBy" | "accessCount" | "maxAccesses" | "isOneTime" | "expiresAt" | "accessedAt" | "revokedAt" | "createdAt", ExtArgs["result"]["temporaryPasswordShare"]>
+  export type TemporaryPasswordShareOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "passwordId" | "shareToken" | "createdBy" | "accessCount" | "maxAccesses" | "isOneTime" | "includeTotp" | "expiresAt" | "accessedAt" | "revokedAt" | "createdAt", ExtArgs["result"]["temporaryPasswordShare"]>
   export type TemporaryPasswordShareInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     password?: boolean | PasswordDefaultArgs<ExtArgs>
     creator?: boolean | UserDefaultArgs<ExtArgs>
@@ -20465,6 +20476,7 @@ export namespace Prisma {
       accessCount: number
       maxAccesses: number | null
       isOneTime: boolean
+      includeTotp: boolean
       expiresAt: Date | null
       accessedAt: Date | null
       revokedAt: Date | null
@@ -20901,6 +20913,7 @@ export namespace Prisma {
     readonly accessCount: FieldRef<"TemporaryPasswordShare", 'Int'>
     readonly maxAccesses: FieldRef<"TemporaryPasswordShare", 'Int'>
     readonly isOneTime: FieldRef<"TemporaryPasswordShare", 'Boolean'>
+    readonly includeTotp: FieldRef<"TemporaryPasswordShare", 'Boolean'>
     readonly expiresAt: FieldRef<"TemporaryPasswordShare", 'DateTime'>
     readonly accessedAt: FieldRef<"TemporaryPasswordShare", 'DateTime'>
     readonly revokedAt: FieldRef<"TemporaryPasswordShare", 'DateTime'>
@@ -55920,6 +55933,7 @@ export namespace Prisma {
     accessCount: 'accessCount',
     maxAccesses: 'maxAccesses',
     isOneTime: 'isOneTime',
+    includeTotp: 'includeTotp',
     expiresAt: 'expiresAt',
     accessedAt: 'accessedAt',
     revokedAt: 'revokedAt',
@@ -57847,6 +57861,7 @@ export namespace Prisma {
     accessCount?: IntFilter<"TemporaryPasswordShare"> | number
     maxAccesses?: IntNullableFilter<"TemporaryPasswordShare"> | number | null
     isOneTime?: BoolFilter<"TemporaryPasswordShare"> | boolean
+    includeTotp?: BoolFilter<"TemporaryPasswordShare"> | boolean
     expiresAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
     accessedAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
     revokedAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
@@ -57863,6 +57878,7 @@ export namespace Prisma {
     accessCount?: SortOrder
     maxAccesses?: SortOrderInput | SortOrder
     isOneTime?: SortOrder
+    includeTotp?: SortOrder
     expiresAt?: SortOrderInput | SortOrder
     accessedAt?: SortOrderInput | SortOrder
     revokedAt?: SortOrderInput | SortOrder
@@ -57882,6 +57898,7 @@ export namespace Prisma {
     accessCount?: IntFilter<"TemporaryPasswordShare"> | number
     maxAccesses?: IntNullableFilter<"TemporaryPasswordShare"> | number | null
     isOneTime?: BoolFilter<"TemporaryPasswordShare"> | boolean
+    includeTotp?: BoolFilter<"TemporaryPasswordShare"> | boolean
     expiresAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
     accessedAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
     revokedAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
@@ -57898,6 +57915,7 @@ export namespace Prisma {
     accessCount?: SortOrder
     maxAccesses?: SortOrderInput | SortOrder
     isOneTime?: SortOrder
+    includeTotp?: SortOrder
     expiresAt?: SortOrderInput | SortOrder
     accessedAt?: SortOrderInput | SortOrder
     revokedAt?: SortOrderInput | SortOrder
@@ -57920,6 +57938,7 @@ export namespace Prisma {
     accessCount?: IntWithAggregatesFilter<"TemporaryPasswordShare"> | number
     maxAccesses?: IntNullableWithAggregatesFilter<"TemporaryPasswordShare"> | number | null
     isOneTime?: BoolWithAggregatesFilter<"TemporaryPasswordShare"> | boolean
+    includeTotp?: BoolWithAggregatesFilter<"TemporaryPasswordShare"> | boolean
     expiresAt?: DateTimeNullableWithAggregatesFilter<"TemporaryPasswordShare"> | Date | string | null
     accessedAt?: DateTimeNullableWithAggregatesFilter<"TemporaryPasswordShare"> | Date | string | null
     revokedAt?: DateTimeNullableWithAggregatesFilter<"TemporaryPasswordShare"> | Date | string | null
@@ -61655,6 +61674,7 @@ export namespace Prisma {
     accessCount?: number
     maxAccesses?: number | null
     isOneTime?: boolean
+    includeTotp?: boolean
     expiresAt?: Date | string | null
     accessedAt?: Date | string | null
     revokedAt?: Date | string | null
@@ -61671,6 +61691,7 @@ export namespace Prisma {
     accessCount?: number
     maxAccesses?: number | null
     isOneTime?: boolean
+    includeTotp?: boolean
     expiresAt?: Date | string | null
     accessedAt?: Date | string | null
     revokedAt?: Date | string | null
@@ -61683,6 +61704,7 @@ export namespace Prisma {
     accessCount?: IntFieldUpdateOperationsInput | number
     maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
     isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    includeTotp?: BoolFieldUpdateOperationsInput | boolean
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61699,6 +61721,7 @@ export namespace Prisma {
     accessCount?: IntFieldUpdateOperationsInput | number
     maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
     isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    includeTotp?: BoolFieldUpdateOperationsInput | boolean
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61713,6 +61736,7 @@ export namespace Prisma {
     accessCount?: number
     maxAccesses?: number | null
     isOneTime?: boolean
+    includeTotp?: boolean
     expiresAt?: Date | string | null
     accessedAt?: Date | string | null
     revokedAt?: Date | string | null
@@ -61725,6 +61749,7 @@ export namespace Prisma {
     accessCount?: IntFieldUpdateOperationsInput | number
     maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
     isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    includeTotp?: BoolFieldUpdateOperationsInput | boolean
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -61739,6 +61764,7 @@ export namespace Prisma {
     accessCount?: IntFieldUpdateOperationsInput | number
     maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
     isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    includeTotp?: BoolFieldUpdateOperationsInput | boolean
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -65475,6 +65501,7 @@ export namespace Prisma {
     accessCount?: SortOrder
     maxAccesses?: SortOrder
     isOneTime?: SortOrder
+    includeTotp?: SortOrder
     expiresAt?: SortOrder
     accessedAt?: SortOrder
     revokedAt?: SortOrder
@@ -65494,6 +65521,7 @@ export namespace Prisma {
     accessCount?: SortOrder
     maxAccesses?: SortOrder
     isOneTime?: SortOrder
+    includeTotp?: SortOrder
     expiresAt?: SortOrder
     accessedAt?: SortOrder
     revokedAt?: SortOrder
@@ -65508,6 +65536,7 @@ export namespace Prisma {
     accessCount?: SortOrder
     maxAccesses?: SortOrder
     isOneTime?: SortOrder
+    includeTotp?: SortOrder
     expiresAt?: SortOrder
     accessedAt?: SortOrder
     revokedAt?: SortOrder
@@ -72992,6 +73021,7 @@ export namespace Prisma {
     accessCount?: number
     maxAccesses?: number | null
     isOneTime?: boolean
+    includeTotp?: boolean
     expiresAt?: Date | string | null
     accessedAt?: Date | string | null
     revokedAt?: Date | string | null
@@ -73006,6 +73036,7 @@ export namespace Prisma {
     accessCount?: number
     maxAccesses?: number | null
     isOneTime?: boolean
+    includeTotp?: boolean
     expiresAt?: Date | string | null
     accessedAt?: Date | string | null
     revokedAt?: Date | string | null
@@ -74440,6 +74471,7 @@ export namespace Prisma {
     accessCount?: IntFilter<"TemporaryPasswordShare"> | number
     maxAccesses?: IntNullableFilter<"TemporaryPasswordShare"> | number | null
     isOneTime?: BoolFilter<"TemporaryPasswordShare"> | boolean
+    includeTotp?: BoolFilter<"TemporaryPasswordShare"> | boolean
     expiresAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
     accessedAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
     revokedAt?: DateTimeNullableFilter<"TemporaryPasswordShare"> | Date | string | null
@@ -75656,6 +75688,7 @@ export namespace Prisma {
     accessCount?: number
     maxAccesses?: number | null
     isOneTime?: boolean
+    includeTotp?: boolean
     expiresAt?: Date | string | null
     accessedAt?: Date | string | null
     revokedAt?: Date | string | null
@@ -75670,6 +75703,7 @@ export namespace Prisma {
     accessCount?: number
     maxAccesses?: number | null
     isOneTime?: boolean
+    includeTotp?: boolean
     expiresAt?: Date | string | null
     accessedAt?: Date | string | null
     revokedAt?: Date | string | null
@@ -88170,6 +88204,7 @@ export namespace Prisma {
     accessCount?: number
     maxAccesses?: number | null
     isOneTime?: boolean
+    includeTotp?: boolean
     expiresAt?: Date | string | null
     accessedAt?: Date | string | null
     revokedAt?: Date | string | null
@@ -88987,6 +89022,7 @@ export namespace Prisma {
     accessCount?: IntFieldUpdateOperationsInput | number
     maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
     isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    includeTotp?: BoolFieldUpdateOperationsInput | boolean
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -89001,6 +89037,7 @@ export namespace Prisma {
     accessCount?: IntFieldUpdateOperationsInput | number
     maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
     isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    includeTotp?: BoolFieldUpdateOperationsInput | boolean
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -89014,6 +89051,7 @@ export namespace Prisma {
     accessCount?: IntFieldUpdateOperationsInput | number
     maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
     isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    includeTotp?: BoolFieldUpdateOperationsInput | boolean
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -89886,6 +89924,7 @@ export namespace Prisma {
     accessCount?: number
     maxAccesses?: number | null
     isOneTime?: boolean
+    includeTotp?: boolean
     expiresAt?: Date | string | null
     accessedAt?: Date | string | null
     revokedAt?: Date | string | null
@@ -89974,6 +90013,7 @@ export namespace Prisma {
     accessCount?: IntFieldUpdateOperationsInput | number
     maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
     isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    includeTotp?: BoolFieldUpdateOperationsInput | boolean
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -89988,6 +90028,7 @@ export namespace Prisma {
     accessCount?: IntFieldUpdateOperationsInput | number
     maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
     isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    includeTotp?: BoolFieldUpdateOperationsInput | boolean
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -90001,6 +90042,7 @@ export namespace Prisma {
     accessCount?: IntFieldUpdateOperationsInput | number
     maxAccesses?: NullableIntFieldUpdateOperationsInput | number | null
     isOneTime?: BoolFieldUpdateOperationsInput | boolean
+    includeTotp?: BoolFieldUpdateOperationsInput | boolean
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accessedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

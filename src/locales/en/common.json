@@ -444,6 +444,7 @@
     },
     "passwordCopied": "Password copied to clipboard",
     "passwordCopyFailed": "Failed to get password",
+    "totpCode": "TOTP Code",
     "totpCodeCopied": "TOTP code copied to clipboard",
     "totpCodeFailed": "Failed to generate TOTP code",
     "copyTotpCode": "Copy TOTP Code",
@@ -541,6 +542,8 @@
       "description": "Create a secure temporary sharing link for \"{{name}}\"",
       "oneTime": "One-time use",
       "oneTimeDescription": "Link will expire after first access",
+      "includeTotp": "Include TOTP Code",
+      "includeTotpDescription": "Include the TOTP (Time-based One-Time Password) code in the share link. The code will be generated when the link is accessed.",
       "expirationDate": "Expiration Date",
       "expirationDescription": "Optional: Set when this link should expire",
       "maxAccesses": "Maximum Accesses",
@@ -561,7 +564,8 @@
       "notFound": "Share link not found or has been revoked",
       "expiresAt": "Expires",
       "accessCount": "Accesses",
-      "totpNote": "This password has TOTP enabled. The TOTP code is not available through this share link."
+      "totpNote": "This password has TOTP enabled. The TOTP code is not available through this share link.",
+      "totpExpiresIn": "This code expires in {{seconds}} seconds"
     },
     "export": {
       "title": "Export Passwords",
@@ -2202,7 +2206,9 @@
     "totpCopied": "TOTP code copied to clipboard",
     "copyPassword": "Copy Password",
     "copyUsername": "Copy Username",
-    "copyUrl": "Copy URL"
+    "copyUrl": "Copy URL",
+    "decryptionFailed": "Failed to decrypt password. Please try again or contact support if the issue persists.",
+    "userNotAuthenticated": "User not authenticated. Please log in again."
   },
   "accessibility": {
     "title": "Accessibility",

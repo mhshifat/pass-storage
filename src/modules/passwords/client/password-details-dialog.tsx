@@ -44,6 +44,7 @@ import { removePasswordShareAction } from "@/app/admin/passwords/unshare-actions
 import { useRouter } from "next/navigation"
 import { useTranslation } from "react-i18next"
 import { useClipboard } from "@/hooks/use-clipboard"
+import { usePasswordDecryption } from "@/hooks/use-password-decryption"
 
 interface PasswordShare {
   shareId: string
@@ -128,7 +129,25 @@ export function PasswordDetailsDialog({
     },
   })
 
-  const decryptedPassword = passwordData?.password || ""
+  // Client-side decryption: Decrypt password if it's encrypted
+  const encryptedPassword = passwordData?.passwordEncrypted 
+    ? passwordData.password 
+    : null
+  const encryptedTotpSecret = passwordData?.totpEncrypted && passwordData.totpSecret
+    ? passwordData.totpSecret
+    : null
+
+  const {
+    decryptedPassword,
+    decryptedTotpSecret,
+    isDecrypting: isDecryptingPassword,
+    error: decryptionError,
+  } = usePasswordDecryption(encryptedPassword, encryptedTotpSecret)
+
+  // For backward compatibility: if password is not encrypted, use it directly
+  const finalDecryptedPassword = passwordData?.passwordEncrypted 
+    ? decryptedPassword 
+    : (passwordData?.password || "")
 
   // Determine if user is owner - check both passwordData and displayPassword
   // passwordData comes from getById query which includes isOwner
@@ -403,7 +422,13 @@ export function PasswordDetailsDialog({
               <div className="col-span-2 flex items-center gap-2">
                 <Input
                   type={showPassword ? "text" : "password"}
-                  value={isLoading ? "Loading..." : showPassword ? decryptedPassword : "••••••••••••"}
+                  value={
+                    isLoading || isDecryptingPassword
+                      ? "Loading..."
+                      : showPassword
+                      ? finalDecryptedPassword
+                      : "••••••••••••"
+                  }
                   readOnly
                   className="font-mono"
                 />
@@ -413,7 +438,7 @@ export function PasswordDetailsDialog({
                       variant="outline"
                       size="icon"
                       onClick={() => setShowPassword(!showPassword)}
-                      disabled={isLoading}
+                      disabled={isLoading || isDecryptingPassword}
                     >
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </Button>
@@ -421,8 +446,8 @@ export function PasswordDetailsDialog({
                       variant="outline"
                       size="icon"
                       onClick={() => {
-                        if (decryptedPassword) {
-                          copyToClipboard(decryptedPassword, {
+                        if (finalDecryptedPassword) {
+                          copyToClipboard(finalDecryptedPassword, {
                             resourceId: password?.id || "",
                             resourceType: "password",
                             actionType: "copy_password",
@@ -430,7 +455,7 @@ export function PasswordDetailsDialog({
                           })
                         }
                       }}
-                      disabled={isLoading || !decryptedPassword || isCopying}
+                      disabled={isLoading || isDecryptingPassword || !finalDecryptedPassword || isCopying}
                       title={t("clipboard.copyPassword")}
                     >
                       <Copy className="h-4 w-4" />
@@ -525,11 +550,11 @@ export function PasswordDetailsDialog({
                             id: password.id,
                             name: passwordData.name,
                             username: passwordData.username,
-                            password: passwordData.password,
+                            password: finalDecryptedPassword, // Use decrypted password for update
                             url: passwordData.url || null,
                             folderId: passwordData.folderId || null,
                             notes: passwordData.notes || null,
-                            totpSecret: passwordData.totpSecret || null,
+                            totpSecret: decryptedTotpSecret || null, // Use decrypted TOTP secret
                             tagIds: selectedTagIds,
                           })
                         }}

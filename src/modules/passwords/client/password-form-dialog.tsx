@@ -41,6 +41,7 @@ import { TagAutocomplete, TemplateSelector } from "@/modules/passwords/client"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
+import { usePasswordDecryption } from "@/hooks/use-password-decryption"
 
 const passwordSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -67,11 +68,15 @@ interface Password {
   name: string
   username: string
   password: string
+  passwordEncrypted?: boolean // Flag indicating if password is encrypted
+  passwordDecryptionError?: boolean
   url?: string | null
   folderId?: string | null
   notes?: string | null
   hasTotp: boolean
   totpSecret?: string | null
+  totpEncrypted?: boolean // Flag indicating if TOTP secret is encrypted
+  totpDecryptionError?: boolean
 }
 
 interface PasswordFormDialogProps {
@@ -140,20 +145,45 @@ export function PasswordFormDialog({
 
   const enableTotp = form.watch("enableTotp")
 
+  // Client-side decryption for encrypted passwords
+  const encryptedPassword = password?.passwordEncrypted ? password.password : null
+  const encryptedTotpSecret = password?.totpEncrypted && password.totpSecret ? password.totpSecret : null
+  
+  const {
+    decryptedPassword,
+    decryptedTotpSecret,
+    isDecrypting: isDecryptingPassword,
+    error: decryptionError,
+  } = usePasswordDecryption(encryptedPassword, encryptedTotpSecret)
+
+  // Get the final decrypted password (use decrypted if encrypted, otherwise use original)
+  const finalPassword = password?.passwordEncrypted 
+    ? decryptedPassword 
+    : (password?.password || "")
+  const finalTotpSecret = password?.totpEncrypted
+    ? decryptedTotpSecret
+    : (password?.totpSecret || "")
+
   // Reset form when dialog opens/closes or password changes
   useEffect(() => {
     if (open) {
       if (password && mode === "edit") {
+        // Wait for decryption to complete if password is encrypted
+        if (password.passwordEncrypted && (isDecryptingPassword || (!decryptionError && !finalPassword && password.password))) {
+          return // Don't reset form while decrypting or if decryption hasn't produced a result yet
+        }
+
         // Reset form with password data when available
+        // If password decryption failed, leave password field empty so user can re-enter it
         form.reset({
           name: password.name,
           username: password.username,
-          password: password.password,
+          password: password.passwordDecryptionError || decryptionError ? "" : (finalPassword || password.password || ""),
           url: password.url || "",
           folderId: password.folderId || "",
           notes: password.notes || "",
-          enableTotp: password.hasTotp,
-          totpSecret: password.totpSecret || "",
+          enableTotp: password.hasTotp && !password.totpDecryptionError && !decryptionError,
+          totpSecret: password.totpDecryptionError || decryptionError ? "" : (finalTotpSecret || password.totpSecret || ""),
           tagIds: (password as { tags?: { id: string }[] }).tags?.map((t) => t.id) || [],
         })
       } else if (mode === "create") {
@@ -173,7 +203,7 @@ export function PasswordFormDialog({
       // Reset form when dialog closes
       form.reset()
     }
-  }, [open, password, mode, form])
+  }, [open, password, mode, form, finalPassword, finalTotpSecret, isDecryptingPassword, decryptionError])
 
   // Sync server errors to form state
   useEffect(() => {
@@ -280,6 +310,22 @@ export function PasswordFormDialog({
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>{form.formState.errors.root.message}</AlertDescription>
+                </Alert>
+              )}
+              {mode === "edit" && password?.passwordDecryptionError && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>
+                    The password could not be decrypted. Please re-enter the password below to fix this issue.
+                  </AlertDescription>
+                </Alert>
+              )}
+              {mode === "edit" && password?.totpDecryptionError && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>
+                    The TOTP secret could not be decrypted. Please re-enter the TOTP secret below or disable TOTP.
+                  </AlertDescription>
                 </Alert>
               )}
               {mode === "edit" && !password && (

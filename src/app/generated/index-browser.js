@@ -291,6 +291,7 @@ exports.Prisma.TemporaryPasswordShareScalarFieldEnum = {
   accessCount: 'accessCount',
   maxAccesses: 'maxAccesses',
   isOneTime: 'isOneTime',
+  includeTotp: 'includeTotp',
   expiresAt: 'expiresAt',
   accessedAt: 'accessedAt',
   revokedAt: 'revokedAt',

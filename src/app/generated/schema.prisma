@@ -332,6 +332,7 @@ model TemporaryPasswordShare {
   accessCount Int       @default(0) // Number of times accessed
   maxAccesses Int? // Maximum number of accesses (null = unlimited)
   isOneTime   Boolean   @default(false) // If true, link expires after first access
+  includeTotp Boolean   @default(false) // If true, TOTP code will be included in the share
   expiresAt   DateTime? // Optional expiration date
   accessedAt  DateTime? // Last access time
   revokedAt   DateTime? // When the share was revoked

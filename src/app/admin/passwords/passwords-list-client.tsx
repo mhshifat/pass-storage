@@ -277,7 +277,11 @@ export function PasswordsListClient({ passwords, pagination }: PasswordsListClie
           key={`${passwordToEdit.id}-${editKey}`}
           open={isEditDialogOpen}
           onOpenChange={handleEditDialogClose}
-          password={passwordData || undefined}
+          password={passwordData ? {
+            ...passwordData,
+            passwordEncrypted: passwordData.passwordEncrypted ?? false,
+            totpEncrypted: passwordData.totpEncrypted ?? false,
+          } : undefined}
           passwordId={passwordToEdit.id}
         />
       )}

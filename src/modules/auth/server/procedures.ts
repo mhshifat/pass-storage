@@ -6,7 +6,7 @@ import { createSession, destroySession, getSession } from "@/lib/session";
 import { TRPCError } from "@trpc/server";
 import { decrypt } from "@/lib/crypto";
 import { getRequestMetadata } from "@/lib/audit-log";
-import { headers } from "next/headers";
+import { headers, cookies } from "next/headers";
 
 /**
  * Ensure system roles and permissions exist in the database
@@ -809,6 +809,239 @@ export const authRouter = createTRPCRouter({
                     email: user.email,
                     role: user.role,
                 },
+            };
+        }),
+    extensionLogin: baseProcedure
+        .input(
+            z.object({
+                subdomain: z.string().min(1, "Subdomain is required"),
+                email: z.string().email("Invalid email address"),
+                password: z.string().min(1, "Password is required"),
+                captchaToken: z.string().optional(),
+                captchaAnswer: z.number().optional(),
+            })
+        )
+        .mutation(async ({ input }) => {
+            // Get request metadata
+            const headersList = await headers();
+            const { ipAddress, userAgent } = getRequestMetadata(headersList);
+
+            // Find company by subdomain
+            const company = await prisma.company.findUnique({
+                where: { subdomain: input.subdomain },
+            });
+
+            if (!company) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "Company not found for this subdomain",
+                });
+            }
+
+            // Get threat detection configuration
+            const {
+                getThreatDetectionConfig,
+                checkRateLimit,
+                checkBruteForce,
+                shouldRequireCaptcha,
+            } = await import("@/lib/threat-detection");
+            const threatConfig = await getThreatDetectionConfig(company.id);
+
+            // Check rate limiting if enabled
+            if (threatConfig.enabled && threatConfig.rateLimiting.enabled && ipAddress) {
+                const rateLimitCheck = await checkRateLimit(
+                    ipAddress,
+                    "IP",
+                    "LOGIN",
+                    threatConfig.rateLimiting.login,
+                    company.id
+                );
+
+                if (rateLimitCheck.exceeded) {
+                    throw new TRPCError({
+                        code: "TOO_MANY_REQUESTS",
+                        message: `Too many login attempts. Please try again after ${new Date(rateLimitCheck.resetAt).toLocaleTimeString()}.`,
+                    });
+                }
+            }
+
+            // Find user in this company
+            const user = await prisma.user.findFirst({
+                where: {
+                    email: input.email,
+                    companyId: company.id,
+                },
+            });
+
+            if (!user) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Invalid email or password",
+                });
+            }
+
+            // Check CAPTCHA requirement
+            if (threatConfig.enabled && threatConfig.captcha.enabled && ipAddress) {
+                const requiresCaptcha = await shouldRequireCaptcha(
+                    ipAddress,
+                    "IP",
+                    "LOGIN",
+                    threatConfig.captcha,
+                    company.id
+                );
+                if (requiresCaptcha) {
+                    if (input.captchaToken && input.captchaAnswer !== undefined) {
+                        const { verifyCaptchaFromStore } = await import("@/lib/captcha");
+                        const isValid = verifyCaptchaFromStore(input.captchaToken, input.captchaAnswer);
+                        if (!isValid) {
+                            throw new TRPCError({
+                                code: "BAD_REQUEST",
+                                message: "Invalid CAPTCHA answer. Please try again.",
+                            });
+                        }
+                    } else {
+                        throw new TRPCError({
+                            code: "BAD_REQUEST",
+                            message: "CAPTCHA required",
+                        });
+                    }
+                }
+            }
+
+            // Check brute force protection if enabled (before password verification)
+            if (threatConfig.enabled && threatConfig.bruteForceProtection.enabled) {
+                const bruteForceCheck = await checkBruteForce(
+                    user.id,
+                    threatConfig.bruteForceProtection,
+                    company.id
+                );
+
+                if (bruteForceCheck.locked) {
+                    throw new TRPCError({
+                        code: "FORBIDDEN",
+                        message: `Account locked due to too many failed login attempts. Please try again ${bruteForceCheck.unlockAt ? `after ${bruteForceCheck.unlockAt.toLocaleTimeString()}` : "later"}.`,
+                    });
+                }
+            }
+
+            // Check if user has a password (might be null for OAuth users)
+            if (!user.password) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Invalid email or password",
+                });
+            }
+
+            // Verify password
+            const isValidPassword = await verifyPassword(input.password, user.password);
+            if (!isValidPassword) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "Invalid email or password",
+                });
+            }
+
+            // Check if user is active
+            if (!user.isActive) {
+                throw new TRPCError({
+                    code: "FORBIDDEN",
+                    message: "Your account has been deactivated. Please contact your administrator.",
+                });
+            }
+
+            // Create session and get the token
+            // We need to generate the token ourselves to return it
+            const { SignJWT } = await import("jose");
+            const SESSION_SECRET = process.env.SESSION_SECRET || "default-secret-change-in-production";
+            const secret = new TextEncoder().encode(SESSION_SECRET);
+            
+            // Get session timeout from settings
+            const sessionTimeoutSetting = await prisma.settings.findUnique({
+                where: { key: "security.session.timeout_minutes" },
+            });
+            const timeoutMinutes = (sessionTimeoutSetting?.value as number) ?? 30;
+            const expirationTime = `${timeoutMinutes}m`;
+            const maxAge = timeoutMinutes * 60;
+
+            // Generate device fingerprint
+            const { generateClientDeviceFingerprint, isDeviceTrusted } = await import("@/lib/device-fingerprint");
+            const deviceFingerprint = generateClientDeviceFingerprint(userAgent, ipAddress);
+            const deviceIsTrusted = await isDeviceTrusted(deviceFingerprint, user.id);
+
+            // Check if device-specific MFA is required
+            const requireMfaForUntrustedDevices = await prisma.settings.findUnique({
+                where: { key: "security.device.require_mfa_untrusted" },
+            });
+            const finalMfaRequired = requireMfaForUntrustedDevices?.value === true && !deviceIsTrusted;
+
+            const payload = { userId: user.id, email: user.email, isLoggedIn: true, mfaVerified: true, mfaSetupRequired: false, mfaRequired: finalMfaRequired };
+            const sessionToken = await new SignJWT(payload)
+                .setProtectedHeader({ alg: "HS256" })
+                .setExpirationTime(expirationTime)
+                .sign(secret);
+
+            // Create session in database and set cookie
+            const expires = new Date(Date.now() + maxAge * 1000);
+            const { parseUserAgent } = await import("@/lib/device-parser");
+            const deviceInfo = parseUserAgent(userAgent);
+
+            try {
+                await prisma.session.create({
+                    data: {
+                        sessionToken: sessionToken,
+                        userId: user.id,
+                        expires,
+                        ipAddress: ipAddress || null,
+                        userAgent: userAgent || null,
+                        deviceName: deviceInfo.deviceName,
+                        deviceType: deviceInfo.deviceType,
+                        deviceFingerprint,
+                        isTrusted: deviceIsTrusted,
+                        requireMfa: finalMfaRequired || false,
+                        lastActiveAt: new Date(),
+                    },
+                });
+            } catch (error) {
+                console.error("Failed to create database session record:", error);
+            }
+
+            // Also set the cookie (for web browser compatibility)
+            const cookieStore = await cookies();
+            cookieStore.set("session", sessionToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "lax",
+                maxAge,
+                path: "/",
+            });
+
+            // Create audit log
+            const { createAuditLog } = await import("@/lib/audit-log");
+            await createAuditLog({
+                action: "LOGIN_SUCCESS",
+                resource: "User",
+                resourceId: user.id,
+                userId: user.id,
+                ipAddress: ipAddress || null,
+                userAgent: userAgent || null,
+                details: { source: "extension" },
+            });
+
+            return {
+                success: true,
+                user: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role,
+                },
+                company: {
+                    id: company.id,
+                    name: company.name,
+                    subdomain: company.subdomain,
+                },
+                // Return the session token for extension to store and use
+                sessionToken: sessionToken || undefined,
             };
         }),
     logout: baseProcedure

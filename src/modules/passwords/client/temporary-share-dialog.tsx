@@ -36,6 +36,7 @@ const temporaryShareSchema = z.object({
   expiresAt: z.string().optional(),
   maxAccesses: z.number().min(1).max(100).optional(),
   isOneTime: z.boolean().default(false),
+  includeTotp: z.boolean().default(false),
 })
 
 type TemporaryShareFormValues = z.infer<typeof temporaryShareSchema>
@@ -65,6 +66,7 @@ export function TemporaryShareDialog({
       expiresAt: undefined,
       maxAccesses: undefined,
       isOneTime: false,
+      includeTotp: false,
     },
   })
 
@@ -93,6 +95,7 @@ export function TemporaryShareDialog({
       expiresAt: values.expiresAt ? new Date(values.expiresAt) : undefined,
       maxAccesses: values.maxAccesses,
       isOneTime: values.isOneTime,
+      includeTotp: values.includeTotp,
     })
   }
 
@@ -254,6 +257,27 @@ export function TemporaryShareDialog({
                       {t("passwords.temporaryShare.maxAccessesDescription")}
                     </FormDescription>
                     <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="includeTotp"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>{t("passwords.temporaryShare.includeTotp")}</FormLabel>
+                      <FormDescription>
+                        {t("passwords.temporaryShare.includeTotpDescription")}
+                      </FormDescription>
+                    </div>
                   </FormItem>
                 )}
               />

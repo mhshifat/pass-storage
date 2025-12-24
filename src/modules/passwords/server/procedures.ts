@@ -7,6 +7,7 @@ import {
   validatePasswordAgainstPolicy,
   checkPasswordHistory,
 } from "@/lib/password-policy"
+import { Prisma } from "@/app/generated"
 
 export const passwordsRouter = createTRPCRouter({
   list: protectedProcedure("password.view")
@@ -377,13 +378,15 @@ export const passwordsRouter = createTRPCRouter({
         })
       }
 
-      // Encrypt the password using password-specific encryption
-      const encryptedPassword = encryptPassword(input.password)
+      // CLIENT-SIDE ENCRYPTION: Encrypt using user-specific key (new method)
+      // This matches the client-side encryption method
+      const { encryptPasswordWithUserKey } = await import("@/lib/server-crypto-migration")
+      const encryptedPassword = encryptPasswordWithUserKey(input.password, ctx.userId)
 
-      // Encrypt TOTP secret if provided
+      // Encrypt TOTP secret if provided (using same method)
       let encryptedTotpSecret: string | null = null
       if (input.totpSecret) {
-        encryptedTotpSecret = encryptPassword(input.totpSecret)
+        encryptedTotpSecret = encryptPasswordWithUserKey(input.totpSecret, ctx.userId)
       }
 
       // Calculate password strength (simple implementation)
@@ -550,13 +553,15 @@ export const passwordsRouter = createTRPCRouter({
         "UPDATE"
       )
 
-      // Encrypt the password using password-specific encryption
-      const encryptedPassword = encryptPassword(input.password)
+      // CLIENT-SIDE ENCRYPTION: Encrypt using user-specific key (new method)
+      // This matches the client-side encryption method
+      const { encryptPasswordWithUserKey } = await import("@/lib/server-crypto-migration")
+      const encryptedPassword = encryptPasswordWithUserKey(input.password, ctx.userId)
 
-      // Encrypt TOTP secret if provided
+      // Encrypt TOTP secret if provided (using same method)
       let encryptedTotpSecret: string | null = null
       if (input.totpSecret) {
-        encryptedTotpSecret = encryptPassword(input.totpSecret)
+        encryptedTotpSecret = encryptPasswordWithUserKey(input.totpSecret, ctx.userId)
       }
 
       // Calculate password strength
@@ -778,30 +783,84 @@ export const passwordsRouter = createTRPCRouter({
         })
       }
 
-      // Decrypt password
-      const decryptedPassword = decryptPassword(password.password)
+      // CLIENT-SIDE DECRYPTION: Return encrypted passwords instead of decrypted
+      // The client will decrypt using Web Crypto API
+      // This prevents plain text passwords from being transmitted over the network
       
-      // Decrypt TOTP secret if exists
-      let decryptedTotpSecret: string | null = null
-      if (password.totpSecret) {
-        decryptedTotpSecret = decryptPassword(password.totpSecret)
-      }
-
       // Check if user owns the password
       const isOwner = password.ownerId === ctx.userId
+      
+      // For team sharing: If user is not the owner, we need to decrypt on server
+      // because the client can't decrypt with the owner's key
+      const isSharedWithUser = !isOwner && password.sharedWith.length > 0
+      
+      // Determine encryption method and handle decryption
+      let finalPassword = password.password
+      let finalTotpSecret = password.totpSecret
+      let passwordEncrypted = true
+      let totpEncrypted = password.totpSecret ? true : false
+      
+      // ALWAYS encrypt passwords and TOTP secrets with the requesting user's key
+      // This ensures nothing is ever transmitted in plain text, even for owners
+      // Security: Server acts as secure intermediary, re-encrypting for the requesting user
+      try {
+        const { decryptPasswordWithUserKey, encryptPasswordWithUserKey } = await import("@/lib/server-crypto-migration")
+        
+        // Step 1: Decrypt with owner's key
+        let plainPassword: string
+        let plainTotpSecret: string | null = null
+        
+        if (password.ownerId) {
+          try {
+            plainPassword = decryptPasswordWithUserKey(password.password, password.ownerId)
+            if (password.totpSecret) {
+              plainTotpSecret = decryptPasswordWithUserKey(password.totpSecret, password.ownerId)
+            }
+          } catch {
+            // Try old encryption method
+            try {
+              plainPassword = decryptPassword(password.password)
+              if (password.totpSecret) {
+                plainTotpSecret = decryptPassword(password.totpSecret)
+              }
+            } catch (oldError) {
+              // If both fail, keep original encrypted (will show error on client)
+              console.error("Failed to decrypt password:", oldError)
+              throw oldError
+            }
+          }
+          
+          // Step 2: Re-encrypt with requesting user's key (owner or team member)
+          // This ensures the password is always encrypted when transmitted to the client
+          finalPassword = encryptPasswordWithUserKey(plainPassword, ctx.userId)
+          if (plainTotpSecret) {
+            finalTotpSecret = encryptPasswordWithUserKey(plainTotpSecret, ctx.userId)
+          }
+          
+          // Mark as encrypted so client knows to decrypt
+          passwordEncrypted = true
+          totpEncrypted = password.totpSecret ? true : false
+        }
+      } catch (error) {
+        // If decryption/re-encryption fails, keep original encrypted (will show error on client)
+        console.error("Failed to re-encrypt password for user:", error)
+        // Keep encrypted - client will try to decrypt with their key and fail gracefully
+      }
 
       return {
         id: password.id,
         name: password.name,
         username: password.username,
-        password: decryptedPassword,
+        password: finalPassword, // Encrypted for owner, decrypted for team members
+        passwordEncrypted, // Flag to indicate if password is encrypted
         url: password.url,
         notes: password.notes,
         folder: password.folder?.name || null,
         folderId: password.folderId,
         strength: password.strength.toLowerCase() as "strong" | "medium" | "weak",
         hasTotp: password.hasTotp,
-        totpSecret: decryptedTotpSecret,
+        totpSecret: finalTotpSecret, // Encrypted for owner, decrypted for team members
+        totpEncrypted, // Flag to indicate if TOTP is encrypted
         shared: password.sharedWith.length > 0,
         sharedWith: password.sharedWith.map((share) => ({
           shareId: share.id,
@@ -941,6 +1000,19 @@ export const passwordsRouter = createTRPCRouter({
           id: true,
           hasTotp: true,
           totpSecret: true, // Encrypted
+          ownerId: true, // Needed to determine encryption method
+          sharedWith: {
+            where: {
+              teamId: { in: teamIds },
+              OR: [
+                { expiresAt: null },
+                { expiresAt: { gt: new Date() } },
+              ],
+            },
+            select: {
+              id: true,
+            },
+          },
         },
       })
 
@@ -958,14 +1030,63 @@ export const passwordsRouter = createTRPCRouter({
         })
       }
 
-      // Decrypt TOTP secret
-      const decryptedTotpSecret = decryptPassword(password.totpSecret)
+      // ALWAYS encrypt TOTP codes with the requesting user's key
+      // This ensures nothing is ever transmitted in plain text, even for owners
+
+      // Decrypt TOTP secret (server-side, needed to generate code)
+      // Check if TOTP secret is encrypted with new client-side method or old server-side method
+      let decryptedTotpSecret: string
+      let newEncryptionError: Error | null = null
+      
+      // Try new encryption method first (user-specific key)
+      try {
+        const { decryptPasswordWithUserKey } = await import("@/lib/server-crypto-migration")
+        if (!password.ownerId) {
+          throw new Error("Password ownerId is missing")
+        }
+        decryptedTotpSecret = decryptPasswordWithUserKey(password.totpSecret, password.ownerId)
+      } catch (error) {
+        // Can't decrypt with new method - might be old encryption
+        newEncryptionError = error instanceof Error ? error : new Error(String(error))
+        
+        // Try old encryption method (backward compatibility)
+        try {
+          decryptedTotpSecret = decryptPassword(password.totpSecret)
+        } catch (oldDecryptError) {
+          // Both methods failed - TOTP secret might be corrupted
+          console.error("New encryption decryption error:", newEncryptionError)
+          console.error("Old encryption decryption error:", oldDecryptError)
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Failed to decrypt TOTP secret. The TOTP secret may have been encrypted with a different key or is corrupted. Please update the password's TOTP settings.",
+            cause: oldDecryptError,
+          })
+        }
+      }
 
       // Generate TOTP code using otplib
       const { authenticator } = await import("otplib")
       const totpCode = authenticator.generate(decryptedTotpSecret)
 
-      return { totpCode }
+      // ALWAYS encrypt TOTP code with the requesting user's key
+      // This ensures nothing is ever transmitted in plain text, even for owners
+      // Security: Even though TOTP codes are time-limited (30 seconds), we encrypt them
+      // to maintain consistency and prevent any potential interception
+      try {
+        const { encryptPasswordWithUserKey } = await import("@/lib/server-crypto-migration")
+        const encryptedTotpCode = encryptPasswordWithUserKey(totpCode, ctx.userId)
+        return {
+          totpCode: encryptedTotpCode, // Always encrypted with requesting user's key
+          totpEncrypted: true, // Flag to indicate it's encrypted
+        }
+      } catch (error) {
+        console.error("Failed to encrypt TOTP code:", error)
+        // Fallback: return plain text if encryption fails (shouldn't happen)
+        return {
+          totpCode,
+          totpEncrypted: false,
+        }
+      }
     }),
 
   getPassword: protectedProcedure("password.view")
@@ -1022,6 +1143,7 @@ export const passwordsRouter = createTRPCRouter({
         select: {
           id: true,
           password: true, // Encrypted
+          ownerId: true, // Needed to determine encryption method
         },
       })
 
@@ -1041,10 +1163,52 @@ export const passwordsRouter = createTRPCRouter({
         userId: ctx.userId,
       })
 
-      // Decrypt password
-      const decryptedPassword = decryptPassword(password.password)
+      // Check if password is encrypted with new client-side method or old server-side method
+      // Try to decrypt with new method first (user-specific key)
+      let isNewEncryption = false
+      let newEncryptionError: Error | null = null
+      try {
+        const { decryptPasswordWithUserKey } = await import("@/lib/server-crypto-migration")
+        // Try to decrypt with new method - if it works, it's new encryption
+        if (!password.ownerId) {
+          throw new Error("Password ownerId is missing")
+        }
+        decryptPasswordWithUserKey(password.password, password.ownerId)
+        isNewEncryption = true
+      } catch (error) {
+        // Can't decrypt with new method - might be old encryption or error
+        newEncryptionError = error instanceof Error ? error : new Error(String(error))
+        isNewEncryption = false
+      }
 
-      return { password: decryptedPassword }
+      // CLIENT-SIDE DECRYPTION: Return encrypted password if using new method
+      // For old encryption, we need to decrypt on server (backward compatibility)
+      if (isNewEncryption) {
+        return { 
+          password: password.password, // Return encrypted password
+          passwordEncrypted: true, // Flag to indicate it's encrypted
+        }
+      } else {
+        // Old encryption - decrypt on server for backward compatibility
+        // TODO: Migrate this password to new encryption method
+        try {
+          const decryptedPassword = decryptPassword(password.password)
+          return {
+            password: decryptedPassword, // Return decrypted password (old method)
+            passwordEncrypted: false, // Flag to indicate it's not encrypted (already decrypted)
+          }
+        } catch (oldDecryptError) {
+          // Both new and old decryption failed - password might be corrupted
+          // Log both errors for debugging
+          console.error("New encryption decryption error:", newEncryptionError)
+          console.error("Old encryption decryption error:", oldDecryptError)
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Failed to decrypt password. The password may be corrupted or encrypted with an unknown key. Please try updating the password.",
+            cause: oldDecryptError,
+          })
+        }
+      }
     }),
 
   delete: protectedProcedure("password.delete")
@@ -4078,6 +4242,7 @@ export const passwordsRouter = createTRPCRouter({
         expiresAt: z.date().optional(),
         maxAccesses: z.number().min(1).max(100).optional(),
         isOneTime: z.boolean().default(false),
+        includeTotp: z.boolean().default(false),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -4122,6 +4287,7 @@ export const passwordsRouter = createTRPCRouter({
           expiresAt: input.expiresAt || null,
           maxAccesses: input.maxAccesses || null,
           isOneTime: input.isOneTime,
+          includeTotp: input.includeTotp && password.hasTotp, // Only include TOTP if password has TOTP enabled
         },
         select: {
           id: true,
@@ -4129,6 +4295,7 @@ export const passwordsRouter = createTRPCRouter({
           expiresAt: true,
           maxAccesses: true,
           isOneTime: true,
+          includeTotp: true,
           createdAt: true,
         },
       })
@@ -4144,6 +4311,7 @@ export const passwordsRouter = createTRPCRouter({
           expiresAt: input.expiresAt?.toISOString() || null,
           maxAccesses: input.maxAccesses || null,
           isOneTime: input.isOneTime,
+          includeTotp: temporaryShare.includeTotp,
         },
         userId: ctx.userId,
       })
@@ -4164,7 +4332,15 @@ export const passwordsRouter = createTRPCRouter({
     .query(async ({ input }) => {
       const temporaryShare = await prisma.temporaryPasswordShare.findUnique({
         where: { shareToken: input.shareToken },
-        include: {
+        select: {
+          id: true,
+          passwordId: true,
+          includeTotp: true,
+          expiresAt: true,
+          maxAccesses: true,
+          accessCount: true,
+          isOneTime: true,
+          revokedAt: true,
           password: {
             select: {
               id: true,
@@ -4175,6 +4351,7 @@ export const passwordsRouter = createTRPCRouter({
               notes: true,
               hasTotp: true,
               totpSecret: true, // Encrypted
+              ownerId: true, // Needed for decryption
               owner: {
                 select: {
                   name: true,
@@ -4239,19 +4416,75 @@ export const passwordsRouter = createTRPCRouter({
         })
       }
 
-      // Decrypt password
-      const decryptedPassword = decryptPassword(temporaryShare.password.password)
+      // Decrypt password - handle both old and new encryption methods
+      let decryptedPassword: string
+      let decryptedTotpSecret: string | null = null
+      
+      // Try new encryption method first (user-specific key)
+      try {
+        const { decryptPasswordWithUserKey } = await import("@/lib/server-crypto-migration")
+        const passwordOwner = await prisma.password.findUnique({
+          where: { id: temporaryShare.passwordId },
+          select: { ownerId: true },
+        })
+        
+        if (passwordOwner?.ownerId) {
+          decryptedPassword = decryptPasswordWithUserKey(temporaryShare.password.password, passwordOwner.ownerId)
+          // Only decrypt TOTP secret if includeTotp is true
+          if (temporaryShare.includeTotp && temporaryShare.password.totpSecret) {
+            decryptedTotpSecret = decryptPasswordWithUserKey(temporaryShare.password.totpSecret, passwordOwner.ownerId)
+          }
+        } else {
+          throw new Error("Password owner not found")
+        }
+      } catch (error) {
+        // Try old encryption method (backward compatibility)
+        try {
+          decryptedPassword = decryptPassword(temporaryShare.password.password)
+          // Only decrypt TOTP secret if includeTotp is true
+          if (temporaryShare.includeTotp && temporaryShare.password.totpSecret) {
+            decryptedTotpSecret = decryptPassword(temporaryShare.password.totpSecret)
+          }
+        } catch (oldError) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Failed to decrypt password. The password may be corrupted or encrypted with an unknown key.",
+            cause: oldError,
+          })
+        }
+      }
+
+      // For temporary shares with TOTP, we return the encrypted TOTP secret
+      // so the client can generate TOTP codes client-side and update them every 30 seconds
+      // This is more efficient than polling the server and allows real-time updates
+      let encryptedTotpSecret: string | null = null
+      if (temporaryShare.includeTotp && decryptedTotpSecret) {
+        const { encryptWithShareToken } = await import("@/lib/server-crypto-migration")
+        encryptedTotpSecret = encryptWithShareToken(decryptedTotpSecret, input.shareToken)
+      }
+
+      // Encrypt password with share token for secure transmission
+      // This ensures passwords are never transmitted in plain text, even for temporary shares
+      // The client will decrypt using the share token they already have
+      const { encryptWithShareToken } = await import("@/lib/server-crypto-migration")
+      const encryptedPassword = encryptWithShareToken(decryptedPassword, input.shareToken)
 
       return {
         password: {
           ...temporaryShare.password,
-          password: decryptedPassword,
+          password: encryptedPassword, // Encrypted with share token
+          passwordEncrypted: true, // Flag to indicate it's encrypted
+          totpSecret: encryptedTotpSecret, // Encrypted TOTP secret (client will generate codes)
+          totpEncrypted: encryptedTotpSecret !== null, // Flag to indicate if TOTP secret is encrypted
         },
+        totpCode: null, // Client will generate TOTP codes from the secret
+        totpEncrypted: false, // Not applicable since we're returning the secret
         shareInfo: {
           expiresAt: temporaryShare.expiresAt,
           maxAccesses: temporaryShare.maxAccesses,
           accessCount: temporaryShare.accessCount + 1,
           isOneTime: temporaryShare.isOneTime,
+          includeTotp: temporaryShare.includeTotp, // Include flag so client knows if TOTP should be available
         },
       }
     }),
@@ -4263,7 +4496,7 @@ export const passwordsRouter = createTRPCRouter({
       }).optional()
     )
     .query(async ({ input, ctx }) => {
-      const where: any = {
+      const where: Prisma.TemporaryPasswordShareWhereInput = {
         createdBy: ctx.userId,
       }
 

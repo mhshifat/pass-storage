@@ -46,6 +46,7 @@ import { trpc } from "@/trpc/client"
 import { toast } from "sonner"
 import { usePermissions } from "@/hooks/use-permissions"
 import { useClipboard } from "@/hooks/use-clipboard"
+import { useCurrentUser } from "@/hooks/use-current-user"
 import { toggleFavoriteAction } from "@/app/admin/passwords/favorite-actions"
 import { TagFilter } from "@/modules/passwords/client/tag-filter"
 import { AdvancedSearchDialog } from "./advanced-search-dialog"
@@ -102,6 +103,7 @@ interface PasswordsTableProps {
 function PasswordCell({ passwordId }: { passwordId: string }) {
   const { t } = useTranslation()
   const { copy: copyToClipboard, isCopying } = useClipboard()
+  const { user } = useCurrentUser()
   const { refetch } = trpc.passwords.getPassword.useQuery(
     { id: passwordId },
     {
@@ -113,7 +115,36 @@ function PasswordCell({ passwordId }: { passwordId: string }) {
     try {
       const result = await refetch()
       if (result.data?.password) {
-        await copyToClipboard(result.data.password, {
+        let passwordToCopy = result.data.password
+        
+        // Decrypt password if it's encrypted
+        if (result.data.passwordEncrypted) {
+          if (!user?.id) {
+            toast.error(t("clipboard.userNotAuthenticated") || "User not authenticated")
+            return
+          }
+          
+          const { decryptPasswordClient } = await import("@/lib/client-crypto")
+          try {
+            passwordToCopy = await decryptPasswordClient(result.data.password, user.id)
+          } catch (decryptError: any) {
+            console.error("Password decryption failed:", decryptError)
+            // Check if it's an old encryption format (might not have been migrated yet)
+            const errorMessage = decryptError?.message || ""
+            if (errorMessage.includes("Invalid encrypted password format") || 
+                errorMessage.includes("encryption key may have changed")) {
+              toast.error(
+                t("clipboard.decryptionFailed") || 
+                "Failed to decrypt password. This password may need to be migrated. Please try updating it in the web app."
+              )
+            } else {
+              toast.error(t("clipboard.decryptionFailed") || "Failed to decrypt password")
+            }
+            return
+          }
+        }
+        
+        await copyToClipboard(passwordToCopy, {
           resourceId: passwordId,
           resourceType: "password",
           actionType: "copy_password",
@@ -203,6 +234,7 @@ export function PasswordsTable({
   const searchParams = useSearchParams()
   const utils = trpc.useUtils()
   const { hasPermission } = usePermissions()
+  const { user } = useCurrentUser()
   const isMobile = useIsMobile()
   const [searchQuery, setSearchQuery] = React.useState(searchParams.get("search") || "")
   const { copy: copyToClipboard, isCopying: isCopyingClipboard } = useClipboard()
@@ -281,7 +313,38 @@ export function PasswordsTable({
       setCopyingPasswordId(passwordId)
       const result = await utils.passwords.getPassword.fetch({ id: passwordId })
       if (result?.password) {
-        await copyToClipboard(result.password, {
+        let passwordToCopy = result.password
+        
+        // Decrypt password if it's encrypted
+        if (result.passwordEncrypted) {
+          if (!user?.id) {
+            toast.error(t("clipboard.userNotAuthenticated") || "User not authenticated")
+            setCopyingPasswordId(null)
+            return
+          }
+          
+          const { decryptPasswordClient } = await import("@/lib/client-crypto")
+          try {
+            passwordToCopy = await decryptPasswordClient(result.password, user.id)
+          } catch (decryptError: any) {
+            console.error("Password decryption failed:", decryptError)
+            // Check if it's an old encryption format (might not have been migrated yet)
+            const errorMessage = decryptError?.message || ""
+            if (errorMessage.includes("Invalid encrypted password format") || 
+                errorMessage.includes("encryption key may have changed")) {
+              toast.error(
+                t("clipboard.decryptionFailed") || 
+                "Failed to decrypt password. This password may need to be migrated. Please try updating it in the web app."
+              )
+            } else {
+              toast.error(t("clipboard.decryptionFailed") || "Failed to decrypt password")
+            }
+            setCopyingPasswordId(null)
+            return
+          }
+        }
+        
+        await copyToClipboard(passwordToCopy, {
           resourceId: passwordId,
           resourceType: "password",
           actionType: "copy_password",

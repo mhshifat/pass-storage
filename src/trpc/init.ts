@@ -5,11 +5,12 @@ import { headers } from 'next/headers';
 import { getSession } from "@/lib/session";
 import { getUserPermissions, getUserRoleName } from "@/lib/permissions";
 
-export type Context = { 
+export type Context = {
   userId: string;
   userRole: string | null;
   permissions: string[];
   subdomain: string | null;
+  sessionToken?: string; // Add session token to context for client-side decryption
 };
 
 export const createTRPCContext = cache(async (): Promise<Context> => {
@@ -19,7 +20,43 @@ export const createTRPCContext = cache(async (): Promise<Context> => {
   const headersList = await headers();
   const subdomain = headersList.get("x-subdomain") || null;
   
-  const session = await getSession();
+  // Check for session token in header (for extensions)
+  const sessionTokenFromHeader = headersList.get("x-session-token");
+  
+  let session = await getSession();
+  
+  // If we have a token in header but no session from cookie, try to verify the token
+  if (sessionTokenFromHeader && (!session?.isLoggedIn || !session.userId)) {
+    try {
+      const { jwtVerify } = await import("jose");
+      const SESSION_SECRET = process.env.SESSION_SECRET || "default-secret-change-in-production";
+      const secret = new TextEncoder().encode(SESSION_SECRET);
+      const { payload } = await jwtVerify(sessionTokenFromHeader, secret);
+      
+      // Verify session exists in database
+      const prisma = (await import("@/lib/prisma")).default;
+      const dbSession = await prisma.session.findUnique({
+        where: { sessionToken: sessionTokenFromHeader },
+        select: { id: true, expires: true, userId: true },
+      });
+
+      if (dbSession && new Date(dbSession.expires) > new Date()) {
+        // Valid token - create session data
+        session = {
+          userId: dbSession.userId,
+          email: (payload.email as string) || "",
+          isLoggedIn: true,
+          mfaVerified: (payload.mfaVerified as boolean) ?? true,
+          mfaSetupRequired: (payload.mfaSetupRequired as boolean) ?? false,
+          mfaRequired: (payload.mfaRequired as boolean) ?? false,
+        };
+      }
+    } catch (error) {
+      // Invalid token - session remains invalid
+      console.error("Invalid session token from header:", error);
+    }
+  }
+  
   const userId = session.userId;
   
   // If no session or no userId, return empty context
@@ -39,11 +76,21 @@ export const createTRPCContext = cache(async (): Promise<Context> => {
     getUserPermissions(userId).catch(() => []),
   ]);
   
+  // Get session token for client-side decryption
+  // Try header first (for extensions), then cookie (for web)
+  let sessionToken = sessionTokenFromHeader;
+  if (!sessionToken) {
+    const { cookies } = await import("next/headers");
+    const cookieStore = await cookies();
+    sessionToken = cookieStore.get("session")?.value || undefined;
+  }
+  
   return { 
     userId,
     userRole,
     permissions,
     subdomain,
+    sessionToken,
   };
 });
 // Avoid exporting the entire t-object
