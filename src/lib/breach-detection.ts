@@ -30,7 +30,7 @@ export async function checkPasswordBreach(password: string): Promise<{
     // Fetch from Have I Been Pwned API
     const response = await fetch(`${HIBP_API_URL}/${hashPrefix}`, {
       headers: {
-        "User-Agent": "PassStorage-Breach-Checker/1.0",
+        "User-Agent": "PassBangla-Breach-Checker/1.0",
       },
     })
 

@@ -100,7 +100,7 @@ export async function sendVerificationEmail(
           <div style="background: #f9fafb; padding: 30px; border-radius: 0 0 10px 10px;">
             <p style="font-size: 16px; margin-bottom: 20px;">Hello,</p>
             <p style="font-size: 16px; margin-bottom: 20px;">
-              Thank you for registering with PassStorage! Please verify your email address by clicking the button below:
+              Thank you for registering with PassBangla! Please verify your email address by clicking the button below:
             </p>
             <div style="text-align: center; margin: 30px 0;">
               <a href="${verificationUrl}" 
@@ -119,7 +119,7 @@ export async function sendVerificationEmail(
             </p>
             <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
             <p style="font-size: 12px; color: #999; text-align: center; margin: 0;">
-              © ${new Date().getFullYear()} PassStorage. All rights reserved.
+              © ${new Date().getFullYear()} PassBangla. All rights reserved.
             </p>
           </div>
         </body>
@@ -128,13 +128,13 @@ export async function sendVerificationEmail(
       text: `
         Verify Your Email
         
-        Thank you for registering with PassStorage! Please verify your email address by visiting the following link:
+        Thank you for registering with PassBangla! Please verify your email address by visiting the following link:
         
         ${verificationUrl}
         
         This link will expire in 24 hours. If you didn't create an account, you can safely ignore this email.
         
-        © ${new Date().getFullYear()} PassStorage. All rights reserved.
+        © ${new Date().getFullYear()} PassBangla. All rights reserved.
       `,
     })
 

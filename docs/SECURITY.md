@@ -1,6 +1,6 @@
 # Security Documentation
 
-This document outlines the security measures implemented in the PassStorage application to ensure production-ready security for a SaaS password management system.
+This document outlines the security measures implemented in the PassBangla application to ensure production-ready security for a SaaS password management system.
 
 ## Table of Contents
 
@@ -271,7 +271,7 @@ Before deploying to production:
 
 ## Reporting Security Issues
 
-If you discover a security vulnerability, please report it to: [security@passstorage.com]
+If you discover a security vulnerability, please report it to: [security@passbangla.com]
 
 **Do not** create public GitHub issues for security vulnerabilities.
 

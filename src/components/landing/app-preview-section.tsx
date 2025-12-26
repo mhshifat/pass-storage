@@ -50,7 +50,7 @@ function DashboardPreview() {
           <div className="w-3 h-3 rounded-full bg-green-500/80" />
         </div>
         <div className="flex-1 bg-background rounded px-3 py-1 text-xs text-muted-foreground mx-4">
-          app.passstorage.com
+          app.passbangla.com
         </div>
       </div>
       <div className="p-6 space-y-6 bg-background">
@@ -100,7 +100,7 @@ function PasswordManagementPreview() {
           <div className="w-3 h-3 rounded-full bg-green-500/80" />
         </div>
         <div className="flex-1 bg-background rounded px-3 py-1 text-xs text-muted-foreground mx-4">
-          app.passstorage.com/passwords
+          app.passbangla.com/passwords
         </div>
       </div>
       <div className="p-6 space-y-4 bg-background">
@@ -146,7 +146,7 @@ function TeamPreview() {
           <div className="w-3 h-3 rounded-full bg-green-500/80" />
         </div>
         <div className="flex-1 bg-background rounded px-3 py-1 text-xs text-muted-foreground mx-4">
-          app.passstorage.com/teams
+          app.passbangla.com/teams
         </div>
       </div>
       <div className="p-6 space-y-4 bg-background">
@@ -189,7 +189,7 @@ function SecurityPreview() {
           <div className="w-3 h-3 rounded-full bg-green-500/80" />
         </div>
         <div className="flex-1 bg-background rounded px-3 py-1 text-xs text-muted-foreground mx-4">
-          app.passstorage.com/security
+          app.passbangla.com/security
         </div>
       </div>
       <div className="p-6 space-y-4 bg-background">

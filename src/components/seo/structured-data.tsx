@@ -1,24 +1,24 @@
 // Server component for structured data (JSON-LD)
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://passstorage.com"
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://passbangla.com"
 
 export function OrganizationStructuredData() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "PassStorage",
+    name: "PassBangla",
     url: siteUrl,
     logo: `${siteUrl}/icon-512.png`,
     description: "Enterprise password management solution with client-side encryption",
     sameAs: [
       // Add your social media URLs here
-      // "https://twitter.com/passstorage",
-      // "https://github.com/passstorage",
+      // "https://twitter.com/passbangla",
+      // "https://github.com/passbangla",
     ],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "Customer Service",
-      email: "support@passstorage.com",
+      email: "support@passbangla.com",
     },
   }
 
@@ -34,7 +34,7 @@ export function WebSiteStructuredData() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "PassStorage",
+    name: "PassBangla",
     url: siteUrl,
     description: "Enterprise password management solution with client-side encryption",
     potentialAction: {
@@ -59,7 +59,7 @@ export function SoftwareApplicationStructuredData() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "PassStorage",
+    name: "PassBangla",
     applicationCategory: "SecurityApplication",
     operatingSystem: "Web, iOS, Android",
     offers: {

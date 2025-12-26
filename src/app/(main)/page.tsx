@@ -1,10 +1,10 @@
 import { LandingPage } from "@/components/landing/landing-page"
 import type { Metadata } from "next"
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://passstorage.com"
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://passbangla.com"
 
 export const metadata: Metadata = {
-  title: "PassStorage - Secure Password Manager for Teams",
+  title: "PassBangla - Secure Password Manager for Teams",
   description: "Enterprise password management solution with client-side encryption. Secure, fast, and beautifully designed. Zero-knowledge architecture ensures your passwords are encrypted before they reach our servers.",
   keywords: [
     "password manager",
@@ -17,16 +17,16 @@ export const metadata: Metadata = {
     "cybersecurity",
   ],
   openGraph: {
-    title: "PassStorage - Secure Password Manager for Teams",
+    title: "PassBangla - Secure Password Manager for Teams",
     description: "Enterprise password management solution with client-side encryption. Secure, fast, and beautifully designed.",
     url: siteUrl,
-    siteName: "PassStorage",
+    siteName: "PassBangla",
     images: [
       {
         url: `${siteUrl}/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: "PassStorage - Secure Password Manager",
+        alt: "PassBangla - Secure Password Manager",
       },
     ],
     locale: "en_US",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PassStorage - Secure Password Manager for Teams",
+    title: "PassBangla - Secure Password Manager for Teams",
     description: "Enterprise password management solution with client-side encryption.",
     images: [`${siteUrl}/opengraph-image`],
   },

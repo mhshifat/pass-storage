@@ -1,6 +1,6 @@
 # PWA Setup Guide
 
-PassStorage has been configured as a Progressive Web App (PWA) to provide a native app-like experience on mobile and desktop devices.
+PassBangla has been configured as a Progressive Web App (PWA) to provide a native app-like experience on mobile and desktop devices.
 
 ## Features
 

@@ -76,7 +76,7 @@ export function CTASection() {
 
           {/* Description */}
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Join thousands of users who trust PassStorage to keep their passwords safe. 
+            Join thousands of users who trust PassBangla to keep their passwords safe. 
             Start free today, no credit card required.
           </p>
 

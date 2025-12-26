@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
-export const alt = 'PassStorage - Secure Password Manager'
+export const alt = 'PassBangla - Secure Password Manager'
 export const size = {
   width: 1200,
   height: 630,
@@ -101,7 +101,7 @@ export default function OpenGraphImage() {
               textAlign: 'center',
             }}
           >
-            PassStorage
+            PassBangla
           </h1>
           <p
             style={{

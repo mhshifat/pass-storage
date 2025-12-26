@@ -148,7 +148,7 @@ export async function sendPasswordResetEmail(
             </p>
             <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
             <p style="font-size: 12px; color: #999; text-align: center; margin: 0;">
-              © ${new Date().getFullYear()} PassStorage. All rights reserved.
+              © ${new Date().getFullYear()} PassBangla. All rights reserved.
             </p>
           </div>
         </body>
@@ -165,7 +165,7 @@ export async function sendPasswordResetEmail(
         
         ⚠️ Security Notice: If you didn't request this password reset, please contact support immediately.
         
-        © ${new Date().getFullYear()} PassStorage. All rights reserved.
+        © ${new Date().getFullYear()} PassBangla. All rights reserved.
       `,
     })
 

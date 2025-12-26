@@ -98,7 +98,7 @@
     "passwordDescription": "Must be at least 8 characters. Click the key icon to generate a strong password.",
     "companyName": "Company Name",
     "companyNamePlaceholder": "mycompany",
-    "companyNameDescription": "This will create your subdomain (e.g., mycompany.passstorage.com). Only lowercase letters, numbers, and hyphens are allowed.",
+    "companyNameDescription": "This will create your subdomain (e.g., mycompany.passbangla.com). Only lowercase letters, numbers, and hyphens are allowed.",
     "findYourCompany": "Find Your Company",
     "findYourCompanyDescription": "Enter your company name to find your login page.",
     "companyNotFound": "Company not found. Please check the company name and try again.",
@@ -1025,10 +1025,10 @@
       "smtpPassword": "SMTP Password",
       "smtpAuthOptional": "Leave blank if your SMTP server doesn't require authentication",
       "fromEmailAddress": "From Email Address",
-      "fromEmailPlaceholder": "noreply@passstorage.com",
+      "fromEmailPlaceholder": "noreply@passbangla.com",
       "fromEmailDescription": "Email address used as sender for notifications",
       "fromName": "From Name",
-      "fromNamePlaceholder": "PassStorage",
+      "fromNamePlaceholder": "PassBangla",
       "saveEmailSettings": "Save Email Settings",
       "testEmailConfiguration": "Test Email Configuration",
       "testEmailDescription": "Send a test email to verify your SMTP settings",
@@ -1770,9 +1770,9 @@
   },
   "onboarding": {
     "welcome": {
-      "title": "Welcome to PassStorage!",
+      "title": "Welcome to PassBangla!",
       "subtitle": "Let's get you started with a quick tour of the key features",
-      "description": "We're excited to have you here! This quick tour will help you get the most out of PassStorage."
+      "description": "We're excited to have you here! This quick tour will help you get the most out of PassBangla."
     },
     "passwords": {
       "title": "Secure Password Management",
@@ -1794,7 +1794,7 @@
     "error": "An error occurred. Please try again.",
     "checklist": {
       "title": "Getting Started Checklist",
-      "description": "Complete these steps to get the most out of PassStorage",
+      "description": "Complete these steps to get the most out of PassBangla",
       "progress": "Progress",
       "itemCompleted": "Step completed!",
       "goTo": "Go",
@@ -1822,7 +1822,7 @@
     },
     "tour": {
       "welcome": {
-        "title": "Welcome to PassStorage!",
+        "title": "Welcome to PassBangla!",
         "description": "Let's take a comprehensive tour of all features. We'll highlight each section as we go."
       },
       "dashboard": {

@@ -24,13 +24,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://passstorage.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://passbangla.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "PassStorage - Secure Password Manager",
-    template: "%s | PassStorage",
+    default: "PassBangla - Secure Password Manager",
+    template: "%s | PassBangla",
   },
   description: "Enterprise password management solution with client-side encryption. Secure, fast, and beautifully designed password manager for teams and individuals.",
   keywords: [
@@ -45,9 +45,9 @@ export const metadata: Metadata = {
     "password vault",
     "secure credentials",
   ],
-  authors: [{ name: "PassStorage Team" }],
-  creator: "PassStorage",
-  publisher: "PassStorage",
+  authors: [{ name: "PassBangla Team" }],
+  creator: "PassBangla",
+  publisher: "PassBangla",
   robots: {
     index: true,
     follow: true,
@@ -63,24 +63,24 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteUrl,
-    siteName: "PassStorage",
-    title: "PassStorage - Secure Password Manager",
+    siteName: "PassBangla",
+    title: "PassBangla - Secure Password Manager",
     description: "Enterprise password management solution with client-side encryption. Secure, fast, and beautifully designed.",
     images: [
       {
         url: `${siteUrl}/opengraph-image`,
         width: 1200,
         height: 630,
-        alt: "PassStorage - Secure Password Manager",
+        alt: "PassBangla - Secure Password Manager",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "PassStorage - Secure Password Manager",
+    title: "PassBangla - Secure Password Manager",
     description: "Enterprise password management solution with client-side encryption.",
     images: [`${siteUrl}/opengraph-image`],
-    creator: "@passstorage",
+    creator: "@passbangla",
   },
   alternates: {
     canonical: siteUrl,
@@ -95,7 +95,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "PassStorage",
+    title: "PassBangla",
   },
   formatDetection: {
     telephone: false,

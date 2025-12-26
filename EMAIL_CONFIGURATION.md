@@ -22,7 +22,7 @@ Navigate to **Admin → Settings → Email** and configure the following:
 
 #### Sender Information
 - **From Email Address**: The email address that will appear as the sender
-- **From Name**: The name that will appear as the sender (e.g., "PassStorage")
+- **From Name**: The name that will appear as the sender (e.g., "PassBangla")
 
 ### 2. Test Configuration
 

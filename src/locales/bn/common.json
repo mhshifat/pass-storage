@@ -98,7 +98,7 @@
     "passwordDescription": "কমপক্ষে ৮ অক্ষর হতে হবে। শক্তিশালী পাসওয়ার্ড তৈরি করতে কী আইকনে ক্লিক করুন।",
     "companyName": "কোম্পানির নাম",
     "companyNamePlaceholder": "mycompany",
-    "companyNameDescription": "এটি আপনার সাবডোমেইন তৈরি করবে (যেমন, mycompany.passstorage.com)। শুধুমাত্র ছোট হাতের অক্ষর, সংখ্যা এবং হাইফেন অনুমোদিত।",
+    "companyNameDescription": "এটি আপনার সাবডোমেইন তৈরি করবে (যেমন, mycompany.passbangla.com)। শুধুমাত্র ছোট হাতের অক্ষর, সংখ্যা এবং হাইফেন অনুমোদিত।",
     "findYourCompany": "আপনার কোম্পানি খুঁজুন",
     "findYourCompanyDescription": "আপনার লগইন পেজ খুঁজতে আপনার কোম্পানির নাম লিখুন।",
     "companyNotFound": "কোম্পানি পাওয়া যায়নি। অনুগ্রহ করে কোম্পানির নাম পরীক্ষা করুন এবং আবার চেষ্টা করুন।",
@@ -1023,10 +1023,10 @@
       "smtpPassword": "SMTP পাসওয়ার্ড",
       "smtpAuthOptional": "আপনার SMTP সার্ভার প্রমাণীকরণের প্রয়োজন না হলে খালি রাখুন",
       "fromEmailAddress": "প্রেরকের ইমেইল ঠিকানা",
-      "fromEmailPlaceholder": "noreply@passstorage.com",
+      "fromEmailPlaceholder": "noreply@passbangla.com",
       "fromEmailDescription": "বিজ্ঞপ্তির জন্য প্রেরক হিসাবে ব্যবহৃত ইমেইল ঠিকানা",
       "fromName": "প্রেরকের নাম",
-      "fromNamePlaceholder": "PassStorage",
+      "fromNamePlaceholder": "PassBangla",
       "saveEmailSettings": "ইমেইল সেটিংস সংরক্ষণ করুন",
       "testEmailConfiguration": "পরীক্ষামূলক ইমেইল কনফিগারেশন",
       "testEmailDescription": "আপনার SMTP সেটিংস যাচাই করতে একটি পরীক্ষামূলক ইমেইল পাঠান",
@@ -1769,9 +1769,9 @@
   },
   "onboarding": {
     "welcome": {
-      "title": "PassStorage-এ স্বাগতম!",
+      "title": "PassBangla-এ স্বাগতম!",
       "subtitle": "আসুন মূল বৈশিষ্ট্যগুলির একটি দ্রুত ট্যুর দিয়ে শুরু করি",
-      "description": "আমরা আপনাকে এখানে পেয়ে উত্তেজিত! এই দ্রুত ট্যুরটি PassStorage-এর সর্বোচ্চ ব্যবহার করতে আপনাকে সাহায্য করবে।"
+      "description": "আমরা আপনাকে এখানে পেয়ে উত্তেজিত! এই দ্রুত ট্যুরটি PassBangla-এর সর্বোচ্চ ব্যবহার করতে আপনাকে সাহায্য করবে।"
     },
     "passwords": {
       "title": "নিরাপদ পাসওয়ার্ড ব্যবস্থাপনা",
@@ -1793,7 +1793,7 @@
     "error": "একটি ত্রুটি ঘটেছে। অনুগ্রহ করে আবার চেষ্টা করুন।",
     "checklist": {
       "title": "শুরু করার চেকলিস্ট",
-      "description": "PassStorage-এর সর্বোচ্চ ব্যবহার করতে এই ধাপগুলি সম্পন্ন করুন",
+      "description": "PassBangla-এর সর্বোচ্চ ব্যবহার করতে এই ধাপগুলি সম্পন্ন করুন",
       "progress": "অগ্রগতি",
       "itemCompleted": "ধাপ সম্পন্ন!",
       "goTo": "যান",
@@ -1821,7 +1821,7 @@
     },
     "tour": {
       "welcome": {
-        "title": "PassStorage-এ স্বাগতম!",
+        "title": "PassBangla-এ স্বাগতম!",
         "description": "আসুন সমস্ত বৈশিষ্ট্যের একটি বিস্তৃত ট্যুর নেওয়া যাক। আমরা যেতে যেতে প্রতিটি বিভাগ হাইলাইট করব।"
       },
       "dashboard": {

@@ -135,7 +135,7 @@ export async function getIpGeolocation(ipAddress: string): Promise<{
 
     const response = await fetch(apiUrl, {
       headers: {
-        "User-Agent": "PassStorage/1.0",
+        "User-Agent": "PassBangla/1.0",
       },
     })
 

@@ -35,7 +35,7 @@ export function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Logo className="h-8 w-8" />
-              <span className="text-xl font-bold">PassStorage</span>
+              <span className="text-xl font-bold">PassBangla</span>
             </div>
             <p className="text-sm text-muted-foreground">
               Enterprise password management with client-side encryption.
@@ -141,7 +141,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="border-t pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} PassStorage. All rights reserved.
+            © {new Date().getFullYear()} PassBangla. All rights reserved.
           </p>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <span>Made with</span>

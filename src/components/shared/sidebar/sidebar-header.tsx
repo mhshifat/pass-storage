@@ -25,14 +25,14 @@ export function SidebarHeader({ isCollapsed, onToggleCollapse }: SidebarHeaderPr
               </div>
             </TooltipTrigger>
             <TooltipContent side="right">
-              <p>PassStorage</p>
+              <p>PassBangla</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
       ) : (
         <div className="flex items-center gap-2">
           <Logo className="h-8 w-8" />
-          <span className="text-xl font-bold">PassStorage</span>
+          <span className="text-xl font-bold">PassBangla</span>
         </div>
       )}
       

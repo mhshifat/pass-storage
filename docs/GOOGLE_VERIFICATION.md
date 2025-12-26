@@ -11,7 +11,7 @@ This guide will help you verify your website with Google Search Console to get y
 ## Step 2: Add Your Property
 
 1. Choose "URL prefix" as the property type
-2. Enter your website URL (e.g., `https://passstorage.com`)
+2. Enter your website URL (e.g., `https://passbangla.com`)
 3. Click "Continue"
 
 ## Step 3: Verify Ownership
@@ -95,7 +95,7 @@ Create or update your `.env.local` file:
 
 ```env
 # Site URL
-NEXT_PUBLIC_SITE_URL=https://passstorage.com
+NEXT_PUBLIC_SITE_URL=https://passbangla.com
 
 # Search Engine Verification Codes
 NEXT_PUBLIC_GOOGLE_VERIFICATION=your-google-verification-code-here

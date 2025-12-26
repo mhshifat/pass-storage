@@ -93,12 +93,12 @@ export function InstallPrompt() {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Download className="h-5 w-5" />
-            Install PassStorage
+            Install PassBangla
           </DialogTitle>
           <DialogDescription>
             {isIOS ? (
               <div className="space-y-3 mt-2">
-                <p>Install PassStorage on your iOS device:</p>
+                <p>Install PassBangla on your iOS device:</p>
                 <ol className="list-decimal list-inside space-y-2 text-sm">
                   <li>Tap the Share button <span className="font-semibold">(□↑)</span> at the bottom</li>
                   <li>Scroll down and tap <span className="font-semibold">"Add to Home Screen"</span></li>
@@ -106,7 +106,7 @@ export function InstallPrompt() {
                 </ol>
               </div>
             ) : (
-              "Install PassStorage for a better experience with offline access and faster loading."
+              "Install PassBangla for a better experience with offline access and faster loading."
             )}
           </DialogDescription>
         </DialogHeader>

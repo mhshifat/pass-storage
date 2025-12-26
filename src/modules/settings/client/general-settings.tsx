@@ -50,7 +50,7 @@ export function GeneralSettings() {
   const form = useForm<GeneralSettingsFormValues>({
     resolver: zodResolver(generalSettingsSchema),
     defaultValues: {
-      appName: "PassStorage",
+      appName: "PassBangla",
       maintenanceMode: false,
       theme: "system",
     },
@@ -138,7 +138,7 @@ export function GeneralSettings() {
                 <FormItem>
                   <FormLabel>{t("settings.appName")}</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="PassStorage" disabled={!canEdit} />
+                    <Input {...field} placeholder="PassBangla" disabled={!canEdit} />
                   </FormControl>
                   <p className="text-xs text-muted-foreground">
                     {t("settings.appNameDescription")}

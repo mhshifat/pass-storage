@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'PassStorage - Secure Password Manager',
-    short_name: 'PassStorage',
+    name: 'PassBangla - Secure Password Manager',
+    short_name: 'PassBangla',
     description: 'Enterprise password management solution with secure encryption',
     start_url: '/',
     display: 'standalone',

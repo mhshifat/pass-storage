@@ -1,6 +1,6 @@
 # SEO Implementation Guide
 
-This document outlines the complete SEO setup for PassStorage.
+This document outlines the complete SEO setup for PassBangla.
 
 ## ✅ Implemented Features
 
@@ -38,8 +38,8 @@ This document outlines the complete SEO setup for PassStorage.
 ## 🖼️ OG Image
 
 The OG image is automatically generated using Next.js ImageResponse. It includes:
-- PassStorage logo
-- Main title: "PassStorage"
+- PassBangla logo
+- Main title: "PassBangla"
 - Subtitle: "Secure Password Manager for Teams"
 - Description: "Enterprise password management with client-side encryption"
 - Security badge: "Zero-Knowledge Architecture • SOC 2 Compliant"
@@ -70,7 +70,7 @@ Create a `.env.local` file with:
 
 ```env
 # Site URL
-NEXT_PUBLIC_SITE_URL=https://passstorage.com
+NEXT_PUBLIC_SITE_URL=https://passbangla.com
 
 # Search Engine Verification
 NEXT_PUBLIC_GOOGLE_VERIFICATION=your-google-verification-code
@@ -141,7 +141,7 @@ Use these tools:
 
 4. **Page-Specific Metadata**
    - Add metadata to `/pricing`, `/features`, `/about`, etc.
-   - Use the template: `%s | PassStorage`
+   - Use the template: `%s | PassBangla`
 
 5. **Social Media Links**
    - Update `OrganizationStructuredData` with actual social URLs

@@ -58,7 +58,7 @@ export const settingsRouter = createTRPCRouter({
       smtp_user: (config.smtp_user as string) || "",
       smtp_password: (config.smtp_password as string) || "",
       smtp_from_email: (config.smtp_from_email as string) || "",
-      smtp_from_name: (config.smtp_from_name as string) || "PassStorage",
+      smtp_from_name: (config.smtp_from_name as string) || "PassBangla",
     }
   }),
 
@@ -129,7 +129,7 @@ export const settingsRouter = createTRPCRouter({
       // Send a test email
       const emailResult = await sendEmail({
         to: input.testEmail,
-        subject: "Test Email from PassStorage",
+        subject: "Test Email from PassBangla",
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #333;">Email Configuration Test</h2>
@@ -139,7 +139,7 @@ export const settingsRouter = createTRPCRouter({
               </p>
             </div>
             <p style="color: #555;">
-              This is a test email sent from your PassStorage application to verify that your SMTP settings are configured correctly.
+              This is a test email sent from your PassBangla application to verify that your SMTP settings are configured correctly.
             </p>
             <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
             <p style="color: #999; font-size: 12px;">
@@ -179,7 +179,7 @@ export const settingsRouter = createTRPCRouter({
     })
 
     return {
-      appName: (config["app.name"] as string) || "PassStorage",
+      appName: (config["app.name"] as string) || "PassBangla",
       maintenanceMode: (config["app.maintenance_mode"] as boolean) || false,
       theme: (config["app.theme"] as string) || "system",
     }

@@ -66,7 +66,7 @@ export function AdminLayoutClient({
           <header className="flex h-16 items-center justify-between border-b px-4 lg:hidden">
             <div className="flex items-center gap-2">
               <Logo className="h-8 w-8" />
-              <span className="text-xl font-bold">PassStorage</span>
+              <span className="text-xl font-bold">PassBangla</span>
             </div>
             <Sheet>
               <SheetTrigger asChild>

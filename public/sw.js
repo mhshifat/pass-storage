@@ -1,6 +1,6 @@
-// Service Worker for PassStorage PWA
-const CACHE_NAME = 'passstorage-v1'
-const RUNTIME_CACHE = 'passstorage-runtime-v1'
+// Service Worker for PassBangla PWA
+const CACHE_NAME = 'passbangla-v1'
+const RUNTIME_CACHE = 'passbangla-runtime-v1'
 
 // Assets to cache on install
 const PRECACHE_ASSETS = [

@@ -3,15 +3,15 @@ import { NextRequest, NextResponse } from "next/server"
 /**
  * Extract subdomain from request hostname
  * Examples:
- * - bevy.passstorage.com -> "bevy"
- * - passstorage.com -> null (main domain)
+ * - bevy.passbangla.com -> "bevy"
+ * - passbangla.com -> null (main domain)
  * - localhost:3000 -> null (development)
  */
 function getSubdomain(req: NextRequest): string | null {
   const hostname = req.headers.get("host") || ""
   
   // In development, subdomain might be in the format: subdomain.localhost:3000
-  // In production, it would be: subdomain.passstorage.com
+  // In production, it would be: subdomain.passbangla.com
   const parts = hostname.split(".")
   
   // If we have at least 3 parts (subdomain.domain.tld) or 2 parts in localhost (subdomain.localhost)
