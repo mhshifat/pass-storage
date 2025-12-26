@@ -9,10 +9,30 @@ import { NextRequest, NextResponse } from "next/server"
  */
 function getSubdomain(req: NextRequest): string | null {
   const hostname = req.headers.get("host") || ""
+  const xForwardedHost = req.headers.get("x-forwarded-host") || ""
+  
+  // Use x-forwarded-host if available (Vercel uses this)
+  const host = xForwardedHost || hostname
+  
+  // Remove port if present (e.g., "subdomain.passbangla.com:3000" -> "subdomain.passbangla.com")
+  const hostWithoutPort = host.split(":")[0]
   
   // In development, subdomain might be in the format: subdomain.localhost:3000
-  // In production, it would be: subdomain.passbangla.com
-  const parts = hostname.split(".")
+  // In production on Vercel, it would be: subdomain.passbangla.com
+  // On Vercel preview deployments: subdomain-xxx.vercel.app
+  const parts = hostWithoutPort.split(".")
+  
+  // Check if this is a Vercel preview deployment (contains "vercel.app")
+  const isVercelPreview = hostWithoutPort.includes("vercel.app")
+  
+  // For Vercel preview deployments, we might need to handle differently
+  // But for custom domains, we want: subdomain.passbangla.com
+  if (isVercelPreview) {
+    // For Vercel preview: project-name-xxx.vercel.app
+    // We can't easily extract subdomain from this, so return null
+    // Subdomains will work once custom domain is configured
+    return null
+  }
   
   // If we have at least 3 parts (subdomain.domain.tld) or 2 parts in localhost (subdomain.localhost)
   if (parts.length >= 3 || (parts.length === 2 && parts[1].includes("localhost"))) {
