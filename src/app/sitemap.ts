@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/features',
     '/security',
     '/pricing',
+    '/privacy',
   ]
 
   return routes.map((route) => ({

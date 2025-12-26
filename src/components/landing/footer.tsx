@@ -19,7 +19,7 @@ const footerLinks = {
     { name: "Contact", href: "#contact", comingSoon: true },
   ],
   legal: [
-    { name: "Privacy", href: "#privacy", comingSoon: true },
+    { name: "Privacy", href: "/privacy", comingSoon: false },
     { name: "Terms", href: "#terms", comingSoon: true },
     { name: "Security", href: "#security", comingSoon: false },
     { name: "Compliance", href: "#compliance", comingSoon: true },
