@@ -1,6 +1,9 @@
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 
+// Mark this route as dynamic since it uses cookies()
+export const dynamic = 'force-dynamic'
+
 export default async function Layout({ children }: { children: React.ReactNode }) {
     try {
         const session = await getSession();
