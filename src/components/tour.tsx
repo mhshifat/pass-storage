@@ -365,7 +365,12 @@ export function useTour() {
 export function TourAlertDialog({
 	isOpen,
 	setIsOpen,
-}: { isOpen: boolean; setIsOpen: (isOpen: boolean) => void }) {
+	onSkip,
+}: { 
+	isOpen: boolean; 
+	setIsOpen: (isOpen: boolean) => void;
+	onSkip?: () => void | Promise<void>;
+}) {
 	const { startTour, steps, isTourCompleted, currentStep } = useTour();
 
 	if (isTourCompleted || steps.length === 0 || currentStep > -1) {
@@ -373,6 +378,10 @@ export function TourAlertDialog({
 	}
 	const handleSkip = async () => {
 		setIsOpen(false);
+		// Call the onSkip callback to mark onboarding as skipped
+		if (onSkip) {
+			await onSkip();
+		}
 	};
 
 	return (

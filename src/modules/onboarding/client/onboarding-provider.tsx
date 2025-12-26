@@ -16,7 +16,7 @@ function OnboardingContent({ children }: { children: React.ReactNode }) {
   const [showAlert, setShowAlert] = React.useState(false)
   const { setSteps } = useTour()
   const { t } = useTranslation()
-  const { data: onboardingStatus, isLoading } = trpc.users.getOnboardingStatus.useQuery()
+  const { data: onboardingStatus, isLoading, refetch } = trpc.users.getOnboardingStatus.useQuery()
   const updateOnboardingMutation = trpc.users.updateOnboardingStatus.useMutation()
 
   // Define comprehensive tour steps covering all features and sub-features
@@ -244,10 +244,27 @@ function OnboardingContent({ children }: { children: React.ReactNode }) {
     }
   }, [onboardingStatus, isLoading])
 
+  const handleSkipTour = React.useCallback(async () => {
+    try {
+      await updateOnboardingMutation.mutateAsync({
+        skipped: true,
+      })
+      // Refetch onboarding status to update the UI
+      await refetch()
+      setShowAlert(false)
+    } catch (error) {
+      console.error("Failed to skip onboarding:", error)
+    }
+  }, [updateOnboardingMutation, refetch])
+
   return (
     <>
       {children}
-      <TourAlertDialog isOpen={showAlert} setIsOpen={setShowAlert} />
+      <TourAlertDialog 
+        isOpen={showAlert} 
+        setIsOpen={setShowAlert}
+        onSkip={handleSkipTour}
+      />
     </>
   )
 }

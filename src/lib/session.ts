@@ -125,11 +125,37 @@ export async function getSession(): Promise<SessionData> {
     const { payload } = await jwtVerify(token, secret)
     
     // Verify session exists in database (not revoked)
+    // Add timeout to prevent hanging on slow database connections
     const prisma = (await import("@/lib/prisma")).default
-    const dbSession = await prisma.session.findUnique({
-      where: { sessionToken: token },
-      select: { id: true, expires: true },
-    })
+    let dbSession = null
+    
+    try {
+      // Use Promise.race to add a timeout (5 seconds)
+      const dbQuery = prisma.session.findUnique({
+        where: { sessionToken: token },
+        select: { id: true, expires: true },
+      })
+      
+      const timeoutPromise = new Promise<null>((resolve) => {
+        setTimeout(() => resolve(null), 5000) // 5 second timeout
+      })
+      
+      dbSession = await Promise.race([dbQuery, timeoutPromise])
+    } catch (dbError) {
+      // If database query fails (timeout, connection error, etc.), 
+      // fall back to JWT verification only
+      // This allows the app to continue working even if database is slow/unavailable
+      console.warn("Database session check failed, using JWT only:", dbError)
+      // Check JWT expiration as fallback
+      const exp = (payload.exp as number) || 0
+      if (exp * 1000 < Date.now()) {
+        return { userId: "", email: "", isLoggedIn: false }
+      }
+      // If JWT is valid and not expired, trust it (graceful degradation)
+      return {
+        ...payload as unknown as SessionData
+      }
+    }
 
     // If session doesn't exist in database or is expired, return invalid session
     // Note: We don't delete the cookie here because cookies can only be modified
