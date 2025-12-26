@@ -125,6 +125,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <meta name="msvalidate.01" content="6FDB602163A60B7F0ABA4A29B9153BC2" />
         <OrganizationStructuredData />
         <WebSiteStructuredData />
         <SoftwareApplicationStructuredData />
