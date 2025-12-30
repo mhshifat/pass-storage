@@ -17,16 +17,73 @@ export function VerifyEmailPage() {
   const token = searchParams.get("token")
   const [verificationStatus, setVerificationStatus] = React.useState<"pending" | "success" | "error">("pending")
 
+  const utils = trpc.useUtils()
+  const { data: userData } = trpc.auth.getCurrentUser.useQuery(undefined, {
+    retry: false,
+  })
+
   const verifyMutation = trpc.auth.verifyEmail.useMutation({
-    onSuccess: () => {
+    onSuccess: async (data) => {
+      console.log("Email verification mutation response:", data)
       setVerificationStatus("success")
-      toast.success(t("auth.emailVerification.success"))
-      // Redirect to login after 3 seconds
-      setTimeout(() => {
-        router.push("/login")
-      }, 3000)
+      
+      // Check if the mutation response indicates success and email was verified
+      if (data.user?.emailVerified) {
+        console.log("Email verified in mutation response:", data.user.emailVerified)
+        toast.success(t("auth.emailVerification.success"))
+        
+        // Invalidate all queries to ensure fresh data
+        await utils.invalidate()
+        
+        // Redirect immediately - mutation confirmed email is verified
+        if (userData?.user) {
+          router.replace("/admin")
+        } else {
+          router.replace("/login")
+        }
+      } else {
+        // Mutation succeeded but emailVerified is still null - wait and retry
+        console.warn("Mutation succeeded but emailVerified is null, retrying...")
+        toast.success(t("auth.emailVerification.success"))
+        
+        // Wait for database transaction
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        
+        // Invalidate and refetch
+        await utils.invalidate()
+        
+        let updatedUser = null
+        let retries = 0
+        const maxRetries = 5
+        
+        while (retries < maxRetries) {
+          updatedUser = await utils.auth.getCurrentUser.refetch(undefined, {
+            throwOnError: false,
+          })
+          
+          console.log(`Refetch attempt ${retries + 1}:`, {
+            emailVerified: updatedUser.data?.user?.emailVerified,
+          })
+          
+          if (updatedUser.data?.user?.emailVerified) {
+            console.log("Email verified confirmed via refetch!")
+            break
+          }
+          
+          await new Promise(resolve => setTimeout(resolve, 500 * (retries + 1)))
+          retries++
+        }
+        
+        // Redirect based on login status
+        if (updatedUser?.data?.user || userData?.user) {
+          router.replace("/admin")
+        } else {
+          router.replace("/login")
+        }
+      }
     },
     onError: (error) => {
+      console.error("Email verification error:", error)
       setVerificationStatus("error")
       toast.error(error.message || t("auth.emailVerification.error"))
     },
@@ -34,7 +91,15 @@ export function VerifyEmailPage() {
 
   React.useEffect(() => {
     if (token) {
-      verifyMutation.mutate({ token })
+      console.log("Verifying email with token:", token.substring(0, 10) + "...")
+      verifyMutation.mutate({ token }, {
+        onSuccess: (data) => {
+          console.log("Verification mutation success:", data)
+        },
+        onError: (error) => {
+          console.error("Verification mutation error:", error)
+        }
+      })
     } else {
       setVerificationStatus("error")
     }
@@ -71,8 +136,17 @@ export function VerifyEmailPage() {
                 </p>
               </div>
               <div className="pt-4">
-                <Button asChild className="w-full">
-                  <Link href="/login">{t("auth.login")}</Link>
+                <Button 
+                  onClick={() => {
+                    if (userData?.user) {
+                      router.replace("/admin")
+                    } else {
+                      router.replace("/login")
+                    }
+                  }}
+                  className="w-full"
+                >
+                  {userData?.user ? t("common.continue") || "Continue" : t("auth.login")}
                 </Button>
               </div>
             </>

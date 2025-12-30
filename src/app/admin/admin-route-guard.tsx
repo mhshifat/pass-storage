@@ -2,8 +2,8 @@ import { redirect } from "next/navigation"
 import { getCurrentUser } from "@/lib/current-user"
 
 /**
- * Server component that protects admin routes by checking authentication and MFA verification
- * This should wrap all admin routes to ensure users are authenticated and have verified MFA if required
+ * Server component that protects admin routes by checking authentication, email verification, and MFA verification
+ * This should wrap all admin routes to ensure users are authenticated, have verified email, and have verified MFA if required
  */
 export async function AdminRouteGuard({ children }: { children: React.ReactNode }) {
   const { user, isAuthenticated, session } = await getCurrentUser();
@@ -11,6 +11,11 @@ export async function AdminRouteGuard({ children }: { children: React.ReactNode 
   // If not authenticated, redirect to login
   if (!isAuthenticated || !user) {
     redirect("/login")
+  }
+
+  // Check email verification - must be verified before accessing admin
+  if (!user.emailVerified) {
+    redirect("/verify-email-required")
   }
 
   // PRIMARY CHECK: Use shouldVerifyMfa flag which is calculated correctly in getCurrentUser

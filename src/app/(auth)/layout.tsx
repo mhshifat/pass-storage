@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/session";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { redirect } from "next/navigation";
 
 // Mark this route as dynamic since it uses cookies()
@@ -12,6 +13,10 @@ export default async function Layout({ children }: { children: React.ReactNode }
             return redirect("/admin");
         }
     } catch (error) {
+        if (isRedirectError(error)) {
+            throw error;
+        }
+        
         // If session check fails (e.g., database timeout), 
         // allow the page to render anyway (graceful degradation)
         // The user can still attempt to login

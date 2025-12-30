@@ -301,12 +301,11 @@ export const authRouter = createTRPCRouter({
             // Hash password
             const hashedPassword = await hashPassword(input.password);
 
-            // Check if this is the first user
-            const userCount = await prisma.user.count();
-            const isFirstUser = userCount === 0;
-            
-            // Determine role: first user gets SUPER_ADMIN, others get USER
-            const role = isFirstUser ? "SUPER_ADMIN" : "USER";
+            // All users who register from /register get SUPER_ADMIN role
+            // This gives them full control over their company and system
+            // When admins create users from the admin panel, they can select the role
+            const role = "SUPER_ADMIN";
+            const isFirstUser = false; // Not used for role assignment, but kept for permission setup
 
             // Ensure ALL system roles and permissions exist (auto-seed if needed)
             // This creates all 5 system roles (SUPER_ADMIN, ADMIN, MANAGER, USER, AUDITOR)
@@ -1066,6 +1065,7 @@ export const authRouter = createTRPCRouter({
                     id: true,
                     name: true,
                     email: true,
+                    emailVerified: true,
                     image: true,
                     role: true,
                     mfaEnabled: true,
@@ -2222,6 +2222,8 @@ export const authRouter = createTRPCRouter({
                 });
             }
 
+            console.log("Verifying email for user:", verification.userId);
+
             // Update user's email as verified
             const user = await prisma.user.update({
                 where: { id: verification.userId },
@@ -2233,6 +2235,12 @@ export const authRouter = createTRPCRouter({
                     email: true,
                     emailVerified: true,
                 },
+            });
+
+            console.log("User email verified, updated user:", {
+                id: user.id,
+                email: user.email,
+                emailVerified: user.emailVerified,
             });
 
             // Delete the used token

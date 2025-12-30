@@ -116,7 +116,14 @@
       "resend": "Resend Verification Email",
       "resendError": "Failed to resend verification email",
       "emailSent": "Verification email sent successfully. Please check your inbox.",
-      "verificationRequired": "Please verify your email address to access all features."
+      "verificationRequired": "Please verify your email address to access all features.",
+      "requiredTitle": "Email Verification Required",
+      "requiredDescription": "Please verify your email address to access the admin panel. Check your inbox for the verification email.",
+      "sentTo": "Verification email sent to:",
+      "sending": "Sending...",
+      "checkAgain": "Check Again",
+      "checking": "Checking...",
+      "helpText": "Didn't receive the email? Check your spam folder or try resending."
     },
     "captchaLabel": "Security Verification",
     "captchaPlaceholder": "Enter the answer",

@@ -7,7 +7,6 @@ import Link from "next/link"
 import { ArrowRight, Shield, Lock, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/shared/logo"
-import { cn } from "@/lib/utils"
 import { ThreeBackground } from "./three-background"
 
 if (typeof window !== "undefined") {
@@ -52,15 +51,34 @@ export function HeroSection() {
       })
 
       // CTA buttons animation
-      const ctaButtons = ctaRef.current ? Array.from(ctaRef.current.children) : []
-      gsap.from(ctaButtons, {
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.9,
-        stagger: 0.1,
-        ease: "power3.out",
-      })
+      if (ctaRef.current && typeof gsap !== "undefined") {
+        const ctaButtons = Array.from(ctaRef.current.children) as HTMLElement[]
+        if (ctaButtons.length > 0) {
+          // Set initial hidden state only if GSAP is available
+          gsap.set(ctaButtons, { opacity: 0, y: 30 })
+          // Animate to visible
+          gsap.to(ctaButtons, {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            delay: 0.9,
+            stagger: 0.1,
+            ease: "power3.out",
+          })
+          
+          // Fallback: Ensure buttons are visible after animation should complete
+          // This handles cases where animation might not complete properly
+          setTimeout(() => {
+            ctaButtons.forEach(btn => {
+              const computedStyle = window.getComputedStyle(btn)
+              if (computedStyle.opacity === "0" || parseFloat(computedStyle.opacity) < 0.1) {
+                btn.style.opacity = "1"
+                btn.style.transform = "translateY(0px)"
+              }
+            })
+          }, 2000) // 0.9s delay + 0.8s duration + buffer
+        }
+      }
 
       // Floating particles
       if (particlesRef.current) {

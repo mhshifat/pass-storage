@@ -51,7 +51,7 @@ export function LoginForm() {
         </Button>
         <div className="text-sm text-center text-muted-foreground">
           {t("auth.dontHaveAccount")}{" "}
-          <Link href={`${domain}register`} suppressHydrationWarning className="text-primary hover:underline font-medium">
+          <Link href={domain} suppressHydrationWarning className="text-primary hover:underline font-medium">
             {t("auth.register")}
           </Link>
         </div>
