@@ -1,18 +1,29 @@
 "use client"
 
 import * as React from "react"
+import { usePathname } from "next/navigation"
 import { useAccessibility } from "./accessibility-provider"
 import { trpc } from "@/trpc/client"
 
 /**
  * Component to sync accessibility preferences from user settings
  * This ensures accessibility preferences from database are applied
+ * Only runs on authenticated pages (not on auth pages like /register, /login)
  */
 export function AccessibilityInitializer() {
   const { updatePreferences } = useAccessibility()
+  const pathname = usePathname()
   const [mounted, setMounted] = React.useState(false)
+  
+  // Check if we're on an auth page - don't fetch user profile on these pages
+  const isAuthPage = pathname?.startsWith("/login") || 
+                     pathname?.startsWith("/register") || 
+                     pathname?.startsWith("/verify-email") ||
+                     pathname?.startsWith("/mfa-setup") ||
+                     pathname?.startsWith("/mfa-verify")
+  
   const { data: userProfile } = trpc.users.getProfile.useQuery(undefined, {
-    enabled: mounted,
+    enabled: mounted && !isAuthPage, // Only fetch on non-auth pages
     retry: false,
   })
 
@@ -22,13 +33,13 @@ export function AccessibilityInitializer() {
 
   // Load accessibility preferences from user profile
   React.useEffect(() => {
-    if (!mounted || !userProfile?.user?.preferences) return
+    if (!mounted || isAuthPage || !userProfile?.user?.preferences) return
 
     const preferences = userProfile.user.preferences as any
     if (preferences?.accessibility) {
       updatePreferences(preferences.accessibility)
     }
-  }, [mounted, userProfile, updatePreferences])
+  }, [mounted, isAuthPage, userProfile, updatePreferences])
 
   return null
 }

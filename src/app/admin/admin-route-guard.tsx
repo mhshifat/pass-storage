@@ -1,11 +1,21 @@
-import { redirect } from "next/navigation"
+import { redirect, notFound } from "next/navigation"
 import { getCurrentUser } from "@/lib/current-user"
+import { headers } from "next/headers"
 
 /**
  * Server component that protects admin routes by checking authentication, email verification, and MFA verification
  * This should wrap all admin routes to ensure users are authenticated, have verified email, and have verified MFA if required
  */
 export async function AdminRouteGuard({ children }: { children: React.ReactNode }) {
+  // Check if accessing from a subdomain - /admin is only accessible on subdomains
+  const headersList = await headers()
+  const subdomain = headersList.get("x-subdomain")
+  
+  // If no subdomain, show not found (admin routes are only accessible on subdomains)
+  if (!subdomain) {
+    notFound()
+  }
+  
   const { user, isAuthenticated, session } = await getCurrentUser();
 
   // If not authenticated, redirect to login

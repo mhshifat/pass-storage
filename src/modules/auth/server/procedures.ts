@@ -334,6 +334,7 @@ export const authRouter = createTRPCRouter({
             });
 
             // Create user associated with company (email not verified initially)
+            // MFA is enabled by default for new registrations - user must set it up
             const user = await prisma.user.create({
                 data: {
                     name: input.name,
@@ -342,6 +343,7 @@ export const authRouter = createTRPCRouter({
                     role,
                     companyId: company.id,
                     emailVerified: null, // Email not verified yet
+                    mfaEnabled: true, // MFA enabled by default - user must set it up
                 },
             });
 
@@ -361,9 +363,12 @@ export const authRouter = createTRPCRouter({
             const { ipAddress, userAgent } = getRequestMetadata(headersList);
 
             // Create session with device info
+            // Set mfaSetupRequired to true for new registrations - user must set up MFA
             await createSession(user.id, user.email, {
                 ipAddress,
                 userAgent,
+                mfaSetupRequired: true, // Require MFA setup for new registrations
+                mfaVerified: false, // Not verified until MFA is set up
             });
 
             return {
@@ -1125,6 +1130,8 @@ export const authRouter = createTRPCRouter({
             }
             const authenticator = await import("otplib").then(mod => mod.authenticator)
             const qrcode = await import("qrcode").then(mod => mod.default)
+            const { encrypt } = await import("@/lib/crypto")
+            
             // Generate a new MFA secret
             const user = await prisma.user.findUnique({ where: { id: session.userId } })
             
@@ -1136,9 +1143,19 @@ export const authRouter = createTRPCRouter({
                 secret = decrypt(user.mfaSecret)
             } else {
                 secret = authenticator.generateSecret()
+                // Save the secret to database if it doesn't exist (for setup flow)
+                if (user && !user.mfaSecret) {
+                    await prisma.user.update({
+                        where: { id: session.userId },
+                        data: {
+                            mfaSecret: encrypt(secret),
+                        },
+                    })
+                }
             }
             
-            const otpAuth = authenticator.keyuri(session.email, "Password Storage", secret)
+            // Use "PassBangla" as the issuer name instead of "Password Storage"
+            const otpAuth = authenticator.keyuri(session.email, "PassBangla", secret)
             const qr = await qrcode.toDataURL(otpAuth)
             return { qr }
         }),
