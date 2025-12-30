@@ -1,12 +1,13 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import Link from "next/link"
-import { Smartphone, Download, Chrome, Globe, ArrowRight, Check, ExternalLink, Sparkles } from "lucide-react"
+import { Smartphone, Chrome, Globe, ArrowRight, Check, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { toast } from "sonner"
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
@@ -32,7 +33,7 @@ const platforms = [
     available: true,
     links: {
       chrome: "#chrome-extension", // Update with actual Chrome Web Store link
-      firefox: "#firefox-extension", // Update with actual Firefox Add-ons link
+      firefox: "https://addons.mozilla.org/en-US/firefox/addon/pass-bangla", // Update with actual Firefox Add-ons link
     },
   },
   {
@@ -46,9 +47,90 @@ const platforms = [
   },
 ]
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>
+}
+
 export function PWASection() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<HTMLDivElement>(null)
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
+  const [isInstalled, setIsInstalled] = useState(() => {
+    if (typeof window === "undefined") return false
+    return window.matchMedia("(display-mode: standalone)").matches
+  })
+
+  // Handle PWA install prompt
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    if (isInstalled) return
+
+    // Listen for beforeinstallprompt event
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault()
+      setDeferredPrompt(e as BeforeInstallPromptEvent)
+    }
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt)
+    
+    window.addEventListener("appinstalled", () => {
+      setIsInstalled(true)
+      setDeferredPrompt(null)
+    })
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt)
+    }
+  }, [isInstalled])
+
+  const handleInstallClick = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    
+    if (isInstalled) {
+      return
+    }
+
+    // Check if iOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as Window & { MSStream?: unknown }).MSStream
+    if (isIOS) {
+      // For iOS, show instructions or let the browser handle it
+      // The InstallPrompt component will handle iOS instructions
+      // For now, just prevent default navigation
+      return
+    }
+
+    if (deferredPrompt) {
+      try {
+        deferredPrompt.prompt()
+        const { outcome } = await deferredPrompt.userChoice
+        if (outcome === "accepted") {
+          setDeferredPrompt(null)
+        }
+      } catch (error) {
+        console.error("Error showing install prompt:", error)
+      }
+    } else {
+      // If no prompt is available, guide user to manual installation
+      // On desktop Chrome, they can use the install icon in the address bar
+      // or go to Chrome menu > Install PassBangla
+      if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+        // Check if Chrome
+        const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+        if (isChrome) {
+          toast.info(
+            "Look for the install icon in your browser's address bar, or go to Chrome menu (⋮) > Install PassBangla",
+            { duration: 5000 }
+          )
+        } else {
+          toast.info(
+            "Install option should appear in your browser's address bar if this app is installable",
+            { duration: 5000 }
+          )
+        }
+      }
+    }
+  }
 
   useEffect(() => {
     if (!sectionRef.current || !cardsRef.current) return
@@ -223,13 +305,24 @@ export function PWASection() {
                       </a>
                     </Button>
                   </div>
+                ) : index === 0 ? (
+                  // PWA Install Button
+                  <Button
+                    onClick={handleInstallClick}
+                    disabled={isInstalled}
+                    className="w-full group/btn"
+                    variant="default"
+                  >
+                    {isInstalled ? "Installed" : platform.cta}
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                  </Button>
                 ) : (
                   <Button
                     asChild
                     className="w-full group/btn"
-                    variant={index === 0 ? "default" : index === 2 ? "default" : "outline"}
+                    variant={index === 2 ? "default" : "outline"}
                   >
-                    <Link href={index === 0 ? "#install" : "/register"}>
+                    <Link href="/register">
                       {platform.cta}
                       <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                     </Link>
