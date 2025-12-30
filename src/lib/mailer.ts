@@ -106,11 +106,34 @@ async function getTransporter(): Promise<Transporter | null> {
 
   // Create new transporter if config changed or doesn't exist
   if (!cachedTransporter) {
+    // Auto-detect secure based on port for common providers
+    // Port 465 = SSL (secure: true)
+    // Port 587 = TLS/STARTTLS (secure: false)
+    // Port 25 = Unencrypted (secure: false, but not recommended)
+    let secure = config.secure
+    
+    // Override secure setting based on port for better compatibility
+    if (config.port === 465) {
+      secure = true // SSL
+    } else if (config.port === 587 || config.port === 25) {
+      secure = false // TLS/STARTTLS
+    }
+    // For other ports, use the configured value
+
     cachedTransporter = nodemailer.createTransport({
       host: config.host,
       port: config.port,
-      secure: config.secure,
+      secure: secure,
       ...(config.auth && { auth: config.auth }),
+      // Add TLS options for better compatibility
+      tls: {
+        // Do not fail on invalid certificates (useful for self-signed certs in dev)
+        rejectUnauthorized: process.env.NODE_ENV === "production",
+        // Support older TLS versions if needed
+        minVersion: "TLSv1.2",
+      },
+      // For port 587, require STARTTLS
+      requireTLS: config.port === 587,
     })
   }
 
@@ -141,6 +164,14 @@ export async function sendEmail(options: {
       }
     }
 
+    // Log configuration for debugging (without sensitive data)
+    console.log("Sending email with config:", {
+      host: config.host,
+      port: config.port,
+      secure: config.secure,
+      hasAuth: !!config.auth,
+    })
+
     const info = await transporter.sendMail({
       from: config.from,
       to: options.to,
@@ -153,9 +184,17 @@ export async function sendEmail(options: {
     return { success: true }
   } catch (error) {
     console.error("Failed to send email:", error)
+    
+    // Provide more helpful error messages for common issues
+    let errorMessage = error instanceof Error ? error.message : "Failed to send email"
+    
+    if (errorMessage.includes("wrong version number") || errorMessage.includes("ESOCKET")) {
+      errorMessage = `SSL/TLS configuration error. For SendGrid: use port 587 with TLS (secure: false) or port 465 with SSL (secure: true). Original error: ${errorMessage}`
+    }
+    
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Failed to send email",
+      error: errorMessage,
     }
   }
 }
