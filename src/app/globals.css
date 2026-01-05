@@ -121,6 +121,10 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-geist-sans), sans-serif;
+  }
+  body.font-bengali {
+    font-family: var(--font-hind-siliguri), var(--font-geist-sans), sans-serif;
   }
 }
 

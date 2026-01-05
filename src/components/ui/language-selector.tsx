@@ -90,13 +90,21 @@ export function LanguageSelector({
       // Update local state immediately for UI feedback
       setCurrentLang(langCode)
       
-      // Update HTML lang attribute using a helper function to avoid linter error
+      // Update HTML lang attribute and font class using a helper function to avoid linter error
       if (typeof document !== "undefined") {
         // Use a function to set the lang attribute to avoid linter error
         const setHtmlLang = (lang: string) => {
           document.documentElement.lang = lang
         }
         setHtmlLang(langCode)
+        
+        // Update font class based on language
+        const body = document.body
+        if (langCode === "bn") {
+          body.classList.add("font-bengali")
+        } else {
+          body.classList.remove("font-bengali")
+        }
       }
       
       // Trigger server-side refresh to re-render with new language from cookie

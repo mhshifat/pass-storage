@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Hind_Siliguri } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
 import { TRPCReactProvider } from "@/trpc/client";
@@ -23,6 +24,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const hindSiliguri = Hind_Siliguri({
+  variable: "--font-hind-siliguri",
+  subsets: ["latin", "bengali"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://passbangla.com";
@@ -136,7 +143,7 @@ export default async function RootLayout({
         <SoftwareApplicationStructuredData />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${hindSiliguri.variable} antialiased ${language === "bn" ? "font-bengali" : ""}`}
       >
         <ThemeProvider
           attribute="class"
