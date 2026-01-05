@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma"
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init"
 import z from "zod"
+import { Prisma } from "@/app/generated"
 
 export const dashboardRouter = createTRPCRouter({
   stats: protectedProcedure("password.view")
@@ -22,6 +23,32 @@ export const dashboardRouter = createTRPCRouter({
         })
         if (user?.companyId) {
           companyId = user.companyId
+        }
+      }
+
+      // If no company found, return zeros to prevent data leakage
+      if (!companyId) {
+        return {
+          users: {
+            total: 0,
+            change: "+0%",
+            changeType: "neutral" as const,
+          },
+          passwords: {
+            total: 0,
+            change: "+0%",
+            changeType: "neutral" as const,
+          },
+          teams: {
+            total: 0,
+            change: "+0",
+            changeType: "neutral" as const,
+          },
+          securityEvents: {
+            total: 0,
+            change: "+0%",
+            changeType: "neutral" as const,
+          },
         }
       }
 
@@ -59,19 +86,17 @@ export const dashboardRouter = createTRPCRouter({
       const hasTeamView = ctx.permissions.includes("team.view")
       const hasAuditView = ctx.permissions.includes("audit.view")
 
-      // Build company filters
-      const userWhere = companyId ? { companyId } : {}
-      const teamWhere = companyId ? { companyId } : {}
-      const auditLogWhere: any = {
+      // Build company filters - companyId is guaranteed to exist here
+      const userWhere = { companyId }
+      const teamWhere = { companyId }
+      const auditLogWhere: Prisma.AuditLogWhereInput = {
         action: {
           in: ["LOGIN_FAILED", "PASSWORD_VIEWED", "PASSWORD_SHARED", "PASSWORD_DELETED"],
         },
         createdAt: {
           gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // Last 30 days
         },
-      }
-      if (companyId) {
-        auditLogWhere.user = { companyId }
+        user: { companyId },
       }
 
       // Fetch stats based on permissions
@@ -152,17 +177,20 @@ export const dashboardRouter = createTRPCRouter({
       }
 
       // Build where clause - filter by company and exclude current user
-      const where: any = {
-        userId: {
-          not: ctx.userId, // Exclude current logged-in user
-        },
+      // Always filter by company - if companyId is null, we should not show any data
+      if (!companyId) {
+        // If no company found, return empty to prevent data leakage
+        return []
       }
-
-      // Add company filter if companyId is available
-      if (companyId) {
-        where.user = {
+      
+      // Filter by company AND exclude current user
+      const where: Prisma.AuditLogWhereInput = {
+        user: {
           companyId: companyId,
-        }
+          id: {
+            not: ctx.userId, // Exclude current logged-in user
+          },
+        },
       }
 
       // Get recent audit logs with user information, excluding current user's activities
@@ -233,6 +261,11 @@ export const dashboardRouter = createTRPCRouter({
         }
       }
 
+      // If no company found, return empty array to prevent data leakage
+      if (!companyId) {
+        return []
+      }
+
       // Get dismissed alerts for this user
       const dismissedKey = `user.${ctx.userId}.dismissedAlerts`
       const dismissedSetting = await prisma.settings.findUnique({
@@ -244,7 +277,6 @@ export const dashboardRouter = createTRPCRouter({
       const dismissedSet = new Set(dismissedAlerts)
       const now = new Date()
       const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
-      const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
       const ninetyDaysAgo = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000)
       const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000)
 
@@ -312,13 +344,11 @@ export const dashboardRouter = createTRPCRouter({
       
       let unusedPasswords = 0
       if (hasAuditView && passwordIds.length > 0) {
-        const auditLogWhere: any = {
+        const auditLogWhere: Prisma.AuditLogWhereInput = {
           action: "PASSWORD_VIEWED",
           resourceId: { in: passwordIds },
           createdAt: { gte: ninetyDaysAgo },
-        }
-        if (companyId) {
-          auditLogWhere.user = { companyId }
+          ...(companyId ? { user: { companyId } } : {}),
         }
         const recentlyAccessedPasswordIds = await prisma.auditLog.findMany({
           where: auditLogWhere,
@@ -329,13 +359,11 @@ export const dashboardRouter = createTRPCRouter({
         unusedPasswords = passwordIds.filter((id) => !accessedIds.has(id)).length
       }
 
-      // Build company filters for audit logs
-      const auditLogWhere: any = {
+      // Build company filters for audit logs - companyId is guaranteed to exist here
+      const auditLogWhere: Prisma.AuditLogWhereInput = {
         action: "LOGIN_FAILED",
         createdAt: { gte: yesterday },
-      }
-      if (companyId) {
-        auditLogWhere.user = { companyId }
+        user: { companyId },
       }
 
       // Check for failed login attempts in last 24 hours - CRITICAL if >20, HIGH if >10
@@ -364,8 +392,8 @@ export const dashboardRouter = createTRPCRouter({
           })
         : []
 
-      // Build company filters for user stats
-      const userWhere = companyId ? { companyId, isActive: true } : { isActive: true }
+      // Build company filters for user stats - companyId is guaranteed to exist here (checked above)
+      const userWhere = { companyId, isActive: true }
 
       // Check for users without MFA enabled - MEDIUM severity
       // Only if user has user.view permission, filtered by company
@@ -750,22 +778,20 @@ export const dashboardRouter = createTRPCRouter({
       // Check permissions for user stats
       const hasUserView = ctx.permissions.includes("user.view")
       
-      // Build company filters for user stats
-      const userWhere = companyId ? { companyId, isActive: true } : { isActive: true }
-      const activeUserWhere = companyId
-        ? {
-            companyId,
-            isActive: true,
-            lastLoginAt: {
-              gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000), // Active in last 30 days
-            },
-          }
-        : {
-            isActive: true,
-            lastLoginAt: {
-              gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000), // Active in last 30 days
-            },
-          }
+      // If no company found, return empty array to prevent data leakage
+      if (!companyId) {
+        return []
+      }
+
+      // Build company filters for user stats - companyId is guaranteed to exist here
+      const userWhere = { companyId, isActive: true }
+      const activeUserWhere = {
+        companyId,
+        isActive: true,
+        lastLoginAt: {
+          gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000), // Active in last 30 days
+        },
+      }
       
       // Get MFA adoption - only if user has user.view permission, filtered by company
       const [totalUsers, mfaUsers, activeUsers] = await Promise.all([
@@ -776,13 +802,12 @@ export const dashboardRouter = createTRPCRouter({
 
       // Get active sessions (sessions that haven't expired yet)
       // Only if user has user.view permission (sessions are user-related), filtered by company
-      const sessionWhere: any = {
+      // companyId is guaranteed to exist here (checked above)
+      const sessionWhere: Prisma.SessionWhereInput = {
         expires: {
           gt: now,
         },
-      }
-      if (companyId) {
-        sessionWhere.user = { companyId }
+        user: { companyId },
       }
       
       const activeSessions = hasUserView
@@ -886,20 +911,3 @@ function getTimeAgo(date: Date): string {
   return `${diffInWeeks} week${diffInWeeks !== 1 ? "s" : ""} ago`
 }
 
-function formatAction(action: string): string {
-  const actionMap: Record<string, string> = {
-    PASSWORD_CREATED: "Created new password",
-    PASSWORD_UPDATED: "Updated password",
-    PASSWORD_DELETED: "Deleted password",
-    PASSWORD_SHARED: "Shared password",
-    PASSWORD_VIEWED: "Viewed password",
-    USER_CREATED: "Created user",
-    USER_UPDATED: "Updated user",
-    TEAM_CREATED: "Created team",
-    TEAM_MEMBER_ADDED: "Added user to team",
-    LOGIN_SUCCESS: "Logged in",
-    LOGIN_FAILED: "Failed login attempt",
-  }
-
-  return actionMap[action] || action.replace(/_/g, " ").toLowerCase()
-}
