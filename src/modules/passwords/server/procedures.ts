@@ -1460,13 +1460,14 @@ export const passwordsRouter = createTRPCRouter({
             continue
           }
 
-          // Encrypt the password
-          const encryptedPassword = encryptPassword(item.password)
+          // Encrypt the password using user-specific key (new method)
+          const { encryptPasswordWithUserKey } = await import("@/lib/server-crypto-migration")
+          const encryptedPassword = encryptPasswordWithUserKey(item.password, ctx.userId)
 
-          // Encrypt TOTP secret if provided
+          // Encrypt TOTP secret if provided (using same method)
           let encryptedTotpSecret: string | null = null
           if (item.totpSecret) {
-            encryptedTotpSecret = encryptPassword(item.totpSecret)
+            encryptedTotpSecret = encryptPasswordWithUserKey(item.totpSecret, ctx.userId)
           }
 
           // Calculate password strength
@@ -2918,8 +2919,23 @@ export const passwordsRouter = createTRPCRouter({
         })
       }
 
-      // Decrypt password
-      const decryptedPassword = decryptPassword(password.password)
+      // Decrypt password - try both encryption methods
+      let decryptedPassword: string
+      try {
+        // Try new user-specific encryption first
+        const { decryptPasswordWithUserKey } = await import("@/lib/server-crypto-migration")
+        decryptedPassword = decryptPasswordWithUserKey(password.password, password.ownerId)
+      } catch {
+        // Fallback to old server-side encryption
+        try {
+          decryptedPassword = decryptPassword(password.password)
+        } catch (decryptError) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Failed to decrypt password. The password may be corrupted or encrypted with an incompatible method.",
+          })
+        }
+      }
 
       // Check breach using Have I Been Pwned API
       const { checkPasswordBreach } = await import("@/lib/breach-detection")
@@ -2969,6 +2985,7 @@ export const passwordsRouter = createTRPCRouter({
           id: true,
           password: true,
           name: true,
+          ownerId: true,
         },
       })
 
@@ -2981,7 +2998,22 @@ export const passwordsRouter = createTRPCRouter({
       // Decrypt and check each password
       for (const pwd of passwords) {
         try {
-          const decryptedPassword = decryptPassword(pwd.password)
+          // Try both encryption methods
+          let decryptedPassword: string
+          try {
+            // Try new user-specific encryption first
+            const { decryptPasswordWithUserKey } = await import("@/lib/server-crypto-migration")
+            decryptedPassword = decryptPasswordWithUserKey(pwd.password, pwd.ownerId)
+          } catch {
+            // Fallback to old server-side encryption
+            try {
+              decryptedPassword = decryptPassword(pwd.password)
+            } catch (decryptError) {
+              // Skip passwords that can't be decrypted
+              console.error(`Failed to decrypt password ${pwd.id}:`, decryptError)
+              continue
+            }
+          }
           const breachResult = await checkMultiplePasswords([decryptedPassword])
           
           if (breachResult.length > 0) {

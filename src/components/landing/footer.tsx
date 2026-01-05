@@ -13,6 +13,7 @@ export function Footer() {
     product: [
       { name: t("landing.footer.links.features"), href: "#features", comingSoon: false },
       { name: t("landing.footer.links.security"), href: "/security", comingSoon: false },
+      { name: t("landing.footer.links.guide"), href: "/guide", comingSoon: false },
       { name: t("landing.footer.links.pricing"), href: "#pricing", comingSoon: true },
       { name: t("landing.footer.links.changelog"), href: "#changelog", comingSoon: true },
     ],

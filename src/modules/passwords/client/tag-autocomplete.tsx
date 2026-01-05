@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useState, useCallback } from "react"
 import { useTranslation } from "react-i18next"
-import { Check, CheckIcon, Tag as TagIcon, X } from "lucide-react"
+import { Check, CheckIcon, Tag as TagIcon, X, Plus } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -22,6 +22,9 @@ import {
 } from "@/components/ui/command"
 import { trpc } from "@/trpc/client"
 import { cn } from "@/lib/utils"
+import { createTagAction } from "@/app/admin/passwords/tag-actions"
+import { toast } from "sonner"
+import { useTransition } from "react"
 
 interface TagAutocompleteProps {
   selectedTagIds: string[]
@@ -43,6 +46,8 @@ export function TagAutocomplete({
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState("")
+  const [isCreating, startTransition] = useTransition()
+  const utils = trpc.useUtils()
 
   // Fetch all tags when popover is open
   const { data: allTagsData, isLoading: isLoadingTags } = trpc.passwords.getExportFilters.useQuery(
@@ -91,6 +96,14 @@ export function TagAutocomplete({
     [selectedTagIds, onTagsChange]
   )
 
+  // Check if query matches any existing tag
+  const queryMatchesExisting = React.useMemo(() => {
+    if (!query || query.length === 0) return true
+    const lowerQuery = query.toLowerCase().trim()
+    if (!allTagsData?.tags) return false
+    return allTagsData.tags.some((tag) => tag.name.toLowerCase() === lowerQuery)
+  }, [query, allTagsData])
+
   // Determine which tags to display
   const displayTags = React.useMemo(() => {
     // If there's a search query
@@ -122,6 +135,37 @@ export function TagAutocomplete({
     return []
   }, [query, autocompleteTags, suggestedTags, passwordId, allTagsData])
 
+  // Handle creating a new tag
+  const handleCreateTag = useCallback(async () => {
+    if (!query || query.trim().length === 0) return
+    if (queryMatchesExisting) return
+
+    startTransition(async () => {
+      try {
+        const result = await createTagAction({
+          name: query.trim(),
+          color: null,
+          icon: null,
+        })
+
+        if (result.success && result.tag) {
+          toast.success(t("passwords.tags.tagCreated"))
+          // Invalidate queries to refresh tag list
+          await utils.passwords.getExportFilters.invalidate()
+          await utils.passwords.tagAutocomplete.invalidate()
+          await utils.passwords.tagSuggestions.invalidate()
+          // Add the newly created tag to selection
+          onTagsChange([...selectedTagIds, result.tag.id])
+          setQuery("")
+        } else {
+          toast.error(result.error || t("passwords.tags.tagError"))
+        }
+      } catch (error) {
+        toast.error(t("passwords.tags.tagError"))
+      }
+    })
+  }, [query, queryMatchesExisting, selectedTagIds, onTagsChange, utils, t])
+
   return (
     <div className={cn("space-y-2", className)}>
       <Popover open={open} onOpenChange={setOpen}>
@@ -149,46 +193,75 @@ export function TagAutocomplete({
                 <div className="p-4 text-center text-sm text-muted-foreground">
                   {t("common.loading")}
                 </div>
-              ) : displayTags.length === 0 && allTagsData !== undefined ? (
-                <CommandEmpty>{t("passwords.tags.noTagsFound")}</CommandEmpty>
-              ) : displayTags.length > 0 ? (
-                <CommandGroup>
-                  {(displayTags).map((tag) => {
-                    return (
+              ) : (
+                <>
+                  {displayTags.length > 0 && (
+                    <CommandGroup>
+                      {displayTags.map((tag) => {
+                        return (
+                          <CommandItem
+                            key={tag.id}
+                            value={tag.name}
+                            onSelect={() => {
+                              handleTagSelect(tag.id)
+                            }}
+                            className="cursor-pointer"
+                          >
+                            <div className="flex items-center gap-2 flex-1">
+                              {selectedTagIds.includes(tag.id) && <CheckIcon className="w-4 h-4" />}
+                              {tag.color && (
+                                <span
+                                  className="w-3 h-3 rounded-full shrink-0"
+                                  style={{ backgroundColor: tag.color }}
+                                />
+                              )}
+                              {tag.icon && (
+                                <span className="text-xs shrink-0">{tag.icon}</span>
+                              )}
+                              <span className="flex-1">{tag.name}</span>
+                              {(tag as { usageCount?: number }).usageCount !== undefined && (
+                                <span className="text-xs text-muted-foreground">
+                                  ({(tag as { usageCount?: number }).usageCount})
+                                </span>
+                              )}
+                            </div>
+                          </CommandItem>
+                        )
+                      })}
+                    </CommandGroup>
+                  )}
+                  
+                  {/* Show "Create new tag" option if query doesn't match existing tags */}
+                  {query && query.trim().length > 0 && !queryMatchesExisting && allTagsData !== undefined && (
+                    <CommandGroup>
                       <CommandItem
-                        key={tag.id}
-                        value={tag.name}
-                        onSelect={() => {
-                          handleTagSelect(tag.id)
-                        }}
-                        className="cursor-pointer"
+                        onSelect={handleCreateTag}
+                        className="cursor-pointer text-primary"
+                        disabled={isCreating}
                       >
                         <div className="flex items-center gap-2 flex-1">
-                          {selectedTagIds.includes(tag.id) && <CheckIcon className="w-4 h-4" />}
-                          {tag.color && (
-                            <span
-                              className="w-3 h-3 rounded-full shrink-0"
-                              style={{ backgroundColor: tag.color }}
-                            />
-                          )}
-                          {tag.icon && (
-                            <span className="text-xs shrink-0">{tag.icon}</span>
-                          )}
-                          <span className="flex-1">{tag.name}</span>
-                          {(tag as { usageCount?: number }).usageCount !== undefined && (
+                          <Plus className="w-4 h-4" />
+                          <span className="flex-1">
+                            {t("passwords.tags.createTag")}: "{query.trim()}"
+                          </span>
+                          {isCreating && (
                             <span className="text-xs text-muted-foreground">
-                              ({(tag as { usageCount?: number }).usageCount})
+                              {t("common.creating")}...
                             </span>
                           )}
                         </div>
                       </CommandItem>
-                    )
-                  })}
-                </CommandGroup>
-              ) : (
-                <div className="p-4 text-center text-sm text-muted-foreground">
-                  {t("common.loading")}
-                </div>
+                    </CommandGroup>
+                  )}
+                  
+                  {displayTags.length === 0 && !query && allTagsData !== undefined && (
+                    <CommandEmpty>{t("passwords.tags.noTagsFound")}</CommandEmpty>
+                  )}
+                  
+                  {displayTags.length === 0 && query && queryMatchesExisting && allTagsData !== undefined && (
+                    <CommandEmpty>{t("passwords.tags.noTagsFound")}</CommandEmpty>
+                  )}
+                </>
               )}
             </CommandList>
           </Command>

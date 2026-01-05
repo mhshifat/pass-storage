@@ -2428,6 +2428,7 @@
       "links": {
         "features": "Features",
         "security": "Security",
+        "guide": "User Guide",
         "pricing": "Pricing",
         "changelog": "Changelog",
         "about": "About",
@@ -2677,6 +2678,114 @@
         "security": "Security",
         "privacy": "Privacy Policy",
         "getStarted": "Get Started"
+      }
+    },
+    "guide": {
+      "title": "User Guide",
+      "subtitle": "Step-by-step tutorials to help you master PassBangla",
+      "cta": {
+        "getStarted": "Get Started Free",
+        "learnSecurity": "Learn About Security"
+      },
+      "gettingStarted": {
+        "title": "Getting Started",
+        "description": "Learn the basics of PassBangla and set up your account",
+        "step1": {
+          "title": "Create Your Account",
+          "description": "Visit the registration page and create your account with your email address. You'll receive a verification email to confirm your account."
+        },
+        "step2": {
+          "title": "Set Up Your Master Password",
+          "description": "Choose a strong master password. This password encrypts all your data - make sure it's unique and secure. You can enable two-factor authentication for extra security."
+        },
+        "step3": {
+          "title": "Explore the Dashboard",
+          "description": "Once logged in, you'll see your dashboard with an overview of your passwords, security alerts, and recent activities. Use the sidebar to navigate between different sections."
+        }
+      },
+      "passwords": {
+        "title": "Managing Passwords",
+        "description": "Learn how to add, edit, and organize your passwords",
+        "step1": {
+          "title": "Add a New Password",
+          "description": "Click the 'Add Password' button in the passwords section. Fill in the password name, username, password, and URL. You can also add notes and tags for better organization."
+        },
+        "step2": {
+          "title": "View and Edit Passwords",
+          "description": "Click on any password in the list to view its details. You can edit the password, copy credentials, or view password history. Use the eye icon to reveal hidden passwords."
+        },
+        "step3": {
+          "title": "Organize with Tags and Folders",
+          "description": "Create tags and folders to organize your passwords. Tags help you categorize passwords (e.g., 'Work', 'Personal', 'Social Media'), while folders provide a hierarchical structure."
+        },
+        "step4": {
+          "title": "Password Security Features",
+          "description": "Use the security features to identify weak passwords, expiring passwords, and breached passwords. The system automatically checks for password breaches and alerts you."
+        }
+      },
+      "teams": {
+        "title": "Team Collaboration",
+        "description": "Share passwords securely with your team members",
+        "step1": {
+          "title": "Create a Team",
+          "description": "Go to the Teams section and click 'Create Team'. Enter a team name and description. You can set permissions and add team members."
+        },
+        "step2": {
+          "title": "Share Passwords with Team",
+          "description": "Select a password and click 'Share'. Choose the team or specific members to share with. You can set permissions like 'View Only' or 'Edit' for each member."
+        },
+        "step3": {
+          "title": "Manage Team Members",
+          "description": "Add or remove team members, change their permissions, and view team activity. All team actions are logged in the audit logs for security."
+        }
+      },
+      "security": {
+        "title": "Security Features",
+        "description": "Protect your account with advanced security settings",
+        "step1": {
+          "title": "Enable Two-Factor Authentication",
+          "description": "Go to Settings > MFA and enable two-factor authentication. You can use TOTP apps like Google Authenticator or Authy. Scan the QR code to set up 2FA."
+        },
+        "step2": {
+          "title": "Configure Security Settings",
+          "description": "In Settings > Security, configure password policies, session timeouts, and IP whitelisting. Set up breach detection alerts and password expiration reminders."
+        },
+        "step3": {
+          "title": "Review Audit Logs",
+          "description": "Check the Audit Logs section to see all account activities, login attempts, and password changes. This helps you monitor account security and detect suspicious activity."
+        }
+      },
+      "search": {
+        "title": "Search and Filter",
+        "description": "Quickly find passwords using advanced search",
+        "step1": {
+          "title": "Basic Search",
+          "description": "Use the search bar at the top of the passwords page to search by password name, username, URL, or notes. The search is instant and highlights matching results."
+        },
+        "step2": {
+          "title": "Advanced Filters",
+          "description": "Use filters to find weak passwords, expiring passwords, favorites, or passwords with specific tags. You can combine multiple filters for precise results."
+        }
+      },
+      "importExport": {
+        "title": "Import & Export",
+        "description": "Import passwords from other managers or export your data",
+        "step1": {
+          "title": "Import Passwords",
+          "description": "Go to Passwords > Import and select your password manager format (CSV, JSON, or other supported formats). Follow the import wizard to map fields and import your passwords securely."
+        },
+        "step2": {
+          "title": "Export Passwords",
+          "description": "Export your passwords for backup or migration. Go to Passwords > Export and choose your format. Your data is encrypted during export to maintain security."
+        }
+      },
+      "resources": {
+        "title": "Additional Resources",
+        "description": "Learn more about PassBangla's security and features",
+        "security": "Security",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service",
+        "compliance": "Compliance"
       }
     }
   }
