@@ -182,7 +182,7 @@ export default function PrivacyPolicyPage() {
           </CardHeader>
           <CardContent className="prose prose-slate dark:prose-invert max-w-none">
             <p>
-              PassBangla ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how the PassBangla Browser Extension ("Extension") collects, uses, stores, and protects your information.
+              PassBangla (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is committed to protecting your privacy. This Privacy Policy explains how the PassBangla Browser Extension (&quot;Extension&quot;) collects, uses, stores, and protects your information.
             </p>
           </CardContent>
         </Card>
@@ -203,7 +203,7 @@ export default function PrivacyPolicyPage() {
               <CardContent className="pt-6 space-y-6">
                 {section.content.map((contentBlock, blockIndex) => (
                   <div key={blockIndex} className="space-y-3">
-                    {contentBlock.subtitle && (
+                    {"subtitle" in contentBlock && contentBlock.subtitle && (
                       <h3 className="text-lg font-semibold text-foreground">
                         {contentBlock.subtitle}
                       </h3>
@@ -244,7 +244,7 @@ export default function PrivacyPolicyPage() {
         {/* Children's Privacy */}
         <Card>
           <CardHeader>
-            <CardTitle>Children's Privacy</CardTitle>
+            <CardTitle>Children&apos;s Privacy</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
@@ -260,7 +260,7 @@ export default function PrivacyPolicyPage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date.
+              We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the &quot;Last Updated&quot; date.
             </p>
           </CardContent>
         </Card>
@@ -319,8 +319,8 @@ export default function PrivacyPolicyPage() {
               </p>
               <p className="text-muted-foreground">
                 <strong className="text-foreground">Support:</strong>{" "}
-                <Link href={`${siteUrl}/support`} className="text-primary hover:underline">
-                  {siteUrl}/support
+                <Link href="mailto:shifat.dev@gmail.com" className="text-primary hover:underline">
+                  shifat.dev@gmail.com
                 </Link>
               </p>
             </div>
