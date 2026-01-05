@@ -12,7 +12,7 @@ export function Footer() {
   const footerLinks = {
     product: [
       { name: t("landing.footer.links.features"), href: "#features", comingSoon: false },
-      { name: t("landing.footer.links.security"), href: "#security", comingSoon: false },
+      { name: t("landing.footer.links.security"), href: "/security", comingSoon: false },
       { name: t("landing.footer.links.pricing"), href: "#pricing", comingSoon: true },
       { name: t("landing.footer.links.changelog"), href: "#changelog", comingSoon: true },
     ],
@@ -24,9 +24,9 @@ export function Footer() {
     ],
     legal: [
       { name: t("landing.footer.links.privacy"), href: "/privacy", comingSoon: false },
-      { name: t("landing.footer.links.terms"), href: "#terms", comingSoon: true },
-      { name: t("landing.footer.links.security"), href: "#security", comingSoon: false },
-      { name: t("landing.footer.links.compliance"), href: "#compliance", comingSoon: true },
+      { name: t("landing.footer.links.terms"), href: "/terms", comingSoon: false },
+      { name: t("landing.footer.links.security"), href: "/security", comingSoon: false },
+      { name: t("landing.footer.links.compliance"), href: "/compliance", comingSoon: false },
     ],
   }
 

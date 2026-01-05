@@ -6,6 +6,7 @@ import { FeaturesSection } from "./features-section"
 import { SecuritySection } from "./security-section"
 import { PWASection } from "./pwa-section"
 import { AppPreviewSection } from "./app-preview-section"
+import { TestimonialsSection } from "./testimonials-section"
 import { CTASection } from "./cta-section"
 import { Footer } from "./footer"
 
@@ -17,6 +18,7 @@ export function LandingPage() {
       <AppPreviewSection />
       <FeaturesSection />
       <SecuritySection />
+      <TestimonialsSection />
       <PWASection />
       <CTASection />
       <Footer />
