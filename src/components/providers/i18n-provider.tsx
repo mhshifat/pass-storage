@@ -6,21 +6,9 @@ import i18n from "@/lib/i18n"
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    // Verify i18n language matches HTML lang attribute (set by server)
-    // This ensures SSR and client are in sync
+    // Priority: cookie/localStorage > HTML lang attribute
+    // Cookie/localStorage is the user's explicit preference and should always win
     if (typeof window !== "undefined") {
-      const htmlLang = document.documentElement.lang
-      
-      // If i18n is already initialized with the correct language, we're good
-      // Otherwise, sync it (though it should already be correct from i18n.ts initialization)
-      if (htmlLang && (htmlLang === 'en' || htmlLang === 'bn') && i18n.language !== htmlLang) {
-        // This should rarely happen, but it's a safety check
-        i18n.changeLanguage(htmlLang).catch(() => {
-          // Silent fail
-        })
-      }
-      
-      // Sync localStorage with cookie if needed
       const getCookieValue = (name: string) => {
         const value = `; ${document.cookie}`
         const parts = value.split(`; ${name}=`)
@@ -30,9 +18,37 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
       
       const cookieLanguage = getCookieValue("i18nextLng")
       const localStorageLanguage = localStorage.getItem("i18nextLng")
+      const htmlLang = document.documentElement.lang
       
+      // Priority 1: Cookie (user's explicit preference)
+      // Priority 2: localStorage (user's explicit preference)
+      // Priority 3: HTML lang (server-set, might be wrong after redirect)
+      const preferredLanguage = (cookieLanguage && (cookieLanguage === 'en' || cookieLanguage === 'bn')) 
+        ? cookieLanguage
+        : (localStorageLanguage && (localStorageLanguage === 'en' || localStorageLanguage === 'bn'))
+        ? localStorageLanguage
+        : (htmlLang && (htmlLang === 'en' || htmlLang === 'bn'))
+        ? htmlLang
+        : 'en'
+      
+      // Sync localStorage with cookie if needed
       if (cookieLanguage && !localStorageLanguage) {
         localStorage.setItem("i18nextLng", cookieLanguage)
+      } else if (localStorageLanguage && !cookieLanguage) {
+        // Set cookie from localStorage if cookie is missing
+        const expires = new Date()
+        expires.setFullYear(expires.getFullYear() + 1)
+        document.cookie = `i18nextLng=${localStorageLanguage}; path=/; expires=${expires.toUTCString()}; SameSite=Lax`
+      }
+      
+      // Only change language if it doesn't match the preferred language
+      // This ensures user preference (cookie/localStorage) always wins over HTML lang
+      if (i18n.language !== preferredLanguage && (preferredLanguage === 'en' || preferredLanguage === 'bn')) {
+        i18n.changeLanguage(preferredLanguage).catch(() => {
+          // Silent fail
+        })
+        // Update HTML lang to match preferred language
+        document.documentElement.lang = preferredLanguage
       }
     }
   }, [])

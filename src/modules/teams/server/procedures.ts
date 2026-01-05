@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma"
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init"
 import z from "zod"
 import { TRPCError } from "@trpc/server"
+import { Prisma } from "@/app/generated"
 
 export const teamsRouter = createTRPCRouter({
   create: protectedProcedure("team.create")
@@ -131,7 +132,7 @@ export const teamsRouter = createTRPCRouter({
       }
 
       // Build where clause - filter teams by company through members
-      const where: any = {}
+      const where: Prisma.TeamWhereInput = {}
       
       if (companyId) {
         where.members = {
@@ -401,8 +402,8 @@ export const teamsRouter = createTRPCRouter({
       }
 
       // Build where clauses with company filter
-      const teamWhere: any = {}
-      const memberWhere: any = {}
+      const teamWhere: Prisma.TeamWhereInput = {}
+      const memberWhere: Prisma.TeamMemberWhereInput = {}
       
       if (companyId) {
         teamWhere.members = {
@@ -496,7 +497,7 @@ export const teamsRouter = createTRPCRouter({
       }
 
       // Check if team exists and belongs to the same company
-      const teamWhere: any = { id: input.teamId }
+      const teamWhere: Prisma.TeamWhereInput = { id: input.teamId }
       if (companyId) {
         teamWhere.members = {
           some: {
@@ -519,7 +520,7 @@ export const teamsRouter = createTRPCRouter({
       }
 
       // Check if user exists and belongs to the same company
-      const userWhere: any = { id: input.userId }
+      const userWhere: Prisma.UserWhereInput = { id: input.userId }
       if (companyId) {
         userWhere.companyId = companyId
       }
@@ -619,7 +620,7 @@ export const teamsRouter = createTRPCRouter({
       }
 
       // Check if member exists and belongs to the same company
-      const memberWhere: any = {
+      const memberWhere: Prisma.TeamMemberWhereInput = {
         teamId: input.teamId,
         userId: input.userId,
       }
@@ -641,11 +642,6 @@ export const teamsRouter = createTRPCRouter({
 
       const member = await prisma.teamMember.findFirst({
         where: memberWhere,
-        include: {
-            teamId: input.teamId,
-            userId: input.userId,
-          },
-        },
       })
 
       if (!member) {
@@ -797,7 +793,7 @@ export const teamsRouter = createTRPCRouter({
         teamId: z.string(),
       })
     )
-    .query(async ({ input, ctx }) => {
+    .query(async ({ input }) => {
       // Check if team exists
       const team = await prisma.team.findUnique({
         where: { id: input.teamId },
@@ -1128,7 +1124,7 @@ export const teamsRouter = createTRPCRouter({
           details: {
             passwordName: shareForLog.password.name,
             teamId: shareForLog.teamId,
-            teamName: shareForLog.team.name,
+            teamName: shareForLog.team?.name || null,
           },
           userId: ctx.userId,
         })
