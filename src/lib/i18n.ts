@@ -1,6 +1,6 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import LanguageDetector from 'i18next-browser-languagedetector'
+// LanguageDetector removed - we handle language detection manually via blocking script
 
 // Import translation files
 import enTranslations from '@/locales/en/common.json'
@@ -8,32 +8,43 @@ import bnTranslations from '@/locales/bn/common.json'
 
 // Only initialize if not already initialized (for client-side)
 if (!i18n.isInitialized) {  
-  // Get initial language from HTML lang attribute (set by server) or cookie
-  // This ensures SSR and client start with the same language
+  // Get initial language with priority:
+  // 1. window.__I18N_INITIAL_LANGUAGE__ (set by blocking script from cookie/localStorage/server)
+  // 2. Cookie (user's explicit preference)
+  // 3. localStorage (user's explicit preference)
+  // 4. HTML lang attribute (set by server from country detection)
+  // 5. Default to 'en'
+  // NO browser language detection - only use explicit preferences
   let initialLanguage = 'en'
   if (typeof window !== 'undefined') {
-    // Priority: HTML lang attribute (set by server from cookie) > cookie > localStorage
-    // The HTML lang attribute is set by the server based on the cookie, so it's the source of truth
-    const htmlLang = document.documentElement.lang
-    if (htmlLang && (htmlLang === 'en' || htmlLang === 'bn')) {
-      initialLanguage = htmlLang
+    // Priority 1: window.__I18N_INITIAL_LANGUAGE__ (set by blocking script)
+    const windowWithLang = window as typeof window & { __I18N_INITIAL_LANGUAGE__?: string }
+    if (windowWithLang.__I18N_INITIAL_LANGUAGE__) {
+      const scriptLang = windowWithLang.__I18N_INITIAL_LANGUAGE__
+      if (scriptLang === 'en' || scriptLang === 'bn') {
+        initialLanguage = scriptLang
+      }
     } else {
-      // Fallback to reading cookie directly
+      // Priority 2: Cookie (user's explicit preference)
       const cookieMatch = document.cookie.match(/i18nextLng=([^;]+)/)
       if (cookieMatch && (cookieMatch[1] === 'en' || cookieMatch[1] === 'bn')) {
         initialLanguage = cookieMatch[1]
       } else {
-        // Last resort: localStorage
+        // Priority 3: localStorage (user's explicit preference)
         const stored = localStorage.getItem('i18nextLng')
         if (stored && (stored === 'en' || stored === 'bn')) {
           initialLanguage = stored
+        } else {
+          // Priority 4: HTML lang attribute (set by server from country detection)
+          const htmlLang = document.documentElement.lang
+          if (htmlLang && (htmlLang === 'en' || htmlLang === 'bn')) {
+            initialLanguage = htmlLang
+          }
         }
       }
     }
   }
-
   i18n
-    .use(LanguageDetector) // Detects user language
     .use(initReactI18next) // Passes i18n down to react-i18next
     .init({
       resources: {
@@ -53,29 +64,53 @@ if (!i18n.isInitialized) {
       interpolation: {
         escapeValue: false, // React already escapes values
       },
-      detection: {
-        // Order of language detection - but lng is already set, so this only applies to future changes
-        order: ['cookie', 'localStorage', 'navigator', 'htmlTag'],
-        caches: ['cookie', 'localStorage'], // Cache language preference in both cookie and localStorage
-        lookupCookie: 'i18nextLng',
-        lookupLocalStorage: 'i18nextLng',
-        cookieMinutes: 525600, // 1 year
-        cookieOptions: {
-          path: '/',
-          sameSite: 'lax',
-        },
-      },
+      // No detection config - we handle language detection manually via blocking script
+      // The blocking script sets the cookie, and we read it in initialLanguage
       // Ensure proper language loading
       supportedLngs: ['en', 'bn'],
       nonExplicitSupportedLngs: false,
     })
     .then(() => {
       // Ensure the language is set correctly after initialization
-      // This is a safety check in case LanguageDetector tried to override
-      if (typeof window !== 'undefined' && i18n.language !== initialLanguage) {
-        i18n.changeLanguage(initialLanguage).catch(() => {
-          // Silent fail - language is already set
-        })
+      // Cookie (set by blocking script) is the source of truth
+      if (typeof window !== 'undefined') {
+        // Get the language from cookie (set by blocking script) as source of truth
+        const cookieMatch = document.cookie.match(/i18nextLng=([^;]+)/)
+        const cookieLang = cookieMatch && (cookieMatch[1] === 'en' || cookieMatch[1] === 'bn') ? cookieMatch[1] : null
+        
+        // If cookie exists, use it (it was set by blocking script from timezone detection)
+        // Otherwise, use initialLanguage
+        const targetLanguage = cookieLang || initialLanguage
+        
+        // Only change language if it doesn't match the target
+        // This prevents LanguageDetector from overriding the cookie
+        if (i18n.language !== targetLanguage && targetLanguage) {
+          i18n.changeLanguage(targetLanguage).catch(() => {
+            // Silent fail
+          })
+        }
+        
+        // IMPORTANT: Only update cookie if it doesn't exist or matches targetLanguage
+        // Never overwrite a cookie that was set by the blocking script
+        if (cookieLang) {
+          // Cookie already exists (set by blocking script) - don't overwrite it
+          // Just sync localStorage
+          try {
+            localStorage.setItem('i18nextLng', cookieLang)
+          } catch {
+            // Ignore localStorage errors
+          }
+        } else if (targetLanguage === 'en' || targetLanguage === 'bn') {
+          // No cookie exists - set it now
+          const expires = new Date()
+          expires.setFullYear(expires.getFullYear() + 1)
+          document.cookie = `i18nextLng=${targetLanguage}; path=/; expires=${expires.toUTCString()}; SameSite=Lax`
+          try {
+            localStorage.setItem('i18nextLng', targetLanguage)
+          } catch {
+            // Ignore localStorage errors
+          }
+        }
       }
     })
     .catch((error) => {

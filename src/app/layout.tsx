@@ -138,6 +138,88 @@ export default async function RootLayout({
       <head>
         <meta name="msvalidate.01" content="6FDB602163A60B7F0ABA4A29B9153BC2" />
         <meta name="yandex-verification" content="f179c8429f117666" />
+        {/* Critical: Initialize i18n language synchronously before React hydrates */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                // Priority: cookie > localStorage > HTML lang (server) > timezone (fallback for first visit)
+                var lang = 'en';
+                
+                // Priority 1: Check existing cookie (user preference)
+                var cookieMatch = document.cookie.match(/i18nextLng=([^;]+)/);
+                if (cookieMatch && (cookieMatch[1] === 'en' || cookieMatch[1] === 'bn')) {
+                  lang = cookieMatch[1];
+                } else {
+                  // Priority 2: Check localStorage
+                  try {
+                    var stored = localStorage.getItem('i18nextLng');
+                    if (stored && (stored === 'en' || stored === 'bn')) {
+                      lang = stored;
+                    } else {
+                      // Priority 3: Timezone detection (check BEFORE HTML lang, since server might default to 'en')
+                      // Only if no cookie/localStorage exists (first visit)
+                      var detectedFromTimezone = false;
+                      try {
+                        var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                        // Check for Dhaka timezone (could be "Asia/Dhaka" or just "Dhaka")
+                        if (timezone && (timezone.includes('Dhaka') || timezone.includes('dhaka'))) {
+                          lang = 'bn';
+                          detectedFromTimezone = true;
+                        }
+                      } catch (e) {
+                        // Ignore timezone errors
+                      }
+                      
+                      // Priority 4: Use HTML lang attribute (set by server from country detection)
+                      // Only if timezone detection didn't find Bengali
+                      if (!detectedFromTimezone) {
+                        var htmlLang = document.documentElement.lang;
+                        if (htmlLang && (htmlLang === 'en' || htmlLang === 'bn')) {
+                          lang = htmlLang;
+                        }
+                      }
+                    }
+                  } catch (e) {
+                    // If localStorage fails, try timezone first, then HTML lang
+                    var detectedFromTimezone = false;
+                    try {
+                      var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                      // Check for Dhaka timezone (could be "Asia/Dhaka" or just "Dhaka")
+                      if (timezone && (timezone.includes('Dhaka') || timezone.includes('dhaka'))) {
+                        lang = 'bn';
+                        detectedFromTimezone = true;
+                      }
+                    } catch (e2) {
+                      // Ignore timezone errors
+                    }
+                    
+                    // Only use HTML lang if timezone detection didn't find Bengali
+                    if (!detectedFromTimezone) {
+                      var htmlLang = document.documentElement.lang;
+                      if (htmlLang && (htmlLang === 'en' || htmlLang === 'bn')) {
+                        lang = htmlLang;
+                      }
+                    }
+                  }
+                }
+                
+                if (lang === 'en' || lang === 'bn') {
+                  window.__I18N_INITIAL_LANGUAGE__ = lang;
+                  // ALWAYS set cookie and localStorage to ensure consistency
+                  var expires = new Date();
+                  expires.setFullYear(expires.getFullYear() + 1);
+                  document.cookie = 'i18nextLng=' + lang + '; path=/; expires=' + expires.toUTCString() + '; SameSite=Lax';
+                  try {
+                    localStorage.setItem('i18nextLng', lang);
+                  } catch (e) {
+                    // Ignore localStorage errors (e.g., in incognito with restrictions)
+                  }
+                }
+              })();
+            `,
+          }}
+        />
         <OrganizationStructuredData />
         <WebSiteStructuredData />
         <SoftwareApplicationStructuredData />
