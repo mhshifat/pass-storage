@@ -240,25 +240,63 @@ export const rolesRouter = createTRPCRouter({
   stats: protectedProcedure("role.manage")
     .input(z.object({}).optional())
     .query(async ({ ctx }) => {
-      // Get current userId from context
-      const createdById = ctx.userId
+      // Get user's company
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      // Build where clause - filter roles by company through createdBy user
+      const where: any = {
+        OR: [
+          { isSystem: true },
+        ],
+      }
+      
+      if (companyId) {
+        where.OR.push({
+          isSystem: false,
+          createdBy: {
+            companyId: companyId,
+          },
+        })
+      } else {
+        // If no company, only show system roles and roles created by current user
+        where.OR.push({
+          isSystem: false,
+          createdById: ctx.userId,
+        })
+      }
 
       const [total, system, custom, permissions] = await Promise.all([
-        prisma.role.count({
-          where: {
-            OR: [
-              { isSystem: true },
-              { createdById },
-            ],
-          },
-        }),
+        prisma.role.count({ where }),
         prisma.role.count({
           where: { isSystem: true },
         }),
         prisma.role.count({
           where: {
             isSystem: false,
-            createdById,
+            ...(companyId ? {
+              createdBy: {
+                companyId: companyId,
+              },
+            } : {
+              createdById: ctx.userId,
+            }),
           },
         }),
         prisma.permission.count(),
@@ -286,17 +324,51 @@ export const rolesRouter = createTRPCRouter({
       const pageSize = input?.pageSize ?? 100
       const skip = (page - 1) * pageSize
 
-      // Get current userId from context
-      const createdById = ctx.userId
+      // Get user's company
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      // Build where clause - filter roles by company through createdBy user
+      const where: any = {
+        OR: [
+          { isSystem: true },
+        ],
+      }
+      
+      if (companyId) {
+        where.OR.push({
+          isSystem: false,
+          createdBy: {
+            companyId: companyId,
+          },
+        })
+      } else {
+        // If no company, only show system roles and roles created by current user
+        where.OR.push({
+          isSystem: false,
+          createdById: ctx.userId,
+        })
+      }
 
       const [roles, total] = await Promise.all([
         prisma.role.findMany({
-          where: {
-            OR: [
-              { isSystem: true },
-              { createdById },
-            ],
-          },
+          where,
           select: {
             id: true,
             name: true,
@@ -311,25 +383,24 @@ export const rolesRouter = createTRPCRouter({
           skip,
           take: pageSize,
         }),
-        prisma.role.count({
-          where: {
-            OR: [
-              { isSystem: true },
-              { createdById },
-            ],
-          },
-        }),
+        prisma.role.count({ where }),
       ])
 
-      // Count users for each role
+      // Count users for each role - filter by company
       // Since User.role is now a string, we can match both system and custom roles
       const rolesWithUserCount = await Promise.all(
         roles.map(async (role) => {
-          // Count users with this role name (works for both system and custom roles)
+          // Count users with this role name in the same company
+          const userWhere: any = {
+            role: role.name, // Match exact role name
+          }
+          
+          if (companyId) {
+            userWhere.companyId = companyId
+          }
+
           const userCount = await prisma.user.count({
-            where: {
-              role: role.name, // Match exact role name
-            },
+            where: userWhere,
           })
           
           return {

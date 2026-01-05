@@ -25,11 +25,37 @@ export const auditLogsRouter = createTRPCRouter({
         endDate: z.date().optional(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const { page, pageSize, search, action, status, userId, startDate, endDate } = input
 
-      // Build where clause
+      // Get user's company
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      // Build where clause - filter by company through user
       const where: Prisma.AuditLogWhereInput = {}
+      
+      if (companyId) {
+        where.user = {
+          companyId: companyId,
+        }
+      }
 
       if (search) {
         where.OR = [
@@ -133,10 +159,41 @@ export const auditLogsRouter = createTRPCRouter({
         days: z.number().min(1).max(365).default(30),
       }).optional()
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const days = input?.days || 30
       const startDate = new Date()
       startDate.setDate(startDate.getDate() - days)
+
+      // Get user's company
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      // Build base where clause with company filter
+      const baseWhere: Prisma.AuditLogWhereInput = {
+        createdAt: { gte: startDate },
+      }
+      
+      if (companyId) {
+        baseWhere.user = {
+          companyId: companyId,
+        }
+      }
 
       const [
         totalEvents,
@@ -146,32 +203,30 @@ export const auditLogsRouter = createTRPCRouter({
       ] = await Promise.all([
         // Total events
         prisma.auditLog.count({
-          where: {
-            createdAt: { gte: startDate },
-          },
+          where: baseWhere,
         }),
 
         // Failed logins
         prisma.auditLog.count({
           where: {
+            ...baseWhere,
             action: "LOGIN_FAILED",
-            createdAt: { gte: startDate },
           },
         }),
 
         // Password changes (created, updated, deleted)
         prisma.auditLog.count({
           where: {
+            ...baseWhere,
             action: { in: ["PASSWORD_CREATED", "PASSWORD_UPDATED", "PASSWORD_DELETED"] },
-            createdAt: { gte: startDate },
           },
         }),
 
         // Security alerts (failed, blocked, warning status)
         prisma.auditLog.count({
           where: {
+            ...baseWhere,
             status: { in: ["FAILED", "BLOCKED", "WARNING"] },
-            createdAt: { gte: startDate },
           },
         }),
       ])
@@ -180,23 +235,30 @@ export const auditLogsRouter = createTRPCRouter({
       const previousStartDate = new Date(startDate)
       previousStartDate.setDate(previousStartDate.getDate() - days)
 
+      const previousBaseWhere: Prisma.AuditLogWhereInput = {
+        createdAt: {
+          gte: previousStartDate,
+          lt: startDate,
+        },
+      }
+      
+      if (companyId) {
+        previousBaseWhere.user = {
+          companyId: companyId,
+        }
+      }
+
       const [previousFailedLogins, previousSecurityAlerts] = await Promise.all([
         prisma.auditLog.count({
           where: {
+            ...previousBaseWhere,
             action: "LOGIN_FAILED",
-            createdAt: {
-              gte: previousStartDate,
-              lt: startDate,
-            },
           },
         }),
         prisma.auditLog.count({
           where: {
+            ...previousBaseWhere,
             status: { in: ["FAILED", "BLOCKED", "WARNING"] },
-            createdAt: {
-              gte: previousStartDate,
-              lt: startDate,
-            },
           },
         }),
       ])
@@ -234,8 +296,36 @@ export const auditLogsRouter = createTRPCRouter({
     }),
 
   getActionTypes: protectedProcedure("audit.view")
-    .query(async () => {
+    .query(async ({ ctx }) => {
+      // Get user's company
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      const where: Prisma.AuditLogWhereInput = {}
+      if (companyId) {
+        where.user = {
+          companyId: companyId,
+        }
+      }
+
       const actions = await prisma.auditLog.findMany({
+        where,
         select: { action: true },
         distinct: ["action"],
         orderBy: { action: "asc" },
@@ -246,8 +336,34 @@ export const auditLogsRouter = createTRPCRouter({
     }),
 
   getUsers: protectedProcedure("audit.view")
-    .query(async () => {
+    .query(async ({ ctx }) => {
+      // Get user's company
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      const where: any = {}
+      if (companyId) {
+        where.companyId = companyId
+      }
+
       const users = await prisma.user.findMany({
+        where,
         select: {
           id: true,
           name: true,
@@ -261,10 +377,38 @@ export const auditLogsRouter = createTRPCRouter({
 
   // Test endpoint to verify audit logs are working
   test: protectedProcedure("audit.view")
-    .query(async () => {
-      const total = await prisma.auditLog.count()
+    .query(async ({ ctx }) => {
+      // Get user's company
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      const where: Prisma.AuditLogWhereInput = {}
+      if (companyId) {
+        where.user = {
+          companyId: companyId,
+        }
+      }
+
+      const total = await prisma.auditLog.count({ where })
       
       const recent = await prisma.auditLog.findMany({
+        where,
         take: 10,
         orderBy: { createdAt: "desc" },
         include: {
