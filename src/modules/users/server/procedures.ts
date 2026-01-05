@@ -517,9 +517,31 @@ export const usersRouter = createTRPCRouter({
       const pageSize = input?.pageSize ?? 10
       const skip = (page - 1) * pageSize
 
-      // Build where clause - show all users (not just created by current user)
-      // Users with user.view permission should see all users
+      // Get user's company
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      // Build where clause - show all users in the same company
       const whereClause: Prisma.UserWhereInput = {};
+      if (companyId) {
+        whereClause.companyId = companyId;
+      }
       if (input?.excludeUserId) {
         whereClause.id = { not: input.excludeUserId };
       }
@@ -669,9 +691,34 @@ export const usersRouter = createTRPCRouter({
 
   stats: protectedProcedure("user.view")
     .input(z.object({ excludeUserId: z.string().optional() }).optional())
-    .query(async ({ input }) => {
-      const excludeUserId = input?.excludeUserId;
-      const where = excludeUserId ? { id: { not: excludeUserId } } : {};
+    .query(async ({ input, ctx }) => {
+      // Get user's company
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      const where: Prisma.UserWhereInput = {};
+      if (companyId) {
+        where.companyId = companyId;
+      }
+      if (input?.excludeUserId) {
+        where.id = { not: input.excludeUserId };
+      }
       const [total, active, mfa, admins] = await Promise.all([
         prisma.user.count({ where }),
         prisma.user.count({ where: { ...where, isActive: true } }),
