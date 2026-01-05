@@ -20,6 +20,7 @@ model Company {
 
   // Relations
   users                  User[]
+  teams                  Team[]
   templates              PasswordTemplate[]
   ipWhitelists           IpWhitelist[]
   geographicRestrictions GeographicRestriction[]
@@ -352,14 +353,17 @@ model Team {
   id          String   @id @default(cuid())
   name        String
   description String?
+  companyId   String? // Company ID - all members must belong to this company
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   // Relations
+  company         Company?        @relation(fields: [companyId], references: [id], onDelete: Cascade)
   members         TeamMember[]
   sharedPasswords PasswordShare[]
 
   @@index([name])
+  @@index([companyId])
 }
 
 model TeamMember {

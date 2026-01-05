@@ -33,19 +33,11 @@ export const teamsRouter = createTRPCRouter({
         }
       }
 
-      // Check if team already exists in the same company (through members)
+      // Check if team already exists in the same company
       const existingTeam = await prisma.team.findFirst({
         where: { 
           name: input.name,
-          ...(companyId ? {
-            members: {
-              some: {
-                user: {
-                  companyId: companyId,
-                },
-              },
-            },
-          } : {}),
+          ...(companyId ? { companyId: companyId } : {}),
         },
       })
 
@@ -56,11 +48,12 @@ export const teamsRouter = createTRPCRouter({
         })
       }
 
-      // Create team
+      // Create team with companyId
       const team = await prisma.team.create({
         data: {
           name: input.name,
           description: input.description || null,
+          ...(companyId ? { companyId } : {}),
         },
         select: {
           id: true,
@@ -131,17 +124,11 @@ export const teamsRouter = createTRPCRouter({
         }
       }
 
-      // Build where clause - filter teams by company through members
+      // Build where clause - filter teams by company
       const where: Prisma.TeamWhereInput = {}
       
       if (companyId) {
-        where.members = {
-          some: {
-            user: {
-              companyId: companyId,
-            },
-          },
-        }
+        where.companyId = companyId
       }
 
       if (search) {
@@ -406,13 +393,7 @@ export const teamsRouter = createTRPCRouter({
       const memberWhere: Prisma.TeamMemberWhereInput = {}
       
       if (companyId) {
-        teamWhere.members = {
-          some: {
-            user: {
-              companyId: companyId,
-            },
-          },
-        }
+        teamWhere.companyId = companyId
         memberWhere.user = {
           companyId: companyId,
         }
@@ -499,13 +480,7 @@ export const teamsRouter = createTRPCRouter({
       // Check if team exists and belongs to the same company
       const teamWhere: Prisma.TeamWhereInput = { id: input.teamId }
       if (companyId) {
-        teamWhere.members = {
-          some: {
-            user: {
-              companyId: companyId,
-            },
-          },
-        }
+        teamWhere.companyId = companyId
       }
 
       const team = await prisma.team.findFirst({
@@ -627,13 +602,7 @@ export const teamsRouter = createTRPCRouter({
       
       if (companyId) {
         memberWhere.team = {
-          members: {
-            some: {
-              user: {
-                companyId: companyId,
-              },
-            },
-          },
+          companyId: companyId,
         }
         memberWhere.user = {
           companyId: companyId,

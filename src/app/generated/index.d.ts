@@ -4706,6 +4706,7 @@ export namespace Prisma {
 
   export type CompanyCountOutputType = {
     users: number
+    teams: number
     templates: number
     ipWhitelists: number
     geographicRestrictions: number
@@ -4722,6 +4723,7 @@ export namespace Prisma {
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | CompanyCountOutputTypeCountUsersArgs
+    teams?: boolean | CompanyCountOutputTypeCountTeamsArgs
     templates?: boolean | CompanyCountOutputTypeCountTemplatesArgs
     ipWhitelists?: boolean | CompanyCountOutputTypeCountIpWhitelistsArgs
     geographicRestrictions?: boolean | CompanyCountOutputTypeCountGeographicRestrictionsArgs
@@ -4752,6 +4754,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountTeamsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TeamWhereInput
   }
 
   /**
@@ -5674,6 +5683,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     users?: boolean | Company$usersArgs<ExtArgs>
+    teams?: boolean | Company$teamsArgs<ExtArgs>
     templates?: boolean | Company$templatesArgs<ExtArgs>
     ipWhitelists?: boolean | Company$ipWhitelistsArgs<ExtArgs>
     geographicRestrictions?: boolean | Company$geographicRestrictionsArgs<ExtArgs>
@@ -5718,6 +5728,7 @@ export namespace Prisma {
   export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "subdomain" | "createdAt" | "updatedAt", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Company$usersArgs<ExtArgs>
+    teams?: boolean | Company$teamsArgs<ExtArgs>
     templates?: boolean | Company$templatesArgs<ExtArgs>
     ipWhitelists?: boolean | Company$ipWhitelistsArgs<ExtArgs>
     geographicRestrictions?: boolean | Company$geographicRestrictionsArgs<ExtArgs>
@@ -5741,6 +5752,7 @@ export namespace Prisma {
     name: "Company"
     objects: {
       users: Prisma.$UserPayload<ExtArgs>[]
+      teams: Prisma.$TeamPayload<ExtArgs>[]
       templates: Prisma.$PasswordTemplatePayload<ExtArgs>[]
       ipWhitelists: Prisma.$IpWhitelistPayload<ExtArgs>[]
       geographicRestrictions: Prisma.$GeographicRestrictionPayload<ExtArgs>[]
@@ -6157,6 +6169,7 @@ export namespace Prisma {
   export interface Prisma__CompanyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     users<T extends Company$usersArgs<ExtArgs> = {}>(args?: Subset<T, Company$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    teams<T extends Company$teamsArgs<ExtArgs> = {}>(args?: Subset<T, Company$teamsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     templates<T extends Company$templatesArgs<ExtArgs> = {}>(args?: Subset<T, Company$templatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ipWhitelists<T extends Company$ipWhitelistsArgs<ExtArgs> = {}>(args?: Subset<T, Company$ipWhitelistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IpWhitelistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     geographicRestrictions<T extends Company$geographicRestrictionsArgs<ExtArgs> = {}>(args?: Subset<T, Company$geographicRestrictionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeographicRestrictionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -6614,6 +6627,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * Company.teams
+   */
+  export type Company$teamsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Team
+     */
+    select?: TeamSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Team
+     */
+    omit?: TeamOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamInclude<ExtArgs> | null
+    where?: TeamWhereInput
+    orderBy?: TeamOrderByWithRelationInput | TeamOrderByWithRelationInput[]
+    cursor?: TeamWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TeamScalarFieldEnum | TeamScalarFieldEnum[]
   }
 
   /**
@@ -21346,6 +21383,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     description: string | null
+    companyId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -21354,6 +21392,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     description: string | null
+    companyId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -21362,6 +21401,7 @@ export namespace Prisma {
     id: number
     name: number
     description: number
+    companyId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -21372,6 +21412,7 @@ export namespace Prisma {
     id?: true
     name?: true
     description?: true
+    companyId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -21380,6 +21421,7 @@ export namespace Prisma {
     id?: true
     name?: true
     description?: true
+    companyId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -21388,6 +21430,7 @@ export namespace Prisma {
     id?: true
     name?: true
     description?: true
+    companyId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -21469,6 +21512,7 @@ export namespace Prisma {
     id: string
     name: string
     description: string | null
+    companyId: string | null
     createdAt: Date
     updatedAt: Date
     _count: TeamCountAggregateOutputType | null
@@ -21494,8 +21538,10 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    companyId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    company?: boolean | Team$companyArgs<ExtArgs>
     members?: boolean | Team$membersArgs<ExtArgs>
     sharedPasswords?: boolean | Team$sharedPasswordsArgs<ExtArgs>
     _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
@@ -21505,38 +21551,49 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    companyId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    company?: boolean | Team$companyArgs<ExtArgs>
   }, ExtArgs["result"]["team"]>
 
   export type TeamSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     description?: boolean
+    companyId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    company?: boolean | Team$companyArgs<ExtArgs>
   }, ExtArgs["result"]["team"]>
 
   export type TeamSelectScalar = {
     id?: boolean
     name?: boolean
     description?: boolean
+    companyId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TeamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["team"]>
+  export type TeamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "companyId" | "createdAt" | "updatedAt", ExtArgs["result"]["team"]>
   export type TeamInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | Team$companyArgs<ExtArgs>
     members?: boolean | Team$membersArgs<ExtArgs>
     sharedPasswords?: boolean | Team$sharedPasswordsArgs<ExtArgs>
     _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type TeamIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type TeamIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type TeamIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | Team$companyArgs<ExtArgs>
+  }
+  export type TeamIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | Team$companyArgs<ExtArgs>
+  }
 
   export type $TeamPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Team"
     objects: {
+      company: Prisma.$CompanyPayload<ExtArgs> | null
       members: Prisma.$TeamMemberPayload<ExtArgs>[]
       sharedPasswords: Prisma.$PasswordSharePayload<ExtArgs>[]
     }
@@ -21544,6 +21601,7 @@ export namespace Prisma {
       id: string
       name: string
       description: string | null
+      companyId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["team"]>
@@ -21940,6 +21998,7 @@ export namespace Prisma {
    */
   export interface Prisma__TeamClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends Team$companyArgs<ExtArgs> = {}>(args?: Subset<T, Team$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     members<T extends Team$membersArgs<ExtArgs> = {}>(args?: Subset<T, Team$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sharedPasswords<T extends Team$sharedPasswordsArgs<ExtArgs> = {}>(args?: Subset<T, Team$sharedPasswordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordSharePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -21974,6 +22033,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Team", 'String'>
     readonly name: FieldRef<"Team", 'String'>
     readonly description: FieldRef<"Team", 'String'>
+    readonly companyId: FieldRef<"Team", 'String'>
     readonly createdAt: FieldRef<"Team", 'DateTime'>
     readonly updatedAt: FieldRef<"Team", 'DateTime'>
   }
@@ -22225,6 +22285,10 @@ export namespace Prisma {
      */
     data: TeamCreateManyInput | TeamCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -22295,6 +22359,10 @@ export namespace Prisma {
      * Limit how many Teams to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TeamIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -22361,6 +22429,25 @@ export namespace Prisma {
      * Limit how many Teams to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Team.company
+   */
+  export type Team$companyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Company
+     */
+    omit?: CompanyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
   }
 
   /**
@@ -55947,6 +56034,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     description: 'description',
+    companyId: 'companyId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -56666,6 +56754,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     users?: UserListRelationFilter
+    teams?: TeamListRelationFilter
     templates?: PasswordTemplateListRelationFilter
     ipWhitelists?: IpWhitelistListRelationFilter
     geographicRestrictions?: GeographicRestrictionListRelationFilter
@@ -56689,6 +56778,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     users?: UserOrderByRelationAggregateInput
+    teams?: TeamOrderByRelationAggregateInput
     templates?: PasswordTemplateOrderByRelationAggregateInput
     ipWhitelists?: IpWhitelistOrderByRelationAggregateInput
     geographicRestrictions?: GeographicRestrictionOrderByRelationAggregateInput
@@ -56715,6 +56805,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
     users?: UserListRelationFilter
+    teams?: TeamListRelationFilter
     templates?: PasswordTemplateListRelationFilter
     ipWhitelists?: IpWhitelistListRelationFilter
     geographicRestrictions?: GeographicRestrictionListRelationFilter
@@ -57952,8 +58043,10 @@ export namespace Prisma {
     id?: StringFilter<"Team"> | string
     name?: StringFilter<"Team"> | string
     description?: StringNullableFilter<"Team"> | string | null
+    companyId?: StringNullableFilter<"Team"> | string | null
     createdAt?: DateTimeFilter<"Team"> | Date | string
     updatedAt?: DateTimeFilter<"Team"> | Date | string
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
     members?: TeamMemberListRelationFilter
     sharedPasswords?: PasswordShareListRelationFilter
   }
@@ -57962,8 +58055,10 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    companyId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    company?: CompanyOrderByWithRelationInput
     members?: TeamMemberOrderByRelationAggregateInput
     sharedPasswords?: PasswordShareOrderByRelationAggregateInput
   }
@@ -57975,8 +58070,10 @@ export namespace Prisma {
     NOT?: TeamWhereInput | TeamWhereInput[]
     name?: StringFilter<"Team"> | string
     description?: StringNullableFilter<"Team"> | string | null
+    companyId?: StringNullableFilter<"Team"> | string | null
     createdAt?: DateTimeFilter<"Team"> | Date | string
     updatedAt?: DateTimeFilter<"Team"> | Date | string
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
     members?: TeamMemberListRelationFilter
     sharedPasswords?: PasswordShareListRelationFilter
   }, "id">
@@ -57985,6 +58082,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    companyId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TeamCountOrderByAggregateInput
@@ -57999,6 +58097,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Team"> | string
     name?: StringWithAggregatesFilter<"Team"> | string
     description?: StringNullableWithAggregatesFilter<"Team"> | string | null
+    companyId?: StringNullableWithAggregatesFilter<"Team"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Team"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Team"> | Date | string
   }
@@ -60314,6 +60413,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
@@ -60337,6 +60437,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
@@ -60360,6 +60461,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
@@ -60383,6 +60485,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -61777,6 +61880,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutTeamsInput
     members?: TeamMemberCreateNestedManyWithoutTeamInput
     sharedPasswords?: PasswordShareCreateNestedManyWithoutTeamInput
   }
@@ -61785,6 +61889,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    companyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
@@ -61797,6 +61902,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutTeamsNestedInput
     members?: TeamMemberUpdateManyWithoutTeamNestedInput
     sharedPasswords?: PasswordShareUpdateManyWithoutTeamNestedInput
   }
@@ -61805,6 +61911,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
@@ -61815,6 +61922,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    companyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -61831,6 +61939,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -64334,6 +64443,12 @@ export namespace Prisma {
     none?: UserWhereInput
   }
 
+  export type TeamListRelationFilter = {
+    every?: TeamWhereInput
+    some?: TeamWhereInput
+    none?: TeamWhereInput
+  }
+
   export type PasswordTemplateListRelationFilter = {
     every?: PasswordTemplateWhereInput
     some?: PasswordTemplateWhereInput
@@ -64417,6 +64532,10 @@ export namespace Prisma {
   }
 
   export type UserOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TeamOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -65552,6 +65671,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    companyId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -65560,6 +65680,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    companyId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -65568,6 +65689,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    companyId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -66946,6 +67068,13 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
+  export type TeamCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<TeamCreateWithoutCompanyInput, TeamUncheckedCreateWithoutCompanyInput> | TeamCreateWithoutCompanyInput[] | TeamUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: TeamCreateOrConnectWithoutCompanyInput | TeamCreateOrConnectWithoutCompanyInput[]
+    createMany?: TeamCreateManyCompanyInputEnvelope
+    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+  }
+
   export type PasswordTemplateCreateNestedManyWithoutCompanyInput = {
     create?: XOR<PasswordTemplateCreateWithoutCompanyInput, PasswordTemplateUncheckedCreateWithoutCompanyInput> | PasswordTemplateCreateWithoutCompanyInput[] | PasswordTemplateUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: PasswordTemplateCreateOrConnectWithoutCompanyInput | PasswordTemplateCreateOrConnectWithoutCompanyInput[]
@@ -67047,6 +67176,13 @@ export namespace Prisma {
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
     createMany?: UserCreateManyCompanyInputEnvelope
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type TeamUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<TeamCreateWithoutCompanyInput, TeamUncheckedCreateWithoutCompanyInput> | TeamCreateWithoutCompanyInput[] | TeamUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: TeamCreateOrConnectWithoutCompanyInput | TeamCreateOrConnectWithoutCompanyInput[]
+    createMany?: TeamCreateManyCompanyInputEnvelope
+    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
   }
 
   export type PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput = {
@@ -67165,6 +67301,20 @@ export namespace Prisma {
     update?: UserUpdateWithWhereUniqueWithoutCompanyInput | UserUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: UserUpdateManyWithWhereWithoutCompanyInput | UserUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type TeamUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<TeamCreateWithoutCompanyInput, TeamUncheckedCreateWithoutCompanyInput> | TeamCreateWithoutCompanyInput[] | TeamUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: TeamCreateOrConnectWithoutCompanyInput | TeamCreateOrConnectWithoutCompanyInput[]
+    upsert?: TeamUpsertWithWhereUniqueWithoutCompanyInput | TeamUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: TeamCreateManyCompanyInputEnvelope
+    set?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    disconnect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    delete?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    update?: TeamUpdateWithWhereUniqueWithoutCompanyInput | TeamUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: TeamUpdateManyWithWhereWithoutCompanyInput | TeamUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: TeamScalarWhereInput | TeamScalarWhereInput[]
   }
 
   export type PasswordTemplateUpdateManyWithoutCompanyNestedInput = {
@@ -67367,6 +67517,20 @@ export namespace Prisma {
     update?: UserUpdateWithWhereUniqueWithoutCompanyInput | UserUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: UserUpdateManyWithWhereWithoutCompanyInput | UserUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type TeamUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<TeamCreateWithoutCompanyInput, TeamUncheckedCreateWithoutCompanyInput> | TeamCreateWithoutCompanyInput[] | TeamUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: TeamCreateOrConnectWithoutCompanyInput | TeamCreateOrConnectWithoutCompanyInput[]
+    upsert?: TeamUpsertWithWhereUniqueWithoutCompanyInput | TeamUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: TeamCreateManyCompanyInputEnvelope
+    set?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    disconnect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    delete?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+    update?: TeamUpdateWithWhereUniqueWithoutCompanyInput | TeamUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: TeamUpdateManyWithWhereWithoutCompanyInput | TeamUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: TeamScalarWhereInput | TeamScalarWhereInput[]
   }
 
   export type PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput = {
@@ -69813,6 +69977,12 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTemporaryPasswordSharesInput, UserUpdateWithoutTemporaryPasswordSharesInput>, UserUncheckedUpdateWithoutTemporaryPasswordSharesInput>
   }
 
+  export type CompanyCreateNestedOneWithoutTeamsInput = {
+    create?: XOR<CompanyCreateWithoutTeamsInput, CompanyUncheckedCreateWithoutTeamsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutTeamsInput
+    connect?: CompanyWhereUniqueInput
+  }
+
   export type TeamMemberCreateNestedManyWithoutTeamInput = {
     create?: XOR<TeamMemberCreateWithoutTeamInput, TeamMemberUncheckedCreateWithoutTeamInput> | TeamMemberCreateWithoutTeamInput[] | TeamMemberUncheckedCreateWithoutTeamInput[]
     connectOrCreate?: TeamMemberCreateOrConnectWithoutTeamInput | TeamMemberCreateOrConnectWithoutTeamInput[]
@@ -69839,6 +70009,16 @@ export namespace Prisma {
     connectOrCreate?: PasswordShareCreateOrConnectWithoutTeamInput | PasswordShareCreateOrConnectWithoutTeamInput[]
     createMany?: PasswordShareCreateManyTeamInputEnvelope
     connect?: PasswordShareWhereUniqueInput | PasswordShareWhereUniqueInput[]
+  }
+
+  export type CompanyUpdateOneWithoutTeamsNestedInput = {
+    create?: XOR<CompanyCreateWithoutTeamsInput, CompanyUncheckedCreateWithoutTeamsInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutTeamsInput
+    upsert?: CompanyUpsertWithoutTeamsInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutTeamsInput, CompanyUpdateWithoutTeamsInput>, CompanyUncheckedUpdateWithoutTeamsInput>
   }
 
   export type TeamMemberUpdateManyWithoutTeamNestedInput = {
@@ -71403,6 +71583,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TeamCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: TeamMemberCreateNestedManyWithoutTeamInput
+    sharedPasswords?: PasswordShareCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
+    sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutTeamInput
+  }
+
+  export type TeamCreateOrConnectWithoutCompanyInput = {
+    where: TeamWhereUniqueInput
+    create: XOR<TeamCreateWithoutCompanyInput, TeamUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type TeamCreateManyCompanyInputEnvelope = {
+    data: TeamCreateManyCompanyInput | TeamCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PasswordTemplateCreateWithoutCompanyInput = {
     id?: string
     name: string
@@ -71970,6 +72180,34 @@ export namespace Prisma {
     createdById?: StringNullableFilter<"User"> | string | null
   }
 
+  export type TeamUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: TeamWhereUniqueInput
+    update: XOR<TeamUpdateWithoutCompanyInput, TeamUncheckedUpdateWithoutCompanyInput>
+    create: XOR<TeamCreateWithoutCompanyInput, TeamUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type TeamUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: TeamWhereUniqueInput
+    data: XOR<TeamUpdateWithoutCompanyInput, TeamUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type TeamUpdateManyWithWhereWithoutCompanyInput = {
+    where: TeamScalarWhereInput
+    data: XOR<TeamUpdateManyMutationInput, TeamUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type TeamScalarWhereInput = {
+    AND?: TeamScalarWhereInput | TeamScalarWhereInput[]
+    OR?: TeamScalarWhereInput[]
+    NOT?: TeamScalarWhereInput | TeamScalarWhereInput[]
+    id?: StringFilter<"Team"> | string
+    name?: StringFilter<"Team"> | string
+    description?: StringNullableFilter<"Team"> | string | null
+    companyId?: StringNullableFilter<"Team"> | string | null
+    createdAt?: DateTimeFilter<"Team"> | Date | string
+    updatedAt?: DateTimeFilter<"Team"> | Date | string
+  }
+
   export type PasswordTemplateUpsertWithWhereUniqueWithoutCompanyInput = {
     where: PasswordTemplateWhereUniqueInput
     update: XOR<PasswordTemplateUpdateWithoutCompanyInput, PasswordTemplateUncheckedUpdateWithoutCompanyInput>
@@ -72462,6 +72700,7 @@ export namespace Prisma {
     subdomain: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
@@ -72484,6 +72723,7 @@ export namespace Prisma {
     subdomain: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
@@ -73983,6 +74223,7 @@ export namespace Prisma {
     subdomain?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
@@ -74005,6 +74246,7 @@ export namespace Prisma {
     subdomain?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -78364,6 +78606,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutTeamsInput
     members?: TeamMemberCreateNestedManyWithoutTeamInput
   }
 
@@ -78371,6 +78614,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    companyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: TeamMemberUncheckedCreateNestedManyWithoutTeamInput
@@ -78584,6 +78828,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutTeamsNestedInput
     members?: TeamMemberUpdateManyWithoutTeamNestedInput
   }
 
@@ -78591,6 +78836,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
@@ -78956,6 +79202,57 @@ export namespace Prisma {
     createdGeographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCreatorNestedInput
   }
 
+  export type CompanyCreateWithoutTeamsInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutCompanyInput
+    reports?: ReportCreateNestedManyWithoutCompanyInput
+    reportTemplates?: ReportTemplateCreateNestedManyWithoutCompanyInput
+    scheduledReports?: ScheduledReportCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutTeamsInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutCompanyInput
+    reports?: ReportUncheckedCreateNestedManyWithoutCompanyInput
+    reportTemplates?: ReportTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledReports?: ScheduledReportUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutTeamsInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutTeamsInput, CompanyUncheckedCreateWithoutTeamsInput>
+  }
+
   export type TeamMemberCreateWithoutTeamInput = {
     id?: string
     role?: $Enums.TeamRole
@@ -79008,6 +79305,63 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CompanyUpsertWithoutTeamsInput = {
+    update: XOR<CompanyUpdateWithoutTeamsInput, CompanyUncheckedUpdateWithoutTeamsInput>
+    create: XOR<CompanyCreateWithoutTeamsInput, CompanyUncheckedCreateWithoutTeamsInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutTeamsInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutTeamsInput, CompanyUncheckedUpdateWithoutTeamsInput>
+  }
+
+  export type CompanyUpdateWithoutTeamsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutCompanyNestedInput
+    reports?: ReportUpdateManyWithoutCompanyNestedInput
+    reportTemplates?: ReportTemplateUpdateManyWithoutCompanyNestedInput
+    scheduledReports?: ScheduledReportUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutTeamsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutCompanyNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutCompanyNestedInput
+    reportTemplates?: ReportTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledReports?: ScheduledReportUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
   export type TeamMemberUpsertWithWhereUniqueWithoutTeamInput = {
     where: TeamMemberWhereUniqueInput
     update: XOR<TeamMemberUpdateWithoutTeamInput, TeamMemberUncheckedUpdateWithoutTeamInput>
@@ -79046,6 +79400,7 @@ export namespace Prisma {
     description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    company?: CompanyCreateNestedOneWithoutTeamsInput
     sharedPasswords?: PasswordShareCreateNestedManyWithoutTeamInput
   }
 
@@ -79053,6 +79408,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    companyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sharedPasswords?: PasswordShareUncheckedCreateNestedManyWithoutTeamInput
@@ -79201,6 +79557,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    company?: CompanyUpdateOneWithoutTeamsNestedInput
     sharedPasswords?: PasswordShareUpdateManyWithoutTeamNestedInput
   }
 
@@ -79208,6 +79565,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutTeamNestedInput
@@ -79793,6 +80151,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
@@ -79815,6 +80174,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
@@ -79974,6 +80334,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
@@ -79996,6 +80357,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -80266,6 +80628,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
@@ -80288,6 +80651,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
@@ -80453,6 +80817,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
@@ -80475,6 +80840,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -80618,6 +80984,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
@@ -80640,6 +81007,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
@@ -80805,6 +81173,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
@@ -80827,6 +81196,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -80849,6 +81219,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
@@ -80871,6 +81242,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
@@ -80909,6 +81281,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
@@ -80931,6 +81304,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -82512,6 +82886,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
@@ -82534,6 +82909,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
@@ -82699,6 +83075,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
@@ -82721,6 +83098,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
@@ -83608,6 +83986,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
@@ -83630,6 +84009,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
@@ -83916,6 +84296,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
@@ -83938,6 +84319,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
@@ -84208,6 +84590,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
@@ -84230,6 +84613,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
@@ -84516,6 +84900,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
@@ -84538,6 +84923,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
@@ -84687,6 +85073,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
@@ -84709,6 +85096,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
@@ -84747,6 +85135,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
@@ -84769,6 +85158,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -84791,6 +85181,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
@@ -84813,6 +85204,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
@@ -84851,6 +85243,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
@@ -84873,6 +85266,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -85016,6 +85410,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
@@ -85038,6 +85433,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
@@ -85203,6 +85599,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
@@ -85225,6 +85622,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -85368,6 +85766,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
@@ -85390,6 +85789,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
@@ -85676,6 +86076,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
@@ -85698,6 +86099,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -85968,6 +86370,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
@@ -85990,6 +86393,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
@@ -86194,6 +86598,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
@@ -86216,6 +86621,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -86404,6 +86810,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
@@ -86426,6 +86833,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
@@ -86685,6 +87093,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
@@ -86707,6 +87116,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -86882,6 +87292,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
@@ -86904,6 +87315,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
     templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
     ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
@@ -87108,6 +87520,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
@@ -87130,6 +87543,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
     templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
     ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
@@ -87211,6 +87625,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string | null
     createdById?: string | null
+  }
+
+  export type TeamCreateManyCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PasswordTemplateCreateManyCompanyInput = {
@@ -87516,6 +87938,34 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdById?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TeamUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: TeamMemberUpdateManyWithoutTeamNestedInput
+    sharedPasswords?: PasswordShareUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: TeamMemberUncheckedUpdateManyWithoutTeamNestedInput
+    sharedPasswords?: PasswordShareUncheckedUpdateManyWithoutTeamNestedInput
+  }
+
+  export type TeamUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PasswordTemplateUpdateWithoutCompanyInput = {
