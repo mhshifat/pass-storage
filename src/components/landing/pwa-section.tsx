@@ -62,7 +62,7 @@ export function PWASection() {
       color: "from-purple-500 to-pink-500",
       available: true,
       links: {
-        chrome: "#chrome-extension", // Update with actual Chrome Web Store link
+        chrome: "https://chromewebstore.google.com/detail/passbangla/cbnndacghcphiphjgpeianfoblomgile?hl=en", // Update with actual Chrome Web Store link
         firefox: "https://addons.mozilla.org/en-US/firefox/addon/pass-bangla", // Update with actual Firefox Add-ons link
       },
     },
