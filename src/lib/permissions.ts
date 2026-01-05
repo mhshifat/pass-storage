@@ -4,10 +4,10 @@ import prisma from "@/lib/prisma"
  * Get all permission keys for a user based on their role
  */
 export async function getUserPermissions(userId: string): Promise<string[]> {
-  // Get user's role
+  // Get user's role and company
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { role: true },
+    select: { role: true, companyId: true },
   })
 
   if (!user || !user.role) {
@@ -15,8 +15,25 @@ export async function getUserPermissions(userId: string): Promise<string[]> {
   }
 
   // Find the role in the database (could be system or custom)
-  const role = await prisma.role.findUnique({
-    where: { name: user.role },
+  // Filter by company: system roles are global, custom roles are company-specific
+  const roleWhere: any = { name: user.role }
+  if (user.companyId) {
+    roleWhere.OR = [
+      { isSystem: true }, // System roles are available to all companies
+      {
+        isSystem: false,
+        createdBy: {
+          companyId: user.companyId, // Custom roles are company-specific
+        },
+      },
+    ]
+  } else {
+    // If user has no company, only allow system roles
+    roleWhere.isSystem = true
+  }
+
+  const role = await prisma.role.findFirst({
+    where: roleWhere,
     include: {
       permissions: {
         include: {

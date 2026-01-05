@@ -340,6 +340,8 @@ export async function migrateUserPasswords(userId: string): Promise<{
  * Migrate all passwords in the database
  * 
  * WARNING: This should be run carefully with database backups
+ * NOTE: This function intentionally queries ALL passwords across ALL companies
+ * as it's a one-time migration script. This is expected behavior for migrations.
  */
 export async function migrateAllPasswords(options: {
   batchSize?: number
@@ -355,6 +357,7 @@ export async function migrateAllPasswords(options: {
   const prisma = await getPrismaClient()
 
   // Get total count
+  // NOTE: Intentionally queries all passwords - this is a migration script
   const total = await prisma.password.count()
 
   let migrated = 0
@@ -363,6 +366,7 @@ export async function migrateAllPasswords(options: {
   const errors: Array<{ passwordId: string; error: string }> = []
 
   // Process in batches
+  // NOTE: Intentionally queries all passwords - this is a migration script
   let offset = 0
   while (offset < total) {
     const passwords = await prisma.password.findMany({

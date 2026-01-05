@@ -210,14 +210,19 @@ export async function getAuditLogAnalytics(
     take: 10,
   })
 
-  // Get user names for user IDs
+  // Get user names for user IDs (filtered by company for security)
   const userIds = logsByUserRaw
     .map((item) => item.userId)
     .filter((id): id is string => id !== null)
   
+  const userWhere: any = { id: { in: userIds } }
+  if (companyId) {
+    userWhere.companyId = companyId
+  }
+  
   const users = userIds.length > 0
     ? await prisma.user.findMany({
-        where: { id: { in: userIds } },
+        where: userWhere,
         select: { id: true, name: true },
       })
     : []

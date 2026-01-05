@@ -154,6 +154,8 @@ export async function syncPermissionsAndRoles() {
  * Seed system report templates (SOC2, ISO27001, etc.)
  */
 export async function seedSystemReportTemplates() {
+  // NOTE: This function is for system initialization and intentionally queries
+  // across companies to find a system user. This is expected for setup.
   // Get a system user (SUPER_ADMIN) to use as creator, or find any user
   let systemUser = await prisma.user.findFirst({
     where: { role: "SUPER_ADMIN" },
@@ -161,6 +163,7 @@ export async function seedSystemReportTemplates() {
   })
 
   // If no SUPER_ADMIN exists, find any user
+  // NOTE: Intentionally queries across companies for system setup
   if (!systemUser) {
     systemUser = await prisma.user.findFirst({
       select: { id: true },

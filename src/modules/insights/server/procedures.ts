@@ -713,14 +713,18 @@ export const insightsRouter = createTRPCRouter({
             `,
       ])
 
-      // Get user names for most active users
+      // Get user names for most active users (filtered by company)
       const userIds = mostActiveUsers
         .map((u) => u.userId)
         .filter((id): id is string => id !== null)
+      const userWhere: any = { id: { in: userIds } }
+      if (companyId) {
+        userWhere.companyId = companyId
+      }
       const users =
         userIds.length > 0
           ? await prisma.user.findMany({
-              where: { id: { in: userIds } },
+              where: userWhere,
               select: { id: true, name: true, email: true },
             })
           : []
@@ -933,27 +937,35 @@ export const insightsRouter = createTRPCRouter({
         }),
       ])
 
-      // Get team names for shares by team
+      // Get team names for shares by team (filtered by company)
       const teamIds = sharesByTeam
         .map((s) => s.teamId)
         .filter((id): id is string => id !== null)
+      const teamWhere: any = { id: { in: teamIds } }
+      if (companyId) {
+        teamWhere.companyId = companyId
+      }
       const teams =
         teamIds.length > 0
           ? await prisma.team.findMany({
-              where: { id: { in: teamIds } },
+              where: teamWhere,
               select: { id: true, name: true },
             })
           : []
       const teamMap = new Map(teams.map((t) => [t.id, t]))
 
-      // Get user names for top collaborators
+      // Get user names for top collaborators (filtered by company)
       const collaboratorIds = topCollaborators
         .map((c) => c.userId)
         .filter((id): id is string => id !== null)
+      const collaboratorWhere: any = { id: { in: collaboratorIds } }
+      if (companyId) {
+        collaboratorWhere.companyId = companyId
+      }
       const collaborators =
         collaboratorIds.length > 0
           ? await prisma.user.findMany({
-              where: { id: { in: collaboratorIds } },
+              where: collaboratorWhere,
               select: { id: true, name: true, email: true },
             })
           : []
