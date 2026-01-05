@@ -19,6 +19,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/security',
     '/pricing',
     '/privacy',
+    '/blogs',
+    '/blogs/core-features',
+    '/blogs/advanced-search',
+    '/blogs/security',
+    '/blogs/team-management',
+    '/blogs/complete-overview',
   ]
 
   return routes.map((route) => ({

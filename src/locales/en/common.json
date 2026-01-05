@@ -2432,7 +2432,8 @@
         "pricing": "Pricing",
         "changelog": "Changelog",
         "about": "About",
-        "blog": "Blog",
+        "blog": "Blogs",
+        "blogs": "Blogs",
         "careers": "Careers",
         "contact": "Contact",
         "privacy": "Privacy",
@@ -2786,6 +2787,481 @@
         "privacy": "Privacy Policy",
         "terms": "Terms of Service",
         "compliance": "Compliance"
+      }
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Learn about password management, security best practices, and PassBangla features",
+    "readMore": "Read More",
+    "readTime": "read",
+    "publishedOn": "Published on",
+    "backToBlog": "Back to Blog",
+    "categories": {
+      "features": "Features",
+      "security": "Security",
+      "collaboration": "Collaboration",
+      "overview": "Overview"
+    },
+    "posts": {
+      "coreFeatures": {
+        "title": "Core Features: Everything You Need to Manage Passwords Securely",
+        "description": "Discover the essential features that make PassBangla the perfect password management solution for individuals and teams.",
+        "category": "Features",
+        "date": "January 15, 2024",
+        "readTime": "5 min",
+        "content": {
+          "sections": [
+            {
+              "title": "Introduction",
+              "paragraphs": [
+                "PassBangla is designed to make password management simple, secure, and efficient. In this article, we'll explore the core features that form the foundation of our password management platform."
+              ]
+            },
+            {
+              "title": "Secure Password Storage",
+              "paragraphs": [
+                "At the heart of PassBangla is our client-side encryption system. Every password you store is encrypted using AES-256-CBC encryption before it leaves your device. This means your passwords are never transmitted or stored in plain text.",
+                "We use PBKDF2 key derivation to create unique encryption keys for each user, ensuring that even if someone gains access to our servers, they cannot decrypt your passwords without your master key."
+              ]
+            },
+            {
+              "title": "Breach Detection",
+              "paragraphs": [
+                "PassBangla automatically checks your passwords against the Have I Been Pwned database, which contains billions of compromised passwords from data breaches. When a password is found in a breach, you'll receive an immediate alert.",
+                "This feature helps you identify and change compromised passwords before they can be used maliciously. You can check individual passwords or run a bulk check on all your stored passwords."
+              ]
+            },
+            {
+              "title": "Password History",
+              "paragraphs": [
+                "Never lose track of your password changes. PassBangla maintains a complete history of all password modifications, allowing you to view previous versions and restore them if needed.",
+                "This is especially useful when you need to revert to an older password or track changes made by team members."
+              ]
+            },
+            {
+              "title": "Organize with Folders and Tags",
+              "paragraphs": [
+                "Keep your passwords organized with our flexible folder hierarchy and tagging system. Create nested folders to match your organizational structure and use tags for cross-cutting categorization.",
+                "You can assign multiple tags to each password, making it easy to filter and find passwords by project, department, or any other criteria that matters to you."
+              ]
+            },
+            {
+              "title": "TOTP / 2FA Support",
+              "paragraphs": [
+                "Store and manage your two-factor authentication codes alongside your passwords. PassBangla supports TOTP (Time-based One-Time Password) codes, making it easy to access all your authentication needs in one place.",
+                "The TOTP codes are encrypted with the same security standards as your passwords, ensuring complete protection."
+              ]
+            },
+            {
+              "title": "Password Templates",
+              "paragraphs": [
+                "Speed up password entry with customizable templates. Create templates for common services like AWS, GitHub, or Gmail, with pre-filled fields and default values.",
+                "Templates can be shared across your team or company, ensuring consistency and reducing setup time for new accounts."
+              ]
+            },
+            {
+              "title": "Conclusion",
+              "paragraphs": [
+                "These core features form the foundation of PassBangla's password management solution. Combined with our advanced search capabilities, team collaboration tools, and enterprise-grade security, PassBangla provides everything you need to manage passwords securely and efficiently."
+              ]
+            }
+          ]
+        }
+      },
+      "advancedSearch": {
+        "title": "Master Advanced Search: Find Passwords Instantly",
+        "description": "Learn how to use PassBangla's powerful search features to quickly locate any password, even in large collections.",
+        "category": "Features",
+        "date": "January 20, 2024",
+        "readTime": "6 min",
+        "content": {
+          "sections": [
+            {
+              "title": "Introduction",
+              "paragraphs": [
+                "As your password collection grows, finding the right password quickly becomes essential. PassBangla's advanced search capabilities make it easy to locate passwords using multiple criteria and filters."
+              ]
+            },
+            {
+              "title": "Basic Search",
+              "paragraphs": [
+                "The basic search bar allows you to quickly search across password names, usernames, URLs, and notes. Simply type your query, and PassBangla will instantly filter your passwords to show matching results.",
+                "The search is case-insensitive and supports partial matching, so you don't need to remember exact spellings."
+              ]
+            },
+            {
+              "title": "Field-Specific Search",
+              "paragraphs": [
+                "For more precise searches, you can specify which fields to search. Choose to search only in names, usernames, URLs, or notes, or any combination of these fields.",
+                "This is particularly useful when you remember part of a URL but not the service name, or when you know a username but need to find which service it belongs to."
+              ]
+            },
+            {
+              "title": "Filter by Tags and Folders",
+              "paragraphs": [
+                "Combine search queries with tag and folder filters to narrow down results. For example, you can search for 'banking' passwords within a specific folder, or find all passwords tagged with 'work' that contain a certain keyword.",
+                "Folder filters support hierarchy, so selecting a parent folder will include all passwords in its subfolders."
+              ]
+            },
+            {
+              "title": "Advanced Filters",
+              "paragraphs": [
+                "Use built-in filters to find passwords that need attention:",
+                "• Weak passwords: Identify passwords that don't meet your security requirements",
+                "• Expiring passwords: Find passwords that are approaching their expiration date",
+                "• Favorites: Quickly access your most-used passwords"
+              ],
+              "list": [
+                "Weak passwords: Identify passwords that don't meet your security requirements",
+                "Expiring passwords: Find passwords that are approaching their expiration date",
+                "Favorites: Quickly access your most-used passwords"
+              ]
+            },
+            {
+              "title": "Saved Searches",
+              "paragraphs": [
+                "Save frequently used search queries for quick access. Saved searches remember all your search criteria, including query text, field selections, tags, folders, and filters.",
+                "You can create saved searches for common scenarios like 'All work passwords', 'Banking accounts', or 'Passwords needing rotation'. Access them with a single click whenever you need them."
+              ]
+            },
+            {
+              "title": "Search History",
+              "paragraphs": [
+                "PassBangla automatically tracks your search history, making it easy to repeat recent searches. This is especially helpful when you're working on a specific project and need to access the same set of passwords multiple times."
+              ]
+            },
+            {
+              "title": "Tips for Effective Searching",
+              "paragraphs": [
+                "• Use specific keywords: The more specific your search terms, the more accurate your results",
+                "• Combine filters: Use multiple filters together for precise results",
+                "• Save common searches: If you frequently search for the same things, save them as saved searches",
+                "• Use tags strategically: Well-organized tags make searching much easier"
+              ],
+              "list": [
+                "Use specific keywords: The more specific your search terms, the more accurate your results",
+                "Combine filters: Use multiple filters together for precise results",
+                "Save common searches: If you frequently search for the same things, save them as saved searches",
+                "Use tags strategically: Well-organized tags make searching much easier"
+              ]
+            },
+            {
+              "title": "Conclusion",
+              "paragraphs": [
+                "Mastering PassBangla's advanced search features will significantly improve your productivity. Whether you're managing a few passwords or thousands, these tools help you find what you need instantly."
+              ]
+            }
+          ]
+        }
+      },
+      "security": {
+        "title": "Security First: How PassBangla Protects Your Passwords",
+        "description": "Deep dive into PassBangla's security architecture, encryption methods, and zero-knowledge principles.",
+        "category": "Security",
+        "date": "January 25, 2024",
+        "readTime": "7 min",
+        "content": {
+          "sections": [
+            {
+              "title": "Introduction",
+              "paragraphs": [
+                "Security is not an afterthought at PassBangla—it's the foundation of everything we do. In this article, we'll explore the security measures that protect your passwords and data."
+              ]
+            },
+            {
+              "title": "Client-Side Encryption",
+              "paragraphs": [
+                "PassBangla uses client-side encryption, meaning your passwords are encrypted on your device before being sent to our servers. We use AES-256-CBC encryption, the same standard used by banks and government agencies.",
+                "Your encryption key is derived from your master password using PBKDF2, a key derivation function that makes it computationally infeasible to brute-force your key even if someone gains access to encrypted data."
+              ]
+            },
+            {
+              "title": "Zero-Knowledge Architecture",
+              "paragraphs": [
+                "PassBangla operates on a zero-knowledge principle. This means we cannot see, access, or decrypt your passwords. Even our own employees cannot view your data—only you have the keys to decrypt your passwords.",
+                "This architecture ensures that even in the unlikely event of a data breach, your passwords remain secure because they're encrypted with keys that only you possess."
+              ]
+            },
+            {
+              "title": "User-Specific Encryption Keys",
+              "paragraphs": [
+                "Each user has a unique encryption key derived from their credentials. This means that even if two users store the same password, they will be encrypted differently. Your encryption key never leaves your device in an unencrypted form.",
+                "This user-specific approach provides an additional layer of security, ensuring that your data is isolated from other users' data."
+              ]
+            },
+            {
+              "title": "HTTPS Everywhere",
+              "paragraphs": [
+                "All communication between your device and PassBangla servers is encrypted using HTTPS/TLS. This ensures that even if someone intercepts network traffic, they cannot read the data being transmitted.",
+                "We use the latest TLS protocols and maintain strong cipher suites to protect data in transit."
+              ]
+            },
+            {
+              "title": "Breach Detection Integration",
+              "paragraphs": [
+                "PassBangla integrates with the Have I Been Pwned database to check if your passwords have been compromised in known data breaches. This check is performed using k-anonymity, meaning we never send your full password to the service.",
+                "Instead, we send only the first 5 characters of your password's SHA-1 hash, and the service returns all hashes that start with those characters. We then check locally if your password's hash is in the results."
+              ]
+            },
+            {
+              "title": "Compliance and Audits",
+              "paragraphs": [
+                "PassBangla is designed with compliance in mind. Our security practices align with industry standards including GDPR, SOC 2, and other regulatory requirements.",
+                "We regularly conduct security audits and penetration testing to identify and address potential vulnerabilities before they can be exploited."
+              ]
+            },
+            {
+              "title": "Best Practices",
+              "paragraphs": [
+                "While PassBangla provides strong security, you also play a crucial role:",
+                "• Use a strong, unique master password",
+                "• Enable two-factor authentication",
+                "• Regularly review and update your passwords",
+                "• Keep your devices secure and up-to-date",
+                "• Be cautious of phishing attempts"
+              ],
+              "list": [
+                "Use a strong, unique master password",
+                "Enable two-factor authentication",
+                "Regularly review and update your passwords",
+                "Keep your devices secure and up-to-date",
+                "Be cautious of phishing attempts"
+              ]
+            },
+            {
+              "title": "Conclusion",
+              "paragraphs": [
+                "Security is a shared responsibility. PassBangla provides the tools and infrastructure to keep your passwords secure, but following security best practices is essential for maximum protection."
+              ]
+            }
+          ]
+        }
+      },
+      "teamManagement": {
+        "title": "Team Collaboration: Secure Password Sharing Made Easy",
+        "description": "Learn how PassBangla enables secure password sharing and team collaboration without compromising security.",
+        "category": "Collaboration",
+        "date": "February 1, 2024",
+        "readTime": "6 min",
+        "content": {
+          "sections": [
+            {
+              "title": "Introduction",
+              "paragraphs": [
+                "In today's collaborative work environment, teams need to share passwords securely. PassBangla makes it easy to share passwords with team members while maintaining the highest security standards."
+              ]
+            },
+            {
+              "title": "Team-Based Sharing",
+              "paragraphs": [
+                "PassBangla allows you to share passwords with entire teams, not just individual users. This makes it easy to grant access to shared accounts like social media, cloud services, or development environments.",
+                "When you share a password with a team, all team members automatically gain access. You can also set expiration dates for shared passwords, ensuring temporary access is automatically revoked."
+              ]
+            },
+            {
+              "title": "Role-Based Access Control",
+              "paragraphs": [
+                "PassBangla supports role-based access control (RBAC), allowing you to define what team members can do with shared passwords. Roles can have different permissions:",
+                "• View: Can see and use passwords",
+                "• Edit: Can modify password details",
+                "• Share: Can share passwords with other teams",
+                "• Delete: Can remove passwords"
+              ],
+              "list": [
+                "View: Can see and use passwords",
+                "Edit: Can modify password details",
+                "Share: Can share passwords with other teams",
+                "Delete: Can remove passwords"
+              ]
+            },
+            {
+              "title": "Temporary Password Shares",
+              "paragraphs": [
+                "For one-time access or external sharing, PassBangla supports temporary password shares. These shares can be:",
+                "• Time-limited: Automatically expire after a set duration",
+                "• Access-limited: Expire after a certain number of views",
+                "• One-time: Can only be accessed once",
+                "• TOTP-enabled: Include two-factor authentication codes if needed"
+              ],
+              "list": [
+                "Time-limited: Automatically expire after a set duration",
+                "Access-limited: Expire after a certain number of views",
+                "One-time: Can only be accessed once",
+                "TOTP-enabled: Include two-factor authentication codes if needed"
+              ]
+            },
+            {
+              "title": "Audit Trails",
+              "paragraphs": [
+                "All password sharing activities are logged in comprehensive audit trails. You can see who accessed which password, when they accessed it, and what actions they performed.",
+                "This transparency helps maintain accountability and makes it easy to investigate any security concerns."
+              ]
+            },
+            {
+              "title": "Team Management",
+              "paragraphs": [
+                "Easily create and manage teams within your organization. Add or remove members, assign roles, and control access to shared resources.",
+                "Team management features make it simple to onboard new employees, manage departures, and maintain proper access controls as your organization grows."
+              ]
+            },
+            {
+              "title": "Best Practices for Team Sharing",
+              "paragraphs": [
+                "• Only share passwords that need to be shared",
+                "• Use expiration dates for temporary access",
+                "• Regularly review shared passwords and remove unnecessary access",
+                "• Use role-based permissions to limit what team members can do",
+                "• Monitor audit logs for unusual activity"
+              ],
+              "list": [
+                "Only share passwords that need to be shared",
+                "Use expiration dates for temporary access",
+                "Regularly review shared passwords and remove unnecessary access",
+                "Use role-based permissions to limit what team members can do",
+                "Monitor audit logs for unusual activity"
+              ]
+            },
+            {
+              "title": "Conclusion",
+              "paragraphs": [
+                "PassBangla's team collaboration features make it easy to share passwords securely while maintaining control and visibility. Whether you're working with a small team or a large organization, these tools help you manage shared access effectively."
+              ]
+            }
+          ]
+        }
+      },
+      "completeOverview": {
+        "title": "Complete Feature Overview: Everything PassBangla Has to Offer",
+        "description": "A comprehensive guide to all PassBangla features, from basic password storage to advanced team collaboration.",
+        "category": "Overview",
+        "date": "February 5, 2024",
+        "readTime": "10 min",
+        "content": {
+          "sections": [
+            {
+              "title": "Introduction",
+              "paragraphs": [
+                "PassBangla is a comprehensive password management solution designed for individuals, teams, and enterprises. This article provides a complete overview of all features available in PassBangla."
+              ]
+            },
+            {
+              "title": "Core Password Management",
+              "paragraphs": [
+                "• Secure Storage: Client-side encryption with AES-256-CBC",
+                "• Password Generation: Create strong, random passwords",
+                "• Password History: Track all password changes",
+                "• Password Strength Analysis: Identify weak passwords",
+                "• Breach Detection: Check passwords against known breaches",
+                "• TOTP/2FA Support: Store two-factor authentication codes",
+                "• Password Templates: Quick entry for common services"
+              ],
+              "list": [
+                "Secure Storage: Client-side encryption with AES-256-CBC",
+                "Password Generation: Create strong, random passwords",
+                "Password History: Track all password changes",
+                "Password Strength Analysis: Identify weak passwords",
+                "Breach Detection: Check passwords against known breaches",
+                "TOTP/2FA Support: Store two-factor authentication codes",
+                "Password Templates: Quick entry for common services"
+              ]
+            },
+            {
+              "title": "Organization Features",
+              "paragraphs": [
+                "• Folder Hierarchy: Organize passwords in nested folders",
+                "• Tags: Categorize passwords with multiple tags",
+                "• Favorites: Mark frequently used passwords",
+                "• Search: Advanced search with multiple filters",
+                "• Saved Searches: Save and reuse search queries",
+                "• Bulk Operations: Manage multiple passwords at once"
+              ],
+              "list": [
+                "Folder Hierarchy: Organize passwords in nested folders",
+                "Tags: Categorize passwords with multiple tags",
+                "Favorites: Mark frequently used passwords",
+                "Search: Advanced search with multiple filters",
+                "Saved Searches: Save and reuse search queries",
+                "Bulk Operations: Manage multiple passwords at once"
+              ]
+            },
+            {
+              "title": "Team Collaboration",
+              "paragraphs": [
+                "• Team Sharing: Share passwords with teams",
+                "• Role-Based Access: Control what team members can do",
+                "• Temporary Shares: Time-limited password access",
+                "• Audit Logs: Track all password access and changes",
+                "• Team Management: Create and manage teams"
+              ],
+              "list": [
+                "Team Sharing: Share passwords with teams",
+                "Role-Based Access: Control what team members can do",
+                "Temporary Shares: Time-limited password access",
+                "Audit Logs: Track all password access and changes",
+                "Team Management: Create and manage teams"
+              ]
+            },
+            {
+              "title": "Security Features",
+              "paragraphs": [
+                "• Client-Side Encryption: Passwords encrypted before transmission",
+                "• Zero-Knowledge Architecture: We cannot see your passwords",
+                "• User-Specific Keys: Unique encryption for each user",
+                "• HTTPS/TLS: Encrypted communication",
+                "• Breach Detection: Check against Have I Been Pwned",
+                "• Password Policies: Enforce strong password requirements",
+                "• Two-Factor Authentication: Additional account security"
+              ],
+              "list": [
+                "Client-Side Encryption: Passwords encrypted before transmission",
+                "Zero-Knowledge Architecture: We cannot see your passwords",
+                "User-Specific Keys: Unique encryption for each user",
+                "HTTPS/TLS: Encrypted communication",
+                "Breach Detection: Check against Have I Been Pwned",
+                "Password Policies: Enforce strong password requirements",
+                "Two-Factor Authentication: Additional account security"
+              ]
+            },
+            {
+              "title": "Advanced Features",
+              "paragraphs": [
+                "• Password Rotation: Automated password rotation policies",
+                "• Duplicate Detection: Find and manage duplicate passwords",
+                "• Export/Import: Backup and migrate your passwords",
+                "• Reports: Security and usage reports",
+                "• Insights: Analytics on password usage",
+                "• API Access: Programmatic access to passwords"
+              ],
+              "list": [
+                "Password Rotation: Automated password rotation policies",
+                "Duplicate Detection: Find and manage duplicate passwords",
+                "Export/Import: Backup and migrate your passwords",
+                "Reports: Security and usage reports",
+                "Insights: Analytics on password usage",
+                "API Access: Programmatic access to passwords"
+              ]
+            },
+            {
+              "title": "Getting Started",
+              "paragraphs": [
+                "Ready to get started with PassBangla? Here's what you need to do:",
+                "1. Create an account at passbangla.com",
+                "2. Set up your master password (make it strong!)",
+                "3. Enable two-factor authentication",
+                "4. Start adding your passwords",
+                "5. Organize them with folders and tags",
+                "6. Invite your team members if you're working in a team"
+              ]
+            },
+            {
+              "title": "Conclusion",
+              "paragraphs": [
+                "PassBangla provides everything you need for secure password management, whether you're an individual user or part of a large enterprise. With its comprehensive feature set, strong security, and ease of use, PassBangla is the perfect solution for managing passwords in today's digital world."
+              ]
+            }
+          ]
+        }
       }
     }
   }

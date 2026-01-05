@@ -98,4 +98,18 @@ export async function getServerLanguage(): Promise<SupportedLanguage> {
   return DEFAULT_LANGUAGE
 }
 
+/**
+ * Get blog translations based on language
+ */
+export function getBlogTranslations(language: SupportedLanguage) {
+  // Import translations dynamically to avoid server/client issues
+  if (language === "bn") {
+    const bnTranslations = require("@/locales/bn/common.json")
+    return bnTranslations.blog || {}
+  }
+  
+  const enTranslations = require("@/locales/en/common.json")
+  return enTranslations.blog || {}
+}
+
 
