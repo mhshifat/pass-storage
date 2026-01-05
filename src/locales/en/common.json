@@ -2239,6 +2239,210 @@
     "focusManagement": "Focus Management",
     "focusManagementDescription": "Improved focus indicators and keyboard navigation",
     "skipToContent": "Skip to main content"
+  },
+  "landing": {
+    "hero": {
+      "betaBadge": "Now in Beta",
+      "title1": "Enterprise Password",
+      "title2": "Management Made Simple",
+      "subtitle": "Secure, encrypted password storage with client-side encryption. Your passwords never leave your device unencrypted.",
+      "aes256": "AES-256 Encryption",
+      "clientSide": "Client-Side Encryption",
+      "getStarted": "Get Started Free",
+      "signIn": "Sign In",
+      "trustIndicators": "No credit card required • Free during beta • Enterprise-ready security"
+    },
+    "features": {
+      "title": "Everything You Need to",
+      "titleHighlight": "Manage Passwords",
+      "subtitle": "Powerful features designed for individuals and teams who take security seriously.",
+      "secureStorage": {
+        "title": "Secure Storage",
+        "description": "AES-256-CBC encryption with client-side decryption. Your passwords never leave your device unencrypted."
+      },
+      "breachDetection": {
+        "title": "Breach Detection",
+        "description": "Automatically monitor your passwords against known data breaches and get instant alerts."
+      },
+      "teamCollaboration": {
+        "title": "Team Collaboration",
+        "description": "Share passwords securely with teams and manage access with role-based permissions."
+      },
+      "passwordHistory": {
+        "title": "Password History",
+        "description": "Track all password changes with full version history and one-click restore."
+      },
+      "advancedSearch": {
+        "title": "Advanced Search",
+        "description": "Find passwords instantly with powerful search, filters, tags, and folders."
+      },
+      "organizeTag": {
+        "title": "Organize & Tag",
+        "description": "Organize passwords with folders, tags, and favorites for quick access."
+      },
+      "secureSharing": {
+        "title": "Secure Sharing",
+        "description": "Share passwords with team members or create temporary share links with expiration."
+      },
+      "autoRotation": {
+        "title": "Auto Rotation",
+        "description": "Set up automatic password rotation policies with scheduled reminders."
+      },
+      "securityAlerts": {
+        "title": "Security Alerts",
+        "description": "Get notified about weak passwords, duplicates, and security risks."
+      },
+      "totp2fa": {
+        "title": "TOTP/2FA",
+        "description": "Store and generate two-factor authentication codes for your accounts."
+      },
+      "passwordTemplates": {
+        "title": "Password Templates",
+        "description": "Create reusable templates for common password types to speed up entry."
+      },
+      "fastReliable": {
+        "title": "Fast & Reliable",
+        "description": "Lightning-fast performance with offline support and instant sync."
+      }
+    },
+    "security": {
+      "title": "Security You Can",
+      "titleHighlight": "Trust",
+      "subtitle": "Enterprise-grade security with client-side encryption. Your passwords are protected by the same encryption standards used by financial institutions.",
+      "aes256cbc": {
+        "title": "AES-256-CBC Encryption",
+        "description": "Military-grade encryption algorithm used by banks and governments worldwide."
+      },
+      "clientSideEncryption": {
+        "title": "Client-Side Encryption",
+        "description": "Passwords are encrypted on your device. We never see your plain text passwords."
+      },
+      "pbkdf2": {
+        "title": "PBKDF2 Key Derivation",
+        "description": "100,000 iterations of PBKDF2 with SHA-256 for secure key generation."
+      },
+      "zeroKnowledge": {
+        "title": "Zero-Knowledge Architecture",
+        "description": "Your encryption keys are derived from your user ID. Only you can decrypt your data."
+      },
+      "encryptedAtRest": {
+        "title": "Encrypted at Rest",
+        "description": "All passwords stored in database are encrypted. Even database admins can't read them."
+      },
+      "httpsEverywhere": {
+        "title": "HTTPS Everywhere",
+        "description": "All data transmission is encrypted in transit using TLS 1.3."
+      },
+      "badge": "SOC 2 Compliant • GDPR Ready • Zero-Knowledge Architecture"
+    },
+    "pwa": {
+      "title": "Access Your Passwords",
+      "titleHighlight": "Anywhere",
+      "subtitle": "Available on all your devices. Install as a mobile app or use our browser extension for seamless password management.",
+      "mobilePWA": {
+        "title": "Mobile PWA",
+        "description": "Install on iOS and Android. Works offline with full encryption support.",
+        "features": {
+          "offline": "Offline Access",
+          "homeScreen": "Home Screen Install",
+          "pushNotifications": "Push Notifications",
+          "nativeFeel": "Native Feel"
+        },
+        "cta": "Install PWA",
+        "installed": "Installed"
+      },
+      "browserExtension": {
+        "title": "Browser Extension",
+        "description": "Auto-fill passwords seamlessly across Chrome and Firefox. Available now!",
+        "features": {
+          "autoFill": "Auto-Fill",
+          "quickAccess": "Quick Access",
+          "secureSync": "Secure Sync",
+          "chromeFirefox": "Chrome & Firefox"
+        },
+        "cta": "Get Extension",
+        "available": "Available",
+        "getChrome": "Get for Chrome",
+        "getFirefox": "Get for Firefox"
+      },
+      "webApp": {
+        "title": "Web App",
+        "description": "Access from any device with a modern, responsive web interface.",
+        "features": {
+          "anyDevice": "Any Device",
+          "realTimeSync": "Real-Time Sync",
+          "teamCollaboration": "Team Collaboration",
+          "secureCloud": "Secure Cloud"
+        },
+        "cta": "Try Web App",
+        "primary": "Primary"
+      },
+      "badge": "Browser Extensions available for Chrome and Firefox",
+      "installPrompt": {
+        "chrome": "Look for the install icon in your browser's address bar, or go to Chrome menu (⋮) > Install PassBangla",
+        "other": "Install option should appear in your browser's address bar if this app is installable"
+      }
+    },
+    "preview": {
+      "badge": "Web App Preview",
+      "title": "Experience the",
+      "titleHighlight": "Power",
+      "subtitle": "See how our intuitive dashboard makes password management effortless. Secure, fast, and beautifully designed.",
+      "dashboard": {
+        "title": "Dashboard",
+        "description": "Get a comprehensive overview of your password management system with real-time statistics and activity monitoring."
+      },
+      "passwordManagement": {
+        "title": "Password Management",
+        "description": "Securely store and manage all your passwords in one place. Auto-fill, generate strong passwords, and organize with tags."
+      },
+      "teamCollaboration": {
+        "title": "Team Collaboration",
+        "description": "Collaborate seamlessly with your team. Share passwords securely, manage access, and track team activity."
+      },
+      "securitySettings": {
+        "title": "Security Settings",
+        "description": "Configure security settings, enable two-factor authentication, and monitor your account security."
+      },
+      "tryItFree": "Try It Free"
+    },
+    "cta": {
+      "badge": "Free During Beta",
+      "title": "Ready to Secure Your",
+      "titleHighlight": "Digital Life?",
+      "subtitle": "Join thousands of users who trust PassBangla to keep their passwords safe. Start free today, no credit card required.",
+      "subscriptionNote": "Subscription plans coming soon. Early beta users get special pricing.",
+      "startFreeTrial": "Start Free Trial",
+      "signIn": "Sign In",
+      "trustIndicators": {
+        "noCard": "✓ No credit card required",
+        "freeBeta": "✓ Free during beta",
+        "cancelAnytime": "✓ Cancel anytime"
+      }
+    },
+    "footer": {
+      "tagline": "Enterprise password management with client-side encryption.",
+      "product": "Product",
+      "company": "Company",
+      "legal": "Legal",
+      "links": {
+        "features": "Features",
+        "security": "Security",
+        "pricing": "Pricing",
+        "changelog": "Changelog",
+        "about": "About",
+        "blog": "Blog",
+        "careers": "Careers",
+        "contact": "Contact",
+        "privacy": "Privacy",
+        "terms": "Terms",
+        "compliance": "Compliance",
+        "comingSoon": "(Coming Soon)"
+      },
+      "copyright": "© {{year}} PassBangla. All rights reserved.",
+      "madeWith": "Made with",
+      "forTeams": "for security-conscious teams"
+    }
   }
 }
 

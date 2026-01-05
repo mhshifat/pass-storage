@@ -10,34 +10,13 @@ import { Monitor, Lock, Shield, Users, ArrowRight, ChevronLeft, ChevronRight, Ke
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { useTranslation } from "@/hooks/use-translation"
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-// Different preview screens
-const previewScreens = [
-  {
-    title: "Dashboard",
-    icon: Monitor,
-    component: DashboardPreview,
-  },
-  {
-    title: "Password Management",
-    icon: Lock,
-    component: PasswordManagementPreview,
-  },
-  {
-    title: "Team Collaboration",
-    icon: Users,
-    component: TeamPreview,
-  },
-  {
-    title: "Security Settings",
-    icon: Shield,
-    component: SecurityPreview,
-  },
-]
+// Preview screens will be defined in the component to use translations
 
 // Dashboard Preview
 function DashboardPreview() {
@@ -266,6 +245,7 @@ function PreviewCard3D() {
 }
 
 export function AppPreviewSection() {
+  const { t } = useTranslation()
   const sectionRef = useRef<HTMLDivElement>(null)
   const previewRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLDivElement>(null)
@@ -273,6 +253,33 @@ export function AppPreviewSection() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+
+  const previewScreens = [
+    {
+      title: t("landing.preview.dashboard.title"),
+      icon: Monitor,
+      component: DashboardPreview,
+      description: t("landing.preview.dashboard.description"),
+    },
+    {
+      title: t("landing.preview.passwordManagement.title"),
+      icon: Lock,
+      component: PasswordManagementPreview,
+      description: t("landing.preview.passwordManagement.description"),
+    },
+    {
+      title: t("landing.preview.teamCollaboration.title"),
+      icon: Users,
+      component: TeamPreview,
+      description: t("landing.preview.teamCollaboration.description"),
+    },
+    {
+      title: t("landing.preview.securitySettings.title"),
+      icon: Shield,
+      component: SecurityPreview,
+      description: t("landing.preview.securitySettings.description"),
+    },
+  ]
 
   // Minimum swipe distance
   const minSwipeDistance = 50
@@ -389,17 +396,16 @@ export function AppPreviewSection() {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-sm text-primary mb-4">
             <Monitor className="h-4 w-4" />
-            <span>Web App Preview</span>
+            <span>{t("landing.preview.badge")}</span>
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            Experience the{" "}
+            <span>{t("landing.preview.title")}</span>{" "}
             <span className="bg-gradient-to-r from-primary via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Power
+              {t("landing.preview.titleHighlight")}
             </span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            See how our intuitive dashboard makes password management effortless.
-            Secure, fast, and beautifully designed.
+            {t("landing.preview.subtitle")}
           </p>
         </div>
 
@@ -465,7 +471,7 @@ export function AppPreviewSection() {
                       ? "bg-primary w-8"
                       : "bg-muted-foreground/50 hover:bg-muted-foreground"
                   )}
-                  aria-label={`Go to ${previewScreens[index].title}`}
+                  aria-label={`Go to screen ${index + 1}`}
                 />
               ))}
             </div>
@@ -504,10 +510,7 @@ export function AppPreviewSection() {
                 <div>
                   <h3 className="text-xl font-semibold mb-2">{previewScreens[currentIndex].title}</h3>
                   <p className="text-muted-foreground">
-                    {currentIndex === 0 && "Get a comprehensive overview of your password management system with real-time statistics and activity monitoring."}
-                    {currentIndex === 1 && "Securely store and manage all your passwords in one place. Auto-fill, generate strong passwords, and organize with tags."}
-                    {currentIndex === 2 && "Collaborate seamlessly with your team. Share passwords securely, manage access, and track team activity."}
-                    {currentIndex === 3 && "Configure security settings, enable two-factor authentication, and monitor your account security."}
+                    {previewScreens[currentIndex].description}
                   </p>
                 </div>
               </div>
@@ -516,7 +519,7 @@ export function AppPreviewSection() {
             <div className="pt-4">
               <Button asChild size="lg" className="w-full sm:w-auto">
                 <Link href="/register">
-                  Try It Free
+                  {t("landing.preview.tryItFree")}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

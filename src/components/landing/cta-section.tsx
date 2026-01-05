@@ -6,12 +6,14 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 import Link from "next/link"
 import { ArrowRight, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useTranslation } from "@/hooks/use-translation"
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
 }
 
 export function CTASection() {
+  const { t } = useTranslation()
   const sectionRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
@@ -63,26 +65,25 @@ export function CTASection() {
           {/* Beta Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-sm font-medium text-primary">
             <Sparkles className="h-4 w-4" />
-            <span>Free During Beta</span>
+            <span>{t("landing.cta.badge")}</span>
           </div>
 
           {/* Heading */}
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold">
-            Ready to Secure Your{" "}
+            {t("landing.cta.title")}{" "}
             <span className="bg-gradient-to-r from-primary via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Digital Life?
+              {t("landing.cta.titleHighlight")}
             </span>
           </h2>
 
           {/* Description */}
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Join thousands of users who trust PassBangla to keep their passwords safe. 
-            Start free today, no credit card required.
+            {t("landing.cta.subtitle")}
           </p>
 
           {/* Subscription Note */}
           <p className="text-sm text-muted-foreground">
-            Subscription plans coming soon. Early beta users get special pricing.
+            {t("landing.cta.subscriptionNote")}
           </p>
 
           {/* CTA Buttons */}
@@ -94,7 +95,7 @@ export function CTASection() {
               className="text-lg px-8"
             >
               <Link href="/register">
-                Start Free Trial
+                {t("landing.cta.startFreeTrial")}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
@@ -105,16 +106,16 @@ export function CTASection() {
               className="text-lg px-8"
             >
               <Link href="/login">
-                Sign In
+                {t("landing.cta.signIn")}
               </Link>
             </Button>
           </div>
 
           {/* Trust indicators */}
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground pt-8">
-            <span>✓ No credit card required</span>
-            <span>✓ Free during beta</span>
-            <span>✓ Cancel anytime</span>
+            <span>{t("landing.cta.trustIndicators.noCard")}</span>
+            <span>{t("landing.cta.trustIndicators.freeBeta")}</span>
+            <span>{t("landing.cta.trustIndicators.cancelAnytime")}</span>
           </div>
         </div>
       </div>

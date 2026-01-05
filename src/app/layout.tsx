@@ -13,6 +13,7 @@ import { AccessibilityInitializer } from "@/components/providers/accessibility-i
 import { InstallPrompt } from "@/components/pwa/install-prompt";
 import { ServiceWorkerRegistration } from "@/components/pwa/service-worker-registration";
 import { OrganizationStructuredData, WebSiteStructuredData, SoftwareApplicationStructuredData } from "@/components/seo/structured-data";
+import { getServerLanguage } from "@/lib/i18n-server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -117,13 +118,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Get language from cookies for SSR
+  const language = await getServerLanguage()
+  
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={language} suppressHydrationWarning>
       <head>
         <meta name="msvalidate.01" content="6FDB602163A60B7F0ABA4A29B9153BC2" />
         <meta name="yandex-verification" content="f179c8429f117666" />

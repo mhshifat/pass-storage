@@ -4,29 +4,32 @@ import Link from "next/link"
 import { Logo } from "@/components/shared/logo"
 import { Github, Twitter, Mail } from "lucide-react"
 import { cn } from "@/lib/utils"
-
-const footerLinks = {
-  product: [
-    { name: "Features", href: "#features", comingSoon: false },
-    { name: "Security", href: "#security", comingSoon: false },
-    { name: "Pricing", href: "#pricing", comingSoon: true },
-    { name: "Changelog", href: "#changelog", comingSoon: true },
-  ],
-  company: [
-    { name: "About", href: "#about", comingSoon: true },
-    { name: "Blog", href: "#blog", comingSoon: true },
-    { name: "Careers", href: "#careers", comingSoon: true },
-    { name: "Contact", href: "#contact", comingSoon: true },
-  ],
-  legal: [
-    { name: "Privacy", href: "/privacy", comingSoon: false },
-    { name: "Terms", href: "#terms", comingSoon: true },
-    { name: "Security", href: "#security", comingSoon: false },
-    { name: "Compliance", href: "#compliance", comingSoon: true },
-  ],
-}
+import { useTranslation } from "@/hooks/use-translation"
 
 export function Footer() {
+  const { t } = useTranslation()
+  
+  const footerLinks = {
+    product: [
+      { name: t("landing.footer.links.features"), href: "#features", comingSoon: false },
+      { name: t("landing.footer.links.security"), href: "#security", comingSoon: false },
+      { name: t("landing.footer.links.pricing"), href: "#pricing", comingSoon: true },
+      { name: t("landing.footer.links.changelog"), href: "#changelog", comingSoon: true },
+    ],
+    company: [
+      { name: t("landing.footer.links.about"), href: "#about", comingSoon: true },
+      { name: t("landing.footer.links.blog"), href: "#blog", comingSoon: true },
+      { name: t("landing.footer.links.careers"), href: "#careers", comingSoon: true },
+      { name: t("landing.footer.links.contact"), href: "#contact", comingSoon: true },
+    ],
+    legal: [
+      { name: t("landing.footer.links.privacy"), href: "/privacy", comingSoon: false },
+      { name: t("landing.footer.links.terms"), href: "#terms", comingSoon: true },
+      { name: t("landing.footer.links.security"), href: "#security", comingSoon: false },
+      { name: t("landing.footer.links.compliance"), href: "#compliance", comingSoon: true },
+    ],
+  }
+
   return (
     <footer className="border-t bg-muted/30 py-12 px-4">
       <div className="max-w-7xl mx-auto">
@@ -38,7 +41,7 @@ export function Footer() {
               <span className="text-xl font-bold">PassBangla</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              Enterprise password management with client-side encryption.
+              {t("landing.footer.tagline")}
             </p>
             <div className="flex gap-4">
               <a
@@ -67,7 +70,7 @@ export function Footer() {
 
           {/* Product Links */}
           <div>
-            <h3 className="font-semibold mb-4">Product</h3>
+            <h3 className="font-semibold mb-4">{t("landing.footer.product")}</h3>
             <ul className="space-y-2">
               {footerLinks.product.map((link) => (
                 <li key={link.name}>
@@ -81,7 +84,7 @@ export function Footer() {
                   >
                     {link.name}
                     {link.comingSoon && (
-                      <span className="ml-1 text-xs">(Coming Soon)</span>
+                      <span className="ml-1 text-xs">{t("landing.footer.links.comingSoon")}</span>
                     )}
                   </Link>
                 </li>
@@ -91,7 +94,7 @@ export function Footer() {
 
           {/* Company Links */}
           <div>
-            <h3 className="font-semibold mb-4">Company</h3>
+            <h3 className="font-semibold mb-4">{t("landing.footer.company")}</h3>
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
@@ -105,7 +108,7 @@ export function Footer() {
                   >
                     {link.name}
                     {link.comingSoon && (
-                      <span className="ml-1 text-xs">(Coming Soon)</span>
+                      <span className="ml-1 text-xs">{t("landing.footer.links.comingSoon")}</span>
                     )}
                   </Link>
                 </li>
@@ -115,7 +118,7 @@ export function Footer() {
 
           {/* Legal Links */}
           <div>
-            <h3 className="font-semibold mb-4">Legal</h3>
+            <h3 className="font-semibold mb-4">{t("landing.footer.legal")}</h3>
             <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
@@ -129,7 +132,7 @@ export function Footer() {
                   >
                     {link.name}
                     {link.comingSoon && (
-                      <span className="ml-1 text-xs">(Coming Soon)</span>
+                      <span className="ml-1 text-xs">{t("landing.footer.links.comingSoon")}</span>
                     )}
                   </Link>
                 </li>
@@ -141,12 +144,12 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="border-t pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} PassBangla. All rights reserved.
+            {t("landing.footer.copyright", { year: new Date().getFullYear() })}
           </p>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span>Made with</span>
+            <span>{t("landing.footer.madeWith")}</span>
             <span className="text-red-500">♥</span>
-            <span>for security-conscious teams</span>
+            <span>{t("landing.footer.forTeams")}</span>
           </div>
         </div>
       </div>

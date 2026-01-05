@@ -5,48 +5,50 @@ import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Shield, Lock, Key, Eye, Server, CheckCircle2 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useTranslation } from "@/hooks/use-translation"
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-const securityFeatures = [
-  {
-    icon: Lock,
-    title: "AES-256-CBC Encryption",
-    description: "Military-grade encryption algorithm used by banks and governments worldwide.",
-  },
-  {
-    icon: Key,
-    title: "Client-Side Encryption",
-    description: "Passwords are encrypted on your device. We never see your plain text passwords.",
-  },
-  {
-    icon: Shield,
-    title: "PBKDF2 Key Derivation",
-    description: "100,000 iterations of PBKDF2 with SHA-256 for secure key generation.",
-  },
-  {
-    icon: Eye,
-    title: "Zero-Knowledge Architecture",
-    description: "Your encryption keys are derived from your user ID. Only you can decrypt your data.",
-  },
-  {
-    icon: Server,
-    title: "Encrypted at Rest",
-    description: "All passwords stored in database are encrypted. Even database admins can't read them.",
-  },
-  {
-    icon: CheckCircle2,
-    title: "HTTPS Everywhere",
-    description: "All data transmission is encrypted in transit using TLS 1.3.",
-  },
-]
-
 export function SecuritySection() {
+  const { t } = useTranslation()
   const sectionRef = useRef<HTMLDivElement>(null)
   const leftRef = useRef<HTMLDivElement>(null)
   const rightRef = useRef<HTMLDivElement>(null)
+
+  const securityFeatures = [
+    {
+      icon: Lock,
+      title: t("landing.security.aes256cbc.title"),
+      description: t("landing.security.aes256cbc.description"),
+    },
+    {
+      icon: Key,
+      title: t("landing.security.clientSideEncryption.title"),
+      description: t("landing.security.clientSideEncryption.description"),
+    },
+    {
+      icon: Shield,
+      title: t("landing.security.pbkdf2.title"),
+      description: t("landing.security.pbkdf2.description"),
+    },
+    {
+      icon: Eye,
+      title: t("landing.security.zeroKnowledge.title"),
+      description: t("landing.security.zeroKnowledge.description"),
+    },
+    {
+      icon: Server,
+      title: t("landing.security.encryptedAtRest.title"),
+      description: t("landing.security.encryptedAtRest.description"),
+    },
+    {
+      icon: CheckCircle2,
+      title: t("landing.security.httpsEverywhere.title"),
+      description: t("landing.security.httpsEverywhere.description"),
+    },
+  ]
 
   useEffect(() => {
     if (!sectionRef.current || !leftRef.current || !rightRef.current) return
@@ -155,14 +157,13 @@ export function SecuritySection() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            Security You Can{" "}
+            {t("landing.security.title")}{" "}
             <span className="bg-linear-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-              Trust
+              {t("landing.security.titleHighlight")}
             </span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Enterprise-grade security with client-side encryption. Your passwords are protected 
-            by the same encryption standards used by financial institutions.
+            {t("landing.security.subtitle")}
           </p>
         </div>
 
@@ -238,7 +239,7 @@ export function SecuritySection() {
           <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-muted border border-border">
             <CheckCircle2 className="h-5 w-5 text-green-600" />
             <span className="text-sm font-medium">
-              SOC 2 Compliant • GDPR Ready • Zero-Knowledge Architecture
+              {t("landing.security.badge")}
             </span>
           </div>
         </div>

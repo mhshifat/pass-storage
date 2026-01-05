@@ -18,7 +18,7 @@ export default function MaintenancePage() {
         </CardHeader>
         <CardContent className="space-y-4 text-center">
           <p className="text-sm text-muted-foreground">
-            We're performing scheduled maintenance to improve your experience. 
+            We&apos;re performing scheduled maintenance to improve your experience. 
             Please check back shortly.
           </p>
           <p className="text-xs text-muted-foreground">
@@ -26,7 +26,7 @@ export default function MaintenancePage() {
           </p>
           <div className="pt-4">
             <Button asChild variant="outline">
-              <Link href="/login">Back to Login</Link>
+              <Link href="/login" suppressHydrationWarning>Back to Login</Link>
             </Button>
           </div>
         </CardContent>

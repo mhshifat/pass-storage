@@ -1,0 +1,20 @@
+/**
+ * Client-side i18n utilities
+ * These functions can be used in client components
+ */
+
+const LANGUAGE_COOKIE_NAME = "i18nextLng"
+
+/**
+ * Set language cookie (client-side helper)
+ * This is a client-side only function that can be used in "use client" components
+ */
+export function setLanguageCookie(language: string) {
+  if (typeof document !== "undefined") {
+    // Set cookie with 1 year expiration
+    const expires = new Date()
+    expires.setFullYear(expires.getFullYear() + 1)
+    document.cookie = `${LANGUAGE_COOKIE_NAME}=${language}; path=/; expires=${expires.toUTCString()}; SameSite=Lax`
+  }
+}
+

@@ -8,12 +8,16 @@ import { ArrowRight, Shield, Lock, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/shared/logo"
 import { ThreeBackground } from "./three-background"
+import { useTranslation } from "@/hooks/use-translation"
+import { useI18nRerender } from "@/hooks/use-i18n-rerender"
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
 }
 
 export function HeroSection() {
+  const { i18n } = useTranslation()
+  const langKey = useI18nRerender() // Force re-render when language changes
   const heroRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
@@ -111,7 +115,7 @@ export function HeroSection() {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 py-20"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 pt-32 pb-20"
     >
       {/* Animated background gradient */}
       <div className="absolute inset-0 bg-linear-to-br from-blue-50/50 via-purple-50/30 to-pink-50/50 dark:from-background dark:via-background dark:to-muted/20" />
@@ -151,9 +155,9 @@ export function HeroSection() {
       {/* Content */}
       <div className="relative z-10 max-w-6xl mx-auto text-center space-y-8">
         {/* Beta Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-sm font-medium text-primary mb-4">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-sm font-medium text-primary mb-4" key={`beta-${langKey}`}>
           <Sparkles className="h-4 w-4" />
-          <span>Now in Beta</span>
+          <span>{i18n.t("landing.hero.betaBadge")}</span>
         </div>
 
         {/* Logo */}
@@ -168,53 +172,54 @@ export function HeroSection() {
         <h1
           ref={titleRef}
           className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight"
+          key={`title-${langKey}`}
         >
           <span className="bg-linear-to-r from-primary via-purple-600 to-pink-600 bg-clip-text text-transparent">
-            Enterprise Password
+            {i18n.t("landing.hero.title1")}
           </span>
           <br />
-          <span className="text-foreground">Management Made Simple</span>
+          <span className="text-foreground">{i18n.t("landing.hero.title2")}</span>
         </h1>
 
         {/* Subtitle */}
         <p
           ref={subtitleRef}
           className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
+          key={`subtitle-${langKey}`}
         >
-          Secure, encrypted password storage with client-side encryption. 
-          Your passwords never leave your device unencrypted.
+          {i18n.t("landing.hero.subtitle")}
         </p>
 
         {/* Security badges */}
-        <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
+        <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground" key={`badges-${langKey}`}>
           <div className="flex items-center gap-2">
             <Shield className="h-4 w-4 text-primary" />
-            <span>AES-256 Encryption</span>
+            <span>{i18n.t("landing.hero.aes256")}</span>
           </div>
           <div className="flex items-center gap-2">
             <Lock className="h-4 w-4 text-primary" />
-            <span>Client-Side Encryption</span>
+            <span>{i18n.t("landing.hero.clientSide")}</span>
           </div>
         </div>
 
         {/* CTA Buttons */}
-        <div ref={ctaRef} className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+        <div ref={ctaRef} className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4" key={`cta-${langKey}`}>
           <Button asChild size="lg" className="text-lg px-8">
             <Link href="/register">
-              Get Started Free
+              {i18n.t("landing.hero.getStarted")}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
           <Button asChild variant="outline" size="lg" className="text-lg px-8">
             <Link href="/login">
-              Sign In
+              {i18n.t("landing.hero.signIn")}
             </Link>
           </Button>
         </div>
 
         {/* Trust indicators */}
-        <p className="text-sm text-muted-foreground pt-4">
-          No credit card required • Free during beta • Enterprise-ready security
+        <p className="text-sm text-muted-foreground pt-4" key={`trust-${langKey}`}>
+          {i18n.t("landing.hero.trustIndicators")}
         </p>
       </div>
 

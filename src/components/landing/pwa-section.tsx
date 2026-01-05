@@ -8,44 +8,11 @@ import { Smartphone, Chrome, Globe, ArrowRight, Check, ExternalLink } from "luci
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { toast } from "sonner"
+import { useTranslation } from "@/hooks/use-translation"
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
 }
-
-const platforms = [
-  {
-    icon: Smartphone,
-    title: "Mobile PWA",
-    description: "Install on iOS and Android. Works offline with full encryption support.",
-    features: ["Offline Access", "Home Screen Install", "Push Notifications", "Native Feel"],
-    cta: "Install PWA",
-    color: "from-blue-500 to-cyan-500",
-    available: true,
-  },
-  {
-    icon: Chrome,
-    title: "Browser Extension",
-    description: "Auto-fill passwords seamlessly across Chrome and Firefox. Available now!",
-    features: ["Auto-Fill", "Quick Access", "Secure Sync", "Chrome & Firefox"],
-    cta: "Get Extension",
-    color: "from-purple-500 to-pink-500",
-    available: true,
-    links: {
-      chrome: "#chrome-extension", // Update with actual Chrome Web Store link
-      firefox: "https://addons.mozilla.org/en-US/firefox/addon/pass-bangla", // Update with actual Firefox Add-ons link
-    },
-  },
-  {
-    icon: Globe,
-    title: "Web App",
-    description: "Access from any device with a modern, responsive web interface.",
-    features: ["Any Device", "Real-Time Sync", "Team Collaboration", "Secure Cloud"],
-    cta: "Try Web App",
-    color: "from-green-500 to-emerald-500",
-    available: true,
-  },
-]
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>
@@ -53,6 +20,7 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export function PWASection() {
+  const { t } = useTranslation()
   const sectionRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<HTMLDivElement>(null)
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
@@ -60,6 +28,60 @@ export function PWASection() {
     if (typeof window === "undefined") return false
     return window.matchMedia("(display-mode: standalone)").matches
   })
+
+  const platforms = [
+    {
+      icon: Smartphone,
+      title: t("landing.pwa.mobilePWA.title"),
+      description: t("landing.pwa.mobilePWA.description"),
+      features: [
+        t("landing.pwa.mobilePWA.features.offline"),
+        t("landing.pwa.mobilePWA.features.homeScreen"),
+        t("landing.pwa.mobilePWA.features.pushNotifications"),
+        t("landing.pwa.mobilePWA.features.nativeFeel"),
+      ],
+      cta: t("landing.pwa.mobilePWA.cta"),
+      installedText: t("landing.pwa.mobilePWA.installed"),
+      color: "from-blue-500 to-cyan-500",
+      available: true,
+    },
+    {
+      icon: Chrome,
+      title: t("landing.pwa.browserExtension.title"),
+      description: t("landing.pwa.browserExtension.description"),
+      features: [
+        t("landing.pwa.browserExtension.features.autoFill"),
+        t("landing.pwa.browserExtension.features.quickAccess"),
+        t("landing.pwa.browserExtension.features.secureSync"),
+        t("landing.pwa.browserExtension.features.chromeFirefox"),
+      ],
+      cta: t("landing.pwa.browserExtension.cta"),
+      availableText: t("landing.pwa.browserExtension.available"),
+      getChromeText: t("landing.pwa.browserExtension.getChrome"),
+      getFirefoxText: t("landing.pwa.browserExtension.getFirefox"),
+      color: "from-purple-500 to-pink-500",
+      available: true,
+      links: {
+        chrome: "#chrome-extension", // Update with actual Chrome Web Store link
+        firefox: "https://addons.mozilla.org/en-US/firefox/addon/pass-bangla", // Update with actual Firefox Add-ons link
+      },
+    },
+    {
+      icon: Globe,
+      title: t("landing.pwa.webApp.title"),
+      description: t("landing.pwa.webApp.description"),
+      features: [
+        t("landing.pwa.webApp.features.anyDevice"),
+        t("landing.pwa.webApp.features.realTimeSync"),
+        t("landing.pwa.webApp.features.teamCollaboration"),
+        t("landing.pwa.webApp.features.secureCloud"),
+      ],
+      cta: t("landing.pwa.webApp.cta"),
+      primaryText: t("landing.pwa.webApp.primary"),
+      color: "from-green-500 to-emerald-500",
+      available: true,
+    },
+  ]
 
   // Handle PWA install prompt
   useEffect(() => {
@@ -119,12 +141,12 @@ export function PWASection() {
         const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
         if (isChrome) {
           toast.info(
-            "Look for the install icon in your browser's address bar, or go to Chrome menu (⋮) > Install PassBangla",
+            t("landing.pwa.installPrompt.chrome"),
             { duration: 5000 }
           )
         } else {
           toast.info(
-            "Install option should appear in your browser's address bar if this app is installable",
+            t("landing.pwa.installPrompt.other"),
             { duration: 5000 }
           )
         }
@@ -198,14 +220,13 @@ export function PWASection() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            Access Your Passwords{" "}
+            {t("landing.pwa.title")}{" "}
             <span className="bg-gradient-to-r from-primary via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Anywhere
+              {t("landing.pwa.titleHighlight")}
             </span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Available on all your devices. Install as a mobile app or use our browser extension 
-            for seamless password management.
+            {t("landing.pwa.subtitle")}
           </p>
         </div>
 
@@ -253,12 +274,12 @@ export function PWASection() {
                   )}>{platform.title}</h3>
                   {index === 1 && (
                     <span className="px-2 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20">
-                      Available
+                      {platform.availableText}
                     </span>
                   )}
                   {index === 2 && (
                     <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20">
-                      Primary
+                      {platform.primaryText}
                     </span>
                   )}
                 </div>
@@ -290,7 +311,7 @@ export function PWASection() {
                     >
                       <a href={platform.links.chrome} target="_blank" rel="noopener noreferrer">
                         <Chrome className="mr-2 h-4 w-4" />
-                        Get for Chrome
+                        {platform.getChromeText}
                         <ExternalLink className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                       </a>
                     </Button>
@@ -300,7 +321,7 @@ export function PWASection() {
                       variant="outline"
                     >
                       <a href={platform.links.firefox} target="_blank" rel="noopener noreferrer">
-                        Get for Firefox
+                        {platform.getFirefoxText}
                         <ExternalLink className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                       </a>
                     </Button>
@@ -313,7 +334,7 @@ export function PWASection() {
                     className="w-full group/btn"
                     variant="default"
                   >
-                    {isInstalled ? "Installed" : platform.cta}
+                    {isInstalled ? platform.installedText : platform.cta}
                     <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                   </Button>
                 ) : (
@@ -337,7 +358,7 @@ export function PWASection() {
         <div className="mt-12 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-sm text-primary">
             <Check className="h-4 w-4" />
-            <span>Browser Extensions available for Chrome and Firefox</span>
+            <span>{t("landing.pwa.badge")}</span>
           </div>
         </div>
       </div>

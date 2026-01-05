@@ -18,89 +18,91 @@ import {
   Zap,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useTranslation } from "@/hooks/use-translation"
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-const features = [
-  {
-    icon: Lock,
-    title: "Secure Storage",
-    description: "AES-256-CBC encryption with client-side decryption. Your passwords never leave your device unencrypted.",
-    color: "text-blue-600",
-  },
-  {
-    icon: Shield,
-    title: "Breach Detection",
-    description: "Automatically monitor your passwords against known data breaches and get instant alerts.",
-    color: "text-red-600",
-  },
-  {
-    icon: Users,
-    title: "Team Collaboration",
-    description: "Share passwords securely with teams and manage access with role-based permissions.",
-    color: "text-purple-600",
-  },
-  {
-    icon: History,
-    title: "Password History",
-    description: "Track all password changes with full version history and one-click restore.",
-    color: "text-green-600",
-  },
-  {
-    icon: Search,
-    title: "Advanced Search",
-    description: "Find passwords instantly with powerful search, filters, tags, and folders.",
-    color: "text-orange-600",
-  },
-  {
-    icon: FolderTree,
-    title: "Organize & Tag",
-    description: "Organize passwords with folders, tags, and favorites for quick access.",
-    color: "text-indigo-600",
-  },
-  {
-    icon: Share2,
-    title: "Secure Sharing",
-    description: "Share passwords with team members or create temporary share links with expiration.",
-    color: "text-pink-600",
-  },
-  {
-    icon: RotateCcw,
-    title: "Auto Rotation",
-    description: "Set up automatic password rotation policies with scheduled reminders.",
-    color: "text-cyan-600",
-  },
-  {
-    icon: AlertTriangle,
-    title: "Security Alerts",
-    description: "Get notified about weak passwords, duplicates, and security risks.",
-    color: "text-yellow-600",
-  },
-  {
-    icon: Key,
-    title: "TOTP/2FA",
-    description: "Store and generate two-factor authentication codes for your accounts.",
-    color: "text-teal-600",
-  },
-  {
-    icon: FileText,
-    title: "Password Templates",
-    description: "Create reusable templates for common password types to speed up entry.",
-    color: "text-amber-600",
-  },
-  {
-    icon: Zap,
-    title: "Fast & Reliable",
-    description: "Lightning-fast performance with offline support and instant sync.",
-    color: "text-violet-600",
-  },
-]
-
 export function FeaturesSection() {
+  const { t } = useTranslation()
   const sectionRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<HTMLDivElement>(null)
+
+  const features = [
+    {
+      icon: Lock,
+      title: t("landing.features.secureStorage.title"),
+      description: t("landing.features.secureStorage.description"),
+      color: "text-blue-600",
+    },
+    {
+      icon: Shield,
+      title: t("landing.features.breachDetection.title"),
+      description: t("landing.features.breachDetection.description"),
+      color: "text-red-600",
+    },
+    {
+      icon: Users,
+      title: t("landing.features.teamCollaboration.title"),
+      description: t("landing.features.teamCollaboration.description"),
+      color: "text-purple-600",
+    },
+    {
+      icon: History,
+      title: t("landing.features.passwordHistory.title"),
+      description: t("landing.features.passwordHistory.description"),
+      color: "text-green-600",
+    },
+    {
+      icon: Search,
+      title: t("landing.features.advancedSearch.title"),
+      description: t("landing.features.advancedSearch.description"),
+      color: "text-orange-600",
+    },
+    {
+      icon: FolderTree,
+      title: t("landing.features.organizeTag.title"),
+      description: t("landing.features.organizeTag.description"),
+      color: "text-indigo-600",
+    },
+    {
+      icon: Share2,
+      title: t("landing.features.secureSharing.title"),
+      description: t("landing.features.secureSharing.description"),
+      color: "text-pink-600",
+    },
+    {
+      icon: RotateCcw,
+      title: t("landing.features.autoRotation.title"),
+      description: t("landing.features.autoRotation.description"),
+      color: "text-cyan-600",
+    },
+    {
+      icon: AlertTriangle,
+      title: t("landing.features.securityAlerts.title"),
+      description: t("landing.features.securityAlerts.description"),
+      color: "text-yellow-600",
+    },
+    {
+      icon: Key,
+      title: t("landing.features.totp2fa.title"),
+      description: t("landing.features.totp2fa.description"),
+      color: "text-teal-600",
+    },
+    {
+      icon: FileText,
+      title: t("landing.features.passwordTemplates.title"),
+      description: t("landing.features.passwordTemplates.description"),
+      color: "text-amber-600",
+    },
+    {
+      icon: Zap,
+      title: t("landing.features.fastReliable.title"),
+      description: t("landing.features.fastReliable.description"),
+      color: "text-violet-600",
+    },
+  ]
 
   useEffect(() => {
     if (!sectionRef.current || !cardsRef.current) return
@@ -153,13 +155,13 @@ export function FeaturesSection() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            Everything You Need to{" "}
+            {t("landing.features.title")}{" "}
             <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-              Manage Passwords
+              {t("landing.features.titleHighlight")}
             </span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Powerful features designed for individuals and teams who take security seriously.
+            {t("landing.features.subtitle")}
           </p>
         </div>
 
