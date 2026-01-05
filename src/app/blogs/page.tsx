@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default async function BlogsPage() {
   const language = await getServerLanguage()
-  const translations = getBlogTranslations(language)
+  const translations = await getBlogTranslations(language)
 
   const blogPosts = [
     {

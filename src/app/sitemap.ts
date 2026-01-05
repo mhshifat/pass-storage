@@ -15,16 +15,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '',
     '/register',
     '/login',
-    '/features',
     '/security',
-    '/pricing',
     '/privacy',
+    '/terms',
+    '/compliance',
+    '/guide',
     '/blogs',
     '/blogs/core-features',
     '/blogs/advanced-search',
     '/blogs/security',
     '/blogs/team-management',
     '/blogs/complete-overview',
+    '/changelog',
   ]
 
   return routes.map((route) => ({

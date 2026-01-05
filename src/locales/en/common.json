@@ -3264,6 +3264,55 @@
         }
       }
     }
+  },
+  "changelog": {
+    "title": "Changelog",
+    "subtitle": "See what's new in PassBangla. Track updates, new features, bug fixes, and improvements.",
+    "types": {
+      "feature": "New Features",
+      "fix": "Bug Fixes",
+      "security": "Security Updates",
+      "improvement": "Improvements"
+    },
+    "entries": [
+      {
+        "version": "0.1.0",
+        "date": "February 2025",
+        "title": "Initial Beta Release",
+        "description": "First public beta release of PassBangla with core password management features.",
+        "changes": {
+          "feature": [
+            "Client-side encryption with AES-256-CBC",
+            "Password storage and management",
+            "Team collaboration and password sharing",
+            "Advanced search with filters and saved searches",
+            "Password breach detection using Have I Been Pwned API",
+            "TOTP/2FA support for two-factor authentication",
+            "Folder hierarchy and tag organization",
+            "Password history tracking",
+            "Role-based access control (RBAC)",
+            "Audit logs for security monitoring",
+            "Password templates for quick entry",
+            "Bulk operations for password management",
+            "Export and import functionality",
+            "User guide and documentation",
+            "Blog section with feature articles"
+          ],
+          "security": [
+            "Zero-knowledge architecture implementation",
+            "User-specific encryption keys",
+            "HTTPS/TLS encryption for all communications",
+            "GDPR and SOC 2 compliance features"
+          ],
+          "improvement": [
+            "Responsive design for mobile and desktop",
+            "Bilingual support (English and Bengali)",
+            "PWA support for offline access",
+            "Dark mode support"
+          ]
+        }
+      }
+    ]
   }
 }
 

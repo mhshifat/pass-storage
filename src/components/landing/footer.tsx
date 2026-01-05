@@ -15,7 +15,7 @@ export function Footer() {
       { name: t("landing.footer.links.security"), href: "/security", comingSoon: false },
       { name: t("landing.footer.links.guide"), href: "/guide", comingSoon: false },
       { name: t("landing.footer.links.pricing"), href: "#pricing", comingSoon: true },
-      { name: t("landing.footer.links.changelog"), href: "#changelog", comingSoon: true },
+      { name: t("landing.footer.links.changelog"), href: "/changelog", comingSoon: false },
     ],
     company: [
       { name: t("landing.footer.links.about"), href: "#about", comingSoon: true },

@@ -14,7 +14,7 @@ const BLOG_SLUGS = [
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const language = await getServerLanguage()
-  const translations = getBlogTranslations(language)
+  const translations = await getBlogTranslations(language)
   
   const postMap: Record<string, { title: string; description: string }> = {
     "core-features": {
@@ -60,7 +60,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   }
 
   const language = await getServerLanguage()
-  const translations = getBlogTranslations(language)
+  const translations = await getBlogTranslations(language)
 
   return <BlogPostClient slug={slug} translations={translations} language={language} />
 }

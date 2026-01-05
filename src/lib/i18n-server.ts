@@ -50,7 +50,7 @@ async function detectCountryFromHeaders(): Promise<string | null> {
       // If no Bengali found, extract country codes from other locales (but don't use for language detection)
       // We only want to detect country if Bengali language is present
     }
-  } catch (error) {
+  } catch {
     // Ignore errors - country detection is optional
   }
   
@@ -101,15 +101,29 @@ export async function getServerLanguage(): Promise<SupportedLanguage> {
 /**
  * Get blog translations based on language
  */
-export function getBlogTranslations(language: SupportedLanguage) {
+export async function getBlogTranslations(language: SupportedLanguage) {
   // Import translations dynamically to avoid server/client issues
   if (language === "bn") {
-    const bnTranslations = require("@/locales/bn/common.json")
-    return bnTranslations.blog || {}
+    const bnTranslations = await import("@/locales/bn/common.json")
+    return bnTranslations.default?.blog || {}
   }
   
-  const enTranslations = require("@/locales/en/common.json")
-  return enTranslations.blog || {}
+  const enTranslations = await import("@/locales/en/common.json")
+  return enTranslations.default?.blog || {}
+}
+
+/**
+ * Get changelog translations based on language
+ */
+export async function getChangelogTranslations(language: SupportedLanguage) {
+  // Import translations dynamically to avoid server/client issues
+  if (language === "bn") {
+    const bnTranslations = await import("@/locales/bn/common.json")
+    return bnTranslations.default?.changelog || {}
+  }
+  
+  const enTranslations = await import("@/locales/en/common.json")
+  return enTranslations.default?.changelog || {}
 }
 
 
