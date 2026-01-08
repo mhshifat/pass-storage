@@ -116,7 +116,7 @@ export function PasswordFormDialog({
   const handleTemplateSelect = (template: {
     id: string
     name: string
-    defaultFields: Record<string, any>
+    defaultFields: Record<string, string>
   }) => {
     const fields = template.defaultFields || {}
     form.setValue("name", fields.name || "")
@@ -419,9 +419,9 @@ export function PasswordFormDialog({
                           {t("passwords.createFolder")}
                         </Button>
                       </div>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select onValueChange={field.onChange} value={field.value || undefined}>
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className="w-full">
                             <SelectValue placeholder={t("passwords.selectFolder")} />
                           </SelectTrigger>
                         </FormControl>

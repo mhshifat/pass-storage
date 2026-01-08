@@ -4712,6 +4712,7 @@ export namespace Prisma {
     geographicRestrictions: number
     threatEvents: number
     rateLimits: number
+    folders: number
     dataExports: number
     dataDeletionRequests: number
     auditLogArchives: number
@@ -4729,6 +4730,7 @@ export namespace Prisma {
     geographicRestrictions?: boolean | CompanyCountOutputTypeCountGeographicRestrictionsArgs
     threatEvents?: boolean | CompanyCountOutputTypeCountThreatEventsArgs
     rateLimits?: boolean | CompanyCountOutputTypeCountRateLimitsArgs
+    folders?: boolean | CompanyCountOutputTypeCountFoldersArgs
     dataExports?: boolean | CompanyCountOutputTypeCountDataExportsArgs
     dataDeletionRequests?: boolean | CompanyCountOutputTypeCountDataDeletionRequestsArgs
     auditLogArchives?: boolean | CompanyCountOutputTypeCountAuditLogArchivesArgs
@@ -4796,6 +4798,13 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountRateLimitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RateLimitWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountFoldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FolderWhereInput
   }
 
   /**
@@ -5690,6 +5699,7 @@ export namespace Prisma {
     threatEvents?: boolean | Company$threatEventsArgs<ExtArgs>
     rateLimits?: boolean | Company$rateLimitsArgs<ExtArgs>
     passwordPolicy?: boolean | Company$passwordPolicyArgs<ExtArgs>
+    folders?: boolean | Company$foldersArgs<ExtArgs>
     dataRetentionPolicy?: boolean | Company$dataRetentionPolicyArgs<ExtArgs>
     dataExports?: boolean | Company$dataExportsArgs<ExtArgs>
     dataDeletionRequests?: boolean | Company$dataDeletionRequestsArgs<ExtArgs>
@@ -5735,6 +5745,7 @@ export namespace Prisma {
     threatEvents?: boolean | Company$threatEventsArgs<ExtArgs>
     rateLimits?: boolean | Company$rateLimitsArgs<ExtArgs>
     passwordPolicy?: boolean | Company$passwordPolicyArgs<ExtArgs>
+    folders?: boolean | Company$foldersArgs<ExtArgs>
     dataRetentionPolicy?: boolean | Company$dataRetentionPolicyArgs<ExtArgs>
     dataExports?: boolean | Company$dataExportsArgs<ExtArgs>
     dataDeletionRequests?: boolean | Company$dataDeletionRequestsArgs<ExtArgs>
@@ -5759,6 +5770,7 @@ export namespace Prisma {
       threatEvents: Prisma.$ThreatEventPayload<ExtArgs>[]
       rateLimits: Prisma.$RateLimitPayload<ExtArgs>[]
       passwordPolicy: Prisma.$PasswordPolicyPayload<ExtArgs> | null
+      folders: Prisma.$FolderPayload<ExtArgs>[]
       dataRetentionPolicy: Prisma.$DataRetentionPolicyPayload<ExtArgs> | null
       dataExports: Prisma.$DataExportPayload<ExtArgs>[]
       dataDeletionRequests: Prisma.$DataDeletionRequestPayload<ExtArgs>[]
@@ -6176,6 +6188,7 @@ export namespace Prisma {
     threatEvents<T extends Company$threatEventsArgs<ExtArgs> = {}>(args?: Subset<T, Company$threatEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ThreatEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     rateLimits<T extends Company$rateLimitsArgs<ExtArgs> = {}>(args?: Subset<T, Company$rateLimitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RateLimitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passwordPolicy<T extends Company$passwordPolicyArgs<ExtArgs> = {}>(args?: Subset<T, Company$passwordPolicyArgs<ExtArgs>>): Prisma__PasswordPolicyClient<$Result.GetResult<Prisma.$PasswordPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    folders<T extends Company$foldersArgs<ExtArgs> = {}>(args?: Subset<T, Company$foldersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     dataRetentionPolicy<T extends Company$dataRetentionPolicyArgs<ExtArgs> = {}>(args?: Subset<T, Company$dataRetentionPolicyArgs<ExtArgs>>): Prisma__DataRetentionPolicyClient<$Result.GetResult<Prisma.$DataRetentionPolicyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     dataExports<T extends Company$dataExportsArgs<ExtArgs> = {}>(args?: Subset<T, Company$dataExportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataExportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     dataDeletionRequests<T extends Company$dataDeletionRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Company$dataDeletionRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DataDeletionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -6790,6 +6803,30 @@ export namespace Prisma {
      */
     include?: PasswordPolicyInclude<ExtArgs> | null
     where?: PasswordPolicyWhereInput
+  }
+
+  /**
+   * Company.folders
+   */
+  export type Company$foldersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    where?: FolderWhereInput
+    orderBy?: FolderOrderByWithRelationInput | FolderOrderByWithRelationInput[]
+    cursor?: FolderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FolderScalarFieldEnum | FolderScalarFieldEnum[]
   }
 
   /**
@@ -17879,6 +17916,7 @@ export namespace Prisma {
     icon: string | null
     color: string | null
     parentId: string | null
+    companyId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -17890,6 +17928,7 @@ export namespace Prisma {
     icon: string | null
     color: string | null
     parentId: string | null
+    companyId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -17901,6 +17940,7 @@ export namespace Prisma {
     icon: number
     color: number
     parentId: number
+    companyId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -17914,6 +17954,7 @@ export namespace Prisma {
     icon?: true
     color?: true
     parentId?: true
+    companyId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -17925,6 +17966,7 @@ export namespace Prisma {
     icon?: true
     color?: true
     parentId?: true
+    companyId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -17936,6 +17978,7 @@ export namespace Prisma {
     icon?: true
     color?: true
     parentId?: true
+    companyId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -18020,6 +18063,7 @@ export namespace Prisma {
     icon: string | null
     color: string | null
     parentId: string | null
+    companyId: string | null
     createdAt: Date
     updatedAt: Date
     _count: FolderCountAggregateOutputType | null
@@ -18048,11 +18092,13 @@ export namespace Prisma {
     icon?: boolean
     color?: boolean
     parentId?: boolean
+    companyId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     parent?: boolean | Folder$parentArgs<ExtArgs>
     children?: boolean | Folder$childrenArgs<ExtArgs>
     passwords?: boolean | Folder$passwordsArgs<ExtArgs>
+    company?: boolean | Folder$companyArgs<ExtArgs>
     _count?: boolean | FolderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["folder"]>
 
@@ -18063,9 +18109,11 @@ export namespace Prisma {
     icon?: boolean
     color?: boolean
     parentId?: boolean
+    companyId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     parent?: boolean | Folder$parentArgs<ExtArgs>
+    company?: boolean | Folder$companyArgs<ExtArgs>
   }, ExtArgs["result"]["folder"]>
 
   export type FolderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -18075,9 +18123,11 @@ export namespace Prisma {
     icon?: boolean
     color?: boolean
     parentId?: boolean
+    companyId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     parent?: boolean | Folder$parentArgs<ExtArgs>
+    company?: boolean | Folder$companyArgs<ExtArgs>
   }, ExtArgs["result"]["folder"]>
 
   export type FolderSelectScalar = {
@@ -18087,22 +18137,26 @@ export namespace Prisma {
     icon?: boolean
     color?: boolean
     parentId?: boolean
+    companyId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type FolderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "icon" | "color" | "parentId" | "createdAt" | "updatedAt", ExtArgs["result"]["folder"]>
+  export type FolderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "icon" | "color" | "parentId" | "companyId" | "createdAt" | "updatedAt", ExtArgs["result"]["folder"]>
   export type FolderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     parent?: boolean | Folder$parentArgs<ExtArgs>
     children?: boolean | Folder$childrenArgs<ExtArgs>
     passwords?: boolean | Folder$passwordsArgs<ExtArgs>
+    company?: boolean | Folder$companyArgs<ExtArgs>
     _count?: boolean | FolderCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type FolderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     parent?: boolean | Folder$parentArgs<ExtArgs>
+    company?: boolean | Folder$companyArgs<ExtArgs>
   }
   export type FolderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     parent?: boolean | Folder$parentArgs<ExtArgs>
+    company?: boolean | Folder$companyArgs<ExtArgs>
   }
 
   export type $FolderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18111,6 +18165,7 @@ export namespace Prisma {
       parent: Prisma.$FolderPayload<ExtArgs> | null
       children: Prisma.$FolderPayload<ExtArgs>[]
       passwords: Prisma.$PasswordPayload<ExtArgs>[]
+      company: Prisma.$CompanyPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -18119,6 +18174,7 @@ export namespace Prisma {
       icon: string | null
       color: string | null
       parentId: string | null
+      companyId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["folder"]>
@@ -18518,6 +18574,7 @@ export namespace Prisma {
     parent<T extends Folder$parentArgs<ExtArgs> = {}>(args?: Subset<T, Folder$parentArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     children<T extends Folder$childrenArgs<ExtArgs> = {}>(args?: Subset<T, Folder$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passwords<T extends Folder$passwordsArgs<ExtArgs> = {}>(args?: Subset<T, Folder$passwordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    company<T extends Folder$companyArgs<ExtArgs> = {}>(args?: Subset<T, Folder$companyArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18553,6 +18610,7 @@ export namespace Prisma {
     readonly icon: FieldRef<"Folder", 'String'>
     readonly color: FieldRef<"Folder", 'String'>
     readonly parentId: FieldRef<"Folder", 'String'>
+    readonly companyId: FieldRef<"Folder", 'String'>
     readonly createdAt: FieldRef<"Folder", 'DateTime'>
     readonly updatedAt: FieldRef<"Folder", 'DateTime'>
   }
@@ -19015,6 +19073,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PasswordScalarFieldEnum | PasswordScalarFieldEnum[]
+  }
+
+  /**
+   * Folder.company
+   */
+  export type Folder$companyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Company
+     */
+    select?: CompanySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Company
+     */
+    omit?: CompanyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CompanyInclude<ExtArgs> | null
+    where?: CompanyWhereInput
   }
 
   /**
@@ -55992,6 +56069,7 @@ export namespace Prisma {
     icon: 'icon',
     color: 'color',
     parentId: 'parentId',
+    companyId: 'companyId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -56761,6 +56839,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventListRelationFilter
     rateLimits?: RateLimitListRelationFilter
     passwordPolicy?: XOR<PasswordPolicyNullableScalarRelationFilter, PasswordPolicyWhereInput> | null
+    folders?: FolderListRelationFilter
     dataRetentionPolicy?: XOR<DataRetentionPolicyNullableScalarRelationFilter, DataRetentionPolicyWhereInput> | null
     dataExports?: DataExportListRelationFilter
     dataDeletionRequests?: DataDeletionRequestListRelationFilter
@@ -56785,6 +56864,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventOrderByRelationAggregateInput
     rateLimits?: RateLimitOrderByRelationAggregateInput
     passwordPolicy?: PasswordPolicyOrderByWithRelationInput
+    folders?: FolderOrderByRelationAggregateInput
     dataRetentionPolicy?: DataRetentionPolicyOrderByWithRelationInput
     dataExports?: DataExportOrderByRelationAggregateInput
     dataDeletionRequests?: DataDeletionRequestOrderByRelationAggregateInput
@@ -56812,6 +56892,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventListRelationFilter
     rateLimits?: RateLimitListRelationFilter
     passwordPolicy?: XOR<PasswordPolicyNullableScalarRelationFilter, PasswordPolicyWhereInput> | null
+    folders?: FolderListRelationFilter
     dataRetentionPolicy?: XOR<DataRetentionPolicyNullableScalarRelationFilter, DataRetentionPolicyWhereInput> | null
     dataExports?: DataExportListRelationFilter
     dataDeletionRequests?: DataDeletionRequestListRelationFilter
@@ -57804,11 +57885,13 @@ export namespace Prisma {
     icon?: StringNullableFilter<"Folder"> | string | null
     color?: StringNullableFilter<"Folder"> | string | null
     parentId?: StringNullableFilter<"Folder"> | string | null
+    companyId?: StringNullableFilter<"Folder"> | string | null
     createdAt?: DateTimeFilter<"Folder"> | Date | string
     updatedAt?: DateTimeFilter<"Folder"> | Date | string
     parent?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
     children?: FolderListRelationFilter
     passwords?: PasswordListRelationFilter
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
   }
 
   export type FolderOrderByWithRelationInput = {
@@ -57818,11 +57901,13 @@ export namespace Prisma {
     icon?: SortOrderInput | SortOrder
     color?: SortOrderInput | SortOrder
     parentId?: SortOrderInput | SortOrder
+    companyId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     parent?: FolderOrderByWithRelationInput
     children?: FolderOrderByRelationAggregateInput
     passwords?: PasswordOrderByRelationAggregateInput
+    company?: CompanyOrderByWithRelationInput
   }
 
   export type FolderWhereUniqueInput = Prisma.AtLeast<{
@@ -57835,11 +57920,13 @@ export namespace Prisma {
     icon?: StringNullableFilter<"Folder"> | string | null
     color?: StringNullableFilter<"Folder"> | string | null
     parentId?: StringNullableFilter<"Folder"> | string | null
+    companyId?: StringNullableFilter<"Folder"> | string | null
     createdAt?: DateTimeFilter<"Folder"> | Date | string
     updatedAt?: DateTimeFilter<"Folder"> | Date | string
     parent?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
     children?: FolderListRelationFilter
     passwords?: PasswordListRelationFilter
+    company?: XOR<CompanyNullableScalarRelationFilter, CompanyWhereInput> | null
   }, "id">
 
   export type FolderOrderByWithAggregationInput = {
@@ -57849,6 +57936,7 @@ export namespace Prisma {
     icon?: SortOrderInput | SortOrder
     color?: SortOrderInput | SortOrder
     parentId?: SortOrderInput | SortOrder
+    companyId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: FolderCountOrderByAggregateInput
@@ -57866,6 +57954,7 @@ export namespace Prisma {
     icon?: StringNullableWithAggregatesFilter<"Folder"> | string | null
     color?: StringNullableWithAggregatesFilter<"Folder"> | string | null
     parentId?: StringNullableWithAggregatesFilter<"Folder"> | string | null
+    companyId?: StringNullableWithAggregatesFilter<"Folder"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Folder"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Folder"> | Date | string
   }
@@ -60420,6 +60509,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
@@ -60444,6 +60534,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -60468,6 +60559,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
@@ -60492,6 +60584,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -61631,6 +61724,7 @@ export namespace Prisma {
     parent?: FolderCreateNestedOneWithoutChildrenInput
     children?: FolderCreateNestedManyWithoutParentInput
     passwords?: PasswordCreateNestedManyWithoutFolderInput
+    company?: CompanyCreateNestedOneWithoutFoldersInput
   }
 
   export type FolderUncheckedCreateInput = {
@@ -61640,6 +61734,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     parentId?: string | null
+    companyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: FolderUncheckedCreateNestedManyWithoutParentInput
@@ -61657,6 +61752,7 @@ export namespace Prisma {
     parent?: FolderUpdateOneWithoutChildrenNestedInput
     children?: FolderUpdateManyWithoutParentNestedInput
     passwords?: PasswordUpdateManyWithoutFolderNestedInput
+    company?: CompanyUpdateOneWithoutFoldersNestedInput
   }
 
   export type FolderUncheckedUpdateInput = {
@@ -61666,6 +61762,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: FolderUncheckedUpdateManyWithoutParentNestedInput
@@ -61679,6 +61776,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     parentId?: string | null
+    companyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -61700,6 +61798,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -64484,6 +64583,12 @@ export namespace Prisma {
     isNot?: PasswordPolicyWhereInput | null
   }
 
+  export type FolderListRelationFilter = {
+    every?: FolderWhereInput
+    some?: FolderWhereInput
+    none?: FolderWhereInput
+  }
+
   export type DataRetentionPolicyNullableScalarRelationFilter = {
     is?: DataRetentionPolicyWhereInput | null
     isNot?: DataRetentionPolicyWhereInput | null
@@ -64556,6 +64661,10 @@ export namespace Prisma {
   }
 
   export type RateLimitOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FolderOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -65517,16 +65626,6 @@ export namespace Prisma {
     notes?: SortOrder
   }
 
-  export type FolderListRelationFilter = {
-    every?: FolderWhereInput
-    some?: FolderWhereInput
-    none?: FolderWhereInput
-  }
-
-  export type FolderOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type FolderCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -65534,6 +65633,7 @@ export namespace Prisma {
     icon?: SortOrder
     color?: SortOrder
     parentId?: SortOrder
+    companyId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -65545,6 +65645,7 @@ export namespace Prisma {
     icon?: SortOrder
     color?: SortOrder
     parentId?: SortOrder
+    companyId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -65556,6 +65657,7 @@ export namespace Prisma {
     icon?: SortOrder
     color?: SortOrder
     parentId?: SortOrder
+    companyId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -67116,6 +67218,13 @@ export namespace Prisma {
     connect?: PasswordPolicyWhereUniqueInput
   }
 
+  export type FolderCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<FolderCreateWithoutCompanyInput, FolderUncheckedCreateWithoutCompanyInput> | FolderCreateWithoutCompanyInput[] | FolderUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutCompanyInput | FolderCreateOrConnectWithoutCompanyInput[]
+    createMany?: FolderCreateManyCompanyInputEnvelope
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+  }
+
   export type DataRetentionPolicyCreateNestedOneWithoutCompanyInput = {
     create?: XOR<DataRetentionPolicyCreateWithoutCompanyInput, DataRetentionPolicyUncheckedCreateWithoutCompanyInput>
     connectOrCreate?: DataRetentionPolicyCreateOrConnectWithoutCompanyInput
@@ -67224,6 +67333,13 @@ export namespace Prisma {
     create?: XOR<PasswordPolicyCreateWithoutCompanyInput, PasswordPolicyUncheckedCreateWithoutCompanyInput>
     connectOrCreate?: PasswordPolicyCreateOrConnectWithoutCompanyInput
     connect?: PasswordPolicyWhereUniqueInput
+  }
+
+  export type FolderUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<FolderCreateWithoutCompanyInput, FolderUncheckedCreateWithoutCompanyInput> | FolderCreateWithoutCompanyInput[] | FolderUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutCompanyInput | FolderCreateOrConnectWithoutCompanyInput[]
+    createMany?: FolderCreateManyCompanyInputEnvelope
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
   }
 
   export type DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput = {
@@ -67395,6 +67511,20 @@ export namespace Prisma {
     delete?: PasswordPolicyWhereInput | boolean
     connect?: PasswordPolicyWhereUniqueInput
     update?: XOR<XOR<PasswordPolicyUpdateToOneWithWhereWithoutCompanyInput, PasswordPolicyUpdateWithoutCompanyInput>, PasswordPolicyUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type FolderUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<FolderCreateWithoutCompanyInput, FolderUncheckedCreateWithoutCompanyInput> | FolderCreateWithoutCompanyInput[] | FolderUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutCompanyInput | FolderCreateOrConnectWithoutCompanyInput[]
+    upsert?: FolderUpsertWithWhereUniqueWithoutCompanyInput | FolderUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: FolderCreateManyCompanyInputEnvelope
+    set?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    disconnect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    delete?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    update?: FolderUpdateWithWhereUniqueWithoutCompanyInput | FolderUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: FolderUpdateManyWithWhereWithoutCompanyInput | FolderUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: FolderScalarWhereInput | FolderScalarWhereInput[]
   }
 
   export type DataRetentionPolicyUpdateOneWithoutCompanyNestedInput = {
@@ -67611,6 +67741,20 @@ export namespace Prisma {
     delete?: PasswordPolicyWhereInput | boolean
     connect?: PasswordPolicyWhereUniqueInput
     update?: XOR<XOR<PasswordPolicyUpdateToOneWithWhereWithoutCompanyInput, PasswordPolicyUpdateWithoutCompanyInput>, PasswordPolicyUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type FolderUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<FolderCreateWithoutCompanyInput, FolderUncheckedCreateWithoutCompanyInput> | FolderCreateWithoutCompanyInput[] | FolderUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: FolderCreateOrConnectWithoutCompanyInput | FolderCreateOrConnectWithoutCompanyInput[]
+    upsert?: FolderUpsertWithWhereUniqueWithoutCompanyInput | FolderUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: FolderCreateManyCompanyInputEnvelope
+    set?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    disconnect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    delete?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    connect?: FolderWhereUniqueInput | FolderWhereUniqueInput[]
+    update?: FolderUpdateWithWhereUniqueWithoutCompanyInput | FolderUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: FolderUpdateManyWithWhereWithoutCompanyInput | FolderUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: FolderScalarWhereInput | FolderScalarWhereInput[]
   }
 
   export type DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput = {
@@ -69819,6 +69963,12 @@ export namespace Prisma {
     connect?: PasswordWhereUniqueInput | PasswordWhereUniqueInput[]
   }
 
+  export type CompanyCreateNestedOneWithoutFoldersInput = {
+    create?: XOR<CompanyCreateWithoutFoldersInput, CompanyUncheckedCreateWithoutFoldersInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutFoldersInput
+    connect?: CompanyWhereUniqueInput
+  }
+
   export type FolderUncheckedCreateNestedManyWithoutParentInput = {
     create?: XOR<FolderCreateWithoutParentInput, FolderUncheckedCreateWithoutParentInput> | FolderCreateWithoutParentInput[] | FolderUncheckedCreateWithoutParentInput[]
     connectOrCreate?: FolderCreateOrConnectWithoutParentInput | FolderCreateOrConnectWithoutParentInput[]
@@ -69869,6 +70019,16 @@ export namespace Prisma {
     update?: PasswordUpdateWithWhereUniqueWithoutFolderInput | PasswordUpdateWithWhereUniqueWithoutFolderInput[]
     updateMany?: PasswordUpdateManyWithWhereWithoutFolderInput | PasswordUpdateManyWithWhereWithoutFolderInput[]
     deleteMany?: PasswordScalarWhereInput | PasswordScalarWhereInput[]
+  }
+
+  export type CompanyUpdateOneWithoutFoldersNestedInput = {
+    create?: XOR<CompanyCreateWithoutFoldersInput, CompanyUncheckedCreateWithoutFoldersInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutFoldersInput
+    upsert?: CompanyUpsertWithoutFoldersInput
+    disconnect?: CompanyWhereInput | boolean
+    delete?: CompanyWhereInput | boolean
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutFoldersInput, CompanyUpdateWithoutFoldersInput>, CompanyUncheckedUpdateWithoutFoldersInput>
   }
 
   export type FolderUncheckedUpdateManyWithoutParentNestedInput = {
@@ -71828,6 +71988,42 @@ export namespace Prisma {
     create: XOR<PasswordPolicyCreateWithoutCompanyInput, PasswordPolicyUncheckedCreateWithoutCompanyInput>
   }
 
+  export type FolderCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    icon?: string | null
+    color?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    parent?: FolderCreateNestedOneWithoutChildrenInput
+    children?: FolderCreateNestedManyWithoutParentInput
+    passwords?: PasswordCreateNestedManyWithoutFolderInput
+  }
+
+  export type FolderUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    icon?: string | null
+    color?: string | null
+    parentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: FolderUncheckedCreateNestedManyWithoutParentInput
+    passwords?: PasswordUncheckedCreateNestedManyWithoutFolderInput
+  }
+
+  export type FolderCreateOrConnectWithoutCompanyInput = {
+    where: FolderWhereUniqueInput
+    create: XOR<FolderCreateWithoutCompanyInput, FolderUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type FolderCreateManyCompanyInputEnvelope = {
+    data: FolderCreateManyCompanyInput | FolderCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type DataRetentionPolicyCreateWithoutCompanyInput = {
     id?: string
     auditLogRetentionDays?: number | null
@@ -72415,6 +72611,37 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FolderUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: FolderWhereUniqueInput
+    update: XOR<FolderUpdateWithoutCompanyInput, FolderUncheckedUpdateWithoutCompanyInput>
+    create: XOR<FolderCreateWithoutCompanyInput, FolderUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type FolderUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: FolderWhereUniqueInput
+    data: XOR<FolderUpdateWithoutCompanyInput, FolderUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type FolderUpdateManyWithWhereWithoutCompanyInput = {
+    where: FolderScalarWhereInput
+    data: XOR<FolderUpdateManyMutationInput, FolderUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type FolderScalarWhereInput = {
+    AND?: FolderScalarWhereInput | FolderScalarWhereInput[]
+    OR?: FolderScalarWhereInput[]
+    NOT?: FolderScalarWhereInput | FolderScalarWhereInput[]
+    id?: StringFilter<"Folder"> | string
+    name?: StringFilter<"Folder"> | string
+    description?: StringNullableFilter<"Folder"> | string | null
+    icon?: StringNullableFilter<"Folder"> | string | null
+    color?: StringNullableFilter<"Folder"> | string | null
+    parentId?: StringNullableFilter<"Folder"> | string | null
+    companyId?: StringNullableFilter<"Folder"> | string | null
+    createdAt?: DateTimeFilter<"Folder"> | Date | string
+    updatedAt?: DateTimeFilter<"Folder"> | Date | string
+  }
+
   export type DataRetentionPolicyUpsertWithoutCompanyInput = {
     update: XOR<DataRetentionPolicyUpdateWithoutCompanyInput, DataRetentionPolicyUncheckedUpdateWithoutCompanyInput>
     create: XOR<DataRetentionPolicyCreateWithoutCompanyInput, DataRetentionPolicyUncheckedCreateWithoutCompanyInput>
@@ -72707,6 +72934,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
@@ -72730,6 +72958,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -74230,6 +74459,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
@@ -74253,6 +74483,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -75877,6 +76108,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     parent?: FolderCreateNestedOneWithoutChildrenInput
     children?: FolderCreateNestedManyWithoutParentInput
+    company?: CompanyCreateNestedOneWithoutFoldersInput
   }
 
   export type FolderUncheckedCreateWithoutPasswordsInput = {
@@ -75886,6 +76118,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     parentId?: string | null
+    companyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: FolderUncheckedCreateNestedManyWithoutParentInput
@@ -76283,6 +76516,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: FolderUpdateOneWithoutChildrenNestedInput
     children?: FolderUpdateManyWithoutParentNestedInput
+    company?: CompanyUpdateOneWithoutFoldersNestedInput
   }
 
   export type FolderUncheckedUpdateWithoutPasswordsInput = {
@@ -76292,6 +76526,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: FolderUncheckedUpdateManyWithoutParentNestedInput
@@ -78234,6 +78469,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     parent?: FolderCreateNestedOneWithoutChildrenInput
     passwords?: PasswordCreateNestedManyWithoutFolderInput
+    company?: CompanyCreateNestedOneWithoutFoldersInput
   }
 
   export type FolderUncheckedCreateWithoutChildrenInput = {
@@ -78243,6 +78479,7 @@ export namespace Prisma {
     icon?: string | null
     color?: string | null
     parentId?: string | null
+    companyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     passwords?: PasswordUncheckedCreateNestedManyWithoutFolderInput
@@ -78263,6 +78500,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     children?: FolderCreateNestedManyWithoutParentInput
     passwords?: PasswordCreateNestedManyWithoutFolderInput
+    company?: CompanyCreateNestedOneWithoutFoldersInput
   }
 
   export type FolderUncheckedCreateWithoutParentInput = {
@@ -78271,6 +78509,7 @@ export namespace Prisma {
     description?: string | null
     icon?: string | null
     color?: string | null
+    companyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: FolderUncheckedCreateNestedManyWithoutParentInput
@@ -78345,6 +78584,59 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CompanyCreateWithoutFoldersInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutCompanyInput
+    teams?: TeamCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchCreateNestedManyWithoutCompanyInput
+    reports?: ReportCreateNestedManyWithoutCompanyInput
+    reportTemplates?: ReportTemplateCreateNestedManyWithoutCompanyInput
+    scheduledReports?: ScheduledReportCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutFoldersInput = {
+    id?: string
+    name: string
+    subdomain: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    teams?: TeamUncheckedCreateNestedManyWithoutCompanyInput
+    templates?: PasswordTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    ipWhitelists?: IpWhitelistUncheckedCreateNestedManyWithoutCompanyInput
+    geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
+    threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
+    rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+    passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
+    auditLogSearches?: AuditLogSearchUncheckedCreateNestedManyWithoutCompanyInput
+    reports?: ReportUncheckedCreateNestedManyWithoutCompanyInput
+    reportTemplates?: ReportTemplateUncheckedCreateNestedManyWithoutCompanyInput
+    scheduledReports?: ScheduledReportUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutFoldersInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutFoldersInput, CompanyUncheckedCreateWithoutFoldersInput>
+  }
+
   export type FolderUpsertWithoutChildrenInput = {
     update: XOR<FolderUpdateWithoutChildrenInput, FolderUncheckedUpdateWithoutChildrenInput>
     create: XOR<FolderCreateWithoutChildrenInput, FolderUncheckedCreateWithoutChildrenInput>
@@ -78366,6 +78658,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: FolderUpdateOneWithoutChildrenNestedInput
     passwords?: PasswordUpdateManyWithoutFolderNestedInput
+    company?: CompanyUpdateOneWithoutFoldersNestedInput
   }
 
   export type FolderUncheckedUpdateWithoutChildrenInput = {
@@ -78375,6 +78668,7 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     passwords?: PasswordUncheckedUpdateManyWithoutFolderNestedInput
@@ -78396,20 +78690,6 @@ export namespace Prisma {
     data: XOR<FolderUpdateManyMutationInput, FolderUncheckedUpdateManyWithoutParentInput>
   }
 
-  export type FolderScalarWhereInput = {
-    AND?: FolderScalarWhereInput | FolderScalarWhereInput[]
-    OR?: FolderScalarWhereInput[]
-    NOT?: FolderScalarWhereInput | FolderScalarWhereInput[]
-    id?: StringFilter<"Folder"> | string
-    name?: StringFilter<"Folder"> | string
-    description?: StringNullableFilter<"Folder"> | string | null
-    icon?: StringNullableFilter<"Folder"> | string | null
-    color?: StringNullableFilter<"Folder"> | string | null
-    parentId?: StringNullableFilter<"Folder"> | string | null
-    createdAt?: DateTimeFilter<"Folder"> | Date | string
-    updatedAt?: DateTimeFilter<"Folder"> | Date | string
-  }
-
   export type PasswordUpsertWithWhereUniqueWithoutFolderInput = {
     where: PasswordWhereUniqueInput
     update: XOR<PasswordUpdateWithoutFolderInput, PasswordUncheckedUpdateWithoutFolderInput>
@@ -78424,6 +78704,65 @@ export namespace Prisma {
   export type PasswordUpdateManyWithWhereWithoutFolderInput = {
     where: PasswordScalarWhereInput
     data: XOR<PasswordUpdateManyMutationInput, PasswordUncheckedUpdateManyWithoutFolderInput>
+  }
+
+  export type CompanyUpsertWithoutFoldersInput = {
+    update: XOR<CompanyUpdateWithoutFoldersInput, CompanyUncheckedUpdateWithoutFoldersInput>
+    create: XOR<CompanyCreateWithoutFoldersInput, CompanyUncheckedCreateWithoutFoldersInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutFoldersInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutFoldersInput, CompanyUncheckedUpdateWithoutFoldersInput>
+  }
+
+  export type CompanyUpdateWithoutFoldersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUpdateManyWithoutCompanyNestedInput
+    reports?: ReportUpdateManyWithoutCompanyNestedInput
+    reportTemplates?: ReportTemplateUpdateManyWithoutCompanyNestedInput
+    scheduledReports?: ScheduledReportUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutFoldersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    teams?: TeamUncheckedUpdateManyWithoutCompanyNestedInput
+    templates?: PasswordTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    ipWhitelists?: IpWhitelistUncheckedUpdateManyWithoutCompanyNestedInput
+    geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
+    threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
+    rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+    passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
+    dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
+    auditLogSearches?: AuditLogSearchUncheckedUpdateManyWithoutCompanyNestedInput
+    reports?: ReportUncheckedUpdateManyWithoutCompanyNestedInput
+    reportTemplates?: ReportTemplateUncheckedUpdateManyWithoutCompanyNestedInput
+    scheduledReports?: ScheduledReportUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type PasswordCreateWithoutSharedWithInput = {
@@ -79215,6 +79554,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
@@ -79238,6 +79578,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -79329,6 +79670,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
@@ -79352,6 +79694,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -80158,6 +80501,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
@@ -80181,6 +80525,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -80341,6 +80686,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
@@ -80364,6 +80710,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -80635,6 +80982,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
@@ -80658,6 +81006,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -80824,6 +81173,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
@@ -80847,6 +81197,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -80990,6 +81341,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
@@ -81013,6 +81365,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -81179,6 +81532,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
@@ -81202,6 +81556,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -81225,6 +81580,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
@@ -81248,6 +81604,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -81287,6 +81644,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
@@ -81310,6 +81668,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -82892,6 +83251,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
@@ -82915,6 +83275,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -83081,6 +83442,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
@@ -83104,6 +83466,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -83992,6 +84355,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
@@ -84015,6 +84379,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -84302,6 +84667,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
@@ -84325,6 +84691,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -84596,6 +84963,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
@@ -84619,6 +84987,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -84906,6 +85275,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
@@ -84929,6 +85299,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -85079,6 +85450,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
@@ -85102,6 +85474,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedCreateNestedManyWithoutCompanyInput
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -85141,6 +85514,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
@@ -85164,6 +85538,7 @@ export namespace Prisma {
     geographicRestrictions?: GeographicRestrictionUncheckedUpdateManyWithoutCompanyNestedInput
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -85188,6 +85563,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
     auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
@@ -85211,6 +85587,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
     auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
@@ -85250,6 +85627,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
     auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
@@ -85273,6 +85651,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
     auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
@@ -85417,6 +85796,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
     auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
@@ -85440,6 +85820,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
     auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
@@ -85606,6 +85987,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
     auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
@@ -85629,6 +86011,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
     auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
@@ -85773,6 +86156,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     auditLogArchives?: AuditLogArchiveCreateNestedManyWithoutCompanyInput
@@ -85796,6 +86180,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     auditLogArchives?: AuditLogArchiveUncheckedCreateNestedManyWithoutCompanyInput
@@ -86083,6 +86468,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     auditLogArchives?: AuditLogArchiveUpdateManyWithoutCompanyNestedInput
@@ -86106,6 +86492,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     auditLogArchives?: AuditLogArchiveUncheckedUpdateManyWithoutCompanyNestedInput
@@ -86377,6 +86764,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
@@ -86400,6 +86788,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -86605,6 +86994,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
@@ -86628,6 +87018,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -86817,6 +87208,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
@@ -86840,6 +87232,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -87100,6 +87493,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
@@ -87123,6 +87517,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -87299,6 +87694,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyCreateNestedOneWithoutCompanyInput
+    folders?: FolderCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestCreateNestedManyWithoutCompanyInput
@@ -87322,6 +87718,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedCreateNestedManyWithoutCompanyInput
     rateLimits?: RateLimitUncheckedCreateNestedManyWithoutCompanyInput
     passwordPolicy?: PasswordPolicyUncheckedCreateNestedOneWithoutCompanyInput
+    folders?: FolderUncheckedCreateNestedManyWithoutCompanyInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedCreateNestedOneWithoutCompanyInput
     dataExports?: DataExportUncheckedCreateNestedManyWithoutCompanyInput
     dataDeletionRequests?: DataDeletionRequestUncheckedCreateNestedManyWithoutCompanyInput
@@ -87527,6 +87924,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUpdateManyWithoutCompanyNestedInput
@@ -87550,6 +87948,7 @@ export namespace Prisma {
     threatEvents?: ThreatEventUncheckedUpdateManyWithoutCompanyNestedInput
     rateLimits?: RateLimitUncheckedUpdateManyWithoutCompanyNestedInput
     passwordPolicy?: PasswordPolicyUncheckedUpdateOneWithoutCompanyNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutCompanyNestedInput
     dataRetentionPolicy?: DataRetentionPolicyUncheckedUpdateOneWithoutCompanyNestedInput
     dataExports?: DataExportUncheckedUpdateManyWithoutCompanyNestedInput
     dataDeletionRequests?: DataDeletionRequestUncheckedUpdateManyWithoutCompanyNestedInput
@@ -87695,6 +88094,17 @@ export namespace Prisma {
     count?: number
     windowStart?: Date | string
     windowEnd: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FolderCreateManyCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    icon?: string | null
+    color?: string | null
+    parentId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -88156,6 +88566,43 @@ export namespace Prisma {
     count?: IntFieldUpdateOperationsInput | number
     windowStart?: DateTimeFieldUpdateOperationsInput | Date | string
     windowEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FolderUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    parent?: FolderUpdateOneWithoutChildrenNestedInput
+    children?: FolderUpdateManyWithoutParentNestedInput
+    passwords?: PasswordUpdateManyWithoutFolderNestedInput
+  }
+
+  export type FolderUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: FolderUncheckedUpdateManyWithoutParentNestedInput
+    passwords?: PasswordUncheckedUpdateManyWithoutFolderNestedInput
+  }
+
+  export type FolderUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -90792,6 +91239,7 @@ export namespace Prisma {
     description?: string | null
     icon?: string | null
     color?: string | null
+    companyId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -90824,6 +91272,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: FolderUpdateManyWithoutParentNestedInput
     passwords?: PasswordUpdateManyWithoutFolderNestedInput
+    company?: CompanyUpdateOneWithoutFoldersNestedInput
   }
 
   export type FolderUncheckedUpdateWithoutParentInput = {
@@ -90832,6 +91281,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: FolderUncheckedUpdateManyWithoutParentNestedInput
@@ -90844,6 +91294,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
+    companyId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

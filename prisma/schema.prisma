@@ -27,6 +27,7 @@ model Company {
   threatEvents ThreatEvent[]
   rateLimits  RateLimit[]
   passwordPolicy PasswordPolicy?
+  folders     Folder[]
   dataRetentionPolicy DataRetentionPolicy?
   dataExports DataExport[]
   dataDeletionRequests DataDeletionRequest[]
@@ -295,6 +296,7 @@ model Folder {
   icon        String?
   color       String?
   parentId    String?
+  companyId   String?    // Company that owns this folder
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
@@ -302,8 +304,10 @@ model Folder {
   parent      Folder?    @relation("FolderHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
   children    Folder[]   @relation("FolderHierarchy")
   passwords   Password[]
+  company     Company?   @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
   @@index([parentId])
+  @@index([companyId])
 }
 
 model PasswordShare {

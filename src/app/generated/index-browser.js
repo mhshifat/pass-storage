@@ -269,6 +269,7 @@ exports.Prisma.FolderScalarFieldEnum = {
   icon: 'icon',
   color: 'color',
   parentId: 'parentId',
+  companyId: 'companyId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
