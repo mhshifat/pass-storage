@@ -106,8 +106,10 @@ export function TemporaryPasswordShareView({ token }: TemporaryPasswordShareView
       
       const generateTotpCode = async () => {
         try {
+          // Normalize TOTP secret: remove spaces and convert to uppercase (handles Google format)
+          const normalizedSecret = decryptedTotpSecret.replace(/\s+/g, "").toUpperCase().trim()
           const { authenticator } = await import("otplib")
-          const code = authenticator.generate(decryptedTotpSecret)
+          const code = authenticator.generate(normalizedSecret)
           setCurrentTotpCode(code)
         } catch (error) {
           console.error("Failed to generate TOTP code:", error)

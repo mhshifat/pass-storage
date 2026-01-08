@@ -384,9 +384,11 @@ export const passwordsRouter = createTRPCRouter({
       const encryptedPassword = encryptPasswordWithUserKey(input.password, ctx.userId)
 
       // Encrypt TOTP secret if provided (using same method)
+      // Normalize TOTP secret: remove spaces and convert to uppercase (Google format)
       let encryptedTotpSecret: string | null = null
       if (input.totpSecret) {
-        encryptedTotpSecret = encryptPasswordWithUserKey(input.totpSecret, ctx.userId)
+        const normalizedSecret = input.totpSecret.replace(/\s+/g, "").toUpperCase().trim()
+        encryptedTotpSecret = encryptPasswordWithUserKey(normalizedSecret, ctx.userId)
       }
 
       // Calculate password strength (simple implementation)
@@ -559,9 +561,11 @@ export const passwordsRouter = createTRPCRouter({
       const encryptedPassword = encryptPasswordWithUserKey(input.password, ctx.userId)
 
       // Encrypt TOTP secret if provided (using same method)
+      // Normalize TOTP secret: remove spaces and convert to uppercase (Google format)
       let encryptedTotpSecret: string | null = null
       if (input.totpSecret) {
-        encryptedTotpSecret = encryptPasswordWithUserKey(input.totpSecret, ctx.userId)
+        const normalizedSecret = input.totpSecret.replace(/\s+/g, "").toUpperCase().trim()
+        encryptedTotpSecret = encryptPasswordWithUserKey(normalizedSecret, ctx.userId)
       }
 
       // Calculate password strength
@@ -1065,8 +1069,10 @@ export const passwordsRouter = createTRPCRouter({
       }
 
       // Generate TOTP code using otplib
+      // Normalize TOTP secret: remove spaces and convert to uppercase (handles Google format)
+      const normalizedSecret = decryptedTotpSecret.replace(/\s+/g, "").toUpperCase().trim()
       const { authenticator } = await import("otplib")
-      const totpCode = authenticator.generate(decryptedTotpSecret)
+      const totpCode = authenticator.generate(normalizedSecret)
 
       // ALWAYS encrypt TOTP code with the requesting user's key
       // This ensures nothing is ever transmitted in plain text, even for owners

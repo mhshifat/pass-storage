@@ -47,6 +47,7 @@ import { toast } from "sonner"
 import { usePermissions } from "@/hooks/use-permissions"
 import { useClipboard } from "@/hooks/use-clipboard"
 import { useCurrentUser } from "@/hooks/use-current-user"
+import { decryptPasswordClient } from "@/lib/client-crypto"
 import { toggleFavoriteAction } from "@/app/admin/passwords/favorite-actions"
 import { TagFilter } from "@/modules/passwords/client/tag-filter"
 import { AdvancedSearchDialog } from "./advanced-search-dialog"
@@ -177,6 +178,7 @@ function PasswordCell({ passwordId }: { passwordId: string }) {
 function TotpCell({ passwordId }: { passwordId: string }) {
   const { t } = useTranslation()
   const { copy: copyToClipboard, isCopying } = useClipboard()
+  const { user } = useCurrentUser()
   const { refetch } = trpc.passwords.generateTotp.useQuery(
     { id: passwordId },
     {
@@ -188,7 +190,19 @@ function TotpCell({ passwordId }: { passwordId: string }) {
     try {
       const result = await refetch()
       if (result.data?.totpCode) {
-        await copyToClipboard(result.data.totpCode, {
+        // Decrypt TOTP code if it's encrypted
+        let totpCode = result.data.totpCode
+        if (result.data.totpEncrypted && user?.id) {
+          try {
+            totpCode = await decryptPasswordClient(result.data.totpCode, user.id)
+          } catch (decryptError) {
+            console.error("Failed to decrypt TOTP code:", decryptError)
+            toast.error(t("clipboard.decryptFailed") || "Failed to decrypt TOTP code")
+            return
+          }
+        }
+        
+        await copyToClipboard(totpCode, {
           resourceId: passwordId,
           resourceType: "password",
           actionType: "copy_totp",
@@ -363,7 +377,19 @@ export function PasswordsTable({
       setCopyingTotpId(passwordId)
       const result = await utils.passwords.generateTotp.fetch({ id: passwordId })
       if (result?.totpCode) {
-        await copyToClipboard(result.totpCode, {
+        // Decrypt TOTP code if it's encrypted
+        let totpCode = result.totpCode
+        if (result.totpEncrypted && user?.id) {
+          try {
+            totpCode = await decryptPasswordClient(result.totpCode, user.id)
+          } catch (decryptError) {
+            console.error("Failed to decrypt TOTP code:", decryptError)
+            toast.error(t("clipboard.decryptFailed") || "Failed to decrypt TOTP code")
+            return
+          }
+        }
+        
+        await copyToClipboard(totpCode, {
           resourceId: passwordId,
           resourceType: "password",
           actionType: "copy_totp",
