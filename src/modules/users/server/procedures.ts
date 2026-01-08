@@ -18,7 +18,7 @@ export const usersRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      // Get current user's company from subdomain context first
+      // Get current user's company from subdomain context first, then from user
       let companyId: string | undefined = undefined
       if (ctx.subdomain) {
         const company = await prisma.company.findUnique({
@@ -27,6 +27,14 @@ export const usersRouter = createTRPCRouter({
         })
         if (company) {
           companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
         }
       }
 
@@ -74,14 +82,27 @@ export const usersRouter = createTRPCRouter({
       }
       
       if (!validSystemRoles.includes(roleValue)) {
-        // Check if it's a custom role
+        // Check if it's a custom role - must belong to same company
+        const customRoleWhere: Prisma.RoleWhereInput = {
+          name: input.role,
+          isSystem: false,
+        }
+        if (companyId) {
+          customRoleWhere.createdBy = {
+            companyId: companyId,
+          }
+        } else if (ctx.userId) {
+          // If no companyId, only allow roles created by current user
+          customRoleWhere.createdById = ctx.userId
+        }
+        
         const customRole = await prisma.role.findFirst({
-          where: { name: input.role },
+          where: customRoleWhere,
         })
         if (!customRole) {
           throw new TRPCError({
             code: "BAD_REQUEST",
-            message: `Invalid role: ${input.role}. Role must be a system role or a custom role you created.`,
+            message: `Invalid role: ${input.role}. Role must be a system role or a custom role from your company.`,
           })
         }
         // Use the custom role name as-is
@@ -161,6 +182,34 @@ export const usersRouter = createTRPCRouter({
         })
       }
 
+      // Get requester's companyId for validation
+      let requesterCompanyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          requesterCompanyId = company.id
+        }
+      } else if (ctx.userId) {
+        const requester = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (requester?.companyId) {
+          requesterCompanyId = requester.companyId
+        }
+      }
+
+      // Verify user belongs to same company (unless SUPER_ADMIN)
+      if (ctx.userRole !== "SUPER_ADMIN" && requesterCompanyId && existingUser.companyId !== requesterCompanyId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You can only modify users from your own company",
+        })
+      }
+
       // Prevent users from modifying their creator (SUPER_ADMIN can modify anyone)
       if (ctx.userRole !== "SUPER_ADMIN" && existingUser.createdById === ctx.userId) {
         throw new TRPCError({
@@ -217,14 +266,47 @@ export const usersRouter = createTRPCRouter({
         }
         
         if (!validSystemRoles.includes(roleValue)) {
-          // Check if it's a custom role
+          // Get requester's companyId for role validation
+          let requesterCompanyId: string | null = null
+          if (ctx.subdomain) {
+            const company = await prisma.company.findUnique({
+              where: { subdomain: ctx.subdomain },
+              select: { id: true },
+            })
+            if (company) {
+              requesterCompanyId = company.id
+            }
+          } else if (ctx.userId) {
+            const requester = await prisma.user.findUnique({
+              where: { id: ctx.userId },
+              select: { companyId: true },
+            })
+            if (requester?.companyId) {
+              requesterCompanyId = requester.companyId
+            }
+          }
+          
+          // Check if it's a custom role - must belong to same company
+          const customRoleWhere: Prisma.RoleWhereInput = {
+            name: data.role,
+            isSystem: false,
+          }
+          if (requesterCompanyId) {
+            customRoleWhere.createdBy = {
+              companyId: requesterCompanyId,
+            }
+          } else if (ctx.userId) {
+            // If no companyId, only allow roles created by current user
+            customRoleWhere.createdById = ctx.userId
+          }
+          
           const customRole = await prisma.role.findFirst({
-            where: { name: data.role },
+            where: customRoleWhere,
           })
           if (!customRole) {
             throw new TRPCError({
               code: "BAD_REQUEST",
-              message: `Invalid role: ${data.role}. Role must be a system role or a custom role you created.`,
+              message: `Invalid role: ${data.role}. Role must be a system role or a custom role from your company.`,
             })
           }
           // Use the custom role name as-is
@@ -275,6 +357,7 @@ export const usersRouter = createTRPCRouter({
         select: {
           id: true,
           createdById: true,
+          companyId: true,
         },
       })
 
@@ -282,6 +365,34 @@ export const usersRouter = createTRPCRouter({
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "User not found",
+        })
+      }
+
+      // Get requester's companyId for validation
+      let requesterCompanyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          requesterCompanyId = company.id
+        }
+      } else if (ctx.userId) {
+        const requester = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (requester?.companyId) {
+          requesterCompanyId = requester.companyId
+        }
+      }
+
+      // Verify user belongs to same company (unless SUPER_ADMIN)
+      if (ctx.userRole !== "SUPER_ADMIN" && requesterCompanyId && existingUser.companyId !== requesterCompanyId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You can only delete users from your own company",
         })
       }
 
@@ -421,6 +532,7 @@ export const usersRouter = createTRPCRouter({
           id: true,
           password: true,
           createdById: true,
+          companyId: true,
         },
       })
 
@@ -434,12 +546,36 @@ export const usersRouter = createTRPCRouter({
       // Check if user is resetting their own password
       const isResettingOwnPassword = existingUser.id === ctx.userId
 
-      // Admin can reset any password (including their own) without current password
-      // Regular users must use changeOwnPassword procedure which requires current password
-      // So if we're here and it's their own password, they must be an admin
-      
-      // If not resetting own password, check permissions
+      // Get requester's companyId for validation
+      let requesterCompanyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          requesterCompanyId = company.id
+        }
+      } else if (ctx.userId) {
+        const requester = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (requester?.companyId) {
+          requesterCompanyId = requester.companyId
+        }
+      }
+
+      // If not resetting own password, check permissions and company
       if (!isResettingOwnPassword) {
+        // Verify user belongs to same company (unless SUPER_ADMIN)
+        if (ctx.userRole !== "SUPER_ADMIN" && requesterCompanyId && existingUser.companyId !== requesterCompanyId) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "You can only reset passwords for users from your own company",
+          })
+        }
+        
         // Prevent users from resetting their creator's password (SUPER_ADMIN can reset anyone's password)
         if (ctx.userRole !== "SUPER_ADMIN" && existingUser.createdById === ctx.userId) {
           throw new TRPCError({
@@ -630,6 +766,7 @@ export const usersRouter = createTRPCRouter({
           email: true, 
           name: true,
           createdById: true,
+          companyId: true,
         },
       })
 
@@ -637,6 +774,34 @@ export const usersRouter = createTRPCRouter({
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "User not found",
+        })
+      }
+
+      // Get requester's companyId for validation
+      let requesterCompanyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          requesterCompanyId = company.id
+        }
+      } else if (ctx.userId) {
+        const requester = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (requester?.companyId) {
+          requesterCompanyId = requester.companyId
+        }
+      }
+
+      // Verify user belongs to same company (unless SUPER_ADMIN)
+      if (ctx.userRole !== "SUPER_ADMIN" && requesterCompanyId && user.companyId !== requesterCompanyId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You can only send emails to users from your own company",
         })
       }
 
