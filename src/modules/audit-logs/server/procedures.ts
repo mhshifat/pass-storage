@@ -357,7 +357,7 @@ export const auditLogsRouter = createTRPCRouter({
         }
       }
 
-      const where: any = {}
+      const where: Prisma.UserWhereInput = {}
       if (companyId) {
         where.companyId = companyId
       }
