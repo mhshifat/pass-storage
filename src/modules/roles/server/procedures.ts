@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma"
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init"
 import z from "zod"
 import { TRPCError } from "@trpc/server"
+import { Prisma } from "@/app/generated"
 
 export const rolesRouter = createTRPCRouter({
   create: protectedProcedure("role.manage")
@@ -12,9 +13,33 @@ export const rolesRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      // Check if role already exists
+      // Get user's company
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      // Check if role already exists (system roles are global, custom roles are company-scoped)
+      const existingRoleWhere: Prisma.RoleWhereInput = { name: input.name }
+      // System roles are unique globally, custom roles are unique per company
+      // For now, we'll check if any role with this name exists (system or custom)
+      // This prevents conflicts between system and custom roles
       const existingRole = await prisma.role.findFirst({
-        where: { name: input.name },
+        where: existingRoleWhere,
       })
 
       if (existingRole) {
@@ -59,12 +84,46 @@ export const rolesRouter = createTRPCRouter({
         description: z.string().optional(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       const { id, ...data } = input
 
-      // Check if role exists
-      const existingRole = await prisma.role.findUnique({
-        where: { id },
+      // Get user's company
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      // Check if role exists and belongs to same company (or is system role)
+      const roleWhere: Prisma.RoleWhereInput = { id }
+      // System roles are global, custom roles are company-scoped
+      if (companyId) {
+        roleWhere.OR = [
+          { isSystem: true },
+          {
+            isSystem: false,
+            createdBy: {
+              companyId: companyId,
+            },
+          },
+        ]
+      }
+
+      const existingRole = await prisma.role.findFirst({
+        where: roleWhere,
       })
 
       if (!existingRole) {
@@ -82,10 +141,26 @@ export const rolesRouter = createTRPCRouter({
         })
       }
 
-      // If name is being updated, check for conflicts
+      // Verify custom role belongs to same company
+      if (companyId && existingRole.createdById) {
+        const creator = await prisma.user.findUnique({
+          where: { id: existingRole.createdById },
+          select: { companyId: true },
+        })
+        if (creator?.companyId !== companyId) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "You can only edit roles from your own company",
+          })
+        }
+      }
+
+      // If name is being updated, check for conflicts (system roles are global, custom roles are company-scoped)
       if (data.name && data.name !== existingRole.name) {
+        // Check if any role with this name exists (system or custom from same company)
+        const nameTakenWhere: Prisma.RoleWhereInput = { name: data.name }
         const nameTaken = await prisma.role.findFirst({
-          where: { name: data.name },
+          where: nameTakenWhere,
         })
 
         if (nameTaken) {
@@ -124,10 +199,44 @@ export const rolesRouter = createTRPCRouter({
 
   delete: protectedProcedure("role.manage")
     .input(z.object({ id: z.string() }))
-    .mutation(async ({ input }) => {
-      // Check if role exists
-      const existingRole = await prisma.role.findUnique({
-        where: { id: input.id },
+    .mutation(async ({ input, ctx }) => {
+      // Get user's company
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      // Check if role exists and belongs to same company (or is system role)
+      const roleWhere: Prisma.RoleWhereInput = { id: input.id }
+      // System roles are global, custom roles are company-scoped
+      if (companyId) {
+        roleWhere.OR = [
+          { isSystem: true },
+          {
+            isSystem: false,
+            createdBy: {
+              companyId: companyId,
+            },
+          },
+        ]
+      }
+
+      const existingRole = await prisma.role.findFirst({
+        where: roleWhere,
       })
 
       if (!existingRole) {
@@ -145,20 +254,55 @@ export const rolesRouter = createTRPCRouter({
         })
       }
 
-      // Check if role has any users assigned (by checking if any users have this role name)
+      // Verify custom role belongs to same company
+      if (companyId && existingRole.createdById) {
+        const creator = await prisma.user.findUnique({
+          where: { id: existingRole.createdById },
+          select: { companyId: true },
+        })
+        if (creator?.companyId !== companyId) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "You can only delete roles from your own company",
+          })
+        }
+      }
+
+      // Check if role has any users assigned in the same company (by checking if any users have this role name)
       // Note: This is a basic check - in a real system, you might want to check RolePermission relationships
       const roleNameUpper = existingRole.name.toUpperCase().replace(/\s+/g, '_')
       const validRoles: Array<'SUPER_ADMIN' | 'ADMIN' | 'MANAGER' | 'USER' | 'AUDITOR'> = ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'USER', 'AUDITOR']
       if (validRoles.includes(roleNameUpper as 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER' | 'USER' | 'AUDITOR')) {
+        const userWhere: Prisma.UserWhereInput = {
+          role: roleNameUpper as 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER' | 'USER' | 'AUDITOR',
+        }
+        if (companyId) {
+          userWhere.companyId = companyId
+        }
         const userCount = await prisma.user.count({
-          where: {
-            role: roleNameUpper as 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER' | 'USER' | 'AUDITOR',
-          },
+          where: userWhere,
         })
         if (userCount > 0) {
           throw new TRPCError({
             code: "CONFLICT",
-            message: `Cannot delete role. ${userCount} user(s) are assigned to this role.`,
+            message: `Cannot delete role. ${userCount} user(s) in your company are assigned to this role.`,
+          })
+        }
+      } else {
+        // For custom roles, check users in same company
+        const userWhere: Prisma.UserWhereInput = {
+          role: existingRole.name,
+        }
+        if (companyId) {
+          userWhere.companyId = companyId
+        }
+        const userCount = await prisma.user.count({
+          where: userWhere,
+        })
+        if (userCount > 0) {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: `Cannot delete role. ${userCount} user(s) in your company are assigned to this role.`,
           })
         }
       }
@@ -176,8 +320,25 @@ export const rolesRouter = createTRPCRouter({
   getAssignableRoles: protectedProcedure("user.create")
     .input(z.object({}).optional())
     .query(async ({ ctx }) => {
-      // Get current userId from context
-      const createdById = ctx.userId
+      // Get user's company
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
 
       // Get system roles from database
       const systemRoles = await prisma.role.findMany({
@@ -193,12 +354,21 @@ export const rolesRouter = createTRPCRouter({
         },
       })
 
-      // Get custom roles created by current user
+      // Get custom roles from same company (not just created by current user)
+      const customRolesWhere: Prisma.RoleWhereInput = {
+        isSystem: false,
+      }
+      if (companyId) {
+        customRolesWhere.createdBy = {
+          companyId: companyId,
+        }
+      } else {
+        // If no company, only show roles created by current user
+        customRolesWhere.createdById = ctx.userId
+      }
+
       const customRoles = await prisma.role.findMany({
-        where: {
-          isSystem: false,
-          createdById,
-        },
+        where: customRolesWhere,
         select: {
           name: true,
           description: true,
@@ -261,7 +431,7 @@ export const rolesRouter = createTRPCRouter({
       }
 
       // Build where clause - filter roles by company through createdBy user
-      const where: any = {
+      const where: Prisma.RoleWhereInput = {
         OR: [
           { isSystem: true },
         ],
@@ -345,7 +515,7 @@ export const rolesRouter = createTRPCRouter({
       }
 
       // Build where clause - filter roles by company through createdBy user
-      const where: any = {
+      const where: Prisma.RoleWhereInput = {
         OR: [
           { isSystem: true },
         ],
@@ -391,7 +561,7 @@ export const rolesRouter = createTRPCRouter({
       const rolesWithUserCount = await Promise.all(
         roles.map(async (role) => {
           // Count users with this role name in the same company
-          const userWhere: any = {
+          const userWhere: Prisma.UserWhereInput = {
             role: role.name, // Match exact role name
           }
           
@@ -424,7 +594,52 @@ export const rolesRouter = createTRPCRouter({
 
   getPermissions: protectedProcedure("role.manage")
     .input(z.object({ roleId: z.string() }))
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
+      // Get user's company
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      // Verify role belongs to same company (or is system role)
+      const roleWhere: Prisma.RoleWhereInput = { id: input.roleId }
+      if (companyId) {
+        roleWhere.OR = [
+          { isSystem: true },
+          {
+            isSystem: false,
+            createdBy: {
+              companyId: companyId,
+            },
+          },
+        ]
+      }
+
+      const role = await prisma.role.findFirst({
+        where: roleWhere,
+      })
+
+      if (!role) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Role not found",
+        })
+      }
+
       const rolePermissions = await prisma.rolePermission.findMany({
         where: { roleId: input.roleId },
         select: {
@@ -444,7 +659,60 @@ export const rolesRouter = createTRPCRouter({
         permissionIds: z.array(z.string()),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
+      // Get user's company
+      let companyId: string | null = null
+      if (ctx.subdomain) {
+        const company = await prisma.company.findUnique({
+          where: { subdomain: ctx.subdomain },
+          select: { id: true },
+        })
+        if (company) {
+          companyId = company.id
+        }
+      } else if (ctx.userId) {
+        const user = await prisma.user.findUnique({
+          where: { id: ctx.userId },
+          select: { companyId: true },
+        })
+        if (user?.companyId) {
+          companyId = user.companyId
+        }
+      }
+
+      // Verify role belongs to same company (or is system role)
+      const roleWhere: Prisma.RoleWhereInput = { id: input.roleId }
+      if (companyId) {
+        roleWhere.OR = [
+          { isSystem: true },
+          {
+            isSystem: false,
+            createdBy: {
+              companyId: companyId,
+            },
+          },
+        ]
+      }
+
+      const role = await prisma.role.findFirst({
+        where: roleWhere,
+      })
+
+      if (!role) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Role not found",
+        })
+      }
+
+      // Cannot modify permissions for system roles
+      if (role.isSystem) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Cannot modify permissions for system roles",
+        })
+      }
+
       // Delete existing permissions
       await prisma.rolePermission.deleteMany({
         where: { roleId: input.roleId },
