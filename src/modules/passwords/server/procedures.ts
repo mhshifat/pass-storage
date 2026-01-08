@@ -75,7 +75,7 @@ export const passwordsRouter = createTRPCRouter({
               ? searchFields 
               : ["name", "username", "url", "notes"] // Default: search all fields
             
-            const conditions: any[] = []
+            const conditions: Prisma.PasswordWhereInput[] = []
             
             if (fields.includes("name")) {
               conditions.push({ name: { contains: search, mode: "insensitive" as const } })
@@ -611,15 +611,18 @@ export const passwordsRouter = createTRPCRouter({
         })
         const currentTagIds = currentTags.map((pt) => pt.tagId)
 
+        // Store tagIds in a variable to help TypeScript understand it's defined
+        const tagIdsArray = input.tagIds
+
         // Verify new tags exist
-        if (input.tagIds.length > 0) {
+        if (tagIdsArray.length > 0) {
           const tags = await prisma.tag.findMany({
             where: {
-              id: { in: input.tagIds },
+              id: { in: tagIdsArray },
             },
           })
 
-          if (tags.length !== input.tagIds.length) {
+          if (tags.length !== tagIdsArray.length) {
             throw new TRPCError({
               code: "NOT_FOUND",
               message: "One or more tags not found",
@@ -628,8 +631,8 @@ export const passwordsRouter = createTRPCRouter({
         }
 
         // Find tags to add and remove
-        const tagsToAdd = input.tagIds.filter((tagId) => !currentTagIds.includes(tagId))
-        const tagsToRemove = currentTagIds.filter((tagId) => !input.tagIds.includes(tagId))
+        const tagsToAdd = tagIdsArray.filter((tagId) => !currentTagIds.includes(tagId))
+        const tagsToRemove = currentTagIds.filter((tagId) => !tagIdsArray.includes(tagId))
 
         // Add new tags
         if (tagsToAdd.length > 0) {
@@ -1553,7 +1556,7 @@ export const passwordsRouter = createTRPCRouter({
       const teamIds = userTeams.map((tm) => tm.teamId)
 
       // Build where clause for passwords accessible to user
-      const passwordWhere: any = {
+      const passwordWhere: Prisma.PasswordWhereInput = {
         OR: [
           { ownerId: ctx.userId },
           ...(input.includeShared && teamIds.length > 0
@@ -1981,7 +1984,7 @@ export const passwordsRouter = createTRPCRouter({
       }
 
       // Remove tags
-      const where: any = {
+      const where: Prisma.PasswordTagWhereInput = {
         passwordId: { in: input.passwordIds },
       }
 
@@ -2119,7 +2122,7 @@ export const passwordsRouter = createTRPCRouter({
       }
 
       // Unshare passwords
-      const where: any = {
+      const where: Prisma.PasswordShareWhereInput = {
         passwordId: { in: input.passwordIds },
       }
 
@@ -3086,7 +3089,7 @@ export const passwordsRouter = createTRPCRouter({
     )
     .query(async ({ input, ctx }) => {
       // Build where clause
-      const where: any = {
+      const where: Prisma.PasswordBreachWhereInput = {
         password: {
           ownerId: ctx.userId,
         },
@@ -3380,13 +3383,44 @@ export const passwordsRouter = createTRPCRouter({
       })
     )
     .query(async ({ input, ctx }) => {
-      const tags = await prisma.tag.findMany({
-        where: {
-          name: {
-            contains: input.query,
-            mode: "insensitive",
-          },
+      // Get user's company ID
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: { companyId: true },
+      })
+
+      // Get tags that are used by passwords from the same company
+      const tagWhere: Prisma.TagWhereInput = {
+        name: {
+          contains: input.query,
+          mode: "insensitive",
         },
+      }
+
+      // Filter tags by company through password usage
+      if (user?.companyId) {
+        tagWhere.passwords = {
+          some: {
+            password: {
+              owner: {
+                companyId: user.companyId,
+              },
+            },
+          },
+        }
+      } else {
+        // If no company, only show tags used by current user's passwords
+        tagWhere.passwords = {
+          some: {
+            password: {
+              ownerId: ctx.userId,
+            },
+          },
+        }
+      }
+
+      const tags = await prisma.tag.findMany({
+        where: tagWhere,
         select: {
           id: true,
           name: true,
@@ -3394,24 +3428,36 @@ export const passwordsRouter = createTRPCRouter({
           icon: true,
           _count: {
             select: {
-              passwords: true,
+              passwords: {
+                where: user?.companyId
+                  ? {
+                      password: {
+                        owner: {
+                          companyId: user.companyId,
+                        },
+                      },
+                    }
+                  : {
+                      password: {
+                        ownerId: ctx.userId,
+                      },
+                    },
+              },
             },
           },
         },
-        orderBy: [
-          {
-            _count: {
-              passwords: "desc",
-            },
-          },
-          {
-            name: "asc",
-          },
-        ],
-        take: input.limit,
+        orderBy: {
+          name: "asc",
+        },
+        take: input.limit * 2, // Get more to sort by usage
       })
 
-      return tags.map((tag) => ({
+      // Sort by usage count and take limit
+      const sortedTags = tags
+        .sort((a, b) => b._count.passwords - a._count.passwords)
+        .slice(0, input.limit)
+
+      return sortedTags.map((tag) => ({
         id: tag.id,
         name: tag.name,
         color: tag.color,
@@ -3450,7 +3496,7 @@ export const passwordsRouter = createTRPCRouter({
       })
 
       // Count tag frequencies
-      const tagFrequency = new Map<string, { tag: any; count: number }>()
+      const tagFrequency = new Map<string, { tag: { id: string; name: string; color: string | null; icon: string | null }; count: number }>()
       
       for (const password of userPasswords) {
         for (const passwordTag of password.tags) {
@@ -3965,28 +4011,30 @@ export const passwordsRouter = createTRPCRouter({
         select: { companyId: true },
       })
 
-      const where: any = {
-        OR: [],
-      }
+      const orConditions: Prisma.PasswordTemplateWhereInput[] = []
 
       // System templates
       if (includeSystem) {
-        where.OR.push({ isSystem: true })
+        orConditions.push({ isSystem: true })
       }
 
       // Public templates
       if (includePublic) {
-        where.OR.push({ isPublic: true })
+        orConditions.push({ isPublic: true })
       }
 
       // User's own templates
       if (includeOwn) {
-        where.OR.push({ ownerId: ctx.userId })
+        orConditions.push({ ownerId: ctx.userId })
       }
 
       // Company templates
       if (user?.companyId) {
-        where.OR.push({ companyId: user.companyId })
+        orConditions.push({ companyId: user.companyId })
+      }
+
+      const where: Prisma.PasswordTemplateWhereInput = {
+        OR: orConditions.length > 0 ? orConditions : [{ id: "" }], // Empty condition if no OR clauses
       }
 
       // Filter by category
@@ -4032,6 +4080,12 @@ export const passwordsRouter = createTRPCRouter({
       })
     )
     .query(async ({ input, ctx }) => {
+      // Get user's company ID
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: { companyId: true },
+      })
+
       const template = await prisma.passwordTemplate.findFirst({
         where: {
           id: input.id,
@@ -4039,16 +4093,7 @@ export const passwordsRouter = createTRPCRouter({
             { isSystem: true },
             { isPublic: true },
             { ownerId: ctx.userId },
-            {
-              companyId: {
-                in: await prisma.user
-                  .findUnique({
-                    where: { id: ctx.userId },
-                    select: { companyId: true },
-                  })
-                  .then((u) => (u?.companyId ? [u.companyId] : [])),
-              },
-            },
+            ...(user?.companyId ? [{ companyId: user.companyId }] : []),
           ],
         },
       })
@@ -4092,7 +4137,7 @@ export const passwordsRouter = createTRPCRouter({
           isPublic: input.isPublic,
           ownerId: ctx.userId,
           companyId: user?.companyId || null,
-          defaultFields: input.defaultFields || {},
+          defaultFields: (input.defaultFields || {}) as Prisma.InputJsonValue,
         },
       })
 
@@ -4115,12 +4160,22 @@ export const passwordsRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
       const { id, ...data } = input
 
+      // Get user's company ID
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: { companyId: true },
+      })
+
       // Verify ownership (user can't edit system templates)
+      // User can edit their own templates or company templates
       const existing = await prisma.passwordTemplate.findFirst({
         where: {
           id,
-          ownerId: ctx.userId,
           isSystem: false, // Can't edit system templates
+          OR: [
+            { ownerId: ctx.userId },
+            ...(user?.companyId ? [{ companyId: user.companyId }] : []),
+          ],
         },
       })
 
@@ -4140,7 +4195,7 @@ export const passwordsRouter = createTRPCRouter({
           ...(data.icon !== undefined && { icon: data.icon }),
           ...(data.category !== undefined && { category: data.category }),
           ...(data.isPublic !== undefined && { isPublic: data.isPublic }),
-          ...(data.defaultFields && { defaultFields: data.defaultFields }),
+          ...(data.defaultFields && { defaultFields: data.defaultFields as Prisma.InputJsonValue }),
         },
       })
 
@@ -4154,12 +4209,22 @@ export const passwordsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
+      // Get user's company ID
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: { companyId: true },
+      })
+
       // Verify ownership (user can't delete system templates)
+      // User can delete their own templates or company templates
       const existing = await prisma.passwordTemplate.findFirst({
         where: {
           id: input.id,
-          ownerId: ctx.userId,
           isSystem: false, // Can't delete system templates
+          OR: [
+            { ownerId: ctx.userId },
+            ...(user?.companyId ? [{ companyId: user.companyId }] : []),
+          ],
         },
       })
 
@@ -4184,16 +4249,26 @@ export const passwordsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
+      // Get user's company ID
+      const user = await prisma.user.findUnique({
+        where: { id: ctx.userId },
+        select: { companyId: true },
+      })
+
+      // Build OR conditions for template access
+      const templateWhere: Prisma.PasswordTemplateWhereInput = {
+        id: input.id,
+        OR: [
+          { isSystem: true },
+          { isPublic: true },
+          { ownerId: ctx.userId },
+          ...(user?.companyId ? [{ companyId: user.companyId }] : []),
+        ],
+      }
+
       // Increment usage count
       await prisma.passwordTemplate.updateMany({
-        where: {
-          id: input.id,
-          OR: [
-            { isSystem: true },
-            { isPublic: true },
-            { ownerId: ctx.userId },
-          ],
-        },
+        where: templateWhere,
         data: {
           usageCount: {
             increment: 1,
@@ -4203,14 +4278,7 @@ export const passwordsRouter = createTRPCRouter({
 
       // Get template
       const template = await prisma.passwordTemplate.findFirst({
-        where: {
-          id: input.id,
-          OR: [
-            { isSystem: true },
-            { isPublic: true },
-            { ownerId: ctx.userId },
-          ],
-        },
+        where: templateWhere,
       })
 
       if (!template) {

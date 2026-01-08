@@ -1,8 +1,8 @@
 import prisma from "@/lib/prisma"
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init"
 import z from "zod"
-import { encrypt, decrypt } from "@/lib/crypto"
 import { TRPCError } from "@trpc/server"
+import { Prisma } from "@/app/generated"
 
 export const passwordRotationRouter = createTRPCRouter({
   // Rotation Policies
@@ -398,7 +398,7 @@ export const passwordRotationRouter = createTRPCRouter({
     .query(async ({ input, ctx }) => {
       const { passwordId, policyId, status, page = 1, pageSize = 20 } = input
 
-      const where: any = {
+      const where: Prisma.PasswordRotationWhereInput = {
         password: {
           ownerId: ctx.userId,
         },
