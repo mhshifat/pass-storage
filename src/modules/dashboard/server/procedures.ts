@@ -517,10 +517,12 @@ export const dashboardRouter = createTRPCRouter({
       }
 
       // HIGH: Breached passwords - Check for unresolved breaches
+      // Filter by ownerId and companyId for security
       const breachedPasswords = await prisma.passwordBreach.count({
         where: {
           password: {
             ownerId: ctx.userId,
+            owner: companyId ? { companyId } : undefined,
           },
           isBreached: true,
           resolved: false,
@@ -540,9 +542,11 @@ export const dashboardRouter = createTRPCRouter({
       }
 
       // MEDIUM: Password rotation reminders - Check for upcoming rotations
+      // Filter by ownerId and companyId for security
       const rotationReminders = await prisma.password.findMany({
         where: {
           ownerId: ctx.userId,
+          owner: companyId ? { companyId } : undefined,
           rotationPolicyId: { not: null },
           rotationPolicy: {
             isActive: true,
